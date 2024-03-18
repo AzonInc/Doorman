@@ -1,2 +1,6 @@
 doorman-backups
 manufacturing
+*.lck
+*autosave*
+*auto_save*
+.vscode

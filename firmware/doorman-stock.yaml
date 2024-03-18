@@ -1,0 +1,24 @@
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+  
+  # TCS Commands
+  apartment_doorbell_command: "0x00000000"
+  entrance_doorbell_command: "0x00000000"
+  entrance_door_opener_command: "0x1100"
+
+  # Optional Settings
+  log_level: "ERROR"
+  party_mode_door_opener_delay: "70ms"
+  
+dashboard_import:
+  package_import_url: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
+  import_full_config: false
+
+packages:
+  device_base: !include base.yaml
+
+# Moved here from base.yaml
+# It's incompatible with the Nuki Bridge Component
+esp32_improv:
+  authorizer: false

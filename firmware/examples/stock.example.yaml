@@ -1,0 +1,97 @@
+# Doorman S3 Stock Firmware
+# Example Configuration
+
+
+# The following Entities are already preconfigured:
+# - Entrance Doorbell Sensor
+# - Apartment Doorbell Sensor
+# - Door Opener Button
+# - Party Mode Switch (Disabled by default)
+# - Bus Command (Disabled by default)
+
+
+# You can change a few options here.
+# There are more substitutions available for testing - just take a look at Github.
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+
+  # TCS Commands
+  # Make sure to change all commands to yours in order to use the preconfigured Entities
+  apartment_doorbell_command: "0x00000000"
+  entrance_doorbell_command: "0x00000000"
+  entrance_door_opener_command: "0x1100"
+
+  # Optional Settings
+  # log_level: "ERROR"
+  # party_mode_door_opener_delay: "70ms"
+
+
+# Import Doorman Stock Firmware Config
+packages:
+  AzonInc.Doorman_S3: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
+
+
+esphome:
+  name: ${name}
+  name_add_mac_suffix: false
+  friendly_name: ${friendly_name}
+
+api:
+  encryption:
+    key: "REPLACEME"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+
+
+
+# Working with TCS Commands
+# You can easily add more binary sensors next to the preconfigured ones for every possible TCS Command. Just do it like that:
+
+#binary_sensor:
+#  - platform: tcs_intercom
+#    name: "Apartment Doorbell"
+#    command: "0x3b8f9a00"
+
+
+
+
+# Doorbell pattern detection
+# If you are interested in detecting specific doorbell patterns you could use this example as a base:
+
+#binary_sensor:
+#  - platform: tcs_intercom
+#    id: entrance_doorbell_pattern
+#    command: "0x3b8f9a00"
+#    auto_off: 0.5s
+#    internal: true
+#    on_multi_click:
+#    - timing:
+#        - ON for at most 1s
+#        - OFF for at most 1s
+#        - ON for 0.5s to 1s
+#        - OFF for at most 1s
+#        - ON for 0.5s to 1s
+#        - OFF for at least 0.2s
+#      then:
+#        - logger.log: "Doorbell Pattern (Triple Press) detected!"
+
+
+
+
+# Controlling the internal RGB LED
+# If you want to control the onboard RGB LED just use the Light ID: doorman_rgb_status_led
+# For example:
+
+#button:
+#  - platform: template
+#    name: "Turn on Status RGB LED"
+#    on_press:
+#      - light.turn_on:
+#          id: doorman_rgb_status_led
+#          red: 100%
+#          green: 0%
+#          blue: 0%

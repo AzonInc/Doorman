@@ -1,0 +1,159 @@
+# Essential ESPHome Configuration Options
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  min_version: "2024.3.0"
+  project:
+    name: "AzonInc.Doorman S3"
+    version: "1.0.0"
+
+# Board Setup
+esp32:
+  board: esp32-s3-devkitc-1
+  flash_size: 16MB
+
+# Configurable Options
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+  log_level: "ERROR"
+
+  # Hardware Configuration
+  led_pin: "GPIO1"
+  rgb_led_pin: "GPIO2"
+
+  # TCS Commands
+  apartment_doorbell_command: "0x00000000"
+  entrance_doorbell_command: "0x00000000"
+  entrance_door_opener_command: "0x1100"
+
+  # Party Mode Settings
+  party_mode_door_opener_delay: "70ms"
+
+# Enable logging
+logger:
+  level: ${log_level}
+
+api:
+  reboot_timeout: 0s
+  services:
+    - service: send_tcs_command
+      variables:
+        command: int
+      then:
+        - tcs_intercom.send:
+            command: !lambda 'return command;'
+
+ota:
+  password: ""
+
+wifi:
+  ap:
+    password: "doorman-s3"
+
+captive_portal:
+
+# Improv Provisioning
+improv_serial:
+
+# Import TCS Intercom Component
+external_components:
+  - source: github://AzonInc/esphome_tcs_intercom
+    components: [ tcs_intercom ]
+
+# Setup TCS Intercom Component
+tcs_intercom:
+  bus_command:
+    name: "Last Bus Command"
+    disabled_by_default: true
+
+switch:
+  # Preconfigured Party Mode Switch
+  - platform: template
+    name: Party Mode
+    icon: mdi:party-popper
+    id: doorman_party_mode
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    disabled_by_default: true
+    turn_on_action:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 100%
+          green: 100%
+          blue: 3%
+          effect: pulse
+
+    turn_off_action:
+      - light.turn_off: doorman_rgb_status_led
+
+button:
+  # System Actions
+  - platform: restart
+    entity_category: config
+    name: Restart
+    icon: mdi:restart
+    disabled_by_default: true
+
+  - platform: safe_mode
+    name: Safe mode
+    entity_category: config
+    disabled_by_default: true
+
+  # Preconfigured Door Opener Button
+  - platform: template
+    name: "Open Entrance Door"
+    icon: mdi:door
+    on_press:
+      - tcs_intercom.send:
+          command: ${entrance_door_opener_command}
+
+# Onboard Status LEDs
+light:
+  - platform: status_led
+    id: doorman_status_led
+    name: Status LED
+    pin: ${led_pin}
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
+
+  - platform: esp32_rmt_led_strip
+    id: doorman_rgb_status_led
+    internal: true
+    restore_mode: ALWAYS_OFF
+    rgb_order: GRB
+    pin: ${rgb_led_pin}
+    num_leds: 1
+    rmt_channel: 0
+    chipset: ws2812
+    default_transition_length: 500ms
+    color_correct: [80%, 80%, 80%]
+    effects:
+      - pulse:
+          #update_interval: 2s
+
+binary_sensor:
+  # Preconfigured Party Mode Action (Internal)
+  - platform: tcs_intercom
+    id: doorman_entrance_doorbell
+    command: ${entrance_doorbell_command}
+    internal: true
+    on_press:
+      then:
+        - if:
+            condition:
+              switch.is_on: doorman_party_mode
+            then:
+              - delay: ${party_mode_door_opener_delay}
+              - tcs_intercom.send:
+                  command: ${entrance_door_opener_command}
+
+  # Preconfigured Sensors
+  - platform: tcs_intercom
+    name: "Entrance Doorbell"
+    command: ${entrance_doorbell_command}
+
+  - platform: tcs_intercom
+    name: "Apartment Doorbell"
+    command: ${apartment_doorbell_command}

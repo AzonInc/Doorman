@@ -1,37 +1,256 @@
-(module "XL0807RGBCWS2812B" (layer F.Cu)
-  (descr "2.0x1.8x0.80mm")
-  (tags "LED")
-  (attr smd)
-  (fp_text reference LED** (at 0.000 -0) (layer F.SilkS)
-    (effects (font (size 1.27 1.27) (thickness 0.254)))
-  )
-  (fp_text user %R (at 0.000 -0) (layer F.Fab)
-    (effects (font (size 1.27 1.27) (thickness 0.254)))
-  )
-  (fp_text value "XL0807RGBCWS2812B" (at 0.000 -0) (layer F.SilkS) hide
-    (effects (font (size 1.27 1.27) (thickness 0.254)))
-  )
-  (fp_line (start -1 -0.9) (end 1 -0.9) (layer F.Fab) (width 0.1))
-  (fp_line (start 1 -0.9) (end 1 0.9) (layer F.Fab) (width 0.1))
-  (fp_line (start 1 0.9) (end -1 0.9) (layer F.Fab) (width 0.1))
-  (fp_line (start -1 0.9) (end -1 -0.9) (layer F.Fab) (width 0.1))
-  (fp_line (start -2.05 -1.9) (end 2.05 -1.9) (layer F.CrtYd) (width 0.1))
-  (fp_line (start 2.05 -1.9) (end 2.05 1.9) (layer F.CrtYd) (width 0.1))
-  (fp_line (start 2.05 1.9) (end -2.05 1.9) (layer F.CrtYd) (width 0.1))
-  (fp_line (start -2.05 1.9) (end -2.05 -1.9) (layer F.CrtYd) (width 0.1))
-  (fp_line (start -0.2 -0.9) (end 0.2 -0.9) (layer F.SilkS) (width 0.2))
-  (fp_line (start -0.2 0.9) (end 0.2 0.9) (layer F.SilkS) (width 0.2))
-  (fp_line (start 1.6 -0.45) (end 1.6 -0.45) (layer F.SilkS) (width 0.1))
-  (fp_line (start 1.5 -0.45) (end 1.5 -0.45) (layer F.SilkS) (width 0.1))
-  (fp_arc (start 1.55 -0.45) (end 1.600 -0.45) (angle -180) (layer F.SilkS) (width 0.1))
-  (fp_arc (start 1.55 -0.45) (end 1.500 -0.45) (angle -180) (layer F.SilkS) (width 0.1))
-  (pad 1 smd rect (at 0.750 -0.45 0) (size 0.600 0.700) (layers F.Cu F.Paste F.Mask))
-  (pad 2 smd rect (at -0.750 -0.45 0) (size 0.600 0.700) (layers F.Cu F.Paste F.Mask))
-  (pad 3 smd rect (at -0.750 0.45 0) (size 0.600 0.700) (layers F.Cu F.Paste F.Mask))
-  (pad 4 smd rect (at 0.750 0.45 0) (size 0.600 0.700) (layers F.Cu F.Paste F.Mask))
-  (model XL-0807RGBC-WS2812B.stp
-    (at (xyz 0 0 0))
-    (scale (xyz 1 1 1))
-    (rotate (xyz 0 0 0))
-  )
+(footprint "XL0807RGBCWS2812B"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "2.0x1.8x0.80mm")
+	(tags "LED")
+	(property "Reference" "LED**"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(uuid "6320ad9e-32ab-4b8b-950f-e46839c730ca")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Value" "XL0807RGBCWS2812B"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "cff203d7-74c3-4f14-b0c1-60787714366d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "68cd891f-da64-41f5-bbd0-ffce7faddb01")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f01da244-3189-4a71-b31d-4fd762d77d38")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8d0de644-c146-4609-891b-f7ada61fe5f9")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -0.2 -0.9)
+		(end 0.2 -0.9)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "dc9b8bf0-8b85-42f0-8bfa-25aff541997e")
+	)
+	(fp_line
+		(start -0.2 0.9)
+		(end 0.2 0.9)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "4189b397-8894-4746-8fc5-4daab1188ea8")
+	)
+	(fp_line
+		(start 1.5 -0.45)
+		(end 1.5 -0.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "245d4713-a3b6-4fed-8bde-07008b503db6")
+	)
+	(fp_line
+		(start 1.6 -0.45)
+		(end 1.6 -0.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "40d71674-658a-4fef-ac0f-8e0920e52fea")
+	)
+	(fp_arc
+		(start 1.5 -0.45)
+		(mid 1.55 -0.5)
+		(end 1.6 -0.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "effba6c0-f79d-4a0b-a0f3-d1e245f8a91c")
+	)
+	(fp_arc
+		(start 1.6 -0.45)
+		(mid 1.55 -0.4)
+		(end 1.5 -0.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "43074572-3e5e-413a-b61a-4d4a00045c7e")
+	)
+	(fp_line
+		(start -1.5 -1.5)
+		(end 1.5 -1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4c694882-d30f-42c1-b073-3079d8585bbd")
+	)
+	(fp_line
+		(start -1.5 1.5)
+		(end -1.5 -1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "960aea53-fddb-4331-8ed3-31cec44599d7")
+	)
+	(fp_line
+		(start 1.5 -1.5)
+		(end 1.5 1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5b31f7e8-1a0c-46ef-a0fc-166ce233af72")
+	)
+	(fp_line
+		(start 1.5 1.5)
+		(end -1.5 1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "fe3b5af9-d1a1-46f9-88e4-b68c889b2210")
+	)
+	(fp_line
+		(start -1 -0.9)
+		(end 1 -0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "dd494176-b862-4cc2-bfe6-c0a286c92e19")
+	)
+	(fp_line
+		(start -1 0.9)
+		(end -1 -0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0fd223a7-0cd9-4297-8da8-08ce37c5f779")
+	)
+	(fp_line
+		(start 1 -0.9)
+		(end 1 0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "2afadc26-cf94-4393-9f85-122724aa81a6")
+	)
+	(fp_line
+		(start 1 0.9)
+		(end -1 0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "ced60335-b64c-4ae1-9c02-0db1687a42a9")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "08a52a2c-58c8-4bc3-bf1f-9880aa7d44c1")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at 0.75 -0.45)
+		(size 0.6 0.7)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "b5394443-a977-4448-a204-b829f1f39b4d")
+	)
+	(pad "2" smd rect
+		(at -0.75 -0.45)
+		(size 0.6 0.7)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "26c8013b-4ccf-4915-a8be-14c1879ac6b9")
+	)
+	(pad "3" smd rect
+		(at -0.75 0.45)
+		(size 0.6 0.7)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "673cf654-67e7-4057-a058-7f0f79c95284")
+	)
+	(pad "4" smd rect
+		(at 0.75 0.45)
+		(size 0.6 0.7)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "28cf39a2-fe84-4d02-9aec-c62d1ced8b02")
+	)
+	(model "${KIPRJMOD}/shapes3D/XL-0807RGBC-WS2812B.stp"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
 )

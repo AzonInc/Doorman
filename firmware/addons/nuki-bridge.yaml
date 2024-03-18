@@ -1,0 +1,31 @@
+esphome:
+  libraries:
+  - Preferences
+  - https://github.com/vinmenn/Crc16.git
+  - https://github.com/AzonInc/NukiBleEsp32
+
+external_components:
+  - source: github://AzonInc/ESPHome_nuki_lock@dev
+
+# Pairing Mode
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: True
+    internal: True
+    id: boot_button_internal
+    on_multi_click:
+      - timing:
+            - ON for at least 5s
+        then:
+          if:
+            condition:
+              binary_sensor.is_on: nuki_paired
+            then:
+              - nuki_lock.unpair:
+              - lambda: |
+                  ESP_LOGI("pairing", "Pairing Mode: TODO");
+            else:
+              - lambda: |
+                  ESP_LOGE("pairing", "Not paired yet - maybe automatically enable pairing mode on boot");
