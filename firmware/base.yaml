@@ -59,7 +59,7 @@ improv_serial:
 
 # Import TCS Intercom Component
 external_components:
-  - source: github://AzonInc/esphome_tcs_intercom
+  - source: github://AzonInc/esphome_tcs_intercom@master
     components: [ tcs_intercom ]
 
 # Setup TCS Intercom Component
@@ -127,6 +127,7 @@ light:
     num_leds: 1
     rmt_channel: 0
     chipset: ws2812
+    gamma_correct: 1
     default_transition_length: 500ms
     color_correct: [80%, 80%, 80%]
     effects:
