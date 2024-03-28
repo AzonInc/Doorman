@@ -17,8 +17,3 @@ dashboard_import:
 
 packages:
   device_base: !include base.yaml
-
-# Moved here from base.yaml
-# It's incompatible with the Nuki Bridge Component
-esp32_improv:
-  authorizer: false

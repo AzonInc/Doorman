@@ -14,7 +14,7 @@ binary_sensor:
       number: GPIO0
       inverted: True
     internal: True
-    id: boot_button_internal
+    id: doorman_boot_button
     on_multi_click:
       - timing:
             - ON for at least 5s
@@ -27,5 +27,4 @@ binary_sensor:
               - lambda: |
                   ESP_LOGI("pairing", "Pairing Mode: TODO");
             else:
-              - lambda: |
-                  ESP_LOGE("pairing", "Not paired yet - maybe automatically enable pairing mode on boot");
+              - nuki_lock.set_pairing_mode: true
