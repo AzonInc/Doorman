@@ -1,4 +1,4 @@
-23056558647199748
+23143824643486521
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -2073,7 +2073,7 @@ NKK NR01 SP3T SP4T SP5T
 7
 Button_Switch_THT
 SW_PUSH-12mm
-SW PUSH 12mm https://www.e-switch.com/system/asset/product_line/data_sheet/143/TL1100.pdf
+Generic SW PUSH 12mm, e.g https://sten-eswitch-13110800-production.s3.amazonaws.com/system/asset/product_line/data_sheet/143/TL1100.pdf
 tact sw push 12mm
 0
 4
@@ -2101,7 +2101,7 @@ PHAP3362A 6mm tact sw THT
 2
 Button_Switch_THT
 SW_PUSH_6mm
-https://www.omron.com/ecb/products/pdf/en-b3f.pdf
+Generic 6mm SW tactile push button
 tact sw push 6mm
 0
 4
@@ -2260,6 +2260,20 @@ IP67 ultra-miniture horizontal
 0
 8
 6
+Button_Switch_THT
+SW_SPST_Omron_B3F-40xx
+SW_THT_Tactile_Omron_B3F-40xx, 12x12 mm, Through hole switch from the B3F Family manufactured by Omron,  https://www.omron.com/ecb/products/pdf/en-b3f.pdf
+tactile switch THT button push B3F-4000 B3F-4050 B3F-4005 B3F-4055  
+0
+4
+2
+Button_Switch_THT
+SW_SPST_Omron_B3F-50xx
+SW_THT_Tactile_Omron_B3F-50xx, 12x12x7,3 mm, Through hole switch from the B3F Family manufactured by Omron,  https://www.omron.com/ecb/products/pdf/en-b3f.pdf
+tactile omron switch tht B3F-5000 B3F-5050 B3F-5001 B3F-5051  
+0
+4
+2
 Button_Switch_THT
 SW_SPST_Omron_B3F-315x_Angled
 tactile switch, 7.3mm x 6.25mm  x 7.4mm, right angle, https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf
@@ -55664,6 +55678,13 @@ TCK-141
 2
 2
 Doorman
+SOT95P230X110-3N
+SOT23 (TO-236AB)
+Transistor
+0
+3
+3
+Doorman
 XL0807RGBCWS2812B
 2.0x1.8x0.80mm
 LED
@@ -58691,6 +58712,55 @@ Inductor_SMD
 L_SOREDE_SNR.1050_10x10x5mm
 Sorede 10x10x5mm Power Inductor, https://datasheet.lcsc.com/lcsc/2201141530_SOREDE-SNR-1050-TYD4R7MT00_C2942304.pdf
 Inductor Sorede SNR 
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI62
+Inductor, SXN, SMDRI62, 6.5x6.8x3.0mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI64
+Inductor, SXN, SMDRI64, 6.5x6.8x5.0mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI73
+Inductor, SXN, SMDRI73, 7.5x7.5x3.4mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI74
+Inductor, SXN, SMDRI74, 7.5x7.5x4.5mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI124
+Inductor, SXN, SMDRI124, 12.3x12.3x4.5mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI125
+Inductor, SXN, SMDRI125, 12.3x12.3x6.0mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
+0
+2
+2
+Inductor_SMD
+L_SXN_SMDRI127
+Inductor, SXN, SMDRI127, 12.3x12.3x8.0mm, https://www.sxndz.com/upload/202108/16/202108161607454319.pdf
+Inductor sxn smdri
 0
 2
 2
@@ -62607,6 +62677,13 @@ dual led smd
 0
 4
 4
+LED_SMD
+LED_Kingbright_APA1606_1.6x0.6mm_Horizontal
+Right angled LED, 1.6x1.2 mm, H0.6 mm
+LED chip right angled vertical
+0
+2
+2
 LED_SMD
 LED_Kingbright_APDA3020VBCD
 LED, SMD, APDA3020VBC/D, https://www.kingbrightusa.com/images/catalog/SPEC/APDA3020VBC-D.pdf
@@ -68005,6 +68082,13 @@ BGA 5 0.5 YZP
 5
 5
 Package_BGA
+Texas_DSBGA-5_1.5855x1.6365mm_Layout3x2_P0.5mm
+Texas Instruments, DSBGA, area grid, YTA0005 pad definition, 1.5855x1.6365mm, 5 Ball, 3x2 Layout, 0.5mm Pitch, https://www.ti.com/lit/ml/mxbg263/mxbg263.pdf, https://www.ti.com/lit/ds/symlink/lm74.pdf#page=24
+BGA 5 0.5 YTA
+0
+5
+5
+Package_BGA
 Texas_DSBGA-6_0.9x1.4mm_Layout2x3_P0.5mm
 Texas Instruments, DSBGA, 0.9x1.4mm, 6 bump 2x3 (perimeter) array, NSMD pad definition (http://www.ti.com/lit/ds/symlink/ts5a3159a.pdf)
 Texas Instruments DSBGA BGA YZP R-XBGA-N6
@@ -69763,15 +69847,8 @@ DFN 0.4
 6
 Package_DFN_QFN
 DFN-8-1EP_2x2mm_P0.5mm_EP0.6x1.2mm
-DFN, 8 Pin (https://www.qorvo.com/products/d/da001879), generated with kicad-footprint-generator ipc_noLead_generator.py
-DFN NoLead
-0
-11
-9
-Package_DFN_QFN
-DFN-8-1EP_2x2mm_P0.5mm_EP0.7x1.3mm
-DFN, 8 Pin (https://www.onsemi.com/pub/Collateral/NUF4401MN-D.PDF#page=6), generated with kicad-footprint-generator ipc_noLead_generator.py
-DFN NoLead
+DFN, 8 Pin (https://www.onsemi.com/pub/Collateral/506AQ.PDF), generated with kicad-footprint-generator ipc_noLead_generator.py
+DFN NoLead 506AQ
 0
 13
 9
@@ -69846,6 +69923,13 @@ DFN NoLead
 13
 9
 Package_DFN_QFN
+DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.6mm
+DFN, 8 Pin (https://www.monolithicpower.com/en/documentview/productdocument/index/version/2/document_type/Datasheet/lang/en/sku/MP8904DD/document_id/1244/), generated with kicad-footprint-generator ipc_noLead_generator.py
+DFN NoLead
+0
+13
+9
+Package_DFN_QFN
 DFN-8-1EP_3x2mm_P0.5mm_EP1.36x1.46mm
 8-Lead Plastic Dual Flat, No Lead Package (8MA2) - 2x3x0.6 mm Body (http://ww1.microchip.com/downloads/en/DeviceDoc/20005010F.pdf)
 DFN 0.5
@@ -69884,6 +69968,13 @@ Package_DFN_QFN
 DFN-8-1EP_3x3mm_P0.5mm_EP1.66x2.38mm
 DD Package; 8-Lead Plastic DFN (3mm x 3mm) (see Linear Technology DFN_8_05-08-1698.pdf)
 DFN 0.5
+0
+13
+9
+Package_DFN_QFN
+DFN-8-1EP_3x3mm_P0.65mm_EP1.5x2.25mm
+DFN, 8 Pin (https://www.diodes.com/assets/Package-Files/U-DFN3030-8-Type-E.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py
+DFN NoLead
 0
 13
 9
@@ -70114,13 +70205,6 @@ VDFN DFN 0.65mm
 Package_DFN_QFN
 DFN-14-1EP_3x4mm_P0.5mm_EP1.7x3.3mm
 DE Package; 14-Lead Plastic DFN (4mm x 3mm) (see Linear Technology DFN_14_05-08-1708.pdf)
-DFN 0.5
-0
-23
-15
-Package_DFN_QFN
-DFN-14-1EP_4x4mm_P0.5mm_EP2.86x3.6mm
-DFN14, 4x4, 0.5P; CASE 506CM (see ON Semiconductor 506CM.PDF)
 DFN 0.5
 0
 23
@@ -70608,6 +70692,13 @@ dfn udfn dual flat
 0
 8
 8
+Package_DFN_QFN
+OnSemi_UDFN-14-1EP_4x4mm_P0.5mm_EP2.7x3.4mm
+OnSemi  UDFN, 14 Pin (https://www.onsemi.com/pub/Collateral/506CM.PDF), generated with kicad-footprint-generator ipc_noLead_generator.py
+OnSemi UDFN NoLead
+0
+24
+15
 Package_DFN_QFN
 OnSemi_UDFN-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm
 OnSemi  UDFN, 16 Pin (https://www.onsemi.com/pdf/datasheet/cm1624-d.pdf#page=7), generated with kicad-footprint-generator ipc_noLead_generator.py
@@ -73241,13 +73332,6 @@ TI RNR0011A
 20
 11
 Package_DFN_QFN
-Texas_VSON-HR-8_1.5x2mm_P0.5mm
-Texas  VSON-HR, 8 Pin (http://www.ti.com/lit/ds/symlink/tps62823.pdf#page=29), generated with kicad-footprint-generator ipc_noLead_generator.py
-Texas VSON-HR NoLead
-0
-8
-8
-Package_DFN_QFN
 Texas_WQFN-MR-100_3x3-DapStencil
 http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=szza059&fileType=pdf,http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=mpqf258&fileType=pdf,http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=LPPD235&fileType=pdf
 MultiRow QFN
@@ -73366,6 +73450,13 @@ QFN 0.65
 0
 21
 17
+Package_DFN_QFN
+UQFN-16_1.8x2.6mm_P0.4mm
+UQFN, 16 Pin (https://www.ti.com/lit/ds/symlink/ts3a5017.pdf#page=28), generated with kicad-footprint-generator ipc_noLead_generator.py
+UQFN NoLead
+0
+16
+16
 Package_DFN_QFN
 UQFN-20-1EP_3x3mm_P0.4mm_EP1.85x1.85mm
 UQFN, 20 Pin (http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf#page=332), generated with kicad-footprint-generator ipc_noLead_generator.py
@@ -77876,8 +77967,8 @@ MSOP SO
 11
 Package_SO
 MSOP-10_3x3mm_P0.5mm
-10-Lead Plastic Micro Small Outline Package (MS) [MSOP] (see Microchip Packaging Specification 00000049BS.pdf)
-SSOP 0.5
+MSOP, 10 Pin (https://www.jedec.org/system/files/docs/mo-187F.pdf variant BA), generated with kicad-footprint-generator ipc_gullwing_generator.py
+MSOP SO
 0
 10
 10
@@ -78051,25 +78142,32 @@ PowerPAK SO-8 Single
 5
 Package_SO
 QSOP-16_3.9x4.9mm_P0.635mm
-16-Lead Plastic Shrink Small Outline Narrow Body (QR)-.150" Body [QSOP] (see Microchip Packaging Specification 00000049BS.pdf)
-SSOP 0.635
+QSOP, 16 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
 0
 16
 16
 Package_SO
 QSOP-20_3.9x8.7mm_P0.635mm
-20-Lead Plastic Shrink Small Outline Narrow Body (http://www.analog.com/media/en/technical-documentation/data-sheets/ADuM7640_7641_7642_7643.pdf)
-QSOP 0.635
+QSOP, 20 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
 0
 20
 20
 Package_SO
 QSOP-24_3.9x8.7mm_P0.635mm
-24-Lead Plastic Shrink Small Outline Narrow Body (QR)-.150" Body [QSOP] (see Microchip Packaging Specification 00000049CH.pdf)
-QSOP 0.635
+QSOP, 24 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
 0
 24
 24
+Package_SO
+QSOP-28_3.9x9.9mm_P0.635mm
+QSOP, 28 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0055.PDF), generated with kicad-footprint-generator ipc_gullwing_generator.py
+QSOP SO
+0
+28
+28
 Package_SO
 SO-4_4.4x2.3mm_P1.27mm
 4-Lead Plastic Small Outline (SO), see http://datasheet.octopart.com/OPIA403BTRE-Optek-datasheet-5328560.pdf
@@ -78157,7 +78255,7 @@ SO SO
 Package_SO
 SO-16_3.9x9.9mm_P1.27mm
 SO, 16 Pin (https://www.nxp.com/docs/en/package-information/SOT109-1.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py
-SO SO
+SO SO SOT109-1
 0
 16
 16
@@ -79590,6 +79688,13 @@ HSOIC SO
 23
 9
 Package_SO
+Texas_S-PDSO-G8_3x3mm_P0.65mm
+plastic small outline, https://www.ti.com/lit/ml/mpds028d/mpds028d.pdf, https://www.ti.com/lit/ds/symlink/dac8552.pdf#page=23
+DGK VSSOP SO
+0
+8
+8
+Package_SO
 VSO-40_7.6x15.4mm_P0.762mm
 VSO40: plastic very small outline package; 40 leads (see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot158-1_po.pdf)
 SSOP 0.762
@@ -79967,6 +80072,13 @@ USON NoLead DRY0006A
 0
 6
 6
+Package_SON
+Texas_VSON-HR-8_1.5x2mm_P0.5mm
+Texas  VSON-HR, 8 Pin (http://www.ti.com/lit/ds/symlink/tps62823.pdf#page=29), generated with kicad-footprint-generator ipc_noLead_generator.py
+Texas VSON-HR NoLead
+0
+8
+8
 Package_SON
 Texas_X2SON-4_1x1mm_P0.65mm
 X2SON 5 pin 1x1mm package (Reference Datasheet: http://www.ti.com/lit/ds/sbvs193d/sbvs193d.pdf Reference part: TPS383x) [StepUp generated footprint]
@@ -84609,6 +84721,13 @@ ESP32-WROOM-32D
 60
 39
 RF_Module
+ESP32-WROOM-32E
+2.4 GHz Wi­-Fi and Bluetooth 5 (LE) module: https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf
+Bluetooth WiFi Wi-Fi ESP32 WROOM Xtensa LX6
+0
+59
+39
+RF_Module
 ESP32-WROOM-32U
 Single 2.4 GHz Wi-Fi and Bluetooth combo chip with U.FL connector, https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.pdf
 Single 2.4 GHz Wi-Fi and Bluetooth combo  chip
@@ -84769,6 +84888,13 @@ rf module lora lorawan
 0
 47
 47
+RF_Module
+Raytac_MDBT42Q
+Multiprotocol radio SoC module https://www.raytac.com/download/index.php?index_id=27
+wireless 2.4 GHz Bluetooth ble zigbee 802.15.4 thread nordic raytac nrf52832
+0
+41
+41
 RF_Module
 Raytac_MDBT50Q
 Multiprotocol radio SoC module https://www.raytac.com/download/index.php?index_id=43
@@ -89061,6 +89187,167 @@ THT Terminal Block 4Ucon ItemNo. 10706 vertical pitch 3.5mm size 53.5x8.3mm^2 dr
 15
 15
 TerminalBlock_Altech
+Altech_AK100_1x02_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+2
+2
+TerminalBlock_Altech
+Altech_AK100_1x03_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+3
+3
+TerminalBlock_Altech
+Altech_AK100_1x04_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+4
+4
+TerminalBlock_Altech
+Altech_AK100_1x05_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+5
+5
+TerminalBlock_Altech
+Altech_AK100_1x06_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+6
+6
+TerminalBlock_Altech
+Altech_AK100_1x07_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+7
+7
+TerminalBlock_Altech
+Altech_AK100_1x08_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+8
+8
+TerminalBlock_Altech
+Altech_AK100_1x09_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+9
+9
+TerminalBlock_Altech
+Altech_AK100_1x10_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+10
+10
+TerminalBlock_Altech
+Altech_AK100_1x11_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+11
+11
+TerminalBlock_Altech
+Altech_AK100_1x12_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+12
+12
+TerminalBlock_Altech
+Altech_AK100_1x13_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+13
+13
+TerminalBlock_Altech
+Altech_AK100_1x14_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+14
+14
+TerminalBlock_Altech
+Altech_AK100_1x15_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+15
+15
+TerminalBlock_Altech
+Altech_AK100_1x16_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+16
+16
+TerminalBlock_Altech
+Altech_AK100_1x17_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+17
+17
+TerminalBlock_Altech
+Altech_AK100_1x18_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+18
+18
+TerminalBlock_Altech
+Altech_AK100_1x19_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+19
+19
+TerminalBlock_Altech
+Altech_AK100_1x20_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+20
+20
+TerminalBlock_Altech
+Altech_AK100_1x21_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+21
+21
+TerminalBlock_Altech
+Altech_AK100_1x22_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+22
+22
+TerminalBlock_Altech
+Altech_AK100_1x23_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+23
+23
+TerminalBlock_Altech
+Altech_AK100_1x24_P5.00mm
+Altech AK100 serie terminal block (Script generated with StandardBox.py) (https://www.altechcorp.com/PDFS/PCBMETRC.PDF)
+Altech AK100 serie connector
+0
+24
+24
+TerminalBlock_Altech
 Altech_AK300_1x02_P5.00mm_45-Degree
 Altech AK300 serie terminal block (Script generated with StandardBox.py) (http://www.altechcorp.com/PDFS/PCBMETRC.PDF)
 Altech AK300 serie connector
@@ -91650,6 +91937,76 @@ THT Terminal Block TE 282834-9 pitch 2.54mm size 23.32x6.5mm^2 drill 1.1mm pad 2
 0
 9
 9
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-502_2x02_P2.54mm
+Terminal Block Wago 233-502, 2 pins, pitch 2.54 mm,  https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-502
+THT
+0
+4
+2
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-503_2x03_P2.54mm
+Terminal Block Wago 233-503, 3 pins, pitch 2.54 mm,  https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-503
+THT
+0
+6
+3
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-504_2x04_P2.54mm
+Terminal Block Wago 233-504, 4 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-504
+THT
+0
+8
+4
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-505_2x05_P2.54mm
+Terminal Block Wago 233-505, 5 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-505
+THT
+0
+10
+5
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-506_2x06_P2.54mm
+Terminal Block Wago 233-506, 6 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-506
+THT
+0
+12
+6
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-507_2x07_P2.54mm
+Terminal Block Wago 233-507, 7 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-507
+THT
+0
+14
+7
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-508_2x08_P2.54mm
+Terminal Block Wago 233-508, 8 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-508
+THT
+0
+16
+8
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-509_2x09_P2.54mm
+Terminal Block Wago 233-509, 9 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-509
+THT
+0
+18
+9
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-510_2x10_P2.54mm
+Terminal Block Wago 233-510, 10 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-510
+THT
+0
+20
+10
+TerminalBlock_WAGO
+TerminalBlock_WAGO_233-512_2x12_P2.54mm
+Terminal Block Wago 233-512, 12 pins, pitch 2.54 mm, https://www.wago.com/de/leiterplattenanschluss/klemmenleiste-fuer-leiterplatten/p/233-512
+THT
+0
+24
+12
 TerminalBlock_WAGO
 TerminalBlock_WAGO_236-101_1x01_P5.00mm_45Degree
 Terminal Block WAGO 236-101, 45Degree (cable under 45degree), 1 pins, pitch 5mm, size 7.3x14mm^2, drill diamater 1.15mm, pad diameter 3mm, see , script-generated with , script-generated using https://github.com/pointhi/kicad-footprint-generator/scripts/TerminalBlock_WAGO
