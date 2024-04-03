@@ -6,10 +6,9 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3")
-		(date "2024-03-22")
+		(date "2024-04-03")
 		(rev "1.1")
 		(comment 1 "TCS Intercom Gateway")
-		(comment 2 "TracoPower Parts and BC517 excluded from BOM because it's not available on JLCPCB")
 	)
 	(lib_symbols
 		(symbol "+3.3V_1"
@@ -2907,198 +2906,6 @@
 				)
 			)
 		)
-		(symbol "GND_3"
-			(power)
-			(pin_numbers hide)
-			(pin_names
-				(offset 0) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "GND"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "GND_3_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GND_3_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
-		(symbol "GND_4"
-			(power)
-			(pin_numbers hide)
-			(pin_names
-				(offset 0) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "GND"
-				(at 0 -3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "GND_4_0_1"
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "GND_4_1_1"
-				(pin power_in line
-					(at 0 0 270)
-					(length 0)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "GND_5"
 			(power)
 			(pin_numbers hide)
@@ -5183,18 +4990,6 @@
 		(uuid "0a77a778-4d8f-48fb-a012-d5a606f9bb55")
 	)
 	(junction
-		(at 93.98 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "13bcc23b-f977-48bb-afb7-a9b14bb8cfab")
-	)
-	(junction
-		(at 146.05 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1c6b7d73-e7a8-40e1-9400-1996993d6c5d")
-	)
-	(junction
 		(at 137.16 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5229,6 +5024,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4abc0d09-572e-4816-bca4-ba4212f9905b")
+	)
+	(junction
+		(at 146.05 31.75)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6f5e6ca2-af52-4f88-ad4c-4448120e2de3")
 	)
 	(junction
 		(at 80.01 30.48)
@@ -5277,12 +5078,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "df829df6-7e64-4815-8258-16ce0ec1d3d6")
-	)
-	(junction
-		(at 93.98 93.98)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e13647d7-5a13-41a8-a623-5b0f8111bb04")
 	)
 	(junction
 		(at 157.48 104.14)
@@ -5512,16 +5307,6 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 96.52) (xy 93.98 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1532e093-1faf-4f4c-9d34-ef78ad333d48")
-	)
-	(wire
-		(pts
 			(xy 92.71 30.48) (xy 92.71 34.29)
 		)
 		(stroke
@@ -5560,6 +5345,16 @@
 		)
 		(uuid "18e3b9a1-5ff3-4062-aad6-9f5e87d85619")
 	)
+	(wire
+		(pts
+			(xy 146.05 33.02) (xy 146.05 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "19ea2040-adfc-434b-b824-76374c1ac2ed")
+	)
 	(polyline
 		(pts
 			(xy 105.41 133.35) (xy 105.41 16.51)
@@ -5569,26 +5364,6 @@
 			(type dash)
 		)
 		(uuid "1a349d1a-3fce-4bf6-ae6c-3da44fdc54a4")
-	)
-	(wire
-		(pts
-			(xy 146.05 29.21) (xy 146.05 30.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1a73b6e0-54bb-46fc-930f-12740107a79b")
-	)
-	(wire
-		(pts
-			(xy 146.05 30.48) (xy 146.05 31.75)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "21405e7c-0d29-4320-8050-10f370c1dd50")
 	)
 	(wire
 		(pts
@@ -5992,16 +5767,6 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 93.98) (xy 93.98 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "82b04dd6-baf7-480f-9523-c009c067bff0")
-	)
-	(wire
-		(pts
 			(xy 24.13 34.29) (xy 27.94 34.29)
 		)
 		(stroke
@@ -6100,6 +5865,16 @@
 		)
 		(uuid "9b587819-d52a-49cb-9dab-e60a2c588bcd")
 	)
+	(wire
+		(pts
+			(xy 146.05 29.21) (xy 146.05 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a01dc9b9-681c-4c62-8aa4-a5faa98b2a8d")
+	)
 	(polyline
 		(pts
 			(xy 215.9 16.51) (xy 215.9 69.85)
@@ -6139,16 +5914,6 @@
 			(type default)
 		)
 		(uuid "a6b0114a-506a-4b0a-a4ea-ffe8eda6164e")
-	)
-	(wire
-		(pts
-			(xy 93.98 96.52) (xy 96.52 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a8368ca2-093e-4bd6-8fff-6b4a33910304")
 	)
 	(wire
 		(pts
@@ -6312,16 +6077,6 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 62.23) (xy 120.65 62.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c20a32ad-079f-4061-8f04-572a719bb493")
-	)
-	(wire
-		(pts
 			(xy 157.48 106.68) (xy 157.48 104.14)
 		)
 		(stroke
@@ -6439,16 +6194,6 @@
 			(type default)
 		)
 		(uuid "d6211611-0945-4090-8770-5ce811bdaa60")
-	)
-	(wire
-		(pts
-			(xy 93.98 93.98) (xy 82.55 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d8ef85ec-4ddb-4280-84d5-c9c6b05705b9")
 	)
 	(polyline
 		(pts
@@ -6725,7 +6470,7 @@
 	)
 	(text "FLASH"
 		(exclude_from_sim no)
-		(at 31.75 62.23 0)
+		(at 31.75 60.706 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6754,6 +6499,17 @@
 			(justify left bottom)
 		)
 		(uuid "a5af6aa5-62e8-4998-a9eb-849c1847e4bd")
+	)
+	(text "Fix twisted\nBus Wires"
+		(exclude_from_sim no)
+		(at 198.882 45.466 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a5b9ce8e-b4bb-4745-91ad-4b70806b861e")
 	)
 	(text "TEST PADS"
 		(exclude_from_sim no)
@@ -6801,7 +6557,7 @@
 	)
 	(text "RESET"
 		(exclude_from_sim no)
-		(at 30.48 45.466 0)
+		(at 30.48 46.99 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7009,7 +6765,7 @@
 	)
 	(global_label "IO41"
 		(shape input)
-		(at 96.52 96.52 0)
+		(at 82.55 96.52 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7019,7 +6775,7 @@
 		)
 		(uuid "55e47556-d22e-4de0-a57a-14ba072940ab")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 103.8595 96.52 0)
+			(at 89.8895 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7295,7 +7051,7 @@
 	)
 	(global_label "IO40"
 		(shape input)
-		(at 96.52 93.98 0)
+		(at 82.55 93.98 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7305,7 +7061,7 @@
 		)
 		(uuid "9ef5147f-6878-48fd-8994-3da7c14114f5")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 103.8595 93.98 0)
+			(at 89.8895 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7605,6 +7361,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 120.65 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 120.65 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 120.65 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "A8"
 			(uuid "1cfcb048-ac4c-4c1a-a3fe-244bb952c558")
 		)
@@ -7668,7 +7451,7 @@
 	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
-		(at 123.19 62.23 90)
+		(at 120.65 62.23 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7676,7 +7459,7 @@
 		(dnp no)
 		(uuid "06575d0f-f5b0-40d2-bc89-1a6c3c1c092f")
 		(property "Reference" "#PWR028"
-			(at 129.54 62.23 0)
+			(at 120.65 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7685,7 +7468,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 127 62.23 0)
+			(at 120.65 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7693,7 +7476,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 123.19 62.23 0)
+			(at 120.65 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7702,7 +7485,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 123.19 62.23 0)
+			(at 120.65 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7711,7 +7494,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 123.19 62.23 0)
+			(at 120.65 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7871,6 +7654,33 @@
 			)
 		)
 		(property "LCSC" "C5184412"
+			(at 134.62 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 134.62 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 134.62 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 134.62 104.14 0)
 			(effects
 				(font
@@ -8112,6 +7922,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 227.33 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 227.33 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 227.33 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6378ff20-95cc-465e-ab08-c55324563194")
 		)
@@ -8265,7 +8102,34 @@
 				(hide yes)
 			)
 		)
-		(property "Package" ""
+		(property "Package" "MBS"
+			(at 193.04 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 193.04 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 193.04 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 193.04 38.1 0)
 			(effects
 				(font
@@ -8339,6 +8203,33 @@
 			)
 		)
 		(property "Description" "test point"
+			(at 224.79 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 224.79 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 224.79 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 224.79 44.45 0)
 			(effects
 				(font
@@ -8429,6 +8320,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 139.7 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 139.7 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 139.7 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "640ba1d0-4e44-40c0-9d21-e264ef2e00b0")
 		)
@@ -8439,74 +8357,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 93.98 90.17 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp yes)
-		(uuid "3c0f4b06-0ebf-4cdb-a47e-488c8ba5d3c6")
-		(property "Reference" "R13"
-			(at 95.504 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10K"
-			(at 93.98 90.17 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 92.202 90.17 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 93.98 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 93.98 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "effc42f0-5646-4f7e-a716-fbd00e42f932")
-		)
-		(pin "2"
-			(uuid "3485c0df-4738-449c-a647-7f38643b0794")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -8716,22 +8566,12 @@
 				(hide yes)
 			)
 		)
-		(property "Package" " SMD,1.8x2mm"
+		(property "Package" "SMD,1.8x2mm"
 			(at 223.52 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
-			)
-		)
-		(property "Height" "0.9"
-			(at 247.65 537.16 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
 				(hide yes)
 			)
 		)
@@ -8755,23 +8595,30 @@
 				(hide yes)
 			)
 		)
-		(property "Mouser Part Number" ""
-			(at 247.65 837.16 0)
+		(property "Height" ""
+			(at 223.52 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 223.52 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 				(hide yes)
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 247.65 937.16 0)
+			(at 223.52 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 				(hide yes)
 			)
 		)
@@ -8799,7 +8646,7 @@
 	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
-		(at 146.05 30.48 90)
+		(at 146.05 33.02 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8807,7 +8654,7 @@
 		(dnp no)
 		(uuid "45cc30d2-4c51-40bf-8be9-ab99004c72f0")
 		(property "Reference" "#PWR014"
-			(at 152.4 30.48 0)
+			(at 146.05 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8816,7 +8663,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 151.638 30.48 90)
+			(at 149.606 33.528 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8824,7 +8671,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 146.05 30.48 0)
+			(at 146.05 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8833,7 +8680,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 30.48 0)
+			(at 146.05 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8842,7 +8689,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 146.05 30.48 0)
+			(at 146.05 33.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8881,7 +8728,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "165K"
+		(property "Value" "160K"
 			(at 192.532 104.14 90)
 			(effects
 				(font
@@ -8908,7 +8755,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" " 100mW ±100ppm/℃ ±1% 165kΩ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "100mW Thick Film Resistors 75V ±100ppm/℃ ±1% 160kΩ 0603  Chip Resistor - Surface Mount ROHS"
 			(at 190.5 104.14 0)
 			(effects
 				(font
@@ -8917,7 +8764,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C321746"
+		(property "LCSC" "C137793"
 			(at 190.5 104.14 0)
 			(effects
 				(font
@@ -8926,7 +8773,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "RS-03K1653FT"
+		(property "MPN" "RC0603FR-07160KL"
 			(at 190.5 104.14 0)
 			(effects
 				(font
@@ -8936,6 +8783,33 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 190.5 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 190.5 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 190.5 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 190.5 104.14 0)
 			(effects
 				(font
@@ -9148,6 +9022,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 224.79 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 224.79 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 224.79 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d04b679b-f61a-40aa-83aa-e7be4aa43c5a")
 		)
@@ -9232,6 +9133,33 @@
 		)
 		(property "Package" "0603"
 			(at 30.48 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 30.48 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 30.48 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 30.48 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9333,6 +9261,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 176.53 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 176.53 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 176.53 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5d398b08-a7d5-4a59-af2f-f16fa36b520f")
 		)
@@ -9418,6 +9373,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 240.03 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 240.03 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 240.03 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "f619b0cb-c414-4bf9-9cb1-f52e95ae6ff0")
 		)
@@ -9477,6 +9459,33 @@
 			)
 		)
 		(property "Description" "test point"
+			(at 224.79 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 224.79 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 224.79 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 224.79 55.88 0)
 			(effects
 				(font
@@ -9578,6 +9587,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 44.45 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 44.45 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 44.45 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -9606,7 +9642,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6243677a-61f4-42bd-9218-5496f7fcebdc")
 		(property "Reference" "L1"
@@ -9671,6 +9707,33 @@
 			)
 		)
 		(property "MPN" "TCK-141"
+			(at 168.91 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 168.91 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 168.91 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 168.91 68.58 0)
 			(effects
 				(font
@@ -9772,7 +9835,7 @@
 		(at 67.31 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "66f41d59-e5a3-4e8f-8f6c-d365e8eefce7")
@@ -9840,6 +9903,33 @@
 			)
 		)
 		(property "Price" ""
+			(at 67.31 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 67.31 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 67.31 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 67.31 86.36 0)
 			(effects
 				(font
@@ -10067,6 +10157,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 236.22 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 236.22 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 236.22 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "da843c55-01a6-4435-a2c8-f08d8fbb1de4")
 		)
@@ -10163,6 +10280,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 162.56 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 162.56 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 162.56 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "24271580-f8ce-4d71-809d-f0a1aabc6917")
 		)
@@ -10241,6 +10385,33 @@
 		)
 		(property "MPN" "0402WGF5101TCE"
 			(at 139.7 29.21 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 139.7 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 139.7 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 139.7 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10346,8 +10517,8 @@
 				)
 			)
 		)
-		(property "Value" ""
-			(at 30.48 45.72 0)
+		(property "Value" "Button"
+			(at 30.48 44.704 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10400,6 +10571,33 @@
 			)
 		)
 		(property "Package" "SMD,2.5x3mm"
+			(at 30.48 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 30.48 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 30.48 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 30.48 41.91 0)
 			(effects
 				(font
@@ -10523,7 +10721,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MPT-0,5-3-2.54_1x03_P2.54mm_Horizontal"
+		(property "Footprint" "ProLibrary_pcs_2024-04-02:CONN-TH_3P-P2.54_KF128-2.54-3P"
 			(at 173.99 30.48 0)
 			(effects
 				(font
@@ -10532,7 +10730,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2303171000_Cixi-Kefa-Elec-KF128-2-54-3P_C474921.pdf"
 			(at 173.99 30.48 0)
 			(effects
 				(font
@@ -10541,7 +10739,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "P=2.54mm Screw terminal ROHS "
+		(property "Description" "Plugin,P=2.54mm"
 			(at 173.99 30.48 0)
 			(effects
 				(font
@@ -10550,7 +10748,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C5288763"
+		(property "LCSC" "C474921"
 			(at 173.99 30.48 0)
 			(effects
 				(font
@@ -10559,7 +10757,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1725669"
+		(property "MPN" "KF128-2.54-3P"
 			(at 173.99 30.48 0)
 			(effects
 				(font
@@ -10720,73 +10918,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#FLG03")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "GND_4")
-		(lib_id "power:GND")
-		(at 93.98 104.14 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7c054863-4fc8-4705-881f-8428d71c9d1b")
-		(property "Reference" "#PWR019"
-			(at 93.98 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 109.22 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "03f48c9a-d20a-445d-9ce6-20142f7fa0fc")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -11004,6 +11135,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 129.54 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 129.54 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 129.54 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8f7a30e3-7668-4e6b-905a-c7924d67853c")
 		)
@@ -11144,6 +11302,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 224.79 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 224.79 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 224.79 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d1a5258b-937f-48c0-bc11-f5c63037e806")
 		)
@@ -11228,6 +11413,33 @@
 		)
 		(property "MPN" "1N5819WS"
 			(at 156.21 59.69 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 156.21 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 156.21 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 156.21 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11381,6 +11593,33 @@
 			)
 		)
 		(property "MPN" ""
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 149.86 73.66 0)
 			(effects
 				(font
@@ -11653,6 +11892,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 224.79 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 224.79 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 224.79 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8d7fb834-4ae1-478b-a4cc-ea054e04463a")
 		)
@@ -11738,7 +12004,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a938bea8-e877-4bf3-87c9-3aedcbd7f37d")
 		(property "Reference" "U2"
@@ -11787,6 +12053,33 @@
 			)
 		)
 		(property "LCSC" ""
+			(at 193.04 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 193.04 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 193.04 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 193.04 71.12 0)
 			(effects
 				(font
@@ -12025,6 +12318,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 161.29 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 161.29 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 161.29 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "06d74a52-71dd-4da2-a937-3f7d136d15b9")
 		)
@@ -12114,6 +12434,33 @@
 		)
 		(property "Package" "1206"
 			(at 162.56 101.6 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 162.56 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 162.56 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 162.56 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12277,6 +12624,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 92.71 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 92.71 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 92.71 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3eca7f9f-f4f8-4661-a11e-480361a9afab")
 		)
@@ -12371,6 +12745,33 @@
 			)
 		)
 		(property "Package" "Plugin,P=2.54mm"
+			(at 227.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 227.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 227.33 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 227.33 85.09 0)
 			(effects
 				(font
@@ -12671,6 +13072,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 232.41 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 232.41 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 232.41 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e2ddaf98-b51f-4f60-ab2f-15975f2eb37f")
 		)
@@ -12704,8 +13132,8 @@
 				)
 			)
 		)
-		(property "Value" ""
-			(at 31.75 63.5 0)
+		(property "Value" "Button"
+			(at 31.75 62.484 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12758,6 +13186,33 @@
 			)
 		)
 		(property "Package" "SMD,2.5x3mm"
+			(at 31.75 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 31.75 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 31.75 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 31.75 68.58 0)
 			(effects
 				(font
@@ -12919,7 +13374,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 146.05 24.13 270)
+		(at 146.05 24.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12927,7 +13382,7 @@
 		(dnp no)
 		(uuid "def4773f-3aa6-486a-9fb8-eb3f579db4e6")
 		(property "Reference" "#PWR012"
-			(at 142.24 24.13 0)
+			(at 146.05 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12936,7 +13391,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 149.352 24.13 90)
+			(at 147.32 22.606 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13167,6 +13622,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 224.79 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 224.79 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 224.79 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6efa998a-a04d-441e-bf32-dce1c26cbc24")
 		)
@@ -13258,6 +13740,33 @@
 				(hide yes)
 			)
 		)
+		(property "Height" ""
+			(at 80.01 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 80.01 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 80.01 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "ce1012f0-5e9f-4f98-b2fd-4f977fe1f0dc")
 		)
@@ -13268,142 +13777,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "C3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "GND_3")
-		(lib_id "power:GND")
-		(at 93.98 86.36 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f63d3513-7f4e-4bed-99c2-d4238c63f502")
-		(property "Reference" "#PWR016"
-			(at 93.98 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0ad70093-78d7-4e49-80ac-3ee9dcd8d998")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR016")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 93.98 100.33 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp yes)
-		(uuid "f8b09489-d827-409e-8e06-ad42d1545820")
-		(property "Reference" "R2"
-			(at 95.504 100.584 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10K"
-			(at 93.98 101.854 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 92.202 100.33 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 93.98 100.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 93.98 100.33 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "7cc53000-13ee-4305-88b3-84aead0fbca0")
-		)
-		(pin "1"
-			(uuid "8a840b59-4308-4927-b41f-1a7ab9df9608")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -13483,6 +13856,33 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 177.8 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 177.8 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 177.8 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
 			(at 177.8 104.14 0)
 			(effects
 				(font
