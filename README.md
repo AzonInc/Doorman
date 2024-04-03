@@ -9,11 +9,13 @@
 
 This repository contains the source files for the Doorman S3 - TCS Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) Intercom to any home automation system.
 
+<!--
 ## 📦 Interested in buying one?
 
 I still have some PCBs left. They are fully assembled and tested and come with ESPHome pre-Installed for direct integration and adoption into Home Assistant.
 
 Feel free to contact me on [Discord](https://discord.gg/MMT4bxhQ68) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
+-->
 
 ## 📫 Have a question? Ran into a problem?
 
@@ -80,24 +82,20 @@ If your Intercom is connected in 2-wire mode you need to use a USB-C Power Suppl
 
 ### Wire Explanation:
 - **a** is usually the Bus line (+24V, but not recommended as power supply)
-- **b** is GND 
+- **b** is usually GND
 - **P** is the +24V line in 3-wire mode or just the apartment bell button in 2-wire mode
-
-You have to make sure which of the **a**- and **b**-Terminals is the 24V+ Bus one because the Intercom has a rectifier bridge which handles twisted wiring but the **Doorman S3 Board doesn't have one**!
 
 
 ### Steps:
 #### 2-Wire Mode
-1. Open the wall-mounted phone in your flat
-2. Check which of the a and b Terminals is Ground and which is +24V Bus
-3. Connect the 24V Bus Line to the A Terminal of your Doorman
+1. Open the intercom enclosure in your flat
+2. Connect the 24V Bus Line to the A Terminal of your Doorman
 3. Connect the Ground Line to the B Terminal of your Doorman
 4. Connect an external Power Supply via USB-C Port or P (+5V to +24V) and B (Ground) Screw Terminals of your Doorman
 
 #### 3-Wire Mode with sufficient Intercom Power Supply (min. 100mA)
-1. Open the wall-mounted phone in your flat
-2. Check which of the a and b Terminals is Ground and which is +24V Bus
-3. Connect the 24V Bus Line to the A Terminal of your Doorman
+1. Open the intercom enclosure in your flat
+2. Connect the 24V Bus Line to the A Terminal of your Doorman
 3. Connect the Ground Line to the B Terminal of your Doorman
 4. Connect the P Line to the P Terminal of your Doorman 
 
@@ -110,6 +108,11 @@ If you use the ESPHome Doorman Firmware from this Repository, every received Com
 
 - **[Doorman by peteh](https://github.com/peteh/doorman)**\
 You can find a detailed explanation in the repository. It's kinda similar.
+
+<!--
+## Manufacturing
+
+-->
 
 ## ⚠️ Disclaimer
 
