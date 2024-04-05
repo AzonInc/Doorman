@@ -624,10 +624,28 @@
           "label": "Height",
           "name": "Height",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Cheap Version",
+          "name": "Cheap Version",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC Part",
+          "name": "LCSC Part",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Expensive Version",
+          "name": "Expensive Version",
+          "show": false
         }
       ],
       "filter_string": "",
-      "group_symbols": false,
+      "group_symbols": true,
       "name": "",
       "sort_asc": true,
       "sort_field": "Reference"
@@ -661,7 +679,7 @@
     },
     "net_format_name": "",
     "page_layout_descr_file": "",
-    "plot_directory": "",
+    "plot_directory": "manufacturing/",
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
     "spice_model_current_sheet_as_root": true,

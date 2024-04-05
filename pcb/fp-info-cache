@@ -1,4 +1,4 @@
-23059982728267466
+23065119640820358
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -55670,6 +55670,27 @@ TCK-141
 0
 2
 2
+Doorman
+LED-SMD_4P-L2.0-W1.8_CY-0807
+
+
+0
+4
+4
+Doorman
+SOP-4_L4.1-W3.8-P2.54-LS6.1-BL
+
+
+0
+4
+4
+Doorman
+SOP-4_L4.4-W4.0-P2.54-LS7.0-TL
+
+
+0
+4
+4
 Doorman
 SOT95P230X110-3N
 SOT23 (TO-236AB)

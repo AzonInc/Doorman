@@ -71,7 +71,7 @@ You need to adjust a few things to make it work with Doorman S3.
 ## ⚡ Wiring
 >⚠️ **DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
 
-If your Intercom is connected in 2-wire mode you need to use a USB-C Power Supply as the Bus Voltage is not sufficient to power your Doorman while sending commands. If it is connected in 3-wire mode you should be able to use the P-Line to power Doorman.
+If your Intercom is connected in 2-wire mode and you dont have a separate 24V Line you need to use a USB-C Power Supply as the Bus Voltage is probably not sufficient to power your Doorman. If it is connected in 3-wire mode you should be able to use the P-Line to power Doorman.
 
 >⚠️ **THERE IS A CATCH**\
 > The Power Supply of your Intercom **must have** a minimum output of **100-150mA**!\
@@ -85,6 +85,7 @@ If your Intercom is connected in 2-wire mode you need to use a USB-C Power Suppl
 - **b** is usually GND
 - **P** is the +24V line in 3-wire mode or just the apartment bell button in 2-wire mode
 
+**It doesn't matter if you connect a to a and b to b. Doorman has an integrated bridge rectifier to fix that for you.**
 
 ### Steps:
 #### 2-Wire Mode
