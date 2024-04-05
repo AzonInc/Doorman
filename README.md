@@ -3,11 +3,11 @@
     Doorman S3
     <br>
     <br>
-    <img src="docs/Doorman-S3-Title.png" alt="Doorman S3" height="275">
+    <img src=".github/docs/Doorman-S3-Title.png" alt="Doorman S3" height="275">
     <br>
 </h1>
 
-This repository contains the source files for the Doorman S3 - TCS Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) Intercom to any home automation system.
+This repository contains the source files for the Doorman S3 Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) Intercom to any home automation system.
 
 <!--
 ## 📦 Interested in buying one?
@@ -27,6 +27,7 @@ At the root of the repository you will find these directories:
 
 - `pcb`: KiCad schematic and PCB design files
 - `firmware`: ESPHome configuration files
+- `enclosure`: Enclosure STL Files
 
 ## 🤖 Features
 
@@ -35,6 +36,7 @@ At the root of the repository you will find these directories:
 - It's super small (37.2mm x 35mm) and fits almost everywhere
 - Configurable WS2812B RGB LED to indicate specific events
 - 2 additional GPIO pins for easy expansion with your own sensors and devices
+- 1 Relay with exposed Pin Header to switch up to 40V (max. 2.5A)
 - External Button Connector
 - TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
 - You can optionally use your Doorman as a Nuki Bridge replacement
@@ -54,7 +56,7 @@ You can find an Example in the [Firmware Examples](https://github.com/AzonInc/Do
 ## ✔️ Compatibility
 
 ### Hardware
-If your TCS Intercom got a, b and P labeled Screw Terminals it's likely compatible.
+If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is running on 24V DC it's likely compatible.
 
 ### Firmware
 You can use Doorman S3 with your prefered Firmware.\
@@ -69,40 +71,41 @@ This Configuration inherits everything from the Stock Firmware and adds a Nuki B
 You need to adjust a few things to make it work with Doorman S3.
 
 ## ⚡ Wiring
->⚠️ **DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
+If your Intercom is connected in 2-wire mode and you dont have a separate 24V P-Line you need to use an external Power Supply via USB-C or P (+5V to +24V) and B (Ground) Screw Terminal.\
+If it is connected in 3-wire mode you should be able to use the P-Line to power your Doorman in most cases.
 
-If your Intercom is connected in 2-wire mode and you dont have a separate 24V Line you need to use a USB-C Power Supply as the Bus Voltage is probably not sufficient to power your Doorman. If it is connected in 3-wire mode you should be able to use the P-Line to power Doorman.
-
->⚠️ **THERE IS A CATCH**\
-> The Power Supply of your Intercom **must have** a minimum output of **100-150mA**!\
-> Otherwise your Doorman is gonna drain all the power.\
-> In the worst case you could even cause severe damage.\
-> **Please power your Doorman with a USB-C Power Supply if your Intercom provides less than 100mA.**
-
-
-### Wire Explanation:
-- **a** is usually the Bus line (+24V, but not recommended as power supply)
+### Intercom Screw Terminal Explanation:
+- **a** is usually the Bus line (+24V)
 - **b** is usually GND
 - **P** is the +24V line in 3-wire mode or just the apartment bell button in 2-wire mode
 
-**It doesn't matter if you connect a to a and b to b. Doorman has an integrated bridge rectifier to fix that for you.**
+> ✅ On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to fix that for you.\
+
+
+>⚠️ **BE AWARE**\
+> The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!\
+> However it is possible that some other devices using the 24V-wire are taking too much current so it's not sufficient to power Doorman anymore.\
+> A best case scenario would be that you can use the P-wire with 60mA. That doesn't work for everyone tho.\
+> **Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your Intercom provides less than 60mA or whenever you notice an unstable operation.** 
+
 
 ### Steps:
-#### 2-Wire Mode
-1. Open the intercom enclosure in your flat
-2. Connect the 24V Bus Line to the A Terminal of your Doorman
-3. Connect the Ground Line to the B Terminal of your Doorman
-4. Connect an external Power Supply via USB-C Port or P (+5V to +24V) and B (Ground) Screw Terminals of your Doorman
+>⚠️ **DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
+#### 2-Wire Mode (with external Power Supply)
+1. Open the Intercom enclosure
+2. Connect the a-wire (24V Bus) to the a-Terminal of your Doorman
+3. Connect the b-wire (Ground) to the b-Terminal of your Doorman
+4. Connect an external Power Supply via USB-C Port or P (+5V to +24V) and b (Ground) Screw Terminals of your Doorman
 
-#### 3-Wire Mode with sufficient Intercom Power Supply (min. 100mA)
-1. Open the intercom enclosure in your flat
-2. Connect the 24V Bus Line to the A Terminal of your Doorman
-3. Connect the Ground Line to the B Terminal of your Doorman
-4. Connect the P Line to the P Terminal of your Doorman 
+#### 3-Wire Mode (with sufficient Intercom Power Supply - min. 60mA)
+1. Open the Intercom enclosure
+2. Connect the a-wire (24V Bus) to the a-Terminal of your Doorman
+3. Connect the b-wire (Ground) to the b-Terminal of your Doorman
+4. Connect the P-wire (+24V) to the P-Terminal of your Doorman 
 
-## 📟 How to obtain Command Codes from the TCS Bus
+## 📟 Obtaining Command Codes from the Bus
 
-Depending on the Firmware you are going to use there are different methods to obtain Command Codes.
+Depending on the Firmware you are using, there are different methods to obtain Command Codes.
 
 - **[ESPHome](https://github.com/AzonInc/doorman/tree/master/firmware)**\
 If you use the ESPHome Doorman Firmware from this Repository, every received Command Code is logged in the ESPHome Console and also published as an Home Assistant Event. Besides that there is a "Last Bus Command" Text Sensor (disabled by default) which also shows the last Bus Command.
@@ -118,17 +121,14 @@ You can find a detailed explanation in the repository. It's kinda similar.
 ## ⚠️ Disclaimer
 
 Please DO NOT use the +24V P-Line if the Power Supply is not powerful enough.\
-Check your Power Supply first because there are some Power Supply Models which supply 60mA (Peak 100mA) only and that's definitely not enough for an ESP32.
-
-You could cause the Power Supply to overheat and end up damaging the whole system!\
-Please check everything first.
+Check your Power Supply first as there are some Power Supply Models which supply less than 60mA on 24V and that won't be enough to power the ESP32.
 
 ## 🙌 Contributing
 If you would like to contribute, please feel free to open a Pull Request.
 
 ## 📜 Credits
 
-Doorman is heavily built on the code and the information of the following projects.\
+Doorman is heavily built on the code and the information of the following projects and people.\
 This project would not have been possible without all of them. ❤️
 
 **[TCSIntercomArduino](https://github.com/atc1441/TCSintercomArduino)**\
@@ -145,3 +145,6 @@ The main goal is to provide a proper PCB for his Doorman Project.
 
 **[ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock)**\
 This module builds an ESPHome lock platform for Nuki Smartlock (nuki_lock).
+
+**[AStrehlau](https://github.com/AStrehlau)**\
+Thanks a lot for your time, patience and every single valuable advice that made this Project better, smaller and more affordable.
