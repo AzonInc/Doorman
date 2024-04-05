@@ -7,7 +7,7 @@
     <br>
 </h1>
 
-This repository contains the source files for the Doorman S3 - TCS Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) Intercom to any home automation system.
+This repository contains the source files for the Doorman S3 Intercom Gateway, a device which lets you connect your [TCS AG](https://www.tcsag.de/) or [Koch AG](https://www.kochag.ch/) Intercom to any home automation system.
 
 <!--
 ## 📦 Interested in buying one?
@@ -27,6 +27,7 @@ At the root of the repository you will find these directories:
 
 - `pcb`: KiCad schematic and PCB design files
 - `firmware`: ESPHome configuration files
+- `enclosure`: Enclosure STL Files
 
 ## 🤖 Features
 
@@ -35,6 +36,7 @@ At the root of the repository you will find these directories:
 - It's super small (37.2mm x 35mm) and fits almost everywhere
 - Configurable WS2812B RGB LED to indicate specific events
 - 2 additional GPIO pins for easy expansion with your own sensors and devices
+- 1 Relay with exposed Pin Header to switch up to 40V (max. 2.5A)
 - External Button Connector
 - TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
 - You can optionally use your Doorman as a Nuki Bridge replacement
@@ -54,7 +56,10 @@ You can find an Example in the [Firmware Examples](https://github.com/AzonInc/Do
 ## ✔️ Compatibility
 
 ### Hardware
-If your TCS Intercom got a, b and P labeled Screw Terminals it's likely compatible.
+If your TCS or Koch Intercom got a, b and P labeled Screw Terminals it's likely compatible.
+
+Tested Devices:
+- TCS ISH3030
 
 ### Firmware
 You can use Doorman S3 with your prefered Firmware.\
@@ -100,9 +105,9 @@ If your Intercom is connected in 2-wire mode and you dont have a separate 24V Li
 3. Connect the Ground Line to the B Terminal of your Doorman
 4. Connect the P Line to the P Terminal of your Doorman 
 
-## 📟 How to obtain Command Codes from the TCS Bus
+## 📟 Obtaining Command Codes from the Bus
 
-Depending on the Firmware you are going to use there are different methods to obtain Command Codes.
+Depending on the Firmware you are using, there are different methods to obtain Command Codes.
 
 - **[ESPHome](https://github.com/AzonInc/doorman/tree/master/firmware)**\
 If you use the ESPHome Doorman Firmware from this Repository, every received Command Code is logged in the ESPHome Console and also published as an Home Assistant Event. Besides that there is a "Last Bus Command" Text Sensor (disabled by default) which also shows the last Bus Command.

@@ -501,7 +501,7 @@
       "plot": "manufacturing/",
       "pos_files": "manufacturing/",
       "specctra_dsn": "",
-      "step": "",
+      "step": "doorman.step",
       "svg": "",
       "vrml": ""
     },
