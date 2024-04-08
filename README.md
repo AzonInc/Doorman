@@ -3,7 +3,7 @@
     Doorman S3
     <br>
     <br>
-    <img src=".github/docs/Doorman-S3-Title.png" alt="Doorman S3" height="275">
+    <img src=".github/images/title_dark.png" alt="Doorman S3" height="275">
     <br>
 </h1>
 
@@ -14,7 +14,7 @@ This repository contains the source files for the Doorman S3 Intercom Gateway, a
 
 I still have some PCBs left. They are fully assembled and tested and come with ESPHome pre-Installed for direct integration and adoption into Home Assistant.
 
-Feel free to contact me on [Discord](https://discord.gg/MMT4bxhQ68) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
+Feel free to contact me on [Discord](https://discord.gg/MMT4bxhQ68), [GitHub Issues](https://github.com/AzonInc/Doorman/issues) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 -->
 
 ## 📫 Have a question? Ran into a problem?
@@ -56,7 +56,7 @@ You can find an Example in the [Firmware Examples](https://github.com/AzonInc/Do
 ## ✔️ Compatibility
 
 ### Hardware
-If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is running on 24V DC it's likely compatible.
+If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
 
 ### Firmware
 You can use Doorman S3 with your prefered Firmware.\
@@ -79,13 +79,14 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 - **b** is usually GND
 - **P** is the +24V line in 3-wire mode or just the apartment bell button in 2-wire mode
 
-> ✅ On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to fix that for you.\
+> ✅ On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to fix that for you.
 
 
 >⚠️ **BE AWARE**\
 > The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!\
 > However it is possible that some other devices using the 24V-wire are taking too much current so it's not sufficient to power Doorman anymore.\
 > A best case scenario would be that you can use the P-wire with 60mA. That doesn't work for everyone tho.\
+>
 > **Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your Intercom provides less than 60mA or whenever you notice an unstable operation.** 
 
 
@@ -113,10 +114,15 @@ If you use the ESPHome Doorman Firmware from this Repository, every received Com
 - **[Doorman by peteh](https://github.com/peteh/doorman)**\
 You can find a detailed explanation in the repository. It's kinda similar.
 
-<!--
-## Manufacturing
+## 🛠️ Manufacturing
 
--->
+TODO
+
+## 🖨️ Enclosure
+
+Depending on your needs you can print your own Doorman Enclosure.\
+Just use the STL files provided [here](https://github.com/AzonInc/Doorman/tree/master/enclosure).\
+<img src=".github/images/enclosure.png" alt="Doorman S3" height="275">
 
 ## ⚠️ Disclaimer
 
@@ -133,7 +139,7 @@ This project would not have been possible without all of them. ❤️
 
 **[TCSIntercomArduino](https://github.com/atc1441/TCSintercomArduino)**\
 Different Methods to read from and write to the TCS Bus.\
-Feel free to watch the [Reverse Engineering Video](https://www.youtube.com/watch?v=xFLoauqj9yA&t=11s) if you're interested.
+Feel free to watch the [Reverse Engineering Video](https://www.youtube.com/watch?v=xFLoauqj9yA) if you're interested.
 
 **[tcs-monitor](https://github.com/Syralist/tcs-monitor)**\
 An mqtt monitor for listening to the TCS Bus.\
