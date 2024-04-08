@@ -8600,9 +8600,9 @@
 		(at 227.33 97.79 180)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "18cc0e5c-85d5-48f7-8963-93c719d7b03b")
 		(property "Reference" "J10"
 			(at 225.298 96.52 0)
@@ -8955,6 +8955,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "0402"
+			(at 120.65 163.83 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "0213142e-edac-4b0d-89c8-535152549a15")
 		)
@@ -8975,9 +8984,9 @@
 		(at 224.79 44.45 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "34e1dab9-988b-48a3-bf2f-8318f9f12427")
 		(property "Reference" "J6"
 			(at 221.488 42.672 90)
@@ -9158,6 +9167,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "0402"
+			(at 139.7 31.75 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "640ba1d0-4e44-40c0-9d21-e264ef2e00b0")
 		)
@@ -9321,7 +9339,7 @@
 				)
 			)
 		)
-		(property "Value" "WS2812B Status LED"
+		(property "Value" "WS2812B"
 			(at 233.68 137.414 0)
 			(effects
 				(font
@@ -9764,9 +9782,9 @@
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "56b23f3f-fd53-406a-9d9b-7026de4d2bb2")
 		(property "Reference" "J3"
 			(at 222.758 27.432 90)
@@ -10078,6 +10096,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "0603"
+			(at 181.61 69.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5d398b08-a7d5-4a59-af2f-f16fa36b520f")
 		)
@@ -10110,7 +10137,7 @@
 				)
 			)
 		)
-		(property "Value" "Red Status LED"
+		(property "Value" "Red"
 			(at 239.776 121.412 0)
 			(effects
 				(font
@@ -10163,6 +10190,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "0603"
+			(at 240.03 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "f619b0cb-c414-4bf9-9cb1-f52e95ae6ff0")
 		)
@@ -10183,9 +10219,9 @@
 		(at 224.79 55.88 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "610c2502-9d72-4479-9204-9e51241cd178")
 		(property "Reference" "J7"
 			(at 221.488 54.102 90)
@@ -10441,7 +10477,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2.1A 3.9uH 磁胶屏蔽绕线电感 ±20% 3A SMD,4x4mm Power Inductors ROHS "
+		(property "Description" "2.1A 3.9uH ±20% 3A SMD,4x4x3mm  Power Inductors ROHS"
 			(at 190.5 67.31 0)
 			(effects
 				(font
@@ -10450,7 +10486,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C5363796"
+		(property "LCSC" "C96899"
 			(at 190.5 67.31 90)
 			(effects
 				(font
@@ -10468,34 +10504,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "APSWPA4030S3R9MTF"
-			(at 190.5 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 190.5 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 190.5 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
+		(property "MPN" "SWPA4030S3R9MT"
 			(at 190.5 67.31 0)
 			(effects
 				(font
@@ -10597,9 +10606,9 @@
 		(at 67.31 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "66f41d59-e5a3-4e8f-8f6c-d365e8eefce7")
 		(property "Reference" "U1"
 			(at 64.262 55.626 0)
@@ -10966,9 +10975,9 @@
 		(at 161.29 154.94 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "6c704195-daaa-457b-92ac-2bdf2cce4f29")
 		(property "Reference" "J11"
 			(at 163.83 156.21 0)
@@ -11147,6 +11156,15 @@
 		)
 		(property "Mouser Price/Stock" ""
 			(at 139.7 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0402"
+			(at 139.7 29.21 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11434,9 +11452,9 @@
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "70e9046f-dd86-4183-8d2f-35519aa0a120")
 		(property "Reference" "J2"
 			(at 171.45 29.2099 0)
@@ -11797,6 +11815,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "0603"
+			(at 204.47 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5807961c-42bf-40f2-b6c7-77918eb6f9c4")
 		)
@@ -12144,9 +12171,9 @@
 		(at 224.79 62.23 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "95877d2b-fe05-4a63-bbfc-4b78eb4e4a9c")
 		(property "Reference" "J8"
 			(at 221.488 60.452 90)
@@ -12733,9 +12760,9 @@
 		(at 224.79 39.37 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "a2ff12c4-3072-464f-b02b-14fdfd75b0ea")
 		(property "Reference" "J5"
 			(at 221.488 37.592 90)
@@ -13185,6 +13212,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "1206"
+			(at 148.59 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "06d74a52-71dd-4da2-a937-3f7d136d15b9")
 		)
@@ -13271,9 +13307,9 @@
 		(at 227.33 85.09 180)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "bc134f3f-eade-4c9c-9503-703a08b21ba4")
 		(property "Reference" "J9"
 			(at 224.79 83.82 0)
@@ -13947,8 +13983,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part" "C7435104"
-			(at 137.16 173.99 0)
+		(property "Package" "SOP-4"
+			(at 137.16 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14310,6 +14346,15 @@
 				(hide yes)
 			)
 		)
+		(property "Package" "0603"
+			(at 199.39 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9ff7f50c-6a7a-4bd1-bb7a-36e2c35b6a87")
 		)
@@ -14396,9 +14441,9 @@
 		(at 224.79 34.29 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "f3623ce4-341f-4811-b089-a69ea4b87258")
 		(property "Reference" "J4"
 			(at 221.488 32.512 90)
