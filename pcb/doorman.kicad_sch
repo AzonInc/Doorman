@@ -7972,7 +7972,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_USB:USB_C_Receptacle_Palconn_UTC16-G"
+		(property "Footprint" "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
 			(at 124.46 39.37 0)
 			(effects
 				(font
