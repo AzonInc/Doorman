@@ -8,7 +8,7 @@ esphome:
 
   project:
     name: "AzonInc.Doorman S3"
-    version: "1.0.0"
+    version: "1.2.0"
 
   on_boot:
     then:
@@ -42,7 +42,7 @@ esphome:
 # Board Setup
 esp32:
   board: esp32-s3-devkitc-1
-  flash_size: 16MB
+  flash_size: 8MB
 
 # Configurable Options
 substitutions:
