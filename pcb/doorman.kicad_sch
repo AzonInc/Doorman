@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3")
-		(date "2024-04-06")
-		(rev "1.2")
+		(date "2024-04-09")
+		(rev "1.3")
 		(comment 1 "TCS Intercom Gateway")
 	)
 	(lib_symbols
@@ -9573,7 +9573,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C137793"
+		(property "LCSC" "C22813"
 			(at 180.34 110.49 0)
 			(effects
 				(font
@@ -9582,7 +9582,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "RC0603FR-07160KL"
+		(property "MPN" "0603WAF1603T5E"
 			(at 180.34 110.49 0)
 			(effects
 				(font
@@ -9922,7 +9922,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C30926"
+		(property "LCSC" "C14663"
 			(at 30.48 34.29 0)
 			(effects
 				(font
@@ -9931,7 +9931,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603B104K500NT"
+		(property "MPN" "CC0603KRX7R9BB104"
 			(at 30.48 34.29 0)
 			(effects
 				(font
@@ -10051,7 +10051,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C30926"
+		(property "LCSC" "C14663"
 			(at 181.61 69.85 0)
 			(effects
 				(font
@@ -10060,7 +10060,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603B104K500NT"
+		(property "MPN" "CC0603KRX7R9BB104"
 			(at 181.61 69.85 0)
 			(effects
 				(font
@@ -14579,7 +14579,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C30926"
+		(property "LCSC" "C14663"
 			(at 80.01 34.29 0)
 			(effects
 				(font
@@ -14588,7 +14588,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603B104K500NT"
+		(property "MPN" "CC0603KRX7R9BB104"
 			(at 80.01 34.29 0)
 			(effects
 				(font
@@ -14694,7 +14694,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "100mW ±100ppm/℃ ±1% 1MΩ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "100mW Thick Film Resistors 75V ±100ppm/℃ ±1% 1MΩ 0603  Chip Resistor - Surface Mount ROHS"
 			(at 173.99 105.41 0)
 			(effects
 				(font
@@ -14703,7 +14703,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C136593"
+		(property "LCSC" "C22935"
 			(at 173.99 105.41 0)
 			(effects
 				(font
@@ -14712,7 +14712,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "RS-03K1004FT"
+		(property "MPN" "0603WAF1004T5E"
 			(at 173.99 105.41 0)
 			(effects
 				(font
@@ -14722,33 +14722,6 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 173.99 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 173.99 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 173.99 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
 			(at 173.99 105.41 0)
 			(effects
 				(font
