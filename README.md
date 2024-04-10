@@ -7,7 +7,9 @@
     <br>
 </h1>
 
-This repository contains the source files for the Doorman S3 Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) Intercom to any home automation system.
+This repository contains the source files for the Doorman S3 Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) Intercom to any home automation system.\
+However it's not limited to Koch and TCS intercoms only. Due to the integrated relais it's possible to emulate a button press to trigger a door opener (up to 40V, max 2.5A). And if your Intercom operates on a 2-wire bus (14-24V) it might be possible to implement other protocols as well.\
+You could also monitor the voltage level on older intercoms and trigger specific actions based on it.
 
 <!--
 ## 📦 Interested in buying one?
@@ -36,7 +38,7 @@ At the root of the repository you will find these directories:
 - It's super small (37.2mm x 35mm) and fits almost everywhere
 - Configurable WS2812B RGB LED to indicate specific events
 - 2 additional GPIO pins for easy expansion with your own sensors and devices
-- 1 Relay with exposed Pin Header to switch up to 40V (max. 2.5A)
+- 1 Relay to switch up to 40V (max. 2.5A) for an oldschool door opener
 - External Button Connector
 - TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
 - You can optionally use your Doorman as a Nuki Bridge replacement
