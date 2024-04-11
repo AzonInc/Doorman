@@ -1,4 +1,4 @@
-23164364342546968
+23167791786001586
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -55685,6 +55685,13 @@ CONN-TH_7P-P2.54_KF128-2.54-7P
 7
 7
 Doorman
+CONN-TH_9P-P2.54_KF128-2.54-9P
+
+
+0
+9
+9
+Doorman
 LED-SMD_4P-L2.0-W1.8_CY-0807
 
 
@@ -55770,6 +55777,13 @@ doorman5
 0
 Doorman
 esphome
+
+
+0
+0
+0
+Doorman
+esphome_big
 
 
 0
