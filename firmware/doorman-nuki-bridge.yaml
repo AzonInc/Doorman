@@ -81,3 +81,6 @@ lock:
           red: 100%
           green: 0%
           blue: 100%
+      - delay: 3s
+      - light.turn_off:
+          id: doorman_rgb_status_led

@@ -1,4 +1,4 @@
-23142112725160630
+23167791786001586
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -55664,19 +55664,61 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 10
 10
 Doorman
-CONV_TSR_1-2450
+CONN-TH_3P-P2.54_KF128-2.54-3P
 
 
 0
 3
 3
 Doorman
-IND_TCK-141_TRP
+CONN-TH_5P-P2.54_KF128-2.54-5P
 
-TCK-141 
+
 0
-2
-2
+5
+5
+Doorman
+CONN-TH_7P-P2.54_KF128-2.54-7P
+
+
+0
+7
+7
+Doorman
+CONN-TH_9P-P2.54_KF128-2.54-9P
+
+
+0
+9
+9
+Doorman
+LED-SMD_4P-L2.0-W1.8_CY-0807
+
+
+0
+4
+4
+Doorman
+SOP-4_L4.4-W4.0-P2.54-LS7.0-TL
+
+
+0
+4
+4
+Doorman
+SOP245P670X290-4N
+SOIC4 W CASE 751EP ISSUE O
+Integrated Circuit
+0
+4
+4
+Doorman
+SOT95P230X110-3N
+SOT23 (TO-236AB)
+Transistor
+0
+3
+3
 Doorman
 XL0807RGBCWS2812B
 2.0x1.8x0.80mm
@@ -55728,6 +55770,48 @@ doorman4
 0
 Doorman
 doorman5
+
+
+0
+0
+0
+Doorman
+esphome
+
+
+0
+0
+0
+Doorman
+esphome_big
+
+
+0
+0
+0
+Doorman
+esphome_border
+
+
+0
+0
+0
+Doorman
+mouse-bite-2mm-slot
+
+
+0
+0
+0
+Doorman
+mouse-bite-3mm-slot
+
+
+0
+0
+0
+Doorman
+mouse-bite-5mm-slot
 
 
 0
@@ -69846,6 +69930,13 @@ DFN NoLead 506AQ
 13
 9
 Package_DFN_QFN
+DFN-8-1EP_2x2mm_P0.5mm_EP0.7x1.3mm
+DFN, 8 Pin (https://www.onsemi.com/pub/Collateral/NUF4401MN-D.PDF#page=6), generated with kicad-footprint-generator ipc_noLead_generator.py
+DFN NoLead
+0
+13
+9
+Package_DFN_QFN
 DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.6mm
 DFN, 8 Pin (https://www.qorvo.com/products/d/da007268), generated with kicad-footprint-generator ipc_noLead_generator.py
 DFN NoLead
@@ -70198,6 +70289,13 @@ VDFN DFN 0.65mm
 Package_DFN_QFN
 DFN-14-1EP_3x4mm_P0.5mm_EP1.7x3.3mm
 DE Package; 14-Lead Plastic DFN (4mm x 3mm) (see Linear Technology DFN_14_05-08-1708.pdf)
+DFN 0.5
+0
+23
+15
+Package_DFN_QFN
+DFN-14-1EP_4x4mm_P0.5mm_EP2.86x3.6mm
+DFN14, 4x4, 0.5P; CASE 506CM (see ON Semiconductor 506CM.PDF)
 DFN 0.5
 0
 23
@@ -73324,6 +73422,13 @@ TI RNR0011A
 0
 20
 11
+Package_DFN_QFN
+Texas_VSON-HR-8_1.5x2mm_P0.5mm
+Texas  VSON-HR, 8 Pin (http://www.ti.com/lit/ds/symlink/tps62823.pdf#page=29), generated with kicad-footprint-generator ipc_noLead_generator.py
+Texas VSON-HR NoLead
+0
+8
+8
 Package_DFN_QFN
 Texas_WQFN-MR-100_3x3-DapStencil
 http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=szza059&fileType=pdf,http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=mpqf258&fileType=pdf,http://www.ti.com/general/docs/lit/getliterature.tsp?baseLiteratureNumber=LPPD235&fileType=pdf
@@ -83982,6 +84087,13 @@ Potentiometer_THT
 Potentiometer_Vishay_T73YP_Vertical
 Potentiometer, vertical, Vishay T73YP, http://www.vishay.com/docs/51016/t73.pdf
 Potentiometer vertical Vishay T73YP
+0
+3
+3
+ProLibrary_pcs_2024-04-02
+CONN-TH_3P-P2.54_KF128-2.54-3P
+
+
 0
 3
 3

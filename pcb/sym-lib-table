@@ -1,5 +1,7 @@
 (sym_lib_table
   (version 7)
   (lib (name "XL-0807RGBC-WS2812B")(type "KiCad")(uri "${KIPRJMOD}/symbols/XL-0807RGBC-WS2812B.kicad_sym")(options "")(descr ""))
-  (lib (name "TSR_1-2450")(type "KiCad")(uri "${KIPRJMOD}/symbols/TSR_1-2450.kicad_sym")(options "")(descr ""))
+  (lib (name "BC817")(type "KiCad")(uri "${KIPRJMOD}/symbols/BC817.kicad_sym")(options "")(descr ""))
+  (lib (name "easyeda2kicad")(type "KiCad")(uri "${KIPRJMOD}/symbols/easyeda2kicad.kicad_sym")(options "")(descr ""))
+  (lib (name "MB2S")(type "KiCad")(uri "${KIPRJMOD}/symbols/MB2S.kicad_sym")(options "")(descr ""))
 )

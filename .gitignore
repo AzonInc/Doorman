@@ -1,5 +1,6 @@
 doorman-backups
 manufacturing
+production
 *.lck
 *autosave*
 *auto_save*
