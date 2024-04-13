@@ -21,12 +21,12 @@ You could also monitor the voltage level on older intercoms (14-24V) by replacin
 
 I still have some PCBs left. They are fully assembled and tested and come with ESPHome pre-Installed for direct integration and adoption into Home Assistant.
 
-Feel free to contact me on [Discord](https://discord.gg/MMT4bxhQ68), [GitHub Issues](https://github.com/AzonInc/Doorman/issues) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
+Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf), [GitHub Issues](https://github.com/AzonInc/Doorman/issues) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 -->
 
 ## 📫 Have a question? Ran into a problem?
 
-I'm happy to answer your questions on [Discord](https://discord.gg/MMT4bxhQ68) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues).
+I'm happy to answer your questions on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues).
 
 ## 🚩 Repository Structure
 
@@ -40,13 +40,15 @@ At the root of the repository you will find these directories:
 
 - Powered by ESP32-S3
 - USB-C port for easy flashing (and because USB-C is cool 😎)
-- It's super small (37.2mm x 37.2mm) and fits almost everywhere
+- It's super small (37mm x 37mm) and fits almost everywhere
 - Configurable WS2812B RGB LED to indicate specific events
-- 2 additional GPIO Terminals for easy expansion with your own sensors and devices
-- 1 Relay Terminal to switch up to 40V (max. 2.5A)
-- 1 External Button Terminal
+- 2 additional GPIO via Screw Terminal for easy expansion with your own sensors and devices
+- 1 Relay via Screw Terminal to switch up to 40V (max. 2.5A) for oldschool intercom systems
+- 1 External Button via Screw Terminal (G + BTN)
+- Bridge Rectifier on the Bus Input to correct wire polarity
 - TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
-- You can optionally use your Doorman as a Nuki Bridge replacement
+- You can optionally use your Doorman as a Nuki Bridge (incompatible with Nuki App, Bluetooth only)
+
 
 ## 🚀 Automation
 

@@ -3228,88 +3228,6 @@
 				)
 			)
 		)
-		(symbol "Mechanical:MountingHole"
-			(pin_names
-				(offset 1.016)
-			)
-			(exclude_from_sim yes)
-			(in_bom no)
-			(on_board yes)
-			(property "Reference" "H"
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "MountingHole"
-				(at 0 3.175 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Mounting Hole without connection"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "mounting hole"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "MountingHole*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "MountingHole_0_1"
-				(circle
-					(center 0 0)
-					(radius 1.27)
-					(stroke
-						(width 1.27)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-		)
 		(symbol "RF_Module:ESP32-S3-WROOM-1"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -6225,16 +6143,6 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 76.2) (xy 234.95 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5379694e-fc09-4504-8bef-7dd591062bd0")
-	)
-	(wire
-		(pts
 			(xy 137.16 39.37) (xy 135.89 39.37)
 		)
 		(stroke
@@ -6272,6 +6180,16 @@
 			(type default)
 		)
 		(uuid "560e646f-7fb5-44fd-9292-5f605fa176f1")
+	)
+	(wire
+		(pts
+			(xy 228.6 78.74) (xy 234.95 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58ee6710-9d35-4c79-b574-e992d0800429")
 	)
 	(polyline
 		(pts
@@ -6565,6 +6483,16 @@
 	)
 	(wire
 		(pts
+			(xy 245.11 78.74) (xy 242.57 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "933c883a-bc02-440b-93c8-eee1c581d936")
+	)
+	(wire
+		(pts
 			(xy 24.13 69.85) (xy 24.13 68.58)
 		)
 		(stroke
@@ -6773,6 +6701,16 @@
 		)
 		(uuid "bab82c84-5e0e-4615-a067-c254258b61ff")
 	)
+	(wire
+		(pts
+			(xy 242.57 71.12) (xy 228.6 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb63ec1c-7cac-454c-aa20-34c32f0292bb")
+	)
 	(polyline
 		(pts
 			(xy 16.51 135.89) (xy 16.51 160.02)
@@ -6922,16 +6860,6 @@
 			(type default)
 		)
 		(uuid "da9ca6b7-feaf-4fe9-8888-855c408364f3")
-	)
-	(wire
-		(pts
-			(xy 242.57 76.2) (xy 245.11 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db0fad47-25a2-4502-b533-e0bcda864327")
 	)
 	(polyline
 		(pts
@@ -7346,6 +7274,28 @@
 			)
 		)
 	)
+	(global_label "IO48"
+		(shape input)
+		(at 228.6 73.66 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "052d9019-78b1-43fd-9761-b7840344bf9d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 235.9395 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "IO9"
 		(shape input)
 		(at 52.07 91.44 180)
@@ -7456,9 +7406,9 @@
 			)
 		)
 	)
-	(global_label "IO48"
+	(global_label "IO40"
 		(shape input)
-		(at 228.6 71.12 0)
+		(at 228.6 76.2 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7468,7 +7418,7 @@
 		)
 		(uuid "2d30e6d3-b47d-4fb2-9e1e-ec903f93e088")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 235.9395 71.12 0)
+			(at 235.9395 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7610,9 +7560,9 @@
 			)
 		)
 	)
-	(global_label "IO40"
+	(global_label "IO41"
 		(shape input)
-		(at 228.6 73.66 0)
+		(at 245.11 78.74 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7622,7 +7572,7 @@
 		)
 		(uuid "508401b2-1fcb-4398-9ad9-307af73c3127")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 235.9395 73.66 0)
+			(at 252.4495 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8178,28 +8128,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "IO41"
-		(shape input)
-		(at 228.6 78.74 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "da693f3d-de05-4d55-87e5-2e975cd23344")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 235.9395 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -10095,7 +10023,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 245.11 76.2 0)
+		(at 242.57 71.12 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10103,7 +10031,7 @@
 		(dnp no)
 		(uuid "53f15d83-4be4-4a7b-a706-179d30d6959a")
 		(property "Reference" "#PWR031"
-			(at 245.11 82.55 0)
+			(at 248.92 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10112,7 +10040,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 245.11 74.93 0)
+			(at 247.904 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10120,7 +10048,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 245.11 76.2 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10129,7 +10057,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 245.11 76.2 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10138,7 +10066,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 245.11 76.2 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11046,7 +10974,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 238.76 76.2 90)
+		(at 238.76 78.74 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11054,7 +10982,7 @@
 		(dnp no)
 		(uuid "6abe03b1-1e8a-4103-8bce-57ec6bdf271c")
 		(property "Reference" "R8"
-			(at 240.03 74.168 90)
+			(at 240.03 76.708 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11063,7 +10991,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 240.538 76.2 90)
+			(at 240.284 78.74 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11072,7 +11000,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 238.76 77.978 90)
+			(at 238.76 80.518 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11081,7 +11009,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11090,7 +11018,7 @@
 			)
 		)
 		(property "Description" "100mW Thick Film Resistors ±100ppm/℃ ±1% 10kΩ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11099,7 +11027,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11108,7 +11036,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11117,7 +11045,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11126,7 +11054,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11135,7 +11063,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11144,7 +11072,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 238.76 76.2 0)
+			(at 238.76 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11864,7 +11792,7 @@
 	)
 	(symbol
 		(lib_id "power:+24V")
-		(at 245.11 63.5 180)
+		(at 245.11 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11872,7 +11800,7 @@
 		(dnp no)
 		(uuid "812d0ab9-ba6c-485d-b95a-994d62bfc1b2")
 		(property "Reference" "#PWR022"
-			(at 245.11 59.69 0)
+			(at 245.11 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11881,7 +11809,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 245.11 68.072 0)
+			(at 245.11 58.928 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13275,70 +13203,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR02")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Mechanical:MountingHole")
-		(at 22.86 173.99 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "c4d9f291-0dd9-476b-968e-e060d0491688")
-		(property "Reference" "H1"
-			(at 25.4 172.7199 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "MountingHole"
-			(at 25.4 175.2599 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_DIN965_Pad"
-			(at 22.86 173.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 22.86 173.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Mounting Hole without connection"
-			(at 22.86 173.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "H1")
 					(unit 1)
 				)
 			)
