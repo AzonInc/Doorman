@@ -90,7 +90,6 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 
 > ✅ On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to handles that for you.
 
-
 >⚠️ **BE AWARE**\
 > The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!\
 > However it is possible that some other devices using the 24V-wire are taking too much current so it's not sufficient to power Doorman anymore.\
@@ -98,16 +97,39 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 >
 > **Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your intercoms power supply provides less than 60mA or whenever you notice an unstable operation.** 
 
-
-### Steps:
 >⚠️ **DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
+
+### Possible Wiring:
 #### 2-Wire Mode (with external Power Supply)
+<img src=".github/images/wiring_2wire_power_screwterminal.png" alt="2 Wire Installation" height="275">
+
+>⚠️ Please check the polarity of a- and b-wires as the bridge rectifier can only handle two wires but not three.
+> Be sure to connect the ground wire of your external power supply to the same Screw Terminal as the ground wire that comes from your intercom.
+
 1. Open the Intercom enclosure
 2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
 3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
 4. Connect an external Power Supply via USB-C Port or P (+5V to +30V) and b (Ground) Screw Terminals of your Doorman
 
+#### 2-Wire Mode (with external Power Supply via USB-C)
+<img src=".github/images/wiring_2wire_power_usb_c.png" alt="2 Wire Installation" height="275">
+
+1. Open the Intercom enclosure
+2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
+3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
+4. Connect an external Power Supply via USB-C Port
+
+#### 2-Wire Mode (with power via a-Terminal)
+<img src=".github/images/wiring_2wire_power_a_terminal.png" alt="2 Wire Installation" height="275">
+
+1. Open the Intercom enclosure
+2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
+3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
+4. Connect the a-wire (24V Bus) to the P-Terminal of your Doorman
+
 #### 3-Wire Mode (with sufficient Intercom Power Supply - min. 60mA)
+<img src=".github/images/wiring_3wire.png" alt="3 Wire Installation" height="275">
+
 1. Open the Intercom enclosure
 2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
 3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
