@@ -12970,7 +12970,7 @@
 		)
 	)
 	(gr_text "ESP32-S3\nWROOM-1"
-		(at 144 87.69 0)
+		(at 144.85 87.6 0)
 		(layer "F.SilkS" knockout)
 		(uuid "a5be0dde-45ac-4e2c-bda1-7141375f062a")
 		(effects
