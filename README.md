@@ -122,6 +122,8 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 #### 2-Wire Mode (with power via a-Terminal)
 <img src=".github/images/wiring_2wire_power_a_terminal.png" alt="2 Wire Installation" height="275">
 
+>⚠️ Only applicable to hardware revision 1.4
+
 1. Open the Intercom enclosure
 2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
 3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
