@@ -10676,9 +10676,9 @@
 		(at 67.31 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "66f41d59-e5a3-4e8f-8f6c-d365e8eefce7")
 		(property "Reference" "U1"
 			(at 64.262 55.626 0)
@@ -10735,42 +10735,6 @@
 			)
 		)
 		(property "MPN" "ESP32-S3-WROOM-1-N16R2"
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
 			(at 67.31 86.36 0)
 			(effects
 				(font
