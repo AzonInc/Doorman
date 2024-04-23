@@ -4,4 +4,5 @@
   (lib (name "BC817")(type "KiCad")(uri "${KIPRJMOD}/symbols/BC817.kicad_sym")(options "")(descr ""))
   (lib (name "easyeda2kicad")(type "KiCad")(uri "${KIPRJMOD}/symbols/easyeda2kicad.kicad_sym")(options "")(descr ""))
   (lib (name "MB2S")(type "KiCad")(uri "${KIPRJMOD}/symbols/MB2S.kicad_sym")(options "")(descr ""))
+  (lib (name "2450AT18D0100E")(type "KiCad")(uri "${KIPRJMOD}/symbols/2450AT18D0100E.kicad_sym")(options "")(descr ""))
 )
