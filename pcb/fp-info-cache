@@ -1,4 +1,4 @@
-23243207979596699
+23244921845503644
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -55691,6 +55691,13 @@ CONN-TH_9P-P2.54_KF128-2.54-9P
 0
 9
 9
+Doorman
+CRYSTAL-SMD_4P-L2.0-W1.6-BL_HUAXIN_CN4
+
+
+0
+4
+4
 Doorman
 DFN320X160X120-4RN
 
