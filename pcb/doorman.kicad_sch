@@ -8489,7 +8489,7 @@
 			)
 		)
 	)
-	(global_label "BUS_WIRE2"
+	(global_label "BUS_WIRE1"
 		(shape input)
 		(at 254 55.88 0)
 		(fields_autoplaced yes)
@@ -8621,7 +8621,7 @@
 			)
 		)
 	)
-	(global_label "IO17"
+	(global_label "IO16"
 		(shape input)
 		(at 254 63.5 0)
 		(fields_autoplaced yes)
@@ -8929,7 +8929,7 @@
 			)
 		)
 	)
-	(global_label "IO16"
+	(global_label "IO17"
 		(shape input)
 		(at 270.51 66.04 0)
 		(fields_autoplaced yes)
@@ -9149,7 +9149,7 @@
 			)
 		)
 	)
-	(global_label "BUS_WIRE1"
+	(global_label "BUS_WIRE2"
 		(shape input)
 		(at 254 53.34 0)
 		(fields_autoplaced yes)
@@ -9237,7 +9237,7 @@
 			)
 		)
 	)
-	(global_label "RELAIS1_WIRE1"
+	(global_label "RELAIS1_WIRE2"
 		(shape input)
 		(at 254 71.12 0)
 		(fields_autoplaced yes)
@@ -9435,7 +9435,7 @@
 			)
 		)
 	)
-	(global_label "RELAIS1_WIRE2"
+	(global_label "RELAIS1_WIRE1"
 		(shape input)
 		(at 254 68.58 0)
 		(fields_autoplaced yes)
