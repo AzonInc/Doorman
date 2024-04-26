@@ -8379,7 +8379,7 @@
 			)
 		)
 	)
-	(global_label "IO5"
+	(global_label "IO42"
 		(shape input)
 		(at 254 60.96 0)
 		(fields_autoplaced yes)
@@ -8391,7 +8391,7 @@
 		)
 		(uuid "052d9019-78b1-43fd-9761-b7840344bf9d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 260.13 60.96 0)
+			(at 261.3395 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8621,7 +8621,7 @@
 			)
 		)
 	)
-	(global_label "IO16"
+	(global_label "IO8"
 		(shape input)
 		(at 254 63.5 0)
 		(fields_autoplaced yes)
@@ -8633,7 +8633,7 @@
 		)
 		(uuid "2d30e6d3-b47d-4fb2-9e1e-ec903f93e088")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 261.3395 63.5 0)
+			(at 260.13 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8731,7 +8731,7 @@
 			)
 		)
 	)
-	(global_label "IO9"
+	(global_label "IO5"
 		(shape input)
 		(at 124.46 123.19 180)
 		(fields_autoplaced yes)
@@ -8929,7 +8929,7 @@
 			)
 		)
 	)
-	(global_label "IO17"
+	(global_label "IO9"
 		(shape input)
 		(at 270.51 66.04 0)
 		(fields_autoplaced yes)
@@ -8941,7 +8941,7 @@
 		)
 		(uuid "508401b2-1fcb-4398-9ad9-307af73c3127")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 277.8495 66.04 0)
+			(at 276.64 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8995,7 +8995,7 @@
 			)
 		)
 	)
-	(global_label "IO8"
+	(global_label "IO2"
 		(shape input)
 		(at 229.87 138.43 0)
 		(fields_autoplaced yes)
@@ -9127,7 +9127,7 @@
 			)
 		)
 	)
-	(global_label "IO42"
+	(global_label "IO3"
 		(shape input)
 		(at 181.61 124.46 90)
 		(fields_autoplaced yes)
@@ -9139,7 +9139,7 @@
 		)
 		(uuid "84fc7f8a-132f-4cad-9136-596e02e66237")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 181.61 117.1205 90)
+			(at 181.61 118.33 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15530,7 +15530,7 @@
 				)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 248.92 26.67 0)
 			(effects
 				(font
@@ -17936,7 +17936,7 @@
 				)
 			)
 		)
-		(property "Footprint" "TestPoint:TestPoint_THTPad_D1.0mm_Drill0.5mm"
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
 			(at 248.92 21.59 0)
 			(effects
 				(font
