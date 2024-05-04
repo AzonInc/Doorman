@@ -89,7 +89,10 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 - **b** is usually GND
 - **P** is the +24V line in 3-wire mode or just the apartment bell button in 2-wire mode
 
-> ✅ On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to handles that for you.
+
+> [!NOTE]
+> On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to handles that for you.
+> However if you want to power your Doorman in two-wire-mode using the bus wire it's only possible with hardware revision >= V1.4.
 
 > [!WARNING]
 > The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!\
@@ -98,7 +101,7 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 >
 > **Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your intercoms power supply provides less than 60mA or whenever you notice an unstable operation.** 
 
-> [!IMPORTANT]
+> [!CAUTION]
 > **DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
 
 ### Possible Wiring:

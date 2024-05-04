@@ -6,9 +6,9 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3")
-		(date "2024-04-16")
+		(date "2024-05-04")
 		(rev "1.4")
-		(comment 1 "TCS Intercom Gateway")
+		(comment 1 "TCS/Koch Intercom Gateway")
 	)
 	(lib_symbols
 		(symbol "+3.3V_1"
@@ -5730,12 +5730,6 @@
 		(uuid "3517e888-0503-4ed9-8a10-f75df789322c")
 	)
 	(junction
-		(at 120.65 62.23)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "47bcf192-e95f-49f6-a8dd-3db45bf7fe86")
-	)
-	(junction
 		(at 148.59 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6690,16 +6684,6 @@
 			(type default)
 		)
 		(uuid "b90593b6-ed22-4e2c-aea5-d388dd8ba9b0")
-	)
-	(wire
-		(pts
-			(xy 113.03 62.23) (xy 120.65 62.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ba1c0278-74d3-4e09-91c5-9f667312ba41")
 	)
 	(polyline
 		(pts
@@ -13976,6 +13960,72 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR07")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_7")
+		(lib_id "power:GND")
+		(at 113.03 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e777a74b-bccf-447f-9ebc-6f6bb46e801a")
+		(property "Reference" "#PWR034"
+			(at 113.03 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 113.03 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 113.03 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 113.03 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 113.03 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "60c62619-425f-4314-8dd6-2afb248e4201")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
