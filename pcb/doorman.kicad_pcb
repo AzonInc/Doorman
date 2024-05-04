@@ -15844,6 +15844,30 @@
 			(justify left bottom)
 		)
 	)
+	(gr_text "PCB3D_BR_DoormanS3"
+		(at 162.28033 114.805 0)
+		(layer "Dwgs.User")
+		(uuid "0363972a-f5aa-474e-a13d-e659af7ba156")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "PCB3D_TL_DoormanS3"
+		(at 126.18033 76.255 0)
+		(layer "Dwgs.User")
+		(uuid "cd65a604-3ff3-4f4b-9005-1254987d554e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
 	(gr_text "JLCJLCJLCJLC"
 		(at 166.4 90.6 -90)
 		(layer "Dwgs.User")
