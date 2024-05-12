@@ -626,7 +626,7 @@
           "group_by": false,
           "label": "Beschreibung",
           "name": "Description",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
@@ -735,7 +735,7 @@
       "group_symbols": false,
       "name": "",
       "sort_asc": true,
-      "sort_field": "Reference"
+      "sort_field": "LCSC"
     },
     "connection_grid_size": 50.0,
     "drawing": {

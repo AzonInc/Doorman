@@ -1,0 +1,44 @@
+name: pcb_image
+on:
+  push:
+jobs:
+  render-image:
+    name: render-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: render pcb image
+        uses: linalinn/kicad-render@main
+        with:
+          pcb_file: pcb/doorman.kicad_pcb
+          output_path: ${{ github.workspace }}/images
+        
+      - name: Setup Pages
+        if: github.ref == 'refs/heads/master'
+        uses: actions/configure-pages@v3
+
+      - name: Upload Artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "images"
+
+  deploy-pages:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    needs: render-image
+      
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
