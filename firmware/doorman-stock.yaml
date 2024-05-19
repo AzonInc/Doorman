@@ -17,3 +17,6 @@ dashboard_import:
 
 packages:
   device_base: !include base.yaml
+
+esp32_improv:
+  authorizer: none
