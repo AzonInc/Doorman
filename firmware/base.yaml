@@ -15,9 +15,9 @@ esphome:
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: pulse
-          red: 100%
-          green: 50%
-          blue: 0%
+          red: 0%
+          green: 56%
+          blue: 52%
       - wait_until:
           condition:
             wifi.connected:
@@ -25,7 +25,7 @@ esphome:
           id: doorman_rgb_status_led
           effect: slow_pulse
           red: 0%
-          green: 20%
+          green: 30%
           blue: 100%
       - wait_until:
           condition:
@@ -34,7 +34,7 @@ esphome:
           id: doorman_rgb_status_led
           effect: none
           red: 0%
-          green: 20%
+          green: 30%
           blue: 100%
       - delay: 3s
       - script.execute: reset_led
@@ -82,7 +82,7 @@ ota:
 wifi:
   ap:
     ssid: "Doorman-S3 Setup"
-    password: "opensesame"
+    password: "open-sesame"
 
 captive_portal:
 
@@ -161,7 +161,7 @@ light:
     chipset: ws2812
     gamma_correct: 1
     default_transition_length: 0ms
-    color_correct: [65%, 65%, 65%]
+    color_correct: [50%, 50%, 50%]
     effects:
       - pulse:
           name: pulse
@@ -173,8 +173,8 @@ light:
           update_interval: 2s
       - pulse:
           name: slow_partymode
-          transition_length: 2s
-          update_interval: 2s
+          transition_length: 3s
+          update_interval: 3s
 
 binary_sensor:
   - platform: status
