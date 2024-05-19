@@ -81,6 +81,7 @@ ota:
 
 wifi:
   ap:
+    ssid: "Doorman-S3 Setup"
     password: "opensesame"
 
 captive_portal:
