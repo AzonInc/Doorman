@@ -70,6 +70,7 @@ lock:
           green: 0%
           blue: 100%
           effect: pulse
+          brightness: 60%
 
     on_pairing_mode_off_action:
       - light.turn_off:
@@ -81,6 +82,7 @@ lock:
           red: 100%
           green: 0%
           blue: 100%
+          brightness: 60%
       - delay: 3s
       - light.turn_off:
           id: doorman_rgb_status_led
