@@ -11,19 +11,20 @@ This repository contains the source files for the Doorman S3 Intercom Gateway, a
 There are also some rebranded [Niko](https://www.niko.eu/) intercoms which are counterparts of the TCS and Koch ones.
 
 However it's not limited to these intercoms only.
-With the integrated relais you can easily simulate a button press to trigger the door opener or the light (up to 40V, max 2.5A).
+With the integrated relay you can easily simulate a button press to trigger the door opener or the light (up to 40V, max 2.5A).
 
 If your intercom is not a TCS or Koch one but operates on a 2-wire bus within the 14-24V range it might be possible to implement other protocols as well.
 
 You could also monitor the voltage level on older intercoms (14-24V) by replacing the tcs_intercom component with a template Binary Sensor combined with ADC and trigger specific actions based on it.
 
-<!--
+Thanks a lot to PCBWay for sponsoring this Project.
+Scroll down to "Manufacturing" to read more.
+
 ## 📦 Interested in buying one?
 
-I still have some PCBs left. They are fully assembled and tested and come with ESPHome pre-Installed for direct integration and adoption into Home Assistant.
-
 Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf), [GitHub Issues](https://github.com/AzonInc/Doorman/issues) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
--->
+
+I offer you a fully assembled and tested Doorman-S3 for **26€** which comes with ESPHome pre-Installed for direct integration and adoption into Home Assistant.
 
 ## 📫 Have a question? Ran into a problem?
 
@@ -156,7 +157,18 @@ You can find a detailed explanation in the repository. It's kinda similar.
 
 ## 🛠️ Manufacturing
 
-TODO
+<img src=".github/images/pcbway_delivery.png" alt="PCBWay Delivery" height="275">
+
+I didnt know which pcb manufacturer is good but fortunately PCBWay reached out to me and offered to sponsor PCB fabrication.\
+Well... I'm more than satisified with the quality, especially the nice colors. Everything looks clean and part sourcing was an ease. They also sent me two more unpopulated PCBs extra.
+I soldered the ESP Modules using a heating plate myself because I still had ESP32 Modules at home.
+
+It was really easy to get in touch with them and whenever there rised a question they didn't hesitate to ask.
+A special thanks goes to Liam and Lynne for supporting me throughout the entire process. Even tho I made a lot of changes they were always very patient with me. It was a pleasure working with you guys.
+
+If you need a good quality one stop manufacturer I can definitely recommend PCBWay :)
+
+You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
 
 ## 🖨️ Enclosure
 
