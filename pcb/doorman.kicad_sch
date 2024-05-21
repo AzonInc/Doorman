@@ -6,9 +6,9 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3")
-		(date "2024-04-09")
-		(rev "1.3")
-		(comment 1 "TCS Intercom Gateway")
+		(date "2024-05-04")
+		(rev "1.4")
+		(comment 1 "TCS/Koch Intercom Gateway")
 	)
 	(lib_symbols
 		(symbol "+3.3V_1"
@@ -5730,12 +5730,6 @@
 		(uuid "3517e888-0503-4ed9-8a10-f75df789322c")
 	)
 	(junction
-		(at 120.65 62.23)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "47bcf192-e95f-49f6-a8dd-3db45bf7fe86")
-	)
-	(junction
 		(at 148.59 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6323,13 +6317,23 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 67.31) (xy 139.7 67.31)
+			(xy 137.16 63.5) (xy 139.7 63.5)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "7679b903-ed1b-4c06-b0d9-26579bf87a8a")
+	)
+	(wire
+		(pts
+			(xy 125.73 63.5) (xy 129.54 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "774354b1-89d0-4733-8044-884d7dbf82ba")
 	)
 	(polyline
 		(pts
@@ -6423,13 +6427,13 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 64.77) (xy 139.7 67.31)
+			(xy 139.7 63.5) (xy 139.7 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "84e0b834-24b6-4f19-8eb7-ef4d51c792a8")
+		(uuid "85e3be67-37c8-4b77-abd9-c74f76afb2e0")
 	)
 	(polyline
 		(pts
@@ -6681,16 +6685,6 @@
 		)
 		(uuid "b90593b6-ed22-4e2c-aea5-d388dd8ba9b0")
 	)
-	(wire
-		(pts
-			(xy 113.03 62.23) (xy 120.65 62.23)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ba1c0278-74d3-4e09-91c5-9f667312ba41")
-	)
 	(polyline
 		(pts
 			(xy 16.51 16.51) (xy 105.41 16.51)
@@ -6751,6 +6745,16 @@
 		)
 		(uuid "c2901212-cd24-4588-849e-dfc3a14c9e81")
 	)
+	(wire
+		(pts
+			(xy 125.73 67.31) (xy 129.54 67.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c7dd0aed-c468-4611-9583-29a9b6517987")
+	)
 	(polyline
 		(pts
 			(xy 16.51 160.02) (xy 105.41 160.02)
@@ -6810,16 +6814,6 @@
 			(type default)
 		)
 		(uuid "cdaccb32-1886-4e5a-a670-39e7d8e7e7b0")
-	)
-	(wire
-		(pts
-			(xy 128.27 64.77) (xy 128.27 67.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ce8639b2-8875-4710-85fe-0cbcf5664942")
 	)
 	(wire
 		(pts
@@ -6953,13 +6947,13 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 67.31) (xy 129.54 67.31)
+			(xy 137.16 67.31) (xy 139.7 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f8a1745c-4fb3-41ab-bc34-d439b683ec95")
+		(uuid "f93a12bd-9c81-468a-b49d-b5322c263de9")
 	)
 	(polyline
 		(pts
@@ -9407,71 +9401,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+24V")
-		(at 139.7 64.77 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "3e3bb12b-586f-43f1-b25c-57b90f5cf17e")
-		(property "Reference" "#PWR014"
-			(at 139.7 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VCC"
-			(at 139.7 60.198 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 139.7 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 139.7 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 139.7 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "46524105-876b-427d-9ce6-48725fcc77b9")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR014")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
 		(at 186.69 129.54 0)
@@ -9867,19 +9796,19 @@
 		(dnp no)
 		(uuid "4fae9448-1c51-4519-82ce-53e94a86f043")
 		(property "Reference" "C3"
-			(at 132.334 72.644 0)
+			(at 143.002 73.914 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
 		)
 		(property "Value" "470uF"
-			(at 132.334 75.184 0)
+			(at 140.462 75.692 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -10731,9 +10660,9 @@
 		(at 67.31 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "66f41d59-e5a3-4e8f-8f6c-d365e8eefce7")
 		(property "Reference" "U1"
 			(at 64.262 55.626 0)
@@ -10790,42 +10719,6 @@
 			)
 		)
 		(property "MPN" "ESP32-S3-WROOM-1-N16R2"
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 67.31 86.36 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
 			(at 67.31 86.36 0)
 			(effects
 				(font
@@ -10982,10 +10875,10 @@
 		(dnp no)
 		(uuid "6abe03b1-1e8a-4103-8bce-57ec6bdf271c")
 		(property "Reference" "R8"
-			(at 240.03 76.708 90)
+			(at 239.776 76.962 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -12019,6 +11912,71 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+24V")
+		(at 125.73 67.31 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8cb49e7f-5046-4a33-9d00-3996e73a5190")
+		(property "Reference" "#PWR014"
+			(at 125.73 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VCC"
+			(at 125.73 71.882 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"VCC\""
+			(at 125.73 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e921a3a8-5845-4574-aa95-b464e2368448")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR014")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 69.85 149.86 0)
 		(unit 1)
@@ -12213,7 +12171,7 @@
 	)
 	(symbol
 		(lib_id "Diode:1N5819WS")
-		(at 133.35 67.31 180)
+		(at 133.35 63.5 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12221,15 +12179,202 @@
 		(dnp no)
 		(uuid "97243824-64b8-4025-a546-750241a9b759")
 		(property "Reference" "D1"
-			(at 133.35 64.516 0)
+			(at 133.35 59.436 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "1N5819WS"
+			(at 133.604 60.96 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-323"
+			(at 133.35 59.055 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2204281430_Guangdong-Hottech-1N5819WS_C191023.pdf"
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "40V Single 350mA 600mV@200mA SOD-323  Schottky Barrier Diodes (SBD) ROHS"
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C5451629"
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SOD-323"
+			(at 133.35 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "1N5819WS"
+			(at 133.35 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "48931e88-20d5-49a5-94bf-627def4334ca")
+		)
+		(pin "2"
+			(uuid "931a3882-6cdc-4eae-ac77-d5aa913f2f9c")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 22.86 149.86 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9a06001a-3c4d-429f-98c5-63cc302ebb19")
+		(property "Reference" "#PWR01"
+			(at 22.86 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 22.86 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
+		(property "Footprint" ""
+			(at 22.86 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 22.86 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 22.86 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "298fec42-9893-4028-b91b-1ee05dfaff87")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N5819WS")
+		(at 133.35 67.31 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9a754817-228f-476f-b785-d4e7d9654536")
+		(property "Reference" "D5"
+			(at 133.35 71.374 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
 		(property "Value" "1N5819WS"
-			(at 133.35 69.596 0)
+			(at 133.35 69.85 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12318,81 +12463,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "48931e88-20d5-49a5-94bf-627def4334ca")
+			(uuid "18e1ad88-43c1-459d-97de-1295914c434f")
 		)
 		(pin "2"
-			(uuid "931a3882-6cdc-4eae-ac77-d5aa913f2f9c")
+			(uuid "f968b08c-c3c5-40e0-b6b7-d45a9901bc38")
 		)
 		(instances
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "D1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 22.86 149.86 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "9a06001a-3c4d-429f-98c5-63cc302ebb19")
-		(property "Reference" "#PWR01"
-			(at 22.86 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+5V"
-			(at 22.86 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 22.86 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 22.86 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 22.86 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "298fec42-9893-4028-b91b-1ee05dfaff87")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR01")
+					(reference "D5")
 					(unit 1)
 				)
 			)
@@ -12959,13 +13038,12 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "b2c18b44-7c81-438f-a299-8fe37b1f439a")
 		(property "Reference" "C4"
-			(at 151.13 72.3962 0)
+			(at 151.13 73.152 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -12974,7 +13052,7 @@
 			(at 151.13 74.9362 0)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -13210,7 +13288,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 128.27 64.77 0)
+		(at 125.73 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13218,7 +13296,7 @@
 		(dnp no)
 		(uuid "ce3d22c5-f753-4afb-9865-f51fd0aa1d50")
 		(property "Reference" "#PWR013"
-			(at 128.27 68.58 0)
+			(at 125.73 67.31 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13227,7 +13305,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 126.492 60.706 0)
+			(at 123.952 59.436 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13236,7 +13314,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 128.27 64.77 0)
+			(at 125.73 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13245,7 +13323,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 128.27 64.77 0)
+			(at 125.73 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13254,7 +13332,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 128.27 64.77 0)
+			(at 125.73 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13882,6 +13960,72 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR07")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_7")
+		(lib_id "power:GND")
+		(at 113.03 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e777a74b-bccf-447f-9ebc-6f6bb46e801a")
+		(property "Reference" "#PWR034"
+			(at 113.03 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 113.03 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 113.03 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 113.03 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 113.03 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "60c62619-425f-4314-8dd6-2afb248e4201")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)

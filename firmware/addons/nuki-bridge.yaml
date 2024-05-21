@@ -5,7 +5,7 @@ esphome:
   - https://github.com/AzonInc/NukiBleEsp32
 
 external_components:
-  - source: github://AzonInc/ESPHome_nuki_lock@master
+  - source: github://AzonInc/ESPHome_nuki_lock@main
 
 # Pairing Mode
 binary_sensor:
