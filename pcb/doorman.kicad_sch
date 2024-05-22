@@ -11190,7 +11190,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2.4pF"
+		(property "Value" "4.9pF"
 			(at 48.006 156.718 0)
 			(effects
 				(font
@@ -11217,7 +11217,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "50V 2.4pF C0G 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
+		(property "Description" "50V 4.9pF NP0 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
 			(at 45.72 156.21 0)
 			(effects
 				(font
@@ -11226,7 +11226,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C48346"
+		(property "LCSC" "C1855285"
 			(at 45.72 156.21 0)
 			(effects
 				(font
@@ -11235,7 +11235,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402CG2R4C500NT"
+		(property "MPN" "CQ0402BRNPO9BN4R9"
 			(at 45.72 156.21 0)
 			(effects
 				(font
@@ -12646,7 +12646,7 @@
 				)
 			)
 		)
-		(property "Value" "2.4nH"
+		(property "Value" "1.8nH"
 			(at 39.37 149.606 90)
 			(effects
 				(font
@@ -12672,7 +12672,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "850mA 2.4nH 110mΩ 0402 Inductors (SMD) ROHS"
+		(property "Description" "460mA 1.8nH 0402 Power Inductors ROHS "
 			(at 39.37 151.13 0)
 			(effects
 				(font
@@ -12681,7 +12681,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C97997"
+		(property "LCSC" "C703123"
 			(at 39.37 151.13 90)
 			(effects
 				(font
@@ -12690,7 +12690,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "LQG15HS2N4S02D"
+		(property "MPN" "LQW15AN1N8C00D"
 			(at 39.37 151.13 90)
 			(effects
 				(font
@@ -15792,7 +15792,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10pF"
+		(property "Value" "14pF"
 			(at 135.382 98.044 0)
 			(effects
 				(font
@@ -15819,7 +15819,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "50V 10pF C0G ±5% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "50V 14pF C0G ±5% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
 			(at 133.35 96.52 0)
 			(effects
 				(font
@@ -15828,7 +15828,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C32949"
+		(property "LCSC" "C3037644"
 			(at 133.35 96.52 0)
 			(effects
 				(font
@@ -15837,7 +15837,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05C100JB5NNNC"
+		(property "MPN" "0402CG140J500NT"
 			(at 133.35 96.52 0)
 			(effects
 				(font
@@ -18206,7 +18206,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2.7pF"
+		(property "Value" "3.9pF"
 			(at 37.846 156.718 0)
 			(effects
 				(font
@@ -18233,7 +18233,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "50V 2.7pF C0G 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
+		(property "Description" "50V 3.9pF C0G 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
 			(at 35.56 156.21 0)
 			(effects
 				(font
@@ -18242,7 +18242,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1561"
+		(property "LCSC" "C1566"
 			(at 35.56 156.21 0)
 			(effects
 				(font
@@ -18251,7 +18251,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402CG2R7C500NT"
+		(property "MPN" "0402CG3R9C500NT"
 			(at 35.56 156.21 0)
 			(effects
 				(font
@@ -18372,7 +18372,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "a71e1857-3481-4437-b79e-c9d9ea1c877d")
 		(property "Reference" "AE1"
@@ -20531,7 +20531,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10pF"
+		(property "Value" "14pF"
 			(at 141.986 97.79 0)
 			(effects
 				(font
@@ -20558,7 +20558,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "50V 10pF C0G ±5% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "50V 14pF C0G ±5% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
 			(at 148.59 96.52 0)
 			(effects
 				(font
@@ -20567,7 +20567,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C32949"
+		(property "LCSC" "C3037644"
 			(at 148.59 96.52 0)
 			(effects
 				(font
@@ -20576,7 +20576,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL05C100JB5NNNC"
+		(property "MPN" "0402CG140J500NT"
 			(at 148.59 96.52 0)
 			(effects
 				(font

@@ -602,7 +602,7 @@
           "group_by": true,
           "label": "DNP",
           "name": "${DNP}",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
@@ -735,7 +735,7 @@
       "group_symbols": false,
       "name": "",
       "sort_asc": true,
-      "sort_field": "LCSC"
+      "sort_field": "Reference"
     },
     "connection_grid_size": 50.0,
     "drawing": {
