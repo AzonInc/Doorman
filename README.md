@@ -17,7 +17,7 @@ If your intercom is not a TCS or Koch one but operates on a 2-wire bus within th
 
 You could also monitor the voltage level on older intercoms (14-24V) by replacing the tcs_intercom component with a template Binary Sensor combined with ADC and trigger specific actions based on it.
 
-Thanks a lot to PCBWay for sponsoring this Project.
+Thanks a lot to [PCBWay](https://pcbway.com) for sponsoring this Project.
 Scroll down to "Manufacturing" to read more.
 
 ## 📦 Interested in buying one?
@@ -159,14 +159,14 @@ You can find a detailed explanation in the repository. It's kinda similar.
 
 <img src=".github/images/pcbway_delivery.png" alt="PCBWay Delivery" height="275">
 
-I didnt know which pcb manufacturer is good but fortunately PCBWay reached out to me and offered to sponsor PCB fabrication.\
+I didnt know which PCB manufacturer is good but fortunately PCBWay reached out to me and offered to sponsor PCB fabrication.\
 Well... I'm more than satisified with the quality, especially the nice colors. Everything looks clean and part sourcing was an ease. They also sent me two more unpopulated PCBs extra.
 I soldered the ESP Modules using a heating plate myself because I still had ESP32 Modules at home.
 
 It was really easy to get in touch with them and whenever there rised a question they didn't hesitate to ask.
 A special thanks goes to Liam and Lynne for supporting me throughout the entire process. Even tho I made a lot of changes they were always very patient with me. It was a pleasure working with you guys.
 
-If you need a good quality one stop manufacturer I can definitely recommend PCBWay :)
+If you need a good quality one stop manufacturer I can definitely recommend [PCBWay](https://pcbway.com) :)
 
 You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
 
