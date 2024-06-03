@@ -895,6 +895,19 @@
 				)
 			)
 		)
+		(property "Package" "SMD"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "409feb7d-4e33-4d49-a82b-d5629ac0420a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "USB*C*Receptacle*")
 		(path "/02531300-df2b-4667-8c13-2b0ecacb0215")
 		(sheetname "Stammblatt")
@@ -2106,7 +2119,7 @@
 				)
 			)
 		)
-		(property "Description" " 50V 10uF X5R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "50V 10uF X5R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2409,7 +2422,7 @@
 				)
 			)
 		)
-		(property "Description" " 62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3444,7 +3457,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C474927"
+		(property "LCSC" "C918127"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3457,7 +3470,7 @@
 				)
 			)
 		)
-		(property "MPN" "KF128-2.54-9P"
+		(property "MPN" "DB125-2.54-9P-GN-S"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3487,7 +3500,7 @@
 		(path "/70e9046f-dd86-4183-8d2f-35519aa0a120")
 		(sheetname "Stammblatt")
 		(sheetfile "doorman.kicad_sch")
-		(attr through_hole exclude_from_bom dnp)
+		(attr through_hole)
 		(fp_line
 			(start 11.63 -3)
 			(end 11.63 3.3)
@@ -5801,7 +5814,7 @@
 				)
 			)
 		)
-		(property "Description" " 50mA Brick nogging SPST 153gf 12V SMD,2.5x3mm Tactile Switches ROHS"
+		(property "Description" "50mA Brick nogging SPST 153gf 12V SMD,2.5x3mm Tactile Switches ROHS"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6162,7 +6175,7 @@
 				)
 			)
 		)
-		(property "Description" " 45V 300mW 160@100mA,1V 500mA NPN SOT-23(TO-236) Bipolar Transistors - BJT ROHS"
+		(property "Description" "45V 300mW 160@100mA,1V 500mA NPN SOT-23(TO-236) Bipolar Transistors - BJT ROHS"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6516,7 +6529,7 @@
 				)
 			)
 		)
-		(property "Description" "50V 100nF X7R ±10% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
+		(property "Description" "50V 100nF X7R ±10% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -7594,38 +7607,12 @@
 				)
 			)
 		)
-		(property "Height" ""
+		(property "Package" "SMD,25.5x18mm"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "7005eb26-efb2-4d29-b3d1-38d57800767d")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "9a6c24de-9ed5-4326-926d-64d27bf36a1c")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "a342925b-bbac-4bee-8d3c-0ffc4e6b6dd1")
+			(uuid "e61853d6-981c-4ba9-98c8-0fc5dc0b18cf")
 			(effects
 				(font
 					(size 1 1)

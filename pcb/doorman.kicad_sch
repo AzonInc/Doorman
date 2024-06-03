@@ -11554,9 +11554,9 @@
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "70e9046f-dd86-4183-8d2f-35519aa0a120")
 		(property "Reference" "J2"
 			(at 218.186 74.93 90)
@@ -11603,7 +11603,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C474927"
+		(property "LCSC" "C918127"
 			(at 223.52 73.66 0)
 			(effects
 				(font
@@ -11612,7 +11612,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "KF128-2.54-9P"
+		(property "MPN" "DB125-2.54-9P-GN-S"
 			(at 223.52 73.66 0)
 			(effects
 				(font

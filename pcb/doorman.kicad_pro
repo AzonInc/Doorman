@@ -566,7 +566,7 @@
           "group_by": false,
           "label": "#",
           "name": "${ITEM_NUMBER}",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -632,7 +632,7 @@
           "group_by": false,
           "label": "Beschreibung",
           "name": "Description",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -684,7 +684,7 @@
         }
       ],
       "filter_string": "",
-      "group_symbols": true,
+      "group_symbols": false,
       "name": "",
       "sort_asc": true,
       "sort_field": "${ITEM_NUMBER}"
