@@ -20,6 +20,8 @@ You could also monitor the voltage level on older intercoms (14-24V) by replacin
 Thanks a lot to [PCBWay](https://pcbway.com) for sponsoring this Project.
 Scroll down to "Manufacturing" to read more.
 
+** Please also take a look at the Getting started section for first-use instructions.**
+
 ## 📦 Interested in buying one?
 
 Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf), [GitHub Issues](https://github.com/AzonInc/Doorman/issues) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
@@ -175,6 +177,19 @@ You can find all the neccessary files [here](https://github.com/AzonInc/doorman/
 In case you want an enclosure you can print your own one.\
 Just use the STL files provided [here](https://github.com/AzonInc/Doorman/tree/master/enclosure) and you'll be good to go.\
 <img src=".github/images/enclosure.png" alt="Doorman S3" height="275">
+
+## 🚀 Getting started
+
+When you power on your Doorman-S3 for the first time it opens an Access Point called "Doorman-S3 Setup".
+The AP Password is "open-sesame".
+You can setup your WiFi credentials there or also via Improv Serial + Improv Bluetooth.
+
+Thanks to mDNS Support Homeassistant will find your Doorman out of the box.
+After adding your Doorman to Homeassistant you need to enable the Last Bus Command Sensor to capture the Bus commands of your intercom.
+
+When you obtained all neccessary commands you can adopt the device in your ESPHome Dashboard and flash the `stock.example.yaml` firmware with adjusted command values.
+
+That's basically everything you need to do. Happy automating!
 
 ## ⚠️ Disclaimer
 
