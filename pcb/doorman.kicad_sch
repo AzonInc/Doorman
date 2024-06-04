@@ -8456,6 +8456,24 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 120.65 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SMD"
+			(at 120.65 39.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "A8"
 			(uuid "1cfcb048-ac4c-4c1a-a3fe-244bb952c558")
 		)
@@ -8729,6 +8747,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 167.64 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b6a8aeef-8d69-4bb6-a6da-6150f8cb1666")
 		)
@@ -8801,7 +8828,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" " 45V 300mW 160@100mA,1V 500mA NPN SOT-23(TO-236) Bipolar Transistors - BJT ROHS"
+		(property "Description" "45V 300mW 160@100mA,1V 500mA NPN SOT-23(TO-236) Bipolar Transistors - BJT ROHS"
 			(at 135.89 120.65 0)
 			(effects
 				(font
@@ -8856,6 +8883,15 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
+			(at 135.89 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 135.89 120.65 0)
 			(effects
 				(font
@@ -9164,6 +9200,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 204.47 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3b6e2c9f-d25a-46e5-92cf-52ecbab75e76")
 		)
@@ -9264,6 +9309,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 120.65 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "0213142e-edac-4b0d-89c8-535152549a15")
 		)
@@ -9322,7 +9376,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" " 62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
 			(at 139.7 31.75 0)
 			(effects
 				(font
@@ -9378,6 +9432,15 @@
 		)
 		(property "Package" "0402"
 			(at 139.7 31.75 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 139.7 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9568,6 +9631,15 @@
 		)
 		(property "LCSC Part" "C3646929"
 			(at 233.68 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 233.68 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9771,6 +9843,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 186.69 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "636eba1c-5d40-4416-9b7a-bf17d5b8ad66")
 		)
@@ -9859,6 +9940,15 @@
 			)
 		)
 		(property "Package" "SMD,D8xL10.5mm"
+			(at 139.7 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 139.7 73.66 0)
 			(effects
 				(font
@@ -10121,6 +10211,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 30.48 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e64475ad-d170-4adf-a90a-0933c5a7e4f6")
 		)
@@ -10187,7 +10286,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "50V 100nF X7R ±10% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS "
+		(property "Description" "50V 100nF X7R ±10% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 181.61 69.85 0)
 			(effects
 				(font
@@ -10243,6 +10342,15 @@
 		)
 		(property "Package" "0603"
 			(at 181.61 69.85 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 181.61 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10336,6 +10444,15 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 240.03 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 240.03 106.68 0)
 			(effects
 				(font
@@ -10467,6 +10584,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 44.45 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -10559,6 +10685,15 @@
 			)
 		)
 		(property "MPN" "SWPA4030S3R9MT"
+			(at 190.5 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 190.5 67.31 0)
 			(effects
 				(font
@@ -10719,6 +10854,24 @@
 			)
 		)
 		(property "MPN" "ESP32-S3-WROOM-1-N16R2"
+			(at 67.31 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 67.31 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SMD,25.5x18mm"
 			(at 67.31 86.36 0)
 			(effects
 				(font
@@ -10973,6 +11126,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 238.76 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "da843c55-01a6-4435-a2c8-f08d8fbb1de4")
 		)
@@ -11087,6 +11249,15 @@
 		)
 		(property "Package" "0402"
 			(at 139.7 29.21 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 139.7 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11281,6 +11452,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 30.48 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "25ea83d7-14e4-4d7a-ac9d-7a9505f19f16")
 		)
@@ -11376,7 +11556,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "70e9046f-dd86-4183-8d2f-35519aa0a120")
 		(property "Reference" "J2"
 			(at 218.186 74.93 90)
@@ -11423,7 +11603,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C474927"
+		(property "LCSC" "C918127"
 			(at 223.52 73.66 0)
 			(effects
 				(font
@@ -11432,7 +11612,16 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "KF128-2.54-9P"
+		(property "MPN" "DB125-2.54-9P-GN-S"
+			(at 223.52 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 223.52 73.66 0)
 			(effects
 				(font
@@ -11829,6 +12018,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 204.47 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5807961c-42bf-40f2-b6c7-77918eb6f9c4")
 		)
@@ -12148,6 +12346,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 129.54 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8f7a30e3-7668-4e6b-905a-c7924d67853c")
 		)
@@ -12267,6 +12474,15 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
+			(at 133.35 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 133.35 63.5 0)
 			(effects
 				(font
@@ -12454,6 +12670,15 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
+			(at 133.35 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 133.35 67.31 0)
 			(effects
 				(font
@@ -12818,6 +13043,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 223.52 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "8d7fb834-4ae1-478b-a4cc-ea054e04463a")
 		)
@@ -13075,7 +13309,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" " 50V 10uF X5R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "50V 10uF X5R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 148.59 73.66 0)
 			(effects
 				(font
@@ -13130,6 +13364,15 @@
 			)
 		)
 		(property "Package" "1206"
+			(at 148.59 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 148.59 73.66 0)
 			(effects
 				(font
@@ -13458,6 +13701,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 232.41 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e2ddaf98-b51f-4f60-ab2f-15975f2eb37f")
 		)
@@ -13584,7 +13836,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" " 50mA Brick nogging SPST 153gf 12V SMD,2.5x3mm Tactile Switches ROHS"
+		(property "Description" "50mA Brick nogging SPST 153gf 12V SMD,2.5x3mm Tactile Switches ROHS"
 			(at 31.75 68.58 0)
 			(effects
 				(font
@@ -13647,6 +13899,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 31.75 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "22c0b198-a1bd-4c59-acbf-d6f002bdd3ad")
 		)
@@ -13686,7 +13947,7 @@
 				)
 			)
 		)
-		(property "Value" "GAQY211G2S"
+		(property "Value" "GAQY252G3S"
 			(at 138.43 161.29 0)
 			(effects
 				(font
@@ -13721,7 +13982,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C7435104"
+		(property "LCSC" "C7435106"
 			(at 137.16 191.77 0)
 			(effects
 				(font
@@ -13730,7 +13991,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GAQY211G2S"
+		(property "MPN" "GAQY252G3S"
 			(at 137.16 173.99 0)
 			(effects
 				(font
@@ -13740,6 +14001,15 @@
 			)
 		)
 		(property "Package" "SOP-4"
+			(at 137.16 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 137.16 173.99 0)
 			(effects
 				(font
@@ -14112,6 +14382,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 199.39 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9ff7f50c-6a7a-4bd1-bb7a-36e2c35b6a87")
 		)
@@ -14339,6 +14618,15 @@
 				(hide yes)
 			)
 		)
+		(property "Price" ""
+			(at 223.52 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6efa998a-a04d-441e-bf32-dce1c26cbc24")
 		)
@@ -14449,6 +14737,15 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
+			(at 80.01 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 80.01 34.29 0)
 			(effects
 				(font
@@ -14612,6 +14909,15 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 180.34 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
 			(at 180.34 120.65 0)
 			(effects
 				(font

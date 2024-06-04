@@ -17,8 +17,10 @@ If your intercom is not a TCS or Koch one but operates on a 2-wire bus within th
 
 You could also monitor the voltage level on older intercoms (14-24V) by replacing the tcs_intercom component with a template Binary Sensor combined with ADC and trigger specific actions based on it.
 
-Thanks a lot to PCBWay for sponsoring this Project.
+Thanks a lot to [PCBWay](https://pcbway.com) for sponsoring this Project.
 Scroll down to "Manufacturing" to read more.
+
+** Please also take a look at the Getting started section for first-use instructions.**
 
 ## 📦 Interested in buying one?
 
@@ -93,7 +95,7 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 
 > [!NOTE]
 > On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to handles that for you.
-> However if you want to power your Doorman in two-wire-mode using the bus wire it's only possible with hardware revision >= V1.4.
+<!--> However if you want to power your Doorman in two-wire-mode using the bus wire it's only possible with hardware revision >= V1.4.-->
 
 > [!WARNING]
 > The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!\
@@ -126,7 +128,7 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
 4. Connect an external Power Supply via USB-C Port
 
-#### 2-Wire Mode (with power via a-Terminal)
+<!--#### 2-Wire Mode (with power via a-Terminal)
 <img src=".github/images/wiring_2wire_power_a_terminal.png" alt="2 Wire Installation" height="275">
 
 > [!IMPORTANT]
@@ -136,7 +138,7 @@ If it is connected in 3-wire mode you should be able to use the P-Line to power 
 2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
 3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
 4. Connect the a-wire (24V Bus) to the P-Terminal of your Doorman
-
+-->
 #### 3-Wire Mode (with sufficient Intercom Power Supply - min. 60mA)
 <img src=".github/images/wiring_3wire.png" alt="3 Wire Installation" height="275">
 
@@ -159,14 +161,14 @@ You can find a detailed explanation in the repository. It's kinda similar.
 
 <img src=".github/images/pcbway_delivery.png" alt="PCBWay Delivery" height="275">
 
-I didnt know which pcb manufacturer is good but fortunately PCBWay reached out to me and offered to sponsor PCB fabrication.\
+I didnt know which PCB manufacturer is good but fortunately PCBWay reached out to me and offered to sponsor PCB fabrication.\
 Well... I'm more than satisified with the quality, especially the nice colors. Everything looks clean and part sourcing was an ease. They also sent me two more unpopulated PCBs extra.
 I soldered the ESP Modules using a heating plate myself because I still had ESP32 Modules at home.
 
 It was really easy to get in touch with them and whenever there rised a question they didn't hesitate to ask.
 A special thanks goes to Liam and Lynne for supporting me throughout the entire process. Even tho I made a lot of changes they were always very patient with me. It was a pleasure working with you guys.
 
-If you need a good quality one stop manufacturer I can definitely recommend PCBWay :)
+If you need a good quality one stop manufacturer I can definitely recommend [PCBWay](https://pcbway.com) :)
 
 You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
 
@@ -175,6 +177,19 @@ You can find all the neccessary files [here](https://github.com/AzonInc/doorman/
 In case you want an enclosure you can print your own one.\
 Just use the STL files provided [here](https://github.com/AzonInc/Doorman/tree/master/enclosure) and you'll be good to go.\
 <img src=".github/images/enclosure.png" alt="Doorman S3" height="275">
+
+## 🚀 Getting started
+
+When you power on your Doorman-S3 for the first time it opens an Access Point called "Doorman-S3 Setup".
+The AP Password is "open-sesame".
+You can setup your WiFi credentials there or also via Improv Serial + Improv Bluetooth.
+
+Thanks to mDNS Support Homeassistant will find your Doorman out of the box.
+After adding your Doorman to Homeassistant you need to enable the Last Bus Command Sensor to capture the Bus commands of your intercom.
+
+When you obtained all neccessary commands you can adopt the device in your ESPHome Dashboard and flash the `stock.example.yaml` firmware with adjusted command values.
+
+That's basically everything you need to do. Happy automating!
 
 ## ⚠️ Disclaimer
 

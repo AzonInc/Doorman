@@ -564,13 +564,19 @@
       "fields_ordered": [
         {
           "group_by": false,
+          "label": "#",
+          "name": "${ITEM_NUMBER}",
+          "show": false
+        },
+        {
+          "group_by": false,
           "label": "Designator",
           "name": "Reference",
           "show": true
         },
         {
           "group_by": true,
-          "label": "Comment",
+          "label": "Value",
           "name": "Value",
           "show": true
         },
@@ -606,15 +612,9 @@
         },
         {
           "group_by": false,
-          "label": "#",
-          "name": "${ITEM_NUMBER}",
-          "show": false
-        },
-        {
-          "group_by": false,
           "label": "Package",
           "name": "Package",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
@@ -624,15 +624,15 @@
         },
         {
           "group_by": false,
-          "label": "Beschreibung",
-          "name": "Description",
-          "show": false
-        },
-        {
-          "group_by": false,
           "label": "MPN",
           "name": "MPN",
           "show": true
+        },
+        {
+          "group_by": false,
+          "label": "Beschreibung",
+          "name": "Description",
+          "show": false
         },
         {
           "group_by": false,
@@ -684,10 +684,10 @@
         }
       ],
       "filter_string": "",
-      "group_symbols": true,
+      "group_symbols": false,
       "name": "",
       "sort_asc": true,
-      "sort_field": "Reference"
+      "sort_field": "${ITEM_NUMBER}"
     },
     "connection_grid_size": 50.0,
     "drawing": {
