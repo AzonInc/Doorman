@@ -83,6 +83,21 @@ This Configuration inherits everything from the Stock Firmware and adds a Nuki B
 - **[Doorman by peteh](https://github.com/peteh/doorman)**\
 You need to adjust a few things to make it work with Doorman S3.
 
+## 🖲️ GPIO
+
+Doorman-S3 is using some GPIO for a specific purpose and offers free GPIO as well.
+
+| GPIO | Purpose |
+| :-----: | :-----:|
+| GPIO01 | Red Status LED |
+| GPIO02 | WS2812B RGB Status LED |
+| GPIO08 | TCS Bus TX - Shorts the Bus to Ground |
+| GPIO09 | TCS Bus RX - Reading Bus Data / ADC input (behind Voltage Divider - 1M+160K) |
+| GPIO40 | Free I/O |
+| GPIO41 | External Button (10K Resistor) |
+| GPIO42 | Relay for analog door opener |
+| GPIO48 | Free I/O |
+
 ## ⚡ Wiring
 If your Intercom is connected in 2-wire mode and you dont have a separate 24V P-Line you need to use an external Power Supply via USB-C or P (+5V to +30V) and B (Ground) Screw Terminal.\
 If it is connected in 3-wire mode you should be able to use the P-Line to power your Doorman in most cases.

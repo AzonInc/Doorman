@@ -7,7 +7,9 @@
 # - Apartment Doorbell Sensor
 # - Door Opener Button
 # - Party Mode Switch (Disabled by default)
-# - Bus Command (Disabled by default)
+# - Last Bus Command (Disabled by default)
+# - External Button (Disabled by default)
+# - Relay (Disabled by default)
 
 
 # You can change a few options here.
@@ -58,37 +60,13 @@ wifi:
 
 
 
-
-# Doorbell pattern detection
-# If you are interested in detecting specific doorbell patterns you could use this example as a base:
-
-#binary_sensor:
-#  - platform: tcs_intercom
-#    id: entrance_doorbell_pattern
-#    command: "0x3b8f9a00"
-#    auto_off: 0.5s
-#    internal: true
-#    on_multi_click:
-#    - timing:
-#        - ON for at most 1s
-#        - OFF for at most 1s
-#        - ON for 0.5s to 1s
-#        - OFF for at most 1s
-#        - ON for 0.5s to 1s
-#        - OFF for at least 0.2s
-#      then:
-#        - logger.log: "Doorbell Pattern (Triple Press) detected!"
-
-
-
-
 # Controlling the internal RGB LED
 # If you want to control the onboard RGB LED just use the Light ID: doorman_rgb_status_led
 # For example:
 
 #button:
 #  - platform: template
-#    name: "Turn on Status RGB LED"
+#    name: "Turn on Status RGB LED to red"
 #    on_press:
 #      - light.turn_on:
 #          id: doorman_rgb_status_led

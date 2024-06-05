@@ -9136,7 +9136,7 @@
 				)
 			)
 		)
-		(property "Value" "MB2S"
+		(property "Value" "MB6S"
 			(at 192.532 96.266 0)
 			(effects
 				(font
@@ -9164,7 +9164,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ON Semiconductor MB2S, Bridge Rectifier, 500mA 200V, 4-Pin SOIC"
+		(property "Description" "30A 1V 800mA 600V MBS  Bridge Rectifiers ROHS"
 			(at 204.47 102.87 0)
 			(effects
 				(font
@@ -9173,7 +9173,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C437884"
+		(property "LCSC" "C3011144"
 			(at 204.47 102.87 0)
 			(effects
 				(font
@@ -9182,7 +9182,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MB2S"
+		(property "MPN" "MB6S"
 			(at 204.47 102.87 0)
 			(effects
 				(font
@@ -10844,7 +10844,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2913205"
+		(property "LCSC" "C2913204"
 			(at 67.31 86.36 0)
 			(effects
 				(font
@@ -10853,7 +10853,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESP32-S3-WROOM-1-N16R2"
+		(property "MPN" "ESP32-S3-WROOM-1-N8R2"
 			(at 67.31 86.36 0)
 			(effects
 				(font

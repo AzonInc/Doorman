@@ -123,6 +123,15 @@ switch:
     turn_off_action:
       - light.turn_off: doorman_rgb_status_led
 
+  # Preconfigured Relay Switch
+  - platform: gpio
+    name: Relay
+    icon: mdi:electric-switch
+    id: doorman_relay
+    restore_mode: RESTORE_DEFAULT_OFF
+    disabled_by_default: true
+    pin: GPIO42
+
 button:
   # System Actions
   - platform: restart
@@ -214,6 +223,18 @@ binary_sensor:
   - platform: tcs_intercom
     name: "Apartment Doorbell"
     command: ${apartment_doorbell_command}
+
+  - platform: gpio
+    id: doorman_external_button
+    name: External Button
+    icon: mdi:gesture-tap
+    disabled_by_default: true
+    pin:
+      number: GPIO41
+      mode:
+        pulldown: true
+        input: true
+      inverted: true
 
 script:
   - id: reset_led
