@@ -4,7 +4,7 @@ esphome:
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   
-  min_version: "2024.3.0"
+  min_version: "2024.6.0"
 
   project:
     name: "AzonInc.Doorman S3"
@@ -80,7 +80,8 @@ api:
             command: !lambda 'return command;'
 
 ota:
-  password: ""
+  - platform: esphome
+    password: ""
 
 wifi:
   ap:
