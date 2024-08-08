@@ -83,7 +83,7 @@ event:
 binary_sensor:
   - platform: tcs_intercom
     command: ${entrance_doorbell_command}
-    auto_off: 0.5s
+    auto_off: 0.2s
     internal: true
     on_multi_click:
       # Single press
@@ -124,7 +124,7 @@ binary_sensor:
 
   - platform: tcs_intercom
     command: ${apartment_doorbell_command}
-    auto_off: 0.5s
+    auto_off: 0.2s
     internal: true
     on_multi_click:
       # Single press
