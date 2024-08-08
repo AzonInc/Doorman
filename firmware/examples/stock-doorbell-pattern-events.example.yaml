@@ -7,9 +7,9 @@
 # - Apartment Doorbell Sensor
 # - Door Opener Button
 # - Party Mode Switch (Disabled by default)
-# - Last Bus Command (Disabled by default)
-# - External Button (Disabled by default)
-# - Relay (Disabled by default)
+# - Last Bus Command Sensor (Disabled by default)
+# - External Button Binary Sensor (Disabled by default)
+# - Relay Switch (Disabled by default)
 
 
 # You can change a few options here.
@@ -62,7 +62,10 @@ event:
       - "entrance_single"
       - "entrance_double"
       - "entrance_triple"
-
+    on_event:
+      then:
+        - lambda: |-
+            ESP_LOGD("main", "Event %s triggered.", event_type.c_str());
 
 # Homeassistant Automation Trigger Example
 # Change the Event Entity ID to your Doorman S3 Doorbell Pattern Event Entity
@@ -80,35 +83,40 @@ event:
 binary_sensor:
   - platform: tcs_intercom
     command: ${entrance_doorbell_command}
-    auto_off: 0.5s
+    auto_off: 0.2s
     internal: true
-    # Single press
-    on_press:
-      - event.trigger:
-          id: doorbell_pattern
-          event_type: entrance_single
     on_multi_click:
+      # Single press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at least 2s
+        then:
+          - event.trigger:
+              id: doorbell_pattern
+              event_type: entrance_single
+
       # Double press
       - timing:
-          - ON for at most 1s
+          - ON for at most 0.5s
           - OFF for at most 1s
 
-          - ON for at most 1s
-          - OFF for at least 0.2s
+          - ON for at most 0.5s
+          - OFF for at least 2s
         then:
           - event.trigger:
               id: doorbell_pattern
               event_type: entrance_double
+              
       # Triple press
       - timing:
-          - ON for at most 1s
+          - ON for at most 0.5s
           - OFF for at most 1s
 
-          - ON for at most 1s
+          - ON for at most 0.5s
           - OFF for at most 1s
 
-          - ON for at most 1s
-          - OFF for at least 0.2s
+          - ON for at most 0.5s
+          - OFF for at least 2s
         then:
           - event.trigger:
               id: doorbell_pattern
@@ -116,35 +124,40 @@ binary_sensor:
 
   - platform: tcs_intercom
     command: ${apartment_doorbell_command}
-    auto_off: 0.5s
+    auto_off: 0.2s
     internal: true
-    # Single press
-    on_press:
-      - event.trigger:
-          id: doorbell_pattern
-          event_type: apartment_single
     on_multi_click:
+      # Single press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at least 2s
+        then:
+          - event.trigger:
+              id: doorbell_pattern
+              event_type: apartment_single
+
       # Double press
       - timing:
-          - ON for at most 1s
+          - ON for at most 0.5s
           - OFF for at most 1s
 
-          - ON for at most 1s
-          - OFF for at least 0.2s
+          - ON for at most 0.5s
+          - OFF for at least 2s
         then:
           - event.trigger:
               id: doorbell_pattern
               event_type: apartment_double
+
       # Triple press
       - timing:
-          - ON for at most 1s
+          - ON for at most 0.5s
           - OFF for at most 1s
 
-          - ON for at most 1s
+          - ON for at most 0.5s
           - OFF for at most 1s
 
-          - ON for at most 1s
-          - OFF for at least 0.2s
+          - ON for at most 0.5s
+          - OFF for at least 2s
         then:
           - event.trigger:
               id: doorbell_pattern
