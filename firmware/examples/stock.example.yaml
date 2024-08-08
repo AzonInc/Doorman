@@ -7,9 +7,9 @@
 # - Apartment Doorbell Sensor
 # - Door Opener Button
 # - Party Mode Switch (Disabled by default)
-# - Last Bus Command (Disabled by default)
-# - External Button (Disabled by default)
-# - Relay (Disabled by default)
+# - Last Bus Command Sensor (Disabled by default)
+# - External Button Binary Sensor (Disabled by default)
+# - Relay Switch (Disabled by default)
 
 
 # You can change a few options here.

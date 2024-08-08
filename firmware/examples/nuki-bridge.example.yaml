@@ -7,9 +7,9 @@
 # - Apartment Doorbell Sensor
 # - Door Opener Button
 # - Party Mode Switch (Disabled by default)
-# - Last Bus Command (Disabled by default)
-# - External Button (Disabled by default)
-# - Relay (Disabled by default)
+# - Last Bus Command Sensor (Disabled by default)
+# - External Button Binary Sensor (Disabled by default)
+# - Relay Switch (Disabled by default)
 
 # You can change a few options here.
 # There are more substitutions available for testing - just take a look at Github.
@@ -56,29 +56,6 @@ wifi:
 #  - platform: tcs_intercom
 #    name: "Apartment Doorbell"
 #    command: "0x3b8f9a00"
-
-
-
-
-# Doorbell pattern detection
-# If you are interested in detecting specific doorbell patterns you could use this example as a base:
-
-#binary_sensor:
-#  - platform: tcs_intercom
-#    id: entrance_doorbell_pattern
-#    command: "0x3b8f9a00"
-#    auto_off: 0.5s
-#    internal: true
-#    on_multi_click:
-#    - timing:
-#        - ON for at most 1s
-#        - OFF for at most 1s
-#        - ON for 0.5s to 1s
-#        - OFF for at most 1s
-#        - ON for 0.5s to 1s
-#        - OFF for at least 0.2s
-#      then:
-#        - logger.log: "Doorbell Pattern (Triple Press) detected!"
 
 
 
