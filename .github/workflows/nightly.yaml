@@ -22,7 +22,7 @@ jobs:
         run: |
           esphome compile doorman-stock.yaml
           mkdir -p bin
-          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware-factory.bin bin/firmware-factory.bin
+          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/firmware-factory.bin
           cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/firmware.bin
 
       - uses: actions/upload-artifact@v3

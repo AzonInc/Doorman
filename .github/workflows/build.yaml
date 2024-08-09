@@ -22,8 +22,8 @@ jobs:
         run: |
           esphome compile doorman-stock.yaml
           mkdir -p bin
-          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware-factory.bin bin/firmware-factory.bin
-          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/firmware.bin
+          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/firmware-factory.bin
+          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/stock-firmware.bin
 
       - name: Compile Nuki Bridge Firmware
         working-directory: firmware
@@ -31,7 +31,7 @@ jobs:
           rm -rf .esphome/build/doorman-s3
           esphome compile doorman-nuki-bridge.yaml
           mkdir -p bin
-          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware-factory.bin bin/nuki-bridge-firmware-factory.bin
+          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/nuki-bridge-firmware-factory.bin
           cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/nuki-bridge-firmware.bin
 
       - name: Upload Firmware
