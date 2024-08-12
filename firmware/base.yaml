@@ -136,7 +136,8 @@ tcs_intercom:
   bus_command:
     name: "Last Bus Command"
   hardware_version:
-    name: "Doorman Hardware"
+    name: "Hardware"
+    icon: "mdi:router-wireless"
     disabled_by_default: true
 
 switch:
@@ -179,6 +180,11 @@ button:
     entity_category: CONFIG
     disabled_by_default: true
 
+  - platform: factory_reset
+    name: Restore Factory Settings
+    entity_category: CONFIG
+    disabled_by_default: true
+
   # Preconfigured Open Door Button
   - platform: template
     name: "Open Entrance Door"
@@ -200,12 +206,15 @@ light:
   - platform: status_led
     id: doorman_status_led
     name: Status LED
+    icon: "mdi:led-on"
     pin: ${led_pin}
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
 
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led
+    icon: "mdi:led-on"
+    name: RGB Status LED
     internal: true
     restore_mode: ALWAYS_OFF
     rgb_order: GRB
@@ -406,7 +415,7 @@ number:
     id: ring_to_open_door_opener_delay
     mode: slider
     min_value: 0
-    max_value: 100
+    max_value: 60
     step: 1
     optimistic: true
     restore_value: true
