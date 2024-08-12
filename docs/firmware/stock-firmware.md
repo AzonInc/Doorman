@@ -9,7 +9,7 @@ There are a few ways to update the firmware:
 - HTTP OTA <Badge type="tip" text="Latest release build" />
 - Web Serial <Badge type="tip" text="Latest release build & custom firmware" />
 
-To use Web Serial, connect your Doorman via USB-C and click the button below to install the latest and greatest Doorman Stock Firmware.
+You can connect your Doorman via USB-C and click the button below to install the latest and greatest Doorman Stock Firmware right here via Web Serial.
 <esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-stock-manifest.json">
     <button slot="activate">
         <div class="custom-layout">
