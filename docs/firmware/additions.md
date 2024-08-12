@@ -36,9 +36,46 @@ button:
 ## Advanced Examples
 ::: details Sending Bus commands from Home Assistant
 You can use Home Assistant actions (formerly services) to send commands on the Bus.
+> [!INFO]
+> Don't forget the leading `0x` if you want to send the HEX command. Otherwise you have to convert the hex command into a decimal number.
+
 ```yaml
 service: esphome.doorman_s3_send_tcs_command
 data:
   command: 0x3a001100
+```
+:::
+
+
+::: details Listening for ESPHome events
+Doorman will send `esphome.doorman` events to Home Assistant everytime a command is received.
+
+Each Event is structured like:
+```yaml
+event_type: esphome.doorman
+data:
+  device_id: 373c62d6788cf81d322763235513310e
+  command: "00001100"
+origin: LOCAL
+time_fired: "2024-08-12T12:34:13.718317+00:00"
+context:
+  id: 01J5399Y2PP2XS2VRYKBT3H3AV
+  parent_id: null
+  user_id: null
+```
+
+Home Assistant Automation Example:
+```yaml
+alias: Trigger on Doorman TCS Open Door Command
+description: ""
+trigger:
+  - platform: event
+    event_type: esphome.doorman
+    event_data:
+      command: "00001100"
+condition: []
+action: []
+mode: single
+
 ```
 :::

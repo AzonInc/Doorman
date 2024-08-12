@@ -132,13 +132,12 @@ external_components:
 
 # Setup TCS Intercom Component
 tcs_intercom:
+  event: "doorman"
   bus_command:
     name: "Last Bus Command"
-    entity_category: DIAGNOSTIC
   hardware_version:
-    name: "Hardware version"
+    name: "Doorman Hardware"
     disabled_by_default: true
-    entity_category: DIAGNOSTIC
 
 switch:
   # Preconfigured Party Mode Switch
