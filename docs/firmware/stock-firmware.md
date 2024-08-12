@@ -4,7 +4,9 @@ This is the prefered Firmware as it works out of the Box with Doorman S3.
 It supports Improv via Bluetooth LE.
 
 ### Update Firmware
-Click on Connect to install the latest and greatest Doorman Stock Firmware.
+You can either update your Doorman via ESPHome OTA or HTTP OTA (This doesn't require the ESPHome Dashboard).
+
+Click on Connect to install or update to the latest and greatest Doorman Stock Firmware.
 <esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-stock-manifest.json"></esp-web-install-button>
 
 ## Entities
@@ -30,7 +32,8 @@ Click on Connect to install the latest and greatest Doorman Stock Firmware.
 - Safe mode <Badge type="info" text="Disabled by default" />
 
 ### Events
-- Doorbell Pattern Event
+- Doorbell Pattern
+- Phone pickup Pattern
 
 ### Configuration Inputs
 - Apartment Doorbell Command

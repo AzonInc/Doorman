@@ -38,22 +38,37 @@ You will see a `Last Bus Command` Text Sensor which keeps track the last Bus Com
 
 Push the buttons on your intercom phone to capture the codes and copy them into the corresponding Configuration Text Inputs.
 
-
-
-
 ## ESPHome adoption
 
 If you want to customize your Doorman Firmware you can adopt the Doorman Device into your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash your customized [Stock](../firmware/stock-firmware.md) or [Nuki Bridge](../firmware/nuki-bridge-firmware.md) Firmware.
 
+After adopting the device you will have a config like that:
+::: details Example
+> [!NOTE]
+> This config is only importing the whole Doorman-Stock package. You can add new sensors and stuff here but if you really want to customize the firmware you need to use the `base.yaml` from the repository.
 
+```yaml
+substitutions:
+  name: doorman-s3
+  friendly_name: Doorman S3
 
-## Home Assistant Dashboard
-After flashing the [Stock Firmware](../firmware/stock-firmware.md) you should see the following entities.
-::: tip Info
-Some of the Sensors and Controls are disabled by default.
+packages:
+  AzonInc.Doorman-Stock: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
+
+esphome:
+  name: ${name}
+  name_add_mac_suffix: false
+  friendly_name: ${friendly_name}
+
+api:
+  encryption:
+    key: ...
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+```
 :::
-![Home Assistant Entities](./images/entities.png)
-
 
 
 ## Wiring

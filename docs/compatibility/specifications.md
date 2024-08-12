@@ -4,7 +4,7 @@ You can find a few information here about how to use
 ## Power supply
 Thanks to the wide voltage converter, the Doorman S3 can operate with a supply voltage ranging from 5 to 30V DC.
 
-# Bridge Rectifier
+## Bridge Rectifier
 The Bridge Rectifier will correct the Bus wire polarity. You don't have to worry about it.
 
 ## Relay

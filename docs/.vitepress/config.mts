@@ -73,7 +73,7 @@ export default defineConfig({
       {
         text: 'Automations',
         items: [
-          { text: 'Doorbell Events', link: '/automation/doorbell-events' },
+          { text: 'Pattern Events', link: '/automation/pattern-events' },
           { text: 'Ring To Open', link: '/automation/ring-to-open' }
         ]
       },

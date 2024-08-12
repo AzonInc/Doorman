@@ -4,7 +4,9 @@ This Configuration inherits everything from the Stock Firmware and adds a Nuki B
 It doesn't support Improv via Bluetooth LE because the BLE Stack is used by the Nuki Bridge Component.
 
 ### Update Firmware
-Click on Connect to install the latest and greatest Doorman Nuki Bridge Firmware.
+You can either update your Doorman via ESPHome OTA or HTTP OTA (This doesn't require the ESPHome Dashboard).
+
+Click on Connect to install or update to the latest and greatest Doorman Nuki Bridge Firmware.
 <esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-nuki-bridge-manifest.json"></esp-web-install-button>
 
 ## Entities
@@ -41,7 +43,8 @@ Click on Connect to install the latest and greatest Doorman Nuki Bridge Firmware
 - Safe mode <Badge type="info" text="Disabled by default" />
 
 ### Events
-- Doorbell Pattern Event
+- Doorbell Pattern
+- Phone pickup Pattern
 
 ### Configuration Inputs
 - Apartment Doorbell Command
