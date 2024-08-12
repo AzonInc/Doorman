@@ -388,7 +388,7 @@ binary_sensor:
     pin:
       number: ${external_button_pin}
       mode:
-        pulldown: true
+        pullup: true
         input: true
       inverted: true
 
@@ -420,6 +420,7 @@ text:
     name: Open Entrance Door Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00001100'
     on_value:
       then:
@@ -432,6 +433,7 @@ text:
     name: Open Second Door Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00001100'
     on_value:
       then:
@@ -445,6 +447,7 @@ text:
     name: Entrance Doorbell Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00000000'
     on_value:
       then:
@@ -457,6 +460,7 @@ text:
     name: Apartment Doorbell Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00000000'
     on_value:
       then:
@@ -469,6 +473,7 @@ text:
     name: Pick up phone Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00000000'
     on_value:
       then:
@@ -482,6 +487,7 @@ text:
     name: Hang up phone Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00003000'
     on_value:
       then:
@@ -495,6 +501,7 @@ text:
     name: Toggle Ring To Open Command
     optimistic: true
     mode: text
+    restore_value: true
     initial_value: '00000000'
     on_value:
       then:
@@ -508,6 +515,7 @@ event:
   - platform: template
     id: doorbell_pattern
     name: "Doorbell Pattern"
+    icon: "mdi:doorbell"
     device_class: DOORBELL
     event_types:
       - "apartment_single"
@@ -520,6 +528,7 @@ event:
   - platform: template
     id: phone_pickup_pattern
     name: "Phone pickup Pattern"
+    icon: "mdi:phone-incoming-outgoing"
     event_types:
       - "single"
       - "double"
