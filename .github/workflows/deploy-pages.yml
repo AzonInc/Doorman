@@ -1,6 +1,6 @@
 # Sample workflow for building and deploying a VitePress site to GitHub Pages
 #
-name: Deploy VitePress site and ESPHome Firmware to Pages
+name: Deploy Docs and ESPHome Firmware to Pages
 
 on:
   # Allows you to run this workflow manually from the Actions tab
