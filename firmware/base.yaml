@@ -60,7 +60,7 @@ esphome:
   min_version: "2024.8.0"
 
   project:
-    name: "AzonInc.Doorman"
+    name: "AzonInc.Doorman-Stock"
     version: "2024.8.1"
 
   on_boot:
