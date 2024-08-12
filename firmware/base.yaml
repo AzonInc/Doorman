@@ -140,7 +140,7 @@ tcs_intercom:
     disabled_by_default: true
 
 switch:
-  # Preconfigured Party Mode Switch
+  # Preconfigured Ring To Open Mode Switch
   - platform: template
     name: Ring To Open
     icon: mdi:party-popper
@@ -153,7 +153,7 @@ switch:
           red: 100%
           green: 100%
           blue: 3%
-          effect: slow_partymode
+          effect: slow_pulse
     turn_off_action:
       - light.turn_off: doorman_rgb_status_led
 
@@ -220,12 +220,14 @@ light:
           name: pulse
           transition_length: 250ms
           update_interval: 250ms
-          max_brightness: 60%
+          min_brightness: 0%
+          max_brightness: 40%
       - pulse:
           name: slow_pulse
           transition_length: 1s
           update_interval: 2s
-          max_brightness: 60%
+          min_brightness: 0%
+          max_brightness: 40%
       - pulse:
           name: slow_partymode
           transition_length: 4s
