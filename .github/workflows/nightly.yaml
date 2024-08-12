@@ -17,13 +17,21 @@ jobs:
       - name: Install ESPHome
         run: pip install --pre --user esphome
       
-      - name: Compile Release Firmware
+      - name: Compile Stock Firmware
         working-directory: firmware
         run: |
           esphome compile doorman-stock.yaml
           mkdir -p bin
-          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/firmware-factory.bin
-          cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/firmware.bin
+          mv .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/stock-firmware-factory.bin
+          mv .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/stock-firmware.bin
+      
+      - name: Compile Nuki Bridge Firmware
+        working-directory: firmware
+        run: |
+          esphome compile doorman-nuki-bridge.yaml
+          mkdir -p bin
+          mv .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/nuki-bridge-firmware-factory.bin
+          mv .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/nuki-bridge-firmware.bin
 
       - uses: actions/upload-artifact@v4
         with:
