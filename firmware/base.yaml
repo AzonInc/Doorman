@@ -228,9 +228,10 @@ light:
           max_brightness: 60%
       - pulse:
           name: slow_partymode
-          transition_length: 3s
-          update_interval: 3s
-          max_brightness: 60%
+          transition_length: 4s
+          update_interval: 2s
+          min_brightness: 0%
+          max_brightness: 40%
 
 binary_sensor:   
   # Preconfigured Ring To Open Action (Internal)
