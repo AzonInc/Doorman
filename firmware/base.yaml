@@ -141,6 +141,7 @@ tcs_intercom:
   event: "doorman"
   bus_command:
     name: "Last Bus Command"
+    id: last_bus_command
   hardware_version:
     name: "Hardware"
     icon: "mdi:router-wireless"
@@ -176,23 +177,27 @@ switch:
 button:
   # System Actions
   - platform: restart
+    id: doorman_restart
     entity_category: CONFIG
     name: Restart
     icon: mdi:restart
     disabled_by_default: true
 
   - platform: safe_mode
+    id: doorman_safe_mode
     name: Safe mode
     entity_category: CONFIG
     disabled_by_default: true
 
   - platform: factory_reset
+    id: doorman_factory_reset
     name: Restore Factory Settings
     entity_category: CONFIG
     disabled_by_default: true
 
   # Preconfigured Open Door Button
   - platform: template
+    id: open_entrance_door
     name: "Open Entrance Door"
     icon: mdi:door
     on_press:
@@ -200,6 +205,7 @@ button:
           command: !lambda "return id(first_door_opener_command);"
 
   - platform: template
+    id: open_second_door
     name: "Open Second Door"
     icon: mdi:door
     on_press:
@@ -253,7 +259,7 @@ light:
 binary_sensor:   
   # Preconfigured Sensors
   - platform: tcs_intercom
-    id: doorman_entrance_doorbell
+    id: entrance_doorbell
     name: "Entrance Doorbell"
     lambda: !lambda "return id(entrance_doorbell_command);"
     auto_off: 0.2s
@@ -264,7 +270,17 @@ binary_sensor:
             condition:
               switch.is_on: doorman_ring_to_open
             then:
-              - delay: !lambda "return id(ring_to_open_door_opener_delay).state*1000;"
+              # If delay is 60 seconds, use random delay from 5 to 20 seconds
+              - if:
+                  condition:
+                    number.in_range:
+                      id: ring_to_open_delay
+                      above: 59
+                  then:
+                    - delay: !lambda "return 5000 + (rand() % 10000);"
+                  else:
+                    - delay: !lambda "return id(ring_to_open_delay).state*1000;"
+
               - tcs_intercom.send:
                   command: !lambda "return id(first_door_opener_command);"
     on_multi_click:
@@ -306,7 +322,7 @@ binary_sensor:
 
 
   - platform: tcs_intercom
-    id: doorman_apartment_doorbell
+    id: apartment_doorbell
     name: "Apartment Doorbell"
     lambda: !lambda "return id(apartment_doorbell_command);"
     auto_off: 0.2s
@@ -349,6 +365,7 @@ binary_sensor:
 
 
   - platform: tcs_intercom
+    id: "pick_up_phone"
     name: "Pick up phone"
     lambda: !lambda "return id(pick_up_phone_command);"
     auto_off: 0.2s
@@ -391,6 +408,7 @@ binary_sensor:
               event_type: triple
 
   - platform: tcs_intercom
+    id: "hang_up_phone"
     name: "Hang up phone"
     lambda: !lambda "return id(hang_up_phone_command);"
     auto_off: 0.2s
@@ -419,7 +437,7 @@ binary_sensor:
 number:
   - platform: template
     name: Ring To Open Delay
-    id: ring_to_open_door_opener_delay
+    id: ring_to_open_delay
     mode: slider
     min_value: 0
     max_value: 60
@@ -433,6 +451,7 @@ number:
 
 text:
   - platform: template
+    id: open_entrance_door_command_input
     name: Open Entrance Door Command
     optimistic: true
     mode: text
@@ -446,6 +465,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
+    id: open_second_door_command_input
     name: Open Second Door Command
     optimistic: true
     mode: text
@@ -460,6 +480,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
+    id: entrance_doorbell_command_input
     name: Entrance Doorbell Command
     optimistic: true
     mode: text
@@ -473,6 +494,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
+    id: apartment_doorbell_command_input
     name: Apartment Doorbell Command
     optimistic: true
     mode: text
@@ -486,6 +508,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
+    id: pick_up_phone_command_input
     name: Pick up phone Command
     optimistic: true
     mode: text
@@ -500,6 +523,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
+    id: hang_up_command_input
     name: Hang up phone Command
     optimistic: true
     mode: text
@@ -514,6 +538,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
+    id: toggle_ring_to_open_command_input
     name: Toggle Ring To Open Command
     optimistic: true
     mode: text

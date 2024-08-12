@@ -33,48 +33,51 @@ You can connect your Doorman via USB-C and click the button below to install the
 ## Entities
 
 ### Locks
-- Nuki Lock
+- Nuki Lock `nuki_smart_lock`
 
 ### Sensors
-- Nuki Battery Level
-- Last Bus Command
+- Last Bus Command `last_bus_command`
+- Nuki Battery Level `nuki_battery_level`
 
 ### Binary Sensors
-- Nuki Connected
-- Nuki Paired
-- Nuki Battery Critical
-- Nuki Door Sensor <Badge type="info" text="Disabled by default" />
-- Nuki Door Sensor State <Badge type="info" text="Disabled by default" />
-- Entrance Doorbell
-- Apartment Doorbell
-- Pick up phone <Badge type="info" text="Disabled by default" />
-- Hang up phone <Badge type="info" text="Disabled by default" />
-- External Button <Badge type="info" text="Disabled by default" />
+- Entrance Doorbell `entrance_doorbell`
+- Apartment Doorbell `apartment_doorbell`
+- Pick up phone `pick_up_phone` <Badge type="info" text="Disabled by default" />
+- Hang up phone `hang_up_phone` <Badge type="info" text="Disabled by default" />
+- External Button `doorman_external_button` <Badge type="info" text="Disabled by default" />
+- Nuki Connected `nuki_connected`
+- Nuki Paired `nuki_paired`
+- Nuki Battery Critical `nuki_battery_critical`
+- Nuki Door Sensor `nuki_door_sensor` <Badge type="info" text="Disabled by default" />
+- Nuki Door Sensor State `nuki_door_sensor_state` <Badge type="info" text="Disabled by default" />
+
 
 ### Switches
-- Nuki Pairing Mode <Badge type="info" text="Disabled by default" />
-- Ring To Open
-- Relay <Badge type="info" text="Disabled by default" />
+- Ring To Open `doorman_ring_to_open`
+- Relay `doorman_relay` <Badge type="info" text="Disabled by default" />
+- Nuki Pairing Mode `nuki_pairing_mode` <Badge type="info" text="Disabled by default" />
 
 ### Buttons
-- Nuki Unpair Device <Badge type="info" text="Disabled by default" />
-- Open Entrance Door
-- Open Second Door <Badge type="info" text="Disabled by default" />
-- Restart <Badge type="info" text="Disabled by default" />
-- Safe mode <Badge type="info" text="Disabled by default" />
+- Open Entrance Door `open_entrance_door`
+- Open Second Door `open_second_door` <Badge type="info" text="Disabled by default" />
+- Restart `doorman_restart` <Badge type="info" text="Disabled by default" />
+- Safe mode `doorman_safe_mode` <Badge type="info" text="Disabled by default" />
+- Restore Factory Settings `doorman_factory_reset` <Badge type="info" text="Disabled by default" />
+- Nuki Unpair Device `nuki_unpair_device` <Badge type="info" text="Disabled by default" />
 
 ### Events
-- Doorbell Pattern
-- Phone pickup Pattern
+- Doorbell Pattern `doorbell_pattern`
+- Phone pickup Pattern `phone_pickup_pattern`
 
 ### Configuration Inputs
-- Apartment Doorbell Command
-- Entrance Doorbell Command
-- Open Entrance Door Command
-- Open Second Door Command <Badge type="info" text="Disabled by default" />
-- Pick up phone Command <Badge type="info" text="Disabled by default" />
-- Hang up phone Command <Badge type="info" text="Disabled by default" />
-- Ring To Open Delay <Badge type="info" text="Disabled by default" />
+- Apartment Doorbell Command `apartment_doorbell_command_input`
+- Entrance Doorbell Command `entrance_doorbell_command_input`
+- Open Entrance Door Command `open_entrance_door_command_input`
+- Open Second Door Command `open_second_door_command_input` <Badge type="info" text="Disabled by default" />
+- Pick up phone Command `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Hang up phone Command `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Ring To Open Toggle Command `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
+- Ring To Open Delay `ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 
 ## Pairing your Nuki Lock
 Depending on the PCB revision, press the `FLASH` or `PRG` button on the Doorman PCB for 5 seconds until the Status LED starts flashing purple or turn on the `Nuki Pairing Mode` switch in Home Assistant. Press the Button on your Nuki Lock for 5 seconds until the light-ring turns on.

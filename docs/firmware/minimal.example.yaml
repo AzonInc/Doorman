@@ -1,5 +1,4 @@
 # Doorman S3 Firmware
-
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"

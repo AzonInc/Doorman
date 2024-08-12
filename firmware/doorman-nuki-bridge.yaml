@@ -30,6 +30,7 @@ lock:
 
     # Required:
     is_connected: 
+      id: nuki_connected
       name: "Nuki Connected"
       icon: "mdi:link"
 
@@ -40,24 +41,30 @@ lock:
 
     # Optional:
     battery_critical:
+      id: nuki_battery_critical
       name: "Nuki Battery Critical"
 
     battery_level:
+      id: nuki_battery_level
       name: "Nuki Battery Level"
 
     door_sensor:
+      id: nuki_door_sensor
       name: "Nuki Door Sensor"
       disabled_by_default: true
 
     door_sensor_state:
+      id: nuki_door_sensor_state
       name: "Nuki Door Sensor State"
       disabled_by_default: true
     
     unpair:
+      id: nuki_unpair_device
       name: "Nuki Unpair Device"
       disabled_by_default: true
 
     pairing_mode:
+      id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
       disabled_by_default: true
 

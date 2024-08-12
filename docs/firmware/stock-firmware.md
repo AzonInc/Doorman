@@ -33,37 +33,39 @@ You can connect your Doorman via USB-C and click the button below to install the
 ## Entities
 
 ### Sensors
-- Last Bus Command
+- Last Bus Command `last_bus_command`
 
 ### Binary Sensors
-- Entrance Doorbell
-- Apartment Doorbell
-- Pick up phone <Badge type="info" text="Disabled by default" />
-- Hang up phone <Badge type="info" text="Disabled by default" />
-- External Button <Badge type="info" text="Disabled by default" />
+- Entrance Doorbell `entrance_doorbell`
+- Apartment Doorbell `apartment_doorbell`
+- Pick up phone `pick_up_phone` <Badge type="info" text="Disabled by default" />
+- Hang up phone `hang_up_phone` <Badge type="info" text="Disabled by default" />
+- External Button `doorman_external_button` <Badge type="info" text="Disabled by default" />
 
 ### Switches
-- Ring To Open
-- Relay <Badge type="info" text="Disabled by default" />
+- Ring To Open `doorman_ring_to_open`
+- Relay `doorman_relay` <Badge type="info" text="Disabled by default" />
 
 ### Buttons
-- Open Entrance Door
-- Open Second Door <Badge type="info" text="Disabled by default" />
-- Restart <Badge type="info" text="Disabled by default" />
-- Safe mode <Badge type="info" text="Disabled by default" />
+- Open Entrance Door `open_entrance_door`
+- Open Second Door `open_second_door` <Badge type="info" text="Disabled by default" />
+- Restart `doorman_restart` <Badge type="info" text="Disabled by default" />
+- Safe mode `doorman_safe_mode` <Badge type="info" text="Disabled by default" />
+- Restore Factory Settings `doorman_factory_reset` <Badge type="info" text="Disabled by default" />
 
 ### Events
-- Doorbell Pattern
-- Phone pickup Pattern
+- Doorbell Pattern `doorbell_pattern`
+- Phone pickup Pattern `phone_pickup_pattern`
 
 ### Configuration Inputs
-- Apartment Doorbell Command
-- Entrance Doorbell Command
-- Open Entrance Door Command
-- Open Second Door Command <Badge type="info" text="Disabled by default" />
-- Pick up phone Command <Badge type="info" text="Disabled by default" />
-- Hang up phone Command <Badge type="info" text="Disabled by default" />
-- Ring To Open Delay <Badge type="info" text="Disabled by default" />
+- Apartment Doorbell Command `apartment_doorbell_command_input`
+- Entrance Doorbell Command `entrance_doorbell_command_input`
+- Open Entrance Door Command `open_entrance_door_command_input`
+- Open Second Door Command `open_second_door_command_input` <Badge type="info" text="Disabled by default" />
+- Pick up phone Command `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Hang up phone Command `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Ring To Open Toggle Command `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
+- Ring To Open Delay `ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 
 
 

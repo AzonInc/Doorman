@@ -2,6 +2,13 @@
 
 The Doorman Firmware includes pattern event entities which you can use in [Home Assistant](https://www.home-assistant.io/) automations.
 
+Each pattern is configured like:
+- Push
+- Maximum 1 second break
+- Push
+
+Take a look at the [advanced examples](../firmware/stock-firmware#advanced-examples) to see how to extend the patterns with your very own pattern.
+
 ## Doorbell Pattern
 
 ### Event Types

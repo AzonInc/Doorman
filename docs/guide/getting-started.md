@@ -103,9 +103,9 @@ Example:
 :::
 
 ::: details 2-Wire Mode via intercom <Badge type="danger" text="Impossible" />
-> [!DANGER] This scenario is currently not possible!
+> [!DANGER] Unfortunately this scenario is not possible!
 > A loud beeping noise occurs if the a-bus line is used as a power source.\
-> This is most likely caused by the high-frequency switching power supply.
+> This is most likely caused by the high-frequency switching power supply and might get fixed in future hardware revisions.
 
 Example:
 ![2-wire external via usb](./images/2wire_power_a_terminal.png){width=300px}

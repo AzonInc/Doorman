@@ -1,4 +1,4 @@
-# Custom Doorman Firmware
+# Custom Doorman Firmware <Badge type="tip" text="Arduino Framework" />
 
 Github user [peteh](https://github.com/peteh) developed a custom firmware for Doorman circuits.
 
