@@ -5,6 +5,10 @@ dashboard_import:
 packages:
   device_base: !include base.yaml
 
+esphome:
+  project:
+    name: "AzonInc.Doorman-Stock"
+
 esp32_improv:
   authorizer: none
 

@@ -6,6 +6,10 @@ packages:
   device_base: !include base.yaml
   addon_nuki_bridge: !include addons/nuki-bridge.yaml
 
+esphome:
+  project:
+    name: "AzonInc.Doorman-Nuki-Bridge"
+
 esp32:
   framework:
     type: arduino
