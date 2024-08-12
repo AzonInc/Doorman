@@ -101,3 +101,12 @@ Connect the external Power Supply via USB-C Port.
 Example:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
+
+::: details 2-Wire Mode via intercom <Badge type="danger" text="Impossible" />
+> [!DANGER] This scenario is currently not possible!
+> A loud beeping noise occurs if the a-bus line is used as a power source.\
+> This is most likely caused by the high-frequency switching power supply.
+
+Example:
+![2-wire external via usb](./images/2wire_power_a_terminal.png){width=300px}
+:::

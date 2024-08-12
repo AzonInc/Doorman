@@ -8,5 +8,5 @@ Top                                    |  Bottom
 [![](./enclosure_top.png){width=300px}](https://github.com/AzonInc/Doorman/blob/master/enclosure/Top.stl)  |  [![](./enclosure_bottom.png){width=300px}](https://github.com/AzonInc/Doorman/blob/master/enclosure/Bottom.stl)
 
 ::: tip
-As the STL files are optimized for resin printers, you will achieve the best results by using a resin printer.
+The STL files are optimized for resin printers, you will achieve the best results by using such a printer.
 :::

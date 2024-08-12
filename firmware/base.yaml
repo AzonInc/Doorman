@@ -253,6 +253,7 @@ light:
 binary_sensor:   
   # Preconfigured Sensors
   - platform: tcs_intercom
+    id: doorman_entrance_doorbell
     name: "Entrance Doorbell"
     lambda: !lambda "return id(entrance_doorbell_command);"
     auto_off: 0.2s
@@ -305,6 +306,7 @@ binary_sensor:
 
 
   - platform: tcs_intercom
+    id: doorman_apartment_doorbell
     name: "Apartment Doorbell"
     lambda: !lambda "return id(apartment_doorbell_command);"
     auto_off: 0.2s
