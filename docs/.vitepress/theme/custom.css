@@ -26,3 +26,10 @@
     color: var(--vp-button-brand-active-text);
     background-color: var(--vp-button-brand-active-bg);
 }
+
+:root {
+    --md-dialog-container-shape-start-start: 8px;
+    --md-dialog-container-shape-start-end: 8px;
+    --md-dialog-container-shape-end-end: 8px;
+    --md-dialog-container-shape-end-start: 8px;
+}

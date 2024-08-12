@@ -12,6 +12,7 @@ export default defineConfig({
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'en' }],
     ['meta', { property: 'og:title', content: 'Doorman | Gateway for TCS and Koch intercoms' }],
+    ['meta', { property: 'og:description', content: 'Doorman S3 lets you connect your TCS or Koch intercom to any home automation system.' }],
     ['meta', { property: 'og:site_name', content: 'Doorman' }],
     ['meta', { property: 'og:image', content: 'https://doorman.azon.ai/doorman-og.jpg' }],
     ['meta', { property: 'og:url', content: 'https://doorman.azon.ai/' }],
