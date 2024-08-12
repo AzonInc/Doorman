@@ -129,7 +129,10 @@ improv_serial:
 
 # Import TCS Intercom Component
 external_components:
-  - source: github://AzonInc/esphome_tcs_intercom@master
+  - source:
+      type: git
+      url: https://github.com/AzonInc/esphome_tcs_intercom
+      ref: master
     components: [ tcs_intercom ]
     refresh: 60s
 
@@ -248,13 +251,14 @@ light:
           max_brightness: 40%
 
 binary_sensor:   
-  # Preconfigured Ring To Open Action (Internal)
+  # Preconfigured Sensors
   - platform: tcs_intercom
-    id: doorman_entrance_doorbell
+    name: "Entrance Doorbell"
     lambda: !lambda "return id(entrance_doorbell_command);"
-    internal: true
+    auto_off: 0.2s
     on_press:
       then:
+        # Ring To Open Action
         - if:
             condition:
               switch.is_on: doorman_ring_to_open
@@ -262,11 +266,6 @@ binary_sensor:
               - delay: !lambda "return id(ring_to_open_door_opener_delay).state*1000;"
               - tcs_intercom.send:
                   command: !lambda "return id(first_door_opener_command);"
-
-  # Preconfigured Sensors
-  - platform: tcs_intercom
-    name: "Entrance Doorbell"
-    lambda: !lambda "return id(entrance_doorbell_command);"
     on_multi_click:
       # Single press
       - timing:
@@ -308,6 +307,7 @@ binary_sensor:
   - platform: tcs_intercom
     name: "Apartment Doorbell"
     lambda: !lambda "return id(apartment_doorbell_command);"
+    auto_off: 0.2s
     on_multi_click:
       # Single press
       - timing:
@@ -349,6 +349,7 @@ binary_sensor:
   - platform: tcs_intercom
     name: "Pick up phone"
     lambda: !lambda "return id(pick_up_phone_command);"
+    auto_off: 0.2s
     disabled_by_default: true
     on_multi_click:
       # Single press
@@ -390,6 +391,7 @@ binary_sensor:
   - platform: tcs_intercom
     name: "Hang up phone"
     lambda: !lambda "return id(hang_up_phone_command);"
+    auto_off: 0.2s
     disabled_by_default: true
 
   - platform: gpio

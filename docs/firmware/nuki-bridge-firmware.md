@@ -1,4 +1,4 @@
-# Nuki Bridge Firmware
+# Nuki Bridge Firmware <Badge type="tip" text="Arduino Framework" />
 
 This Configuration inherits everything from the Stock Firmware and adds a Nuki Bridge Component via BLE on top.
 It doesn't support Improv via Bluetooth LE because the BLE Stack is used by the Nuki Bridge Component.

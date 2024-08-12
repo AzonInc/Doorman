@@ -1,4 +1,4 @@
-# Stock Firmware
+# Stock Firmware <Badge type="tip" text="ESP-IDF Framework" />
 
 This is the prefered Firmware as it works out of the Box with Doorman S3.
 It supports Improv via Bluetooth LE.
