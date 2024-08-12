@@ -25,7 +25,7 @@ jobs:
           cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.factory.bin bin/firmware-factory.bin
           cp .esphome/build/doorman-s3/.pioenvs/doorman-s3/firmware.bin bin/firmware.bin
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: firmware-bin
           path: firmware/bin
