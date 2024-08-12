@@ -169,14 +169,14 @@ switch:
 button:
   # System Actions
   - platform: restart
-    entity_category: config
+    entity_category: CONFIG
     name: Restart
     icon: mdi:restart
     disabled_by_default: true
 
   - platform: safe_mode
     name: Safe mode
-    entity_category: config
+    entity_category: CONFIG
     disabled_by_default: true
 
   # Preconfigured Open Door Button

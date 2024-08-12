@@ -7,7 +7,8 @@ Thank you for using Doorman <3
 ## Setup
 
 ### Network Connection
-When you power on your Doorman-S3 for the first time it will blink fast (orange) and opens a new Access Point called "Doorman-S3 Setup".
+When you power on your Doorman-S3 for the first time it will blink fast (orange) and opens a new Access Point called `Doorman-S3 Setup`.
+
 The Access Point password is `open-sesame`.
 
 You can setup your WiFi credentials via Access Point, Improv Serial or Improv Bluetooth.
@@ -34,7 +35,7 @@ You will see a `Last Bus Command` Text Sensor which keeps track the last Bus Com
 **Important Commands:**
 - Entrance Doorbell
 - Apartment Doorbell
-- Entrance door opener
+- Open Entrance Door
 
 Push the buttons on your intercom phone to capture the codes and copy them into the corresponding Configuration Text Inputs.
 
@@ -78,7 +79,7 @@ On most models you should be greeted with a screw terminal labelled with a, b, E
 Now connect the b-line (Ground) to one of the TCS:BUS-Terminals of your Doorman, then connect the a-line (24V Bus) to the other TCS:BUS-Terminal of your Doorman.
 
 ### Power supply options:
-::: details 3-Wire Mode via intercom (recommended)
+::: details 3-Wire Mode via intercom <Badge type="tip" text="Recommended" />
 Connect the P-line (+24V) to the P-Terminal of your Doorman.\
 > [!WARNING]
 > The intercom power supply needs to supply at least 60mA.
