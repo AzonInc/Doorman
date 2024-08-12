@@ -1,38 +1,19 @@
 # Doorman S3 Stock Firmware
 # Example Configuration
 
-
-# The following Entities are already preconfigured:
-# - Entrance Doorbell Sensor
-# - Apartment Doorbell Sensor
-# - Door Opener Button
-# - Party Mode Switch (Disabled by default)
-# - Last Bus Command Sensor (Disabled by default)
-# - External Button Binary Sensor (Disabled by default)
-# - Relay Switch (Disabled by default)
-
-
 # You can change a few options here.
-# There are more substitutions available for testing - just take a look at Github.
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"
-
-  # TCS Commands
-  # Make sure to change all commands to yours in order to use the preconfigured Entities
-  apartment_doorbell_command: "0x00000000"
-  entrance_doorbell_command: "0x00000000"
-  entrance_door_opener_command: "0x1100"
-
-  # Optional Settings
   # log_level: "ERROR"
-  # party_mode_door_opener_delay: "70ms"
-
+  # led_pin: "GPIO1"
+  # rgb_led_pin: "GPIO2"
+  # relay_pin: "GPIO42"
+  # external_button_pin: "GPIO41"
 
 # Import Doorman Stock Firmware Config
 packages:
-  AzonInc.Doorman_S3: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
-
+  AzonInc.Doorman: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
 
 esphome:
   name: ${name}
@@ -46,30 +27,3 @@ api:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-
-
-
-
-# Working with TCS Commands
-# You can easily add more binary sensors next to the preconfigured ones for every possible TCS Command. Just do it like that:
-
-#binary_sensor:
-#  - platform: tcs_intercom
-#    name: "Apartment Doorbell"
-#    command: "0x3b8f9a00"
-
-
-
-# Controlling the internal RGB LED
-# If you want to control the onboard RGB LED just use the Light ID: doorman_rgb_status_led
-# For example:
-
-#button:
-#  - platform: template
-#    name: "Turn on Status RGB LED to red"
-#    on_press:
-#      - light.turn_on:
-#          id: doorman_rgb_status_led
-#          red: 100%
-#          green: 0%
-#          blue: 0%
