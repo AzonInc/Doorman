@@ -3,13 +3,13 @@
 name: Deploy VitePress site and ESPHome Firmware to Pages
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
   # Runs on pushes targeting the `main` branch. Change this to `master` if you're
   # using the `master` branch as the default branch.
   push:
-    branches: [master]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches: [master, dev]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
