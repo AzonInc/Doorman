@@ -4,10 +4,31 @@ This is the prefered Firmware as it works out of the Box with Doorman S3.
 It supports Improv via Bluetooth LE.
 
 ### Update Firmware
-You can either update your Doorman via ESPHome OTA or HTTP OTA (This doesn't require the ESPHome Dashboard).
+There are a few ways to update the firmware:
+- ESPHome OTA <Badge type="warning" text="Requires ESPHome Dashboard" />
+- HTTP OTA <Badge type="tip" text="Latest release build" />
+- Web Serial <Badge type="tip" text="Latest release build & custom firmware" />
 
-Click on Connect to install or update to the latest and greatest Doorman Stock Firmware.
-<esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-stock-manifest.json"></esp-web-install-button>
+To use Web Serial, connect your Doorman via USB-C and click the button below to install the latest and greatest Doorman Stock Firmware.
+<esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-stock-manifest.json">
+    <button slot="activate">
+        <div class="custom-layout">
+            <a class="btn">Install or Update Firmware</a>
+        </div>
+    </button>
+    <div slot="unsupported">
+        <div class="danger custom-block">
+            <p class="custom-block-title">OH SNAP!</p>
+            <p>Your Browser doesn't support Web Serial :(</p>
+        </div>
+    </div>
+    <div slot="not-allowed">
+        <div class="danger custom-block">
+            <p class="custom-block-title">OH SNAP!</p>
+            <p>You are not allowed to use this on HTTP :(</p>
+        </div>
+    </div>
+</esp-web-install-button>
 
 ## Entities
 
