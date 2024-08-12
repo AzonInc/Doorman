@@ -50,6 +50,8 @@ globals:
 esp32:
   board: esp32-s3-devkitc-1
   flash_size: 8MB
+  framework:
+    type: esp-idf
 
 # Essential ESPHome Configuration Options
 esphome:
@@ -129,6 +131,7 @@ improv_serial:
 external_components:
   - source: github://AzonInc/esphome_tcs_intercom@master
     components: [ tcs_intercom ]
+    refresh: 1m
 
 # Setup TCS Intercom Component
 tcs_intercom:
