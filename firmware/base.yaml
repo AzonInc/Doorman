@@ -41,7 +41,7 @@ globals:
     restore_value: true
     initial_value: '0x3000'
 
-  - id: ring_to_open_command
+  - id: ring_to_open_toggle_command
     type: int
     restore_value: true
     initial_value: '0x00000000'
@@ -478,9 +478,9 @@ binary_sensor:
 
   # Ring To Open - toggle switch automation
   - platform: tcs_intercom
-    id: ring_to_open_toggle_command
+    id: ring_to_open_toggle
     internal: true
-    lambda: !lambda "return id(ring_to_open_command);"
+    lambda: !lambda "return id(ring_to_open_toggle_command);"
     on_press:
       - switch.toggle: doorman_ring_to_open
 
@@ -589,7 +589,7 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
-    id: toggle_ring_to_open_command_input
+    id: ring_to_open_toggle_command_input
     name: "Command: Toggle Ring To Open"
     optimistic: true
     mode: text
@@ -598,7 +598,7 @@ text:
     on_value:
       then:
         - lambda: |-
-            id(ring_to_open_command) = std::stoi(x.c_str(), nullptr, 16);
+            id(ring_to_open_toggle_command) = std::stoi(x.c_str(), nullptr, 16);
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"

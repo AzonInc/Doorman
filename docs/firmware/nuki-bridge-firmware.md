@@ -51,7 +51,6 @@ You can connect your Doorman via USB-C and click the button below to install the
 - Nuki Door Sensor `nuki_door_sensor` <Badge type="info" text="Disabled by default" />
 - Nuki Door Sensor State `nuki_door_sensor_state` <Badge type="info" text="Disabled by default" />
 
-
 ### Switches
 - Ring To Open `doorman_ring_to_open`
 - Ring To Open: Confirmation `doorman_ring_to_open_confirmation` <Badge type="info" text="Disabled by default" />
@@ -77,7 +76,7 @@ You can connect your Doorman via USB-C and click the button below to install the
 - Command: Open Second Door `open_second_door_command_input` <Badge type="info" text="Disabled by default" />
 - Command: Pick up phone `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
 - Command: Hang up phone `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
-- Command: Ring To Open Toggle `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
+- Command: Ring To Open Toggle `ring_to_open_toggle_command_input` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Delay `doorman_ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Timeout `doorman_ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
 
