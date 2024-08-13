@@ -181,11 +181,12 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     turn_on_action:
-      - script.execute: update_led
       - script.execute: ring_to_open_timer
     turn_off_action:
-      - light.turn_off: doorman_rgb_status_led
       - script.stop: ring_to_open_timer
+    on_turn_on:
+      - script.execute: update_led
+    on_turn_off:
       - script.execute: update_led
 
   - platform: template

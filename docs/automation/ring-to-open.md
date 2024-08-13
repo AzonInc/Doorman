@@ -17,7 +17,7 @@ The button can quickly toggle the `Ring To Open` automation.
 :::
 
 ::: info Ring To Open Confirmation
-If you enable this setting, your apartment doorbell will ring whenever you enable the `Ring To Open` automation.
+If you enable this setting, your apartment doorbell will ring whenever you enable the `Ring To Open` automation via command.
 :::
 
 ::: info Ring To Open Delay
