@@ -93,7 +93,7 @@ esphome:
           blue: 95%
           color_brightness: 60%
       - delay: 3s
-      - script.execute: reset_led
+      - script.execute: update_led
 
 # Enable logging
 logger:
@@ -181,23 +181,12 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     turn_on_action:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          red: 100%
-          green: 100%
-          blue: 3%
-          effect: slow_pulse
-      - delay: 300ms
-      - if: 
-          condition:
-            - switch.is_on: doorman_ring_to_open_confirmation
-          then:
-            - tcs_intercom.send:
-                command: !lambda "return id(apartment_doorbell_command);"
+      - script.execute: update_led
       - script.execute: ring_to_open_timer
     turn_off_action:
       - light.turn_off: doorman_rgb_status_led
       - script.stop: ring_to_open_timer
+      - script.execute: update_led
 
   - platform: template
     name: "Ring To Open: Confirmation"
@@ -487,6 +476,14 @@ binary_sensor:
     lambda: !lambda "return id(ring_to_open_toggle_command);"
     on_press:
       - switch.toggle: doorman_ring_to_open
+      - delay: 300ms
+      - if: 
+          condition:
+            - switch.is_on: doorman_ring_to_open
+            - switch.is_on: doorman_ring_to_open_confirmation
+          then:
+            - tcs_intercom.send:
+                command: !lambda "return id(apartment_doorbell_command);"
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
@@ -689,10 +686,23 @@ event:
       - "triple"
 
 script:
-  - id: reset_led
+  - id: update_led
     then:
       # TODO: Restore specific state conditionally
-      - light.turn_off: doorman_rgb_status_led
+      - if:
+          condition:
+            - switch.is_on: doorman_ring_to_open
+          then:
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                red: 100%
+                green: 100%
+                blue: 3%
+                effect: slow_pulse
+          else:
+            - light.turn_off:
+                id: doorman_rgb_status_led
+                transition_length: 1s
 
   - id: ring_to_open_timer
     then:
