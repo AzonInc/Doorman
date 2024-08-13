@@ -60,6 +60,7 @@ jobs:
           mkdir output
           mv "${{ steps.esphome-build.outputs.name}}" temp
           mv temp "output/${{ inputs.directory_name }}"
+          sed -i '/"new_install_prompt_erase"/s/false/true/' output/${{ inputs.directory_name }}/manifest.json
           sed -i 's/Doorman S3/${{ inputs.name }}/g' output/${{ inputs.directory_name }}/manifest.json
 
       - uses: actions/upload-artifact@v4
