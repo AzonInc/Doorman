@@ -8,10 +8,14 @@ Thank you for using Doorman <3
 
 ### Network Connection
 When you power on your Doorman-S3 for the first time it will blink fast (orange) and opens a new Access Point called `Doorman-S3 Setup`.
+You can setup your WiFi credentials via Access Point, Improv Serial or Improv Bluetooth.
 
 The Access Point password is `open-sesame`.
 
-You can setup your WiFi credentials via Access Point, Improv Serial or Improv Bluetooth.
+When you connect to the Access Point, the web interface should open automatically (see also login to network notifications).\
+If that does not work, you can also navigate to http://192.168.4.1/ manually in your browser.
+
+
 
 ::: tip
 Thanks to mDNS support, Home Assistant will find your Doorman out of the box after connecting it to WiFi.

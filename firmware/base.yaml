@@ -49,6 +49,7 @@ globals:
 # Board Setup
 esp32:
   board: esp32-s3-devkitc-1
+  variant: esp32s3
   flash_size: 8MB
   framework:
     type: esp-idf
@@ -64,10 +65,7 @@ esphome:
   project:
     name: "AzonInc.Doorman-Stock"
     version: "2024.8.1"
-
-  platformio_options:
-      board_build.flash_mode: dio
-      
+    
   on_boot:
     then:
       - light.turn_on:
