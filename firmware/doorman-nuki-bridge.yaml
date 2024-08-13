@@ -81,8 +81,7 @@ lock:
           effect: pulse
 
     on_pairing_mode_off_action:
-      - light.turn_off:
-          id: doorman_rgb_status_led
+      - script.execute: update_led
     
     on_paired_action:
       - light.turn_on:
@@ -93,5 +92,4 @@ lock:
           effect: none
           brightness: 60%
       - delay: 3s
-      - light.turn_off:
-          id: doorman_rgb_status_led
+      - script.execute: update_led
