@@ -33,20 +33,24 @@ lock:
       id: nuki_connected
       name: "Nuki Connected"
       icon: "mdi:link"
+      entity_category: DIAGNOSTIC
 
     is_paired:
       id: nuki_paired
       name: "Nuki Paired"
       icon: "mdi:link"
+      entity_category: DIAGNOSTIC
 
     # Optional:
     battery_critical:
       id: nuki_battery_critical
       name: "Nuki Battery Critical"
+      entity_category: DIAGNOSTIC
 
     battery_level:
       id: nuki_battery_level
       name: "Nuki Battery Level"
+      entity_category: DIAGNOSTIC
 
     door_sensor:
       id: nuki_door_sensor
