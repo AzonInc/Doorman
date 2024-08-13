@@ -72,18 +72,6 @@ If you need a good quality one stop manufacturer I can definitely recommend [PCB
 
 You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
 
-## 🖨️ Enclosure
-
-In case you want an enclosure you can print your own one.\
-Just use the STL files provided [here](https://github.com/AzonInc/Doorman/tree/master/enclosure) and you'll be good to go.\
-<img src=".github/images/enclosure.png" alt="Doorman S3" height="275">
-
-## ⚠️ Disclaimer
-
-Please DO NOT use the +24V P-Line if the Power Supply is not powerful enough.\
-It is possible that the intercoms power supply can not provide enough power because other devices are taking too much current.\
-In that case you need to use an external power supply via USB-C or Screw Terminals (P and one of TCS:BUS).
-
 ## 🙌 Contributing
 If you would like to contribute, please feel free to open a Pull Request.
 
