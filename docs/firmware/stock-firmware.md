@@ -6,8 +6,8 @@ It supports Improv via Bluetooth LE.
 ### Update Firmware
 There are a few ways to update the firmware:
 - ESPHome OTA <Badge type="warning" text="Requires ESPHome Dashboard" />
-- HTTP OTA <Badge type="tip" text="Latest release build" />
-- Web Serial <Badge type="tip" text="Latest release build & custom firmware" />
+- HTTP OTA <Badge type="tip" text="Latest release build, no customization" />
+- Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
 You can connect your Doorman via USB-C and click the button below to install the latest and greatest Doorman Stock Firmware right here via Web Serial.
 <esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json">
@@ -30,7 +30,18 @@ You can connect your Doorman via USB-C and click the button below to install the
     </div>
 </esp-web-install-button>
 
-## Entities
+## Firmware YAML
+This is the minimal ESPHome configuration yaml file, make sure to change the API key.
+
+::: details Minimal Stock Firmware
+```yaml
+<!--@include: ../../firmware/examples/stock.example.yaml-->
+```
+:::
+
+<!--@include: ./additions.md-->
+
+## Entity Overview
 
 ### Sensors
 - Last Bus Command `last_bus_command`
@@ -68,14 +79,3 @@ You can connect your Doorman via USB-C and click the button below to install the
 - Command: Ring To Open Toggle `ring_to_open_toggle_command_input` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Delay `doorman_ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Timeout `doorman_ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
-
-
-
-## Firmware
-::: details Minimal Stock Firmware
-```yaml
-<!--@include: ../../firmware/examples/stock.example.yaml-->
-```
-:::
-
-<!--@include: ./additions.md-->

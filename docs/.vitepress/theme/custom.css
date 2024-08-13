@@ -13,6 +13,7 @@
     white-space: nowrap;
     transition: color .25s, border-color .25s, background-color .25s;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .custom-layout .btn:hover {
