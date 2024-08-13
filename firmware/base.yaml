@@ -149,7 +149,7 @@ tcs_intercom:
 
 select:
   - platform: template
-    id: ring_to_open_timeout_mode
+    id: doorman_ring_to_open_timeout_mode
     name: Ring To Open Timeout
     icon: mdi:clock-fast
     optimistic: true
@@ -200,7 +200,7 @@ switch:
       - script.stop: ring_to_open_timer
 
   - platform: template
-    name: Ring To Open Confirmation
+    name: "Ring To Open: Confirmation"
     icon: mdi:bell-check
     id: doorman_ring_to_open_confirmation
     restore_mode: RESTORE_DEFAULT_OFF
@@ -316,7 +316,7 @@ binary_sensor:
               # Deactivate Ring To Open when Ring once is selected
               - if:
                   condition:
-                    - lambda: !lambda 'return id(ring_to_open_timeout_mode).state == "Ring once";'
+                    - lambda: !lambda 'return id(doorman_ring_to_open_timeout_mode).state == "Ring once";'
                   then:
                     - switch.turn_off: doorman_ring_to_open
 
@@ -324,12 +324,12 @@ binary_sensor:
               - if:
                   condition:
                     number.in_range:
-                      id: ring_to_open_delay
+                      id: doorman_ring_to_open_delay
                       above: 59
                   then:
                     - delay: !lambda "return 5000 + (rand() % 10000);"
                   else:
-                    - delay: !lambda "return id(ring_to_open_delay).state*1000;"
+                    - delay: !lambda "return id(doorman_ring_to_open_delay).state*1000;"
 
               - tcs_intercom.send:
                   command: !lambda "return id(first_door_opener_command);"
@@ -486,8 +486,9 @@ binary_sensor:
 
 number:
   - platform: template
-    name: Ring To Open Delay
-    id: ring_to_open_delay
+    name: "Ring To Open: Delay"
+    id: doorman_ring_to_open_delay
+    icon: "mdi:clock-end"
     mode: slider
     min_value: 0
     max_value: 60
@@ -496,9 +497,8 @@ number:
     restore_value: true
     initial_value: 0
     unit_of_measurement: seconds
-    disabled_by_default: true
     entity_category: CONFIG
-    icon: "mdi:clock-end"
+    disabled_by_default: true
 
 text:
   - platform: template
@@ -637,10 +637,10 @@ script:
       # Turn off Ring To Open Mode after selected time
       - if:
           condition:
-            - lambda: !lambda 'return id(ring_to_open_timeout_mode).state != "Never" && id(ring_to_open_timeout_mode).state != "Ring once";'
+            - lambda: !lambda 'return id(doorman_ring_to_open_timeout_mode).state != "Never" && id(doorman_ring_to_open_timeout_mode).state != "Ring once";'
           then:
             - delay: !lambda |-
-                std::string str = id(ring_to_open_timeout_mode).state;
+                std::string str = id(doorman_ring_to_open_timeout_mode).state;
                 std::vector<std::string> v;
                 char * token;
                 char seps[] = " ";

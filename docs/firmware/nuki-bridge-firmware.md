@@ -54,7 +54,7 @@ You can connect your Doorman via USB-C and click the button below to install the
 
 ### Switches
 - Ring To Open `doorman_ring_to_open`
-- Ring To Open Confirmation `doorman_ring_to_open_confirmation` <Badge type="info" text="Disabled by default" />
+- Ring To Open: Confirmation `doorman_ring_to_open_confirmation` <Badge type="info" text="Disabled by default" />
 - Relay `doorman_relay` <Badge type="info" text="Disabled by default" />
 - Nuki Pairing Mode `nuki_pairing_mode` <Badge type="info" text="Disabled by default" />
 
@@ -78,8 +78,8 @@ You can connect your Doorman via USB-C and click the button below to install the
 - Command: Pick up phone `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
 - Command: Hang up phone `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
 - Command: Ring To Open Toggle `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
-- Ring To Open Delay `ring_to_open_delay` <Badge type="info" text="Disabled by default" />
-- Ring To Open Timeout `ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
+- Ring To Open: Delay `doorman_ring_to_open_delay` <Badge type="info" text="Disabled by default" />
+- Ring To Open: Timeout `doorman_ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
 
 ## Pairing your Nuki Lock
 Depending on the PCB revision, press the `FLASH` or `PRG` button on the Doorman PCB for 5 seconds until the Status LED starts flashing purple or turn on the `Nuki Pairing Mode` switch in Home Assistant. Press the Button on your Nuki Lock for 5 seconds until the light-ring turns on.
