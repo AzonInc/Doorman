@@ -510,28 +510,44 @@ text:
   - platform: template
     id: open_entrance_door_command_input
     name: "Command: Open Entrance Door"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00001100'
-    on_value:
+    lambda: |-
+      unsigned long number = id(first_door_opener_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(first_door_opener_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(first_door_opener_command) = number;
+            id(open_entrance_door_command_input)->publish_state(str_upper_case(format_hex(number)));
     entity_category: CONFIG
     icon: "mdi:console-network"
 
   - platform: template
     id: open_second_door_command_input
     name: "Command: Open Second Door"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00001100'
-    on_value:
+    lambda: |-
+      unsigned long number = id(second_door_opener_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(second_door_opener_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(second_door_opener_command) = number;
+            id(open_second_door_command_input)->publish_state(str_upper_case(format_hex(number)));
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"
@@ -539,42 +555,66 @@ text:
   - platform: template
     id: entrance_doorbell_command_input
     name: "Command: Entrance Doorbell"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00000000'
-    on_value:
+    lambda: |-
+      unsigned long number = id(entrance_doorbell_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(entrance_doorbell_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(entrance_doorbell_command) = number;
+            id(entrance_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
     entity_category: CONFIG
     icon: "mdi:console-network"
 
   - platform: template
     id: apartment_doorbell_command_input
     name: "Command: Apartment Doorbell"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00000000'
-    on_value:
+    lambda: |-
+      unsigned long number = id(apartment_doorbell_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(apartment_doorbell_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(apartment_doorbell_command) = number;
+            id(apartment_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
     entity_category: CONFIG
     icon: "mdi:console-network"
 
   - platform: template
     id: pick_up_phone_command_input
     name: "Command: Pick up phone"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00000000'
-    on_value:
+    lambda: |-
+      unsigned long number = id(pick_up_phone_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(pick_up_phone_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(pick_up_phone_command) = number;
+            id(pick_up_phone_command_input)->publish_state(str_upper_case(format_hex(number)));
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"
@@ -582,14 +622,22 @@ text:
   - platform: template
     id: hang_up_command_input
     name: "Command: Hang up phone"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00003000'
-    on_value:
+    lambda: |-
+      unsigned long number = id(hang_up_phone_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(hang_up_phone_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(hang_up_phone_command) = number;
+            id(hang_up_command_input)->publish_state(str_upper_case(format_hex(number)));
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"
@@ -597,14 +645,22 @@ text:
   - platform: template
     id: ring_to_open_toggle_command_input
     name: "Command: Toggle Ring To Open"
-    optimistic: true
     mode: text
-    restore_value: true
-    initial_value: '00000000'
-    on_value:
+    lambda: |-
+      unsigned long number = id(ring_to_open_toggle_command);
+      return str_upper_case(format_hex(number));
+    set_action:
       then:
         - lambda: |-
-            id(ring_to_open_toggle_command) = std::stoi(x.c_str(), nullptr, 16);
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(!x.empty()) {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(ring_to_open_toggle_command) = number;
+            id(ring_to_open_toggle_command_input)->publish_state(str_upper_case(format_hex(number)));
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"
