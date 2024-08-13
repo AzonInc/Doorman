@@ -419,6 +419,7 @@ binary_sensor:
     name: "Pick up phone"
     lambda: !lambda "return id(pick_up_phone_command);"
     auto_off: 0.2s
+    entity_category: DIAGNOSTIC
     disabled_by_default: true
     on_multi_click:
       # Single press
@@ -462,6 +463,7 @@ binary_sensor:
     name: "Hang up phone"
     lambda: !lambda "return id(hang_up_phone_command);"
     auto_off: 0.2s
+    entity_category: DIAGNOSTIC
     disabled_by_default: true
 
   - platform: gpio
@@ -479,10 +481,14 @@ binary_sensor:
   # Ring To Open - toggle switch automation
   - platform: tcs_intercom
     id: ring_to_open_toggle
+    name: "Ring To Open: Trigger"
+    auto_off: 0.2s
     internal: true
     lambda: !lambda "return id(ring_to_open_toggle_command);"
     on_press:
       - switch.toggle: doorman_ring_to_open
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
 
 number:
   - platform: template
