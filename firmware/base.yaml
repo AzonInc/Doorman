@@ -445,6 +445,7 @@ number:
     optimistic: true
     restore_value: true
     initial_value: 0
+    unit_of_measurement: seconds
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:clock-end"
