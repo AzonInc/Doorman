@@ -59,13 +59,13 @@ You can connect your Doorman via USB-C and click the button below to install the
 - Phone pick up Pattern `phone_pick_up_pattern`
 
 ### Configuration Inputs
-- Apartment Doorbell Command `apartment_doorbell_command_input`
-- Entrance Doorbell Command `entrance_doorbell_command_input`
-- Open Entrance Door Command `open_entrance_door_command_input`
-- Open Second Door Command `open_second_door_command_input` <Badge type="info" text="Disabled by default" />
-- Pick up phone Command `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
-- Hang up phone Command `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
-- Ring To Open Toggle Command `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
+- Command: Apartment Doorbell `apartment_doorbell_command_input`
+- Command: Entrance Doorbell `entrance_doorbell_command_input`
+- Command: Open Entrance Door `open_entrance_door_command_input`
+- Command: Open Second Door `open_second_door_command_input` <Badge type="info" text="Disabled by default" />
+- Command: Pick up phone `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Command: Hang up phone `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Command: Ring To Open Toggle `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
 - Ring To Open Delay `ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 - Ring To Open Timeout `ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
 

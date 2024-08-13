@@ -503,7 +503,7 @@ number:
 text:
   - platform: template
     id: open_entrance_door_command_input
-    name: Open Entrance Door Command
+    name: "Command: Open Entrance Door"
     optimistic: true
     mode: text
     restore_value: true
@@ -517,7 +517,7 @@ text:
 
   - platform: template
     id: open_second_door_command_input
-    name: Open Second Door Command
+    name: "Command: Open Second Door"
     optimistic: true
     mode: text
     restore_value: true
@@ -532,7 +532,7 @@ text:
 
   - platform: template
     id: entrance_doorbell_command_input
-    name: Entrance Doorbell Command
+    name: "Command: Entrance Doorbell"
     optimistic: true
     mode: text
     restore_value: true
@@ -546,7 +546,7 @@ text:
 
   - platform: template
     id: apartment_doorbell_command_input
-    name: Apartment Doorbell Command
+    name: "Command: Apartment Doorbell"
     optimistic: true
     mode: text
     restore_value: true
@@ -560,7 +560,7 @@ text:
 
   - platform: template
     id: pick_up_phone_command_input
-    name: Pick up phone Command
+    name: "Command: Pick up phone"
     optimistic: true
     mode: text
     restore_value: true
@@ -575,7 +575,7 @@ text:
 
   - platform: template
     id: hang_up_command_input
-    name: Hang up phone Command
+    name: "Command: Hang up phone"
     optimistic: true
     mode: text
     restore_value: true
@@ -590,7 +590,7 @@ text:
 
   - platform: template
     id: toggle_ring_to_open_command_input
-    name: Toggle Ring To Open Command
+    name: "Command: Toggle Ring To Open"
     optimistic: true
     mode: text
     restore_value: true
