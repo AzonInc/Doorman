@@ -61,31 +61,12 @@ jobs:
       - run: |
           ls -la
           mkdir output
-          mv "${{ steps.esphome-build.outputs.name}}" temp
-          mv temp "${{ inputs.directory_name }}"
-          mv "${{ inputs.directory_name }}" output/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ inputs.name }}
-          path: output
 
-  publish:
-    if: (github.event_name == 'workflow_dispatch' || github.event_name == 'push') && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
-    name: Upload artifacts
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          path: output
-          name: ${{ inputs.name }}
-  
-      - name: Create single manifest.json
-        run: |
-          jq -s '{"name": "${{ inputs.name }}", "version": "${{ needs.build.outputs.project-version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/${{ inputs.manifest_filename }}
-          sed -i 's/${{ needs.build.outputs.esphome-build-name }}\//${{ inputs.directory_name }}\//g' output/${{ inputs.manifest_filename }}
-  
+          mv "${{ steps.esphome-build.outputs.name}}" temp
+          mv temp "output/${{ inputs.directory_name }}"
+
+          sed -i 's/${{ steps.esphome-build.outputs.original-name }}/${{ inputs.directory_name }}\//g' output/${{ inputs.directory_name }}/manifest.json
+          
       - uses: actions/upload-artifact@v4
         with:
           name: firmware-${{ inputs.directory_name }}
