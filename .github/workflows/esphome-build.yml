@@ -51,8 +51,8 @@ jobs:
       esphome-build-name: ${{ steps.esphome-build.outputs.name}}
       project-version: ${{ steps.esphome-build.outputs.project-version }}
     steps:
-      - uses: actions/checkout@v3.5.3
-      - uses: esphome/build-action@v3.2.0
+      - uses: actions/checkout@v4
+      - uses: esphome/build-action@v4.0.1
         id: esphome-build
         with:
           yaml_file: ${{ matrix.file }}
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: output
