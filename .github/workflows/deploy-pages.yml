@@ -53,7 +53,7 @@ jobs:
 
   build-doorman-stock-firmware:
     name: Build Doorman Stock Firmware
-    uses: ./.github/workflows/esphome-build.yml
+    uses: .github/workflows/esphome-build.yml
     with:
       files: firmware/doorman-stock.yaml
       name: AzonInc.Doorman-Stock
@@ -62,7 +62,7 @@ jobs:
 
   build-doorman-nuki-bridge-firmware:
     name: Build Doorman Nuki Bridge Firmware
-    uses: ./.github/workflows/esphome-build.yml
+    uses: .github/workflows/esphome-build.yml
     with:
       files: firmware/doorman-nuki-bridge.yaml
       name: AzonInc.Doorman-Nuki-Bridge

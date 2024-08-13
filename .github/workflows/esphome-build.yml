@@ -47,13 +47,16 @@ jobs:
       project-version: ${{ steps.esphome-build.outputs.project-version }}
     steps:
       - uses: actions/checkout@v4
+      
       - uses: esphome/build-action@v4.0.1
         id: esphome-build
         with:
           yaml-file: ${{ matrix.file }}
           version: ${{ inputs.esphome_version }}
           complete-manifest: true
-      - run: |
+
+      - name: Change Manifest Firmware Name
+        run: |
           mkdir output
           mv "${{ steps.esphome-build.outputs.name}}" temp
           mv temp "output/${{ inputs.directory_name }}"

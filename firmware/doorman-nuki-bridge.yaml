@@ -1,6 +1,6 @@
 dashboard_import:
   package_import_url: github://AzonInc/doorman/firmware/examples/doorman-nuki-bridge.yaml@master
-  import_full_config: true
+  import_full_config: false
 
 packages:
   device_base: !include base.yaml
@@ -20,7 +20,7 @@ update:
   - platform: http_request
     id: update_http_request
     name: Firmware
-    source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge-manifest.json
+    source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json
 
 # Nuki Lock Bridge
 lock:

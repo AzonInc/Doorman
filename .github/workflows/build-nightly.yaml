@@ -1,4 +1,4 @@
-name: Nightly Firmware Build Check
+name: Nightly Firmware Build Check (Beta)
 on:
   schedule:
     - cron: "0 0 * * *"
@@ -8,14 +8,10 @@ on:
 
 jobs:
   build:
-    name: Build Firmware
+    name: Build Firmware on Beta
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
 
       - name: Compile Stock Firmware
         uses: esphome/build-action@v4.0.1
