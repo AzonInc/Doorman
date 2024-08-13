@@ -44,6 +44,7 @@ You can connect your Doorman via USB-C and click the button below to install the
 
 ### Switches
 - Ring To Open `doorman_ring_to_open`
+- Ring To Open Confirmation `doorman_ring_to_open_confirmation` <Badge type="info" text="Disabled by default" />
 - Relay `doorman_relay` <Badge type="info" text="Disabled by default" />
 
 ### Buttons
@@ -66,6 +67,7 @@ You can connect your Doorman via USB-C and click the button below to install the
 - Hang up phone Command `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
 - Ring To Open Toggle Command `ring_to_open_toggle_command` <Badge type="info" text="Disabled by default" />
 - Ring To Open Delay `ring_to_open_delay` <Badge type="info" text="Disabled by default" />
+- Ring To Open Timeout `ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
 
 
 
