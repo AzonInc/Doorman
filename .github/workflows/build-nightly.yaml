@@ -20,14 +20,16 @@ jobs:
       - name: Compile Stock Firmware
         uses: esphome/build-action@v4.0.1
         with:
-          yaml_file: firmware/doorman-stock.yaml
+          yaml-file: firmware/doorman-stock.yaml
           version: beta
+          complete-manifest: true
 
       - name: Compile Nuki Bridge Firmware
         uses: esphome/build-action@v4.0.1
         with:
-          yaml_file: firmware/doorman-nuki-bridge.yaml
+          yaml-file: firmware/doorman-nuki-bridge.yaml
           version: beta
+          complete-manifest: true
 
       - name: Send Discord failure notification
         if: failure()

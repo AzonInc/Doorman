@@ -55,9 +55,11 @@ jobs:
       - uses: esphome/build-action@v4.0.1
         id: esphome-build
         with:
-          yaml_file: ${{ matrix.file }}
+          yaml-file: ${{ matrix.file }}
           version: ${{ inputs.esphome_version }}
+          complete-manifest: true
       - run: |
+          ls -la
           mkdir output
           mv "${{ steps.esphome-build.outputs.name}}" temp
           mv temp "${{ inputs.directory_name }}"
