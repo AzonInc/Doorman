@@ -521,7 +521,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(first_door_opener_command) = number;
@@ -543,7 +543,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(second_door_opener_command) = number;
@@ -566,7 +566,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(entrance_doorbell_command) = number;
@@ -588,7 +588,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(apartment_doorbell_command) = number;
@@ -610,7 +610,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(pick_up_phone_command) = number;
@@ -633,7 +633,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(hang_up_phone_command) = number;
@@ -656,7 +656,7 @@ text:
             x.erase(0, x.find_first_not_of('0'));
             x.resize(8);
             unsigned long number = 0;
-            if(!x.empty()) {
+            if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
             id(ring_to_open_toggle_command) = number;
