@@ -67,7 +67,7 @@ You can connect your Doorman via USB-C and click the button below to install the
 
 ### Events
 - Doorbell Pattern `doorbell_pattern`
-- Phone pickup Pattern `phone_pickup_pattern`
+- Phone pick up Pattern `phone_pick_up_pattern`
 
 ### Configuration Inputs
 - Apartment Doorbell Command `apartment_doorbell_command_input`

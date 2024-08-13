@@ -156,6 +156,12 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     turn_on_action:
+      - if: 
+          condition:
+            - switch.is_on: doorman_ring_to_open_confirmation
+          then:
+            - tcs_intercom.send:
+                command: !lambda "return id(apartment_doorbell_command);"
       - light.turn_on:
           id: doorman_rgb_status_led
           red: 100%
@@ -164,6 +170,13 @@ switch:
           effect: slow_pulse
     turn_off_action:
       - light.turn_off: doorman_rgb_status_led
+
+  - platform: template
+    name: Ring To Open - Confirmation
+    icon: mdi:bell-check
+    id: doorman_ring_to_open_confirmation
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
 
   # Preconfigured Relay Switch
   - platform: gpio
@@ -377,7 +390,7 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: phone_pickup_pattern
+              id: phone_pick_up_pattern
               event_type: single
 
       # Double press
@@ -389,7 +402,7 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: phone_pickup_pattern
+              id: phone_pick_up_pattern
               event_type: double
               
       # Triple press
@@ -404,7 +417,7 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: phone_pickup_pattern
+              id: phone_pick_up_pattern
               event_type: triple
 
   - platform: tcs_intercom
@@ -568,8 +581,8 @@ event:
       - "entrance_triple"
 
   - platform: template
-    id: phone_pickup_pattern
-    name: "Phone pickup Pattern"
+    id: phone_pick_up_pattern
+    name: "Phone pick up Pattern"
     icon: "mdi:phone-incoming-outgoing"
     event_types:
       - "single"

@@ -53,12 +53,12 @@ mode: single
 ::: details Toggle Ring To Open Mode when you quickly pick up the phone 3 times.
 You have to change the `entity_id` to your Doorman entities.
 ```yaml
-alias: Toggle Ring To Open Mode (Phone pickup Pattern)
+alias: Toggle Ring To Open Mode (Phone pick up Pattern)
 description: "Toggle Ring To Open Mode when you quickly pick up the phone 3 times."
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_phone_pickup_pattern
+      - event.doorman_s3_phone_pick_up_pattern
     attribute: event_type
     to: triple
 condition: []

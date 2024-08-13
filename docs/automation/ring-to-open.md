@@ -12,7 +12,8 @@ You can enable and disable the `Ring To Open` automation with either the switch 
 The latter is useful when you have an unused function button on your intercom phone.
 
 ::: tip
-It is also possible to configure a delay for the opener command with the `Ring To Open Delay` Number Input in the Configuration section.
-
+It is also possible to configure a delay for the opener command with the `Ring To Open Delay` Number Input in the Configuration section.\
 If you set the delay to 60 seconds it will choose a random time between 5 and 15 seconds.
+
+You can also use the `Ring To Open Confirmation` setting to let the doorbell ring once after enabling the `Ring To Open` automation.
 :::
