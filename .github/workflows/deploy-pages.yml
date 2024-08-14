@@ -44,7 +44,7 @@ jobs:
       - name: Set Version
         run: |
           version=$(grep 'version:' firmware/base.yaml | awk -F'"' '{print $2}')
-          sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$version\"/" package.json
+          sed -i -e "s/\"version\": \"[^\"]*\"/\"version\": \"$version\"/" package.json
       - name: Install dependencies
         run: npm ci
       - name: Build with VitePress
