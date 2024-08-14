@@ -18,9 +18,15 @@ esp32:
 
 update:
   - platform: http_request
-    id: update_http_request
-    name: Firmware
+    id: update_http_request_stable
+    name: Firmware (stable)
     source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json
+    disabled_by_default: false
+  - platform: http_request
+    id: update_http_request_dev
+    name: Firmware (dev)
+    source: https://doorman-dev.surge.sh/firmware/release/doorman-nuki-bridge/manifest.json
+    disabled_by_default: true
 
 # Nuki Lock Bridge
 lock:
