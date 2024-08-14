@@ -67,7 +67,7 @@ esphome:
     version: "2024.8.1"
 
   platformio_options:
-      board_build.flash_mode: dio
+    board_build.flash_mode: dio
 
   on_boot:
     then:

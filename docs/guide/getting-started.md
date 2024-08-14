@@ -50,7 +50,9 @@ If you want to customize your Doorman Firmware you can adopt the Doorman Device 
 After adopting the device you will have a config like that:
 ::: details Example
 > [!NOTE]
-> This config is only importing the whole Doorman-Stock package. You can add new sensors and stuff here but if you really want to customize the firmware you need to use the `base.yaml` from the repository.
+> You can add new components here and also modify existing ones. Take a look at the [Examples](../firmware/stock-firmware#examples) section to read more about the possibilities.
+>
+>However if you really want to customize the firmware you need to use the `base.yaml` from the repository.
 
 ```yaml
 substitutions:
