@@ -299,7 +299,7 @@ light:
 sensor:
   - platform: uptime
     name: Uptime
-    id: uptime
+    id: doorman_uptime
     type: timestamp
 
 binary_sensor:   

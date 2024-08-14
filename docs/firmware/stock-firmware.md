@@ -45,7 +45,7 @@ This is the minimal ESPHome configuration yaml file, make sure to change the API
 
 ### Sensors
 - Last Bus Command `last_bus_command`
-- Uptime `uptime`
+- Uptime `doorman_uptime`
 
 ### Binary Sensors
 - Entrance Doorbell `entrance_doorbell`
