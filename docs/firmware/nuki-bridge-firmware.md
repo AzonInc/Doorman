@@ -64,6 +64,7 @@ Your Nuki Lock is now unpaired. The pairing mode will time out after 30 seconds.
 
 ### Sensors
 - Last Bus Command `last_bus_command`
+- Uptime `uptime`
 - Nuki Battery Level `nuki_battery_level`
 
 ### Binary Sensors

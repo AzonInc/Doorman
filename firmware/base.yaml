@@ -113,6 +113,9 @@ api:
         - tcs_intercom.send:
             command: !lambda 'return command;'
 
+web_server:
+  version: 3
+
 ota:
   - platform: esphome
   - platform: http_request
@@ -292,6 +295,12 @@ light:
           update_interval: 2s
           min_brightness: 0%
           max_brightness: 40%
+
+sensor:
+  - platform: uptime
+    name: Uptime
+    id: uptime
+    type: timestamp
 
 binary_sensor:   
   # Preconfigured Sensors

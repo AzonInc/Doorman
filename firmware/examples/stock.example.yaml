@@ -19,10 +19,6 @@ esphome:
   name_add_mac_suffix: false
   friendly_name: ${friendly_name}
 
-api:
-  encryption:
-    key: "REPLACEME"
-
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
