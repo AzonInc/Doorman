@@ -28,7 +28,7 @@ jobs:
     uses: ./.github/workflows/actions/build-esphome.yml
     with:
       files: firmware/doorman-stock.yaml
-      name: AzonInc.Doorman-Stock
+      name: AzonInc.Doorman
       esphome_version: dev
       directory_name: doorman-stock
 

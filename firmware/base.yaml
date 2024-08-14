@@ -63,7 +63,7 @@ esphome:
   min_version: "2024.8.0"
 
   project:
-    name: "AzonInc.Doorman-Stock"
+    name: "AzonInc.Doorman"
     version: "2024.8.1"
 
   platformio_options:
