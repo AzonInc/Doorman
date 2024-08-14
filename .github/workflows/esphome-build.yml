@@ -51,6 +51,7 @@ jobs:
       - name: Change ESPHome project version to dev
         if: github.ref != 'refs/heads/master'
         run: |
+          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
           sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev"/' firmware/base.yaml
 
       - uses: esphome/build-action@v4.0.1

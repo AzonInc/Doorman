@@ -44,6 +44,7 @@ jobs:
           
   # Bundle all assets for Pages
   bundle-assets:
+    name: Create asset bundle
     runs-on: ubuntu-latest
     needs: [build-docs, build-doorman-stock-firmware, build-doorman-nuki-bridge-firmware]
     steps:
@@ -90,7 +91,7 @@ jobs:
   # Deployment job
   deploy-master:
     if: github.ref == 'refs/heads/master'
-    name: Deploy to Github Pages
+    name: Deploy to Github Pages (stable)
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -103,7 +104,7 @@ jobs:
 
   deploy-dev:
     if: github.ref != 'refs/heads/master'
-    name: Deploy to surge.sh
+    name: Deploy to surge.sh (dev)
     needs: [bundle-assets]
     runs-on: ubuntu-latest
     steps:
