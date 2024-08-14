@@ -32,8 +32,8 @@ Use a multimeter to check the DC voltage.
 Since the a and b lines can be twisted you have to measure the polarity first.
 
 #### Expected voltage
-- Between a and b: 20-24V
-- Between P and b: 20-24V
+- Between a and b: ~ 24.0V
+- Between P and b: ~ 23.2V
 
 
 ::: warning
@@ -45,6 +45,18 @@ A best case scenario would be that you can use the P-line with 60mA. That doesn'
 
 **Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your intercoms power supply provides less than 60mA or whenever you notice an unstable operation.** 
 :::
+
+## Known issues
+
+Some intercom phones having a TTC1-B-1 connector module cause problems because the a and P Connector are somehow connected. However it's not clear which models are affected yet.
+
+::: danger Problem
+A loud beeping noise occurs whenever someone is talking.
+:::
+
+![ttc1-b-1-module](./incompatible-ttc1-b-1.png){width=300px}
+
+
 
 ## Tested Hardware
 
