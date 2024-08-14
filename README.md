@@ -20,25 +20,16 @@ You could also monitor the voltage level on older intercoms (14-24V) by replacin
 Thanks a lot to [PCBWay](https://pcbway.com) for sponsoring this Project.
 Scroll down to "Manufacturing" to read more.
 
-**Please also take a look at the Getting started section for first-use instructions.**
+## 🚀 Getting started
+
+Make sure to check out the [Doorman Docs](https://doorman.azon.ai/).\
+You will find everything you need. If you don't I'm happy to answer your questions on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues).
 
 ## 📦 Interested in buying one?
 
-Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf), [GitHub Issues](https://github.com/AzonInc/Doorman/issues) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
+Feel free to contact me on [Discord](https://discord.com/users/275370456163287040) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 
-I offer you a fully assembled and tested Doorman-S3 which comes with ESPHome pre-installed for direct integration and adoption into Home Assistant.
-
-## 📫 Have a question? Ran into a problem?
-
-I'm happy to answer your questions on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues).
-
-## 🚩 Repository Structure
-
-At the root of the repository you will find these directories:
-
-- `pcb`: KiCad schematic and PCB design files
-- `firmware`: ESPHome configuration files
-- `enclosure`: Enclosure STL Files
+I offer you a fully assembled and tested Doorman-S3 which comes with the Stock Firmware pre-installed for direct integration and adoption into Home Assistant.
 
 ## 🤖 Features
 
@@ -51,134 +42,20 @@ At the root of the repository you will find these directories:
 - 1 External Button via Screw Terminal (G + BTN)
 - Bridge Rectifier for the Bus-wire input to correct polarity
 - TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
-- You can optionally use your Doorman as a Nuki Bridge (incompatible with Nuki App, Bluetooth only)
-
-
-## 🚀 Automation
-
-The ESPHome Doorman Stock Firmware implements the following:
-- **Party Mode**\
-Automatically opens the Door when the doorbell button is pressed.\
-The Party Mode Switch Entity is disabled by default.
-
-Furthermore you could implement the following:
-- **Doorbell Button Pattern Detection**\
-Automatically open the door when the Doorbell is pressed x times in a certain way.\
-You can find an Example in the [Firmware Examples](https://github.com/AzonInc/Doorman/tree/master/firmware/examples) directory.
+- You can optionally use your Doorman as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/firmware/nuki-bridge-firmware). It is incompatible with the Nuki App, Bluetooth LE only.
 
 ## ✔️ Compatibility
 
-### Hardware
-If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
+If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.\
+Make sure to check out the [Compatibility Docs](https://doorman.azon.ai/guide/hardware-compatibility).
 
-### Firmware
-You can use Doorman S3 with your prefered Firmware.\
-There are a few Options:
-- **[ESPHome - Doorman Stock](https://github.com/AzonInc/doorman/tree/master/firmware)**\
-This is the prefered Firmware as it works out of the Box with the Doorman S3 Firmware Configuration Files.
+## 🚩 Repository Structure
 
-- **[ESPHome - Doorman Nuki-Bridge](https://github.com/AzonInc/doorman/tree/master/firmware)**\
-This Configuration inherits everything from the Stock Firmware and adds a Nuki Bridge Component via BLE on top.
+At the root of the repository you will find these directories:
 
-- **[Doorman by peteh](https://github.com/peteh/doorman)**\
-You need to adjust a few things (GPIO, Board Type, Flash Size) to make it work with Doorman S3.
-
-## ⚡ Wiring
-If your Intercom is connected in 2-wire mode and you dont have a separate 24V P-Line you need to use an external Power Supply via USB-C or P (+5V to +30V) and B (Ground) Screw Terminal.\
-If it is connected in 3-wire mode you should be able to use the P-Line to power your Doorman in most cases.
-
-### Intercom Screw Terminal Explanation:
-- **a** is usually the Bus line (+24V)
-- **b** is usually GND
-- **P** is the +24V line in 3-wire mode or just the apartment bell button in 2-wire mode
-
-
-> [!NOTE]
-> On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to handles that for you.
-
-> [!WARNING]
-> The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!\
-> However it is possible that some other devices using the 24V-wire are taking too much current so it's not sufficient to power Doorman anymore.\
-> A best case scenario would be that you can use the P-wire with 60mA. That doesn't work for everyone tho.
->
-> **Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your intercoms power supply provides less than 60mA or whenever you notice an unstable operation.** 
-
-> [!CAUTION]
-> **DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
-
-### Possible Wiring:
-#### 2-Wire Mode (with external Power Supply)
-<img src=".github/images/wiring_2wire_power_screwterminal.png" alt="2 Wire Installation" height="275">
-
-1. Open the Intercom enclosure
-2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
-3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
-4. Connect an external Power Supply via P (+5V to +30V) and G (Ground) Screw Terminals of your Doorman
-
-#### 2-Wire Mode (with external Power Supply via USB-C)
-<img src=".github/images/wiring_2wire_power_usb_c.png" alt="2 Wire Installation" height="275">
-
-1. Open the Intercom enclosure
-2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
-3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
-4. Connect an external Power Supply via USB-C Port
-
-<!--#### 2-Wire Mode (with power via a-Terminal)
-<img src=".github/images/wiring_2wire_power_a_terminal.png" alt="2 Wire Installation" height="275">
-
-> [!IMPORTANT]
-> Only applicable to hardware revision 1.4
-
-1. Open the Intercom enclosure
-2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
-3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
-4. Connect the a-wire (24V Bus) to the P-Terminal of your Doorman
--->
-#### 3-Wire Mode (with sufficient Intercom Power Supply - min. 60mA)
-<img src=".github/images/wiring_3wire.png" alt="3 Wire Installation" height="275">
-
-1. Open the Intercom enclosure
-2. Connect the a-wire (24V Bus) to one of the TCS:BUS-Terminals of your Doorman
-3. Connect the b-wire (Ground) to the other TCS:BUS-Terminal of your Doorman
-4. Connect the P-wire (+24V) to the P-Terminal of your Doorman
-
-## 🚀 Getting started
-
-When you power on your Doorman-S3 for the first time it opens an Access Point called "Doorman-S3 Setup".
-The AP Password is "open-sesame".
-You can setup your WiFi credentials there or also via Improv Serial + Improv Bluetooth.
-
-Thanks to mDNS Support Homeassistant will find your Doorman out of the box.
-After adding your Doorman to Homeassistant you need to enable the Last Bus Command Sensor to capture the Bus commands of your intercom.
-
-When you obtained all neccessary commands you can adopt the device in your ESPHome Dashboard and flash the `stock.example.yaml` firmware with adjusted command values.
-
-After flashing the example you should have the following entities (if you enable all of them):
-
-<img src=".github/images/dashboard.png" alt="Homeassistant Device Dashboard" height="500">
-
-That's basically everything you need to do. Happy automating!
-
-## 📟 Obtaining Command Codes from the Bus
-
-Every received Command Code is logged in the ESPHome Console (Debug Log-Level) and also published as an Home Assistant Event.
-Besides that there is a "Last Bus Command" Text Sensor (disabled by default) which shows the last Bus Command.
-If you use the command in your yaml config file you need to prepend 0x in order to interpret is as a hexadecimal number.
-
-## 🖲️ GPIO
-
-Doorman-S3 needs some GPIO for a specific purpose and offers free GPIO for your sensors.
-
-| GPIO | Purpose |
-| :----- | :-----|
-| GPIO01 | Red Status LED |
-| GPIO02 | WS2812B RGB Status LED |
-| GPIO08 | TCS Bus TX - Shorts the Bus to Ground |
-| GPIO09 | TCS Bus RX - Reading Bus Data / ADC input (onboard Voltage Divider - 1M+160K) |
-| GPIO40 | Free I/O |
-| GPIO41 | External Button (10K onboard resistor) |
-| GPIO42 | Relay for analog door opener |
-| GPIO48 | Free I/O |
+- `pcb`: KiCad schematic and PCB design files
+- `firmware`: ESPHome configuration files
+- `enclosure`: Enclosure STL Files
 
 ## 🛠️ Manufacturing
 
@@ -194,18 +71,6 @@ A special thanks goes to Liam and Lynne for supporting me throughout the entire 
 If you need a good quality one stop manufacturer I can definitely recommend [PCBWay](https://pcbway.com) :)
 
 You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
-
-## 🖨️ Enclosure
-
-In case you want an enclosure you can print your own one.\
-Just use the STL files provided [here](https://github.com/AzonInc/Doorman/tree/master/enclosure) and you'll be good to go.\
-<img src=".github/images/enclosure.png" alt="Doorman S3" height="275">
-
-## ⚠️ Disclaimer
-
-Please DO NOT use the +24V P-Line if the Power Supply is not powerful enough.\
-It is possible that the intercoms power supply can not provide enough power because other devices are taking too much current.\
-In that case you need to use an external power supply via USB-C or Screw Terminals (P and one of TCS:BUS).
 
 ## 🙌 Contributing
 If you would like to contribute, please feel free to open a Pull Request.

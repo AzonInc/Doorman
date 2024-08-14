@@ -1,14 +1,7 @@
-# Doorman S3 Stock Firmware
-
-# You can change a few options here.
+# Doorman S3 Firmware
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"
-  # log_level: "ERROR"
-  # led_pin: "GPIO1"
-  # rgb_led_pin: "GPIO2"
-  # relay_pin: "GPIO42"
-  # external_button_pin: "GPIO41"
 
 # Import Doorman Stock Firmware Config
 packages:

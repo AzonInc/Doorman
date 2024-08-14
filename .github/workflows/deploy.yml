@@ -1,0 +1,125 @@
+# Sample workflow for building and deploying a VitePress site to GitHub Pages
+#
+name: Deploy Docs and ESPHome Firmware to Pages
+
+on:
+  workflow_dispatch:
+  push:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-docs:
+    name: Build Docs
+    uses: ./.github/workflows/build-docs.yml
+
+  build-doorman-stock-firmware:
+    name: Build Doorman Stock Firmware
+    uses: ./.github/workflows/build-esphome.yml
+    with:
+      files: firmware/doorman-stock.yaml
+      name: AzonInc.Doorman
+      esphome_version: beta
+      directory_name: doorman-stock
+
+  build-doorman-nuki-bridge-firmware:
+    name: Build Doorman Nuki Bridge Firmware
+    uses: ./.github/workflows/build-esphome.yml
+    with:
+      files: firmware/doorman-nuki-bridge.yaml
+      name: AzonInc.Doorman-Nuki-Bridge
+      esphome_version: beta
+      directory_name: doorman-nuki-bridge
+
+          
+  # Bundle all assets for Pages
+  bundle-assets:
+    name: Create asset bundle
+    runs-on: ubuntu-latest
+    needs: [build-docs, build-doorman-stock-firmware, build-doorman-nuki-bridge-firmware]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Output Directory
+        run: mkdir -p output 
+
+      - name: Create Fimrware Directory
+        run: mkdir -p output/firmware/release/
+
+      - name: Download github-pages artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vitepress-docs
+          path: output
+
+      - name: Download Doorman Stock artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware-doorman-stock
+          path: output/firmware/release
+
+      - name: Download Doorman Nuki Bridge artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware-doorman-nuki-bridge
+          path: output/firmware/release
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+      
+      - name: Upload Assets Bundle
+        if: github.ref != 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: asset-bundle
+          path: output
+
+  # Deployment job
+  deploy-master:
+    if: github.ref == 'refs/heads/master'
+    name: Deploy to Github Pages (stable)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: [bundle-assets]
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-dev:
+    if: github.ref != 'refs/heads/master'
+    name: Deploy to surge.sh (dev)
+    environment:
+      name: surge.sh
+      url: "https://doorman-dev.surge.sh/"
+    needs: [bundle-assets]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Assets
+        uses: actions/download-artifact@v4
+        with:
+          name: asset-bundle
+          path: output
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install -g surge
+      - run: surge output ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}

@@ -1,0 +1,75 @@
+name: Build and Publish ESPHome firmware
+
+on:
+  workflow_call:
+    inputs:
+      files:
+        description: Comma-separated list of files to build.
+        required: true
+        type: string
+      name:
+        description: Name of the firmware to publish.
+        required: false
+        type: string
+        default: ESPHome
+      esphome_version:
+        description: Version of ESPHome to build for.
+        required: false
+        type: string
+        default: latest
+      directory_name:
+        description: Name of the output folder
+        required: true
+        type: string
+        default: esp32
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ steps.files-array.outputs.files }}
+    steps:
+      - id: files-array
+        run: |
+          files=$(echo "${{ inputs.files }}" | jq -Rcn 'inputs | . / ","')
+          echo ::set-output name=files::$files
+
+  build:
+    name: Build ESPHome binary for ${{ matrix.file }}
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        file: ${{ fromJson(needs.prepare.outputs.files) }}
+    outputs:
+      esphome-version: ${{ steps.esphome-build.outputs.esphome-version }}
+      esphome-build-name: ${{ steps.esphome-build.outputs.name}}
+      project-version: ${{ steps.esphome-build.outputs.project-version }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Change ESPHome project version to dev
+        if: github.ref != 'refs/heads/master'
+        run: |
+          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
+          sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev"/' firmware/base.yaml
+
+      - uses: esphome/build-action@v4.0.1
+        id: esphome-build
+        with:
+          yaml-file: ${{ matrix.file }}
+          version: ${{ inputs.esphome_version }}
+          complete-manifest: true
+
+      - name: Change Manifest Firmware Name
+        run: |
+          mkdir output
+          mv "${{ steps.esphome-build.outputs.name}}" temp
+          mv temp "output/${{ inputs.directory_name }}"
+          sed -i '/"new_install_prompt_erase"/s/false/true/' output/${{ inputs.directory_name }}/manifest.json
+          sed -i 's/Doorman S3/${{ inputs.name }}/g' output/${{ inputs.directory_name }}/manifest.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ inputs.directory_name }}
+          path: output
