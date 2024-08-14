@@ -42,7 +42,7 @@ jobs:
       - name: Extract version from base.yaml
         id: extract_version
         run: |
-          VERSION=$(yq e '.esphome.project.version' firmware/base.yaml)
+          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Update package.json version
