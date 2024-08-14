@@ -105,6 +105,9 @@ jobs:
   deploy-dev:
     if: github.ref != 'refs/heads/master'
     name: Deploy to surge.sh (dev)
+    environment:
+      name: surge.sh
+      url: "https://doorman-dev.surge.sh/"
     needs: [bundle-assets]
     runs-on: ubuntu-latest
     steps:
