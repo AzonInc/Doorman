@@ -43,7 +43,6 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Extract version from base.yaml
-        id: extract_version
         run: |
           VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
           echo "VERSION=${VERSION}" >> $GITHUB_ENV

@@ -48,6 +48,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Update ESPHome project version
+        if: github.ref != 'refs/heads/master'
+        run: |
+          sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev"/' firmware/base.yaml
+
       - uses: esphome/build-action@v4.0.1
         id: esphome-build
         with:
