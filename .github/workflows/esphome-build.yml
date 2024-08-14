@@ -32,7 +32,7 @@ jobs:
       - id: files-array
         run: |
           files=$(echo "${{ inputs.files }}" | jq -Rcn 'inputs | . / ","')
-          echo "{files}={$files}" >> $GITHUB_OUTPUT
+          echo ::set-output name=files::$files
 
   build:
     name: Build ESPHome binary for ${{ matrix.file }}
