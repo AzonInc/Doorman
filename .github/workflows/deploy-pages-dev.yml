@@ -51,7 +51,7 @@ jobs:
     with:
       files: firmware/doorman-stock.dev.yaml
       name: AzonInc.Doorman-Stock
-      esphome_version: latest
+      esphome_version: dev
       directory_name: doorman-stock
 
   build-doorman-nuki-bridge-firmware:
@@ -60,7 +60,7 @@ jobs:
     with:
       files: firmware/doorman-nuki-bridge.dev.yaml
       name: AzonInc.Doorman-Nuki-Bridge
-      esphome_version: latest
+      esphome_version: dev
       directory_name: doorman-nuki-bridge
 
           
