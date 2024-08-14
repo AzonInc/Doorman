@@ -1,4 +1,4 @@
-name: Nightly Firmware Build Check (Beta)
+name: Nightly Firmware Build Check
 on:
   schedule:
     - cron: "0 0 * * *"
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build Firmware on Beta
+    name: Build Firmware
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,14 +17,14 @@ jobs:
         uses: esphome/build-action@v4.0.1
         with:
           yaml-file: firmware/doorman-stock.yaml
-          version: beta
+          version: latest
           complete-manifest: true
 
       - name: Compile Nuki Bridge Firmware
         uses: esphome/build-action@v4.0.1
         with:
           yaml-file: firmware/doorman-nuki-bridge.yaml
-          version: beta
+          version: latest
           complete-manifest: true
 
       - name: Send Discord failure notification
@@ -34,4 +34,4 @@ jobs:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           color: "#FF6961"
-          message: "The latest nightly build failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          message: "The nightly test build failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
