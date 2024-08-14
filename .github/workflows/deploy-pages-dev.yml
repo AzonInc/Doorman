@@ -36,19 +36,15 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Install yq
-        run: sudo apt-get install -y jq python3-pip && pip3 install yq
-
       - name: Extract version from base.yaml
         id: extract_version
         run: |
           VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "VERSION=${VERSION}-dev" >> $GITHUB_ENV
 
       - name: Update package.json version
         run: |
-          jq --arg version "$VERSION" '.version = $version' package.json > temp.json
-          mv temp.json package.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" package.json
 
       - name: Install dependencies
         run: npm ci
