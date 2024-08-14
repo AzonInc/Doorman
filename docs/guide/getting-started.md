@@ -18,7 +18,9 @@ If that does not work, you can also navigate to http://192.168.4.1/ manually in 
 
 
 ::: tip
-Thanks to mDNS support, Home Assistant will find your Doorman out of the box after connecting it to WiFi.
+You can benefit from automatic setup in Home Assistant, if your Home Assistant server has Bluetooth enabled.
+
+And thanks to mDNS support, Home Assistant will find your Doorman out of the box after connecting it to WiFi.
 :::
 ![Home Assistant Discovery](./images/discovery.png)
 
