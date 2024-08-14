@@ -1,9 +1,9 @@
 dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/doorman-stock.dev.yaml@master
+  package_import_url: github://AzonInc/doorman/firmware/examples/doorman-stock.yaml@dev
 
 packages:
   device_base: !include doorman-stock.yaml
 
 update:
   - id: !extend update_http_request
-    source: https://doorman-dev.azon.ai/firmware/release/doorman-stock/manifest.json
+    source: https://doorman-dev.surge.sh/firmware/release/doorman-stock/manifest.json
