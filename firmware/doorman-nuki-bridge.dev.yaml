@@ -1,9 +1,0 @@
-dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/doorman-nuki-bridge.yaml@dev
-
-packages:
-  device_base: !include doorman-nuki-bridge.yaml
-
-update:
-  - id: !extend update_http_request
-    source: https://doorman-dev.surge.sh/firmware/release/doorman-nuki-bridge/manifest.json

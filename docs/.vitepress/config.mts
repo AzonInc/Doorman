@@ -1,4 +1,8 @@
+import { createRequire } from 'module'
 import { defineConfig } from 'vitepress'
+
+const require = createRequire(import.meta.url)
+const pkg = require('../../package.json')
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -39,7 +43,17 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Guide', link: '/guide/what-is-doorman' },
-      { text: 'Creators', link: '/creators' }
+      { text: 'Creators', link: '/creators' },
+      {
+        text: pkg.version,
+        items: [
+          {
+            text: !pkg.version.includes('dev') ? 'Switch to Development Docs' : 'Switch to Stable Docs',
+            link: !pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh/' : 'https://doorman.azon.ai/',
+            target: '_self'
+          }
+        ]
+      }
     ],
 
     editLink: {

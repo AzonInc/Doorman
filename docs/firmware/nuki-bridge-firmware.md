@@ -10,7 +10,7 @@ There are a few ways to update the firmware:
 - Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
 You can connect your Doorman via USB-C and click the button below to install the latest and greatest Doorman Nuki Bridge Firmware right here via Web Serial.
-<esp-web-install-button manifest="https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json">
+<esp-web-install-button manifest="./release/doorman-nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
             <a class="btn">Install or Update Firmware</a>
