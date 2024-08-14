@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Update ESPHome project version
+      - name: Change ESPHome project version to dev
         if: github.ref != 'refs/heads/master'
         run: |
           sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev"/' firmware/base.yaml

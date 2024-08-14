@@ -3,13 +3,8 @@
 name: Deploy Docs and ESPHome Firmware to Pages
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-  # Runs on pushes targeting the `main` branch. Change this to `master` if you're
-  # using the `master` branch as the default branch.
   push:
-    branches: [master]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -24,44 +19,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build-docs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Extract version from base.yaml
-        run: |
-          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-
-      - name: Update package.json version
-        run: |
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" package.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build with VitePress
-        run: npm run docs:build
-
-      - name: Upload VitePress artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: vitepress-docs
-          path: docs/.vitepress/dist
+    name: Build Docs
+    uses: ./.github/workflows/build-docs.yml
 
   build-doorman-stock-firmware:
     name: Build Doorman Stock Firmware
@@ -115,19 +75,47 @@ jobs:
           path: output/firmware/release
 
       - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/master'
         uses: actions/upload-pages-artifact@v3
         with:
           path: output
+      
+      - name: Upload Assets Bundle
+        if: github.ref != 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: asset-bundle
+          path: output
 
   # Deployment job
-  deploy:
+  deploy-master:
+    if: github.ref == 'refs/heads/master'
+    name: Deploy to Github Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     needs: [bundle-assets]
-    runs-on: ubuntu-latest
-    name: Deploy
+    runs-on: ubuntu-latest 
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-dev:
+    if: github.ref != 'refs/heads/master'
+    name: Deploy to surge.sh
+    needs: [bundle-assets]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Assets
+        uses: actions/download-artifact@v4
+        with:
+          name: asset-bundle
+          path: output
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install -g surge
+      - run: surge output ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
