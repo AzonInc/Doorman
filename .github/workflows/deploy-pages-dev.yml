@@ -35,11 +35,21 @@ jobs:
           cache: npm # or pnpm / yarn
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      - name: Set Version
+
+      - name: Install yq
+        run: sudo apt-get install -y jq python3-pip && pip3 install yq
+
+      - name: Extract version from base.yaml
+        id: extract_version
         run: |
-          version=$(grep 'version:' firmware/base.yaml | awk -F'"' '{print $2}')
-          version="$version-dev"
-          sed -i -e "s/\"version\": \"[^\"]*\"/\"version\": \"$version\"/" package.json
+          VERSION=$(yq e '.esphome.project.version' firmware/base.yaml)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Update package.json version
+        run: |
+          jq --arg version "$VERSION" '.version = $version' package.json > temp.json
+          mv temp.json package.json
+
       - name: Install dependencies
         run: npm ci
       - name: Build with VitePress
