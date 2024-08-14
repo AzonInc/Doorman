@@ -27,7 +27,9 @@ export default defineConfig({
   ],
 
   cleanUrls: true,
-  
+  appearance: 'dark',
+  lastUpdated: true,
+
   themeConfig: {
 
     logo: {
