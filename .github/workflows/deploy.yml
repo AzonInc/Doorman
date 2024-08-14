@@ -21,11 +21,11 @@ concurrency:
 jobs:
   build-docs:
     name: Build Docs
-    uses: ./.github/actions/build-docs.yml
+    uses: ./.github/workflows/build-docs.yml
 
   build-doorman-stock-firmware:
     name: Build Doorman Stock Firmware
-    uses: ./.github/actions/build-esphome.yml
+    uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-stock.yaml
       name: AzonInc.Doorman
@@ -34,7 +34,7 @@ jobs:
 
   build-doorman-nuki-bridge-firmware:
     name: Build Doorman Nuki Bridge Firmware
-    uses: ./.github/actions/build-esphome.yml
+    uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-nuki-bridge.yaml
       name: AzonInc.Doorman-Nuki-Bridge
