@@ -35,6 +35,8 @@ jobs:
         if: github.ref != 'refs/heads/master'
         run: |
           sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" package.json
+          sed -i 's/@master/@dev/g' firmware/examples/stock.example.yaml
+          sed -i 's/@master/@dev/g' firmware/examples/nuki-bridge.example.yaml
 
       - name: Install dependencies
         run: npm ci
