@@ -80,3 +80,7 @@ This is the minimal ESPHome configuration yaml file, make sure to change the API
 - Command: Ring To Open Toggle `ring_to_open_toggle_command_input` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Delay `doorman_ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Timeout `doorman_ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
+
+### Firmware Update
+- Firmware (stable) `update_http_request_stable`
+- Firmware (dev) `update_http_request_dev`
