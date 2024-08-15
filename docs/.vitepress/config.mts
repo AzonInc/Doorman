@@ -91,7 +91,8 @@ export default defineConfig({
         text: 'Automations',
         items: [
           { text: 'Pattern Events', link: '/automation/pattern-events' },
-          { text: 'Ring To Open', link: '/automation/ring-to-open' }
+          { text: 'Ring To Open', link: '/automation/ring-to-open' },
+          { text: 'Blueprints', link: '/automation/blueprints' }
         ]
       },
       {
