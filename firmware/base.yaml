@@ -300,7 +300,8 @@ sensor:
   - platform: uptime
     name: Uptime
     id: doorman_uptime
-    
+    disabled_by_default: true
+
 binary_sensor:   
   # Preconfigured Sensors
   - platform: tcs_intercom
