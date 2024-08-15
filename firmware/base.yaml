@@ -307,7 +307,6 @@ binary_sensor:
   - platform: tcs_intercom
     id: entrance_doorbell
     name: "Entrance Doorbell"
-    device_class: DOORBELL
     lambda: !lambda "return id(entrance_doorbell_command);"
     auto_off: 0.2s
     on_press:
@@ -378,7 +377,6 @@ binary_sensor:
   - platform: tcs_intercom
     id: apartment_doorbell
     name: "Apartment Doorbell"
-    device_class: DOORBELL
     lambda: !lambda "return id(apartment_doorbell_command);"
     auto_off: 0.2s
     on_multi_click:
@@ -683,6 +681,7 @@ event:
     id: doorbell_pattern
     name: "Doorbell Pattern"
     icon: "mdi:doorbell"
+    device_class: DOORBELL
     event_types:
       - "apartment_single"
       - "apartment_double"
