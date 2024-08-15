@@ -64,7 +64,7 @@ esphome:
 
   project:
     name: "AzonInc.Doorman"
-    version: "2024.8.1"
+    version: "2024.8.2"
 
   platformio_options:
     board_build.flash_mode: dio
@@ -300,7 +300,7 @@ sensor:
   - platform: uptime
     name: Uptime
     id: doorman_uptime
-
+    
 binary_sensor:   
   # Preconfigured Sensors
   - platform: tcs_intercom
