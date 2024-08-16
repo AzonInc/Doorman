@@ -3,10 +3,16 @@ If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is opera
 
 There are also some rebranded Niko intercoms which are counterparts of the TCS and Koch ones.
 
-::: warning
-Make sure to check the wiring and measure the voltage before ordering a Doorman.
+:::danger READ - BEFORE YOU ORDER
+Since this is a product of reverse engineering, there is no way to be 100% certain that a your intercom will or won't work without testing it yourself.
 
-As stated below it is always possible that some other devices (your neighbors) using the P-line are taking too much current so it's not sufficient to power Doorman anymore.
+1. Make sure to check the wiring and measure the voltage before ordering a Doorman.
+
+2. There is no guarantee that Doorman will work with your intercom due to the fact that every building is wired unique.
+
+3. As stated below it is always possible that some other devices (your neighbors) using the P-line are taking too much current so it's not sufficient to power Doorman anymore. 
+
+**You should understand this risk before purchasing.** If you have any questions, please contact me and I will be happy to help!
 :::
 
 ## Wiring
