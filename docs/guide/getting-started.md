@@ -62,7 +62,7 @@ substitutions:
   friendly_name: Doorman S3
 
 packages:
-  AzonInc.Doorman-Stock: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
+  AzonInc.Doorman: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
 
 esphome:
   name: ${name}
