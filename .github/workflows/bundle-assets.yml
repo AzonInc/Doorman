@@ -1,0 +1,49 @@
+name: Bundle build assets
+
+on:
+  workflow_call:
+
+jobs:
+  bundle-assets:
+    name: Create asset bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Output Directory
+        run: mkdir -p output 
+
+      - name: Create Fimrware Directory
+        run: mkdir -p output/firmware/release/
+
+      - name: Download github-pages artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vitepress-docs
+          path: output
+
+      - name: Download Doorman Stock artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware-doorman-stock
+          path: output/firmware/release
+
+      - name: Download Doorman Nuki Bridge artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware-doorman-nuki-bridge
+          path: output/firmware/release
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+      
+      - name: Upload Assets Bundle
+        if: github.ref != 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: asset-bundle
+          path: output

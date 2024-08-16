@@ -72,6 +72,8 @@ Your Nuki Lock is now unpaired. The pairing mode will time out after 30 seconds.
 - Apartment Doorbell `apartment_doorbell`
 - Pick up phone `pick_up_phone` <Badge type="info" text="Disabled by default" />
 - Hang up phone `hang_up_phone` <Badge type="info" text="Disabled by default" />
+- Ring To Open: Toggle `ring_to_open_toggle` <Badge type="info" text="Internal" />
+- Turn on light: Trigger `turn_on_light_trigger` <Badge type="info" text="Internal" />
 - External Button `doorman_external_button` <Badge type="info" text="Disabled by default" />
 - Nuki Connected `nuki_connected`
 - Nuki Paired `nuki_paired`
@@ -88,10 +90,11 @@ Your Nuki Lock is now unpaired. The pairing mode will time out after 30 seconds.
 ### Buttons
 - Open Entrance Door `open_entrance_door`
 - Open Second Door `open_second_door` <Badge type="info" text="Disabled by default" />
+- Turn on the light `turn_on_light` <Badge type="info" text="Disabled by default" />
+- Nuki Unpair Device `nuki_unpair_device` <Badge type="info" text="Disabled by default" />
 - Restart `doorman_restart` <Badge type="info" text="Disabled by default" />
 - Safe mode `doorman_safe_mode` <Badge type="info" text="Disabled by default" />
 - Restore Factory Settings `doorman_factory_reset` <Badge type="info" text="Disabled by default" />
-- Nuki Unpair Device `nuki_unpair_device` <Badge type="info" text="Disabled by default" />
 
 ### Events
 - Doorbell Pattern `doorbell_pattern`
@@ -104,6 +107,11 @@ Your Nuki Lock is now unpaired. The pairing mode will time out after 30 seconds.
 - Command: Open Second Door `open_second_door_command_input` <Badge type="info" text="Disabled by default" />
 - Command: Pick up phone `pick_up_phone_command_input` <Badge type="info" text="Disabled by default" />
 - Command: Hang up phone `hang_up_phone_command_input` <Badge type="info" text="Disabled by default" />
+- Command: Turn on light `turn_on_light_input` <Badge type="info" text="Disabled by default" />
 - Command: Ring To Open Toggle `ring_to_open_toggle_command_input` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Delay `doorman_ring_to_open_delay` <Badge type="info" text="Disabled by default" />
 - Ring To Open: Timeout `doorman_ring_to_open_timeout_mode` <Badge type="info" text="Disabled by default" />
+
+### Firmware Update
+- Firmware (stable) `update_http_request_stable`
+- Firmware (dev) `update_http_request_dev`

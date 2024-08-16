@@ -189,3 +189,43 @@ binary_sensor: // [!code ++] // [!code focus]
               event_type: apartment_special // [!code ++] // [!code focus]
 ```
 :::
+
+::: details Turn on the light when someone rings at the entrance doorbell
+You can turn on the light when someone ringts the entrance doorbell.
+```yaml
+<!--@include: minimal.example.yaml-->
+
+binary_sensor: // [!code ++] // [!code focus]
+  - id: !extend entrance_doorbell // [!code ++] // [!code focus]
+    on_press: // [!code ++] // [!code focus]
+      - tcs_intercom.send: // [!code ++] // [!code focus]
+          command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+```
+
+If you would like to take care about the sun elevation you can adjust it.
+```yaml
+<!--@include: minimal.example.yaml-->
+
+# Import the Home Assistant sun elevation sensor // [!code ++] // [!code focus]
+sensor: // [!code ++] // [!code focus]
+  - platform: homeassistant // [!code ++] // [!code focus]
+    id: sun_elevation // [!code ++] // [!code focus]
+    entity_id: sun.sun // [!code ++] // [!code focus]
+    attribute: elevation // [!code ++] // [!code focus]
+
+# Extend the entrance doorbell sensor // [!code ++] // [!code focus]
+binary_sensor: // [!code ++] // [!code focus]
+  - id: !extend entrance_doorbell // [!code ++] // [!code focus]
+    on_press: // [!code ++] // [!code focus]
+      # Sun elevation is <= 0 (dark) // [!code ++] // [!code focus]
+      - if: // [!code ++] // [!code focus]
+          condition: // [!code ++] // [!code focus]
+            sensor.in_range: // [!code ++] // [!code focus]
+              id: sun_elevation // [!code ++] // [!code focus]
+              below: 1 // [!code ++] // [!code focus]
+          then: // [!code ++] // [!code focus]
+            # Turn on the light // [!code ++] // [!code focus]
+            - tcs_intercom.send: // [!code ++] // [!code focus]
+                command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+```
+:::
