@@ -337,7 +337,7 @@ binary_sensor:
                   then:
                     - switch.turn_off: doorman_ring_to_open
 
-              # If delay is 60 seconds, use random delay from 5 to 20 seconds
+              # If delay is 60 seconds, use random delay from 5 to 15 seconds
               - if:
                   condition:
                     number.in_range:
@@ -346,7 +346,7 @@ binary_sensor:
                   then:
                     - delay: !lambda "return 5000 + (rand() % 10000);"
                   else:
-                    - delay: !lambda "return id(doorman_ring_to_open_delay).state*1000;"
+                    - delay: !lambda "return (id(doorman_ring_to_open_delay).state*1000) + 300;"
 
               - tcs_intercom.send:
                   command: !lambda "return id(first_door_opener_command);"
