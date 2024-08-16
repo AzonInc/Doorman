@@ -483,6 +483,15 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
+  - platform: tcs_intercom
+    id: "turn_on_light_trigger"
+    name: "Turn on light: Trigger"
+    internal: true
+    lambda: !lambda "return id(turn_on_light_command);"
+    auto_off: 0.2s
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+
   - platform: gpio
     id: doorman_external_button
     name: External Button

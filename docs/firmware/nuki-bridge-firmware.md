@@ -72,6 +72,8 @@ Your Nuki Lock is now unpaired. The pairing mode will time out after 30 seconds.
 - Apartment Doorbell `apartment_doorbell`
 - Pick up phone `pick_up_phone` <Badge type="info" text="Disabled by default" />
 - Hang up phone `hang_up_phone` <Badge type="info" text="Disabled by default" />
+- Ring To Open: Toggle `ring_to_open_toggle` <Badge type="info" text="Internal" />
+- Turn on light: Trigger `turn_on_light_trigger` <Badge type="info" text="Internal" />
 - External Button `doorman_external_button` <Badge type="info" text="Disabled by default" />
 - Nuki Connected `nuki_connected`
 - Nuki Paired `nuki_paired`
