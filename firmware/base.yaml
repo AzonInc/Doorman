@@ -141,10 +141,7 @@ improv_serial:
 
 # Import TCS Intercom Component
 external_components:
-  - source:
-      type: git
-      url: https://github.com/AzonInc/esphome_tcs_intercom
-      ref: master
+  - source: github://AzonInc/esphome_tcs_intercom@master
     components: [ tcs_intercom ]
     refresh: 60s
 

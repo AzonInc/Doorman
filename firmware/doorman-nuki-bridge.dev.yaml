@@ -5,6 +5,11 @@ dashboard_import:
 packages:
   device_base: !include doorman-nuki-bridge.yaml
 
+external_components:
+  - source: github://AzonInc/esphome_tcs_intercom@dev
+    components: [ tcs_intercom ]
+    refresh: 60s
+    
 update:
   - id: !extend update_http_request_stable
     disabled_by_default: true
