@@ -100,6 +100,14 @@ export default defineConfig({
         items: [
           { text: '3D printing', link: '/enclosure/3d-printing' }
         ]
+      },
+      {
+        text: 'Support',
+        link: '/support/support',
+        collapsed: true,
+        items: [
+          { text: 'Troubleshooting', link: '/support/troubleshooting' }
+        ]
       }
     ],
 
