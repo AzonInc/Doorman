@@ -60,11 +60,16 @@ Some intercom phones having a TTC1-B-1 connector module cause problems because t
 A loud beeping noise occurs whenever someone is talking.
 :::
 
-![ttc1-b-1-module](./incompatible-ttc1-b-1.png){width=300px}
+![ttc1-b-1-module](./images/incompatible-ttc1-b-1.png){width=300px}
 
 
 
-## Tested Hardware
+## Verified Hardware
+
+::: info Note
+If your intercom phone isn't listed here, this doesn't necessarily mean it's incompatible; it just means that nobody has tested it yet.
+:::
 
 - TCS ISH3030 / ISH3130
 - TCS ISW3030 / ISW3130
+- TCS HST 1030

@@ -30,7 +30,7 @@ If your Doorman is unable to receive commands there could be several reasons.
 
 #### Check the wiring
 Please make sure you wired everything correctly.\
-You can find the guide [here](../guide/getting-started#wiring).
+You can find the guide [here](../getting-started#wiring).
 
 #### Check the Bus voltage
 There are cases where the bus voltage is inusfficient and causing the reading to fail.\

@@ -47,12 +47,12 @@ Push the buttons on your intercom phone to capture the codes and copy them into 
 
 ## ESPHome adoption
 
-If you want to customize your Doorman Firmware you can adopt the Doorman Device into your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash your customized [Stock](../firmware/stock-firmware.md) or [Nuki Bridge](../firmware/nuki-bridge-firmware.md) Firmware.
+If you want to customize your Doorman Firmware you can adopt the Doorman Device into your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash your customized [Stock](firmware/stock-firmware.md) or [Nuki Bridge](firmware/nuki-bridge-firmware.md) Firmware.
 
 After adopting the device you will have a config like that:
 ::: details Example
 > [!NOTE]
-> You can add new components here and also modify existing ones. Take a look at the [Examples](../firmware/stock-firmware#examples) section to read more about the possibilities.
+> You can add new components here and also modify existing ones. Take a look at the [Examples](firmware/stock-firmware#examples) section to read more about the possibilities.
 >
 >However if you really want to customize the firmware you need to use the `base.yaml` from the repository.
 

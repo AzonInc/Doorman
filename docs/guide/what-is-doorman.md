@@ -11,11 +11,11 @@ You can easily simulate a button press to trigger a door opener or the light wit
 
 If your intercom is not a TCS or Koch one but operates on a 2-wire bus within the 14-24V DC range it might be possible to implement other protocols as well.
 
-You can [monitor the voltage level](../firmware/stock-firmware#advanced-examples) on older intercoms (14-24V DC) with the internal ADC as well and trigger specific actions based on it.
+You can [monitor the voltage level](firmware/stock-firmware#advanced-examples) on older intercoms (14-24V DC) with the internal ADC as well and trigger specific actions based on it.
 
 <div class="tip custom-block" style="padding-top: 8px">
 
-You just received your Doorman? Skip to the [Quickstart](./getting-started).
+You just received your Doorman? Skip to the [Quickstart](getting-started).
 
 </div>
 
@@ -30,11 +30,11 @@ You just received your Doorman? Skip to the [Quickstart](./getting-started).
 - 1 External Button (G + BTN)
 - Bridge Rectifier for the Bus-wire input to correct polarity
 - TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
-- You can use your Doorman as a Nuki Bridge with the [Nuki Bridge Firmware](../firmware/nuki-bridge-firmware).\
+- You can use your Doorman as a Nuki Bridge with the [Nuki Bridge Firmware](firmware/nuki-bridge-firmware).\
   It is incompatible with the Nuki App but you can use the Home Assistant App.
 
 ## Interested in buying one?
 
 Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 
-I offer you a fully assembled and tested Doorman-S3 which comes with the [Stock Firmware](../firmware/nuki-bridge-firmware) pre-installed for direct integration and adoption into Home Assistant.
+I offer you a fully assembled and tested Doorman-S3 which comes with the [Stock Firmware](firmware/nuki-bridge-firmware) pre-installed for direct integration and adoption into Home Assistant.
