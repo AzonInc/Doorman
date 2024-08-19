@@ -35,6 +35,15 @@ export default defineConfig({
         type: 'module',
         src: 'https://kicanvas.org/kicanvas/kicanvas.js'
       }
+    ],
+    [
+      'link',
+      {
+        async: '',
+        rel: 'stylesheet',
+        crossorigin: 'anonymous',
+        href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&family=Nunito:wght@300;400;500;600;700&display=swap'
+      }
     ]
   ],
 
