@@ -1,7 +1,7 @@
 # Can I use Doorman?
-If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
+If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
 
-There are also some rebranded Niko intercoms which are counterparts of the TCS and Koch ones.
+There are also some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms which are counterparts of the TCS and Koch ones.
 
 :::danger READ - BEFORE YOU ORDER
 Since this is a product of reverse engineering, there is no way to be 100% certain that a your intercom will or won't work without testing it yourself.

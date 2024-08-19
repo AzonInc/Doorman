@@ -8,7 +8,7 @@
 </h1>
 
 This repository contains the source files for the Doorman S3 Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.\
-There are also some rebranded [Niko](https://www.niko.eu/) intercoms which are counterparts of the TCS and Koch ones.
+There are also some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms which are counterparts of the TCS and Koch ones.
 
 However it's not limited to these intercoms only.
 With the integrated relay you can easily simulate a button press to trigger the door opener or the light (up to 40V, max 2.5A).

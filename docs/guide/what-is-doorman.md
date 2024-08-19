@@ -2,8 +2,8 @@
 
 # What is Doorman?
 
-Doorman lets you connect your TCS or Koch intercom to any home automation system.
-There are also some rebranded Niko intercoms which are counterparts of the TCS and Koch ones.
+Doorman lets you connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.
+There are also some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms which are counterparts of the TCS and Koch ones.
 
 ### What about other intercoms?
 Doorman isn't neccessarily limited to these intercoms only.\
