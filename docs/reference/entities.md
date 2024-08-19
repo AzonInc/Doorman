@@ -6,7 +6,7 @@ The Doorman firmware exposes many entities by default. This page describes the p
 This sensor reports every published command on the Bus.
 ### Uptime <Badge type="tip" text="doorman_uptime" />
 This sensor reports the uptime in seconds.
-### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" />
+### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
 This sensor reports the battery level of the paired Nuki smart lock.
 
 ## Binary Sensors
@@ -24,15 +24,15 @@ This sensor will turn on whenever the `ring_to_open_toggle_command` command is r
 This sensor will turn on whenever the `turn_on_light_command` command is received.
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
 This sensor will turn on when the external button is pressed.
-### Nuki Connected <Badge type="tip" text="nuki_connected" />
+### Nuki Connected <Badge type="tip" text="nuki_connected" /> <Badge type="info" text="Nuki Bridge only" />
 This sensor will turn on when the paired Nuki smart lock is connected.
-### Nuki Paired <Badge type="tip" text="nuki_paired" />
+### Nuki Paired <Badge type="tip" text="nuki_paired" /> <Badge type="info" text="Nuki Bridge only" />
 This sensor will turn on when a Nuki smart lock is paired.
-### Nuki Battery Critical <Badge type="tip" text="nuki_battery_critical" />
+### Nuki Battery Critical <Badge type="tip" text="nuki_battery_critical" /> <Badge type="info" text="Nuki Bridge only" />
 This sensor will turn on when the paired Nuki smart lock has a critical battery level.
-### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Disabled by default" />
+### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 No description yet.
-### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Disabled by default" />
+### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 This sensor reports the door sensor state of the paired Nuki smart lock.
 
 ## Switches
@@ -42,7 +42,7 @@ This switch controls the [Ring To Open](../automation/ring-to-open) automation.
 This switch controls the [Ring To Open](../automation/ring-to-open) turn-on-confirmation.
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 This switch controls the built-in relay.
-### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Disabled by default" />
+### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 This switch controls the Nuki pairing mode.
 
 ## Buttons
@@ -52,7 +52,7 @@ This button is used to open the entrance door by sending the `open_entrance_door
 This button is used to open the second door by sending the `open_second_door_command` command on the Bus.
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 This button is used to turn on the light by sending the `turn_on_light_command` command on the Bus.
-### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Disabled by default" />
+### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 This button is used to unpair your Nuki smart lock.
 ### Restart <Badge type="tip" text="doorman_restart" /> <Badge type="info" text="Disabled by default" />
 This button is used to restart the Doorman unit, for example if you have changed a configuration that requires a restart.
@@ -101,7 +101,7 @@ This input sets the timeout mode for the [Ring To Open](../automation/ring-to-op
 - Never
 
 ## Locks
-### Nuki Lock <Badge type="tip" text="nuki_smart_lock" />
+### Nuki Lock <Badge type="tip" text="nuki_smart_lock" /> <Badge type="info" text="Nuki Bridge only" />
 This is the lock entity for your paired Nuki smart lock.
 
 ## Events
@@ -125,25 +125,25 @@ This event entity will will trigger each time a phone pick up pattern is detecte
 - triple
 
 ## Updates
-### Firmware (stable) <Badge type="tip" text="update_http_request_stable" />
+### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
 This Update entity will show you if an updates on the stable branch is available and offers you to install the update via the HTTP OTA update mechanism.
 
-### Firmware (dev) <Badge type="tip" text="update_http_request_dev" />
+### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
 This Update entity will show you if an updates on the development branch is available and offers you to install the update via the HTTP OTA update mechanism.
 
 ## Lights
-### Status LED
+### Status LED <Badge type="danger" text="Red" /> <Badge type="tip" text="doorman_status_led" />
 There is a small LED on the Doorman's PCB that is controlled by the ESPHome [Status LED](https://esphome.io/components/light/status_led.html) component.
 
 By default the LED is on when everything is OK, but you can turn it off if it annoys you. If you turn it off, it will still retain the Status LED functionality, i.e., it will blink if something is wrong.
 
-### RGB Status LED
-There is another small WS2812B LED on the Doorman's PCB which is used to inidcate more events like AP mode, Ring To Open active, Nuki Pairing mode and more.
+### Status LED <Badge type="warning" text="RGB" /> <Badge type="tip" text="doorman_rgb_status_led" />
+There is another small WS2812B LED on the Doorman's PCB which is used to inidcate more specific events.
 
-##### States:
-- Waiting for WiFi / AP enabled <Badge type="tip" text="Blinking fast orange" />
-- Waiting for Home Assistant to connect <Badge type="tip" text="Blinking slow blue" />
-- Home Assistant connected <Badge type="tip" text="Solid blue for 3 seconds" />
-- Ring To Open active <Badge type="tip" text="Blinking slow yellow" />
-- Nuki pairing mode active <Badge type="tip" text="Blinking slow purple" />
-- Nuki paired successfully <Badge type="tip" text="Solid purple for 3 seconds" />
+##### Event Types
+- Waiting for WiFi / AP enabled <Badge type="tip" text="Fast pulse, Orange" />
+- Waiting for Home Assistant to connect <Badge type="tip" text="Slow pulse, Blue" />
+- Home Assistant connected <Badge type="tip" text="Solid color, 3 seconds, Blue" />
+- Ring To Open active <Badge type="tip" text="Slow pulse, Yellow" />
+- Nuki pairing mode active <Badge type="tip" text="Slow pulse, Purple" /> <Badge type="info" text="Nuki Bridge only" />
+- Nuki paired successfully <Badge type="tip" text="Solid color, 3 seconds, Purple" /> <Badge type="info" text="Nuki Bridge only" />
