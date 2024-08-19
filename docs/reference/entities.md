@@ -82,18 +82,18 @@ This input sets the code which is sent when you hang up the phone.
 ### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
 This input sets the code which is sent when you press the button to turn on the hallway light.
 ### Command: Ring To Open Toggle <Badge type="tip" text="ring_to_open_toggle_command_input" /> <Badge type="info" text="Disabled by default" />
-This input sets the code which is used to toggle the [Ring To Open](../automation/ring-to-open) automation. You can use the function button for that as it is usually not used.
+This input sets the code which is used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation. You can use the function button for that as it is usually not used.
 
 ## Numbers
 ### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Disabled by default" />
-This input sets the delay for the [Ring To Open](../automation/ring-to-open) automation.
+This input sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automation.
 ::: tip
 If you set the delay to the maximum (60 seconds), the automation will generate it's own random delay between 5 and 15 seconds each time the automation is triggered.
 :::
 
 ## Selects
 ### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" /> <Badge type="info" text="Disabled by default" />
-This input sets the timeout mode for the [Ring To Open](../automation/ring-to-open) automation.
+This input sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
 ##### Modes:
 - Ring once
