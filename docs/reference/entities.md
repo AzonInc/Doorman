@@ -37,9 +37,9 @@ This sensor reports the door sensor state of the paired Nuki smart lock.
 
 ## Switches
 ### Ring To Open <Badge type="tip" text="doorman_ring_to_open" />
-This switch controls the [Ring To Open](../automation/ring-to-open) automation.
+This switch controls the [Ring To Open](../guide/automation/ring-to-open) automation.
 ### Ring To Open: Confirmation <Badge type="tip" text="doorman_ring_to_open_confirmation" /> <Badge type="info" text="Disabled by default" />
-This switch controls the [Ring To Open](../automation/ring-to-open) turn-on-confirmation.
+This switch controls the [Ring To Open](../guide/automation/ring-to-open) turn-on-confirmation.
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 This switch controls the built-in relay.
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
