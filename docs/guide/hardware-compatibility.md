@@ -70,6 +70,8 @@ A loud beeping noise occurs whenever someone is talking.
 If your intercom phone isn't listed here, this doesn't necessarily mean it's incompatible; it just means that nobody has tested it yet.
 :::
 
-- TCS ISH3030 / ISH3130
-- TCS ISW3030 / ISW3130
+- TCS BVS20-SG / Koch BVS20
+- TCS ISH 3030 / ISH 3130
+- TCS ISW 3030 / ISW 3130
 - TCS HST 1030
+- TCS IMM 1300
