@@ -25,7 +25,7 @@ You just received your Doorman? Skip to the [Quickstart](getting-started).
 - USB-C port for easy flashing (and because USB-C is cool 😎)
 - It's super small and fits almost everywhere
 - Configurable WS2812B RGB LED to indicate specific events
-- 2 additional GPIO for easy expansion with your own sensors and devices
+- 2 additional GPIO for easy expansion with your own sensors and devices (i.e. I²C)
 - 1 solid state relay to switch up to 40V (max. 2.5A) for oldschool intercom systems
 - 1 External Button (G + BTN)
 - Bridge Rectifier for the Bus-wire input to correct polarity

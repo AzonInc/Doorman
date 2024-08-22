@@ -41,6 +41,21 @@ binary_sensor: // [!code ++] // [!code focus]
 ```
 :::
 
+::: details Use I²C Sensors
+If you want to add Sensors via the I²C bus you can use the two free GPIO Pins and add the I²C component to your configuration.\
+Now you can attach your Sensors to the two free I²C GPIO Pins.
+```yaml
+<!--@include: minimal.example.yaml-->
+
+i2c: // [!code ++] // [!code focus]
+  sda: GPIO40 // [!code ++] // [!code focus]
+  scl: GPIO48 // [!code ++] // [!code focus]
+  scan: true // [!code ++] // [!code focus]
+  id: i2c_bus // [!code ++] // [!code focus]
+```
+:::
+
+
 ## Advanced Examples
 ### Home Assistant
 ::: details Sending Bus commands

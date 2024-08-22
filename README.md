@@ -37,7 +37,7 @@ I offer you a fully assembled and tested Doorman-S3 which comes with the Stock F
 - USB-C port for easy flashing (and because USB-C is cool 😎)
 - It's super small (37mm x 37mm) and fits almost everywhere
 - Configurable WS2812B RGB LED to indicate specific events
-- 2 additional GPIO via Screw Terminal for easy expansion with your own sensors and devices
+- 2 additional GPIO via Screw Terminal for easy expansion with your own sensors and devices (i.e. I²C)
 - 1 Relay via Screw Terminal to switch up to 40V (max. 2.5A) for oldschool intercom systems
 - 1 External Button via Screw Terminal (G + BTN)
 - Bridge Rectifier for the Bus-wire input to correct polarity
