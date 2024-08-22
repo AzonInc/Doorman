@@ -6,7 +6,7 @@ Thank you for using Doorman <3
 
 ## Setup
 
-### Network Connection
+### Step 1: Connect to Wi-Fi
 When you power on your Doorman-S3 for the first time it will blink fast (orange) and opens a new Access Point called `Doorman-S3 Setup`.
 You can setup your WiFi credentials via Access Point, Improv Serial or Improv Bluetooth.
 
@@ -15,8 +15,6 @@ The Access Point password is `open-sesame`.
 When you connect to the Access Point, the web interface should open automatically (see also login to network notifications).\
 If that does not work, you can also navigate to http://192.168.4.1/ manually in your browser.
 
-
-
 ::: tip
 You can benefit from automatic setup in Home Assistant, if your Home Assistant server has Bluetooth enabled.
 
@@ -24,11 +22,11 @@ And thanks to mDNS support, Home Assistant will find your Doorman out of the box
 :::
 ![Home Assistant Discovery](./images/discovery.png)
 
-### Home Assistant
+### Step 2: Connect to Home Assistant
 After connecting Doorman to your network it will blink slowly (blue) and should be automatically discovered by Home Assistant.
 Just click on `Configure` to add the newly discovered ESPHome node.
 
-### Obtaining Bus commands
+### Step 3: Obtaining Bus commands
 ::: warning Important
 You need to connect Doorman to your intercom first. Take a look at the [Wiring](#wiring) section.
 :::
@@ -47,12 +45,12 @@ Push the buttons on your intercom phone to capture the codes and copy them into 
 
 ## ESPHome adoption
 
-If you want to customize your Doorman Firmware you can adopt the Doorman Device into your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash your customized [Stock](../firmware/stock-firmware.md) or [Nuki Bridge](../firmware/nuki-bridge-firmware.md) Firmware.
+If you want to customize your Doorman Firmware you can adopt the Doorman Device into your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash your customized [Stock](firmware/stock-firmware.md) or [Nuki Bridge](firmware/nuki-bridge-firmware.md) Firmware.
 
 After adopting the device you will have a config like that:
 ::: details Example
 > [!NOTE]
-> You can add new components here and also modify existing ones. Take a look at the [Examples](../firmware/stock-firmware#examples) section to read more about the possibilities.
+> You can add new components here and also modify existing ones. Take a look at the [Examples](firmware/stock-firmware#examples) section to read more about the possibilities.
 >
 >However if you really want to customize the firmware you need to use the `base.yaml` from the repository.
 

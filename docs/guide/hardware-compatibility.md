@@ -1,7 +1,7 @@
 # Can I use Doorman?
-If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
+If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
 
-There are also some rebranded Niko intercoms which are counterparts of the TCS and Koch ones.
+There are also some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms which are counterparts of the TCS and Koch ones.
 
 :::danger READ - BEFORE YOU ORDER
 Since this is a product of reverse engineering, there is no way to be 100% certain that a your intercom will or won't work without testing it yourself.
@@ -60,11 +60,18 @@ Some intercom phones having a TTC1-B-1 connector module cause problems because t
 A loud beeping noise occurs whenever someone is talking.
 :::
 
-![ttc1-b-1-module](./incompatible-ttc1-b-1.png){width=300px}
+![ttc1-b-1-module](./images/incompatible-ttc1-b-1.png){width=300px}
 
 
 
-## Tested Hardware
+## Verified Hardware
 
-- TCS ISH3030 / ISH3130
-- TCS ISW3030 / ISW3130
+::: info Note
+If your intercom phone isn't listed here, this doesn't necessarily mean it's incompatible; it just means that nobody has tested it yet.
+:::
+
+- TCS BVS20-SG / Koch BVS20
+- TCS ISH 3030 / ISH 3130
+- TCS ISW 3030 / ISW 3130
+- TCS HST 1030
+- TCS IMM 1300
