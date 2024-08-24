@@ -112,8 +112,8 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       text: 'Introduction',
       items: [
         { text: 'What is Doorman?', link: 'what-is-doorman' },
-        { text: 'Getting Started', link: 'getting-started' },
-        { text: 'Can I use Doorman?', link: 'hardware-compatibility' }
+        { text: 'Can I use Doorman?', link: 'hardware-compatibility' },
+        { text: 'Getting Started', link: 'getting-started' }
       ]
     },
     {
