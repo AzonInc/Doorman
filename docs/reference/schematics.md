@@ -1,8 +1,8 @@
 # Schematics
 
-The schematics for the Doorman are entirely open source and available for reference. You can also find the KiCad source files on the [GitHub repository](https://github.com/AzonInc/Doorman/tree/master/pcb).
+The schematics for the Doorman-S3 are fully open source and available for reference. You can also access the KiCad source files in the [GitHub repository](https://github.com/AzonInc/Doorman/tree/master/pcb).
 
-You can explore the PCB and schematics design in the interactive viewers below. (If you are having issues with the viewers, please try refreshing the page.)
+To view the PCB and schematic designs, use the interactive viewers below. If you encounter any issues with the viewers, try refreshing the page.
 
 ## Schematics Viewer
 

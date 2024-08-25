@@ -24,15 +24,15 @@ hero:
 features:
   - icon: 🚀
     title: Powerful
-    details: It's powered by the ESP32-S3 with dual core CPU, integrated PSRAM, and Bluetooth, making it highly powerful and versatile.
+    details: Powered by the ESP32-S3, featuring a dual-core CPU, integrated PSRAM, and Bluetooth, making it both powerful and versatile.
 
   - icon: 🤏​
     title: Perfect Size
-    details: It's so compact that it fits almost anywhere, making it ideal for a wide range of installation scenarios.
+    details: A compact design allows it to fit almost anywhere, making it ideal for a wide range of installation scenarios.
 
   - icon: ✨​
     title: Expandable
-    details: Two additional GPIOs and an external button enable effortless expansion with your own sensors and devices.
+    details: Two additional GPIOs and an external button allow for effortless expansion with your own sensors and devices.
 
   - icon: 🎉​
     title: Compatible

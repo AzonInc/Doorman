@@ -7,78 +7,74 @@
     <br>
 </h1>
 
-This repository contains the source files for the Doorman S3 Intercom Gateway, a device which lets you connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.\
-There are also some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms which are counterparts of the TCS and Koch ones.
+This repository provides the source files for the Doorman S3 Intercom Gateway, a device designed to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.\
+It's also compatible with some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms, which are counterparts of TCS and Koch models.
 
-However it's not limited to these intercoms only.
-With the integrated relay you can easily simulate a button press to trigger the door opener or the light (up to 40V, max 2.5A).
+The Doorman S3 isn't limited to these intercoms alone. With its integrated relay, it can simulate button presses to trigger door openers or lights (supporting up to 40V and a maximum of 2.5A).
 
-If your intercom is not a TCS or Koch one but operates on a 2-wire bus within the 14-24V range it might be possible to implement other protocols as well.
+If your intercom isn't a TCS, Koch, Niko or Scantron model but operates on a 2-wire bus within the 14-24V range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V) by replacing the tcs_intercom component with a template Binary Sensor combined with the ADC, allowing you to trigger specific actions based on the voltage readings.
 
-You could also monitor the voltage level on older intercoms (14-24V) by replacing the tcs_intercom component with a template Binary Sensor combined with ADC and trigger specific actions based on it.
-
-Thanks a lot to [PCBWay](https://pcbway.com) for sponsoring this Project.
-Scroll down to "Manufacturing" to read more.
+A big thanks to [PCBWay](https://pcbway.com) for sponsoring this project!
+For more details on the manufacturing process, scroll down to the "Manufacturing" section.
 
 ## 🚀 Getting started
 
-Make sure to check out the [Doorman Docs](https://doorman.azon.ai/).\
-You will find everything you need. If you don't I'm happy to answer your questions on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues).
+Be sure to visit the [Doorman Docs](https://doorman.azon.ai/) for all the information you need. If you have any questions or need further assistance, feel free to reach out on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues). I'm here to help!
 
 ## 📦 Interested in buying one?
 
-Feel free to contact me on [Discord](https://discord.com/users/275370456163287040) or by [E-Mail](mailto:flo@azon.ai?subject=Doorman).
+Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf) or via [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 
-I offer you a fully assembled and tested Doorman-S3 which comes with the Stock Firmware pre-installed for direct integration and adoption into Home Assistant.
+I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/nuki-bridge-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
 
 ## 🤖 Features
 
 - Powered by ESP32-S3
 - USB-C port for easy flashing (and because USB-C is cool 😎)
-- It's super small (37mm x 37mm) and fits almost everywhere
+- Compact design that fits almost anywhere
 - Configurable WS2812B RGB LED to indicate specific events
-- 2 additional GPIO via Screw Terminal for easy expansion with your own sensors and devices (i.e. I²C)
-- 1 Relay via Screw Terminal to switch up to 40V (max. 2.5A) for oldschool intercom systems
-- 1 External Button via Screw Terminal (G + BTN)
-- Bridge Rectifier for the Bus-wire input to correct polarity
-- TCS Bus Communication (e.g. Open the front door, Detect Doorbell)
-- You can optionally use your Doorman as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/firmware/nuki-bridge-firmware). It is incompatible with the Nuki App, Bluetooth LE only.
+- Two additional GPIOs for easy expansion with your own sensors and devices (e.g., I²C)
+- Solid-state relay for switching up to 40V (max. 2.5A), ideal for older intercom systems
+- External Button (G + BTN)
+- Bridge rectifier for bus-wire input to correct polarity
+- TCS bus communication for functions like opening the front door and detecting the doorbell
+- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
 
 ## ✔️ Compatibility
 
-If your TCS or Koch Intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.\
-Make sure to check out the [Compatibility Docs](https://doorman.azon.ai/guide/hardware-compatibility).
+If your TCS or Koch intercom has screw terminals labeled `a`, `b`, and `P` and operates on 24V DC, it’s likely compatible with Doorman.\
+For detailed compatibility information, check out the [Compatibility Docs](https://doorman.azon.ai/guide/hardware-compatibility).
 
 ## 🚩 Repository Structure
 
-At the root of the repository you will find these directories:
+The repository is organized into the following directories:
 
-- `pcb`: KiCad schematic and PCB design files
-- `firmware`: ESPHome configuration files
-- `enclosure`: Enclosure STL Files
+- `pcb`: Contains KiCad schematic and PCB design files
+- `firmware`: Includes ESPHome configuration files
+- `enclosure`: Provides STL files for the enclosure design
 
 ## 🛠️ Manufacturing
 
 <img src=".github/images/pcbway_delivery.png" alt="PCBWay Delivery" height="275">
 
-I didnt know which PCB manufacturer is good but fortunately PCBWay reached out to me and offered to sponsor PCB fabrication.\
-Well... I'm more than satisified with the quality, especially the nice colors. Everything looks clean and part sourcing was an ease. They also sent me two more unpopulated PCBs extra.
-I soldered the ESP Modules using a heating plate myself because I still had ESP32 Modules at home.
+I was unsure which PCB manufacturer to choose, but fortunately, PCBWay reached out and offered to sponsor the PCB fabrication. I couldn't be happier with the results—the quality is exceptional, especially with the vibrant colors. Everything arrived in pristine condition, and sourcing parts was hassle-free. They even included two extra unpopulated PCBs.
 
-It was really easy to get in touch with them and whenever there rised a question they didn't hesitate to ask.
-A special thanks goes to Liam and Lynne for supporting me throughout the entire process. Even tho I made a lot of changes they were always very patient with me. It was a pleasure working with you guys.
+I handled the soldering of the ESP modules myself using a heating plate, as I already had ESP32 modules at home.
 
-If you need a good quality one stop manufacturer I can definitely recommend [PCBWay](https://pcbway.com) :)
+PCBWay made the entire process straightforward and responsive. A special thanks to Liam and Lynne for their support throughout, especially given the numerous changes I made. Their patience and assistance were greatly appreciated.
+
+If you're looking for a reliable, high-quality PCB manufacturer, I highly recommend [PCBWay](https://pcbway.com) :)
 
 You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
 
 ## 🙌 Contributing
-If you would like to contribute, please feel free to open a Pull Request.
+If you'd like to contribute to the Doorman project, we welcome your involvement!\
+Please feel free to open a Pull Request. Your contributions, whether they are code improvements, bug fixes, or documentation updates, are greatly appreciated.
 
 ## 📜 Credits
 
-Doorman is heavily built on the code and the information of the following projects and people.\
-This project would not have been possible without all of them. ❤️
+Doorman is heavily built on the code and insights from the following projects and individuals.\
+This project would not have been possible without their contributions. ❤️
 
 **[TCSIntercomArduino](https://github.com/atc1441/TCSintercomArduino)**\
 Different Methods to read from and write to the TCS Bus.\
@@ -96,4 +92,4 @@ The main goal is to provide a proper PCB for his Doorman Project.
 This module builds an ESPHome lock platform for Nuki Smartlock (nuki_lock).
 
 **[AStrehlau](https://github.com/AStrehlau)**\
-Thanks a lot for your time, patience, knowledge and every single valuable advice that made this Project better, smaller and more affordable.
+Thank you so much for your time, patience, expertise, and every piece of invaluable advice that helped make this project better, smaller, and more affordable.

@@ -5,7 +5,7 @@ const members = [
   {
     avatar: 'https://www.github.com/AzonInc.png',
     name: 'AzonInc',
-    title: 'Creator of the Doorman-S3 PCB and ESPHome based Firmware',
+    title: 'Creator of the Doorman-S3 PCB and ESPHome-based firmware',
     links: [
       { icon: 'github', link: 'https://github.com/AzonInc' },
     ]
@@ -13,7 +13,7 @@ const members = [
   {
     avatar: 'https://www.github.com/peteh.png',
     name: 'peteh',
-    title: 'Creator of the original Doorman Custom Firmware',
+    title: 'Creator of the original Doorman custom firmware',
     links: [
       { icon: 'github', link: 'https://github.com/peteh' },
     ]
@@ -33,14 +33,21 @@ const members = [
     links: [
       { icon: 'github', link: 'https://github.com/atc1441' },
     ]
+  },
+  {
+    avatar: 'https://www.github.com/uriyacovy.png',
+    name: 'uriyacovy',
+    title: 'Creator of the ESPHome Nuki Lock component',
+    links: [
+      { icon: 'github', link: 'https://github.com/uriyacovy' },
+    ]
   }
 ]
 </script>
 
 # Thank you ❤️
 
-Doorman is heavily built on the code and the information of the following projects and people.
-This project would not have been possible without all of them. 
+Doorman is built upon the code and information from the following projects and individuals. This project would not have been possible without their contributions.
 
 ### Amazing People
 
@@ -50,13 +57,16 @@ This project would not have been possible without all of them.
 ### Projects
 
 **[TCSIntercomArduino](https://github.com/atc1441/TCSintercomArduino)**\
-Different Methods to read from and write to the TCS Bus.\
-Feel free to watch the [Reverse Engineering Video](https://www.youtube.com/watch?v=xFLoauqj9yA) if you're interested.
+Different methods to read from and write to the TCS Bus.\
+If you're interested, feel free to watch the [Reverse Engineering Video](https://www.youtube.com/watch?v=xFLoauqj9yA).
 
 **[tcs-monitor](https://github.com/Syralist/tcs-monitor)**\
-An mqtt monitor for listening to the TCS Bus.\
-You can find more information in this [Blog Post](https://blog.syralist.de/posts/smarthome/klingel/).
+A MQTT monitor for listening to the TCS Bus.\
+You can find more information in this [blog post](https://blog.syralist.de/posts/smarthome/klingel/).
 
 **[Doorman](https://github.com/peteh/doorman)**\
-A lot of this Doorman project is based on peteh's one.\
-The main goal is to provide a proper PCB for his Doorman Project.
+A significant portion of the Doorman project is based on peteh's work.\
+The primary goal was to provide a robust PCB for his Doorman project.
+
+**[ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock)**\
+This module builds an ESPHome lock platform for Nuki Smartlock (nuki_lock).

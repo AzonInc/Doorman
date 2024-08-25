@@ -1,15 +1,14 @@
 # Stock Firmware <Badge type="tip" text="ESP-IDF Framework" />
 
-This is the prefered Firmware as it works out of the Box with Doorman S3.
-It supports Improv via Bluetooth LE.
+This is the preferred firmware as it works out of the box with the Doorman S3 and supports Improv via Bluetooth LE.
 
 ### Update Firmware
-There are a few ways to update the firmware:
+There are several ways to update the firmware:
 - ESPHome OTA <Badge type="warning" text="Requires ESPHome Dashboard" />
 - HTTP OTA <Badge type="tip" text="Latest release build, no customization" />
 - Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
-You can connect your Doorman via USB-C and click the button below to install the latest and greatest Doorman Stock Firmware right here via Web Serial.
+You can connect your Doorman via USB-C and click the button below to install the latest Doorman Stock Firmware directly through Web Serial.
 <esp-web-install-button manifest="../../firmware/release/doorman-stock/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
@@ -31,7 +30,7 @@ You can connect your Doorman via USB-C and click the button below to install the
 </esp-web-install-button>
 
 ## Firmware YAML
-This is the minimal ESPHome configuration yaml file, make sure to change the API key.
+This is the minimal ESPHome configuration YAML file. Be sure to update the API key.
 
 ::: details Minimal Stock Firmware
 ```yaml

@@ -1,13 +1,13 @@
 # Pattern Events
 
-The Doorman Firmware includes pattern event entities which you can use in [Home Assistant](https://www.home-assistant.io/) automations.
+The Doorman firmware includes pattern event entities that you can use in [Home Assistant](https://www.home-assistant.io/) automations.
 
-Each pattern is configured like:
+Each pattern is configured as follows:
 - Push
-- Maximum 1 second break
+- Maximum 1-second break
 - Push
 
-Take a look at the [advanced examples](../firmware/stock-firmware#advanced-examples) to see how to extend the patterns with your very own pattern.
+Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) to learn how to create and customize your own patterns.
 
 ## Doorbell Pattern
 
@@ -20,8 +20,8 @@ Take a look at the [advanced examples](../firmware/stock-firmware#advanced-examp
 - entrance_triple
 
 ### Example Automation
-::: details Automatically open the door when the Entrance Doorbell is pressed 2 times in a certain way.
-You have to change the `entity_id` to your Doorman entities.
+::: details Automatically open the door when the Entrance Doorbell is pressed twice in a specific pattern.
+Make sure to replace the `entity_id` with your specific Doorman entities.
 ```yaml
 alias: Automatically open the entrance door
 description: "Open the entrance door after pressing the entrance doorbell two times."
@@ -50,8 +50,8 @@ mode: single
 - triple
 
 ### Example Automation
-::: details Toggle Ring To Open Mode when you quickly pick up the phone 3 times.
-You have to change the `entity_id` to your Doorman entities.
+::: details Toggle Ring To Open Mode by quickly picking up the phone three times.
+Make sure to replace the `entity_id` with your specific Doorman entities.
 ```yaml
 alias: Toggle Ring To Open Mode (Phone pick up Pattern)
 description: "Toggle Ring To Open Mode when you quickly pick up the phone 3 times."

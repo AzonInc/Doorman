@@ -1,14 +1,21 @@
 # Support
 
-If you are having issues with your Doorman, help is available in several places:
+If you're experiencing issues with your Doorman, help is available through several channels:
 
 - The below troubleshooting guide covers many common issues
-- The [Discord server](https://discord.gg/t2d34dvmBf) is a great place to get help from me and the rest of the community
-- The [GitHub issues](https://github.com/AzonInc/Doorman/issues) might have the solution to a problem you're having
+- The [Discord server](https://discord.gg/t2d34dvmBf) is a great place to get assistance from me and the community
+- The [GitHub issues](https://github.com/AzonInc/Doorman/issues) may contain solutions to problems you're encountering
 
-Please do note that support is provided on a best-effort basis. I will of course assist in any way I can, but since this is not my full-time job I cannot guarantee that I will be able to help immediately or with every situation. Thank you for understanding.
+Please note that support is provided on a best-effort basis. While I will assist as much as possible, please understand that I may not be able to help immediately or with every situation, as this is not my full-time job. Thank you for your understanding.
 
 ## Common Issues
+
+::: details Web Serial (Flashing via ESP Web Tools) Connect-Disconnect loop
+If you've received a Doorman-S3 PCB that hasn't been pre-flashed with the [Stock Firmware](../firmware/stock-firmware.md), the ESP will not have any firmware installed. As a result, it will enter a continuous restart loop by default, making it impossible to flash using ESP Web Tools or any other tool.
+
+#### Solution
+To resolve this, hold down the button labeled `FLASH` while connecting the USB cable to your computer. This will put the ESP into bootloader mode, preventing it from constantly restarting.
+:::
 
 ::: details Home Assistant can't connect / BAD_INDICATOR errno=11
 If Home Assistant can't connect to your Doorman, or you are receiving the error Reading failed: BAD_INDICATOR errno=11 in the logs, this indicates Home Assistant may be trying to connect with an incorrect encryption key.

@@ -1,60 +1,60 @@
 # Can I use Doorman?
-If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom got a, b and P labeled Screw Terminals and is operating on 24V DC it's likely compatible.
+If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
 
-There are also some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms which are counterparts of the TCS and Koch ones.
+Some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms, which are counterparts to the TCS and Koch models, may also be compatible.
 
 :::danger READ - BEFORE YOU ORDER
-Since this is a product of reverse engineering, there is no way to be 100% certain that a your intercom will or won't work without testing it yourself.
+Since this product is the result of reverse engineering, there is no guarantee that your intercom will work without testing it yourself.
 
-1. Make sure to check the wiring and measure the voltage before ordering a Doorman.
+1. Check the wiring and measure the voltage before ordering a Doorman.
 
-2. There is no guarantee that Doorman will work with your intercom due to the fact that every building is wired unique.
+2. There is no guarantee that Doorman will work with your intercom due to the unique wiring in each building.
 
-3. As stated below it is always possible that some other devices (your neighbors) using the P-line are taking too much current so it's not sufficient to power Doorman anymore. 
+3. Other devices on the `P`-line (e.g., your neighbors' equipment) may draw too much current, potentially affecting Doorman's performance.
 
-**You should understand this risk before purchasing.** If you have any questions, please contact me and I will be happy to help!
+**Understand these risks before purchasing.** If you have any questions, please contact me, and I will be happy to help!
 :::
 
 ## Wiring
-If your Intercom is connected in 2-wire mode and you dont have a separate 24V P-Line you need to use an external Power Supply via USB-C or P (+5V to +30V DC) and B (Ground) Screw Terminal.
-If it is connected in 3-wire mode you should be able to use the P-Line to power your Doorman in most cases.
+**2-Wire Mode:**\
+If your intercom is connected in 2-wire mode and you don't have a separate 24V `P`-line, use an external power supply via USB-C or the `P` (+5V to +30V DC) and `b` (Ground) screw terminals.
+
+**3-Wire Mode:**\
+If connected in 3-wire mode, you should be able to use the `P`-line to power your Doorman in most cases.
 
 ::: tip
-On some installations the a and b wires are twisted but it doesn't matter because Doorman has an integrated bridge rectifier to handles that for you.
-Consider that when you check the voltage level on a, b and P lines.
+In some installations, the `a` and `b` wires are twisted, but this is handled by Doorman’s integrated bridge rectifier. Consider this when checking the voltage levels on the `a`, `b`, and `P` lines.
 :::
 
 #### Intercom Screw Terminal Explanation
-- **a** is usually the Bus line (+24V)
-- **b** is usually GND
-- **P** is the +24V line in 3-wire mode or just the apartment doorbell button in 2-wire mode
+- **a:** Typically the Bus line (+24V)
+- **b:** Typically Ground
+- **P:** The +24V line in 3-wire mode or the apartment doorbell button in 2-wire mode
 
 ::: danger
-**DO NOT USE THE +24V P-LINE AND USB-C AT THE SAME TIME**
+**DO NOT USE THE +24V `P`-LINE AND USB-C AT THE SAME TIME**
 :::
 
-## Check the power supply
-Use a multimeter to check the DC voltage.
-Since the a and b lines can be twisted you have to measure the polarity first.
+## Check the Power Supply
+Use a multimeter to check the DC voltage.\
+Measure the polarity first since the `a` and `b` lines can be twisted.
 
-#### Expected voltage
-- Between a and b: ~ 24.0V
-- Between P and b: ~ 23.2V
+#### Expected Voltage
+- Between `a` and `b`: ~ 24.0V
+- Between `P` and `b`: ~ 23.2V
 
 
 ::: warning
-The minimum output current of the intercom power supply **must be 60mA** in order to achieve a stable operation!
+The intercom power supply **must have a minimum output current of 60mA** for stable operation.
 
-However it is possible that some other devices using the P-line are taking too much current so it's not sufficient to power Doorman anymore.
+If other devices using the `P`-line draw too much current, it may not be sufficient to power Doorman.
 
-A best case scenario would be that you can use the P-line with 60mA. That doesn't work for everyone tho.
-
-**Please power your Doorman with an external Power Supply (USB-C or Screw Terminal) if your intercoms power supply provides less than 60mA or whenever you notice an unstable operation.** 
+**Use an external power supply (USB-C or screw terminal) if your intercom’s power supply provides less than 60mA or if you notice unstable operation.** 
 :::
 
-## Known issues
+## Known Issues
 
-Some intercom phones having a TTC1-B-1 connector module cause problems because the a and P Connector are somehow connected. However it's not clear which models are affected yet.
+Some intercom phones with a TTC1-B-1 connector module cause issues because the `a` and `P` connectors are somehow connected. It is not yet clear which models are affected.
 
 ::: danger Problem
 A loud beeping noise occurs whenever someone is talking.
@@ -67,7 +67,7 @@ A loud beeping noise occurs whenever someone is talking.
 ## Verified Hardware
 
 ::: info Note
-If your intercom phone isn't listed here, this doesn't necessarily mean it's incompatible; it just means that nobody has tested it yet.
+If your intercom phone isn't listed here, it doesn’t necessarily mean it’s incompatible; it simply means it hasn’t been tested yet.
 :::
 
 - TCS BVS20-SG / Koch BVS20

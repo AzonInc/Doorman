@@ -1,7 +1,7 @@
 ## Examples
 
 ::: details Create a simple TCS Command Binary Sensor
-You can easily add more binary sensors next to the preconfigured ones for every possible TCS Command.
+You can easily add additional binary sensors for any TCS Command, alongside the preconfigured ones.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -13,7 +13,7 @@ binary_sensor: // [!code ++] // [!code focus]
 :::
 
 ::: details Controlling the internal RGB Status LED
-If you want to control the onboard RGB LED with a Button (Example) just use the Light ID: doorman_rgb_status_led.
+If you want to control the onboard RGB LED with a button (for example), simply use the Light ID: `doorman_rgb_status_led`.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -29,8 +29,8 @@ button: // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Use the external hardware button
-If you want to use the external button to trigger automations you can just extend your yaml config.
+::: details Use the External Hardware Button
+If you want to use the external button to trigger automations, you can simply extend your YAML configuration.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -42,8 +42,7 @@ binary_sensor: // [!code ++] // [!code focus]
 :::
 
 ::: details Use I²C Sensors
-If you want to add Sensors via the I²C bus you can use the two free GPIO Pins and add the I²C component to your configuration.\
-Now you can attach your Sensors to the two free I²C GPIO Pins.
+If you want to add sensors via the I²C bus, you can use the two available GPIO pins and add the I²C component to your configuration. You can then attach your sensors to these two I²C GPIO pins.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -59,9 +58,9 @@ i2c: // [!code ++] // [!code focus]
 ## Advanced Examples
 ### Home Assistant
 ::: details Sending Bus commands
-You can use Home Assistant actions (formerly services) to send commands on the Bus.
+You can use Home Assistant actions (formerly known as services) to send commands on the bus.
 > [!INFO]
-> Don't forget the leading `0x` if you want to send the HEX command. Otherwise you have to convert the hex command into a decimal number.
+> Remember to include the leading `0x` when sending a HEX command. If you omit it, you'll need to convert the HEX command to a decimal number.
 
 ```yaml
 service: esphome.doorman_s3_send_tcs_command
@@ -71,9 +70,9 @@ data:
 :::
 
 ::: details Listening for ESPHome events
-Doorman will send `esphome.doorman` events to Home Assistant everytime a command is received.
+Doorman will send esphome.doorman events to Home Assistant every time a command is received.
 
-Each Event is structured like:
+Each event is structured as follows:
 ```yaml
 event_type: esphome.doorman
 data:
@@ -103,8 +102,8 @@ mode: single
 :::
 
 ### ESPHome
-::: details Create a runtime config TCS Command Binary Sensor
-You can add more configurable command binary sensors next to the preconfigured ones using lambda, globals and text inputs.
+::: details Create a Runtime Config TCS Command Binary Sensor
+You can add additional configurable command binary sensors alongside the preconfigured ones by using lambda, globals, and text inputs.
 
 ```yaml
 <!--@include: minimal.example.yaml-->
@@ -145,9 +144,9 @@ binary_sensor: // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Create a Bus Voltage sensor
-You can add a `Bus Voltage` sensor for older intercoms operating on 14-24V DC.\
-It might be possible to implement other protocols as well in the future.
+::: details Create a Bus Voltage Sensor
+You can add a Bus Voltage sensor for older intercoms operating on 14-24V DC.\
+It may also be possible to implement other protocols in the future.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -171,9 +170,8 @@ tcs_intercom: // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Create your own Doorbell Pattern
-If you want to create a special doorbell pattern you can easily extend the existing doorbell entities.
-You can find more information about the patterns in the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
+::: details Create Your Own Doorbell Pattern
+If you want to create a custom doorbell pattern, you can easily extend the existing doorbell entities. For more information about patterns, refer to the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -205,8 +203,8 @@ binary_sensor: // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Turn on the light when someone rings at the entrance doorbell
-You can turn on the light when someone ringts the entrance doorbell.
+::: details Turn on the light when someone rings the entrance doorbell
+You can turn on the light when someone rings the entrance doorbell.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -217,7 +215,7 @@ binary_sensor: // [!code ++] // [!code focus]
           command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
 ```
 
-If you would like to take care about the sun elevation you can adjust it.
+If you want to account for the sun's elevation as well, you can adjust it accordingly.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
