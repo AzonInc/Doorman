@@ -1,4 +1,4 @@
-## Examples
+## Beispiele
 
 ::: details Create a simple TCS Command Binary Sensor
 You can easily add additional binary sensors for any TCS Command, alongside the preconfigured ones.
@@ -55,7 +55,7 @@ i2c: // [!code ++] // [!code focus]
 :::
 
 
-## Advanced Examples
+## Fortgeschrittene Beispiele
 ### Home Assistant
 ::: details Sending Bus commands
 You can use Home Assistant actions (formerly known as services) to send commands on the bus.

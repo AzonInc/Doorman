@@ -1,11 +1,11 @@
-# Blueprints for Home Assistant
+# Blueprints für Home Assistant
 
-This is a collection of community-contributed blueprints.
+Dies ist eine Sammlung von Community-beigesteuerten Blueprints.
 
-## Confirmable Doorbell Open Door Notification
+## Bestätigbare Klingel Tür-Öffnen-Benachrichtigung
 
-This blueprint enables you to send a confirmable notification to a device with the Home Assistant app whenever someone rings the doorbell.
+Mit diesem Blueprint kannst du eine bestätigbare Benachrichtigung an ein Gerät mit der Home Assistant-App senden, wann immer jemand an der Tür klingelt.
 
-The default confirmation action triggers a command to open the entrance door, but you can customize it to suit your needs.
+Die Standard-Bestätigungsaktion löst einen Befehl zum Öffnen der Eingangstür aus, aber du kannst sie nach Belieben anpassen.
 
-[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FAzonInc%2FDoorman%2Fblob%2Fdev%2Fblueprints%2Fconfirmable_open_door_notification.yaml)
+[![Öffne deine Home Assistant-Instanz und zeige den Blueprint-Import-Dialog mit einem spezifischen, vorausgefüllten Blueprint an.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FAzonInc%2FDoorman%2Fblob%2Fdev%2Fblueprints%2Fconfirmable_open_door_notification.yaml)

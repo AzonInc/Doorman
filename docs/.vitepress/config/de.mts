@@ -25,7 +25,7 @@ export const de = defineConfig({
     },
 
     editLink: {
-        text: 'Diese Seite auf GitHub bearbeiten'
+        text: 'Diese Seite bearbeiten'
     },
     
     footer: {
@@ -96,7 +96,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Stock Firmware', link: 'stock-firmware', base: '/de/guide/firmware/' },
         { text: 'Nuki-Bridge Firmware', link: 'nuki-bridge-firmware', base: '/de/guide/firmware/' },
         {
-          text: 'Entities',
+          text: 'Entitäten',
           link: 'entities',
           base: '/de/reference/',
         },
@@ -134,8 +134,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
     {
       text: 'Referenzen',
       items: [
-        { text: 'Entities', link: 'entities' },
-        { text: 'GPIO Pinout', link: 'gpio' },
+        { text: 'Entitäten', link: 'entities' },
+        { text: 'GPIO Pinbelegung', link: 'gpio' },
         { text: 'Schaltpläne', link: 'schematics' }
       ]
     }

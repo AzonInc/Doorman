@@ -1,9 +1,9 @@
 # Custom Doorman Firmware <Badge type="tip" text="Arduino Framework" />
 
-Github user [peteh](https://github.com/peteh) has developed custom firmware for Doorman circuits.
+GitHub-Nutzer [peteh](https://github.com/peteh) hat eine Custom Firmware für Doorman entwickelt.
 
-For more information about the custom firmware, [click here](https://github.com/peteh/doorman).
+Für weitere Informationen zur Firmware [klicke hier](https://github.com/peteh/doorman).
 
 ::: tip
-You will need to adjust a few settings (GPIO, board type, flash size) to ensure compatibility with Doorman S3.
+Du musst einige Einstellungen (GPIO, Board-Typ, Flash-Größe) anpassen, um die Kompatibilität mit dem Doorman S3 sicherzustellen.
 :::

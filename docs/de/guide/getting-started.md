@@ -1,55 +1,54 @@
-# Getting started
+# Erste Schritte
 
-Here is a detailed guide on setting up your Doorman for the first time. Please note that these instructions are based on the pre-flashed Doorman PCB that I sell.
+Hier ist eine ausführliche Anleitung, wie du deinen Doorman zum ersten Mal einrichtest. Bitte beachte, dass diese Anweisungen auf dem bereits geflashten Doorman-PCB basieren welches ich verkaufe.
 
-Thank you for using Doorman! <3
+Danke, dass du Doorman verwendest! ❤️
 
-## Setup
+## Einrichtung
 
-### Step 1: Connect to Wi-Fi
-When you power on your Doorman-S3 for the first time, it will blink rapidly (orange) and create a new Access Point named `Doorman-S3 Setup`. You can set up your WiFi credentials using the Access Point, Improv Serial, or Improv Bluetooth.
+### Schritt 1: Mit Wi-Fi verbinden
+Wenn du deinen Doorman-S3 zum ersten Mal einschaltest, wird er schnell (orange) blinken und einen neuen Access Point namens `Doorman-S3 Setup` erstellen. Du kannst deine WiFi-Zugangsdaten über den Access Point, Improv Serial oder Improv Bluetooth einrichten.
 
-The Access Point password is `open-sesame`.
+Das Passwort für den Access Point lautet `open-sesame`.
 
-Once connected to the Access Point, the web interface should open automatically (see also login to network notifications).\
-If it doesn’t, you can manually navigate to http://192.168.4.1/ in your browser.
+Sobald du mit dem Access Point verbunden bist, sollte sich die Web-Oberfläche automatisch öffnen (siehe auch Netzwerk-Benachrichtigungen).\
+Falls nicht, kannst du manuell zu http://192.168.4.1/ in deinem Browser navigieren.
 
 ::: tip
-You can take advantage of automatic setup in Home Assistant if your Home Assistant has Bluetooth enabled.
+Wenn dein Home Assistant Bluetooth aktiviert hat, kannst du die automatische Einrichtung nutzen.
 
-Additionally, with mDNS support, Home Assistant will automatically discover your Doorman once it's connected to WiFi.
+Dank mDNS-Unterstützung wird Home Assistant deinen Doorman automatisch entdecken, sobald er mit dem WiFi verbunden ist.
 :::
 ![Home Assistant Discovery](./images/discovery.png)
 
-### Step 2: Connect to Home Assistant
-After connecting Doorman to your network, it will blink slowly (blue) and should be automatically discovered by Home Assistant. Simply click on `Configure` to add the newly discovered ESPHome node.
+### Schritt 2: Mit Home Assistant verbinden
+Nachdem du den Doorman mit deinem Netzwerk verbunden hast, wird er langsam (blau) blinken und sollte automatisch von Home Assistant entdeckt werden. Klicke einfach auf `Konfigurieren`, um das neu entdeckte ESPHome-Gerät hinzuzufügen.
 
-### Step 3: Obtaining Bus commands
-::: warning Important
-You need to connect Doorman to your intercom first. Please refer to the [Wiring](#wiring) section for details.
+### Schritt 3: Bus Befehle setzen
+::: warning Wichtig
+Du musst den Doorman zuerst mit deiner Gegensprechanlage verbinden. Sieh dir hierfür den Bereich [Verkabelung](#verkabelung) an.
 :::
 
-You can visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and click on the new Doorman S3 device entry. There, you'll find a Last Bus Command text sensor that tracks the most recent bus command in hexadecimal format.
+Du kannst die [ESPHome-Integrationsseite](https://my.home-assistant.io/redirect/integration/?domain=esphome) besuchen und auf den neuen Eintrag deines Doorman S3 klicken. Dort findest du einen Last Bus Command-Textsensor, der den zuletzt empfangenen Busbefehl im hexadezimalen Format anzeigt.
 
-Additionally, every received command is logged in the ESPHome Console (Debug log level) and published as a Home Assistant event.
+Zusätzlich werden alle empfangenen Befehle im ESPHome-Console-Log (Debug-Log) protokolliert und als Home Assistant-Ereignis veröffentlicht.
 
-**Important Commands:**
-- Entrance Doorbell
-- Apartment Doorbell
-- Open Entrance Door
+**Wichtige Befehle:**
+- Eingangstür-Klingel
+- Wohnungstür-Klingel
+- Eingangstür öffnen
 
-Press the buttons on your intercom phone to capture the codes, then copy them into the corresponding configuration text inputs.
+Drücke die Tasten an deinem Etagen-Telefon, um die Codes aufzuzeichnen, und kopiere sie dann in die entsprechenden Konfigurations-Textfelder.
 
 ## ESPHome adoption
+Wenn du die Firmware deines Doorman anpassen möchtest, kannst du diesen zu deinem [ESPHome-Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) hinzufügen und deine angepasste [Stock](firmware/stock-firmware.md) oder [Nuki Bridge](firmware/nuki-bridge-firmware.md) Firmware flashen.
 
-If you want to customize your Doorman firmware, you can add the Doorman device to your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash your customized [Stock](firmware/stock-firmware.md) or [Nuki Bridge](firmware/nuki-bridge-firmware.md) firmware.
-
-After adding the device, your configuration will look like this:
-::: details Example
+Nach dem Hinzufügen wird deine Konfiguration ungefähr so aussehen:
+::: details Beispiel
 > [!NOTE]
-> You can add new components and modify existing ones here. For more information on the possibilities, check out the [Examples](firmware/stock-firmware#examples) section.
+> Hier kannst du neue Komponenten hinzufügen und bestehende ändern. Weitere Informationen zu den Möglichkeiten findest du im Abschnitt [Beispiele](firmware/stock-firmware#beispiele).
 >
-> If you need to deeply customize the firmware, you'll need to use the `base.yaml` file from the repository.
+> Wenn du die Firmware vollständig anpassen möchtest, solltest du die `base.yaml`-Datei aus dem Repository verwenden.
 
 ```yaml
 substitutions:
@@ -75,40 +74,40 @@ wifi:
 :::
 
 
-## Wiring
-First, open your intercom enclosure. On most models, you will find a screw terminal labeled with `a`, `b`, `E`, and `P`.
+## Verkabelung
+Öffne als Erstes das Gehäuse deiner Gegensprechanlage. In den meisten Fällen findest du dort eine Schraubklemme mit den Bezeichnungen `a`, `b`, `E` und `P`.
 
-Connect the `b` line (Ground) to one of the TCS:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TCS:BUS terminal on your Doorman.
+Schließe die `b`-Leitung (Ground) an einen der TCS:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TCS:BUS-Anschluss deines Doorman.
 
-### Power supply options:
-::: details 3-Wire Mode via intercom <Badge type="tip" text="Recommended" />
-Connect the `P` line (+24V) to the `P` terminal on your Doorman.
+### Stromversorgungsoptionen:
+::: details 3-Draht-Modus über die Gegensprechanlage <Badge type="tip" text="Empfohlen" />
+Verbinde die `P`-Leitung (+24V) mit dem `P`-Terminal an deinem Doorman.
 
 > [!WARNING]
-> The intercom power supply must provide at least 60mA.
+> Die Stromversorgung der Gegensprechanlage muss mindestens 60mA liefern.
 
-Example:
+Beispiel:
 ![3-wire](./images/3wire.png){width=300px}
 :::
 
-::: details 2-Wire Mode via external wired Power Supply
-Connect the external power supply to your Doorman using the `P` (+5V to +30V) and `G` (Ground) screw terminals.
+::: details 2-Draht-Modus über externe Stromversorgung
+Schließe die externe Stromversorgung an deinen Doorman an. Nutze dazu die `P` (+5V bis +30V) und `G` (Ground) Schraubklemmen an deinem Doorman.
 
-Example:
+Beispiel:
 ![2-wire external via screw terminal](./images/2wire_power_screwterminal.png){width=300px}
 :::
 
-::: details 2-Wire Mode via external USB-C Power Supply
-Connect the external power supply via the USB-C port.
+::: details 2-Draht-Modus über externe USB-C-Stromversorgung
+Schließe die externe Stromversorgung über den USB-C-Anschluss an.
 
-Example:
+Beispiel:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
 
-::: details 2-Wire Mode via intercom <Badge type="danger" text="Impossible" />
-> [!DANGER] Unfortunately this scenario is not possible!
-> Using the `a`-bus line as a power source results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply and may be addressed in future hardware revisions.
+::: details 2-Draht-Modus über die Gegensprechanlage <Badge type="danger" text="Nicht möglich" />
+> [!DANGER] Das ist leider nicht möglich!
+> Die Nutzung der `a`-Bus-Leitung als Stromquelle führt zu einem lauten Piepton. Dieses Problem tritt wahrscheinlich aufgrund der Hochfrequenz-Schaltstromversorgung auf und könnte in zukünftigen Hardware-Versionen behoben werden.
 
-Example:
+Beispiel:
 ![2-wire external via usb](./images/2wire_power_a_terminal.png){width=300px}
 :::

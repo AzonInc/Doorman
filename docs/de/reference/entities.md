@@ -1,7 +1,7 @@
-# Entities
-The Doorman firmware exposes many entities by default. This page explains the purpose of each one.
+# Entitäten
+Die Doorman-Firmware stellt standardmäßig viele Entitäten zur Verfügung. Auf dieser Seite wird erklärt, wozu jede einzelne dient.
 
-## Sensors
+## Sensoren
 ### Last Bus Command <Badge type="tip" text="last_bus_command" />
 Reports every published command on the bus.
 ### Uptime <Badge type="tip" text="doorman_uptime" />
@@ -9,7 +9,7 @@ Reports the uptime in seconds.
 ### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
 Reports the battery level of the paired Nuki smart lock.
 
-## Binary Sensors
+## Binäre Sensoren
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
 Activates whenever the `entrance_doorbell_command` command is received.
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
@@ -35,7 +35,7 @@ No description yet.
 ### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Reports the door sensor state of the paired Nuki smart lock.
 
-## Switches
+## Schalter
 ### Ring To Open <Badge type="tip" text="doorman_ring_to_open" />
 Controls the [Ring To Open](../guide/automation/ring-to-open) automation.
 ### Ring To Open: Confirmation <Badge type="tip" text="doorman_ring_to_open_confirmation" /> <Badge type="info" text="Disabled by default" />
@@ -60,13 +60,13 @@ Restarts the Doorman unit, useful after configuration changes that require a res
 Restarts the Doorman unit into safe mode, useful for OTA updates if the unit is too busy.
 ### Restore Factory Settings <Badge type="tip" text="doorman_factory_reset" /> <Badge type="info" text="Disabled by default" />
 Restarts the Doorman unit and loads factory defaults.
-::: danger USE WITH GREAT CAUTION
-All credentials, global variables, counters, and saved states stored in non-volatile memory will be lost with no chance of recovery. Even raw reading of flash memory with esptool will not help, as data is physically erased from flash memory.
+::: danger MIT GROßER VORSICHT VERWENDEN
+Alle Zugangsdaten, globalen Variablen, Zähler und gespeicherten Zustände, die im nichtflüchtigen Speicher gespeichert sind, gehen verloren und können nicht wiederhergestellt werden. Selbst das Auslesen des Flash-Speichers mit esptool hilft nicht, da die Daten physisch aus dem Flash-Speicher gelöscht werden.
 
-If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
+Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfiguriert hast, werden auch die WiFi-Einstellungen zurückgesetzt, wodurch solche Geräte offline gehen. Du musst das Gerät dann über einen eingebauten WiFi-Access-Point und das Captive Portal neu konfigurieren.
 :::
 
-## Texts
+## Eingabe für Text
 ### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" />
 Sets the code sent when someone rings the apartment doorbell.
 ### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" />
@@ -85,14 +85,14 @@ Sets the code sent when you press the button to turn on the hallway light.
 Sets the code used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
 The function button is often used for this purpose as it is usually not utilized.
 
-## Numbers
+## Eingabe für Zahlenwert
 ### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Disabled by default" />
 Sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automation.
 ::: tip
 Setting the delay to the maximum (60 seconds) will result in the automation generating a random delay between 5 and 15 seconds each time it is triggered. 
 :::
 
-## Selects
+## Dropdowns
 ### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" /> <Badge type="info" text="Disabled by default" />
 Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
@@ -101,11 +101,11 @@ Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) a
 - 5 to 60 minutes
 - Never
 
-## Locks
+## Schlösser
 ### Nuki Lock <Badge type="tip" text="nuki_smart_lock" /> <Badge type="info" text="Nuki Bridge only" />
 Represents the lock entity for your paired Nuki smart lock.
 
-## Events
+## Ereignisse
 ### Doorbell Pattern <Badge type="tip" text="doorbell_pattern" />
 Triggers each time a doorbell pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
 
@@ -132,7 +132,7 @@ Shows if an update on the stable branch is available and offers installation via
 ### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
 Shows if an update on the development branch is available and offers installation via the HTTP OTA update mechanism.
 
-## Lights
+## Lichter
 ### Status LED <Badge type="danger" text="Red" /> <Badge type="tip" text="doorman_status_led" />
 A small LED on the Doorman's PCB controlled by the ESPHome [Status LED](https://esphome.io/components/light/status_led.html) component.  By default, this LED remains on when everything is functioning properly but will blink if there are issues.
 

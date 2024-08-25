@@ -1,16 +1,13 @@
-# Schematics
+# Schaltpläne
 
-The schematics for the Doorman-S3 are fully open source and available for reference. You can also access the KiCad source files in the [GitHub repository](https://github.com/AzonInc/Doorman/tree/master/pcb).
+Die Schaltpläne des Doorman-S3 sind vollständig Open Source. Du kannst alle Dateien im [GitHub-Repository](https://github.com/AzonInc/Doorman/tree/master/pcb) einsehen.
 
-To view the PCB and schematic designs, use the interactive viewers below. If you encounter any issues with the viewers, try refreshing the page.
+Nutze die interaktiven Viewer unten, um PCB- und Schaltplan-Designs anzusehen. Versuche die Seite neu zu laden, falls du Probleme mit den Viewern hast.
 
-## Schematics Viewer
+## Schaltplan-Viewer
 
 <kicanvas-embed src="https://raw.githubusercontent.com/AzonInc/Doorman/master/pcb/doorman.kicad_sch" controls="full"></kicanvas-embed>
 
-## PCB Viewer
+## PCB-Viewer
 
 <kicanvas-embed src="https://raw.githubusercontent.com/AzonInc/Doorman/master/pcb/doorman.kicad_pcb" controls="full"></kicanvas-embed>
-
-
-

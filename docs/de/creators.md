@@ -49,7 +49,7 @@ const members = [
 
 Doorman basiert auf dem Code und den Informationen der folgenden Projekte und Personen. Ohne eure Beiträge wäre dieses Projekt nicht möglich gewesen.
 
-### Amazing People
+### Coole Leute
 
 <VPTeamMembers size="small" :members="members" />
 
