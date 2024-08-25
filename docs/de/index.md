@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: Doorman
-  text: Gateway für TCS and Koch intercoms
+  text: Gateway für TCS und Koch intercoms
   tagline: Für ESPHome und Home Assistant gemacht
   image:
     src: /enclosure.png
