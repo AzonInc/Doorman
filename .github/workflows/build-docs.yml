@@ -29,12 +29,12 @@ jobs:
       - name: Update package.json version
         if: github.ref == 'refs/heads/master'
         run: |
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" package.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" docs/package.json
 
       - name: Update package.json version
         if: github.ref != 'refs/heads/master'
         run: |
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" package.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" docs/package.json
           sed -i 's/@master/@dev/g' firmware/examples/stock.example.yaml
           sed -i 's/@master/@dev/g' firmware/examples/nuki-bridge.example.yaml
           sed -i 's/@master/@dev/g' docs/guide/getting-started.md
