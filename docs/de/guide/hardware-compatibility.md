@@ -1,73 +1,70 @@
-# Can I use Doorman?
-If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
+### Kann ich Doorman benutzen?
 
-Some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms, which are counterparts to the TCS and Koch models, may also be compatible.
+Wenn deine [TCS](https://www.tcsag.de/) oder [Koch](https://www.kochag.ch/) Gegensprechanlage die Anschlussklemmen `a`, `b` und `P` hat und mit 24V DC betrieben wird, ist sie wahrscheinlich kompatibel.
 
-:::danger READ - BEFORE YOU ORDER
-Since this product is the result of reverse engineering, there is no guarantee that your intercom will work without testing it yourself.
+Einige umgelabelte [Niko](https://www.niko.eu/) und [Scantron](https://scantron.dk/) Gegensprechanlagen, die den TCS- und Koch-Modellen entsprechen, könnten ebenfalls passen.
 
-1. Check the wiring and measure the voltage before ordering a Doorman.
+:::danger WICHTIG - BEVOR DU BESTELLST
+Da dieses Produkt durch Reverse Engineering entwickelt wurde, gibt es keine Garantie, dass deine Sprechanlage ohne Tests funktioniert.
 
-2. There is no guarantee that Doorman will work with your intercom due to the unique wiring in each building.
+1. Überprüfe die Verkabelung und miss die Spannung, bevor du Doorman bestellst.
+2. Es gibt keine Garantie, dass Doorman mit deiner Gegensprechanlage funktioniert, da die Verkabelung in jedem Gebäude einzigartig ist.
+3. Andere Geräte an der `P`-Leitung (z.B. Geräte deiner Nachbarn) könnten zu viel Strom ziehen und Doorman beeinträchtigen.
 
-3. Other devices on the `P`-line (e.g., your neighbors' equipment) may draw too much current, potentially affecting Doorman's performance.
-
-**Understand these risks before purchasing.** If you have any questions, please contact me, and I will be happy to help!
+**Verstehe diese Risiken, bevor du einen bestellst.** Wenn du Fragen hast, kontaktiere mich gerne und ich helfe dir weiter!
 :::
 
-## Wiring
-**2-Wire Mode:**\
-If your intercom is connected in 2-wire mode and you don't have a separate 24V `P`-line, use an external power supply via USB-C or the `P` (+5V to +30V DC) and `b` (Ground) screw terminals.
+## Verkabelung
+**2-Draht-Modus:**\
+Wenn deine Gegensprechanlage im 2-Draht-Modus angeschlossen ist und du keine separate 24V `P`-Leitung hast, verwende eine externe Stromversorgung über USB-C oder die Schraubklemmen `P` (+5V bis +30V DC) und `G` (Ground).
 
-**3-Wire Mode:**\
-If connected in 3-wire mode, you should be able to use the `P`-line to power your Doorman in most cases.
+**3-Draht-Modus:**\
+Wenn sie im 3-Draht-Modus angeschlossen ist, solltest du in den meisten Fällen die `P`-Leitung zur Stromversorgung vom Doorman nutzen können.
 
 ::: tip
-In some installations, the `a` and `b` wires are twisted, but this is handled by Doorman’s integrated bridge rectifier. Consider this when checking the voltage levels on the `a`, `b`, and `P` lines.
+In einigen Installationen sind die `a`- und `b`-Drähte verdreht, aber das wird von Doormans integriertem Brückengleichrichter berücksichtigt. Berücksichtige dies beim Überprüfen der Spannung auf den Leitungen `a`, `b` und `P`.
 :::
 
-#### Intercom Screw Terminal Explanation
-- **a:** Typically the Bus line (+24V)
-- **b:** Typically Ground
-- **P:** The +24V line in 3-wire mode or the apartment doorbell button in 2-wire mode
+#### Erklärung der Gegensprechanlagen-Anschlussklemmen
+- **a:** Typischerweise die Bus-Leitung (+24V)
+- **b:** Typischerweise Ground
+- **P:** Die +24V-Leitung im 3-Draht-Modus oder der Klingelknopf der Wohnung im 2-Draht-Modus
 
 ::: danger
-**DO NOT USE THE +24V `P`-LINE AND USB-C AT THE SAME TIME**
+**NICHT GLEICHZEITIG DIE +24V `P`-LEITUNG UND USB-C VERWENDEN**
 :::
 
-## Check the Power Supply
-Use a multimeter to check the DC voltage.\
-Measure the polarity first since the `a` and `b` lines can be twisted.
+## Überprüfe die Stromversorgung
+Verwende ein Multimeter, um die DC-Spannung zu messen.\
+Miss zuerst die Polarität, da die `a`- und `b`-Leitungen verdreht sein können.
 
-#### Expected Voltage
-- Between `a` and `b`: ~ 24.0V
-- Between `P` and `b`: ~ 23.2V
-
+#### Erwartete Spannung
+- Zwischen `a` und `b`: ~ 24,0V
+- Zwischen `P` und `b`: ~ 23,2V
 
 ::: warning
-The intercom power supply **must have a minimum output current of 60mA** for stable operation.
+Die Stromversorgung der Gegensprechanlage **muss mindestens 60mA Ausgangsstrom liefern**, um stabil zu funktionieren.
 
-If other devices using the `P`-line draw too much current, it may not be sufficient to power Doorman.
+Wenn andere Geräte an der `P`-Leitung zu viel Strom ziehen, reicht es möglicherweise nicht aus, um Doorman zu betreiben.
 
-**Use an external power supply (USB-C or screw terminal) if your intercom’s power supply provides less than 60mA or if you notice unstable operation.** 
+**Verwende eine externe Stromversorgung (USB-C oder Schraubklemme), wenn die Stromversorgung deiner Sprechanlage weniger als 60mA liefert oder wenn du eine instabile Funktion bemerkst.**
 :::
 
-## Known Issues
+## Bekannte Probleme
 
-Some intercom phones with a TTC1-B-1 connector module cause issues because the `a` and `P` connectors are somehow connected. It is not yet clear which models are affected.
+Einige Gegensprechanlagen mit einem TTC1-B-1 Anschlussmodul verursachen Probleme, da die `a`- und `P`-Anschlüsse irgendwie verbunden sind.
+Welche Modelle betroffen sind, ist noch unklar.
 
 ::: danger Problem
-A loud beeping noise occurs whenever someone is talking.
+Es tritt ein lautes Piepen auf, wenn jemand spricht.
 :::
 
 ![ttc1-b-1-module](./images/incompatible-ttc1-b-1.png){width=300px}
 
+## Verifizierte Modelle
 
-
-## Verified Hardware
-
-::: info Note
-If your intercom phone isn't listed here, it doesn’t necessarily mean it’s incompatible; it simply means it hasn’t been tested yet.
+::: info Hinweis
+Wenn deine Gegensprechanlage hier nicht aufgeführt ist, bedeutet das nicht unbedingt, dass sie nicht kompatibel ist; es heißt nur, dass sie noch nicht getestet wurde.
 :::
 
 - TCS BVS20-SG / Koch BVS20
