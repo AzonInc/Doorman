@@ -34,7 +34,7 @@ This is the minimal ESPHome configuration YAML file. Be sure to update the API k
 
 ::: details Minimal Stock Firmware
 ```yaml
-<!--@include: ../../../firmware/examples/stock.example.yaml-->
+<!--@include: ../../../../firmware/examples/stock.example.yaml-->
 ```
 :::
 

@@ -27,6 +27,13 @@ export const de = defineConfig({
     editLink: {
         text: 'Diese Seite bearbeiten'
     },
+
+    notFound: {
+      title: 'SEITE NICHT GEFUNDEN',
+      linkText: 'Bring mich nach Hause',
+      linkLabel: 'Label',
+      quote: 'Aber wenn du deine Richtung nicht änderst und weiterhin in dieselbe Richtung schaust, könntest du am Ende genau dort landen, wohin du steuerrst.'
+    },
     
     footer: {
         message: 'Veröffentlicht unter der GPL 3.0 Lizenz.',

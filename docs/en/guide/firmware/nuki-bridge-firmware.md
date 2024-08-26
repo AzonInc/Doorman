@@ -34,7 +34,7 @@ This is the minimal ESPHome configuration YAML file. Be sure to update the API k
 
 ::: details Minimal Nuki Bridge Firmware
 ```yaml
-<!--@include: ../../../firmware/examples/nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/nuki-bridge.example.yaml-->
 ```
 :::
 

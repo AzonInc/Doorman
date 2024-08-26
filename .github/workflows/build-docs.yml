@@ -43,15 +43,14 @@ jobs:
         if: github.ref != 'refs/heads/master'
         working-directory: firmware/examples
         run: |
-          sed -i 's/@master/@dev/g' stock.example.yaml
-          sed -i 's/@master/@dev/g' nuki-bridge.example.yaml
+          sed -i 's/@master/@dev/g' *.example.yaml
 
       - name: Update docs branch
         if: github.ref != 'refs/heads/master'
         working-directory: docs
         run: |
-          sed -i 's/@master/@dev/g' en/guide/getting-started.md
-          sed -i 's/@master/@dev/g' de/guide/getting-started.md
+          sed -i 's/@master/@dev/g' */guide/getting-started.md
+          sed -i 's/@master/@dev/g' */guide/firmware/minimal.example.yaml
 
       - name: Install dependencies
         working-directory: docs
