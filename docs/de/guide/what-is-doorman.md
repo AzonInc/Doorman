@@ -20,7 +20,7 @@ Du hast gerade deinen Doorman erhalten? Geh direkt zur [Quickstart](getting-star
 
 ## Features
 
-- Angetrieben vom ESP32-S3
+- ESP32-S3 mit Dual-Core-CPU, integriertem PSRAM und Bluetooth 
 - USB-C Anschluss zum einfachen Flashen (und weil USB-C einfach cool ist 😎)
 - Kompaktes Design, das fast überall passt
 - Einstellbare WS2812B RGB LED zur Anzeige bestimmter Ereignisse

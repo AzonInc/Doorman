@@ -2,114 +2,153 @@
 Die Doorman-Firmware stellt standardmäßig viele Entitäten zur Verfügung. Auf dieser Seite wird erklärt, wozu jede einzelne dient.
 
 ## Sensoren
-### Last Bus Command <Badge type="tip" text="last_bus_command" />
-Reports every published command on the bus.
-### Uptime <Badge type="tip" text="doorman_uptime" />
-Reports the uptime in seconds.
-### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
-Reports the battery level of the paired Nuki smart lock.
+
+### Last Bus Command  
+Meldet jeden veröffentlichten Befehl auf dem Bus.
+
+### Uptime  
+Meldet die Betriebszeit in Sekunden.
+
+### Nuki Battery Level  
+Meldet den Akkustand des verbundenen Nuki Smart Locks.
 
 ## Binäre Sensoren
-### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
-Activates whenever the `entrance_doorbell_command` command is received.
-### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
-Activates whenever the `apartment_doorbell_command` command is received.
-### Pick up phone <Badge type="tip" text="pick_up_phone" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `pick_up_phone_command` command is received.
-### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `hang_up_phone_command` command is received.
-### Ring To Open: Toggle <Badge type="tip" text="ring_to_open_toggle" /> <Badge type="info" text="Internal" />
-Activates whenever the `ring_to_open_toggle_command` command is received.
-### Turn on light: Trigger <Badge type="tip" text="turn_on_light_trigger" /> <Badge type="info" text="Internal" />
-Activates whenever the `turn_on_light_command` command is received.
-### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
-Activates when the external button is pressed.
-### Nuki Connected <Badge type="tip" text="nuki_connected" /> <Badge type="info" text="Nuki Bridge only" />
-Activates when the paired Nuki smart lock is connected.
-### Nuki Paired <Badge type="tip" text="nuki_paired" /> <Badge type="info" text="Nuki Bridge only" />
-Activates when a Nuki smart lock is paired.
-### Nuki Battery Critical <Badge type="tip" text="nuki_battery_critical" /> <Badge type="info" text="Nuki Bridge only" />
-Activates when the paired Nuki smart lock has a critical battery level.
-### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-No description yet.
-### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Reports the door sensor state of the paired Nuki smart lock.
+
+### Entrance Doorbell  
+Wird aktiviert, wenn der Befehl `entrance_doorbell_command` empfangen wird.
+
+### Apartment Doorbell  
+Wird aktiviert, wenn der Befehl `apartment_doorbell_command` empfangen wird.
+
+### Pick up phone  
+Wird aktiviert, wenn der Befehl `pick_up_phone_command` empfangen wird.
+
+### Hang up phone  
+Wird aktiviert, wenn der Befehl `hang_up_phone_command` empfangen wird.
+
+### Ring To Open: Toggle  
+Wird aktiviert, wenn der Befehl `ring_to_open_toggle_command` empfangen wird.
+
+### Turn on light: Trigger  
+Wird aktiviert, wenn der Befehl `turn_on_light_command` empfangen wird.
+
+### External Button  
+Wird aktiviert, wenn der externe Button gedrückt wird.
+
+### Nuki Connected  
+Wird aktiviert, wenn das gekoppelte Nuki Smart Lock verbunden ist.
+
+### Nuki Paired  
+Wird aktiviert, wenn ein Nuki Smart Lock gekoppelt ist.
+
+### Nuki Battery Critical  
+Wird aktiviert, wenn das gekoppelte Nuki Smart Lock einen kritischen Akkustand hat.
+
+### Nuki Door Sensor  
+Keine Beschreibung vorhanden.
+
+### Nuki Door Sensor State  
+Meldet den Türsensorstatus des gekoppelten Nuki Smart Locks.
 
 ## Schalter
-### Ring To Open <Badge type="tip" text="doorman_ring_to_open" />
-Controls the [Ring To Open](../guide/automation/ring-to-open) automation.
-### Ring To Open: Confirmation <Badge type="tip" text="doorman_ring_to_open_confirmation" /> <Badge type="info" text="Disabled by default" />
-Controls the turn-on confirmation for the [Ring To Open](../guide/automation/ring-to-open) automation.
-### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
-Controls the built-in relay.
-### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki pairing mode.
+
+### Ring To Open  
+Steuert die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
+
+### Ring To Open: Confirmation  
+Steuert die Einschaltbestätigung für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
+
+### Relay  
+Steuert das eingebaute Relais.
+
+### Nuki Pairing Mode  
+Steuert den Nuki Kopplungsmodus.
 
 ## Buttons
-### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
-Opens the entrance door by sending the `open_entrance_door_command` command on the Bus.
-### Open Second Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
-Opens the second door by sending the `open_second_door_command` command on the Bus.
-### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
-Turns on the light by sending the `turn_on_light_command` command on the Bus.
-### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Unpairs your Nuki smart lock.
-### Restart <Badge type="tip" text="doorman_restart" /> <Badge type="info" text="Disabled by default" />
-Restarts the Doorman unit, useful after configuration changes that require a restart.
-### Safe mode <Badge type="tip" text="doorman_safe_mode" /> <Badge type="info" text="Disabled by default" />
-Restarts the Doorman unit into safe mode, useful for OTA updates if the unit is too busy.
-### Restore Factory Settings <Badge type="tip" text="doorman_factory_reset" /> <Badge type="info" text="Disabled by default" />
-Restarts the Doorman unit and loads factory defaults.
-::: danger MIT GROßER VORSICHT VERWENDEN
+
+### Open Entrance Door  
+Öffnet die Eingangstür, indem der Befehl `open_entrance_door_command` auf dem Bus gesendet wird.
+
+### Open Second Door  
+Öffnet die zweite Tür, indem der Befehl `open_second_door_command` auf dem Bus gesendet wird.
+
+### Turn on the light  
+Schaltet das Licht ein, indem der Befehl `turn_on_light_command` auf dem Bus gesendet wird.
+
+### Nuki Unpair Device  
+Entkoppelt dein Nuki Smart Lock.
+
+### Restart  
+Startet Doorman neu, nützlich nach Konfigurationsänderungen, die einen Neustart erfordern.
+
+### Safe mode  
+Startet Doorman im Sicherheitsmodus neu, nützlich für OTA-Updates, wenn die Einheit zu beschäftigt ist.
+
+### Restore Factory Settings  
+Startet Doorman neu und lädt die Werkseinstellungen.
+
+::: Gefahr MIT GROẞER VORSICHT VERWENDEN
 Alle Zugangsdaten, globalen Variablen, Zähler und gespeicherten Zustände, die im nichtflüchtigen Speicher gespeichert sind, gehen verloren und können nicht wiederhergestellt werden. Selbst das Auslesen des Flash-Speichers mit esptool hilft nicht, da die Daten physisch aus dem Flash-Speicher gelöscht werden.
 
 Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfiguriert hast, werden auch die WiFi-Einstellungen zurückgesetzt, wodurch solche Geräte offline gehen. Du musst das Gerät dann über einen eingebauten WiFi-Access-Point und das Captive Portal neu konfigurieren.
 :::
 
 ## Eingabe für Text
-### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" />
-Sets the code sent when someone rings the apartment doorbell.
-### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" />
-Sets the code sent when someone rings the entrance doorbell.
-### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" />
-Sets the code sent when you press the button to open the entrance door.
-### Command: Open Second Door <Badge type="tip" text="open_second_door_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to open the second door.
-### Command: Pick up phone <Badge type="tip" text="pick_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you pick up the phone.
-### Command: Hang up phone <Badge type="tip" text="hang_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you hang up the phone.
-### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to turn on the hallway light.
-### Command: Ring To Open Toggle <Badge type="tip" text="ring_to_open_toggle_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
-The function button is often used for this purpose as it is usually not utilized.
+
+### Command: Apartment Doorbell  
+Legt den Code fest, der gesendet wird, wenn jemand an der Wohnungsklingel läutet.
+
+### Command: Entrance Doorbell  
+Legt den Code fest, der gesendet wird, wenn jemand an der Eingangsklingel läutet.
+
+### Command: Open Entrance Door  
+Legt den Code fest, der gesendet wird, wenn du den Knopf zum Öffnen der Eingangstür drückst.
+
+### Command: Open Second Door  
+Legt den Code fest, der gesendet wird, wenn du den Knopf zum Öffnen der zweiten Tür drückst.
+
+### Command: Pick up phone  
+Legt den Code fest, der gesendet wird, wenn du den Hörer abnimmst.
+
+### Command: Hang up phone  
+Legt den Code fest, der gesendet wird, wenn du den Hörer auflegst.
+
+### Command: Turn on light  
+Legt den Code fest, der gesendet wird, wenn du den Knopf zum Einschalten des Flurlichts drückst.
+
+### Command: Ring To Open Toggle  
+Legt den Code fest, der verwendet wird, um die [Ring To Open](../guide/automation/ring-to-open) Automatisierung umzuschalten. Der Funktionstaster wird oft für diesen Zweck verwendet, da er üblicherweise nicht genutzt wird.
 
 ## Eingabe für Zahlenwert
-### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Disabled by default" />
-Sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automation.
+
+### Ring To Open: Delay  
+Legt die Verzögerung für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung fest.
+
 ::: tip
-Setting the delay to the maximum (60 seconds) will result in the automation generating a random delay between 5 and 15 seconds each time it is triggered. 
+Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass die Automatisierung jedes Mal eine zufällige Verzögerung zwischen 5 und 15 Sekunden generiert, wenn sie ausgelöst wird.
 :::
 
 ## Dropdowns
-### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" /> <Badge type="info" text="Disabled by default" />
-Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
-##### Modes:
-- Ring once
-- 5 to 60 minutes
-- Never
+### Ring To Open: Timeout  
+Legt den Timeout-Modus für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung fest.
+
+##### Modi:
+- Einmal klingeln
+- 5 bis 60 Minuten
+- Nie
 
 ## Schlösser
-### Nuki Lock <Badge type="tip" text="nuki_smart_lock" /> <Badge type="info" text="Nuki Bridge only" />
-Represents the lock entity for your paired Nuki smart lock.
+
+### Nuki Lock  
+Repräsentiert die Schlosseinheit für dein gekoppeltes Nuki Smart Lock.
 
 ## Ereignisse
-### Doorbell Pattern <Badge type="tip" text="doorbell_pattern" />
-Triggers each time a doorbell pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
 
-##### Event Types
+### Doorbell Pattern  
+Wird ausgelöst, wenn ein Klingelmuster erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
+
+##### Ereignistypen
 - apartment_single
 - apartment_double
 - apartment_triple
@@ -117,34 +156,36 @@ Triggers each time a doorbell pattern is detected. Learn more about pattern even
 - entrance_double
 - entrance_triple
 
-### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
-Triggers each time a phone pick up pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
+### Phone pick up Pattern  
+Wird ausgelöst, wenn ein Abhebe-Muster des Telefons erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
-##### Event Types
+##### Ereignistypen
 - single
 - double
 - triple
 
 ## Updates
-### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
-Shows if an update on the stable branch is available and offers installation via the HTTP OTA update mechanism.
 
-### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
-Shows if an update on the development branch is available and offers installation via the HTTP OTA update mechanism.
+### Firmware  
+Zeigt an, ob ein Update im stabilen Zweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
+
+### Firmware  
+Zeigt an, ob ein Update im Entwicklungszweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
 
 ## Lichter
-### Status LED <Badge type="danger" text="Red" /> <Badge type="tip" text="doorman_status_led" />
-A small LED on the Doorman's PCB controlled by the ESPHome [Status LED](https://esphome.io/components/light/status_led.html) component.  By default, this LED remains on when everything is functioning properly but will blink if there are issues.
 
-You can turn off the LED if it becomes annoying. Even when turned off, it will still retain its functionality and blink to signal any issues.
+### Status LED  
+Eine kleine LED auf der Doorman-Platine, die vom ESPHome [Status LED](https://esphome.io/components/light/status_led.html) gesteuert wird. Standardmäßig bleibt diese LED eingeschaltet, wenn alles ordnungsgemäß funktioniert, blinkt jedoch bei Problemen.
 
-### Status LED <Badge type="warning" text="RGB" /> <Badge type="tip" text="doorman_rgb_status_led" />
-A small WS2812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
+Du kannst die LED ausschalten, wenn sie störend wirkt. Selbst im ausgeschalteten Zustand behält sie ihre Funktionalität und blinkt, um auf Probleme hinzuweisen.
 
-##### Event Types
-- Waiting for WiFi / AP Enabled <Badge type="tip" text="Fast orange pulse" />
-- Waiting for Home Assistant to Connect <Badge type="tip" text="Slow blue pulse" />
-- Home Assistant Connected <Badge type="tip" text="Solid blue light (for 3 seconds)" />
-- Ring To Open is Active <Badge type="tip" text="Slow yellow pulse" />
-- Nuki Pairing Mode is Active <Badge type="tip" text="Slow purple pulse" /> <Badge type="info" text="Nuki Bridge only" />
-- Nuki Paired Successfully <Badge type="tip" text="Solid purple light (for 3 seconds)" /> <Badge type="info" text="Nuki Bridge only" />
+### Status LED  
+Eine kleine WS2812B RGB-LED auf der Doorman-Platine, die verwendet wird, um bestimmte Ereignisse anzuzeigen. Die LED kann verschiedene Farben und Muster anzeigen, um visuelles Feedback zu unterschiedlichen Zuständen und Aktionen zu geben.
+
+##### Ereignistypen
+- Warten auf WiFi / AP aktiviert <Badge type="tip" text="Fast orange pulse" />
+- Warten auf Home Assistant-Verbindung <Badge type="tip" text="Slow blue pulse" />
+- Home Assistant verbunden <Badge type="tip" text="Solid blue light (for 3 seconds)" />
+- Ring To Open ist aktiv <Badge type="tip" text="Slow yellow pulse" />
+- Nuki Kopplungsmodus ist aktiv <Badge type="tip" text="Slow purple pulse" />
+- Nuki erfolgreich gekoppelt <Badge type="tip" text="Solid purple light (for 3 seconds)" />
