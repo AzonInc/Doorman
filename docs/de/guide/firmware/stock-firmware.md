@@ -1,40 +1,41 @@
 # Stock Firmware <Badge type="tip" text="ESP-IDF Framework" />
 
-This is the preferred firmware as it works out of the box with the Doorman S3 and supports Improv via Bluetooth LE.
+Dies ist die bevorzugte Firmware, da sie direkt mit dem Doorman S3 funktioniert und Improv über Bluetooth LE unterstützt.
 
-### Update Firmware
-There are several ways to update the firmware:
-- ESPHome OTA <Badge type="warning" text="Requires ESPHome Dashboard" />
-- HTTP OTA <Badge type="tip" text="Latest release build, no customization" />
-- Web Serial <Badge type="tip" text="Latest release build, no customization" />
+### Firmware Update
+Es gibt mehrere Möglichkeiten, die Firmware zu aktualisieren:
+- ESPHome OTA <Badge type="warning" text="Erfordert ESPHome-Dashboard" />
+- HTTP OTA <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
+- Web Serial <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 
-You can connect your Doorman via USB-C and click the button below to install the latest Doorman Stock Firmware directly through Web Serial.
-<esp-web-install-button manifest="../../firmware/release/doorman-stock/manifest.json">
+Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden Button klicken, um die neueste Doorman Stock Firmware direkt über Web Serial zu installieren.
+<esp-web-install-button manifest="../../../firmware/release/doorman-stock/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
-            <a class="btn">Install or Update Firmware</a>
+            <a class="btn">Firmware installieren oder updaten</a>
         </div>
     </button>
     <div slot="unsupported">
         <div class="danger custom-block">
             <p class="custom-block-title">OH SNAP!</p>
-            <p>Your Browser doesn't support Web Serial :(</p>
+            <p>Dein Browser unterstützt leider kein Web Serial :(</p>
         </div>
     </div>
     <div slot="not-allowed">
         <div class="danger custom-block">
             <p class="custom-block-title">OH SNAP!</p>
-            <p>You are not allowed to use this on HTTP :(</p>
+            <p>Das funktioniert mit HTTP nicht :(</p>
         </div>
     </div>
 </esp-web-install-button>
 
 ## Firmware YAML
-This is the minimal ESPHome configuration YAML file. Be sure to update the API key.
 
-::: details Minimal Stock Firmware
+Dies ist die minimale ESPHome-Konfigurations-YAML-Datei. Vergiss nicht, den API-Schlüssel zu aktualisieren.
+
+::: details Minimale Stock Firmware
 ```yaml
-<!--@include: ../../../firmware/examples/stock.example.yaml-->
+<!--@include: ../../../../firmware/examples/stock.example.yaml-->
 ```
 :::
 

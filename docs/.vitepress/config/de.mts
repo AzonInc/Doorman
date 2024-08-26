@@ -106,7 +106,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     {
       text: 'Automationen',
       items: [
-        { text: 'Pattern Events', link: 'pattern-events', base: '/de/guide/automation/' },
+        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/de/guide/automation/' },
         { text: 'Ring To Open', link: 'ring-to-open', base: '/de/guide/automation/' },
         { text: 'Blueprints', link: 'blueprints', base: '/de/guide/automation/' }
       ]

@@ -1,17 +1,17 @@
-# Pattern Events
+# Muster-Ereignisse
 
-The Doorman firmware includes pattern event entities that you can use in [Home Assistant](https://www.home-assistant.io/) automations.
+Die Doorman-Firmware enthält Muster-Ereignis-Entitäten, die du in [Home Assistant](https://www.home-assistant.io/) Automatisierungen verwenden kannst.
 
-Each pattern is configured as follows:
-- Push
-- Maximum 1-second break
-- Push
+Jedes Muster ist wie folgt konfiguriert:
+- Drücken
+- Maximal 1 Sekunde Pause
+- Drücken
 
-Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) to learn how to create and customize your own patterns.
+Sieh dir die [fortgeschrittenen Beispiele](../firmware/stock-firmware#fortgeschrittene-beispiele) an, um zu lernen, wie du eigene Muster erstellen und anpassen kannst.
 
-## Doorbell Pattern
+## Klingelmuster
 
-### Event Types
+### Ereignistypen
 - apartment_single
 - apartment_double
 - apartment_triple
@@ -19,12 +19,12 @@ Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) 
 - entrance_double
 - entrance_triple
 
-### Example Automation
-::: details Automatically open the door when the Entrance Doorbell is pressed twice in a specific pattern.
-Make sure to replace the `entity_id` with your specific Doorman entities.
+### Beispiel-Automatisierung
+::: details Tür automatisch öffnen, wenn die Eingangsklingel zweimal in einem bestimmten Muster gedrückt wird.
+Stelle sicher, dass du die `entity_id` durch deine spezifischen Doorman-Entitäten ersetzt.
 ```yaml
-alias: Automatically open the entrance door
-description: "Open the entrance door after pressing the entrance doorbell two times."
+alias: Eingangstür automatisch öffnen
+description: "Öffne die Eingangstür, nachdem die Eingangsklingel zweimal gedrückt wurde."
 trigger:
   - platform: state
     entity_id:
@@ -42,19 +42,19 @@ mode: single
 ```
 :::
 
-## Phone pickup Pattern
+## Telefon-Auflegen-Muster
 
-### Event Types
+### Ereignistypen
 - single
 - double
 - triple
 
-### Example Automation
-::: details Toggle Ring To Open Mode by quickly picking up the phone three times.
-Make sure to replace the `entity_id` with your specific Doorman entities.
+### Beispiel-Automatisierung
+::: details Ring-To-Open-Modus umschalten, indem du schnell dreimal den Telefonhörer auflegst.
+Stelle sicher, dass du die `entity_id` durch deine spezifischen Doorman-Entitäten ersetzt.
 ```yaml
-alias: Toggle Ring To Open Mode (Phone pick up Pattern)
-description: "Toggle Ring To Open Mode when you quickly pick up the phone 3 times."
+alias: Ring-To-Open-Modus umschalten (Telefon-Auflegen-Muster)
+description: "Schalte den Ring-To-Open-Modus um, wenn du schnell dreimal den Telefonhörer auflegst."
 trigger:
   - platform: state
     entity_id:

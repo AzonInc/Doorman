@@ -1,25 +1,25 @@
 ## Beispiele
 
-::: details Create a simple TCS Command Binary Sensor
-You can easily add additional binary sensors for any TCS Command, alongside the preconfigured ones.
+::: details Einfachen TCS-Befehl-Binärsensor erstellen
+Neben den bereits vordefinierten kannst du ganz leicht zusätzliche Binärsensoren für jeden TCS-Befehl hinzufügen.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
   - platform: tcs_intercom // [!code ++] // [!code focus]
-    name: "Custom Command" // [!code ++] // [!code focus]
+    name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
     command: 0x3b8f9a00 // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Controlling the internal RGB Status LED
-If you want to control the onboard RGB LED with a button (for example), simply use the Light ID: `doorman_rgb_status_led`.
+::: details Internes RGB-Status-LED steuern
+Wenn du die RGB-LED am Doorman beispielsweise mit einem Button steuern möchtest, verwende einfach die Light ID: `doorman_rgb_status_led`.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
 button: // [!code ++] // [!code focus]
   - platform: template // [!code ++] // [!code focus]
-    name: "Turn on Status RGB LED to red" // [!code ++] // [!code focus]
+    name: "Status RGB-LED auf Rot setzen" // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
       - light.turn_on: // [!code ++] // [!code focus]
           id: doorman_rgb_status_led // [!code ++] // [!code focus]
@@ -29,20 +29,20 @@ button: // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Use the External Hardware Button
-If you want to use the external button to trigger automations, you can simply extend your YAML configuration.
+::: details Externen Hardware-Button verwenden
+Wenn du den externen Button nutzen möchtest, um Automationen auszulösen, kannst du deine YAML-Konfiguration einfach erweitern.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
   - id: !extend doorman_external_button // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
-      - logger.log: "External button pressed!" // [!code ++] // [!code focus]
+      - logger.log: "Externer Button gedrückt!" // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Use I²C Sensors
-If you want to add sensors via the I²C bus, you can use the two available GPIO pins and add the I²C component to your configuration. You can then attach your sensors to these two I²C GPIO pins.
+::: details I²C-Sensoren nutzen
+Falls du Sensoren über den I²C-Bus hinzufügen möchtest, kannst du die beiden verfügbaren GPIO-Pins nutzen und die I²C-Komponente in deine Konfiguration einbinden. Dann kannst du deine Sensoren an diese beiden I²C-GPIO-Pins anschließen.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -57,10 +57,10 @@ i2c: // [!code ++] // [!code focus]
 
 ## Fortgeschrittene Beispiele
 ### Home Assistant
-::: details Sending Bus commands
-You can use Home Assistant actions (formerly known as services) to send commands on the bus.
+::: details Bus-Commands senden
+Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu senden.
 > [!INFO]
-> Remember to include the leading `0x` when sending a HEX command. If you omit it, you'll need to convert the HEX command to a decimal number.
+> Denk daran, das führende `0x` beim Senden eines HEX-Kommandos einzufügen. Wenn du es weglässt, musst du den HEX-Befehl in eine Dezimalzahl umwandeln.
 
 ```yaml
 service: esphome.doorman_s3_send_tcs_command
@@ -69,10 +69,10 @@ data:
 ```
 :::
 
-::: details Listening for ESPHome events
-Doorman will send esphome.doorman events to Home Assistant every time a command is received.
+::: details Auf ESPHome-Ereignisse hören
+Der Doorman sendet `esphome.doorman`-Ereignisse an Home Assistant, jedes Mal wenn ein Befehl empfangen wird.
 
-Each event is structured as follows:
+Jedes Ereignis sieht so aus:
 ```yaml
 event_type: esphome.doorman
 data:
@@ -86,9 +86,9 @@ context:
   user_id: null
 ```
 
-Home Assistant Automation Example:
+Beispiel für eine Home Assistant-Automation:
 ```yaml
-alias: Trigger on Doorman TCS Open Door Command
+alias: Bei Doorman TCS Türöffnungsbefehl auslösen
 description: ""
 trigger:
   - platform: event
@@ -102,8 +102,8 @@ mode: single
 :::
 
 ### ESPHome
-::: details Create a Runtime Config TCS Command Binary Sensor
-You can add additional configurable command binary sensors alongside the preconfigured ones by using lambda, globals, and text inputs.
+::: details Einen zur Laufzeit konfigurierbaren TCS-Befehl-Binärsensor erstellen
+Du kannst zusätzliche konfigurierbare Befehl-Binärsensoren hinzufügen, indem du Lambda, Globals und Texteingaben verwendest.
 
 ```yaml
 <!--@include: minimal.example.yaml-->
@@ -117,7 +117,7 @@ globals: // [!code ++] // [!code focus]
 text: // [!code ++] // [!code focus]
   - platform: template // [!code ++] // [!code focus]
     id: custom_command_input // [!code ++] // [!code focus]
-    name: Custom Command // [!code ++] // [!code focus]
+    name: Benutzerdefinierter Befehl // [!code ++] // [!code focus]
     entity_category: CONFIG // [!code ++] // [!code focus]
     icon: "mdi:console-network" // [!code ++] // [!code focus]
     mode: text // [!code ++] // [!code focus]
@@ -139,72 +139,74 @@ text: // [!code ++] // [!code focus]
 
 binary_sensor: // [!code ++] // [!code focus]
   - platform: tcs_intercom // [!code ++] // [!code focus]
-    name: "Custom Command" // [!code ++] // [!code focus]
+    name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
     lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Create a Bus Voltage Sensor
-You can add a Bus Voltage sensor for older intercoms operating on 14-24V DC.\
-It may also be possible to implement other protocols in the future.
+::: details Einen Bus-Spannungssensor erstellen
+Du kannst einen Bus-Spannungssensor für ältere Gegensprechanlagen hinzufügen, die mit 14-24V DC arbeiten.\
+Es könnte in Zukunft auch möglich sein, andere Protokolle zu implementieren.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
-# New ADC Voltage Sensor // [!code ++] // [!code focus]
+# Neuer ADC-Spannungssensor // [!code ++] // [!code focus]
 sensor: // [!code ++] // [!code focus]
   - platform: adc // [!code ++] // [!code focus]
     id: bus_voltage // [!code ++] // [!code focus]
-    name: Bus Voltage // [!code ++] // [!code focus]
+    name: Bus-Spannung // [!code ++] // [!code focus]
     pin: // [!code ++] // [!code focus]
       number: GPIO9 // [!code ++] // [!code focus]
       allow_other_uses: true // [!code ++] // [!code focus]
     update_interval: 500ms // [!code ++] // [!code focus]
     attenuation: 12dB // [!code ++] // [!code focus]
 
-# Extend tcs_intercom component // [!code ++] // [!code focus]
-# Allow RX pin to be used for other cases as well // [!code ++] // [!code focus]
+# TCS-Intercom-Komponente erweitern // [!code ++] // [!code focus]
+# RX-Pin auch für andere Zwecke nutzen // [!code ++] // [!code focus]
 tcs_intercom: // [!code ++] // [!code focus]
   rx_pin: // [!code ++] // [!code focus]
-    number: GPIO9 // [!code ++] // [!code focus]
+    number: GPIO9 // [!code
+
+ ++] // [!code focus]
     allow_other_uses: true // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Create Your Own Doorbell Pattern
-If you want to create a custom doorbell pattern, you can easily extend the existing doorbell entities. For more information about patterns, refer to the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
+::: details Eigene Klingel-Muster erstellen
+Wenn du ein benutzerdefiniertes Klingelmuster erstellen möchtest, kannst du die bestehenden Klingel-Entities einfach erweitern. Weitere Informationen zu Mustern findest du in der [ESPHome Dokumentation](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 ```yaml
 <!--@include: minimal.example.yaml-->
 
-# Extend the doorbell_pattern event entity // [!code ++] // [!code focus]
-# Add a new apartment_special event type // [!code ++] // [!code focus]
+# Türglocken-Muster-Event-Entity erweitern // [!code ++] // [!code focus]
+# Neues apartment_special-Eventtyp hinzufügen // [!code ++] // [!code focus]
 event: // [!code ++] // [!code focus]
   - id: !extend doorbell_pattern // [!code ++] // [!code focus]
     event_types: // [!code ++] // [!code focus]
       - "apartment_special" // [!code ++] // [!code focus]
 
-# Extend the apartment_doorbell / entrance_doorbell entity // [!code ++] // [!code focus]
-# and add your new special pattern // [!code ++] // [!code focus]
+# Die apartment_doorbell / entrance_doorbell-Entity erweitern // [!code ++] // [!code focus]
+# und das neue spezielle Muster hinzufügen // [!code ++] // [!code focus]
 binary_sensor: // [!code ++] // [!code focus]
   - id: !extend apartment_doorbell // [!code ++] // [!code focus]
     on_multi_click: // [!code ++] // [!code focus]
-      # Special Pattern // [!code ++] // [!code focus]
+      # Besonderes Muster // [!code ++] // [!code focus]
       - timing: // [!code ++] // [!code focus]
-          # Press twice with no more than one second between each press. // [!code ++] // [!code focus]
-          - ON for at most 0.5s // [!code ++] // [!code focus]
-          - OFF for at most 1s // [!code ++] // [!code focus]
-          - ON for at most 0.5s // [!code ++] // [!code focus]
-          - OFF for at least 2s // [!code ++] // [!code focus]
+          # Zwei Mal drücken, mit maximal einer Sekunde zwischen den Drücken. // [!code ++] // [!code focus]
+          - ON für maximal 0.5s // [!code ++] // [!code focus]
+          - OFF für maximal 1s // [!code ++] // [!code focus]
+          - ON für maximal 0.5s // [!code ++] // [!code focus]
+          - OFF für mindestens 2s // [!code ++] // [!code focus]
         then: // [!code ++] // [!code focus]
-          - logger.log: "Special pattern detected!" // [!code ++] // [!code focus]
+          - logger.log: "Besonderes Muster erkannt!" // [!code ++] // [!code focus]
           - event.trigger: // [!code ++] // [!code focus]
               id: doorbell_pattern // [!code ++] // [!code focus]
-              # Use the previously defined new event type here // [!code ++] // [!code focus]
+              # Den vorher definierten neuen Eventtyp hier verwenden // [!code ++] // [!code focus]
               event_type: apartment_special // [!code ++] // [!code focus]
 ```
 :::
 
-::: details Turn on the light when someone rings the entrance doorbell
-You can turn on the light when someone rings the entrance doorbell.
+::: details Licht einschalten, wenn jemand an der Eingangstür klingelt
+Du kannst das Licht einschalten lassen, wenn jemand an der Eingangstür klingelt.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -215,29 +217,29 @@ binary_sensor: // [!code ++] // [!code focus]
           command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
 ```
 
-If you want to account for the sun's elevation as well, you can adjust it accordingly.
+Wenn du auch die Sonnenhöhe berücksichtigen möchtest, kannst du das entsprechend anpassen.
 ```yaml
 <!--@include: minimal.example.yaml-->
 
-# Import the Home Assistant sun elevation sensor // [!code ++] // [!code focus]
+# Home Assistant Sonnenhöhe-Sensor importieren // [!code ++] // [!code focus]
 sensor: // [!code ++] // [!code focus]
   - platform: homeassistant // [!code ++] // [!code focus]
     id: sun_elevation // [!code ++] // [!code focus]
     entity_id: sun.sun // [!code ++] // [!code focus]
     attribute: elevation // [!code ++] // [!code focus]
 
-# Extend the entrance doorbell sensor // [!code ++] // [!code focus]
+# Eingangstür-Sensor erweitern // [!code ++] // [!code focus]
 binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
-      # Sun elevation is <= 0 (dark) // [!code ++] // [!code focus]
+      # Sonnenhöhe <= 0 (dunkel) // [!code ++] // [!code focus]
       - if: // [!code ++] // [!code focus]
           condition: // [!code ++] // [!code focus]
             sensor.in_range: // [!code ++] // [!code focus]
               id: sun_elevation // [!code ++] // [!code focus]
               below: 1 // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
-            # Turn on the light // [!code ++] // [!code focus]
+            # Licht einschalten // [!code ++] // [!code focus]
             - tcs_intercom.send: // [!code ++] // [!code focus]
                 command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
 ```

@@ -1,28 +1,27 @@
 # Ring To Open <Badge type="warning" text="Party Mode" />
 
-The Doorman firmware features a Ring To Open automation, which was previously known as Party Mode.
+Die Doorman-Firmware bietet eine **Ring To Open**-Automatisierung, die früher als **Party Mode** bekannt war.
 
-### What does it do?
-As the name implies, the entrance door will open automatically when someone rings the doorbell.
-This feature is especially useful during a party, allowing guests to enter the building simply by ringing the bell.
+### Was macht es?
+Wie der Name schon sagt, öffnet sich die Eingangstür automatisch, wenn jemand die Türklingel betätigt. Diese Funktion ist besonders nützlich während einer Party, da Gäste einfach durch Klingeln das Gebäude betreten können.
 
-### How do I use it?
-You can enable or disable the Ring To Open automation using the switch in Home Assistant or by issuing the `Ring To Open Toggle Command`.
+### Wie benutze ich es?
+Du kannst die Ring To Open-Automatisierung entweder über den Schalter in Home Assistant umschalten oder durch Ausführen des `Ring To Open Toggle Command`.
 
-#### Configuration Options:
+#### Konfigurationsoptionen:
 
-::: info Toggle Command
-This setting is useful if you have an unused function button on your intercom phone. The button can be configured to quickly toggle the Ring To Open automation.
+::: info **Toggle Command**
+Diese Einstellung ist nützlich, wenn du einen ungenutzten Funktionsknopf an deinem Etagen-Telefon hast. Der Knopf kann so konfiguriert werden, dass er schnell die Ring To Open-Automatisierung umschaltet.
 :::
 
-::: info Confirmation
-If you enable this setting, your apartment doorbell will ring each time you activate the Ring To Open automation via command.
+::: info **Confirmation**
+Wenn du diese Einstellung aktivierst, wird deine Wohnungs-Klingel jedes Mal klingeln, wenn du die Ring To Open-Automatisierung per Befehl (Funktionstaste) aktivierst.
 :::
 
-::: info Delay
-This setting allows you to configure a delay for the `Open Entrance Door Command`. If you set the delay to 60 seconds, it will randomly select a delay between 5 and 15 seconds whenever the automation is executed.
+::: info **Delay**
+Diese Einstellung erlaubt es dir, eine Verzögerung für den `Open Entrance Door Command` zu konfigurieren. Wenn du die Verzögerung auf 60 Sekunden einstellst, wird bei jeder Ausführung der Automatisierung zufällig eine Verzögerung zwischen 5 und 15 Sekunden ausgewählt.
 :::
 
-::: info Timeout
-You can choose to disable the Ring To Open automation after 5 to 60 minutes, after a single ring, or never.
+::: info **Timeout**
+Du kannst wählen, die Ring To Open-Automatisierung nach 5 bis 60 Minuten zu deaktivieren, nach einem einzigen Klingeln oder nie.
 :::
