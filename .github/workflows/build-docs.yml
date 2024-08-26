@@ -28,23 +28,41 @@ jobs:
           
       - name: Update package.json version
         if: github.ref == 'refs/heads/master'
+        working-directory: docs
         run: |
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" docs/package.json
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" package.json
 
       - name: Update package.json version
         if: github.ref != 'refs/heads/master'
+        working-directory: docs
         run: |
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" docs/package.json
-          sed -i 's/@master/@dev/g' firmware/examples/stock.example.yaml
-          sed -i 's/@master/@dev/g' firmware/examples/nuki-bridge.example.yaml
-          sed -i 's/@master/@dev/g' docs/en/guide/getting-started.md
-          sed -i 's/@master/@dev/g' docs/de/guide/getting-started.md
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" package.json
+          
+      - name: Update example fw branch
+        if: github.ref != 'refs/heads/master'
+        working-directory: firmware/examples
+        run: |
+          sed -i 's/@master/@dev/g' stock.example.yaml
+          sed -i 's/@master/@dev/g' nuki-bridge.example.yaml
+
+      - name: Update docs branch
+        if: github.ref != 'refs/heads/master'
+        working-directory: docs
+        run: |
+          sed -i 's/@master/@dev/g' en/guide/getting-started.md
+          sed -i 's/@master/@dev/g' de/guide/getting-started.md
 
       - name: Install dependencies
+        working-directory: docs
         run: npm ci
 
       - name: Build with VitePress
-        run: npm run docs:build
+        working-directory: docs
+        run: npm run build
+
+      - name: Build Lunaria Dashboard
+        working-directory: docs
+        run: npm run lunaria:build
 
       - name: Upload VitePress artifact
         uses: actions/upload-artifact@v4
