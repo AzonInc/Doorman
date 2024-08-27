@@ -70,7 +70,7 @@ function nav(): DefaultTheme.NavItem[] {
           activeMatch: '/de/guide/'
         },
         {
-          text: 'Referenzen',
+          text: 'Referenz',
           link: '/de/reference/entities',
           activeMatch: '/de/reference/'
         },
@@ -145,7 +145,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
 function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Referenzen',
+      text: 'Referenz',
       items: [
         { text: 'Entitäten', link: 'entities' },
         { text: 'GPIO Pinbelegung', link: 'gpio' },
