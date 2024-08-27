@@ -91,5 +91,12 @@ export const shared = defineConfig({
         }
       }
     }
-  }
+  },
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas',
+      },
+    },
+  },
 })

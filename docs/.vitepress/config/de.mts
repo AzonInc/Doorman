@@ -77,10 +77,16 @@ function nav(): DefaultTheme.NavItem[] {
         {
           text: pkg.version,
           items: [
+            { text: 'Issues', link: 'https://github.com/AzonInc/Doorman/issues' },
             {
-              text: !pkg.version.includes('dev') ? 'Wechsle zur Entwicklungs Version' : 'Wechsle zu aktuellen Version',
-              link: !pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh/' : 'https://doorman.azon.ai/',
-              target: '_self'
+              text: 'Docs',
+              items: [
+                {
+                  text: !pkg.version.includes('dev') ? 'Wechsle zur Entwicklungs Version' : 'Wechsle zu aktuellen Version',
+                  link: !pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh/' : 'https://doorman.azon.ai/',
+                  target: '_self'
+                }
+              ]
             }
           ]
         }
@@ -143,7 +149,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
       items: [
         { text: 'Entitäten', link: 'entities' },
         { text: 'GPIO Pinbelegung', link: 'gpio' },
-        { text: 'Schaltpläne', link: 'schematics' }
+        { text: 'Schaltpläne', link: 'schematics' },
+        { text: 'Spezifikationen', link: 'specifications' }
       ]
     }
   ];

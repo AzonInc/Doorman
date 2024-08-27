@@ -1,12 +1,23 @@
 # Gehäuse
 
 Falls du ein Gehäuse benötigst, kannst du dein eigenes drucken.\
-Klicke einfach auf die Bilder unten, um die STL-Datei auf GitHub zu öffnen.
-
-Oberseite                                    |  Unterseite
-:-------------------------:|:-------------------------:
-[![](./enclosure_top.png){width=300px}](https://github.com/AzonInc/Doorman/blob/master/enclosure/Top.stl)  |  [![](./enclosure_bottom.png){width=300px}](https://github.com/AzonInc/Doorman/blob/master/enclosure/Bottom.stl)
+Klicke [hier](https://github.com/AzonInc/Doorman/blob/master/enclosure) um die STL-Dateien von GitHub herunterzuladen.
 
 ::: tip
-Die STL-Dateien sind für Resin-Drucker optimiert, daher erzielst du mit einem solchen die besten Ergebnisse.
+Da die STL-Dateien für Resin-Drucker optimiert sind, erzielst du mit einem solchen die besten Ergebnisse.
 :::
+
+## Interaktiver Viewer
+### Deckel
+<ClientOnly>
+    <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+      <ModelViewer file="https://raw.githubusercontent.com/AzonInc/Doorman/master/enclosure/Top.stl" />
+    </div>
+</ClientOnly>
+
+### Gehäuseboden
+<ClientOnly>
+    <div style="aspect-ratio: 16/9; height: auto; margin: 2rem 0; border-radius: 8px; overflow:hidden;">
+      <ModelViewer file="https://raw.githubusercontent.com/AzonInc/Doorman/master/enclosure/Bottom.stl" />
+    </div>
+</ClientOnly>
