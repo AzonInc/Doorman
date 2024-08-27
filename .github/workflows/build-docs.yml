@@ -49,9 +49,9 @@ jobs:
         if: github.ref != 'refs/heads/master'
         working-directory: docs
         run: |
-          sed -i 's/@master/@dev/g' *.md
-          sed -i 's/\/master\//\/dev\//g' *.md
-          sed -i 's/@master/@dev/g' *.yaml
+          sed -i 's/@master/@dev/g' */guide/getting-started.md
+          sed -i 's/master/dev/g' */guide/enclosure/3d-printing.md
+          sed -i 's/@master/@dev/g' */guide/firmware/minimal.example.yaml
 
       - name: Install dependencies
         working-directory: docs
