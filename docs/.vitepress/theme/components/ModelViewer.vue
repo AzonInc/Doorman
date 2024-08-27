@@ -18,10 +18,9 @@ const controlsState = reactive({
 
 const gl = {
   clearColor: '#5c73e7',
+  preset: "realistic",
   shadows: true,
   alpha: false,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
 
@@ -50,12 +49,12 @@ onLoop(({ delta, elapsed }) => {
     </Suspense>
     <TresAmbientLight :intensity="0.75" />
     <TresDirectionalLight
-      :position="[4, 4, 4]"
+      :position="[4, 4, 6]"
       :intensity="1"
       cast-shadow
     />
     <TresDirectionalLight
-      :position="[1, 1, 0]"
+      :position="[1, 6, 0]"
       :intensity="2"
       cast-shadow
     />

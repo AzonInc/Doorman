@@ -8,7 +8,8 @@ const members = [
     title: 'Creator of the Doorman-S3 PCB and ESPHome-based firmware',
     links: [
       { icon: 'github', link: 'https://github.com/AzonInc' },
-    ]
+    ],
+    sponsor: 'https://github.com/sponsors/AzonInc',
   },
   {
     avatar: 'https://www.github.com/peteh.png',
@@ -16,7 +17,8 @@ const members = [
     title: 'Creator of the original Doorman custom firmware',
     links: [
       { icon: 'github', link: 'https://github.com/peteh' },
-    ]
+    ],
+    sponsor: 'https://github.com/sponsors/peteh',
   },
   {
     avatar: 'https://www.github.com/AStrehlau.png',
@@ -32,7 +34,8 @@ const members = [
     title: 'Reverse engineering of TCS Bus communication',
     links: [
       { icon: 'github', link: 'https://github.com/atc1441' },
-    ]
+    ],
+    sponsor: 'https://paypal.me/hoverboard1'
   },
   {
     avatar: 'https://www.github.com/uriyacovy.png',
