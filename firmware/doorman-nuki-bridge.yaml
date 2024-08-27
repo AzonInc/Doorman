@@ -1,5 +1,5 @@
 dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/doorman-nuki-bridge.yaml@master
+  package_import_url: github://AzonInc/doorman/firmware/examples/nuki-bridge.example.yaml@master
   import_full_config: false
 
 packages:
