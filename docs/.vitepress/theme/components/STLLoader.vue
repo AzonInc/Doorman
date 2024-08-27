@@ -8,7 +8,7 @@ const { file } = toRefs(props);
 import { toRefs } from 'vue'
 import { useTresContext } from '@tresjs/core'
 
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { Mesh, MeshBasicMaterial, MeshPhongMaterial } from 'three';
 
 const loadSTLModel = (url: string): Promise<Mesh> => {
