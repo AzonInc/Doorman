@@ -10,9 +10,9 @@ export const de = defineConfig({
   
     /* prettier-ignore */
     head: [
-        ['meta', { property: 'og:locale', content: 'en' }],
-        ['meta', { property: 'og:title', content: 'Doorman | Gateway for TCS and Koch intercoms' }],
-        ['meta', { property: 'og:description', content: 'Doorman S3 lets you connect your TCS or Koch intercom to any home automation system.' }],
+        ['meta', { property: 'og:locale', content: 'de' }],
+        ['meta', { property: 'og:title', content: 'Doorman | Gateway für TCS und Koch Gegensprechanlagen' }],
+        ['meta', { property: 'og:description', content: 'Mit dem Doorman S3 Gateway kannst du deine TCS oder Koch Gegensprechanlage an jedes Heimautomatisierungssystem anbinden.' }],
     ],
 
   themeConfig: {
@@ -78,7 +78,7 @@ function nav(): DefaultTheme.NavItem[] {
           text: pkg.version,
           items: [
             {
-              text: !pkg.version.includes('dev') ? 'Wechsle zu Development Docs' : 'Wechsle zu Stable Docs',
+              text: !pkg.version.includes('dev') ? 'Wechsle zur Entwicklungs Version' : 'Wechsle zu aktuellen Version',
               link: !pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh/' : 'https://doorman.azon.ai/',
               target: '_self'
             }
