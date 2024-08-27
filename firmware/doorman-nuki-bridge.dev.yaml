@@ -1,6 +1,6 @@
 # Helper File: Compile dev firmware
 dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/doorman-nuki-bridge.yaml@dev
+  package_import_url: github://AzonInc/doorman/firmware/examples/nuki-bridge.example.yaml@dev
 
 packages:
   device_base: !include doorman-nuki-bridge.yaml

@@ -34,4 +34,4 @@ jobs:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           color: "#FF6961"
-          message: "The nightly test build failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          message: "Doorman Firmware: Nightly build failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

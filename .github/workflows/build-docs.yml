@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: docs/package-lock.json
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -28,22 +29,41 @@ jobs:
           
       - name: Update package.json version
         if: github.ref == 'refs/heads/master'
+        working-directory: docs
         run: |
           sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" package.json
 
       - name: Update package.json version
         if: github.ref != 'refs/heads/master'
+        working-directory: docs
         run: |
           sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" package.json
-          sed -i 's/@master/@dev/g' firmware/examples/stock.example.yaml
-          sed -i 's/@master/@dev/g' firmware/examples/nuki-bridge.example.yaml
-          sed -i 's/@master/@dev/g' docs/guide/getting-started.md
+          
+      - name: Update example fw branch
+        if: github.ref != 'refs/heads/master'
+        working-directory: firmware/examples
+        run: |
+          sed -i 's/@master/@dev/g' *.example.yaml
+
+      - name: Update docs branch
+        if: github.ref != 'refs/heads/master'
+        working-directory: docs
+        run: |
+          sed -i 's/@master/@dev/g' */guide/getting-started.md
+          sed -i 's/master/dev/g' */guide/enclosure/3d-printing.md
+          sed -i 's/@master/@dev/g' */guide/firmware/minimal.example.yaml
 
       - name: Install dependencies
+        working-directory: docs
         run: npm ci
 
       - name: Build with VitePress
-        run: npm run docs:build
+        working-directory: docs
+        run: npm run build
+
+      - name: Build Lunaria Dashboard
+        working-directory: docs
+        run: npm run lunaria:build
 
       - name: Upload VitePress artifact
         uses: actions/upload-artifact@v4
