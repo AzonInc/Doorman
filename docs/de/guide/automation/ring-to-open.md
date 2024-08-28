@@ -18,5 +18,5 @@ Diese Einstellung erlaubt es dir, eine Verzögerung für den `Open Entrance Door
 :::
 
 ::: info **Timeout**
-Du kannst wählen, die Ring To Open-Automatisierung nach 5 bis 60 Minuten zu deaktivieren, nach einem einzigen Klingeln oder nie.
+Du kannst die Ring To Open-Automatisierung nach 5 bis 60 Minuten, nach einem einzigen Klingeln oder nie automatisch deaktivieren.
 :::
