@@ -214,7 +214,7 @@ binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
       - tcs_intercom.send: // [!code ++] // [!code focus]
-          command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+          command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 
 Wenn du auch die Sonnenhöhe berücksichtigen möchtest, kannst du das entsprechend anpassen.
@@ -241,6 +241,6 @@ binary_sensor: // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
             # Licht einschalten // [!code ++] // [!code focus]
             - tcs_intercom.send: // [!code ++] // [!code focus]
-                command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+                command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 :::

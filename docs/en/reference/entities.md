@@ -31,7 +31,7 @@ Activates whenever the `hang_up_phone_command` command is received.
 Activates whenever the `function_button_command` command is received.
 
 ### Light Button <Badge type="tip" text="light_button" />
-Activates whenever the `turn_on_light_command` command is received.
+Activates whenever the `light_button_command` command is received.
 
 ### Boot Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
 Activates when the boot button is pressed.
@@ -85,7 +85,7 @@ Opens the entrance door by sending the `open_entrance_door_command` command on t
 Opens the second door by sending the `open_second_door_command` command on the Bus.
 
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
-Turns on the light by sending the `turn_on_light_command` command on the Bus.
+Turns on the light by sending the `light_button_command` command on the Bus.
 
 ### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
 Starts the [Interactive Setup](../guide/getting-started#interactive-setup) Process to interactively setup bus commands.
@@ -131,7 +131,7 @@ Sets the code sent when you pick up the phone.
 ### Command: Hang up phone <Badge type="tip" text="hang_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you hang up the phone.
 
-### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
+### Command: Light Button <Badge type="tip" text="light_button_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you press the button to turn on the hallway light.
 
 ### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Disabled by default" />

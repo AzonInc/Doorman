@@ -31,7 +31,7 @@ Wird aktiviert, wenn der Befehl `hang_up_phone_command` empfangen wird.
 Wird aktiviert, wenn der Befehl `function_button_command` empfangen wird.
 
 ### Light Button <Badge type="tip" text="light_button" />
-Wird aktiviert, wenn der Befehl `turn_on_light_command` empfangen wird.
+Wird aktiviert, wenn der Befehl `light_button_command` empfangen wird.
 
 ### Boot Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
 Wird aktiviert, wenn der Boot Button gedrückt wird.
@@ -85,7 +85,7 @@ Steuert den Nuki Kopplungsmodus.
 Öffnet die zweite Tür, indem der Befehl `open_second_door_command` auf dem Bus gesendet wird.
 
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
-Schaltet das Licht ein, indem der Befehl `turn_on_light_command` auf dem Bus gesendet wird.
+Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
 
 ### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
 Startet den [Interactive Setup](../guide/getting-started#interactive-setup) Prozess um Bus Commands einzurichten.
@@ -131,7 +131,7 @@ Legt den Code fest, der gesendet wird, wenn du den Hörer abnimmst.
 ### Command: Hang up phone <Badge type="tip" text="hang_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
 Legt den Code fest, der gesendet wird, wenn du den Hörer auflegst.
 
-### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
+### Command: Light Button <Badge type="tip" text="light_button_command_input" /> <Badge type="info" text="Disabled by default" />
 Legt den Code fest, der gesendet wird, wenn du den Knopf zum Einschalten des Flurlichts drückst.
 
 ### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Disabled by default" />

@@ -46,7 +46,7 @@ globals:
     restore_value: true
     initial_value: '0x00000000'
 
-  - id: turn_on_light_command
+  - id: light_button_command
     type: int
     restore_value: true
     initial_value: '0x1200'
@@ -212,7 +212,7 @@ button:
     icon: mdi:lightbulb-on
     on_press:
       - tcs_intercom.send:
-          command: !lambda "return id(turn_on_light_command);"
+          command: !lambda "return id(light_button_command);"
     disabled_by_default: true
 
 # Onboard Status LEDs
@@ -426,7 +426,7 @@ binary_sensor:
   - platform: tcs_intercom
     id: "light_button"
     name: "Light Button"
-    lambda: !lambda "return id(turn_on_light_command);"
+    lambda: !lambda "return id(light_button_command);"
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
@@ -603,11 +603,11 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
-    id: turn_on_light_command_input
-    name: "Command: Turn on light"
+    id: light_button_command_input
+    name: "Command: Light Button"
     mode: text
     lambda: |-
-      unsigned long number = id(turn_on_light_command);
+      unsigned long number = id(light_button_command);
       return str_upper_case(format_hex(number));
     set_action:
       then:
@@ -619,8 +619,8 @@ text:
             if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
-            id(turn_on_light_command) = number;
-            id(turn_on_light_command_input)->publish_state(str_upper_case(format_hex(number)));
+            id(light_button_command) = number;
+            id(light_button_command_input)->publish_state(str_upper_case(format_hex(number)));
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"

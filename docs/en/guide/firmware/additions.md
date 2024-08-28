@@ -212,7 +212,7 @@ binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
       - tcs_intercom.send: // [!code ++] // [!code focus]
-          command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+          command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 
 If you want to account for the sun's elevation as well, you can adjust it accordingly.
@@ -239,6 +239,6 @@ binary_sensor: // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
             # Turn on the light // [!code ++] // [!code focus]
             - tcs_intercom.send: // [!code ++] // [!code focus]
-                command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+                command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 :::
