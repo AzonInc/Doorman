@@ -24,7 +24,7 @@ binary_sensor:
                   apartment_doorbell_command == 0 && 
                   entrance_doorbell_command == 0 && 
                   pick_up_phone_command == 0 &&
-                  ring_to_open_toggle_command == 0;
+                  function_key_command == 0;
           then:
             - button.press: doorman_interactive_setup_start
 
@@ -57,7 +57,7 @@ text_sensor:
     name: "Interactive Setup: Status"
     entity_category: CONFIG
 
-# Setup TCS Intercom Component
+# Extend TCS Intercom Component
 tcs_intercom:
   bus_command:
     on_value:
@@ -86,11 +86,11 @@ tcs_intercom:
                   # LED State
                   - script.execute:
                       id: interactive_setup_next
-                      next_step: "ring_to_open_toggle_command"
+                      next_step: "function_key_command"
                       text: "Press the 'Function (Circle)' Button"
                       first_step: false
 
-            # Step: ring_to_open_toggle_command
+            # Step: function_key_command
             - if:
                 condition:
                   - lambda: |-
@@ -99,7 +99,7 @@ tcs_intercom:
                       {
                           str.erase(4); // Ingore system commands
                       }
-                      return id(interactive_setup_step) == "ring_to_open_toggle_command" && str != "0000";
+                      return id(interactive_setup_step) == "function_key_command" && str != "0000";
                 then:
                   # Save Command
                   - lambda: |-
@@ -107,7 +107,7 @@ tcs_intercom:
                       if(std::string(x.c_str()) != "") {
                         number = std::stoul(x.c_str(), nullptr, 16);
                       }
-                      id(ring_to_open_toggle_command) = number;
+                      id(function_key_command) = number;
                       ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
                   # LED State
                   - script.execute:
