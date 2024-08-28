@@ -6,14 +6,9 @@ Die Doorman-Firmware bietet eine **Ring To Open**-Automatisierung, die früher a
 Wie der Name schon sagt, öffnet sich die Eingangstür automatisch, wenn jemand die Türklingel betätigt. Diese Funktion ist besonders nützlich während einer Party, da Gäste einfach durch Klingeln das Gebäude betreten können.
 
 ### Wie benutze ich es?
-Du kannst die Ring To Open-Automatisierung entweder über den Schalter in Home Assistant umschalten oder durch Ausführen des `Ring To Open Toggle Command`.
+Du kannst die Ring To Open-Automatisierung entweder über den Schalter in Home Assistant umschalten oder durch Ausführen des `Function Button` Commands.
 
 #### Konfigurationsoptionen:
-
-::: info **Toggle Command**
-Diese Einstellung ist nützlich, wenn du einen ungenutzten Funktionsknopf an deinem Etagen-Telefon hast. Der Knopf kann so konfiguriert werden, dass er schnell die Ring To Open-Automatisierung umschaltet.
-:::
-
 ::: info **Confirmation**
 Wenn du diese Einstellung aktivierst, wird deine Wohnungs-Klingel jedes Mal klingeln, wenn du die Ring To Open-Automatisierung per Befehl (Funktionstaste) aktivierst.
 :::

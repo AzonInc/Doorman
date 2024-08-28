@@ -7,14 +7,9 @@ As the name implies, the entrance door will open automatically when someone ring
 This feature is especially useful during a party, allowing guests to enter the building simply by ringing the bell.
 
 ### How do I use it?
-You can enable or disable the Ring To Open automation using the switch in Home Assistant or by issuing the `Ring To Open Toggle Command`.
+You can enable or disable the Ring To Open automation using the switch in Home Assistant or by issuing the `Function Button` command.
 
 #### Configuration Options:
-
-::: info Toggle Command
-This setting is useful if you have an unused function button on your intercom phone. The button can be configured to quickly toggle the Ring To Open automation.
-:::
-
 ::: info Confirmation
 If you enable this setting, your apartment doorbell will ring each time you activate the Ring To Open automation via command.
 :::
