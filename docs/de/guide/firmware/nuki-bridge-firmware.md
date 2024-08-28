@@ -17,13 +17,13 @@ Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden But
     </button>
     <div slot="unsupported">
         <div class="danger custom-block">
-            <p class="custom-block-title">OH SNAP!</p>
+            <p class="custom-block-title">OH NEIN!</p>
             <p>Dein Browser unterstützt leider kein Web Serial :(</p>
         </div>
     </div>
     <div slot="not-allowed">
         <div class="danger custom-block">
-            <p class="custom-block-title">OH SNAP!</p>
+            <p class="custom-block-title">OH NEIN!</p>
             <p>Das funktioniert mit HTTP nicht :(</p>
         </div>
     </div>

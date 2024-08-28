@@ -24,21 +24,28 @@ Additionally, with mDNS support, Home Assistant will automatically discover your
 ### Step 2: Connect to Home Assistant
 After connecting Doorman to your network, it will blink slowly (blue) and should be automatically discovered by Home Assistant. Simply click on `Configure` to add the newly discovered ESPHome node.
 
-### Step 3: Obtaining Bus commands
-::: warning Important
-You need to connect Doorman to your intercom first. Please refer to the [Wiring](#wiring) section for details.
+### Step 3: Bus Commands
+::: warning Before proceeding
+You need to connect your Doorman to the intercom. Please refer to the [Wiring](#wiring) section for detailed instructions.
 :::
 
-You can visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and click on the new Doorman S3 device entry. There, you'll find a Last Bus Command text sensor that tracks the most recent bus command in hexadecimal format.
+#### Easy Setup
+To simplify the configuration of the key commands, you can use the Easy Setup Process.
 
-Additionally, every received command is logged in the ESPHome Console (Debug log level) and published as a Home Assistant event.
+To get started, either access the internal web server of your Doorman or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the newly listed Doorman S3 device entry.
 
-**Important Commands:**
-- Entrance Doorbell
-- Apartment Doorbell
-- Open Entrance Door
+In the `Configuration` section, you will find the `Easy Setup: Start` button. Click this button to initiate the setup process.
 
-Press the buttons on your intercom phone to capture the codes, then copy them into the corresponding configuration text inputs.
+Once started, the `Easy Setup: Status` Text Sensor will guide you through the required steps (e.g., press button X, wait, or pick up the phone).\
+During the setup, the RGB Status LED will pulse red while waiting for you to complete each task and will remain solid red for 3 seconds after saving the command.
+
+After the setup is complete, the process will automatically end and display the corresponding status.
+
+#### Manual: No pain, no gain!
+You will also find a `Last Bus Command` Text Sensor that tracks the most recent bus command in hexadecimal format.
+Additionally, each received command is logged in the ESPHome Console (at the Debug log level) and published as a Home Assistant event.
+
+To capture the codes, press the buttons on your intercom phone and then copy the codes into the corresponding configuration text inputs.
 
 ## ESPHome adoption
 
