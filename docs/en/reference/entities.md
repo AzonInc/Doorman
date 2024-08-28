@@ -135,9 +135,9 @@ Sets the code sent when you hang up the phone.
 Sets the code sent when you press the button to turn on the hallway light.
 
 ### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code that is sent when you press the function button (circle). The function button is usually not used.
-
-For this reason, it is used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation."
+Sets the code that is sent when you press the function button (circle).\
+The function button is usually not used.\
+For this reason, it is used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
 
 ## Numbers
 

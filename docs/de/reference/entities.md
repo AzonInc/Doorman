@@ -135,8 +135,8 @@ Legt den Code fest, der gesendet wird, wenn du den Hörer auflegst.
 Legt den Code fest, der gesendet wird, wenn du den Knopf zum Einschalten des Flurlichts drückst.
 
 ### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Disabled by default" />
-Legt den Code fest, der gesendet wird, wenn du den Funktionstaster (Kreis) drückst. Der Funktionstaster wird üblicherweise nicht genutzt.
-
+Legt den Code fest, der gesendet wird, wenn du den Funktionstaster (Kreis) drückst.\
+Der Funktionstaster wird üblicherweise nicht genutzt.\
 Aus diesem Grund wird er verwendet, um die [Ring To Open](../guide/automation/ring-to-open) Automatisierung umzuschalten. 
 
 ## Eingabe für Zahlenwert
