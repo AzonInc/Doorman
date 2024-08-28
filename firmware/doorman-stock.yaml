@@ -4,6 +4,8 @@ dashboard_import:
 
 packages:
   device_base: !include base.yaml
+  interactive_setup: !include addons/interactive-setup.yaml
+  ring_to_open: !include addons/ring-to-open.yaml
 
 esp32_improv:
   authorizer: none
@@ -14,6 +16,7 @@ update:
     name: Firmware (stable)
     source: https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json
     disabled_by_default: false
+
   - platform: http_request
     id: update_http_request_dev
     name: Firmware (dev)

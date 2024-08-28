@@ -13,5 +13,6 @@ external_components:
 update:
   - id: !extend update_http_request_stable
     disabled_by_default: true
+    
   - id: !extend update_http_request_dev
     disabled_by_default: false

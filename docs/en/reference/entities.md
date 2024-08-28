@@ -27,8 +27,8 @@ Activates whenever the `pick_up_phone_command` command is received.
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `hang_up_phone_command` command is received.
 
-### Ring To Open: Toggle <Badge type="tip" text="ring_to_open_toggle" /> <Badge type="info" text="Internal" />
-Activates whenever the `ring_to_open_toggle_command` command is received.
+### Function Key  <Badge type="tip" text="function_key" /> <Badge type="info" text="Internal" />
+Activates whenever the `function_key_command` command is received.
 
 ### Turn on light: Trigger <Badge type="tip" text="turn_on_light_trigger" /> <Badge type="info" text="Internal" />
 Activates whenever the `turn_on_light_command` command is received.
@@ -131,7 +131,7 @@ Sets the code sent when you hang up the phone.
 ### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you press the button to turn on the hallway light.
 
-### Command: Ring To Open Toggle <Badge type="tip" text="ring_to_open_toggle_command_input" /> <Badge type="info" text="Disabled by default" />
+### Command: Function Key <Badge type="tip" text="function_key_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
 The function button is often used for this purpose as it is usually not utilized.
 

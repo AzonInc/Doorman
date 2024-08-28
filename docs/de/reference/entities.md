@@ -27,8 +27,8 @@ Wird aktiviert, wenn der Befehl `pick_up_phone_command` empfangen wird.
 ### Hang up phone  
 Wird aktiviert, wenn der Befehl `hang_up_phone_command` empfangen wird.
 
-### Ring To Open: Toggle  
-Wird aktiviert, wenn der Befehl `ring_to_open_toggle_command` empfangen wird.
+### Function Key 
+Wird aktiviert, wenn der Befehl `function_key_command` empfangen wird.
 
 ### Turn on light: Trigger  
 Wird aktiviert, wenn der Befehl `turn_on_light_command` empfangen wird.
@@ -131,7 +131,7 @@ Legt den Code fest, der gesendet wird, wenn du den Hörer auflegst.
 ### Command: Turn on light  
 Legt den Code fest, der gesendet wird, wenn du den Knopf zum Einschalten des Flurlichts drückst.
 
-### Command: Ring To Open Toggle  
+### Command: Function Key  
 Legt den Code fest, der verwendet wird, um die [Ring To Open](../guide/automation/ring-to-open) Automatisierung umzuschalten. Der Funktionstaster wird oft für diesen Zweck verwendet, da er üblicherweise nicht genutzt wird.
 
 ## Eingabe für Zahlenwert
