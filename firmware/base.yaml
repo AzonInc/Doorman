@@ -117,7 +117,7 @@ esphome:
       - delay: 2s
       - if:
           condition:
-            - lambda: return id(initial_setup_done) == false && apartment_doorbell_command != 0;
+            - lambda: return id(initial_setup_done) == false && apartment_doorbell_command == 0;
           then:
             - button.press: doorman_interactive_setup_start
 
