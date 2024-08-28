@@ -29,6 +29,8 @@ Nachdem du den Doorman mit deinem Netzwerk verbunden hast, wird er langsam (blau
 Du musst deinen Doorman zuerst mit der Gegensprechanlage verbinden. Sieh dir hierfür den Bereich [Verkabelung](#verkabelung) für detaillierte Anweisungen an.
 :::
 
+Nachdem du deinen Doorman mit Home Assistant verbunden hast, startet automatisch der `Easy Setup`-Prozess, der weiter unten beschrieben ist. Du musst ihn nicht manuell starten; er wird bei jedem Neustart automatisch gestartet, solange der Prozess nicht abgeschlossen oder abgebrochen wurde.
+
 #### Easy Setup
 Um die Konfiguration der wichtigsten Befehle zu erleichtern, kannst du den Easy Setup-Prozess nutzen.
 
@@ -37,7 +39,7 @@ Greif entweder auf den internen Webserver deines Doormans zu oder besuche die [E
 In `Konfiguration`-Bereich findest du den Button `Easy Setup: Start`. Klicke darauf, um den Einrichtungsprozess zu starten.
 
 Sobald der Prozess begonnen hat, wird der `Easy Setup: Status` Text Sensor dich durch die erforderlichen Schritte führen (z.B. Knopf X drücken, warten oder das Telefon abheben).\
-Während der Einrichtung pulsiert die RGB-Status-LED rot, solange du die Aufgabe noch nicht abgeschlossen hast, und bleibt 3 Sekunden lang rot, nachdem der Befehl gespeichert wurde.
+Während der Einrichtung pulsiert die RGB-Status-LED türkis, solange du die Aufgabe noch nicht abgeschlossen hast, und bleibt 3 Sekunden lang türkis, nachdem der Befehl gespeichert wurde.
 
 Nach Abschluss der Einrichtung endet der Prozess automatisch und zeigt den entsprechenden Status an.
 

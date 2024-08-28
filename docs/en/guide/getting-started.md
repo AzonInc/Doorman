@@ -29,6 +29,8 @@ After connecting Doorman to your network, it will blink slowly (blue) and should
 You need to connect your Doorman to the intercom. Please refer to the [Wiring](#wiring) section for detailed instructions.
 :::
 
+After connecting your Doorman to Home Assistant, the `Easy Setup` Process will automatically begin as described below. There's no need to start it manually; it will initiate automatically on every restart, provided the process hasn't been completed or canceled.
+
 #### Easy Setup
 To simplify the configuration of the key commands, you can use the Easy Setup Process.
 
@@ -37,7 +39,7 @@ To get started, either access the internal web server of your Doorman or visit t
 In the `Configuration` section, you will find the `Easy Setup: Start` button. Click this button to initiate the setup process.
 
 Once started, the `Easy Setup: Status` Text Sensor will guide you through the required steps (e.g., press button X, wait, or pick up the phone).\
-During the setup, the RGB Status LED will pulse red while waiting for you to complete each task and will remain solid red for 3 seconds after saving the command.
+During the setup, the RGB Status LED will pulse turquoise while waiting for you to complete each task and will remain solid turquoise for 3 seconds after saving the command.
 
 After the setup is complete, the process will automatically end and display the corresponding status.
 

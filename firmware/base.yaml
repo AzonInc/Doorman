@@ -51,6 +51,11 @@ globals:
     restore_value: true
     initial_value: '0x1200'
 
+  - id: initial_setup_done
+    type: bool
+    restore_value: yes
+    initial_value: "false"
+
   - id: easy_setup_step
     type: std::string
     restore_value: no
@@ -109,6 +114,13 @@ esphome:
           color_brightness: 60%
       - delay: 3s
       - script.execute: update_led
+      - delay: 2s
+      - if:
+          condition:
+            - lambda: return id(initial_setup_done) == false && apartment_doorbell_command != 0;
+          then:
+            - button.press: doorman_easy_setup_start
+
 
 # Enable logging
 logger:
@@ -421,7 +433,7 @@ button:
   - platform: template
     id: turn_on_light
     name: "Turn on the light"
-    icon: mdi:light
+    icon: mdi:lightbulb-on
     on_press:
       - tcs_intercom.send:
           command: !lambda "return id(turn_on_light_command);"
@@ -976,9 +988,9 @@ script:
             # LED State: Saved
             - light.turn_on:
                 id: doorman_rgb_status_led
-                red: 100%
-                green: 0%
-                blue: 0%
+                red: 3%
+                green: 71%
+                blue: 67%
                 effect: none
             - delay: 3s
 
@@ -997,11 +1009,15 @@ script:
             # LED State: Waiting
             - light.turn_on:
                 id: doorman_rgb_status_led
-                red: 100%
-                green: 0%
-                blue: 0%
+                red: 3%
+                green: 71%
+                blue: 67%
                 effect: pulse
           else:
+            # Initial setup done
+            - globals.set:
+              id: initial_setup_done
+              value: 'true'
             # Reset step
             - globals.set:
                 id: easy_setup_step
