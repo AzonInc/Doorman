@@ -75,7 +75,7 @@ esphome:
 
   project:
     name: "AzonInc.Doorman"
-    version: "2024.8.4"
+    version: "2024.8.5"
 
   platformio_options:
     board_build.flash_mode: dio
