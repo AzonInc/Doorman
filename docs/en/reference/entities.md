@@ -27,11 +27,14 @@ Activates whenever the `pick_up_phone_command` command is received.
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `hang_up_phone_command` command is received.
 
-### Function Key  <Badge type="tip" text="function_key" /> <Badge type="info" text="Internal" />
-Activates whenever the `function_key_command` command is received.
+### Function Button <Badge type="tip" text="function_button" />
+Activates whenever the `function_button_command` command is received.
 
-### Turn on light: Trigger <Badge type="tip" text="turn_on_light_trigger" /> <Badge type="info" text="Internal" />
+### Light Button <Badge type="tip" text="light_button" />
 Activates whenever the `turn_on_light_command` command is received.
+
+### Boot Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
+Activates when the boot button is pressed.
 
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
 Activates when the external button is pressed.
@@ -54,7 +57,7 @@ Reports the door sensor state of the paired Nuki smart lock.
 
 ## Text Sensors
 
-### Interactive Setup: Status
+### Interactive Setup: Status <Badge type="tip" text="doorman_interactive_setup_status" />
 Shows the current state of [Interactive Setup](../guide/getting-started#interactive-setup) for Commands.
 
 
@@ -131,10 +134,10 @@ Sets the code sent when you hang up the phone.
 ### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you press the button to turn on the hallway light.
 
-### Command: Function Key <Badge type="tip" text="function_key_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
-The function button is often used for this purpose as it is usually not utilized.
+### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Disabled by default" />
+Sets the code that is sent when you press the function button (circle). The function button is usually not used.
 
+For this reason, it is used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation."
 
 ## Numbers
 

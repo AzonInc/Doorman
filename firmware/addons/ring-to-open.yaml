@@ -30,7 +30,7 @@ binary_sensor:
               - tcs_intercom.send:
                   command: !lambda "return id(first_door_opener_command);"
 
-  - id: !extend function_key
+  - id: !extend function_button
     on_press:
       - switch.toggle: doorman_ring_to_open
       - delay: 300ms

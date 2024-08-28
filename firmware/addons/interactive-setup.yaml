@@ -11,9 +11,9 @@ globals:
     restore_value: no
     initial_value: '""'
 
-binary_sensor:
-  - id: !extend esphome_ready
-    on_press:
+esphome:
+  on_boot:
+    then:
       - delay: 2s
       - if:
           condition:
@@ -24,7 +24,7 @@ binary_sensor:
                   apartment_doorbell_command == 0 && 
                   entrance_doorbell_command == 0 && 
                   pick_up_phone_command == 0 &&
-                  function_key_command == 0;
+                  function_button_command == 0;
           then:
             - button.press: doorman_interactive_setup_start
 
@@ -51,11 +51,13 @@ button:
           first_step: false
     entity_category: CONFIG
 
+
 text_sensor:
   - platform: template
-    id: doorman_interactive_setup_step
+    id: doorman_interactive_setup_status
     name: "Interactive Setup: Status"
     entity_category: CONFIG
+
 
 # Extend TCS Intercom Component
 tcs_intercom:
@@ -86,11 +88,11 @@ tcs_intercom:
                   # LED State
                   - script.execute:
                       id: interactive_setup_next
-                      next_step: "function_key_command"
+                      next_step: "function_button_command"
                       text: "Press the 'Function (Circle)' Button"
                       first_step: false
 
-            # Step: function_key_command
+            # Step: function_button_command
             - if:
                 condition:
                   - lambda: |-
@@ -99,7 +101,7 @@ tcs_intercom:
                       {
                           str.erase(4); // Ingore system commands
                       }
-                      return id(interactive_setup_step) == "function_key_command" && str != "0000";
+                      return id(interactive_setup_step) == "function_button_command" && str != "0000";
                 then:
                   # Save Command
                   - lambda: |-
@@ -107,7 +109,7 @@ tcs_intercom:
                       if(std::string(x.c_str()) != "") {
                         number = std::stoul(x.c_str(), nullptr, 16);
                       }
-                      id(function_key_command) = number;
+                      id(function_button_command) = number;
                       ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
                   # LED State
                   - script.execute:
@@ -194,6 +196,7 @@ tcs_intercom:
                       text: "Setup complete"
                       first_step: false
 
+
 script:
   - id: interactive_setup_next
     parameters:
@@ -210,7 +213,7 @@ script:
                 id: interactive_setup_step
                 value: '""'
             - text_sensor.template.publish:
-                id: doorman_interactive_setup_step
+                id: doorman_interactive_setup_status
                 state: "Saving command..."
             # LED State: Saved
             - light.turn_on:
@@ -222,7 +225,7 @@ script:
             - delay: 3s
 
       - text_sensor.template.publish:
-          id: doorman_interactive_setup_step
+          id: doorman_interactive_setup_status
           state: !lambda "return text.c_str();"
 
       - if:

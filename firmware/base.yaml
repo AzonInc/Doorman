@@ -41,7 +41,7 @@ globals:
     restore_value: true
     initial_value: '0x3000'
 
-  - id: function_key_command
+  - id: function_button_command
     type: int
     restore_value: true
     initial_value: '0x00000000'
@@ -103,9 +103,6 @@ esphome:
           color_brightness: 60%
       - delay: 3s
       - script.execute: update_led
-      - binary_sensor.template.publish:
-          id: esphome_ready
-          state: true
 
 # Enable logging
 logger:
@@ -268,9 +265,16 @@ sensor:
     disabled_by_default: true
 
 binary_sensor:
-  - platform: template
-    id: esphome_ready
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+      ignore_strapping_warning: true
     internal: true
+    id: doorman_boot_button
 
   # Preconfigured Sensors
   - platform: tcs_intercom
@@ -412,17 +416,16 @@ binary_sensor:
     disabled_by_default: true
 
   - platform: tcs_intercom
-    id: "function_key"
-    name: "Function Key"
+    id: "function_button"
+    name: "Function Button"
     auto_off: 0.2s
-    lambda: !lambda "return id(function_key_command);"
+    lambda: !lambda "return id(function_button_command);"
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
-
   - platform: tcs_intercom
-    id: "turn_on_light_trigger"
-    name: "Turn on light: Trigger"
+    id: "light_button"
+    name: "Light Button"
     lambda: !lambda "return id(turn_on_light_command);"
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
@@ -577,11 +580,11 @@ text:
     icon: "mdi:console-network"
 
   - platform: template
-    id: function_key_command_input
-    name: "Command: Function Key"
+    id: function_button_command_input
+    name: "Command: Function Button"
     mode: text
     lambda: |-
-      unsigned long number = id(function_key_command);
+      unsigned long number = id(function_button_command);
       return str_upper_case(format_hex(number));
     set_action:
       then:
@@ -593,8 +596,8 @@ text:
             if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
-            id(function_key_command) = number;
-            id(function_key_command_input)->publish_state(str_upper_case(format_hex(number)));
+            id(function_button_command) = number;
+            id(function_button_command_input)->publish_state(str_upper_case(format_hex(number)));
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"

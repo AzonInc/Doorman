@@ -1,3 +1,9 @@
+esp32:
+  framework:
+    type: arduino
+    version: 2.0.16
+    platform_version: 6.7.0
+
 esphome:
   libraries:
   - Preferences
@@ -10,16 +16,7 @@ external_components:
 
 # Pairing Mode
 binary_sensor:
-  - platform: gpio
-    pin:
-      number: GPIO0
-      inverted: true
-      mode:
-        input: true
-        pullup: true
-      ignore_strapping_warning: true
-    internal: true
-    id: doorman_boot_button
+  - id: !extend doorman_boot_button
     on_multi_click:
       - timing:
             - ON for at least 5s
@@ -36,3 +33,89 @@ binary_sensor:
           - nuki_lock.set_pairing_mode: 
               id: nuki_smart_lock
               pairing_mode: true
+
+
+# Nuki Lock Bridge
+lock:
+  - platform: nuki_lock
+    name: Nuki Lock
+    id: nuki_smart_lock
+
+    # Required:
+    is_connected: 
+      id: nuki_connected
+      name: "Nuki Connected"
+      icon: "mdi:link"
+      entity_category: DIAGNOSTIC
+
+    is_paired:
+      id: nuki_paired
+      name: "Nuki Paired"
+      icon: "mdi:link"
+      entity_category: DIAGNOSTIC
+
+    # Optional:
+    battery_critical:
+      id: nuki_battery_critical
+      name: "Nuki Battery Critical"
+      entity_category: DIAGNOSTIC
+
+    battery_level:
+      id: nuki_battery_level
+      name: "Nuki Battery Level"
+      entity_category: DIAGNOSTIC
+
+    door_sensor:
+      id: nuki_door_sensor
+      name: "Nuki Door Sensor"
+      disabled_by_default: true
+
+    door_sensor_state:
+      id: nuki_door_sensor_state
+      name: "Nuki Door Sensor State"
+      disabled_by_default: true
+    
+    unpair:
+      id: nuki_unpair_device
+      name: "Nuki Unpair Device"
+      disabled_by_default: true
+
+    pairing_mode:
+      id: nuki_pairing_mode
+      name: "Nuki Pairing Mode"
+      disabled_by_default: true
+
+    on_pairing_mode_on_action:
+      - script.execute: update_led
+
+    on_pairing_mode_off_action:
+      - script.execute: update_led
+    
+    on_paired_action:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 100%
+          green: 0%
+          blue: 100%
+          effect: none
+          brightness: 60%
+      - delay: 3s
+      - script.execute: update_led
+
+script:
+  - id: !extend update_led
+    then:
+      - if:
+          condition:
+            - switch.is_on: nuki_pairing_mode
+          then:
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                red: 100%
+                green: 0%
+                blue: 100%
+                effect: pulse
+          else:
+            - light.turn_off:
+                id: doorman_rgb_status_led
+                transition_length: 1s
