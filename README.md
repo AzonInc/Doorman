@@ -42,7 +42,7 @@ I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](fi
 
 ## ✔️ Compatibility
 
-If your TCS or Koch intercom has screw terminals labeled `a`, `b`, and `P` and operates on 24V DC, it’s likely compatible with Doorman.\
+If your TCS or Koch intercom has screw terminals labeled `a`, `b`, and `P` and operates on 24V DC, it's likely compatible with Doorman.\
 For detailed compatibility information, check out the [Compatibility Docs](https://doorman.azon.ai/guide/hardware-compatibility).
 
 ## 🚩 Repository Structure

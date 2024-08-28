@@ -2,7 +2,9 @@
     "$schema": "./node_modules/@lunariajs/core/config.schema.json",
     "repository": {
       "name": "AzonInc/doorman",
-      "rootDir": "docs"
+      "rootDir": "docs",
+      "branch": "master",
+      "hosting": "github"
     },
     "files": [
       {
