@@ -1016,8 +1016,8 @@ script:
           else:
             # Initial setup done
             - globals.set:
-              id: initial_setup_done
-              value: 'true'
+                id: initial_setup_done
+                value: 'true'
             # Reset step
             - globals.set:
                 id: easy_setup_step
