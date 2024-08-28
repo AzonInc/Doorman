@@ -54,8 +54,8 @@ Meldet den Türsensorstatus des gekoppelten Nuki Smart Locks.
 
 ## Text Sensors
 
-### Easy Setup: Status
-Zeigt den aktuellen Status vom [Easy Setup](../guide/getting-started#easy-setup) Prozess an.
+### Interactive Setup: Status
+Zeigt den aktuellen Status vom [Interactive Setup](../guide/getting-started#interactive-setup) Prozess an.
 
 
 ## Schalter
@@ -84,11 +84,11 @@ Steuert den Nuki Kopplungsmodus.
 ### Turn on the light  
 Schaltet das Licht ein, indem der Befehl `turn_on_light_command` auf dem Bus gesendet wird.
 
-### Easy Setup: Start <Badge type="tip" text="doorman_easy_setup_start" />
-Startet den [Easy Setup](../guide/getting-started#easy-setup) Prozess um Bus Commands einzurichten.
+### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
+Startet den [Interactive Setup](../guide/getting-started#interactive-setup) Prozess um Bus Commands einzurichten.
 
-### Easy Setup: Cancel <Badge type="tip" text="doorman_easy_setup_cancel" />
-Beendet den [Easy Setup](../guide/getting-started#easy-setup) Prozess.
+### Interactive Setup: Cancel <Badge type="tip" text="doorman_interactive_setup_cancel" />
+Beendet den [Interactive Setup](../guide/getting-started#interactive-setup) Prozess.
 
 ### Nuki Unpair Device  
 Entkoppelt dein Nuki Smart Lock.

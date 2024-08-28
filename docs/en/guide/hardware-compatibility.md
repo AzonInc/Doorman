@@ -23,7 +23,7 @@ If your intercom is connected in 2-wire mode and you don't have a separate 24V `
 If connected in 3-wire mode, you should be able to use the `P`-line to power your Doorman in most cases.
 
 ::: tip
-In some installations, the `a` and `b` wires are twisted, but this is handled by Doorman’s integrated bridge rectifier. Consider this when checking the voltage levels on the `a`, `b`, and `P` lines.
+In some installations, the `a` and `b` wires are twisted, but this is handled by Doorman's integrated bridge rectifier. Consider this when checking the voltage levels on the `a`, `b`, and `P` lines.
 :::
 
 #### Intercom Screw Terminal Explanation
@@ -49,7 +49,7 @@ The intercom power supply **must have a minimum output current of 60mA** for sta
 
 If other devices using the `P`-line draw too much current, it may not be sufficient to power Doorman.
 
-**Use an external power supply (USB-C or screw terminal) if your intercom’s power supply provides less than 60mA or if you notice unstable operation.** 
+**Use an external power supply (USB-C or screw terminal) if your intercom's power supply provides less than 60mA or if you notice unstable operation.** 
 :::
 
 ## Known Issues
@@ -67,7 +67,7 @@ A loud beeping noise occurs whenever someone is talking.
 ## Verified Hardware
 
 ::: info Note
-If your intercom phone isn't listed here, it doesn’t necessarily mean it’s incompatible; it simply means it hasn’t been tested yet.
+If your intercom phone isn't listed here, it doesn't necessarily mean it's incompatible; it simply means it hasn't been tested yet.
 :::
 
 - TCS BVS20-SG / Koch BVS20

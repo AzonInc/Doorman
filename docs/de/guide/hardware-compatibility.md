@@ -1,4 +1,4 @@
-### Kann ich Doorman benutzen?
+# Kann ich Doorman benutzen?
 
 Wenn deine [TCS](https://www.tcsag.de/) oder [Koch](https://www.kochag.ch/) Gegensprechanlage die Anschlussklemmen `a`, `b` und `P` hat und mit 24V DC betrieben wird, ist sie wahrscheinlich kompatibel.
 
@@ -22,15 +22,17 @@ Wenn deine Gegensprechanlage im 2-Draht-Modus angeschlossen ist und du keine sep
 Wenn sie im 3-Draht-Modus angeschlossen ist, solltest du in den meisten Fällen die `P`-Leitung zur Stromversorgung vom Doorman nutzen können.
 
 ::: tip
-In einigen Installationen sind die `a`- und `b`-Drähte verdreht, aber das wird von Doormans integriertem Brückengleichrichter berücksichtigt. Berücksichtige dies beim Überprüfen der Spannung auf den Leitungen `a`, `b` und `P`.
+Bei einigen Installationen sind die `a`- und `b`-Drähte verdreht, das wird aber von dem integriertem Brückengleichrichter korrigiert.
+
+Berücksichtige dies beim Überprüfen der Spannung auf den Leitungen `a`, `b` und `P`.
 :::
 
 #### Erklärung der Gegensprechanlagen-Anschlussklemmen
-- **a:** Typischerweise die Bus-Leitung (+24V)
-- **b:** Typischerweise Ground
-- **P:** Die +24V-Leitung im 3-Draht-Modus oder der Klingelknopf der Wohnung im 2-Draht-Modus
+- **a:** In der Regel die Bus-Leitung (+24V)
+- **b:** Normalerweise Ground
+- **P:** Entweder die +24V-Leitung im 3-Draht-Modus oder der Klingelknopf der Wohnung im 2-Draht-Modus. Oftmals gibt es trotzdem eine 24V Leitung irgendwo versteckt.
 
-::: danger
+::: danger VORSICHT
 **NICHT GLEICHZEITIG DIE +24V `P`-LEITUNG UND USB-C VERWENDEN**
 :::
 

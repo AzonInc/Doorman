@@ -54,8 +54,8 @@ Reports the door sensor state of the paired Nuki smart lock.
 
 ## Text Sensors
 
-### Easy Setup: Status
-Shows the current state of [Easy Setup](../guide/getting-started#easy-setup) for Commands.
+### Interactive Setup: Status
+Shows the current state of [Interactive Setup](../guide/getting-started#interactive-setup) for Commands.
 
 
 ## Switches
@@ -84,11 +84,11 @@ Opens the second door by sending the `open_second_door_command` command on the B
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 Turns on the light by sending the `turn_on_light_command` command on the Bus.
 
-### Easy Setup: Start <Badge type="tip" text="doorman_easy_setup_start" />
-Starts the [Easy Setup](../guide/getting-started#easy-setup) Process to interactively setup bus commands.
+### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
+Starts the [Interactive Setup](../guide/getting-started#interactive-setup) Process to interactively setup bus commands.
 
-### Easy Setup: Cancel <Badge type="tip" text="doorman_easy_setup_cancel" />
-Cancels the [Easy Setup](../guide/getting-started#easy-setup) Process.
+### Interactive Setup: Cancel <Badge type="tip" text="doorman_interactive_setup_cancel" />
+Cancels the [Interactive Setup](../guide/getting-started#interactive-setup) Process.
 
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Unpairs your Nuki smart lock.

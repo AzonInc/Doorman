@@ -17,6 +17,10 @@ If you've received a Doorman-S3 PCB that hasn't been pre-flashed with the [Stock
 To resolve this, hold down the button labeled `FLASH` while connecting the USB cable to your computer. This will put the ESP into bootloader mode, preventing it from constantly restarting.
 :::
 
+::: details A loud beeping noise occurs on the phone
+Please take a look [here](../hardware-compatibility#known-issues).
+:::
+
 ::: details Home Assistant can't connect / BAD_INDICATOR errno=11
 If Home Assistant can't connect to your Doorman, or you are receiving the error Reading failed: BAD_INDICATOR errno=11 in the logs, this indicates Home Assistant may be trying to connect with an incorrect encryption key.
 
