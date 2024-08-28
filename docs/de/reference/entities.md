@@ -12,6 +12,7 @@ Meldet die Betriebszeit in Sekunden.
 ### Nuki Battery Level  
 Meldet den Akkustand des verbundenen Nuki Smart Locks.
 
+
 ## Binäre Sensoren
 
 ### Entrance Doorbell  
@@ -50,6 +51,13 @@ Keine Beschreibung vorhanden.
 ### Nuki Door Sensor State  
 Meldet den Türsensorstatus des gekoppelten Nuki Smart Locks.
 
+
+## Text Sensors
+
+### Easy Setup: Status
+Zeigt den aktuellen Status vom [Easy Setup](../guide/getting-started#easy-setup) Prozess an.
+
+
 ## Schalter
 
 ### Ring To Open  
@@ -64,6 +72,7 @@ Steuert das eingebaute Relais.
 ### Nuki Pairing Mode  
 Steuert den Nuki Kopplungsmodus.
 
+
 ## Buttons
 
 ### Open Entrance Door  
@@ -74,6 +83,12 @@ Steuert den Nuki Kopplungsmodus.
 
 ### Turn on the light  
 Schaltet das Licht ein, indem der Befehl `turn_on_light_command` auf dem Bus gesendet wird.
+
+### Easy Setup: Start <Badge type="tip" text="doorman_easy_setup_start" />
+Startet den [Easy Setup](../guide/getting-started#easy-setup) Prozess um Bus Commands einzurichten.
+
+### Easy Setup: Cancel <Badge type="tip" text="doorman_easy_setup_cancel" />
+Beendet den [Easy Setup](../guide/getting-started#easy-setup) Prozess.
 
 ### Nuki Unpair Device  
 Entkoppelt dein Nuki Smart Lock.

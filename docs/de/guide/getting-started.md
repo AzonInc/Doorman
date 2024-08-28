@@ -24,21 +24,28 @@ Dank mDNS-Unterstützung wird Home Assistant deinen Doorman automatisch entdecke
 ### Schritt 2: Mit Home Assistant verbinden
 Nachdem du den Doorman mit deinem Netzwerk verbunden hast, wird er langsam (blau) blinken und sollte automatisch von Home Assistant entdeckt werden. Klicke einfach auf `Konfigurieren`, um das neu entdeckte ESPHome-Gerät hinzuzufügen.
 
-### Schritt 3: Bus Befehle setzen
-::: warning Wichtig
-Du musst den Doorman zuerst mit deiner Gegensprechanlage verbinden. Sieh dir hierfür den Bereich [Verkabelung](#verkabelung) an.
+### Schritt 3: Bus-Befehle
+::: warning Bevor du weiter machst
+Du musst deinen Doorman zuerst mit der Gegensprechanlage verbinden. Sieh dir hierfür den Bereich [Verkabelung](#verkabelung) für detaillierte Anweisungen an.
 :::
 
-Du kannst die [ESPHome-Integrationsseite](https://my.home-assistant.io/redirect/integration/?domain=esphome) besuchen und auf den neuen Eintrag deines Doorman S3 klicken. Dort findest du einen Last Bus Command-Textsensor, der den zuletzt empfangenen Busbefehl im hexadezimalen Format anzeigt.
+#### Easy Setup
+Um die Konfiguration der wichtigsten Befehle zu erleichtern, kannst du den Easy Setup-Prozess nutzen.
 
-Zusätzlich werden alle empfangenen Befehle im ESPHome-Console-Log (Debug-Log) protokolliert und als Home Assistant-Ereignis veröffentlicht.
+Greif entweder auf den internen Webserver deines Doormans zu oder besuche die [ESPHome Integrationsseite](https://my.home-assistant.io/redirect/integration/?domain=esphome) und wähle das neu aufgeführte Doorman S3-Gerät aus.
 
-**Wichtige Befehle:**
-- Eingangstür-Klingel
-- Wohnungstür-Klingel
-- Eingangstür öffnen
+In `Konfiguration`-Bereich findest du den Button `Easy Setup: Start`. Klicke darauf, um den Einrichtungsprozess zu starten.
 
-Drücke die Tasten an deinem Etagen-Telefon, um die Codes aufzuzeichnen, und kopiere sie dann in die entsprechenden Konfigurations-Textfelder.
+Sobald der Prozess begonnen hat, wird der `Easy Setup: Status` Text Sensor dich durch die erforderlichen Schritte führen (z.B. Knopf X drücken, warten oder das Telefon abheben).\
+Während der Einrichtung pulsiert die RGB-Status-LED rot, solange du die Aufgabe noch nicht abgeschlossen hast, und bleibt 3 Sekunden lang rot, nachdem der Befehl gespeichert wurde.
+
+Nach Abschluss der Einrichtung endet der Prozess automatisch und zeigt den entsprechenden Status an.
+
+#### Manuell: No pain, no gain!
+Du findest auch einen `Last Bus Command` Text Sensor, der den letzten Bus-Befehl im Hexadezimalformat anzeigt.
+Außerdem wird jeder empfangene Befehl in der ESPHome-Konsole (Debug-Log-Ebene) protokolliert und als Home Assistant-Ereignis veröffentlicht.
+
+Um die Codes zu erfassen, drücke die Tasten an deinem Etagen-Telefon und kopiere die Codes anschließend in die entsprechenden Konfigurationstextfelder.
 
 ## ESPHome adoption
 Wenn du die Firmware deines Doorman anpassen möchtest, kannst du diesen zu deinem [ESPHome-Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) hinzufügen und deine angepasste [Stock](firmware/stock-firmware.md) oder [Nuki Bridge](firmware/nuki-bridge-firmware.md) Firmware flashen.

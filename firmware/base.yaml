@@ -51,6 +51,12 @@ globals:
     restore_value: true
     initial_value: '0x1200'
 
+  - id: easy_setup_step
+    type: std::string
+    restore_value: no
+    initial_value: '""'
+
+
 # Board Setup
 esp32:
   board: esp32-s3-devkitc-1
@@ -148,13 +154,147 @@ external_components:
 # Setup TCS Intercom Component
 tcs_intercom:
   event: "doorman"
-  bus_command:
-    name: "Last Bus Command"
-    id: last_bus_command
   hardware_version:
     name: "Hardware"
     icon: "mdi:router-wireless"
     disabled_by_default: true
+  bus_command:
+    id: last_bus_command
+    name: "Last Bus Command"
+    on_value:
+      # Easy Setup running
+      - if:
+          condition:
+            - lambda: return id(easy_setup_step) != "";
+          then:
+            - lambda: |-
+                ESP_LOGI("MAIN", "Setup: Current Step: %s", id(easy_setup_step).c_str());
+
+            # Step: first_door_opener_command
+            - if:
+                condition:
+                  - lambda: |-
+                      return id(easy_setup_step) == "first_door_opener_command";
+                then:
+                  # Save Command
+                  - lambda: |-
+                      unsigned long number = 0;
+                      if(std::string(x.c_str()) != "") {
+                        number = std::stoul(x.c_str(), nullptr, 16);
+                      }
+                      id(first_door_opener_command) = number;
+                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(easy_setup_step).c_str());
+                  # LED State
+                  - script.execute:
+                      id: easy_setup_next
+                      next_step: "ring_to_open_toggle_command"
+                      text: "Press the 'Function (Circle)' Button"
+                      first_step: false
+
+            # Step: ring_to_open_toggle_command
+            - if:
+                condition:
+                  - lambda: |-
+                      std::string str = std::string(x.c_str());
+                      if (str.length() > 4)
+                      {
+                          str.erase(4); // Ingore system commands
+                      }
+                      return id(easy_setup_step) == "ring_to_open_toggle_command" && str != "0000";
+                then:
+                  # Save Command
+                  - lambda: |-
+                      unsigned long number = 0;
+                      if(std::string(x.c_str()) != "") {
+                        number = std::stoul(x.c_str(), nullptr, 16);
+                      }
+                      id(ring_to_open_toggle_command) = number;
+                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(easy_setup_step).c_str());
+                  # LED State
+                  - script.execute:
+                      id: easy_setup_next
+                      next_step: "pick_up_phone_command"
+                      text: "Pick up the phone"
+                      first_step: false
+
+            # Step: pick_up_phone_command
+            - if:
+                condition:
+                  - lambda: |-
+                      std::string str = std::string(x.c_str());
+                      if (str.length() > 4)
+                      {
+                          str.erase(4); // Ingore system commands
+                      }
+                      return id(easy_setup_step) == "pick_up_phone_command" && str != "0000";
+                then:
+                  # Save Command
+                  - lambda: |-
+                      unsigned long number = 0;
+                      if(std::string(x.c_str()) != "") {
+                        number = std::stoul(x.c_str(), nullptr, 16);
+                      }
+                      id(pick_up_phone_command) = number;
+                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(easy_setup_step).c_str());
+                  # LED State
+                  - script.execute:
+                      id: easy_setup_next
+                      next_step: "apartment_doorbell_command"
+                      text: "Press the 'Apartment Doorbell' Button"
+                      first_step: false
+
+            # Step: apartment_doorbell_command
+            - if:
+                condition:
+                  - lambda: |-
+                      std::string str = std::string(x.c_str());
+                      if (str.length() > 4)
+                      {
+                          str.erase(4); // Ingore system commands
+                      }
+                      return id(easy_setup_step) == "apartment_doorbell_command" && str != "0000";
+                then:
+                  # Save Command
+                  - lambda: |-
+                      unsigned long number = 0;
+                      if(std::string(x.c_str()) != "") {
+                        number = std::stoul(x.c_str(), nullptr, 16);
+                      }
+                      id(apartment_doorbell_command) = number;
+                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(easy_setup_step).c_str());
+                  # LED State
+                  - script.execute:
+                      id: easy_setup_next
+                      next_step: "entrance_doorbell_command"
+                      text: "Press the 'Entrance Doorbell' Button"
+                      first_step: false
+
+             # Step: entrance_doorbell_command
+            - if:
+                condition:
+                  - lambda: |-
+                      std::string str = std::string(x.c_str());
+                      if (str.length() > 4)
+                      {
+                          str.erase(4); // Ingore system commands
+                      }
+                      return id(easy_setup_step) == "entrance_doorbell_command" && str != "0000";
+                then:
+                  # Save Command
+                  - lambda: |-
+                      unsigned long number = 0;
+                      if(std::string(x.c_str()) != "") {
+                        number = std::stoul(x.c_str(), nullptr, 16);
+                      }
+                      id(entrance_doorbell_command) = number;
+                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(easy_setup_step).c_str());
+                  # LED State
+                  - script.execute:
+                      id: easy_setup_next
+                      next_step: "complete"
+                      text: "Setup complete"
+                      first_step: false
+
 
 select:
   - platform: template
@@ -236,6 +376,29 @@ button:
     name: Restore Factory Settings
     entity_category: CONFIG
     disabled_by_default: true
+
+  # Easy Setup
+  - platform: template
+    id: doorman_easy_setup_start
+    name: "Easy Setup: Start"
+    on_press: 
+      - script.execute:
+          id: easy_setup_next
+          next_step: "first_door_opener_command"
+          text: "Press the 'Door Opener (Key)' Button"
+          first_step: true
+    entity_category: CONFIG
+
+  - platform: template
+    id: doorman_easy_setup_cancel
+    name: "Easy Setup: Cancel"
+    on_press: 
+      - script.execute:
+          id: easy_setup_next
+          next_step: "complete"
+          text: "Setup complete"
+          first_step: false
+    entity_category: CONFIG
 
   # Preconfigured Open Door Button
   - platform: template
@@ -719,6 +882,13 @@ text:
     entity_category: CONFIG
     icon: "mdi:console-network"
 
+
+text_sensor:
+  - platform: template
+    id: doorman_easy_setup_step
+    name: "Easy Setup: Status"
+    entity_category: CONFIG
+
 event:
   - platform: template
     id: doorbell_pattern
@@ -785,3 +955,56 @@ script:
                 return std::stoi(v[0].c_str()) * 60 * 1000;
 
             - switch.turn_off: doorman_ring_to_open
+
+  - id: easy_setup_next
+    parameters:
+      next_step: string
+      text: string
+      first_step: bool
+    then:
+      - if:
+          condition:
+            - lambda: "return first_step == false;"
+          then:
+            # Temporary break
+            - globals.set:
+                id: easy_setup_step
+                value: '""'
+            - text_sensor.template.publish:
+                id: doorman_easy_setup_step
+                state: "Saving command..."
+            # LED State: Saved
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                red: 100%
+                green: 0%
+                blue: 0%
+                effect: none
+            - delay: 3s
+
+      - text_sensor.template.publish:
+          id: doorman_easy_setup_step
+          state: !lambda "return text.c_str();"
+
+      - if:
+          condition:
+            - lambda: "return next_step != \"complete\";"
+          then:
+            # Next step
+            - globals.set:
+                id: easy_setup_step
+                value: !lambda "return next_step;"
+            # LED State: Waiting
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                red: 100%
+                green: 0%
+                blue: 0%
+                effect: pulse
+          else:
+            # Reset step
+            - globals.set:
+                id: easy_setup_step
+                value: '""'
+            - script.execute: update_led
+            - logger.log: "Easy Setup complete!"
