@@ -2,7 +2,7 @@
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"
-  log_level: "ERROR"
+  log_level: "INFO"
 
   # Hardware Configuration
   led_pin: "GPIO1"
@@ -99,25 +99,32 @@ esphome:
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: slow_pulse
-          red: 9%
-          green: 74%
-          blue: 95%
+          red: 0%
+          green: 22%
+          blue: 100%
       - wait_until:
           condition:
             api.connected:
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: none
-          red: 9%
-          green: 74%
-          blue: 95%
+          red: 0%
+          green: 22%
+          blue: 100%
           color_brightness: 60%
       - delay: 3s
       - script.execute: update_led
       - delay: 2s
       - if:
           condition:
-            - lambda: return id(initial_setup_done) == false && apartment_doorbell_command == 0;
+            # Ignore initial setup if something is already set
+            - lambda: |-
+                return 
+                  id(initial_setup_done) == false && 
+                  apartment_doorbell_command == 0 && 
+                  entrance_doorbell_command == 0 && 
+                  pick_up_phone_command == 0 &&
+                  ring_to_open_toggle_command == 0;
           then:
             - button.press: doorman_interactive_setup_start
 
@@ -988,9 +995,9 @@ script:
             # LED State: Saved
             - light.turn_on:
                 id: doorman_rgb_status_led
-                red: 3%
-                green: 71%
-                blue: 67%
+                red: 0%
+                green: 100%
+                blue: 10%
                 effect: none
             - delay: 3s
 
@@ -1009,9 +1016,9 @@ script:
             # LED State: Waiting
             - light.turn_on:
                 id: doorman_rgb_status_led
-                red: 3%
-                green: 71%
-                blue: 67%
+                red: 0%
+                green: 100%
+                blue: 10%
                 effect: pulse
           else:
             # Initial setup done

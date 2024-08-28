@@ -81,7 +81,7 @@ To get started, either access the internal web server of your Doorman or visit t
 In the `Configuration` section, you will find the `Interactive Setup: Start` button. Click this button to initiate the setup process.
 
 Once started, the `Interactive Setup: Status` Text Sensor will guide you through the required steps (e.g., press button X, wait, or pick up the phone).\
-During the setup, the RGB Status LED will pulse turquoise while waiting for you to complete each task and will remain solid turquoise for 3 seconds after saving the command.
+During the setup, the RGB Status LED will pulse green-turquoise while waiting for you to complete each task and will remain solid green-turquoise for 3 seconds after saving the command.
 
 After the setup is complete, the process will automatically end and display the corresponding status.
 

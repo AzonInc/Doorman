@@ -87,7 +87,7 @@ Greif entweder auf den internen Webserver deines Doormans zu oder besuche die [E
 In `Konfiguration`-Bereich findest du den Button `Interactive Setup: Start`. Klicke darauf, um den Einrichtungsprozess zu starten.
 
 Sobald der Prozess begonnen hat, wird der `Interactive Setup: Status` Text Sensor dich durch die erforderlichen Schritte führen (z.B. Knopf X drücken, warten oder das Telefon abheben).\
-Während der Einrichtung pulsiert die RGB-Status-LED türkis, solange du die Aufgabe noch nicht abgeschlossen hast, und bleibt 3 Sekunden lang türkis, nachdem der Befehl gespeichert wurde.
+Während der Einrichtung pulsiert die RGB-Status-LED grün-türkis, solange du die Aufgabe noch nicht abgeschlossen hast, und bleibt 3 Sekunden lang grün-türkis, nachdem der Befehl gespeichert wurde.
 
 Nach Abschluss der Einrichtung endet der Prozess automatisch und zeigt den entsprechenden Status an.
 
