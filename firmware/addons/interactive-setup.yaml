@@ -63,7 +63,7 @@ text_sensor:
     id: doorman_interactive_setup_status
     name: "Interactive Setup: Status"
     icon: mdi:list-status
-    entity_category: CONFIG
+    entity_category: DIAGNOSTIC
     update_interval: never
     lambda: return {""};
 
