@@ -55,39 +55,43 @@ tcs_intercom:
                 std::string last = hex_command.substr(6, 2);
 
                 // Entrance Doorbell
-                std::string entrance_doorbell_command = "0" + serial + "80";
-                unsigned long entrance_doorbell_number = std::stoul(entrance_doorbell_command, nullptr, 16);
+                std::string entrance_doorbell_command_hex = "0" + serial + "80";
+                unsigned long entrance_doorbell_number = std::stoul(entrance_doorbell_command_hex, nullptr, 16);
                 id(entrance_doorbell_command) = entrance_doorbell_number;
 
                 // Open Door
-                // std::string open_entrance_door_command = "1" + serial + "80";
-                // unsigned long open_entrance_door_number = std::stoul(open_entrance_door_command, nullptr, 16);
+                // std::string open_entrance_door_command_hex = "1" + serial + "80";
+                // unsigned long open_entrance_door_number = std::stoul(open_entrance_door_command_hex, nullptr, 16);
                 // id(open_entrance_door_command) = open_entrance_door_number;
 
                 // Apartment Doorbell
-                std::string apartment_doorbell_command = "1" + serial + "41";
-                unsigned long apartment_doorbell_number = std::stoul(apartment_doorbell_command, nullptr, 16);
+                std::string apartment_doorbell_command_hex = "1" + serial + "41";
+                unsigned long apartment_doorbell_number = std::stoul(apartment_doorbell_command_hex, nullptr, 16);
                 id(apartment_doorbell_command) = apartment_doorbell_number;
 
                 // Pick up phone
-                std::string pick_up_phone_command = "3" + serial + "00";
-                unsigned long pick_up_phone_number = std::stoul(pick_up_phone_command, nullptr, 16);
+                std::string pick_up_phone_command_hex = "3" + serial + "00";
+                unsigned long pick_up_phone_number = std::stoul(pick_up_phone_command_hex, nullptr, 16);
                 id(pick_up_phone_command) = pick_up_phone_number;
 
                 // Function Button
-                std::string function_button_command = "6" + serial + "08";
-                unsigned long function_button_number = std::stoul(function_button_command, nullptr, 16);
+                std::string function_button_command_hex = "6" + serial + "08";
+                unsigned long function_button_number = std::stoul(function_button_command_hex, nullptr, 16);
                 id(function_button_command) = function_button_number;
+
             - globals.set:
                 id: initial_setup
                 value: 'false'
+
             - light.turn_on:
                 id: doorman_rgb_status_led
                 red: 0%
                 green: 100%
                 blue: 10%
                 effect: none
+
             - delay: 3s
+            
             - script.execute: update_led
 
             
