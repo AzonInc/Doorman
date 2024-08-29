@@ -44,7 +44,7 @@ tcs_intercom:
                 std::string last = hex_command.substr(6, 2);
 
                 // Apartment Doorbell or Entrance Doorbell
-                return id(initial_setup) == true && ((first == "1" && last == "41") || (first == "0" serial != "00000" && last == "80"));
+                return id(initial_setup) == true && ((first == "1" && last == "41") || (first == "0" && serial != "00000" && last == "80"));
           then:
             # Save Commands
             - lambda: |-
