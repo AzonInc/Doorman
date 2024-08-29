@@ -6,7 +6,7 @@ The Doorman firmware exposes many entities by default. This page explains the pu
 ### Last Bus Command <Badge type="tip" text="last_bus_command" />
 Reports every published command on the bus.
 
-### Uptime <Badge type="tip" text="doorman_uptime" />
+### Uptime <Badge type="tip" text="doorman_uptime" /> <Badge type="info" text="Disabled by default" />
 Reports the uptime in seconds.
 
 ### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
@@ -27,13 +27,13 @@ Activates whenever the `pick_up_phone_command` command is received.
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `hang_up_phone_command` command is received.
 
-### Function Button <Badge type="tip" text="function_button" />
+### Function Button <Badge type="tip" text="function_button" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `function_button_command` command is received.
 
-### Light Button <Badge type="tip" text="light_button" />
+### Light Button <Badge type="tip" text="light_button" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `light_button_command` command is received.
 
-### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
+### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" />
 Activates when the `FLASH` or `PRG` button on the PCB is pressed.
 
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
@@ -113,13 +113,13 @@ If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, t
 
 ## Texts
 
-### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" />
+### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when someone rings the apartment doorbell.
 
-### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" />
+### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when someone rings the entrance doorbell.
 
-### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" />
+### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you press the button to open the entrance door.
 
 ### Command: Open Second Door <Badge type="tip" text="open_second_door_command_input" /> <Badge type="info" text="Disabled by default" />
@@ -150,7 +150,7 @@ Setting the delay to the maximum (60 seconds) will result in the automation gene
 
 ## Selects
 
-### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" /> <Badge type="info" text="Disabled by default" />
+### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" />
 Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
 ##### Modes:

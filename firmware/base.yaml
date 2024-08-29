@@ -276,6 +276,7 @@ binary_sensor:
     internal: true
     id: doorman_boot_button
     name: "Flash Button"
+    disabled_by_default: true
 
   # Preconfigured Sensors
   - platform: tcs_intercom
@@ -355,6 +356,7 @@ text:
             id(first_door_opener_command) = number;
             id(open_entrance_door_command_input)->publish_state(str_upper_case(format_hex(number)));
     entity_category: CONFIG
+    disabled_by_default: true
     icon: "mdi:console-network"
 
   - platform: template
@@ -400,6 +402,7 @@ text:
             id(entrance_doorbell_command) = number;
             id(entrance_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
     entity_category: CONFIG
+    disabled_by_default: true
     icon: "mdi:console-network"
 
   - platform: template
@@ -422,6 +425,7 @@ text:
             id(apartment_doorbell_command) = number;
             id(apartment_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
     entity_category: CONFIG
+    disabled_by_default: true
     icon: "mdi:console-network"
 
   - platform: template

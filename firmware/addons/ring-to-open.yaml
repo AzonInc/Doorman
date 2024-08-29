@@ -109,7 +109,6 @@ select:
       - 60 minutes
     initial_option: Never
     entity_category: CONFIG
-    disabled_by_default: true
 
 
 script:
