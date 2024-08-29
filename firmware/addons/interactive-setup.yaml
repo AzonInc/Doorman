@@ -1,7 +1,7 @@
 # Interactive Command Setup Addon
 
 globals:
-  - id: initial_setup
+  - id: command_setup_mode
     type: bool
     restore_value: yes
     initial_value: "true"
@@ -14,8 +14,8 @@ button:
     entity_category: CONFIG
     on_press: 
       - globals.set:
-          id: initial_setup
-          value: 'true'
+          id: command_setup_mode
+          value: "true"
       - script.execute: update_led
 
   - platform: template
@@ -25,74 +25,79 @@ button:
     entity_category: CONFIG
     on_press: 
       - globals.set:
-          id: initial_setup
-          value: 'false'
+          id: command_setup_mode
+          value: "false"
       - script.execute: update_led
 
 # Extend TCS Intercom Component
 tcs_intercom:
   bus_command:
     on_value:
-      # Setup process active & received command meets conditions
+      # Command Setup Mode is active
       - if:
           condition:
-            - lambda: |-
-                std::string hex_command = std::string(x.c_str());
-
-                std::string first = hex_command.substr(0, 1);
-                std::string serial = hex_command.substr(1, 5);
-                std::string last = hex_command.substr(6, 2);
-
-                // Apartment Doorbell or Entrance Doorbell
-                return id(initial_setup) == true && ((first == "1" && last == "41") || (first == "0" && serial != "00000" && last == "80"));
+            - lambda: return id(command_setup_mode) == true;
           then:
-            # Save Commands
-            - lambda: |-
-                std::string hex_command = std::string(x.c_str());
+            # Command is either apartment or entrance doorbell
+            - if:
+                condition:
+                  - lambda: |-
+                      std::string hex_command = std::string(x.c_str());
 
-                std::string first = hex_command.substr(0, 1);
-                std::string serial = hex_command.substr(1, 5);
-                std::string last = hex_command.substr(6, 2);
+                      std::string first(hex_command.begin(), hex_command.begin() + 1);
+                      std::string serial(hex_command.begin() + 1, hex_command.begin() + 6);
+                      std::string last(hex_command.begin() + 6, hex_command.begin() + 8);
 
-                // Entrance Doorbell
-                std::string entrance_doorbell_command_hex = "0" + serial + "80";
-                unsigned long entrance_doorbell_number = std::stoul(entrance_doorbell_command_hex, nullptr, 16);
-                id(entrance_doorbell_command) = entrance_doorbell_number;
+                      // Apartment Doorbell or Entrance Doorbell
+                      return (first == "1" && last == "41") || (first == "0" && serial != "00000" && last == "80");
+                then:
+                  # Save Commands
+                  - lambda: |-
+                      std::string hex_command = std::string(x.c_str());
 
-                // Open Door
-                // std::string open_entrance_door_command_hex = "1" + serial + "80";
-                // unsigned long open_entrance_door_number = std::stoul(open_entrance_door_command_hex, nullptr, 16);
-                // id(open_entrance_door_command) = open_entrance_door_number;
+                      std::string first(hex_command.begin(), hex_command.begin() + 1);
+                      std::string serial(hex_command.begin() + 1, hex_command.begin() + 6);
+                      std::string last(hex_command.begin() + 6, hex_command.begin() + 8);
 
-                // Apartment Doorbell
-                std::string apartment_doorbell_command_hex = "1" + serial + "41";
-                unsigned long apartment_doorbell_number = std::stoul(apartment_doorbell_command_hex, nullptr, 16);
-                id(apartment_doorbell_command) = apartment_doorbell_number;
+                      // Entrance Doorbell
+                      std::string entrance_doorbell_command_hex = "0" + serial + "80";
+                      unsigned long entrance_doorbell_number = std::stoul(entrance_doorbell_command_hex, nullptr, 16);
+                      id(entrance_doorbell_command) = entrance_doorbell_number;
 
-                // Pick up phone
-                std::string pick_up_phone_command_hex = "3" + serial + "00";
-                unsigned long pick_up_phone_number = std::stoul(pick_up_phone_command_hex, nullptr, 16);
-                id(pick_up_phone_command) = pick_up_phone_number;
+                      // Open Door
+                      // std::string open_entrance_door_command_hex = "1" + serial + "80";
+                      // unsigned long open_entrance_door_number = std::stoul(open_entrance_door_command_hex, nullptr, 16);
+                      // id(open_entrance_door_command) = open_entrance_door_number;
 
-                // Function Button
-                std::string function_button_command_hex = "6" + serial + "08";
-                unsigned long function_button_number = std::stoul(function_button_command_hex, nullptr, 16);
-                id(function_button_command) = function_button_number;
+                      // Apartment Doorbell
+                      std::string apartment_doorbell_command_hex = "1" + serial + "41";
+                      unsigned long apartment_doorbell_number = std::stoul(apartment_doorbell_command_hex, nullptr, 16);
+                      id(apartment_doorbell_command) = apartment_doorbell_number;
 
-            - globals.set:
-                id: initial_setup
-                value: 'false'
+                      // Pick up phone
+                      std::string pick_up_phone_command_hex = "3" + serial + "00";
+                      unsigned long pick_up_phone_number = std::stoul(pick_up_phone_command_hex, nullptr, 16);
+                      id(pick_up_phone_command) = pick_up_phone_number;
 
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 0%
-                green: 100%
-                blue: 10%
-                effect: none
+                      // Function Button
+                      std::string function_button_command_hex = "6" + serial + "08";
+                      unsigned long function_button_number = std::stoul(function_button_command_hex, nullptr, 16);
+                      id(function_button_command) = function_button_number;
 
-            - delay: 3s
-            
-            - script.execute: update_led
+                  - globals.set:
+                      id: command_setup_mode
+                      value: "false"
+
+                  - light.turn_on:
+                      id: doorman_rgb_status_led
+                      red: 0%
+                      green: 100%
+                      blue: 10%
+                      effect: none
+
+                  - delay: 3s
+                  
+                  - script.execute: update_led
 
             
 script:
@@ -101,7 +106,7 @@ script:
       - if:
           condition:
             - lambda: |-
-                return id(initial_setup) == true;
+                return id(command_setup_mode) == true;
           then:
             - light.turn_on:
                 id: doorman_rgb_status_led
