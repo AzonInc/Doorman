@@ -27,11 +27,16 @@ esphome:
                   function_button_command == 0;
           then:
             - button.press: doorman_interactive_setup_start
+          else:
+            - text_sensor.template.publish:
+                id: doorman_interactive_setup_status
+                state: "Setup Complete"
 
 button:
   - platform: template
     id: doorman_interactive_setup_start
     name: "Interactive Setup: Start"
+    icon: mdi:cog-play
     on_press: 
       - script.execute:
           id: interactive_setup_next
@@ -43,6 +48,7 @@ button:
   - platform: template
     id: doorman_interactive_setup_cancel
     name: "Interactive Setup: Cancel"
+    icon: mdi:cog-stop
     on_press: 
       - script.execute:
           id: interactive_setup_next
@@ -56,7 +62,10 @@ text_sensor:
   - platform: template
     id: doorman_interactive_setup_status
     name: "Interactive Setup: Status"
+    icon: mdi:list-status
     entity_category: CONFIG
+    update_interval: never
+    lambda: return {""};
 
 
 # Extend TCS Intercom Component
