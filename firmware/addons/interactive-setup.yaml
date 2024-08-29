@@ -84,7 +84,12 @@ tcs_intercom:
             - if:
                 condition:
                   - lambda: |-
-                      return id(interactive_setup_step) == "first_door_opener_command";
+                      std::string str = std::string(x.c_str());
+                      if (str.length() > 5)
+                      {
+                          str.erase(5); // Ingore system commands
+                      }
+                      return id(interactive_setup_step) == "first_door_opener_command" && str != "00005" && str != "00002" && str != "00003";
                 then:
                   # Save Command
                   - lambda: |-
