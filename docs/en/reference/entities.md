@@ -81,9 +81,6 @@ Controls the Nuki pairing mode.
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
 Opens the entrance door by sending the `open_entrance_door_command` command on the Bus.
 
-### Open Second Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
-Opens the second door by sending the `open_second_door_command` command on the Bus.
-
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 Turns on the light by sending the `light_button_command` command on the Bus.
 
@@ -121,9 +118,6 @@ Sets the code sent when someone rings the entrance doorbell.
 
 ### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you press the button to open the entrance door.
-
-### Command: Open Second Door <Badge type="tip" text="open_second_door_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to open the second door.
 
 ### Command: Pick up phone <Badge type="tip" text="pick_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
 Sets the code sent when you pick up the phone.

@@ -28,7 +28,7 @@ binary_sensor:
                     - delay: !lambda "return (id(doorman_ring_to_open_delay).state*1000) + 300;"
 
               - tcs_intercom.send:
-                  command: !lambda "return id(first_door_opener_command);"
+                  command: !lambda "return id(open_entrance_door_command);"
 
   - id: !extend function_button
     on_press:

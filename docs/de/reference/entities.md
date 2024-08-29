@@ -81,9 +81,6 @@ Steuert den Nuki Kopplungsmodus.
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
 Öffnet die Eingangstür, indem der Befehl `open_entrance_door_command` auf dem Bus gesendet wird.
 
-### Open Second Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Deaktiviert" />
-Öffnet die zweite Tür, indem der Befehl `open_second_door_command` auf dem Bus gesendet wird.
-
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Deaktiviert" />
 Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
 
@@ -121,9 +118,6 @@ Legt den Code fest, der gesendet wird, wenn jemand an der Eingangsklingel läute
 
 ### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" /> <Badge type="info" text="Deaktiviert" />
 Legt den Code fest, der gesendet wird, wenn du den Knopf zum Öffnen der Eingangstür drückst.
-
-### Command: Open Second Door <Badge type="tip" text="open_second_door_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn du den Knopf zum Öffnen der zweiten Tür drückst.
 
 ### Command: Pick up phone <Badge type="tip" text="pick_up_phone_command_input" /> <Badge type="info" text="Deaktiviert" />
 Legt den Code fest, der gesendet wird, wenn du den Hörer abnimmst.

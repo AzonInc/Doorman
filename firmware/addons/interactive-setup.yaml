@@ -40,7 +40,7 @@ button:
     on_press: 
       - script.execute:
           id: interactive_setup_next
-          next_step: "first_door_opener_command"
+          next_step: "open_entrance_door_command"
           text: "Press the 'Door Opener (Key)' Button"
           first_step: true
     entity_category: CONFIG
@@ -80,7 +80,7 @@ tcs_intercom:
             - lambda: |-
                 ESP_LOGI("MAIN", "Setup: Current Step: %s", id(interactive_setup_step).c_str());
 
-            # Step: first_door_opener_command
+            # Step: open_entrance_door_command
             - if:
                 condition:
                   - lambda: |-
@@ -89,7 +89,7 @@ tcs_intercom:
                       {
                           str.erase(5); // Ingore system commands
                       }
-                      return id(interactive_setup_step) == "first_door_opener_command" && str != "00005" && str != "00002" && str != "00003";
+                      return id(interactive_setup_step) == "open_entrance_door_command" && str != "00005" && str != "00002" && str != "00003";
                 then:
                   # Save Command
                   - lambda: |-
@@ -97,7 +97,7 @@ tcs_intercom:
                       if(std::string(x.c_str()) != "") {
                         number = std::stoul(x.c_str(), nullptr, 16);
                       }
-                      id(first_door_opener_command) = number;
+                      id(open_entrance_door_command) = number;
                       ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
                   # LED State
                   - script.execute:
