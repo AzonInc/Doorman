@@ -33,8 +33,8 @@ Activates whenever the `function_button_command` command is received.
 ### Light Button <Badge type="tip" text="light_button" />
 Activates whenever the `light_button_command` command is received.
 
-### Boot Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
-Activates when the boot button is pressed.
+### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
+Activates when the `FLASH` or `PRG` button on the PCB is pressed.
 
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
 Activates when the external button is pressed.

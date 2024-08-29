@@ -33,8 +33,8 @@ Wird aktiviert, wenn der Befehl `function_button_command` empfangen wird.
 ### Light Button <Badge type="tip" text="light_button" />
 Wird aktiviert, wenn der Befehl `light_button_command` empfangen wird.
 
-### Boot Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
-Wird aktiviert, wenn der Boot Button gedrückt wird.
+### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" /> <Badge type="info" text="Internal" />
+Wird aktiviert, wenn der `FLASH` bzw. `PRG` Button auf deinem Doorman gedrückt wird.
 
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
 Wird aktiviert, wenn der externe Button gedrückt wird.

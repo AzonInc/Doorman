@@ -275,6 +275,7 @@ binary_sensor:
       ignore_strapping_warning: true
     internal: true
     id: doorman_boot_button
+    name: "Flash Button"
 
   # Preconfigured Sensors
   - platform: tcs_intercom
@@ -282,133 +283,23 @@ binary_sensor:
     name: "Entrance Doorbell"
     lambda: !lambda "return id(entrance_doorbell_command);"
     auto_off: 0.2s
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_triple
-
-
+  
   - platform: tcs_intercom
     id: apartment_doorbell
     name: "Apartment Doorbell"
     lambda: !lambda "return id(apartment_doorbell_command);"
     auto_off: 0.2s
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_triple
-
 
   - platform: tcs_intercom
-    id: "pick_up_phone"
+    id: pick_up_phone
     name: "Pick up phone"
     lambda: !lambda "return id(pick_up_phone_command);"
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: triple
 
   - platform: tcs_intercom
-    id: "hang_up_phone"
+    id: hang_up_phone
     name: "Hang up phone"
     lambda: !lambda "return id(hang_up_phone_command);"
     auto_off: 0.2s
@@ -416,7 +307,7 @@ binary_sensor:
     disabled_by_default: true
 
   - platform: tcs_intercom
-    id: "function_button"
+    id: function_button
     name: "Function Button"
     auto_off: 0.2s
     lambda: !lambda "return id(function_button_command);"
@@ -424,7 +315,7 @@ binary_sensor:
     disabled_by_default: true
 
   - platform: tcs_intercom
-    id: "light_button"
+    id: light_button
     name: "Light Button"
     lambda: !lambda "return id(light_button_command);"
     auto_off: 0.2s
@@ -624,29 +515,6 @@ text:
     disabled_by_default: true
     entity_category: CONFIG
     icon: "mdi:console-network"
-
-event:
-  - platform: template
-    id: doorbell_pattern
-    name: "Doorbell Pattern"
-    icon: "mdi:doorbell"
-    device_class: DOORBELL
-    event_types:
-      - "apartment_single"
-      - "apartment_double"
-      - "apartment_triple"
-      - "entrance_single"
-      - "entrance_double"
-      - "entrance_triple"
-
-  - platform: template
-    id: phone_pick_up_pattern
-    name: "Phone pick up Pattern"
-    icon: "mdi:phone-incoming-outgoing"
-    event_types:
-      - "single"
-      - "double"
-      - "triple"
 
 script:
   - id: update_led
