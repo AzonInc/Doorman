@@ -38,6 +38,7 @@ tcs_intercom:
           condition:
             - lambda: return id(command_setup_mode) == true;
           then:
+            - logger.log: Setup active
             # Command is either apartment or entrance doorbell
             - if:
                 condition:
@@ -51,6 +52,7 @@ tcs_intercom:
                       // Apartment Doorbell or Entrance Doorbell
                       return (first == "1" && last == "41") || (first == "0" && serial != "00000" && last == "80");
                 then:
+                  - logger.log: Setup saving commands
                   # Save Commands
                   - lambda: |-
                       std::string hex_command = std::string(x.c_str());
@@ -98,6 +100,8 @@ tcs_intercom:
                   - delay: 3s
                   
                   - script.execute: update_led
+
+                  - logger.log: Setup done
 
             
 script:
