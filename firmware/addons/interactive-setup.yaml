@@ -21,10 +21,10 @@ esphome:
             - lambda: |-
                 return 
                   id(initial_setup_done) == false && 
-                  apartment_doorbell_command == 0 && 
-                  entrance_doorbell_command == 0 && 
-                  pick_up_phone_command == 0 &&
-                  function_button_command == 0;
+                  id(apartment_doorbell_command) == 0 && 
+                  id(entrance_doorbell_command) == 0 && 
+                  id(pick_up_phone_command) == 0 &&
+                  id(function_button_command) == 0;
           then:
             - button.press: doorman_interactive_setup_start
           else:
