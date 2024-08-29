@@ -1,235 +1,86 @@
 # Interactive Command Setup Addon
 
 globals:
-  - id: initial_setup_done
+  - id: initial_setup
     type: bool
     restore_value: yes
-    initial_value: "false"
-
-  - id: interactive_setup_step
-    type: std::string
-    restore_value: no
-    initial_value: '""'
-
-esphome:
-  on_boot:
-    then:
-      - delay: 2s
-      - if:
-          condition:
-            # Ignore initial setup if something is already set
-            - lambda: |-
-                return 
-                  id(initial_setup_done) == false && 
-                  id(apartment_doorbell_command) == 0 && 
-                  id(entrance_doorbell_command) == 0 && 
-                  id(pick_up_phone_command) == 0 &&
-                  id(function_button_command) == 0;
-          then:
-            - button.press: doorman_interactive_setup_start
-          else:
-            - text_sensor.template.publish:
-                id: doorman_interactive_setup_status
-                state: "Setup Complete"
+    initial_value: "true"
 
 button:
   - platform: template
     id: doorman_interactive_setup_start
     name: "Interactive Setup: Start"
     icon: mdi:cog-play
-    on_press: 
-      - script.execute:
-          id: interactive_setup_next
-          next_step: "open_entrance_door_command"
-          text: "Press the 'Door Opener (Key)' Button"
-          first_step: true
     entity_category: CONFIG
+    on_press: 
+      - globals.set:
+          id: initial_setup
+          value: 'true'
+      - script.execute: update_led
 
   - platform: template
     id: doorman_interactive_setup_cancel
     name: "Interactive Setup: Cancel"
     icon: mdi:cog-stop
-    on_press: 
-      - script.execute:
-          id: interactive_setup_next
-          next_step: "complete"
-          text: "Setup complete"
-          first_step: false
     entity_category: CONFIG
-
-
-text_sensor:
-  - platform: template
-    id: doorman_interactive_setup_status
-    name: "Interactive Setup: Status"
-    icon: mdi:list-status
-    entity_category: DIAGNOSTIC
-    update_interval: never
-    lambda: return {""};
-
+    on_press: 
+      - globals.set:
+          id: initial_setup
+          value: 'false'
+      - script.execute: update_led
 
 # Extend TCS Intercom Component
 tcs_intercom:
   bus_command:
     on_value:
-      # Interactive Setup running
+      # Setup process active & received command meets conditions
       - if:
           condition:
-            - lambda: return id(interactive_setup_step) != "";
-          then:
             - lambda: |-
-                ESP_LOGI("MAIN", "Setup: Current Step: %s", id(interactive_setup_step).c_str());
+                std::string hex_command = std::string(x.c_str());
 
-            # Step: open_entrance_door_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 5)
-                      {
-                          str.erase(5); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "open_entrance_door_command" && str != "00005" && str != "00002" && str != "00003";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(open_entrance_door_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "function_button_command"
-                      text: "Press the 'Function (Circle)' Button"
-                      first_step: false
+                std::string first = hex_command.substr(0, 1);
+                std::string serial = hex_command.substr(1, 5);
+                std::string last = hex_command.substr(6, 2);
 
-            # Step: function_button_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "function_button_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(function_button_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "pick_up_phone_command"
-                      text: "Pick up the phone"
-                      first_step: false
-
-            # Step: pick_up_phone_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "pick_up_phone_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(pick_up_phone_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "apartment_doorbell_command"
-                      text: "Press the 'Apartment Doorbell' Button"
-                      first_step: false
-
-            # Step: apartment_doorbell_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "apartment_doorbell_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(apartment_doorbell_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "entrance_doorbell_command"
-                      text: "Press the 'Entrance Doorbell' Button"
-                      first_step: false
-
-             # Step: entrance_doorbell_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "entrance_doorbell_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(entrance_doorbell_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "complete"
-                      text: "Setup complete"
-                      first_step: false
-
-
-script:
-  - id: interactive_setup_next
-    parameters:
-      next_step: string
-      text: string
-      first_step: bool
-    then:
-      - if:
-          condition:
-            - lambda: "return first_step == false;"
+                // Apartment Doorbell or Entrance Doorbell
+                return id(initial_setup) == true && ((first == "1" && last == "41") || (first == "0" serial != "00000" && last == "80"));
           then:
-            # Temporary break
+            # Save Commands
+            - lambda: |-
+                std::string hex_command = std::string(x.c_str());
+
+                std::string first = hex_command.substr(0, 1);
+                std::string serial = hex_command.substr(1, 5);
+                std::string last = hex_command.substr(6, 2);
+
+                // Entrance Doorbell
+                std::string entrance_doorbell_command = "0" + serial + "80";
+                unsigned long entrance_doorbell_number = std::stoul(entrance_doorbell_command, nullptr, 16);
+                id(entrance_doorbell_command) = entrance_doorbell_number;
+
+                // Open Door
+                // std::string open_entrance_door_command = "1" + serial + "80";
+                // unsigned long open_entrance_door_number = std::stoul(open_entrance_door_command, nullptr, 16);
+                // id(open_entrance_door_command) = open_entrance_door_number;
+
+                // Apartment Doorbell
+                std::string apartment_doorbell_command = "1" + serial + "41";
+                unsigned long apartment_doorbell_number = std::stoul(apartment_doorbell_command, nullptr, 16);
+                id(apartment_doorbell_command) = apartment_doorbell_number;
+
+                // Pick up phone
+                std::string pick_up_phone_command = "3" + serial + "00";
+                unsigned long pick_up_phone_number = std::stoul(pick_up_phone_command, nullptr, 16);
+                id(pick_up_phone_command) = pick_up_phone_number;
+
+                // Function Button
+                std::string function_button_command = "6" + serial + "08";
+                unsigned long function_button_number = std::stoul(function_button_command, nullptr, 16);
+                id(function_button_command) = function_button_number;
             - globals.set:
-                id: interactive_setup_step
-                value: '""'
-            - text_sensor.template.publish:
-                id: doorman_interactive_setup_status
-                state: "Saving command..."
-            # LED State: Saved
+                id: initial_setup
+                value: 'false'
             - light.turn_on:
                 id: doorman_rgb_status_led
                 red: 0%
@@ -237,20 +88,17 @@ script:
                 blue: 10%
                 effect: none
             - delay: 3s
+            - script.execute: update_led
 
-      - text_sensor.template.publish:
-          id: doorman_interactive_setup_status
-          state: !lambda "return text.c_str();"
-
+            
+script:
+  - id: !extend update_led
+    then:
       - if:
           condition:
-            - lambda: "return next_step != \"complete\";"
+            - lambda: |-
+                return id(initial_setup) == true;
           then:
-            # Next step
-            - globals.set:
-                id: interactive_setup_step
-                value: !lambda "return next_step;"
-            # LED State: Waiting
             - light.turn_on:
                 id: doorman_rgb_status_led
                 red: 0%
@@ -258,13 +106,6 @@ script:
                 blue: 10%
                 effect: pulse
           else:
-            # Initial setup done
-            - globals.set:
-                id: initial_setup_done
-                value: 'true'
-            # Reset step
-            - globals.set:
-                id: interactive_setup_step
-                value: '""'
-            - script.execute: update_led
-            - logger.log: "Interactive Setup complete!"
+            - light.turn_off:
+                id: doorman_rgb_status_led
+                transition_length: 1s

@@ -55,12 +55,6 @@ Keine Beschreibung vorhanden.
 Meldet den Türsensorstatus des gekoppelten Nuki Smart Locks.
 
 
-## Text Sensors
-
-### Interactive Setup: Status <Badge type="tip" text="doorman_interactive_setup_status" />
-Zeigt den aktuellen Status vom [Interactive Setup](../guide/getting-started#interactive-setup) Prozess an.
-
-
 ## Schalter
 
 ### Ring To Open <Badge type="tip" text="doorman_ring_to_open" />

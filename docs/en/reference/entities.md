@@ -55,12 +55,6 @@ No description yet.
 Reports the door sensor state of the paired Nuki smart lock.
 
 
-## Text Sensors
-
-### Interactive Setup: Status <Badge type="tip" text="doorman_interactive_setup_status" />
-Shows the current state of [Interactive Setup](../guide/getting-started#interactive-setup) for Commands.
-
-
 ## Switches
 
 ### Ring To Open <Badge type="tip" text="doorman_ring_to_open" />
