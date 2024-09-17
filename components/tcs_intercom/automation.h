@@ -14,7 +14,7 @@ namespace esphome
             public:
                 TCSIntercomSendAction(TCSComponent *parent) : parent_(parent) {}
                 TEMPLATABLE_VALUE(uint32_t, command)
-                TEMPLATABLE_VALUE(uint32_t, address)
+                TEMPLATABLE_VALUE(uint8_t, address)
                 TEMPLATABLE_VALUE(CommandType, type)
                 TEMPLATABLE_VALUE(uint32_t, serial_number)
 

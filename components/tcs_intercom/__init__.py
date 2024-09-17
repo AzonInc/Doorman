@@ -153,7 +153,7 @@ TCS_INTERCOM_SEND_SCHEMA = cv.All(
     {
         cv.GenerateID(): cv.use_id(TCSIntercom),
         cv.Optional(CONF_COMMAND): cv.templatable(cv.hex_uint32_t),
-        cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint32_t),
+        cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_TYPE): cv.templatable(cv.enum(COMMAND_TYPES, upper=False)),
         cv.Optional(CONF_SERIAL_NUMBER, default="0"): cv.templatable(cv.hex_uint32_t),
     }),
@@ -176,7 +176,7 @@ async def tcs_intercom_send_to_code(config, action_id, template_args, args):
         cg.add(var.set_type(type_template_))
 
     if CONF_ADDRESS in config:
-        address_template_ = await cg.templatable(config[CONF_ADDRESS], args, cg.uint32)
+        address_template_ = await cg.templatable(config[CONF_ADDRESS], args, cg.uint8)
         cg.add(var.set_address(address_template_))
 
     if CONF_SERIAL_NUMBER in config:

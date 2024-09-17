@@ -21,8 +21,8 @@ namespace esphome
                 void set_command_lambda(std::function<optional<uint32_t>()> &&f) { this->command_lambda_ = f; }
                 void set_command(uint32_t command) { this->command_ = command; }
 
-                void set_address_lambda(std::function<optional<uint32_t>()> &&f) { this->address_lambda_ = f; }
-                void set_address(uint32_t address) { this->address_ = address; }
+                void set_address_lambda(std::function<optional<uint8_t>()> &&f) { this->address_lambda_ = f; }
+                void set_address(uint8_t address) { this->address_ = address; }
                 
                 void set_command_type(CommandType type) { this->type_ = type; }
                 
