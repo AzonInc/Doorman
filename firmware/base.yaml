@@ -15,10 +15,12 @@ globals:
     type: int
     restore_value: true
     initial_value: '0'
+    
   - id: second_door_station_id
     type: int
     restore_value: true
     initial_value: '1'
+
 
 # Board Setup
 esp32:
@@ -175,7 +177,7 @@ button:
     on_press:
       - tcs_intercom.send:
           type: open_door
-          address: "{{ id(second_door_station_id) }}"
+          address: !lambda "return id(second_door_station_id);"
 
   - platform: template
     id: turn_on_light
