@@ -220,7 +220,7 @@ struct CommandData {
     std::string command_hex;
     CommandType type;
     uint8_t address;
-    uint32_t serial;
+    uint32_t serial_number;
     uint8_t length;
 };
 ```

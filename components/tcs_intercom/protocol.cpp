@@ -130,7 +130,7 @@ namespace esphome
 
             if (data.length == 32)
             {
-                data.serial = (command >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
+                data.serial_number = (command >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
 
                 switch ((command >> 28) & 0xF)
                 {

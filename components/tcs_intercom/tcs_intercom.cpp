@@ -321,7 +321,7 @@ namespace esphome
 
             // Parse Command
             CommandData cmd_data = parseCommand(command);
-            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.serial);
+            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.serial_number);
 
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_STATION) {
@@ -382,7 +382,7 @@ namespace esphome
                         }
                     } else if (cmd_data.type == listener_type && cmd_data.address == listener_address) {
                         if (listener_serial_number != 0) {
-                            if (cmd_data.serial == listener_serial_number) {
+                            if (cmd_data.serial_number == listener_serial_number) {
                                 allow_publish = true;
                             }
                         } else {
@@ -404,7 +404,7 @@ namespace esphome
                         {"command", cmd_data.command_hex},
                         {"type", command_type_to_string(cmd_data.type)},
                         {"address", std::to_string(cmd_data.address)},
-                        {"serial_number", std::to_string(cmd_data.serial)}
+                        {"serial_number", std::to_string(cmd_data.serial_number)}
                     });
                 }
             }
