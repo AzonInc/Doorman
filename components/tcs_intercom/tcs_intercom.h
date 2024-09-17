@@ -79,7 +79,7 @@ namespace esphome
                 void set_door_readiness_sensor(binary_sensor::BinarySensor *door_readiness) { this->door_readiness_ = door_readiness; }
 
                 void send_command(uint32_t command);
-                void send_command_generate(CommandType type, uint32_t address, uint32_t serial_number);
+                void send_command_generate(CommandType type, uint8_t address, uint32_t serial_number);
 
                 void publish_command(uint32_t command, bool fire_events);
 
