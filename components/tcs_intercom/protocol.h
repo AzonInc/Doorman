@@ -40,7 +40,7 @@ namespace esphome
             uint8_t length;
         };
 
-        uint32_t buildCommand(CommandType type, uint32_t address, uint32_t serial_number);
+        uint32_t buildCommand(CommandType type, uint8_t address, uint32_t serial_number);
         CommandData parseCommand(uint32_t command);
 
         const char* command_type_to_string(CommandType type);
