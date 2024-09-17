@@ -11,40 +11,14 @@ substitutions:
   external_button_pin: "GPIO41"
 
 globals:
-  - id: open_entrance_door_command
+  - id: intercom_serial_number
     type: int
     restore_value: true
-    initial_value: '0x1100'
-
-  - id: apartment_doorbell_command
+    initial_value: '0'
+  - id: second_door_station_id
     type: int
     restore_value: true
-    initial_value: '0x00000000'
-
-  - id: entrance_doorbell_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: pick_up_phone_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: hang_up_phone_command
-    type: int
-    restore_value: true
-    initial_value: '0x3000'
-
-  - id: function_button_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: light_button_command
-    type: int
-    restore_value: true
-    initial_value: '0x1200'
+    initial_value: '1'
 
 # Board Setup
 esp32:
@@ -64,7 +38,7 @@ esphome:
 
   project:
     name: "AzonInc.Doorman"
-    version: "2024.8.5"
+    version: "2024.9.1"
 
   platformio_options:
     board_build.flash_mode: dio
@@ -136,7 +110,7 @@ improv_serial:
 
 # Import TCS Intercom Component
 external_components:
-  - source: github://AzonInc/esphome_tcs_intercom@master
+  - source: github://AzonInc/Doorman@master
     components: [ tcs_intercom ]
     refresh: 60s
 
@@ -150,6 +124,7 @@ tcs_intercom:
   bus_command:
     id: last_bus_command
     name: "Last Bus Command"
+  serial_number_lambda: !lambda "return id(intercom_serial_number);"
 
 
 switch:
@@ -190,7 +165,17 @@ button:
     icon: mdi:door
     on_press:
       - tcs_intercom.send:
-          command: !lambda "return id(open_entrance_door_command);"
+          type: open_door
+          address: 0
+          
+  - platform: template
+    id: open_second_door
+    name: "Open Second Door"
+    icon: mdi:door
+    on_press:
+      - tcs_intercom.send:
+          type: open_door
+          address: "{{ id(second_door_station_id) }}"
 
   - platform: template
     id: turn_on_light
@@ -198,7 +183,7 @@ button:
     icon: mdi:lightbulb-on
     on_press:
       - tcs_intercom.send:
-          command: !lambda "return id(light_button_command);"
+          type: light
     disabled_by_default: true
 
 # Onboard Status LEDs
@@ -268,19 +253,21 @@ binary_sensor:
   - platform: tcs_intercom
     id: entrance_doorbell
     name: "Entrance Doorbell"
-    lambda: !lambda "return id(entrance_doorbell_command);"
+    type: door_call
+    address: 0
     auto_off: 0.2s
   
   - platform: tcs_intercom
     id: apartment_doorbell
     name: "Apartment Doorbell"
-    lambda: !lambda "return id(apartment_doorbell_command);"
+    type: floor_call
     auto_off: 0.2s
 
   - platform: tcs_intercom
     id: pick_up_phone
     name: "Pick up phone"
-    lambda: !lambda "return id(pick_up_phone_command);"
+    type: start_talking_door_station
+    address: 0
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
@@ -288,7 +275,8 @@ binary_sensor:
   - platform: tcs_intercom
     id: hang_up_phone
     name: "Hang up phone"
-    lambda: !lambda "return id(hang_up_phone_command);"
+    type: stop_talking_door_station
+    address: 0
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
@@ -297,14 +285,15 @@ binary_sensor:
     id: function_button
     name: "Function Button"
     auto_off: 0.2s
-    lambda: !lambda "return id(function_button_command);"
+    type: function_key
+    address: 8
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
   - platform: tcs_intercom
     id: light_button
     name: "Light Button"
-    lambda: !lambda "return id(light_button_command);"
+    type: light
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
@@ -320,168 +309,6 @@ binary_sensor:
         pullup: true
         input: true
       inverted: true
-
-text:
-  - platform: template
-    id: open_entrance_door_command_input
-    name: "Command: Open Entrance Door"
-    mode: text
-    lambda: |-
-      unsigned long number = id(open_entrance_door_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(open_entrance_door_command) = number;
-            id(open_entrance_door_command_input)->publish_state(str_upper_case(format_hex(number)));
-    entity_category: CONFIG
-    disabled_by_default: true
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: entrance_doorbell_command_input
-    name: "Command: Entrance Doorbell"
-    mode: text
-    lambda: |-
-      unsigned long number = id(entrance_doorbell_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(entrance_doorbell_command) = number;
-            id(entrance_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
-    entity_category: CONFIG
-    disabled_by_default: true
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: apartment_doorbell_command_input
-    name: "Command: Apartment Doorbell"
-    mode: text
-    lambda: |-
-      unsigned long number = id(apartment_doorbell_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(apartment_doorbell_command) = number;
-            id(apartment_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
-    entity_category: CONFIG
-    disabled_by_default: true
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: pick_up_phone_command_input
-    name: "Command: Pick up phone"
-    mode: text
-    lambda: |-
-      unsigned long number = id(pick_up_phone_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(pick_up_phone_command) = number;
-            id(pick_up_phone_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: hang_up_command_input
-    name: "Command: Hang up phone"
-    mode: text
-    lambda: |-
-      unsigned long number = id(hang_up_phone_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(hang_up_phone_command) = number;
-            id(hang_up_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: function_button_command_input
-    name: "Command: Function Button"
-    mode: text
-    lambda: |-
-      unsigned long number = id(function_button_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(function_button_command) = number;
-            id(function_button_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: light_button_command_input
-    name: "Command: Light Button"
-    mode: text
-    lambda: |-
-      unsigned long number = id(light_button_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(light_button_command) = number;
-            id(light_button_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
 
 script:
   - id: update_led

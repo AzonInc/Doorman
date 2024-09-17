@@ -51,6 +51,7 @@ The repository is organized into the following directories:
 
 - `pcb`: Contains KiCad schematic and PCB design files
 - `firmware`: Includes ESPHome configuration files
+- `components`: Includes ESPHome external component files
 - `enclosure`: Provides STL files for the enclosure design
 
 ## 🛠️ Manufacturing
@@ -93,3 +94,6 @@ This module builds an ESPHome lock platform for Nuki Smartlock (nuki_lock).
 
 **[AStrehlau](https://github.com/AStrehlau)**\
 Thank you so much for your time, patience, expertise, and every piece of invaluable advice that helped make this project better, smaller, and more affordable.
+
+**[calibanorg](https://github.com/calibanorg)**\
+Thank you so much for your support, both in terms of encouragement and financial assistance, in the development of Doorman.

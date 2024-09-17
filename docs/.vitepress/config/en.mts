@@ -123,7 +123,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'Entities', link: 'entities' },
         { text: 'GPIO Pinout', link: 'gpio' },
         { text: 'Schematics', link: 'schematics' },
-        { text: 'Specifications', link: 'specifications' }
+        { text: 'Specifications', link: 'specifications' },
+        { text: 'ESPHome Component', link: 'esphome-component' }
       ]
     }
   ];

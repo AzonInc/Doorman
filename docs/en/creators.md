@@ -29,6 +29,14 @@ const members = [
     ]
   },
   {
+    avatar: 'https://www.github.com/calibanorg.png',
+    name: 'calibanorg',
+    title: 'Sponsor PCB Development',
+    links: [
+      { icon: 'github', link: 'https://github.com/calibanorg' },
+    ]
+  },
+  {
     avatar: 'https://www.github.com/atc1441.png',
     name: 'atc1441',
     title: 'Reverse engineering of TCS Bus communication',

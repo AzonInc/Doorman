@@ -6,7 +6,7 @@ packages:
   device_base: !include doorman-stock.yaml
 
 external_components:
-  - source: github://AzonInc/esphome_tcs_intercom@dev
+  - source: github://AzonInc/Doorman@dev
     components: [ tcs_intercom ]
     refresh: 60s
 

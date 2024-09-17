@@ -1,0 +1,192 @@
+# WIP
+
+globals:
+  - id: search_mode
+    type: int
+    restore_value: no
+    initial_value: "0"
+
+  - id: as_list
+    type: std::vector<int>
+    initial_value: ''
+
+  - id: is_list
+    type: std::vector<int>
+    initial_value: ''
+
+  - id: tcs_serial
+    type: int
+    restore_value: yes
+    initial_value: "0"
+
+text:
+  - platform: template
+    name: Input
+    id: input
+    mode: text
+    optimistic: true
+
+button:
+  - platform: template
+    name: Search Devices
+    on_press: 
+      # Clear Lists
+      - lambda: |-
+          id(as_list).clear();
+          id(is_list).clear();
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 0%
+          green: 100%
+          blue: 10%
+          effect: pulse
+      
+      
+      - logger.log: Search outdoor stations...
+      - tcs_intercom.send:
+          command: 0x5802
+      - globals.set:
+          id: search_mode
+          value: "1"
+      - delay: 350ms
+      - tcs_intercom.send:
+          command: 0x5200
+      # Wait until every outdoor station sent response
+      - delay: 5s
+
+
+      - logger.log: Search indoor stations (0)...
+      - globals.set:
+          id: search_mode
+          value: "2"
+      - tcs_intercom.send:
+          command: 0x5800
+      - delay: 350ms
+      - tcs_intercom.send:
+          command: 0x5200
+      # Wait until every indoor station sent response
+      - delay: 10s
+
+
+      - logger.log: Search indoor stations (1)...
+      - tcs_intercom.send:
+          command: 0x5801
+      - delay: 350ms
+      - tcs_intercom.send:
+          command: 0x5200
+      # Wait until every indoor station sent response
+      - delay: 10s
+      
+
+      - logger.log:
+          format: "Search complete! Found %i outdoor station(s) and %i indoor station(s)."
+          args: [ 'id(as_list).size()', 'id(is_list).size()']
+      - globals.set:
+          id: search_mode
+          value: "3"
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 0%
+          green: 100%
+          blue: 10%
+          effect: none
+      - delay: 3s
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 10%
+          green: 100%
+          blue: 0%
+          effect: pulse
+
+tcs_intercom:
+  bus_command:
+    on_value:
+      - if:
+          condition:
+            - lambda: |-
+                std::string hex_command = std::string(x.c_str());
+                std::string first(hex_command.begin(), hex_command.begin() + 1);
+                // Proceed on commands starting with 5 (Service response)
+                return first == "5";
+          then:
+            - if:
+                condition:
+                  - lambda: return id(search_mode) > 0 && id(search_mode) < 3;
+                then:
+                  - lambda: |-
+                      std::string hex_command = std::string(x.c_str());
+                      std::string serial(hex_command.begin() + 1, hex_command.begin() + 6);
+                      int serial_int = std::stoi(serial, nullptr, 16);
+                      std::vector<int>& list = (id(search_mode) == 1 ? id(as_list) : id(is_list));
+                      bool found = false;
+                      for (const auto& s : list) {
+                        if (s == serial_int) {
+                          found = true;
+                          break;
+                        }
+                      }
+                      if (!found) {
+                        list.push_back(serial_int);
+                      }
+            - if:
+                condition:
+                  - lambda: |-
+                      std::string hex_command = std::string(x.c_str());
+
+                      std::string first(hex_command.begin(), hex_command.begin() + 1);
+                      std::string serial(hex_command.begin() + 1, hex_command.begin() + 6);
+                      std::string last(hex_command.begin() + 6, hex_command.begin() + 8);
+
+                      // Apartment Doorbell or Entrance Doorbell
+                      return id(search_mode) == 3 && ((first == "1" && last == "41") || (first == "0" && serial != "00000" && (last == "80" || last == "81" || last == "82" || last == "83" || last == "84")));
+                then:
+                  - logger.log: Setup saving commands
+                  # Save Commands
+                  - lambda: |-
+                      std::string hex_command = std::string(x.c_str());
+
+                      std::string serial(hex_command.begin() + 1, hex_command.begin() + 6);
+
+                      // Save Serial Number
+                      id(tcs_serial) = serial;
+                      
+                      // Entrance Doorbell
+                      std::string entrance_doorbell_command_hex = "0" + serial + "80";
+                      unsigned long entrance_doorbell_number = std::stoul(entrance_doorbell_command_hex, nullptr, 16);
+                      id(entrance_doorbell_command) = entrance_doorbell_number;
+
+                      // Open Door
+                      std::string open_entrance_door_command_hex = "1" + serial + "80";
+                      unsigned long open_entrance_door_number = std::stoul(open_entrance_door_command_hex, nullptr, 16);
+                      id(open_entrance_door_command) = open_entrance_door_number;
+
+                      // Theoretisch automatisch lernen nachdem einmalig die seriennummer gelernt wurde
+                      // sofern ein code kommt mit 0 SN 8 X wo X nicht 0 ist soll der gespeichert werden als türöffner 2
+
+                      // Apartment Doorbell
+                      std::string apartment_doorbell_command_hex = "1" + serial + "41";
+                      unsigned long apartment_doorbell_number = std::stoul(apartment_doorbell_command_hex, nullptr, 16);
+                      id(apartment_doorbell_command) = apartment_doorbell_number;
+
+                      // Pick up phone
+                      std::string pick_up_phone_command_hex = "3" + serial + "00";
+                      unsigned long pick_up_phone_number = std::stoul(pick_up_phone_command_hex, nullptr, 16);
+                      id(pick_up_phone_command) = pick_up_phone_number;
+
+                      // Function Button
+                      std::string function_button_command_hex = "6" + serial + "08";
+                      unsigned long function_button_number = std::stoul(function_button_command_hex, nullptr, 16);
+                      id(function_button_command) = function_button_number;
+                      
+                  # Setup complete
+                  - globals.set:
+                      id: search_mode
+                      value: "0"
+                  - light.turn_on:
+                      id: doorman_rgb_status_led
+                      red: 10%
+                      green: 100%
+                      blue: 0%
+                      effect: none
+                  - delay: 3s
+                  - script.execute: update_led

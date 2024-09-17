@@ -5,7 +5,7 @@ const members = [
   {
     avatar: 'https://www.github.com/AzonInc.png',
     name: 'AzonInc',
-    title: 'Creator of the Doorman-S3 PCB and ESPHome-based firmware',
+    title: 'Ersteller vom Doorman-S3 PCB und der ESPHome-basierten Firmware',
     links: [
       { icon: 'github', link: 'https://github.com/AzonInc' },
     ],
@@ -14,7 +14,7 @@ const members = [
   {
     avatar: 'https://www.github.com/peteh.png',
     name: 'peteh',
-    title: 'Creator of the original Doorman custom firmware',
+    title: 'Entwickler der original Doorman custom Firmware',
     links: [
       { icon: 'github', link: 'https://github.com/peteh' },
     ],
@@ -29,9 +29,17 @@ const members = [
     ]
   },
   {
+    avatar: 'https://www.github.com/calibanorg.png',
+    name: 'calibanorg',
+    title: 'Sponsor für die Entwicklung',
+    links: [
+      { icon: 'github', link: 'https://github.com/calibanorg' },
+    ]
+  },
+  {
     avatar: 'https://www.github.com/atc1441.png',
     name: 'atc1441',
-    title: 'Reverse engineering of TCS Bus communication',
+    title: 'Reverse engineering der TCS Bus Kommunikation',
     links: [
       { icon: 'github', link: 'https://github.com/atc1441' },
     ],
@@ -40,7 +48,7 @@ const members = [
   {
     avatar: 'https://www.github.com/uriyacovy.png',
     name: 'uriyacovy',
-    title: 'Creator of the ESPHome Nuki Lock component',
+    title: 'Entwickler der ESPHome Nuki Lock Komponente',
     links: [
       { icon: 'github', link: 'https://github.com/uriyacovy' },
     ]

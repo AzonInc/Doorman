@@ -150,7 +150,8 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'Entitäten', link: 'entities' },
         { text: 'GPIO Pinbelegung', link: 'gpio' },
         { text: 'Schaltpläne', link: 'schematics' },
-        { text: 'Spezifikationen', link: 'specifications' }
+        { text: 'Spezifikationen', link: 'specifications' },
+        { text: 'ESPHome Komponente', link: 'esphome-component' }
       ]
     }
   ];
