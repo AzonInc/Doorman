@@ -110,7 +110,7 @@ improv_serial:
 
 # Import TCS Intercom Component
 external_components:
-  - source: github://AzonInc/Doorman@master
+  - source: github://AzonInc/Doorman@dev
     components: [ tcs_intercom ]
     refresh: 60s
 
