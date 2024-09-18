@@ -66,7 +66,7 @@ CONF_HARDWARE_VERSION = "hardware_version"
 CONF_DOOR_READINESS = "door_readiness"
 
 CONF_ON_COMMAND = "on_command_action"
-CONF_SET_PROGRAMMING_MODE = "set_programming_mode"
+CONF_SET_PROGRAMMING_MODE = "programming_mode"
 
 MULTI_CONF = False
 
