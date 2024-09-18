@@ -34,6 +34,18 @@ namespace esphome
                 TCBusComponent *parent_;
         };
 
+        template<typename... Ts> class TCBusProgrammingModeAction : public Action<Ts...>
+        {
+            public:
+                TCBusProgrammingModeAction(TCBusComponent *parent) : parent_(parent) {}
+                TEMPLATABLE_VALUE(bool, programming_mode)
+
+                void play(Ts... x) { this->parent_->set_programming_mode(this->programming_mode_.value(x...)); }
+
+            protected:
+                TCBusComponent *parent_;
+        };
+
         class ReceivedCommandTrigger : public Trigger<CommandData> {
             public:
                 explicit ReceivedCommandTrigger(TCBusComponent *parent) {

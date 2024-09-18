@@ -110,6 +110,12 @@ namespace esphome
                     command |= (address & 0xFF); // 0
                     break;
 
+                case COMMAND_TYPE_PROGRAMMING_MODE:
+                    command |= (5 << 12); // 5
+                    command |= 0x0040; // 04
+                    command |= (address & 0x01); // 0/1
+                    break;
+
                 default:
                     break;
             }
@@ -227,6 +233,13 @@ namespace esphome
                 {
                     switch(second)
                     {
+                        case 0:
+                            if (((command >> 6) & 0xFF) == 0x40 || ((command >> 6) & 0xFF) == 0x41)
+                            {
+                                data.type = COMMAND_TYPE_PROGRAMMING_MODE;
+                            }
+                            break;
+
                         case 1:
                             data.type = COMMAND_TYPE_RESET;
                             break;

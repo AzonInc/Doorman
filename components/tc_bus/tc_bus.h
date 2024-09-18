@@ -86,6 +86,8 @@ namespace esphome
                 void add_received_command_callback(std::function<void(CommandData)> &&callback);
                 CallbackManager<void(CommandData)> received_command_callback_{};
 
+                void set_programming_mode(bool enabled);
+
                 bool sending;
 
             protected:
@@ -103,6 +105,8 @@ namespace esphome
                 text_sensor::TextSensor *hardware_version_{nullptr};
                 binary_sensor::BinarySensor *door_readiness_{nullptr};
                 std::string hardware_version_str_ = "Generic";
+
+                bool programming_mode_ = false;
         };
 
     }  // namespace tc_bus

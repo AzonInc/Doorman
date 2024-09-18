@@ -14,6 +14,10 @@ TCBusSendAction = tc_bus_ns.class_(
     "TCBusSendAction", automation.Action
 )
 
+TCBusProgrammingModeAction = tc_bus_ns.class_(
+    "TCBusProgrammingModeAction", automation.Action
+)
+
 ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
 CommandData = tc_bus_ns.struct(f"CommandData")
 
@@ -40,7 +44,8 @@ COMMAND_TYPES = {
     "select_device_group_reset": CommandType.COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET,
     "search_devices": CommandType.COMMAND_TYPE_SEARCH_DEVICES,
     "found_device": CommandType.COMMAND_TYPE_FOUND_DEVICE,
-    "found_device_subsystem": CommandType.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM
+    "found_device_subsystem": CommandType.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
+    "programming_mode": CommandType.COMMAND_TYPE_PROGRAMMING_MODE,
 }
 
 CONF_TC_ID = "tc_bus"
@@ -61,6 +66,7 @@ CONF_HARDWARE_VERSION = "hardware_version"
 CONF_DOOR_READINESS = "door_readiness"
 
 CONF_ON_COMMAND = "on_command_action"
+CONF_SET_PROGRAMMING_MODE = "set_programming_mode"
 
 MULTI_CONF = False
 
@@ -148,7 +154,7 @@ def validate(config):
 
     return config
 
-tc_bus_SEND_SCHEMA = cv.All(
+TC_BUS_SEND_SCHEMA = cv.All(
     cv.Schema(
     {
         cv.GenerateID(): cv.use_id(TCBus),
@@ -161,7 +167,9 @@ tc_bus_SEND_SCHEMA = cv.All(
 )
 
 @automation.register_action(
-    "tc_bus.send", TCBusSendAction, tc_bus_SEND_SCHEMA
+    "tc_bus.send",
+    TCBusSendAction,
+    TC_BUS_SEND_SCHEMA
 )
 async def tc_bus_send_to_code(config, action_id, template_args, args):
     parent = await cg.get_variable(config[CONF_ID])
@@ -184,3 +192,22 @@ async def tc_bus_send_to_code(config, action_id, template_args, args):
         cg.add(var.set_serial_number(serial_number_template_))
 
     return var
+
+
+TC_BUS_PROGRAMMING_MODE_SCHEMA = cv.All(
+    cv.Schema(
+    {
+        cv.GenerateID(): cv.use_id(TCBus),
+        cv.Required(CONF_SET_PROGRAMMING_MODE): cv.templatable(cv.boolean)
+    }),
+    validate
+)
+
+@automation.register_action(
+    "tc_bus.set_programming_mode",
+    TCBusProgrammingModeAction,
+    TC_BUS_PROGRAMMING_MODE_SCHEMA
+)
+async def tc_bus_set_programming_mode_to_code(config, action_id, template_arg, args):
+    paren = await cg.get_variable(config[CONF_ID])
+    return cg.new_Pvariable(action_id, template_arg, paren)
