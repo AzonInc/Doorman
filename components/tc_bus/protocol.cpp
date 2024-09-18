@@ -110,12 +110,6 @@ namespace esphome
                     command |= (address & 0xFF); // 0
                     break;
 
-                case COMMAND_TYPE_PROGRAMMING_MODE:
-                    command |= (5 << 12); // 5
-                    command |= 0x0040; // 04
-                    command |= (address & 0x01); // 0/1
-                    break;
-
                 default:
                     break;
             }
@@ -288,6 +282,7 @@ namespace esphome
                 case COMMAND_TYPE_SEARCH_DEVICES: return "SEARCH_DEVICES";
                 case COMMAND_TYPE_FOUND_DEVICE: return "FOUND_DEVICE";
                 case COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM: return "FOUND_DEVICE_SUBSYSTEM";
+                case COMMAND_TYPE_PROGRAMMING_MODE: return "PROGRAMMING_MODE";
                 default: return "UNKNOWN";
             }
         }

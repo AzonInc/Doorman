@@ -194,20 +194,21 @@ async def tc_bus_send_to_code(config, action_id, template_args, args):
     return var
 
 
-TC_BUS_PROGRAMMING_MODE_SCHEMA = cv.All(
-    cv.Schema(
-    {
-        cv.GenerateID(): cv.use_id(TCBus),
-        cv.Required(CONF_PROGRAMMING_MODE): cv.templatable(cv.boolean)
-    }),
-    validate
-)
-
 @automation.register_action(
     "tc_bus.set_programming_mode",
     TCBusProgrammingModeAction,
-    TC_BUS_PROGRAMMING_MODE_SCHEMA
+    automation.maybe_simple_id(
+        {
+            cv.GenerateID(): cv.use_id(TCBus),
+            cv.Required(CONF_PROGRAMMING_MODE): cv.templatable(cv.boolean)
+        }
+    ),
 )
-async def tc_bus_set_programming_mode_to_code(config, action_id, template_arg, args):
-    paren = await cg.get_variable(config[CONF_ID])
-    return cg.new_Pvariable(action_id, template_arg, paren)
+async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, args):
+    parent = await cg.get_variable(config[CONF_ID])
+    var = cg.new_Pvariable(action_id, template_args, parent)
+
+    programming_mode_template_ = await cg.templatable(config[CONF_PROGRAMMING_MODE], args, cg.bool_)
+    cg.add(var.set_programming_mode(programming_mode_template_))
+    
+    return var

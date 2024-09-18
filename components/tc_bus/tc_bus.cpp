@@ -337,6 +337,7 @@ namespace esphome
                 }
             } else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE) {
                 ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.address == 1));
+                this->programming_mode_ = cmd_data.address == 1;
             }
 
             // Publish Command to Last Bus Command Sensor
@@ -510,16 +511,7 @@ namespace esphome
 
         void TCBusComponent::set_programming_mode(bool enabled)
         {
-            this->programming_mode_ = enabled;
-
-            if(enabled)
-            {
-                send_command_generate(COMMAND_TYPE_PROGRAMMING_MODE, 1, 0);
-            }
-            else
-            {
-                send_command_generate(COMMAND_TYPE_PROGRAMMING_MODE, 0, 0);
-            }
+            send_command(enabled ? 0x5041 : 0x5040);
         }
 
     }  // namespace tc_bus
