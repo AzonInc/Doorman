@@ -66,7 +66,7 @@ CONF_HARDWARE_VERSION = "hardware_version"
 CONF_DOOR_READINESS = "door_readiness"
 
 CONF_ON_COMMAND = "on_command_action"
-CONF_SET_PROGRAMMING_MODE = "programming_mode"
+CONF_PROGRAMMING_MODE = "programming_mode"
 
 MULTI_CONF = False
 
@@ -198,7 +198,7 @@ TC_BUS_PROGRAMMING_MODE_SCHEMA = cv.All(
     cv.Schema(
     {
         cv.GenerateID(): cv.use_id(TCBus),
-        cv.Required(CONF_SET_PROGRAMMING_MODE): cv.templatable(cv.boolean)
+        cv.Required(CONF_PROGRAMMING_MODE): cv.templatable(cv.boolean)
     }),
     validate
 )
