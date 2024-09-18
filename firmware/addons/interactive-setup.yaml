@@ -1,48 +1,40 @@
 # Interactive Command Setup Addon
 
-globals:
-  - id: command_setup_mode
-    type: bool
-    restore_value: yes
-    initial_value: "true"
-
-button:
+switch:
   - platform: template
-    id: doorman_interactive_setup_start
-    name: "Interactive Setup: Start"
-    icon: mdi:cog-play
-    entity_category: CONFIG
-    on_press: 
-      - globals.set:
-          id: command_setup_mode
-          value: "true"
+    name: Setup Mode
+    icon: mdi:cog
+    id: doorman_setup_mode
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    on_turn_on:
       - script.execute: update_led
-
-  - platform: template
-    id: doorman_interactive_setup_cancel
-    name: "Interactive Setup: Cancel"
-    icon: mdi:cog-stop
-    entity_category: CONFIG
-    on_press: 
-      - globals.set:
-          id: command_setup_mode
-          value: "false"
+    on_turn_off:
       - script.execute: update_led
 
 # Extend TCS Intercom Component
 tcs_intercom:
   on_command_action:
+    # If no second door station id is set, wait for one
     - if:
         condition:
-          - lambda: return id(command_setup_mode) == true && (x.type == COMMAND_TYPE_FLOOR_CALL || x.type == COMMAND_TYPE_DOOR_CALL);
+          - lambda: return id(second_door_station_id) == 0 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != 0;
         then:
-          - lambda: |-
-              // Save serial number
-              id(intercom_serial_number) = x.serial_number;
-
           - globals.set:
-              id: command_setup_mode
-              value: "false"
+              id: second_door_station_id
+              value: !lambda "return x.address;"
+
+    # Setup mode: Wait for Floor or Door Call
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+          - lambda: "return x.type == COMMAND_TYPE_FLOOR_CALL || x.type == COMMAND_TYPE_DOOR_CALL;"
+        then:
+          - globals.set:
+              id: intercom_serial_number
+              value: !lambda "return x.serial_number;"
+
+          - switch.turn_off: doorman_setup_mode
 
           - light.turn_on:
               id: doorman_rgb_status_led
@@ -56,14 +48,14 @@ tcs_intercom:
           - script.execute: update_led
 
           - logger.log: Setup done
-            
+
+
 script:
   - id: !extend update_led
     then:
       - if:
           condition:
-            - lambda: |-
-                return id(command_setup_mode) == true;
+            - switch.is_on: doorman_setup_mode
           then:
             - light.turn_on:
                 id: doorman_rgb_status_led

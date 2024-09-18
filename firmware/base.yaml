@@ -19,7 +19,7 @@ globals:
   - id: second_door_station_id
     type: int
     restore_value: true
-    initial_value: '1'
+    initial_value: '0'
 
 
 # Board Setup

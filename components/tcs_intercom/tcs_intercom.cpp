@@ -326,12 +326,12 @@ namespace esphome
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_STATION) {
                 bool door_readiness_state = (command & (1 << 8)) != 0;
-                ESP_LOGD(TAG, "Door readiness: %d", door_readiness_state);
+                ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
                 if (this->door_readiness_ != nullptr) {
                     this->door_readiness_->publish_state(door_readiness_state);
                 }
             } else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS) {
-                ESP_LOGD(TAG, "Door readiness: %d", false);
+                ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
                 if (this->door_readiness_ != nullptr) {
                     this->door_readiness_->publish_state(false);
                 }
