@@ -4,7 +4,7 @@
 
 namespace esphome
 {
-    namespace tcs_intercom
+    namespace tc_bus
     {
         uint32_t buildCommand(CommandType type, uint8_t address, uint32_t serial_number)
         {
@@ -278,5 +278,5 @@ namespace esphome
                 default: return "UNKNOWN";
             }
         }
-    }
-}
+    }  // namespace tc_bus
+}  // namespace esphome

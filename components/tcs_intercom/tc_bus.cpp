@@ -1,5 +1,5 @@
 #include "protocol.h"
-#include "tcs_intercom.h"
+#include "tc_bus.h"
 
 #include "esphome.h"
 #include "esphome/core/application.h"
@@ -26,19 +26,19 @@ using namespace esphome;
 
 namespace esphome
 {
-    namespace tcs_intercom
+    namespace tc_bus
     {
-        static const char *const TAG = "tcs_intercom";
+        static const char *const TAG = "tc_bus";
 
         static const uint8_t TCS_MSG_START_MS = 6; // a new message
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
 
-        TCSComponent *global_tcs_intercom = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+        TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-        void TCSComponent::setup()
+        void TCBusComponent::setup()
         {
-            ESP_LOGCONFIG(TAG, "Setting up TCS Intercom...");
+            ESP_LOGCONFIG(TAG, "Setting up TC:BUS Intercom...");
 
             #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
             ESP_LOGD(TAG, "Check for Doorman Hardware");
@@ -88,7 +88,7 @@ namespace esphome
             auto &s = this->store_;
 
             s.rx_pin = this->rx_pin_->to_isr();
-            this->rx_pin_->attach_interrupt(TCSComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
             // Reset Sensors
             if (this->bus_command_ != nullptr)
@@ -107,9 +107,9 @@ namespace esphome
             }
         }
 
-        void TCSComponent::dump_config()
+        void TCBusComponent::dump_config()
         {
-            ESP_LOGCONFIG(TAG, "TCS Intercom:");
+            ESP_LOGCONFIG(TAG, "TC:BUS:");
             LOG_PIN("  Pin RX: ", this->rx_pin_);
             LOG_PIN("  Pin TX: ", this->tx_pin_);
 
@@ -136,7 +136,7 @@ namespace esphome
             #endif
         }
 
-        void TCSComponent::loop()
+        void TCBusComponent::loop()
         {
             // Turn off binary sensor after ... milliseconds
             uint32_t now_millis = millis();
@@ -160,14 +160,14 @@ namespace esphome
             }
         }
 
-        void TCSComponent::register_listener(TCSIntercomListener *listener)
+        void TCBusComponent::register_listener(TCBusListener *listener)
         {
             this->listeners_.push_back(listener); 
         }
 
-        volatile uint32_t TCSComponentStore::s_cmd = 0;
-        volatile uint8_t TCSComponentStore::s_cmdLength = 0;
-        volatile bool TCSComponentStore::s_cmdReady = false;
+        volatile uint32_t TCBusComponentStore::s_cmd = 0;
+        volatile uint8_t TCBusComponentStore::s_cmdLength = 0;
+        volatile bool TCBusComponentStore::s_cmdReady = false;
 
         void bitSetIDF(uint32_t *variable, int bitPosition) {
             *variable |= (1UL << bitPosition);
@@ -177,7 +177,7 @@ namespace esphome
             return (variable >> bitPosition) & 0x01;
         }
 
-        void IRAM_ATTR HOT TCSComponentStore::gpio_intr(TCSComponentStore *arg)
+        void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
         {
             // Made by https://github.com/atc1441/TCSintercomArduino
             static uint32_t curCMD;
@@ -308,7 +308,7 @@ namespace esphome
             }
         }
 
-        void TCSComponent::publish_command(uint32_t command, bool received)
+        void TCBusComponent::publish_command(uint32_t command, bool received)
         {
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
@@ -410,7 +410,7 @@ namespace esphome
             }
         }
 
-        void TCSComponent::send_command_generate(CommandType type, uint8_t address, uint32_t serial_number)
+        void TCBusComponent::send_command_generate(CommandType type, uint8_t address, uint32_t serial_number)
         {
             ESP_LOGD(TAG, "Generating command: Type: %s, Address: %i, Serial number: %i", command_type_to_string(type), address, serial_number);
 
@@ -441,7 +441,7 @@ namespace esphome
         }
 
 
-        void TCSComponent::send_command(uint32_t command)
+        void TCBusComponent::send_command(uint32_t command)
         {
             ESP_LOGD(TAG, "Sending command %08X", command);
 
@@ -494,17 +494,17 @@ namespace esphome
 
                 // Resume reading
                 ESP_LOGV(TAG, "Resume reading");
-                this->rx_pin_->attach_interrupt(TCSComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+                this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
                 // Publish received Command on Sensors, Events, etc.
                 this->publish_command(command, false);
             }
         }
 
-        void TCSComponent::add_received_command_callback(std::function<void(CommandData)> &&callback)
+        void TCBusComponent::add_received_command_callback(std::function<void(CommandData)> &&callback)
         {
             this->received_command_callback_.add(std::move(callback));
         }
 
-    }  // namespace tcs_intercom
+    }  // namespace tc_bus
 }  // namespace esphome

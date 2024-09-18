@@ -4,7 +4,7 @@
 
 namespace esphome
 {
-    namespace tcs_intercom
+    namespace tc_bus
     {
         enum CommandType {
             COMMAND_TYPE_UNKNOWN,
@@ -44,5 +44,5 @@ namespace esphome
         CommandData parseCommand(uint32_t command);
 
         const char* command_type_to_string(CommandType type);
-    }
-}
+    }  // namespace tc_bus
+}  // namespace esphome

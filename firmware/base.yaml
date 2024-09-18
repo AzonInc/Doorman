@@ -82,11 +82,11 @@ logger:
 api:
   reboot_timeout: 0s
   services:
-    - service: send_tcs_command
+    - service: send_tc_command
       variables:
         command: int
       then:
-        - tcs_intercom.send:
+        - tc_bus.send:
             command: !lambda 'return command;'
 
 web_server:
@@ -110,14 +110,14 @@ captive_portal:
 # Improv for easy provisioning
 improv_serial:
 
-# Import TCS Intercom Component
+# Import TC:BUS Component
 external_components:
   - source: github://AzonInc/Doorman@dev
-    components: [ tcs_intercom ]
+    components: [ tc_bus ]
     refresh: 60s
 
-# Setup TCS Intercom Component
-tcs_intercom:
+# Setup TC:BUS Component
+tc_bus:
   event: "doorman"
   hardware_version:
     name: "Hardware"
@@ -166,7 +166,7 @@ button:
     name: "Open Entrance Door"
     icon: mdi:door
     on_press:
-      - tcs_intercom.send:
+      - tc_bus.send:
           type: open_door
           address: 0
           
@@ -175,7 +175,7 @@ button:
     name: "Open Second Door"
     icon: mdi:door
     on_press:
-      - tcs_intercom.send:
+      - tc_bus.send:
           type: open_door
           address: !lambda "return id(second_door_station_id);"
 
@@ -184,7 +184,7 @@ button:
     name: "Turn on the light"
     icon: mdi:lightbulb-on
     on_press:
-      - tcs_intercom.send:
+      - tc_bus.send:
           type: light
     disabled_by_default: true
 
@@ -252,26 +252,26 @@ binary_sensor:
     disabled_by_default: true
 
   # Preconfigured Sensors
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: entrance_doorbell
     name: "Entrance Doorbell"
     type: door_call
     auto_off: 0.2s
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: second_entrance_doorbell
     name: "Second Entrance Doorbell"
     type: door_call
     address_lambda: !lambda "return id(second_door_station_id);"
     auto_off: 0.2s
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: apartment_doorbell
     name: "Apartment Doorbell"
     type: floor_call
     auto_off: 0.2s
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: pick_up_phone
     name: "Pick up phone"
     type: start_talking_door_station
@@ -280,7 +280,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: hang_up_phone
     name: "Hang up phone"
     type: stop_talking_door_station
@@ -289,7 +289,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: function_button
     name: "Function Button"
     auto_off: 0.2s
@@ -298,7 +298,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: light_button
     name: "Light Button"
     type: light

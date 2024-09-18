@@ -2,10 +2,10 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
 from esphome.const import CONF_ID, CONF_ICON, CONF_LAMBDA, CONF_TYPE
-from .. import tcs_intercom_ns, TCSIntercom, CONF_TCS_ID, COMMAND_TYPES
+from .. import tc_bus_ns, TCBus, CONF_TC_ID, COMMAND_TYPES
 
-TCSIntercomBinarySensor = tcs_intercom_ns.class_(
-    "TCSIntercomBinarySensor",
+TCBusBinarySensor = tc_bus_ns.class_(
+    "TCBusBinarySensor",
     binary_sensor.BinarySensor,
     cg.Component
 )
@@ -22,7 +22,7 @@ CONF_SERIAL_NUMBER = "serial_number"
 CONF_NAME = "name"
 CONF_AUTO_OFF = "auto_off"
 
-DEPENDENCIES = ["tcs_intercom"]
+DEPENDENCIES = ["tc_bus"]
 
 def validate(config):
     config = config.copy()
@@ -58,10 +58,10 @@ def validate(config):
     return config
 
 CONFIG_SCHEMA = cv.All(
-    binary_sensor.binary_sensor_schema(TCSIntercomBinarySensor).extend(
+    binary_sensor.binary_sensor_schema(TCBusBinarySensor).extend(
         {
-            cv.GenerateID(): cv.declare_id(TCSIntercomBinarySensor),
-            cv.GenerateID(CONF_TCS_ID): cv.use_id(TCSIntercom),
+            cv.GenerateID(): cv.declare_id(TCBusBinarySensor),
+            cv.GenerateID(CONF_TC_ID): cv.use_id(TCBus),
 
             cv.Optional(CONF_COMMAND): cv.hex_uint32_t,
             cv.Optional(CONF_COMMAND_LAMBDA): cv.returning_lambda,
@@ -120,5 +120,5 @@ async def to_code(config):
 
     cg.add(var.set_auto_off(config[CONF_AUTO_OFF]))
 
-    tcs_intercom = await cg.get_variable(config[CONF_TCS_ID])
-    cg.add(tcs_intercom.register_listener(var))
+    tc_bus = await cg.get_variable(config[CONF_TC_ID])
+    cg.add(tc_bus.register_listener(var))

@@ -7,7 +7,7 @@ packages:
 
 external_components:
   - source: github://AzonInc/Doorman@dev
-    components: [ tcs_intercom ]
+    components: [ tc_bus ]
     refresh: 60s
 
 update:

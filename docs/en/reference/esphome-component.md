@@ -10,8 +10,8 @@ This component requires hardware like the Doorman-S3 or a [DIY solution](https:/
 
 ## Configuration Options
 
-### TCS Intercom Hub
-The `tcs_intercom` hub component offers the following configuration options:
+### TC:BUS Hub
+The `tc_bus` hub component offers the following configuration options:
 
 | Option                 | Description                                                                                                                                   | Required | Default       |
 |------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
@@ -33,7 +33,6 @@ The **TCS Intercom Binary Sensor** detects binary states such as doorbell presse
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`             | Unique ID for the binary sensor component.                                                               | Yes      |               |
-| `tcs_intercom_id`| ID of the associated TCS intercom component that the binary sensor will listen to.                        | Yes      |               |
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
@@ -50,7 +49,7 @@ This ensures the binary sensor triggers either through a specific command or a c
 :::
 
 ## Callback
-The `on_command_action` callback of the `tcs_intercom` hub allows you to utilize the [CommandData](#command-data) structure, accessible as the `x` variable.
+The `on_command_action` callback of the `tc_bus` hub allows you to utilize the [CommandData](#command-data) structure, accessible as the `x` variable.
 
 ```yaml
 on_command_action:
@@ -64,7 +63,7 @@ on_command_action:
 
 ## Sending Commands
 
-You can send commands on the bus using the `tcs_intercom.send` action.
+You can send commands on the bus using the `tc_bus.send` action.
 
 ::: tip Note
 You can either use the `command` field to send a specific command or use the `type`, `address`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
@@ -74,7 +73,7 @@ You can either use the `command` field to send a specific command or use the `ty
 
 ```yaml
 on_...:
-  - tcs_intercom.send:
+  - tc_bus.send:
       command: 0x1A2B3C4D
 ```
 
@@ -82,7 +81,7 @@ on_...:
 
 ```yaml
 on_...:
-  - tcs_intercom.send:
+  - tc_bus.send:
       type: open_door
       address: 0
       serial_number: 123456
@@ -94,10 +93,10 @@ For some configurations, you may need to send multiple commands consecutively. I
 
 ```yaml
 on_...:
-  - tcs_intercom.send:
+  - tc_bus.send:
       command: 0x1100
   - delay: 100ms
-  - tcs_intercom.send:
+  - tc_bus.send:
       command: 0x2100
 ```
 
@@ -147,9 +146,9 @@ Be sure to modify the command and event name as needed based on your configurati
 Here is an example configuration for the TCS Intercom component in ESPHome:
 
 ```yaml
-# TCS Intercom configuration
-tcs_intercom:
-  id: my_tcs_intercom
+# TC:BUS configuration
+tc_bus:
+  id: my_tc_bus
   rx_pin: GPIO9
   tx_pin: GPIO8
   event: "doorman"
@@ -165,17 +164,15 @@ tcs_intercom:
 
 # Binary sensor for doorbell press
 binary_sensor:
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: doorbell_sensor
-    tcs_intercom_id: my_tcs_intercom
     name: "Doorbell Press"
     icon: "mdi:doorbell"
     command: 0x0C30BA80
     auto_off: 2s
 
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: door_opener_sensor
-    tcs_intercom_id: my_tcs_intercom
     name: "Someone opened the door of outdoor station 0"
     icon: "mdi:door"
     type: open_door
@@ -187,8 +184,7 @@ binary_sensor:
 script:
   - id: send_command
     then:
-      - tcs_intercom.send:
-          id: my_tcs_intercom
+      - tc_bus.send:
           command: 0x1C30BA80
 ```
 
@@ -205,8 +201,7 @@ script:
 If you need to calculate or dynamically derive the serial number, use the `serial_number_lambda` option:
 
 ```yaml
-tcs_intercom:
-  id: my_tcs_intercom
+tc_bus:
   serial_number_lambda: |-
     return 123456;  # Example of setting a dynamic serial number
 ```
@@ -226,7 +221,7 @@ struct CommandData {
 ```
 
 ## Command Types
-Here are the available command types you can use as binary sensor conditions or with the `tcs_intercom.send` action:
+Here are the available command types you can use as binary sensor conditions or with the `tc_bus.send` action:
 
 - unknown <Badge type="tip" text="COMMAND_TYPE_UNKNOWN" />
 - door_call <Badge type="tip" text="COMMAND_TYPE_DOOR_CALL" />

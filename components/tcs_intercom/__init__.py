@@ -7,17 +7,17 @@ from esphome.const import CONF_ID, ENTITY_CATEGORY_DIAGNOSTIC, CONF_TRIGGER_ID, 
 AUTO_LOAD = ["binary_sensor", "text_sensor"]
 
 CODEOWNERS = ["@azoninc"]
-tcs_intercom_ns = cg.esphome_ns.namespace("tcs_intercom")
-TCSIntercom = tcs_intercom_ns.class_("TCSComponent", cg.Component)
+tc_bus_ns = cg.esphome_ns.namespace("tc_bus")
+TCBus = tc_bus_ns.class_("TCBusComponent", cg.Component)
 
-TCSIntercomSendAction = tcs_intercom_ns.class_(
-    "TCSIntercomSendAction", automation.Action
+TCBusSendAction = tc_bus_ns.class_(
+    "TCBusSendAction", automation.Action
 )
 
-ReceivedCommandTrigger = tcs_intercom_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
-CommandData = tcs_intercom_ns.struct(f"CommandData")
+ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
+CommandData = tc_bus_ns.struct(f"CommandData")
 
-CommandType = tcs_intercom_ns.enum("Command_Type")
+CommandType = tc_bus_ns.enum("Command_Type")
 COMMAND_TYPES = {
     "unknown": CommandType.COMMAND_TYPE_UNKNOWN,
     "door_call": CommandType.COMMAND_TYPE_DOOR_CALL,
@@ -43,7 +43,7 @@ COMMAND_TYPES = {
     "found_device_subsystem": CommandType.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM
 }
 
-CONF_TCS_ID = "tcs_intercom"
+CONF_TC_ID = "tc_bus"
 
 CONF_RX_PIN = "rx_pin"
 CONF_TX_PIN = "tx_pin"
@@ -70,10 +70,10 @@ def validate_config(config):
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
-            cv.GenerateID(): cv.declare_id(TCSIntercom),
+            cv.GenerateID(): cv.declare_id(TCBus),
             cv.Optional(CONF_RX_PIN, default=9): pins.internal_gpio_input_pin_schema,
             cv.Optional(CONF_TX_PIN, default=8): pins.internal_gpio_output_pin_schema,
-            cv.Optional(CONF_EVENT, default="tcs"): cv.string,
+            cv.Optional(CONF_EVENT, default="tc"): cv.string,
             cv.Optional(CONF_SERIAL_NUMBER, default=0): cv.hex_uint32_t,
             cv.Optional(CONF_SERIAL_NUMBER_LAMBDA): cv.returning_lambda,
             cv.Optional(CONF_BUS_COMMAND): text_sensor.text_sensor_schema(
@@ -100,7 +100,7 @@ CONFIG_SCHEMA = cv.All(
 )
 
 async def to_code(config):
-    cg.add_global(tcs_intercom_ns.using)
+    cg.add_global(tc_bus_ns.using)
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 
@@ -148,10 +148,10 @@ def validate(config):
 
     return config
 
-TCS_INTERCOM_SEND_SCHEMA = cv.All(
+tc_bus_SEND_SCHEMA = cv.All(
     cv.Schema(
     {
-        cv.GenerateID(): cv.use_id(TCSIntercom),
+        cv.GenerateID(): cv.use_id(TCBus),
         cv.Optional(CONF_COMMAND): cv.templatable(cv.hex_uint32_t),
         cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_TYPE): cv.templatable(cv.enum(COMMAND_TYPES, upper=False)),
@@ -161,9 +161,9 @@ TCS_INTERCOM_SEND_SCHEMA = cv.All(
 )
 
 @automation.register_action(
-    "tcs_intercom.send", TCSIntercomSendAction, TCS_INTERCOM_SEND_SCHEMA
+    "tc_bus.send", TCBusSendAction, tc_bus_SEND_SCHEMA
 )
-async def tcs_intercom_send_to_code(config, action_id, template_args, args):
+async def tc_bus_send_to_code(config, action_id, template_args, args):
     parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
 

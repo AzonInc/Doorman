@@ -6,7 +6,7 @@ You can easily add additional binary sensors for any TCS Command, alongside the 
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
-  - platform: tcs_intercom // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
     command: 0x3b8f9a00 // [!code ++] // [!code focus]
 ```
@@ -63,7 +63,7 @@ You can use Home Assistant actions (formerly known as services) to send commands
 > Remember to include the leading `0x` when sending a HEX command. If you omit it, you'll need to convert the HEX command to a decimal number.
 
 ```yaml
-service: esphome.doorman_s3_send_tcs_command
+service: esphome.doorman_s3_send_tc_command
 data:
   command: 0x3a001100
 ```
@@ -138,7 +138,7 @@ text: // [!code ++] // [!code focus]
             id(custom_command_input)->publish_state(str_upper_case(format_hex(number))); // [!code ++] // [!code focus]
 
 binary_sensor: // [!code ++] // [!code focus]
-  - platform: tcs_intercom // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
     lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
 ```
@@ -161,9 +161,9 @@ sensor: // [!code ++] // [!code focus]
     update_interval: 500ms // [!code ++] // [!code focus]
     attenuation: 12dB // [!code ++] // [!code focus]
 
-# Extend tcs_intercom component // [!code ++] // [!code focus]
+# Extend tc_bus component // [!code ++] // [!code focus]
 # Allow RX pin to be used for other cases as well // [!code ++] // [!code focus]
-tcs_intercom: // [!code ++] // [!code focus]
+tc_bus: // [!code ++] // [!code focus]
   rx_pin: // [!code ++] // [!code focus]
     number: GPIO9 // [!code ++] // [!code focus]
     allow_other_uses: true // [!code ++] // [!code focus]
@@ -211,7 +211,7 @@ You can turn on the light when someone rings the entrance doorbell.
 binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
-      - tcs_intercom.send: // [!code ++] // [!code focus]
+      - tc_bus.send: // [!code ++] // [!code focus]
           command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 
@@ -238,7 +238,7 @@ binary_sensor: // [!code ++] // [!code focus]
               below: 1 // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
             # Turn on the light // [!code ++] // [!code focus]
-            - tcs_intercom.send: // [!code ++] // [!code focus]
+            - tc_bus.send: // [!code ++] // [!code focus]
                 command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 :::

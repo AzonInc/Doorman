@@ -13,9 +13,9 @@
 
 namespace esphome
 {
-    namespace tcs_intercom
+    namespace tc_bus
     {
-        class TCSIntercomListener
+        class TCBusListener
         {
             public:
                 void set_command_lambda(std::function<optional<uint32_t>()> &&f) { this->command_lambda_ = f; }
@@ -46,9 +46,9 @@ namespace esphome
                 optional<std::function<optional<uint8_t>()>> address_lambda_;
         };
 
-        struct TCSComponentStore
+        struct TCBusComponentStore
         {
-            static void gpio_intr(TCSComponentStore *arg);
+            static void gpio_intr(TCBusComponentStore *arg);
 
             static volatile uint32_t s_cmd;
             static volatile uint8_t s_cmdLength;
@@ -57,7 +57,7 @@ namespace esphome
             ISRInternalGPIOPin rx_pin;
         };
 
-        class TCSComponent : public Component
+        class TCBusComponent : public Component
         {
             public:
                 void set_rx_pin(InternalGPIOPin *pin) { this->rx_pin_ = pin; }
@@ -69,7 +69,7 @@ namespace esphome
                 void dump_config() override;
                 void loop() override;
 
-                void register_listener(TCSIntercomListener *listener);
+                void register_listener(TCBusListener *listener);
 
                 void set_sn(uint32_t serial_number) { this->serial_number_ = serial_number; }
                 void set_sn_lambda(std::function<optional<uint32_t>()> &&serial_number_lambda) { this->serial_number_lambda_ = serial_number_lambda; }
@@ -93,8 +93,8 @@ namespace esphome
                 InternalGPIOPin *tx_pin_;
                 const char* event_;
 
-                TCSComponentStore store_;
-                std::vector<TCSIntercomListener *> listeners_{};
+                TCBusComponentStore store_;
+                std::vector<TCBusListener *> listeners_{};
 
                 uint32_t serial_number_;
                 optional<std::function<optional<uint32_t>()>> serial_number_lambda_;
@@ -105,6 +105,6 @@ namespace esphome
                 std::string hardware_version_str_ = "Generic";
         };
 
-    }  // namespace tcs_intercom
+    }  // namespace tc_bus
 
 }  // namespace esphome

@@ -28,7 +28,7 @@ Just received your Doorman? Jump to the [Quickstart](getting-started) guide.
 - Solid-state relay for switching up to 40V (max. 2.5A), ideal for older intercom systems
 - External Button (G + BTN)
 - Bridge rectifier for bus-wire input to correct polarity
-- TCS bus communication for functions like opening the front door and detecting the doorbell
+- TC:BUS communication for functions like opening the front door and detecting the doorbell
 - Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
 
 ## Interested in Buying One?

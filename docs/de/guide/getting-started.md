@@ -11,7 +11,7 @@ Sofern du selbst ein PCB produzieren lassen hast, musst du zuerst die Firmware f
 ## Verkabelung
 Öffne als Erstes das Gehäuse deiner Gegensprechanlage. In den meisten Fällen findest du dort eine Schraubklemme mit den Bezeichnungen `a`, `b`, `E` und `P`.
 
-Schließe die `b`-Leitung (Ground) an einen der TCS:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TCS:BUS-Anschluss deines Doorman.
+Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss deines Doorman.
 
 ### Stromversorgungsoptionen:
 ::: details 3-Draht-Modus über die Gegensprechanlage <Badge type="tip" text="Empfohlen" />

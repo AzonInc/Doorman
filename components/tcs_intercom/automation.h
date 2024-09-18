@@ -1,18 +1,18 @@
 #pragma once
 
-#include "tcs_intercom.h"
+#include "tc_bus.h"
 
 #include "esphome/core/automation.h"
 #include "esphome/core/component.h"
 
 namespace esphome
 {
-    namespace tcs_intercom
+    namespace tc_bus
     {
-        template<typename... Ts> class TCSIntercomSendAction : public Action<Ts...>
+        template<typename... Ts> class TCBusSendAction : public Action<Ts...>
         {
             public:
-                TCSIntercomSendAction(TCSComponent *parent) : parent_(parent) {}
+                TCBusSendAction(TCBusComponent *parent) : parent_(parent) {}
                 TEMPLATABLE_VALUE(uint32_t, command)
                 TEMPLATABLE_VALUE(uint8_t, address)
                 TEMPLATABLE_VALUE(CommandType, type)
@@ -31,14 +31,14 @@ namespace esphome
                 }
 
             protected:
-                TCSComponent *parent_;
+                TCBusComponent *parent_;
         };
 
         class ReceivedCommandTrigger : public Trigger<CommandData> {
             public:
-                explicit ReceivedCommandTrigger(TCSComponent *parent) {
+                explicit ReceivedCommandTrigger(TCBusComponent *parent) {
                     parent->add_received_command_callback([this](const CommandData &value) { this->trigger(value); });
                 }
         };
-    }
-}
+    }  // namespace tc_bus
+}  // namespace esphome

@@ -6,7 +6,7 @@ Neben den bereits vordefinierten kannst du ganz leicht zusätzliche Binärsensor
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
-  - platform: tcs_intercom // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
     name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
     command: 0x3b8f9a00 // [!code ++] // [!code focus]
 ```
@@ -63,7 +63,7 @@ Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu sende
 > Denk daran, das führende `0x` beim Senden eines HEX-Kommandos einzufügen. Wenn du es weglässt, musst du den HEX-Befehl in eine Dezimalzahl umwandeln.
 
 ```yaml
-service: esphome.doorman_s3_send_tcs_command
+service: esphome.doorman_s3_send_tc_command
 data:
   command: 0x3a001100
 ```
@@ -138,7 +138,7 @@ text: // [!code ++] // [!code focus]
             id(custom_command_input)->publish_state(str_upper_case(format_hex(number))); // [!code ++] // [!code focus]
 
 binary_sensor: // [!code ++] // [!code focus]
-  - platform: tcs_intercom // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
     name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
     lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
 ```
@@ -163,7 +163,7 @@ sensor: // [!code ++] // [!code focus]
 
 # TCS-Intercom-Komponente erweitern // [!code ++] // [!code focus]
 # RX-Pin auch für andere Zwecke nutzen // [!code ++] // [!code focus]
-tcs_intercom: // [!code ++] // [!code focus]
+tc_bus: // [!code ++] // [!code focus]
   rx_pin: // [!code ++] // [!code focus]
     number: GPIO9 // [!code
 
@@ -213,7 +213,7 @@ Du kannst das Licht einschalten lassen, wenn jemand an der Eingangstür klingelt
 binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
-      - tcs_intercom.send: // [!code ++] // [!code focus]
+      - tc_bus.send: // [!code ++] // [!code focus]
           command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 
@@ -240,7 +240,7 @@ binary_sensor: // [!code ++] // [!code focus]
               below: 1 // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
             # Licht einschalten // [!code ++] // [!code focus]
-            - tcs_intercom.send: // [!code ++] // [!code focus]
+            - tc_bus.send: // [!code ++] // [!code focus]
                 command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
 ```
 :::

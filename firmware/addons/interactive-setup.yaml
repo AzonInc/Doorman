@@ -12,8 +12,8 @@ switch:
     on_turn_off:
       - script.execute: update_led
 
-# Extend TCS Intercom Component
-tcs_intercom:
+# Extend TC:BUS Component
+tc_bus:
   on_command_action:
     # If no second door station id is set, wait for one
     - if:

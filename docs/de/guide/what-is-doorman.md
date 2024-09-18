@@ -28,7 +28,7 @@ Du hast gerade deinen Doorman erhalten? Geh direkt zur [Quickstart](getting-star
 - Solid-State-Relais zum Schalten von Lasten bis zu 40V (max. 2,5A), ideal für ältere Gegensprechanlagen
 - Externer Button (G + BTN)
 - Brückengleichrichter zur Korrektur der Bus-Leitung-Polarität
-- TCS-Bus-Kommunikation für Funktionen wie das Öffnen der Haustür und das Erkennen der Klingel
+- TC:BUS-Kommunikation für Funktionen wie das Öffnen der Haustür und das Erkennen der Klingel
 - Kann als Nuki Bridge mit der [Nuki Bridge Firmware](firmware/nuki-bridge-firmware) verwendet werden. Beachte, dass diese Firmware nicht mit der Nuki App kompatibel ist, aber mit der Home Assistant App funktioniert.
 
 ## Möchtest du auch einen?

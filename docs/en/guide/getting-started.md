@@ -10,7 +10,7 @@ Please note that these instructions are based on the pre-flashed Doorman PCB tha
 ## Wiring
 First, open your intercom enclosure. On most models, you will find a screw terminal labeled with `a`, `b`, `E`, and `P`.
 
-Connect the `b` line (Ground) to one of the TCS:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TCS:BUS terminal on your Doorman.
+Connect the `b` line (Ground) to one of the TC:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TC:BUS terminal on your Doorman.
 
 ### Power supply options:
 ::: details 3-Wire Mode via intercom <Badge type="tip" text="Recommended" />

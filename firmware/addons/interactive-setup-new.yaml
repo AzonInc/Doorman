@@ -43,13 +43,13 @@ button:
       
       
       - logger.log: Search outdoor stations...
-      - tcs_intercom.send:
+      - tc_bus.send:
           command: 0x5802
       - globals.set:
           id: search_mode
           value: "1"
       - delay: 350ms
-      - tcs_intercom.send:
+      - tc_bus.send:
           command: 0x5200
       # Wait until every outdoor station sent response
       - delay: 5s
@@ -59,20 +59,20 @@ button:
       - globals.set:
           id: search_mode
           value: "2"
-      - tcs_intercom.send:
+      - tc_bus.send:
           command: 0x5800
       - delay: 350ms
-      - tcs_intercom.send:
+      - tc_bus.send:
           command: 0x5200
       # Wait until every indoor station sent response
       - delay: 10s
 
 
       - logger.log: Search indoor stations (1)...
-      - tcs_intercom.send:
+      - tc_bus.send:
           command: 0x5801
       - delay: 350ms
-      - tcs_intercom.send:
+      - tc_bus.send:
           command: 0x5200
       # Wait until every indoor station sent response
       - delay: 10s
@@ -98,7 +98,7 @@ button:
           blue: 0%
           effect: pulse
 
-tcs_intercom:
+tc_bus:
   bus_command:
     on_value:
       - if:

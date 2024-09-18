@@ -27,7 +27,7 @@ binary_sensor:
                   else:
                     - delay: !lambda "return (id(doorman_ring_to_open_delay).state*1000) + 300;"
 
-              - tcs_intercom.send:
+              - tc_bus.send:
                   type: open_door
                   address: 0
 
@@ -40,7 +40,7 @@ binary_sensor:
             - switch.is_on: doorman_ring_to_open
             - switch.is_on: doorman_ring_to_open_confirmation
           then:
-            - tcs_intercom.send:
+            - tc_bus.send:
                 type: floor_call
 
 

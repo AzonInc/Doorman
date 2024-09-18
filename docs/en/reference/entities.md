@@ -18,7 +18,7 @@ Reports the battery level of the paired Nuki smart lock.
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
 Activates whenever the `door_call` command type is received.
 
-### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" />
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `door_call` command type with the second entrance door station `address` is received.
 
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
@@ -81,7 +81,7 @@ Controls the Nuki pairing mode.
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
 Opens the entrance door by sending a `open_door` command on the bus.
 
-### Open Second Door <Badge type="tip" text="open_second_door" />
+### Open Second Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
 Opens the second entrance door by sending a `open_door` command with the `address` of the second outdoor station on the bus.
 
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />

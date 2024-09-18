@@ -81,7 +81,7 @@ blueprint:
           name: "Confirmation Action"
           description: "Action to run when notification is confirmed"
           default:
-            - service: esphome.doorman_s3_send_tcs_command
+            - service: esphome.doorman_s3_send_tc_command
               data:
                 command: "{{ open_door_command | int(base=16) }}"
           selector:
