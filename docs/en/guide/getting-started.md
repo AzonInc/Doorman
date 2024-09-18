@@ -66,30 +66,27 @@ Additionally, with mDNS support, Home Assistant will automatically discover your
 ### Step 2: Connect to Home Assistant
 After connecting Doorman to your network, it will blink slowly (blue) and should be automatically discovered by Home Assistant. Simply click on `Configure` to add the newly discovered ESPHome node.
 
-### Step 3: Bus Commands
+### Step 3: Interactive Setup
 ::: tip
-After connecting your Doorman to Home Assistant, the `Interactive Setup` Process will automatically begin as described below.
+When you first connect your Doorman to Home Assistant, it will be in `Setup Mode` for interactive setup already.
 
-There's no need to start it manually; it will initiate automatically on every restart, provided the process hasn't been completed or canceled.
+You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed or canceled.
 :::
 
-#### Interactive Setup <Badge type="warning" text="NEW" />
-To simplify the configuration of the key commands, you can use the Interactive Setup Process.
+1. **Access the Settings:**\
+   Open the settings either through your Doorman’s internal web server or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the Doorman S3 device.
 
-To get started, either access the internal web server of your Doorman or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the newly listed Doorman S3 device entry.
+2. **Activate Setup Mode:**\
+   Go to the `Configuration` section and enable `Setup Mode` to begin the interactive setup.
 
-In the `Configuration` section, you will find the `Interactive Setup: Start` button. Click this button to initiate the setup process.
+3. **Perform the Setup:**\
+   The RGB status LED will pulse green-turquoise. Press the doorbell button at your apartment or entrance.
 
-Once started, the `Interactive Setup: Status` Text Sensor will guide you through the required steps (e.g., press button X, wait, or pick up the phone).\
-During the setup, the RGB Status LED will pulse green-turquoise while waiting for you to complete each task and will remain solid green-turquoise for 3 seconds after saving the command.
+4. **Complete the Setup:**\
+   After pressing the doorbell button, the LED will stay green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
 
-After the setup is complete, the process will automatically end and display the corresponding status.
-
-#### Manual: No pain, no gain!
-You will also find the good old `Last Bus Command` Text Sensor that tracks the most recent bus command in hexadecimal format.
-Additionally, each received command is logged in the ESPHome Console (at the Debug log level) and published as a Home Assistant event.
-
-To capture the codes, press the buttons on your intercom phone and then copy the codes into the corresponding configuration text inputs.
+If you have multiple door stations, the firmware will attempt to automatically detect the additional station.
+To enable detection of the second doorbell and the ability to unlock the second door, you must press the second doorbell or unlock the second door at least once to store its address.
 
 ## ESPHome adoption
 

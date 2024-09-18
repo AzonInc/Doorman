@@ -380,7 +380,7 @@ namespace esphome
                         if (cmd_data.command == listener_command) {
                             allow_publish = true;
                         }
-                    } else if (cmd_data.type == listener_type && cmd_data.address == listener_address) {
+                    } else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255)) {
                         if (listener_serial_number != 0) {
                             if (cmd_data.serial_number == listener_serial_number) {
                                 allow_publish = true;

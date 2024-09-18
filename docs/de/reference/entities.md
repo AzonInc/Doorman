@@ -16,22 +16,25 @@ Meldet den Akkustand des verbundenen Nuki Smart Locks.
 ## Binäre Sensoren
 
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
-Wird aktiviert, wenn der Befehl `entrance_doorbell_command` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `door_call` empfangen wird.
+
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" />
+Wird aktiviert, wenn der Befehl vom Typ `door_call` mit zweiter Außenstation `address` empfangen wird.
 
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
-Wird aktiviert, wenn der Befehl `apartment_doorbell_command` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `floor_call` empfangen wird.
 
 ### Pick up phone <Badge type="tip" text="pick_up_phone" /> <Badge type="info" text="Deaktiviert" />
-Wird aktiviert, wenn der Befehl `pick_up_phone_command` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `start_talking_door_station` empfangen wird.
 
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Deaktiviert" />
-Wird aktiviert, wenn der Befehl `hang_up_phone_command` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `stop_talking_door_station` empfangen wird.
 
 ### Function Button <Badge type="tip" text="function_button" /> <Badge type="info" text="Deaktiviert" />
-Wird aktiviert, wenn der Befehl `function_button_command` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `control_function` empfangen wird.
 
 ### Light Button <Badge type="tip" text="light_button" /> <Badge type="info" text="Deaktiviert" />
-Wird aktiviert, wenn der Befehl `light_button_command` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `light` empfangen wird.
 
 ### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Deaktiviert" />
 Wird aktiviert, wenn der `FLASH` bzw. `PRG` Button auf deinem Doorman gedrückt wird.
@@ -66,6 +69,9 @@ Steuert die Einschaltbestätigung für die [Ring To Open](../guide/automation/ri
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Deaktiviert" />
 Steuert das eingebaute Relais.
 
+### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
+Aktiviert oder deaktiviert den Modus für die [interaktive Einrichtung](../guide/getting-started#schritt-3-interaktive-einrichtung).
+
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
 Steuert den Nuki Kopplungsmodus.
 
@@ -73,16 +79,13 @@ Steuert den Nuki Kopplungsmodus.
 ## Buttons
 
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
-Öffnet die Eingangstür, indem der Befehl `open_entrance_door_command` auf dem Bus gesendet wird.
+Öffnet die Eingangstür, indem der Befehlvom Typ `open_door` auf dem Bus gesendet wird.
+
+### Open Second Door <Badge type="tip" text="open_second_door" />
+Öffnet die zweite Eingangstür, indem der Befehl vom Typ `open_door` mit `address` der zweiten Außenstelle auf dem Bus gesendet wird.
 
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Deaktiviert" />
 Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
-
-### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
-Startet den [Interactive Setup](../guide/getting-started#interactive-setup) Prozess um Bus Commands einzurichten.
-
-### Interactive Setup: Cancel <Badge type="tip" text="doorman_interactive_setup_cancel" />
-Beendet den [Interactive Setup](../guide/getting-started#interactive-setup) Prozess.
 
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
 Entkoppelt dein Nuki Smart Lock.
@@ -101,31 +104,6 @@ Alle Zugangsdaten, globalen Variablen, Zähler und gespeicherten Zustände, die 
 
 Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfiguriert hast, werden auch die WiFi-Einstellungen zurückgesetzt, wodurch solche Geräte offline gehen. Du musst das Gerät dann über einen eingebauten WiFi-Access-Point und das Captive Portal neu konfigurieren.
 :::
-
-## Eingabe für Text
-
-### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn jemand an der Wohnungsklingel läutet.
-
-### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn jemand an der Eingangsklingel läutet.
-
-### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn du den Knopf zum Öffnen der Eingangstür drückst.
-
-### Command: Pick up phone <Badge type="tip" text="pick_up_phone_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn du den Hörer abnimmst.
-
-### Command: Hang up phone <Badge type="tip" text="hang_up_phone_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn du den Hörer auflegst.
-
-### Command: Light Button <Badge type="tip" text="light_button_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn du den Knopf zum Einschalten des Flurlichts drückst.
-
-### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Deaktiviert" />
-Legt den Code fest, der gesendet wird, wenn du den Funktionstaster (Kreis) drückst.\
-Der Funktionstaster wird üblicherweise nicht genutzt.\
-Aus diesem Grund wird er verwendet, um die [Ring To Open](../guide/automation/ring-to-open) Automatisierung umzuschalten. 
 
 ## Eingabe für Zahlenwert
 
@@ -163,6 +141,9 @@ Wird ausgelöst, wenn ein Klingelmuster erkannt wird. Erfahre mehr über Mustere
 - entrance_single
 - entrance_double
 - entrance_triple
+- second_entrance_single
+- second_entrance_double
+- second_entrance_triple
 
 ### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
 Wird ausgelöst, wenn ein Abhebe-Muster des Telefons erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).

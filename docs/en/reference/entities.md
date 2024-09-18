@@ -16,22 +16,25 @@ Reports the battery level of the paired Nuki smart lock.
 ## Binary Sensors
 
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
-Activates whenever the `entrance_doorbell_command` command is received.
+Activates whenever the `door_call` command type is received.
+
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" />
+Activates whenever the `door_call` command type with the second entrance door station `address` is received.
 
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
-Activates whenever the `apartment_doorbell_command` command is received.
+Activates whenever the `floor_call` command type is received.
 
 ### Pick up phone <Badge type="tip" text="pick_up_phone" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `pick_up_phone_command` command is received.
+Activates whenever the `start_talking_door_station` command type is received.
 
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `hang_up_phone_command` command is received.
+Activates whenever the `stop_talking_door_station` command type is received.
 
 ### Function Button <Badge type="tip" text="function_button" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `function_button_command` command is received.
+Activates whenever the `control_function` command type is received.
 
 ### Light Button <Badge type="tip" text="light_button" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `light_button_command` command is received.
+Activates whenever the `light` command type is received.
 
 ### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" />
 Activates when the `FLASH` or `PRG` button on the PCB is pressed.
@@ -66,6 +69,9 @@ Controls the turn-on confirmation for the [Ring To Open](../guide/automation/rin
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 Controls the built-in relay.
 
+### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
+Toggles the [Interactive Setup](../guide/getting-started#step-3-interactive-setup) Mode to easily setup your Doorman.
+
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki pairing mode.
 
@@ -73,16 +79,13 @@ Controls the Nuki pairing mode.
 ## Buttons
 
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
-Opens the entrance door by sending the `open_entrance_door_command` command on the Bus.
+Opens the entrance door by sending a `open_door` command on the bus.
+
+### Open Second Door <Badge type="tip" text="open_second_door" />
+Opens the second entrance door by sending a `open_door` command with the `address` of the second outdoor station on the bus.
 
 ### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
-Turns on the light by sending the `light_button_command` command on the Bus.
-
-### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
-Starts the [Interactive Setup](../guide/getting-started#interactive-setup) Process to interactively setup bus commands.
-
-### Interactive Setup: Cancel <Badge type="tip" text="doorman_interactive_setup_cancel" />
-Cancels the [Interactive Setup](../guide/getting-started#interactive-setup) Process.
+Turns on the light by sending a `light` command on the bus.
 
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Unpairs your Nuki smart lock.
@@ -101,31 +104,6 @@ All credentials, global variables, counters, and saved states stored in non-vola
 If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
 :::
 
-
-## Texts
-
-### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when someone rings the apartment doorbell.
-
-### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when someone rings the entrance doorbell.
-
-### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to open the entrance door.
-
-### Command: Pick up phone <Badge type="tip" text="pick_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you pick up the phone.
-
-### Command: Hang up phone <Badge type="tip" text="hang_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you hang up the phone.
-
-### Command: Light Button <Badge type="tip" text="light_button_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to turn on the hallway light.
-
-### Command: Function Button <Badge type="tip" text="function_button_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code that is sent when you press the function button (circle).\
-The function button is usually not used.\
-For this reason, it is used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
 
 ## Numbers
 
@@ -165,6 +143,9 @@ Triggers each time a doorbell pattern is detected. Learn more about pattern even
 - entrance_single
 - entrance_double
 - entrance_triple
+- second_entrance_single
+- second_entrance_double
+- second_entrance_triple
 
 ### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
 Triggers each time a phone pick up pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
@@ -173,7 +154,6 @@ Triggers each time a phone pick up pattern is detected. Learn more about pattern
 - single
 - double
 - triple
-
 
 ## Updates
 

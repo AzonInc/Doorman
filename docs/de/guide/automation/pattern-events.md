@@ -18,6 +18,9 @@ Sieh dir die [fortgeschrittenen Beispiele](../firmware/stock-firmware#fortgeschr
 - entrance_single
 - entrance_double
 - entrance_triple
+- second_entrance_single
+- second_entrance_double
+- second_entrance_triple
 
 ### Beispiel-Automatisierung
 ::: details Tür automatisch öffnen, wenn die Eingangsklingel zweimal in einem bestimmten Muster gedrückt wird.

@@ -256,9 +256,15 @@ binary_sensor:
     id: entrance_doorbell
     name: "Entrance Doorbell"
     type: door_call
-    address: 0
     auto_off: 0.2s
-  
+
+  - platform: tcs_intercom
+    id: second_entrance_doorbell
+    name: "Second Entrance Doorbell"
+    type: door_call
+    address_lambda: !lambda "return id(second_door_station_id);"
+    auto_off: 0.2s
+
   - platform: tcs_intercom
     id: apartment_doorbell
     name: "Apartment Doorbell"
@@ -269,7 +275,7 @@ binary_sensor:
     id: pick_up_phone
     name: "Pick up phone"
     type: start_talking_door_station
-    address: 0
+    address: 255
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
@@ -278,7 +284,7 @@ binary_sensor:
     id: hang_up_phone
     name: "Hang up phone"
     type: stop_talking_door_station
-    address: 0
+    address: 255
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
