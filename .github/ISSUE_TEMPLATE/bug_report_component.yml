@@ -1,0 +1,30 @@
+name: TC:BUS Component Bug Report
+description: Report bugs or get help with the TC:BUS ESPHome component 
+labels: ["bug"]
+assignees:
+  - AzonInc
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe the bug you encountered, and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Please copy and paste any relevant log output.
+      render: plain text
+  - type: input
+    id: esphome-version
+    attributes:
+      label: If you're using an ESPHome YAML config, which version of ESPHome are you running?
+      placeholder: "2024.3.0"
+  - type: textarea
+    id: esphome-config
+    attributes:
+      label: ESPHome Config
+      description: If you have your own ESPHome YAML configuration, please paste it here. Remember to redact any sensitive information like encryption keys or passwords.
+      render: YAML
