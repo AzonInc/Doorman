@@ -152,8 +152,40 @@ namespace esphome
 
             if(s.s_cmdReady)
             {
-                ESP_LOGD(TAG, "Received command %08X", s.s_cmd);
-                this->publish_command(s.s_cmd, true);
+                if(reading_eeprom_)
+                {
+                    ESP_LOGD(TAG, "Received 4 EEPROM Blocks starting at: %i", (reading_eeprom_count_ * 4));
+
+                    // Save Data to EEPROM Store
+                    eeprom_buffer_.push_back((s.s_cmd >> 24) & 0xFF);
+                    eeprom_buffer_.push_back((s.s_cmd >> 16) & 0xFF);
+                    eeprom_buffer_.push_back((s.s_cmd >> 8) & 0xFF);
+                    eeprom_buffer_.push_back(s.s_cmd & 0xFF);
+
+                    // Next 4 Data Blocks
+                    reading_eeprom_count_++;
+
+                    if(reading_eeprom_count_ == 12)
+                    {
+                        // Turn off
+                        reading_eeprom_ = false;
+
+                        std::string hexString = str_upper_case(format_hex(eeprom_buffer_));
+                        ESP_LOGD(TAG, "EEPROM Data: %s", hexString.c_str());
+                    }
+                    else
+                    {
+                        delay(50);
+
+                        // Request Data Blocks
+                        request_eeprom_blocks(reading_eeprom_count_);
+                    }
+                }
+                else
+                {
+                    ESP_LOGD(TAG, "Received command %08X", s.s_cmd);
+                    this->publish_command(s.s_cmd, true);
+                }
 
                 s.s_cmdReady = false;
                 s.s_cmd = 0;
@@ -346,7 +378,8 @@ namespace esphome
             }
 
             // If the command was received, notify the listeners
-            if (received) {
+            if (received)
+            {
                 // Fire Callback
                 this->received_command_callback_.call(cmd_data);
 
@@ -512,6 +545,46 @@ namespace esphome
         void TCBusComponent::set_programming_mode(bool enabled)
         {
             send_command(enabled ? 0x5041 : 0x5040);
+        }
+
+        void TCBusComponent::read_eeprom(uint32_t serial_number)
+        {
+            if(serial_number == 0)
+            {
+                serial_number = this->serial_number_;
+                if (serial_number_lambda_.has_value()) {
+                    auto optional_value = (*serial_number_lambda_)();
+                    if (optional_value.has_value()) {
+                        serial_number = optional_value.value();
+                    }
+                }
+            }
+
+            eeprom_buffer_.clear();
+            reading_eeprom_count_ = 0;
+            reading_eeprom_ = false;
+
+            ESP_LOGD(TAG, "Select Indoor Stations");
+            send_command(0x5800); //select indoor stations
+            delay(50);
+
+            ESP_LOGD(TAG, "Select Serial Number: %i", serial_number);
+            uint32_t select_cmd = 0x81000000; // Select Page 0 of SN
+            select_cmd |= ((serial_number & 0xFFFFF) << 0); // C30BA
+            send_command(select_cmd); // select serial number
+            delay(50);
+
+            reading_eeprom_ = true;
+            reading_eeprom_count_ = 0;
+            request_eeprom_blocks(reading_eeprom_count_);
+        }
+
+        void TCBusComponent::request_eeprom_blocks(uint8_t start_address)
+        {
+            ESP_LOGD(TAG, "Request 4 EEPROM Bytes starting at: %i", (start_address * 4));
+
+            uint32_t cmd = 0x8400 | (start_address * 4);
+            send_command(cmd);
         }
 
     }  // namespace tc_bus

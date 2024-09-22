@@ -174,6 +174,8 @@ namespace esphome
                                 // request type and version
                                 // request versions of subdevices
                                 // Not implemented
+
+                                // 5 12345 C0
                                 break;
 
                             default:
@@ -185,6 +187,20 @@ namespace esphome
                     case 6:
                         data.type = COMMAND_TYPE_CONTROL_FUNCTION;
                         data.address = (command & 0xFF); // Function number
+                        break;
+
+                    case 8:
+                        // 81 0 00000
+                        // select eeprom page of serial number
+                        
+                        switch ((command >> 24) & 0xF)
+                        {
+                            case 1:
+                                data.type = COMMAND_TYPE_SELECT_EEPROM_PAGE;
+                                data.address = (command >> 20) & 0xF;
+                                data.serial_number = command & 0xFFFFF;
+                                break;
+                        }
                         break;
                 }
             }
@@ -251,6 +267,16 @@ namespace esphome
                             break;
                     }
                 }
+                else if (first == 8)
+                {
+                    switch(second)
+                    {
+                        case 4:
+                            data.type = COMMAND_TYPE_READ_EEPROM_BLOCK;
+                            data.address = (command & 0xFF);
+                            break;
+                    }
+                }
             }
 
             return data;
@@ -283,6 +309,8 @@ namespace esphome
                 case COMMAND_TYPE_FOUND_DEVICE: return "FOUND_DEVICE";
                 case COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM: return "FOUND_DEVICE_SUBSYSTEM";
                 case COMMAND_TYPE_PROGRAMMING_MODE: return "PROGRAMMING_MODE";
+                case COMMAND_TYPE_READ_EEPROM_BLOCK: return "READ_EEPROM_BLOCK";
+                case COMMAND_TYPE_SELECT_EEPROM_PAGE: return "SELECT_EEPROM_PAGE";
                 default: return "UNKNOWN";
             }
         }

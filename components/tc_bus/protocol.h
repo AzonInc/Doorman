@@ -29,7 +29,9 @@ namespace esphome
             COMMAND_TYPE_SEARCH_DEVICES,
             COMMAND_TYPE_FOUND_DEVICE,
             COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
-            COMMAND_TYPE_PROGRAMMING_MODE
+            COMMAND_TYPE_PROGRAMMING_MODE,
+            COMMAND_TYPE_READ_EEPROM_BLOCK,
+            COMMAND_TYPE_SELECT_EEPROM_PAGE
         };
 
         struct CommandData {

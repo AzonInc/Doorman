@@ -46,6 +46,18 @@ namespace esphome
                 TCBusComponent *parent_;
         };
 
+        template<typename... Ts> class TCBusReadEEPROMAction : public Action<Ts...>
+        {
+            public:
+                TCBusReadEEPROMAction(TCBusComponent *parent) : parent_(parent) {}
+                TEMPLATABLE_VALUE(uint32_t, serial_number)
+
+                void play(Ts... x) { this->parent_->read_eeprom(this->serial_number_.value(x...)); }
+
+            protected:
+                TCBusComponent *parent_;
+        };
+
         class ReceivedCommandTrigger : public Trigger<CommandData> {
             public:
                 explicit ReceivedCommandTrigger(TCBusComponent *parent) {

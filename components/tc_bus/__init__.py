@@ -18,6 +18,10 @@ TCBusProgrammingModeAction = tc_bus_ns.class_(
     "TCBusProgrammingModeAction", automation.Action
 )
 
+TCBusReadEEPROMAction = tc_bus_ns.class_(
+    "TCBusReadEEPROMAction", automation.Action
+)
+
 ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
 CommandData = tc_bus_ns.struct(f"CommandData")
 
@@ -46,6 +50,8 @@ COMMAND_TYPES = {
     "found_device": CommandType.COMMAND_TYPE_FOUND_DEVICE,
     "found_device_subsystem": CommandType.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
     "programming_mode": CommandType.COMMAND_TYPE_PROGRAMMING_MODE,
+    "read_eeprom_block": CommandType.COMMAND_TYPE_READ_EEPROM_BLOCK,
+    "select_eeprom_page": CommandType.COMMAND_TYPE_SELECT_EEPROM_PAGE,
 }
 
 CONF_TC_ID = "tc_bus"
@@ -210,5 +216,25 @@ async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, 
 
     programming_mode_template_ = await cg.templatable(config[CONF_PROGRAMMING_MODE], args, cg.bool_)
     cg.add(var.set_programming_mode(programming_mode_template_))
+    
+    return var
+
+
+@automation.register_action(
+    "tc_bus.read_eeprom",
+    TCBusReadEEPROMAction,
+    automation.maybe_simple_id(
+        {
+            cv.GenerateID(): cv.use_id(TCBus),
+            cv.Optional(CONF_SERIAL_NUMBER, default=0): cv.templatable(cv.hex_uint32_t)
+        }
+    ),
+)
+async def tc_bus_read_eeprom_to_code(config, action_id, template_args, args):
+    parent = await cg.get_variable(config[CONF_ID])
+    var = cg.new_Pvariable(action_id, template_args, parent)
+
+    serial_number_template_ = await cg.templatable(config[CONF_SERIAL_NUMBER], args, cg.uint32)
+    cg.add(var.set_serial_number(serial_number_template_))
     
     return var

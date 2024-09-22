@@ -80,13 +80,14 @@ namespace esphome
 
                 void send_command(uint32_t command);
                 void send_command_generate(CommandType type, uint8_t address, uint32_t serial_number);
+                void set_programming_mode(bool enabled);
+                void read_eeprom(uint32_t serial_number);
+                void request_eeprom_blocks(uint8_t start_address);
 
                 void publish_command(uint32_t command, bool fire_events);
 
                 void add_received_command_callback(std::function<void(CommandData)> &&callback);
                 CallbackManager<void(CommandData)> received_command_callback_{};
-
-                void set_programming_mode(bool enabled);
 
                 bool sending;
 
@@ -107,6 +108,10 @@ namespace esphome
                 std::string hardware_version_str_ = "Generic";
 
                 bool programming_mode_ = false;
+
+                bool reading_eeprom_ = false;
+                uint8_t reading_eeprom_count_ = 0;
+                std::vector<uint8_t> eeprom_buffer_;
         };
 
     }  // namespace tc_bus
