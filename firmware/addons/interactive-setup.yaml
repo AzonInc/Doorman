@@ -14,7 +14,7 @@ switch:
 
 # Extend TC:BUS Component
 tc_bus:
-  on_command_action:
+  on_command:
     # If no second door station id is set, wait for one
     - if:
         condition:

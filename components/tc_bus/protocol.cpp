@@ -6,7 +6,7 @@ namespace esphome
 {
     namespace tc_bus
     {
-        uint32_t buildCommand(CommandType type, uint8_t address, uint32_t serial_number)
+        uint32_t buildCommand(CommandType type, uint8_t address, uint32_t payload, uint32_t serial_number)
         {
             uint32_t command = 0;
 
@@ -77,37 +77,61 @@ namespace esphome
                 case COMMAND_TYPE_LIGHT:
                     command |= (1 << 12); // 1
                     command |= (2 << 8);  // 2
-                    command |= (address & 0xFF); // 00
                     break;
 
                 case COMMAND_TYPE_CONTROL_FUNCTION:
                     command |= (6 << 28); // 6
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
-                    command |= (address & 0xFF); // 08
+                    command |= (payload & 0xFF); // 08
                     break;
 
                 case COMMAND_TYPE_RESET:
                     command |= (5 << 12); // 5
-                    command |= (1 << 8);  // 10
-                    command |= (address & 0xFF); // 0
+                    command |= (1 << 8);  // 100
                     break;
 
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP:
                     command |= (5 << 12); // 5
                     command |= (8 << 8);  // 80
-                    command |= (address & 0xFF); // 0
+                    command |= (payload & 0xFF); // 0
                     break;
 
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET:
                     command |= (5 << 12); // 5
                     command |= (9 << 8);  // 90
-                    command |= (address & 0xFF); // 0
+                    command |= (payload & 0xFF); // 0
                     break;
 
                 case COMMAND_TYPE_SEARCH_DEVICES:
                     command |= (5 << 12); // 5
                     command |= (2 << 8);  // 20
-                    command |= (address & 0xFF); // 0
+                    break;
+
+                case COMMAND_TYPE_PROGRAMMING_MODE:
+                    command |= (5 << 12); // 5
+                    command |= (0 << 8);  // 0
+                    command |= (4 << 4);  // 4
+                    command |= (payload & 0xF); // 0 / 1
+                    break;
+
+                case COMMAND_TYPE_READ_MEMORY_BLOCK:
+                    command |= (8 << 12); // 8
+                    command |= (4 << 8);  // 4
+                    command |= ((address * 4) & 0xFF); // 00
+                    break;
+
+                case COMMAND_TYPE_WRITE_MEMORY:
+                    command |= (8 << 28); // 8
+                    command |= (2 << 24); // 2
+                    command |= (address & 0xFF) << 16; // start address
+                    command |= payload & 0xFFFF; // ABCD payload
+                    break;
+
+                case COMMAND_TYPE_SELECT_MEMORY_PAGE:
+                    command |= (8 << 28); // 8
+                    command |= (1 << 24); // 1
+                    command |= (address & 0xF) << 20; // page
+                    command |= serial_number & 0xFFFFF;
                     break;
 
                 default:
@@ -122,7 +146,8 @@ namespace esphome
             CommandData data{};
             data.command = command;
             data.type = COMMAND_TYPE_UNKNOWN;
-            data.address = command & 0xF;
+            data.address = 0;
+            data.payload = 0;
 
             // Convert to HEX and determine length
             data.command_hex = str_upper_case(format_hex(command));
@@ -136,22 +161,30 @@ namespace esphome
                 {
                     case 0:
                         data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CALL : COMMAND_TYPE_INTERNAL_CALL;
+                        data.address = command & 0xF;
                         break;
 
                     case 1:
                         if ((command & 0xFF) == 0x41)
                         {
                             data.type = COMMAND_TYPE_FLOOR_CALL;
-                            data.address = 0;
                         }
                         else if (command & (1 << 7))
                         {
                             data.type = COMMAND_TYPE_OPEN_DOOR;
+                            data.address = command & 0xF;
                         }
                         break;
 
                     case 3:
                         data.type = (command & (1 << 7)) ? COMMAND_TYPE_START_TALKING_IA : COMMAND_TYPE_START_TALKING_DOOR_STATION;
+                        data.address = command & 0xF;
+
+                        // Door Readiness
+                        if(data.type == COMMAND_TYPE_START_TALKING_DOOR_STATION)
+                        {
+                            data.payload = (command & (1 << 8)) != 0;
+                        }
                         break;
 
                     case 5:
@@ -159,10 +192,12 @@ namespace esphome
                         {
                             case 1:
                                 data.type = COMMAND_TYPE_FOUND_DEVICE;
+                                data.address = command & 0xF;
                                 break;
                             
                             case 4:
                                 data.type = COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM;
+                                data.address = command & 0xF;
                                 break;
 
                             case 8:
@@ -186,19 +221,23 @@ namespace esphome
 
                     case 6:
                         data.type = COMMAND_TYPE_CONTROL_FUNCTION;
-                        data.address = (command & 0xFF); // Function number
+                        data.payload = (command & 0xFF); // Function number
                         break;
 
                     case 8:
-                        // 81 0 00000
-                        // select eeprom page of serial number
-                        
                         switch ((command >> 24) & 0xF)
                         {
                             case 1:
-                                data.type = COMMAND_TYPE_SELECT_EEPROM_PAGE;
+                            case 9:
+                                data.type = COMMAND_TYPE_SELECT_MEMORY_PAGE;
                                 data.address = (command >> 20) & 0xF;
                                 data.serial_number = command & 0xFFFFF;
+                                break;
+
+                            case 2:
+                                data.type = COMMAND_TYPE_WRITE_MEMORY;
+                                data.address = (command >> 16) & 0xFF;
+                                data.payload = command & 0xFFFF;
                                 break;
                         }
                         break;
@@ -213,9 +252,14 @@ namespace esphome
                 if (first == 1)
                 {
                     if (second == 1)
+                    {
                         data.type = COMMAND_TYPE_OPEN_DOOR;
+                        data.address = command & 0xF;
+                    }
                     else if (second == 2)
+                    {
                         data.type = COMMAND_TYPE_LIGHT;
+                    }
                 }
                 else if (first == 2)
                 {
@@ -234,36 +278,46 @@ namespace esphome
                             data.type = COMMAND_TYPE_INITIALIZE_DOOR_STATION;
                             break;
                     }
+
+                    data.address = command & 0xF;
                 }
                 else if (first == 3)
                 {
                     data.type = (command & (1 << 7)) ? COMMAND_TYPE_STOP_TALKING_IA : COMMAND_TYPE_STOP_TALKING_DOOR_STATION;
+                    data.address = command & 0xF;
                 }
                 else if (first == 5)
                 {
                     switch(second)
                     {
                         case 0:
-                            if (((command >> 6) & 0xFF) == 0x40 || ((command >> 6) & 0xFF) == 0x41)
+                            switch((command >> 4) & 0xF)
                             {
-                                data.type = COMMAND_TYPE_PROGRAMMING_MODE;
+                                case 4:
+                                    data.type = COMMAND_TYPE_PROGRAMMING_MODE;
+                                    data.payload = command & 0xF;
+                                    break;
                             }
                             break;
 
                         case 1:
                             data.type = COMMAND_TYPE_RESET;
+                            data.address = command & 0xF;
                             break;
 
                         case 2:
                             data.type = COMMAND_TYPE_SEARCH_DEVICES;
+                            data.payload = command & 0xF;
                             break;
 
                         case 8:
                             data.type = COMMAND_TYPE_SELECT_DEVICE_GROUP;
+                            data.payload = command & 0xF;
                             break;
 
                         case 9:
                             data.type = COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET;
+                            data.payload = command & 0xF;
                             break;
                     }
                 }
@@ -271,9 +325,14 @@ namespace esphome
                 {
                     switch(second)
                     {
-                        case 4:
-                            data.type = COMMAND_TYPE_READ_EEPROM_BLOCK;
+                        case 1:
+                            data.type = COMMAND_TYPE_SELECT_MEMORY_PAGE;
                             data.address = (command & 0xFF);
+                            break;
+
+                        case 4:
+                            data.type = COMMAND_TYPE_READ_MEMORY_BLOCK;
+                            data.address = (command & 0xFF) / 4;
                             break;
                     }
                 }
@@ -309,8 +368,9 @@ namespace esphome
                 case COMMAND_TYPE_FOUND_DEVICE: return "FOUND_DEVICE";
                 case COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM: return "FOUND_DEVICE_SUBSYSTEM";
                 case COMMAND_TYPE_PROGRAMMING_MODE: return "PROGRAMMING_MODE";
-                case COMMAND_TYPE_READ_EEPROM_BLOCK: return "READ_EEPROM_BLOCK";
-                case COMMAND_TYPE_SELECT_EEPROM_PAGE: return "SELECT_EEPROM_PAGE";
+                case COMMAND_TYPE_READ_MEMORY_BLOCK: return "READ_MEMORY_BLOCK";
+                case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
+                case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
                 default: return "UNKNOWN";
             }
         }

@@ -1,0 +1,43 @@
+# Memory Utils Addon
+
+# Extend TC:BUS Component
+tc_bus:
+  on_read_memory_complete:
+    - logger.log: "Completed memory reading!"
+    - lambda: |-
+        std::string hexString = str_upper_case(format_hex(x));
+        ESP_LOGD("tcs_bus", "Memory Dump: %s", hexString.c_str());
+
+  on_read_memory_timeout:
+    - logger.log: "Failed to read Memory"
+
+number:
+  - platform: template
+    name: "Ringtone volume"
+    optimistic: true
+    min_value: 0
+    max_value: 7
+    step: 1
+    set_action:
+      then:
+        - tc_bus.update_setting:
+            type: volume_ringtone
+            value: !lambda "return x;"
+
+  - platform: template
+    name: "Handset volume"
+    optimistic: true
+    min_value: 0
+    max_value: 7
+    step: 1
+    set_action:
+      then:
+        - tc_bus.update_setting:
+            type: volume_handset
+            value: !lambda "return x;"
+
+button:
+  - platform: template
+    name: "Read Memory"
+    on_press:
+      - tc_bus.read_memory:

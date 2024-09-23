@@ -30,20 +30,22 @@ namespace esphome
             COMMAND_TYPE_FOUND_DEVICE,
             COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
             COMMAND_TYPE_PROGRAMMING_MODE,
-            COMMAND_TYPE_READ_EEPROM_BLOCK,
-            COMMAND_TYPE_SELECT_EEPROM_PAGE
+            COMMAND_TYPE_READ_MEMORY_BLOCK,
+            COMMAND_TYPE_SELECT_MEMORY_PAGE,
+            COMMAND_TYPE_WRITE_MEMORY
         };
-
+        
         struct CommandData {
             uint32_t command;
             std::string command_hex;
             CommandType type;
             uint8_t address;
             uint32_t serial_number;
+            uint32_t payload;
             uint8_t length;
         };
 
-        uint32_t buildCommand(CommandType type, uint8_t address, uint32_t serial_number);
+        uint32_t buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
         CommandData parseCommand(uint32_t command);
 
         const char* command_type_to_string(CommandType type);

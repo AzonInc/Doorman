@@ -148,37 +148,67 @@ namespace esphome
                 }
             }
 
+            // Cancel Reading memory
+            if(reading_memory_)
+            {
+                uint32_t now_millis = millis();
+
+                if(now_millis - reading_memory_timer_ >= 5000)
+                {
+                    reading_memory_ = false;
+                    reading_memory_count_ = 0;
+                    reading_memory_timer_ = 0;
+                        
+                    ESP_LOGE(TAG, "Reading memory timed out!");
+                    this->read_memory_timeout_callback_.call();
+                }
+            }
+
             auto &s = this->store_;
 
             if(s.s_cmdReady)
             {
-                if(reading_eeprom_)
+                if(reading_memory_)
                 {
-                    ESP_LOGD(TAG, "Received 4 EEPROM Blocks starting at: %i", (reading_eeprom_count_ * 4));
+                    ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
 
-                    // Save Data to EEPROM Store
-                    eeprom_buffer_.push_back((s.s_cmd >> 24) & 0xFF);
-                    eeprom_buffer_.push_back((s.s_cmd >> 16) & 0xFF);
-                    eeprom_buffer_.push_back((s.s_cmd >> 8) & 0xFF);
-                    eeprom_buffer_.push_back(s.s_cmd & 0xFF);
+                    // Save Data to memory Store
+                    memory_buffer_.push_back((s.s_cmd >> 24) & 0xFF);
+                    memory_buffer_.push_back((s.s_cmd >> 16) & 0xFF);
+                    memory_buffer_.push_back((s.s_cmd >> 8) & 0xFF);
+                    memory_buffer_.push_back(s.s_cmd & 0xFF);
 
                     // Next 4 Data Blocks
-                    reading_eeprom_count_++;
+                    reading_memory_count_++;
 
-                    if(reading_eeprom_count_ == 12)
+                    if(reading_memory_count_ == 12)
                     {
                         // Turn off
-                        reading_eeprom_ = false;
+                        reading_memory_ = false;
+                        reading_memory_timer_ = 0;
 
-                        std::string hexString = str_upper_case(format_hex(eeprom_buffer_));
-                        ESP_LOGD(TAG, "EEPROM Data: %s", hexString.c_str());
+                        // Save Settings values
+                        settings_.handset_volume = memory_buffer_[21] & 0xF;
+                        settings_.ringtone_volume = memory_buffer_[20] & 0xF;
+                        settings_.door_call_ringtone = (memory_buffer_[3] >> 4) & 0xF;
+                        settings_.internal_call_ringtone = (memory_buffer_[6] >> 4) & 0xF;
+                        settings_.floor_call_ringtone = (memory_buffer_[9] >> 4) & 0xF;
+
+                        ESP_LOGD(TAG, "Handset volume %i", settings_.handset_volume);
+                        ESP_LOGD(TAG, "Ringtone volume %i", settings_.ringtone_volume);
+                        ESP_LOGD(TAG, "Door Call Ringtone %i", settings_.door_call_ringtone);
+                        ESP_LOGD(TAG, "Floor Call Ringtone %i", settings_.floor_call_ringtone);
+                        ESP_LOGD(TAG, "Internal Call Ringtone %i", settings_.internal_call_ringtone);
+                        
+                        this->read_memory_complete_callback_.call(memory_buffer_);
                     }
                     else
                     {
                         delay(50);
 
                         // Request Data Blocks
-                        request_eeprom_blocks(reading_eeprom_count_);
+                        ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
+                        send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
                     }
                 }
                 else
@@ -353,11 +383,11 @@ namespace esphome
 
             // Parse Command
             CommandData cmd_data = parseCommand(command);
-            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.serial_number);
+            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %x, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number);
 
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_STATION) {
-                bool door_readiness_state = (command & (1 << 8)) != 0;
+                bool door_readiness_state = cmd_data.payload == 1;
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
                 if (this->door_readiness_ != nullptr) {
                     this->door_readiness_->publish_state(door_readiness_state);
@@ -368,8 +398,8 @@ namespace esphome
                     this->door_readiness_->publish_state(false);
                 }
             } else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE) {
-                ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.address == 1));
-                this->programming_mode_ = cmd_data.address == 1;
+                ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
+                this->programming_mode_ = cmd_data.payload == 1;
             }
 
             // Publish Command to Last Bus Command Sensor
@@ -385,6 +415,15 @@ namespace esphome
 
                 // Fire Binary Sensors
                 for (auto &listener : listeners_) {
+                    // Listener Command lambda or command property when not available
+                    uint32_t listener_command = listener->command_.has_value() ? listener->command_.value() : 0;
+                    if (listener->command_lambda_.has_value()) {
+                        auto optional_value = (*listener->command_lambda_)();
+                        if (optional_value.has_value()) {
+                            listener_command = optional_value.value();
+                        }
+                    }
+
                     // Listener Serial Number or TCS Serial Number when empty
                     uint32_t listener_serial_number = listener->serial_number_.has_value() ? listener->serial_number_.value() : tcs_serial;
                     
@@ -397,17 +436,17 @@ namespace esphome
                         }
                     }
 
-                    // Listener Command Type
-                    CommandType listener_type = listener->type_.has_value() ? listener->type_.value() : COMMAND_TYPE_UNKNOWN;
-
-                    // Listener Command lambda or command property when not available
-                    uint32_t listener_command = listener->command_.has_value() ? listener->command_.value() : 0;
-                    if (listener->command_lambda_.has_value()) {
-                        auto optional_value = (*listener->command_lambda_)();
+                    // Listener payload lambda or payload property when not available
+                    uint32_t listener_payload = listener->payload_.has_value() ? listener->payload_.value() : 0;
+                    if (listener->payload_lambda_.has_value()) {
+                        auto optional_value = (*listener->payload_lambda_)();
                         if (optional_value.has_value()) {
-                            listener_command = optional_value.value();
+                            listener_payload = optional_value.value();
                         }
                     }
+
+                    // Listener Command Type
+                    CommandType listener_type = listener->type_.has_value() ? listener->type_.value() : COMMAND_TYPE_UNKNOWN;
 
                     bool allow_publish = false;
 
@@ -416,7 +455,7 @@ namespace esphome
                         if (cmd_data.command == listener_command) {
                             allow_publish = true;
                         }
-                    } else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255)) {
+                    } else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255)) {
                         if (listener_serial_number != 0) {
                             if (cmd_data.serial_number == listener_serial_number) {
                                 allow_publish = true;
@@ -440,15 +479,16 @@ namespace esphome
                         {"command", cmd_data.command_hex},
                         {"type", command_type_to_string(cmd_data.type)},
                         {"address", std::to_string(cmd_data.address)},
+                        {"payload", std::to_string(cmd_data.payload)},
                         {"serial_number", std::to_string(cmd_data.serial_number)}
                     });
                 }
             }
         }
 
-        void TCBusComponent::send_command_generate(CommandType type, uint8_t address, uint32_t serial_number)
+        void TCBusComponent::send_command(CommandType type, uint8_t address, uint32_t payload, uint32_t serial_number)
         {
-            ESP_LOGD(TAG, "Generating command: Type: %s, Address: %i, Serial number: %i", command_type_to_string(type), address, serial_number);
+            ESP_LOGV(TAG, "Generating command: Type: %s, Address: %i, Payload: %X, Serial number: %i", command_type_to_string(type), address, payload, serial_number);
 
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
@@ -461,11 +501,11 @@ namespace esphome
 
             if(serial_number == 0)
             {
-                ESP_LOGD(TAG, "Serial Number is 0, use intercom serial number: %i", tcs_serial);
+                ESP_LOGV(TAG, "Serial Number is 0, use intercom serial number: %i", tcs_serial);
                 serial_number = tcs_serial;
             }
 
-            uint32_t command = buildCommand(type, address, serial_number);
+            uint32_t command = buildCommand(type, address, payload, serial_number);
             if(command == 0)
             {
                 ESP_LOGW(TAG, "Sending commands of type %s is not supported!", command_type_to_string(type));
@@ -475,7 +515,6 @@ namespace esphome
                 send_command(command);
             }
         }
-
 
         void TCBusComponent::send_command(uint32_t command)
         {
@@ -541,13 +580,23 @@ namespace esphome
         {
             this->received_command_callback_.add(std::move(callback));
         }
+        
+        void TCBusComponent::add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback)
+        {
+            this->read_memory_complete_callback_.add(std::move(callback));
+        }
+
+        void TCBusComponent::add_read_memory_timeout_callback(std::function<void()> &&callback)
+        {
+            this->read_memory_timeout_callback_.add(std::move(callback));
+        }
 
         void TCBusComponent::set_programming_mode(bool enabled)
         {
-            send_command(enabled ? 0x5041 : 0x5040);
+            send_command(COMMAND_TYPE_PROGRAMMING_MODE, 0, enabled ? 1 : 0);
         }
 
-        void TCBusComponent::read_eeprom(uint32_t serial_number)
+        void TCBusComponent::read_memory(uint32_t serial_number)
         {
             if(serial_number == 0)
             {
@@ -560,31 +609,159 @@ namespace esphome
                 }
             }
 
-            eeprom_buffer_.clear();
-            reading_eeprom_count_ = 0;
-            reading_eeprom_ = false;
+            memory_buffer_.clear();
+            reading_memory_count_ = 0;
+            reading_memory_ = false;
 
             ESP_LOGD(TAG, "Select Indoor Stations");
-            send_command(0x5800); //select indoor stations
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
             delay(50);
 
-            ESP_LOGD(TAG, "Select Serial Number: %i", serial_number);
-            uint32_t select_cmd = 0x81000000; // Select Page 0 of SN
-            select_cmd |= ((serial_number & 0xFFFFF) << 0); // C30BA
-            send_command(select_cmd); // select serial number
+            ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+            send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
             delay(50);
 
-            reading_eeprom_ = true;
-            reading_eeprom_count_ = 0;
-            request_eeprom_blocks(reading_eeprom_count_);
+            reading_memory_ = true;
+            reading_memory_count_ = 0;
+            reading_memory_timer_ = millis();
+                
+            ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
+            send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
         }
 
-        void TCBusComponent::request_eeprom_blocks(uint8_t start_address)
+        void TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number)
         {
-            ESP_LOGD(TAG, "Request 4 EEPROM Bytes starting at: %i", (start_address * 4));
+            if(memory_buffer_.size() == 0)
+            {
+                ESP_LOGW(TAG, "Memory Buffer is empty! Please read memory first!");
+                return;
+            }
 
-            uint32_t cmd = 0x8400 | (start_address * 4);
-            send_command(cmd);
+            if(serial_number == 0)
+            {
+                serial_number = this->serial_number_;
+                if (serial_number_lambda_.has_value()) {
+                    auto optional_value = (*serial_number_lambda_)();
+                    if (optional_value.has_value()) {
+                        serial_number = optional_value.value();
+                    }
+                }
+            }
+
+            if(serial_number == 0)
+            {
+                ESP_LOGW(TAG, "Serial Number is not set!");
+                return;
+            }
+
+            // Prepare Transmission
+            ESP_LOGD(TAG, "Select Indoor Stations");
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
+            delay(50);
+
+            ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+            send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
+            delay(50);
+
+            uint8_t index = 0;
+            uint8_t cell2 = 0;
+
+            switch(type)
+            {
+                case SETTING_RINGTONE_DOOR_CALL:
+                    index = 3;
+                    cell2 = memory_buffer_[index] & 0xF;
+                    memory_buffer_[index] = (new_value << 4) | (cell2 & 0xF);
+                    settings_.door_call_ringtone = new_value;
+                    break;
+
+                case SETTING_RINGTONE_INTERNAL_CALL:
+                    index = 6;
+                    cell2 = memory_buffer_[index] & 0xF;
+                    memory_buffer_[index] = (new_value << 4) | (cell2 & 0xF);
+                    settings_.internal_call_ringtone = new_value;
+                    break;
+
+                case SETTING_RINGTONE_FLOOR_CALL:
+                    index = 9;
+                    cell2 = memory_buffer_[index] & 0xF;
+                    memory_buffer_[index] = (new_value << 4) | (cell2 & 0xF);
+                    settings_.floor_call_ringtone = new_value;
+                    break;
+
+                case SETTING_RINGTONE_VOLUME:
+                    index = 20;
+                    cell2 = (memory_buffer_[index] >> 4) & 0xF;
+                    memory_buffer_[index] = (cell2 << 4) | (new_value & 0xF);
+                    settings_.ringtone_volume = new_value;
+                    break;
+
+                case SETTING_HANDSET_VOLUME:
+                    index = 21;
+                    cell2 = (memory_buffer_[index] >> 4) & 0xF;
+                    memory_buffer_[index] = (cell2 << 4) | (new_value & 0xF);
+                    settings_.handset_volume = new_value;
+                    break;
+
+                default:
+                    ESP_LOGW(TAG, "Unknown Setting!");
+                    break;
+            }
+
+            if(index == 0)
+            {
+                return;
+            }
+            else
+            {
+                uint16_t new_values = (memory_buffer_[index] << 8) | memory_buffer_[index + 1];
+                send_command(COMMAND_TYPE_WRITE_MEMORY, index, new_values, serial_number);
+            }
+        }
+
+        void TCBusComponent::write_memory(uint32_t serial_number)
+        {
+            if(memory_buffer_.size() == 0)
+            {
+                ESP_LOGW(TAG, "Memory Buffer is empty! Please read memory first!");
+                return;
+            }
+
+            if(serial_number == 0)
+            {
+                serial_number = this->serial_number_;
+                if (serial_number_lambda_.has_value()) {
+                    auto optional_value = (*serial_number_lambda_)();
+                    if (optional_value.has_value()) {
+                        serial_number = optional_value.value();
+                    }
+                }
+            }
+
+            if(serial_number == 0)
+            {
+                ESP_LOGW(TAG, "Serial Number is not set!");
+                return;
+            }
+
+            // Prepare Transmission
+            ESP_LOGD(TAG, "Select Indoor Stations");
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
+            delay(50);
+
+            ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+            send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
+            delay(50);
+
+            // Transmit Memory
+            uint8_t address = 0;
+            for (size_t i = 0; i < memory_buffer_.size(); i += 2)
+            {
+                uint16_t new_value = (memory_buffer_[i] << 8) | memory_buffer_[i + 1];
+                send_command(COMMAND_TYPE_WRITE_MEMORY, address, new_value, serial_number);
+                address = address + 2;
+                delay(50);
+            }
         }
 
     }  // namespace tc_bus

@@ -2,7 +2,7 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import text_sensor, binary_sensor
 from esphome import pins, automation
-from esphome.const import CONF_ID, ENTITY_CATEGORY_DIAGNOSTIC, CONF_TRIGGER_ID, CONF_TYPE
+from esphome.const import CONF_ID, ENTITY_CATEGORY_DIAGNOSTIC, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE
 
 AUTO_LOAD = ["binary_sensor", "text_sensor"]
 
@@ -14,16 +14,33 @@ TCBusSendAction = tc_bus_ns.class_(
     "TCBusSendAction", automation.Action
 )
 
+TCBusUpdateSettingAction = tc_bus_ns.class_(
+    "TCBusUpdateSettingAction", automation.Action
+)
+
 TCBusProgrammingModeAction = tc_bus_ns.class_(
     "TCBusProgrammingModeAction", automation.Action
 )
 
-TCBusReadEEPROMAction = tc_bus_ns.class_(
-    "TCBusReadEEPROMAction", automation.Action
+TCBusReadMemoryAction = tc_bus_ns.class_(
+    "TCBusReadMemoryAction", automation.Action
 )
 
-ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
 CommandData = tc_bus_ns.struct(f"CommandData")
+SettingData = tc_bus_ns.struct(f"SettingData")
+
+ReadMemoryCompleteTrigger = tc_bus_ns.class_("ReadMemoryCompleteTrigger", automation.Trigger.template())
+ReadMemoryTimeoutTrigger = tc_bus_ns.class_("ReadMemoryTimeoutTrigger", automation.Trigger.template())
+ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
+
+SettingType = tc_bus_ns.enum("Setting_Type")
+SETTING_TYPES = {
+    "ringtone_floor_call": SettingType.SETTING_RINGTONE_FLOOR_CALL,
+    "ringtone_door_call": SettingType.SETTING_RINGTONE_DOOR_CALL,
+    "ringtone_internal_call": SettingType.SETTING_RINGTONE_INTERNAL_CALL,
+    "volume_ringtone": SettingType.SETTING_RINGTONE_VOLUME,
+    "volume_handset": SettingType.SETTING_HANDSET_VOLUME
+}
 
 CommandType = tc_bus_ns.enum("Command_Type")
 COMMAND_TYPES = {
@@ -50,8 +67,9 @@ COMMAND_TYPES = {
     "found_device": CommandType.COMMAND_TYPE_FOUND_DEVICE,
     "found_device_subsystem": CommandType.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
     "programming_mode": CommandType.COMMAND_TYPE_PROGRAMMING_MODE,
-    "read_eeprom_block": CommandType.COMMAND_TYPE_READ_EEPROM_BLOCK,
-    "select_eeprom_page": CommandType.COMMAND_TYPE_SELECT_EEPROM_PAGE,
+    "read_memory_block": CommandType.COMMAND_TYPE_READ_MEMORY_BLOCK,
+    "select_memory_page": CommandType.COMMAND_TYPE_SELECT_MEMORY_PAGE,
+    "write_memory": CommandType.COMMAND_TYPE_WRITE_MEMORY
 }
 
 CONF_TC_ID = "tc_bus"
@@ -66,12 +84,16 @@ CONF_SERIAL_NUMBER = "serial_number"
 CONF_SERIAL_NUMBER_LAMBDA = "serial_number_lambda"
 CONF_ADDRESS = "address"
 CONF_ADDRESS_LAMBDA = "address_lambda"
+CONF_PAYLOAD = "payload"
+CONF_PAYLOAD_LAMBDA = "payload_lambda"
 
 CONF_BUS_COMMAND = "bus_command"
 CONF_HARDWARE_VERSION = "hardware_version"
 CONF_DOOR_READINESS = "door_readiness"
 
-CONF_ON_COMMAND = "on_command_action"
+CONF_ON_COMMAND = "on_command"
+CONF_ON_MEMORY = "on_read_memory_complete"
+CONF_ON_MEMORY_TIMEOUT = "on_read_memory_timeout"
 CONF_PROGRAMMING_MODE = "programming_mode"
 
 MULTI_CONF = False
@@ -103,6 +125,16 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_ON_COMMAND): automation.validate_automation(
                 {
                     cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReceivedCommandTrigger),
+                }
+            ),
+            cv.Optional(CONF_ON_MEMORY): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryCompleteTrigger),
+                }
+            ),
+            cv.Optional(CONF_ON_MEMORY_TIMEOUT): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryTimeoutTrigger),
                 }
             ),
         }   
@@ -149,6 +181,13 @@ async def to_code(config):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [(CommandData, "x")], conf)
 
+    for conf in config.get(CONF_ON_MEMORY, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [(cg.std_vector.template(cg.uint8), "x")], conf)
+
+    for conf in config.get(CONF_ON_MEMORY_TIMEOUT, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
 
 
 
@@ -165,8 +204,9 @@ TC_BUS_SEND_SCHEMA = cv.All(
     {
         cv.GenerateID(): cv.use_id(TCBus),
         cv.Optional(CONF_COMMAND): cv.templatable(cv.hex_uint32_t),
-        cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_TYPE): cv.templatable(cv.enum(COMMAND_TYPES, upper=False)),
+        cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
+        cv.Optional(CONF_PAYLOAD, default="0"): cv.templatable(cv.hex_uint32_t),
         cv.Optional(CONF_SERIAL_NUMBER, default="0"): cv.templatable(cv.hex_uint32_t),
     }),
     validate
@@ -192,6 +232,45 @@ async def tc_bus_send_to_code(config, action_id, template_args, args):
     if CONF_ADDRESS in config:
         address_template_ = await cg.templatable(config[CONF_ADDRESS], args, cg.uint8)
         cg.add(var.set_address(address_template_))
+
+    if CONF_PAYLOAD in config:
+        payload_template_ = await cg.templatable(config[CONF_PAYLOAD], args, cg.uint32)
+        cg.add(var.set_payload(payload_template_))
+
+    if CONF_SERIAL_NUMBER in config:
+        serial_number_template_ = await cg.templatable(config[CONF_SERIAL_NUMBER], args, cg.uint32)
+        cg.add(var.set_serial_number(serial_number_template_))
+
+    return var
+
+
+
+TC_BUS_UPDATE_SETTING_SCHEMA = cv.All(
+    cv.Schema(
+    {
+        cv.GenerateID(): cv.use_id(TCBus),
+        cv.Required(CONF_TYPE): cv.templatable(cv.enum(SETTING_TYPES, upper=False)),
+        cv.Required(CONF_VALUE): cv.templatable(cv.hex_uint8_t),
+        cv.Optional(CONF_SERIAL_NUMBER, default="0"): cv.templatable(cv.hex_uint32_t),
+    })
+)
+
+@automation.register_action(
+    "tc_bus.update_setting",
+    TCBusUpdateSettingAction,
+    TC_BUS_UPDATE_SETTING_SCHEMA
+)
+async def tc_bus_update_setting_to_code(config, action_id, template_args, args):
+    parent = await cg.get_variable(config[CONF_ID])
+    var = cg.new_Pvariable(action_id, template_args, parent)
+
+    if CONF_TYPE in config:
+        type_template_ = await cg.templatable(config[CONF_TYPE], args, SettingType)
+        cg.add(var.set_type(type_template_))
+
+    if CONF_VALUE in config:
+        value_template_ = await cg.templatable(config[CONF_VALUE], args, cg.uint8)
+        cg.add(var.set_value(value_template_))
 
     if CONF_SERIAL_NUMBER in config:
         serial_number_template_ = await cg.templatable(config[CONF_SERIAL_NUMBER], args, cg.uint32)
@@ -221,8 +300,8 @@ async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, 
 
 
 @automation.register_action(
-    "tc_bus.read_eeprom",
-    TCBusReadEEPROMAction,
+    "tc_bus.read_memory",
+    TCBusReadMemoryAction,
     automation.maybe_simple_id(
         {
             cv.GenerateID(): cv.use_id(TCBus),
@@ -230,7 +309,7 @@ async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, 
         }
     ),
 )
-async def tc_bus_read_eeprom_to_code(config, action_id, template_args, args):
+async def tc_bus_read_memory_to_code(config, action_id, template_args, args):
     parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
 

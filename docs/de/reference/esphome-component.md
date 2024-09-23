@@ -41,10 +41,12 @@ The **TCS Intercom Binary Sensor** detects binary states such as doorbell presse
 | `type`           | Command type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `command`.  | No       | `unknown`     |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor.                                    | No       | `0`           |
 | `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
+| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.                                   | No       | `0`           |
+| `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.              | No       |               |
 | `serial_number`  | Specific intercom serial number that serves as a condition to trigger the binary sensor.                  | No       | `unknown`     |
 
 ::: info
-You can use **either** `command`/`command_lambda` **or** a combination of `type`, `address`/`address_lambda`, and `serial_number`, but **not both** simultaneously.\
+You can use **either** `command`/`command_lambda` **or** a combination of `type`, `address`/`address_lambda`, `payload`/`payload_lambda`, and `serial_number`, but **not both** simultaneously.\
 This ensures the binary sensor triggers either through a specific command or a combination of parameters, preventing conflicts.
 :::
 
@@ -66,7 +68,7 @@ on_command_action:
 You can send commands on the bus using the `tc_bus.send` action.
 
 ::: tip Note
-You can either use the `command` field to send a specific command or use the `type`, `address`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
+You can either use the `command` field to send a specific command or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
 :::
 
 #### Example 1: Sending a Direct Command
@@ -84,6 +86,7 @@ on_...:
   - tc_bus.send:
       type: open_door
       address: 0
+      payload: 0
       serial_number: 123456
 ```
 
@@ -245,3 +248,7 @@ Here are the available command types you can use as binary sensor conditions or 
 - search_devices <Badge type="tip" text="COMMAND_TYPE_SEARCH_DEVICES" />
 - found_device <Badge type="tip" text="COMMAND_TYPE_FOUND_DEVICE" />
 - found_device_subsystem <Badge type="tip" text="COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM" />
+- programming_mode <Badge type="tip" text="COMMAND_TYPE_PROGRAMMING_MODE" />
+- read_memory_block <Badge type="tip" text="COMMAND_TYPE_READ_MEMORY_BLOCK" />
+- select_memory_page <Badge type="tip" text="COMMAND_TYPE_SELECT_MEMORY_PAGE" />
+- write_memory <Badge type="tip" text="COMMAND_TYPE_WRITE_MEMORY" />

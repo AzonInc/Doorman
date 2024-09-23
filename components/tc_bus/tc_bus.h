@@ -1,6 +1,7 @@
 #pragma once
 
 #include "protocol.h"
+#include "memory.h"
 
 #include <utility>
 #include <vector>
@@ -24,6 +25,9 @@ namespace esphome
                 void set_address_lambda(std::function<optional<uint8_t>()> &&f) { this->address_lambda_ = f; }
                 void set_address(uint8_t address) { this->address_ = address; }
                 
+                void set_payload_lambda(std::function<optional<uint32_t>()> &&f) { this->payload_lambda_ = f; }
+                void set_payload(uint32_t payload) { this->payload_ = payload; }
+                
                 void set_command_type(CommandType type) { this->type_ = type; }
                 
                 void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
@@ -44,6 +48,9 @@ namespace esphome
 
                 optional<uint8_t> address_;
                 optional<std::function<optional<uint8_t>()>> address_lambda_;
+
+                optional<uint32_t> payload_;
+                optional<std::function<optional<uint32_t>()>> payload_lambda_;
         };
 
         struct TCBusComponentStore
@@ -79,15 +86,25 @@ namespace esphome
                 void set_door_readiness_sensor(binary_sensor::BinarySensor *door_readiness) { this->door_readiness_ = door_readiness; }
 
                 void send_command(uint32_t command);
-                void send_command_generate(CommandType type, uint8_t address, uint32_t serial_number);
+                void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
-                void read_eeprom(uint32_t serial_number);
-                void request_eeprom_blocks(uint8_t start_address);
+                void read_memory(uint32_t serial_number);
+                void request_memory_blocks(uint8_t start_address);
+
+                void write_memory(uint32_t serial_number = 0);
+
+                void update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
 
                 void publish_command(uint32_t command, bool fire_events);
 
                 void add_received_command_callback(std::function<void(CommandData)> &&callback);
                 CallbackManager<void(CommandData)> received_command_callback_{};
+                
+                void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback);
+                CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
+
+                void add_read_memory_timeout_callback(std::function<void()> &&callback);
+                CallbackManager<void()> read_memory_timeout_callback_{};
 
                 bool sending;
 
@@ -109,9 +126,12 @@ namespace esphome
 
                 bool programming_mode_ = false;
 
-                bool reading_eeprom_ = false;
-                uint8_t reading_eeprom_count_ = 0;
-                std::vector<uint8_t> eeprom_buffer_;
+                bool reading_memory_ = false;
+                uint8_t reading_memory_count_ = 0;
+                uint32_t reading_memory_timer_ = 0;
+                std::vector<uint8_t> memory_buffer_;
+
+                Settings settings_;
         };
 
     }  // namespace tc_bus
