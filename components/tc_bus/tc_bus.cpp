@@ -181,7 +181,7 @@ namespace esphome
                     // Next 4 Data Blocks
                     reading_memory_count_++;
 
-                    if(reading_memory_count_ == 12)
+                    if(reading_memory_count_ == 6)
                     {
                         // Turn off
                         reading_memory_ = false;
@@ -199,12 +199,12 @@ namespace esphome
                         ESP_LOGD(TAG, "Door Call Ringtone %i", settings_.door_call_ringtone);
                         ESP_LOGD(TAG, "Floor Call Ringtone %i", settings_.floor_call_ringtone);
                         ESP_LOGD(TAG, "Internal Call Ringtone %i", settings_.internal_call_ringtone);
-                        
+
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     }
                     else
                     {
-                        delay(50);
+                        delay(20);
 
                         // Request Data Blocks
                         ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);

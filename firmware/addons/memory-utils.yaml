@@ -19,10 +19,9 @@ number:
     max_value: 7
     step: 1
     set_action:
-      then:
-        - tc_bus.update_setting:
-            type: volume_ringtone
-            value: !lambda "return x;"
+      - tc_bus.update_setting:
+          type: volume_ringtone
+          value: !lambda "return x;"
 
   - platform: template
     name: "Handset volume"
@@ -31,10 +30,45 @@ number:
     max_value: 7
     step: 1
     set_action:
-      then:
-        - tc_bus.update_setting:
-            type: volume_handset
-            value: !lambda "return x;"
+      - tc_bus.update_setting:
+          type: volume_handset
+          value: !lambda "return x;"
+
+select:
+  - platform: template
+    name: "Ringtone: Door Call"
+    optimistic: true
+    options:
+      - "Ringtone 1"
+      - "Ringtone 2"
+      - "Ringtone 3"
+      - "Ringtone 4"
+      - "Ringtone 5"
+      - "Ringtone 6"
+      - "Ringtone 7"
+      - "Ringtone 8"
+      - "Ringtone 9"
+      - "Ringtone 10"
+      - "Ringtone 11"
+      - "Ringtone 12"
+    initial_option: "Ringtone 1"
+    set_action:
+      - tc_bus.update_setting:
+          type: ringtone_door_call
+          value: !lambda |-
+            std::string str = x;
+            std::vector<std::string> v;
+            char * token;
+            char seps[] = " ";
+            token = strtok (&str[1],seps);
+            while (token != NULL)
+            {
+              v.push_back(token);
+              token = strtok (NULL, seps);
+            }
+
+            return std::stoi(v[1].c_str());
+
 
 button:
   - platform: template
