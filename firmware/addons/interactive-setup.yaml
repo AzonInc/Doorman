@@ -1,4 +1,4 @@
-# Interactive Command Setup Addon
+# Interactive Setup Addon
 
 switch:
   - platform: template

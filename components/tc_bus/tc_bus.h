@@ -93,6 +93,8 @@ namespace esphome
 
                 void write_memory(uint32_t serial_number = 0);
 
+                Settings get_settings() { return settings_; };
+
                 void update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
 
                 void publish_command(uint32_t command, bool fire_events);

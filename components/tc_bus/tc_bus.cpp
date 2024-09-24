@@ -1,4 +1,5 @@
 #include "protocol.h"
+#include "memory.h"
 #include "tc_bus.h"
 
 #include "esphome.h"
