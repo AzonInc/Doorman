@@ -11,13 +11,21 @@ tc_bus:
   on_read_memory_timeout:
     - logger.log: "Failed to read Memory"
 
+# Read Memory before reading and writing
+button:
+  - platform: template
+    name: "Read Memory"
+    on_press:
+      - tc_bus.read_memory:
+
 number:
   - platform: template
     name: "Ringtone volume"
-    optimistic: true
     min_value: 0
     max_value: 7
     step: 1
+    lambda: !lambda "return id(tc_bus_intercom)->get_settings().ringtone_volume;"
+    update_interval: 1s
     set_action:
       - tc_bus.update_setting:
           type: volume_ringtone
@@ -25,53 +33,82 @@ number:
 
   - platform: template
     name: "Handset volume"
-    optimistic: true
     min_value: 0
     max_value: 7
     step: 1
+    lambda: !lambda "return id(tc_bus_intercom)->get_settings().handset_volume;"
+    update_interval: 1s
     set_action:
       - tc_bus.update_setting:
           type: volume_handset
           value: !lambda "return x;"
 
-select:
+  - platform: template
+    name: "Ringtone: Floor Call"
+    min_value: 0
+    max_value: 12
+    step: 1
+    lambda: !lambda "return id(tc_bus_intercom)->get_settings().floor_call_ringtone;"
+    update_interval: 1s
+    set_action:
+      - tc_bus.update_setting:
+          type: ringtone_floor_call
+          value: !lambda "return x;"
+
   - platform: template
     name: "Ringtone: Door Call"
-    optimistic: true
-    options:
-      - "Ringtone 1"
-      - "Ringtone 2"
-      - "Ringtone 3"
-      - "Ringtone 4"
-      - "Ringtone 5"
-      - "Ringtone 6"
-      - "Ringtone 7"
-      - "Ringtone 8"
-      - "Ringtone 9"
-      - "Ringtone 10"
-      - "Ringtone 11"
-      - "Ringtone 12"
-    initial_option: "Ringtone 1"
+    min_value: 0
+    max_value: 12
+    step: 1
+    lambda: !lambda "return id(tc_bus_intercom)->get_settings().door_call_ringtone;"
+    update_interval: 1s
     set_action:
       - tc_bus.update_setting:
           type: ringtone_door_call
-          value: !lambda |-
-            std::string str = x;
-            std::vector<std::string> v;
-            char * token;
-            char seps[] = " ";
-            token = strtok (&str[1],seps);
-            while (token != NULL)
-            {
-              v.push_back(token);
-              token = strtok (NULL, seps);
-            }
+          value: !lambda "return x;"
 
-            return std::stoi(v[1].c_str());
-
-
-button:
   - platform: template
-    name: "Read Memory"
-    on_press:
-      - tc_bus.read_memory:
+    name: "Ringtone: Internal Call"
+    min_value: 0
+    max_value: 12
+    step: 1
+    lambda: !lambda "return id(tc_bus_intercom)->get_settings().internal_call_ringtone;"
+    update_interval: 1s
+    set_action:
+      - tc_bus.update_setting:
+          type: ringtone_internal_call
+          value: !lambda "return x;"
+
+#select:
+#  - platform: template
+#    name: "Ringtone: Door Call"
+#    optimistic: true
+#    options:
+#      - "Ringtone 1"
+#      - "Ringtone 2"
+#      - "Ringtone 3"
+#      - "Ringtone 4"
+#      - "Ringtone 5"
+#      - "Ringtone 6"
+#      - "Ringtone 7"
+#      - "Ringtone 8"
+#      - "Ringtone 9"
+#      - "Ringtone 10"
+#      - "Ringtone 11"
+#      - "Ringtone 12"
+#    initial_option: "Ringtone 1"
+#    set_action:
+#      - tc_bus.update_setting:
+#          type: ringtone_door_call
+#          value: !lambda |-
+#            std::string str = x;
+#            std::vector<std::string> v;
+#            char * token;
+#            char seps[] = " ";
+#            token = strtok (&str[1],seps);
+#            while (token != NULL)
+#            {
+#              v.push_back(token);
+#              token = strtok (NULL, seps);
+#            }
+#            return std::stoi(v[1].c_str());

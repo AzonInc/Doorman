@@ -118,6 +118,7 @@ external_components:
 
 # Setup TC:BUS Component
 tc_bus:
+  id: tc_bus_intercom
   event: "doorman"
   hardware_version:
     name: "Hardware"
