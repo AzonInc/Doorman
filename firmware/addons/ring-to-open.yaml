@@ -7,7 +7,8 @@ binary_sensor:
         # Ring To Open Action
         - if:
             condition:
-              switch.is_on: doorman_ring_to_open
+              - switch.is_on: doorman_ring_to_open
+              - lambda: !lambda 'return id(doorman_ring_to_open_door_trigger).state == "Entrance" || id(doorman_ring_to_open_door_trigger).state == "Any";'
             then:
               # Deactivate Ring To Open when Ring once is selected
               - if:
@@ -30,6 +31,37 @@ binary_sensor:
               - tc_bus.send:
                   type: open_door
                   address: 0
+
+  - id: !extend second_entrance_doorbell
+    on_press:
+      then:
+        # Ring To Open Action
+        - if:
+            condition:
+              - switch.is_on: doorman_ring_to_open
+              - lambda: !lambda 'return id(doorman_ring_to_open_door_trigger).state == "Second Entrance" || id(doorman_ring_to_open_door_trigger).state == "Any";'
+            then:
+              # Deactivate Ring To Open when Ring once is selected
+              - if:
+                  condition:
+                    - lambda: !lambda 'return id(doorman_ring_to_open_timeout_mode).state == "Ring once";'
+                  then:
+                    - switch.turn_off: doorman_ring_to_open
+
+              # If delay is 60 seconds, use random delay from 5 to 15 seconds
+              - if:
+                  condition:
+                    number.in_range:
+                      id: doorman_ring_to_open_delay
+                      above: 59
+                  then:
+                    - delay: !lambda "return 5000 + (rand() % 10000);"
+                  else:
+                    - delay: !lambda "return (id(doorman_ring_to_open_delay).state*1000) + 300;"
+
+              - tc_bus.send:
+                  type: open_door
+                  address: !lambda "return id(second_door_station_id);"
 
   - id: !extend function_button
     on_press:
@@ -109,6 +141,18 @@ select:
       - 55 minutes
       - 60 minutes
     initial_option: Never
+    entity_category: CONFIG
+
+  - platform: template
+    id: doorman_ring_to_open_door_trigger
+    name: "Ring To Open: Triggering Door Staion"
+    icon: mdi:door
+    optimistic: true
+    options:
+      - Entrance
+      - Second Entrance
+      - Any
+    initial_option: Any
     entity_category: CONFIG
 
 

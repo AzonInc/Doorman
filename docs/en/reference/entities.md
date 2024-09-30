@@ -124,6 +124,14 @@ Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) a
 - 5 to 60 minutes
 - Never
 
+### Ring To Open: Triggering Door Station <Badge type="tip" text="doorman_ring_to_open_door_trigger" />
+Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open) automation.
+
+##### Options:
+- Entrance
+- Second Entrance
+- Any
+
 
 ## Locks
 

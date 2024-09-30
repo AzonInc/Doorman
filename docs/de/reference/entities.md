@@ -116,13 +116,21 @@ Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass 
 
 ## Dropdowns
 
-### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" /> <Badge type="info" text="Deaktiviert" /> 
-Legt den Timeout-Modus für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung fest.
+### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" />
+Legt den Timeout-Modus für die [Ring To Open](../guide/automation/ring-to-open) Automation fest.
 
 ##### Modi:
 - Einmal klingeln
 - 5 bis 60 Minuten
 - Nie
+
+### Ring To Open: Triggering Door Station <Badge type="tip" text="doorman_ring_to_open_door_trigger" />
+Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ring-to-open) Automation fest.
+
+##### Optionen:
+- Eingang
+- Zweiter Eingang
+- Egal
 
 ## Schlösser
 
