@@ -2,13 +2,26 @@
 
 ::: details Einfachen TCS-Befehl-Binärsensor erstellen
 Neben den bereits vordefinierten kannst du ganz leicht zusätzliche Binärsensoren für jeden TCS-Befehl hinzufügen.
+
+Reiner 32 Bit Befehl:
 ```yaml
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
   - platform: tc_bus // [!code ++] // [!code focus]
     name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
-    command: 0x3b8f9a00 // [!code ++] // [!code focus]
+    command: 0x00001100 // [!code ++] // [!code focus]
+```
+
+Command Parser:
+```yaml
+<!--@include: minimal.example.yaml-->
+
+binary_sensor: // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
+    name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
+    type: open_door // [!code ++] // [!code focus]
+    address: 0 // [!code ++] // [!code focus]
 ```
 :::
 
@@ -57,11 +70,23 @@ i2c: // [!code ++] // [!code focus]
 
 ## Fortgeschrittene Beispiele
 ### Home Assistant
-::: details Bus-Commands senden
-Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu senden.
-> [!INFO]
-> Denk daran, das führende `0x` beim Senden eines HEX-Kommandos einzufügen. Wenn du es weglässt, musst du den HEX-Befehl in eine Dezimalzahl umwandeln.
 
+::: details Sending Bus commands
+Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu senden.
+Benutze entweder `command` für reine 32 Bit Befehle oder `type`, `address`, `payload` und `serial_number` um Befehle über den Command Builder zu senden.
+
+> [!INFO]
+> Denk an das führende `0x` beim Senden eines Befehls mit der `command` Eigenschaft. Wenn du es weglässt, musst du den HEX-Befehl in eine Dezimalzahl umwandeln.
+
+Command Builder:
+```yaml
+service: esphome.doorman_s3_send_tc_command
+data:
+  type: open_door
+  address: 0
+```
+
+32-Bit Befehle via `command`:
 ```yaml
 service: esphome.doorman_s3_send_tc_command
 data:
@@ -78,6 +103,10 @@ event_type: esphome.doorman
 data:
   device_id: 373c62d6788cf81d322763235513310e
   command: "00001100"
+  type: "open_door"
+  address: "0"
+  payload: "0"
+  serial_number: "0"
 origin: LOCAL
 time_fired: "2024-08-12T12:34:13.718317+00:00"
 context:

@@ -71,7 +71,7 @@ You can send commands on the bus using the `tc_bus.send` action.
 You can either use the `command` field to send a specific command or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
 :::
 
-#### Example 1: Sending a Direct Command
+#### Example 1: Sending a raw Command
 
 ```yaml
 on_...:
@@ -79,7 +79,7 @@ on_...:
       command: 0x1A2B3C4D
 ```
 
-#### Example 2: Sending a Command with Type, Address, and Serial Number
+#### Example 2: Sending a Command via Command Builder
 
 ```yaml
 on_...:

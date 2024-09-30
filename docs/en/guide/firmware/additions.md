@@ -2,13 +2,26 @@
 
 ::: details Create a simple TCS Command Binary Sensor
 You can easily add additional binary sensors for any TCS Command, alongside the preconfigured ones.
+
+Command Builder:
 ```yaml
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
   - platform: tc_bus // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
-    command: 0x3b8f9a00 // [!code ++] // [!code focus]
+    command: 0x00001100 // [!code ++] // [!code focus]
+```
+
+Raw Commands:
+```yaml
+<!--@include: minimal.example.yaml-->
+
+binary_sensor: // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
+    name: "Custom Command" // [!code ++] // [!code focus]
+    type: open_door // [!code ++] // [!code focus]
+    address: 0 // [!code ++] // [!code focus]
 ```
 :::
 
@@ -59,9 +72,20 @@ i2c: // [!code ++] // [!code focus]
 ### Home Assistant
 ::: details Sending Bus commands
 You can use Home Assistant actions (formerly known as services) to send commands on the bus.
-> [!INFO]
-> Remember to include the leading `0x` when sending a HEX command. If you omit it, you'll need to convert the HEX command to a decimal number.
+Either use the `command` to send raw commands or `type`, `address`, `payload` and `serial_number` to send commands via the command builder.
 
+> [!INFO]
+> Remember to include the leading `0x` when calling the action with the `command` property. If you omit it, you'll need to convert the HEX command to a decimal number first.
+
+Command Builder:
+```yaml
+service: esphome.doorman_s3_send_tc_command
+data:
+  type: open_door
+  address: 0
+```
+
+Raw Commands via `command`:
 ```yaml
 service: esphome.doorman_s3_send_tc_command
 data:
@@ -78,6 +102,10 @@ event_type: esphome.doorman
 data:
   device_id: 373c62d6788cf81d322763235513310e
   command: "00001100"
+  type: "open_door"
+  address: "0"
+  payload: "0"
+  serial_number: "0"
 origin: LOCAL
 time_fired: "2024-08-12T12:34:13.718317+00:00"
 context:
