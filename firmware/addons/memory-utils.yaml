@@ -30,6 +30,8 @@ number:
       - tc_bus.update_setting:
           type: volume_ringtone
           value: !lambda "return x;"
+    entity_category: CONFIG
+    disabled_by_default: true
 
   - platform: template
     name: "Handset volume"
@@ -42,6 +44,8 @@ number:
       - tc_bus.update_setting:
           type: volume_handset
           value: !lambda "return x;"
+    entity_category: CONFIG
+    disabled_by_default: true
 
   - platform: template
     name: "Ringtone: Floor Call"
@@ -54,6 +58,8 @@ number:
       - tc_bus.update_setting:
           type: ringtone_floor_call
           value: !lambda "return x;"
+    entity_category: CONFIG
+    disabled_by_default: true
 
   - platform: template
     name: "Ringtone: Door Call"
@@ -66,6 +72,8 @@ number:
       - tc_bus.update_setting:
           type: ringtone_door_call
           value: !lambda "return x;"
+    entity_category: CONFIG
+    disabled_by_default: true
 
   - platform: template
     name: "Ringtone: Internal Call"
@@ -78,6 +86,8 @@ number:
       - tc_bus.update_setting:
           type: ringtone_internal_call
           value: !lambda "return x;"
+    entity_category: CONFIG
+    disabled_by_default: true
 
 #select:
 #  - platform: template
