@@ -1,6 +1,8 @@
 #include "protocol.h"
 #include "esphome.h"
 #include "esphome/core/helpers.h"
+#include <algorithm>
+#include <cctype>
 
 namespace esphome
 {
@@ -341,11 +343,65 @@ namespace esphome
             return data;
         }
 
+        const Model string_to_model(std::string str)
+        {
+            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
+            if (str == "ISH_3030") return MODEL_ISH_3030;
+
+            return MODEL_NONE;
+        }
+
+        const SettingType string_to_setting_type(std::string str)
+        {
+            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
+            if (str == "RINGTONE_FLOOR_CALL") return SETTING_RINGTONE_FLOOR_CALL;
+            if (str == "RINGTONE_DOOR_CALL") return SETTING_RINGTONE_DOOR_CALL;
+            if (str == "RINGTONE_INTERNAL_CALL") return SETTING_RINGTONE_INTERNAL_CALL;
+            if (str == "VOLUME_RINGTONE") return SETTING_VOLUME_RINGTONE;
+            if (str == "VOLUME_HANDSET") return SETTING_VOLUME_HANDSET;
+
+            return SETTING_UNKNOWN;
+        }
+
+        const CommandType string_to_command_type(std::string str)
+        {
+            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
+            if (str == "DOOR_CALL") return COMMAND_TYPE_DOOR_CALL;
+            if (str == "FLOOR_CALL") return COMMAND_TYPE_FLOOR_CALL;
+            if (str == "INTERNAL_CALL") return COMMAND_TYPE_INTERNAL_CALL;
+            if (str == "CONTROL_FUNCTION") return COMMAND_TYPE_CONTROL_FUNCTION;
+            if (str == "START_TALKING_DOOR_STATION") return COMMAND_TYPE_START_TALKING_DOOR_STATION;
+            if (str == "START_TALKING_IA") return COMMAND_TYPE_START_TALKING_IA;
+            if (str == "STOP_TALKING_DOOR_STATION") return COMMAND_TYPE_STOP_TALKING_DOOR_STATION;
+            if (str == "STOP_TALKING_IA") return COMMAND_TYPE_STOP_TALKING_IA;
+            if (str == "OPEN_DOOR") return COMMAND_TYPE_OPEN_DOOR;
+            if (str == "LIGHT") return COMMAND_TYPE_LIGHT;
+            if (str == "DOOR_OPENED") return COMMAND_TYPE_DOOR_OPENED;
+            if (str == "DOOR_CLOSED") return COMMAND_TYPE_DOOR_CLOSED;
+            if (str == "END_OF_RINGTONE") return COMMAND_TYPE_END_OF_RINGTONE;
+            if (str == "END_OF_DOOR_READINESS") return COMMAND_TYPE_END_OF_DOOR_READINESS;
+            if (str == "INITIALIZE_DOOR_STATION") return COMMAND_TYPE_INITIALIZE_DOOR_STATION;
+            if (str == "RESET") return COMMAND_TYPE_RESET;
+            if (str == "SELECT_DEVICE_GROUP") return COMMAND_TYPE_SELECT_DEVICE_GROUP;
+            if (str == "SELECT_DEVICE_GROUP_RESET") return COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET;
+            if (str == "SEARCH_DEVICES") return COMMAND_TYPE_SEARCH_DEVICES;
+            if (str == "FOUND_DEVICE") return COMMAND_TYPE_FOUND_DEVICE;
+            if (str == "FOUND_DEVICE_SUBSYSTEM") return COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM;
+            if (str == "PROGRAMMING_MODE") return COMMAND_TYPE_PROGRAMMING_MODE;
+            if (str == "READ_MEMORY_BLOCK") return COMMAND_TYPE_READ_MEMORY_BLOCK;
+            if (str == "SELECT_MEMORY_PAGE") return COMMAND_TYPE_SELECT_MEMORY_PAGE;
+            if (str == "WRITE_MEMORY") return COMMAND_TYPE_WRITE_MEMORY;
+
+            return COMMAND_TYPE_UNKNOWN;
+        }
+
         const char* command_type_to_string(CommandType type)
         {
             switch (type)
             {
-                case COMMAND_TYPE_UNKNOWN: return "UNKNOWN";
                 case COMMAND_TYPE_DOOR_CALL: return "DOOR_CALL";
                 case COMMAND_TYPE_FLOOR_CALL: return "FLOOR_CALL";
                 case COMMAND_TYPE_INTERNAL_CALL: return "INTERNAL_CALL";
@@ -372,6 +428,28 @@ namespace esphome
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
                 case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
                 default: return "UNKNOWN";
+            }
+        }
+
+        const char* setting_type_to_string(SettingType type)
+        {
+            switch (type)
+            {
+                case SETTING_RINGTONE_FLOOR_CALL: return "RINGTONE_FLOOR_CALL";
+                case SETTING_RINGTONE_DOOR_CALL: return "RINGTONE_DOOR_CALL";
+                case SETTING_RINGTONE_INTERNAL_CALL: return "RINGTONE_INTERNAL_CALL";
+                case SETTING_VOLUME_RINGTONE: return "VOLUME_RINGTONE";
+                case SETTING_VOLUME_HANDSET: return "VOLUME_HANDSET";
+                default: return "UNKNOWN";
+            }
+        }
+
+        const char* model_to_string(Model model)
+        {
+            switch (model)
+            {
+                case MODEL_ISH_3030: return "ISH_3030";
+                default: return "NONE";
             }
         }
     }  // namespace tc_bus

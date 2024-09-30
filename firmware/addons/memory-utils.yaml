@@ -24,7 +24,7 @@ number:
     min_value: 0
     max_value: 7
     step: 1
-    lambda: !lambda "return id(tc_bus_intercom)->get_settings().ringtone_volume;"
+    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_VOLUME_RINGTONE);"
     update_interval: 1s
     set_action:
       - tc_bus.update_setting:
@@ -38,7 +38,7 @@ number:
     min_value: 0
     max_value: 7
     step: 1
-    lambda: !lambda "return id(tc_bus_intercom)->get_settings().handset_volume;"
+    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET);"
     update_interval: 1s
     set_action:
       - tc_bus.update_setting:
@@ -52,7 +52,7 @@ number:
     min_value: 0
     max_value: 12
     step: 1
-    lambda: !lambda "return id(tc_bus_intercom)->get_settings().floor_call_ringtone;"
+    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_RINGTONE_FLOOR_CALL);"
     update_interval: 1s
     set_action:
       - tc_bus.update_setting:
@@ -66,7 +66,7 @@ number:
     min_value: 0
     max_value: 12
     step: 1
-    lambda: !lambda "return id(tc_bus_intercom)->get_settings().door_call_ringtone;"
+    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_RINGTONE_DOOR_CALL);"
     update_interval: 1s
     set_action:
       - tc_bus.update_setting:
@@ -80,7 +80,7 @@ number:
     min_value: 0
     max_value: 12
     step: 1
-    lambda: !lambda "return id(tc_bus_intercom)->get_settings().internal_call_ringtone;"
+    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_RINGTONE_INTERNAL_CALL);"
     update_interval: 1s
     set_action:
       - tc_bus.update_setting:

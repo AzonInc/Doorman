@@ -18,6 +18,7 @@ The `tc_bus` hub component offers the following configuration options:
 | `id`                   | Unique ID for the component.                                                                                                                  | Yes      |               |
 | `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
 | `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
+| `model`                | Model of your intercom phone (used to read and set settings). Take a look at the supported models and settings.                               | No       | `none`        |
 | `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tcs`, the event will be `esphome.tcs`. Set to `none` to disable event generation. | No       | `tcs`         |
 | `serial_number`        | 32-bit hexadecimal value representing the intercom's serial number.                                                                           | No       | `0`           |
 | `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.               | No       |               |
@@ -206,7 +207,7 @@ If you need to calculate or dynamically derive the serial number, use the `seria
 ```yaml
 tc_bus:
   serial_number_lambda: |-
-    return 123456;  # Example of setting a dynamic serial number
+    return 123456;
 ```
 
 ## Command Data
@@ -219,6 +220,7 @@ struct CommandData {
     CommandType type;
     uint8_t address;
     uint32_t serial_number;
+    uint32_t payload;
     uint8_t length;
 };
 ```
@@ -226,7 +228,6 @@ struct CommandData {
 ## Command Types
 Here are the available command types you can use as binary sensor conditions or with the `tc_bus.send` action:
 
-- unknown <Badge type="tip" text="COMMAND_TYPE_UNKNOWN" />
 - door_call <Badge type="tip" text="COMMAND_TYPE_DOOR_CALL" />
 - floor_call <Badge type="tip" text="COMMAND_TYPE_FLOOR_CALL" />
 - internal_call <Badge type="tip" text="COMMAND_TYPE_INTERNAL_CALL" />
@@ -252,3 +253,20 @@ Here are the available command types you can use as binary sensor conditions or 
 - read_memory_block <Badge type="tip" text="COMMAND_TYPE_READ_MEMORY_BLOCK" />
 - select_memory_page <Badge type="tip" text="COMMAND_TYPE_SELECT_MEMORY_PAGE" />
 - write_memory <Badge type="tip" text="COMMAND_TYPE_WRITE_MEMORY" />
+
+## Settings Types
+Here are the available settings types you can use to update the settings of your intercom phone:
+
+- ringtone_floor_call <Badge type="tip" text="SETTING_RINGTONE_FLOOR_CALL" />
+- ringtone_door_call <Badge type="tip" text="SETTING_RINGTONE_DOOR_CALL" />
+- ringtone_internal_call <Badge type="tip" text="SETTING_RINGTONE_INTERNAL_CALL" />
+- volume_ringtone <Badge type="tip" text="SETTING_VOLUME_RINGTONE" />
+- volume_handset <Badge type="tip" text="SETTING_VOLUME_HANDSET" />
+
+## Model Setting availability
+Here are the available settings for specific intercom phone models:
+
+| Model            | Available settings                                                                                         |
+|------------------|------------------------------------------------------------------------------------------------------------|
+| `NONE`           |                                                                                                            |
+| `ISH_3030`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |

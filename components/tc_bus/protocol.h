@@ -6,6 +6,20 @@ namespace esphome
 {
     namespace tc_bus
     {
+        enum Model {
+            MODEL_NONE,
+            MODEL_ISH_3030,
+        };
+
+        enum SettingType {
+            SETTING_UNKNOWN,
+            SETTING_RINGTONE_FLOOR_CALL,
+            SETTING_RINGTONE_DOOR_CALL,
+            SETTING_RINGTONE_INTERNAL_CALL,
+            SETTING_VOLUME_RINGTONE,
+            SETTING_VOLUME_HANDSET
+        };
+
         enum CommandType {
             COMMAND_TYPE_UNKNOWN,
             COMMAND_TYPE_DOOR_CALL,
@@ -45,9 +59,23 @@ namespace esphome
             uint8_t length;
         };
 
+        struct SettingCellData {
+            uint8_t index = 0;
+            bool left_nibble = false;
+        };
+
+
         uint32_t buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
         CommandData parseCommand(uint32_t command);
 
         const char* command_type_to_string(CommandType type);
+        const CommandType string_to_command_type(std::string str);
+
+        const char* setting_type_to_string(SettingType type);
+        const SettingType string_to_setting_type(std::string str);
+
+        const char* model_to_string(Model model);
+        const Model string_to_model(std::string str);
+
     }  // namespace tc_bus
 }  // namespace esphome

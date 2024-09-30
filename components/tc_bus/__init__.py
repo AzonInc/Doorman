@@ -33,43 +33,49 @@ ReadMemoryCompleteTrigger = tc_bus_ns.class_("ReadMemoryCompleteTrigger", automa
 ReadMemoryTimeoutTrigger = tc_bus_ns.class_("ReadMemoryTimeoutTrigger", automation.Trigger.template())
 ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
 
-SettingType = tc_bus_ns.enum("Setting_Type")
+SETTING_TYPE = tc_bus_ns.enum("SettingType")
 SETTING_TYPES = {
-    "ringtone_floor_call": SettingType.SETTING_RINGTONE_FLOOR_CALL,
-    "ringtone_door_call": SettingType.SETTING_RINGTONE_DOOR_CALL,
-    "ringtone_internal_call": SettingType.SETTING_RINGTONE_INTERNAL_CALL,
-    "volume_ringtone": SettingType.SETTING_RINGTONE_VOLUME,
-    "volume_handset": SettingType.SETTING_HANDSET_VOLUME
+    "ringtone_floor_call": SETTING_TYPE.SETTING_RINGTONE_FLOOR_CALL,
+    "ringtone_door_call": SETTING_TYPE.SETTING_RINGTONE_DOOR_CALL,
+    "ringtone_internal_call": SETTING_TYPE.SETTING_RINGTONE_INTERNAL_CALL,
+    "volume_ringtone": SETTING_TYPE.SETTING_VOLUME_RINGTONE,
+    "volume_handset": SETTING_TYPE.SETTING_VOLUME_HANDSET
 }
 
-CommandType = tc_bus_ns.enum("Command_Type")
+COMMAND_TYPE = tc_bus_ns.enum("CommandType")
 COMMAND_TYPES = {
-    "unknown": CommandType.COMMAND_TYPE_UNKNOWN,
-    "door_call": CommandType.COMMAND_TYPE_DOOR_CALL,
-    "floor_call": CommandType.COMMAND_TYPE_FLOOR_CALL,
-    "internal_call": CommandType.COMMAND_TYPE_INTERNAL_CALL,
-    "control_function": CommandType.COMMAND_TYPE_CONTROL_FUNCTION,
-    "start_talking_door_station": CommandType.COMMAND_TYPE_START_TALKING_DOOR_STATION,
-    "start_talking_ia": CommandType.COMMAND_TYPE_START_TALKING_IA,
-    "stop_talking_door_station": CommandType.COMMAND_TYPE_STOP_TALKING_DOOR_STATION,
-    "stop_talking_ia": CommandType.COMMAND_TYPE_STOP_TALKING_IA,
-    "open_door": CommandType.COMMAND_TYPE_OPEN_DOOR,
-    "light": CommandType.COMMAND_TYPE_LIGHT,
-    "door_opened": CommandType.COMMAND_TYPE_DOOR_OPENED,
-    "door_closed": CommandType.COMMAND_TYPE_DOOR_CLOSED,
-    "end_of_ringtone": CommandType.COMMAND_TYPE_END_OF_RINGTONE,
-    "end_of_door_readiness": CommandType.COMMAND_TYPE_END_OF_DOOR_READINESS,
-    "initialize_door_station": CommandType.COMMAND_TYPE_INITIALIZE_DOOR_STATION,
-    "reset": CommandType.COMMAND_TYPE_RESET,
-    "select_device_group": CommandType.COMMAND_TYPE_SELECT_DEVICE_GROUP,
-    "select_device_group_reset": CommandType.COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET,
-    "search_devices": CommandType.COMMAND_TYPE_SEARCH_DEVICES,
-    "found_device": CommandType.COMMAND_TYPE_FOUND_DEVICE,
-    "found_device_subsystem": CommandType.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
-    "programming_mode": CommandType.COMMAND_TYPE_PROGRAMMING_MODE,
-    "read_memory_block": CommandType.COMMAND_TYPE_READ_MEMORY_BLOCK,
-    "select_memory_page": CommandType.COMMAND_TYPE_SELECT_MEMORY_PAGE,
-    "write_memory": CommandType.COMMAND_TYPE_WRITE_MEMORY
+    "unknown": COMMAND_TYPE.COMMAND_TYPE_UNKNOWN,
+    "door_call": COMMAND_TYPE.COMMAND_TYPE_DOOR_CALL,
+    "floor_call": COMMAND_TYPE.COMMAND_TYPE_FLOOR_CALL,
+    "internal_call": COMMAND_TYPE.COMMAND_TYPE_INTERNAL_CALL,
+    "control_function": COMMAND_TYPE.COMMAND_TYPE_CONTROL_FUNCTION,
+    "start_talking_door_station": COMMAND_TYPE.COMMAND_TYPE_START_TALKING_DOOR_STATION,
+    "start_talking_ia": COMMAND_TYPE.COMMAND_TYPE_START_TALKING_IA,
+    "stop_talking_door_station": COMMAND_TYPE.COMMAND_TYPE_STOP_TALKING_DOOR_STATION,
+    "stop_talking_ia": COMMAND_TYPE.COMMAND_TYPE_STOP_TALKING_IA,
+    "open_door": COMMAND_TYPE.COMMAND_TYPE_OPEN_DOOR,
+    "light": COMMAND_TYPE.COMMAND_TYPE_LIGHT,
+    "door_opened": COMMAND_TYPE.COMMAND_TYPE_DOOR_OPENED,
+    "door_closed": COMMAND_TYPE.COMMAND_TYPE_DOOR_CLOSED,
+    "end_of_ringtone": COMMAND_TYPE.COMMAND_TYPE_END_OF_RINGTONE,
+    "end_of_door_readiness": COMMAND_TYPE.COMMAND_TYPE_END_OF_DOOR_READINESS,
+    "initialize_door_station": COMMAND_TYPE.COMMAND_TYPE_INITIALIZE_DOOR_STATION,
+    "reset": COMMAND_TYPE.COMMAND_TYPE_RESET,
+    "select_device_group": COMMAND_TYPE.COMMAND_TYPE_SELECT_DEVICE_GROUP,
+    "select_device_group_reset": COMMAND_TYPE.COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET,
+    "search_devices": COMMAND_TYPE.COMMAND_TYPE_SEARCH_DEVICES,
+    "found_device": COMMAND_TYPE.COMMAND_TYPE_FOUND_DEVICE,
+    "found_device_subsystem": COMMAND_TYPE.COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
+    "programming_mode": COMMAND_TYPE.COMMAND_TYPE_PROGRAMMING_MODE,
+    "read_memory_block": COMMAND_TYPE.COMMAND_TYPE_READ_MEMORY_BLOCK,
+    "select_memory_page": COMMAND_TYPE.COMMAND_TYPE_SELECT_MEMORY_PAGE,
+    "write_memory": COMMAND_TYPE.COMMAND_TYPE_WRITE_MEMORY
+}
+
+MODEL = tc_bus_ns.enum("Model")
+MODELS = {
+    "none": MODEL.MODEL_NONE,
+    "ish_3030": MODEL.MODEL_ISH_3030,
 }
 
 CONF_TC_ID = "tc_bus"
@@ -86,6 +92,8 @@ CONF_ADDRESS = "address"
 CONF_ADDRESS_LAMBDA = "address_lambda"
 CONF_PAYLOAD = "payload"
 CONF_PAYLOAD_LAMBDA = "payload_lambda"
+
+CONF_MODEL = "model"
 
 CONF_BUS_COMMAND = "bus_command"
 CONF_HARDWARE_VERSION = "hardware_version"
@@ -107,6 +115,7 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(TCBus),
             cv.Optional(CONF_RX_PIN, default=9): pins.internal_gpio_input_pin_schema,
             cv.Optional(CONF_TX_PIN, default=8): pins.internal_gpio_output_pin_schema,
+            cv.Optional(CONF_MODEL, default="none"): cv.enum(MODELS, upper=False),
             cv.Optional(CONF_EVENT, default="tc"): cv.string,
             cv.Optional(CONF_SERIAL_NUMBER, default=0): cv.hex_uint32_t,
             cv.Optional(CONF_SERIAL_NUMBER_LAMBDA): cv.returning_lambda,
@@ -153,6 +162,9 @@ async def to_code(config):
 
     pin = await cg.gpio_pin_expression(config[CONF_TX_PIN])
     cg.add(var.set_tx_pin(pin))
+
+    if CONF_MODEL in config:
+        cg.add(var.set_model(config[CONF_MODEL]))
 
     cg.add(var.set_event("esphome." + config[CONF_EVENT]))
 
@@ -226,7 +238,7 @@ async def tc_bus_send_to_code(config, action_id, template_args, args):
         cg.add(var.set_command(command_template_))
 
     if CONF_TYPE in config:
-        type_template_ = await cg.templatable(config[CONF_TYPE], args, CommandType)
+        type_template_ = await cg.templatable(config[CONF_TYPE], args, COMMAND_TYPE)
         cg.add(var.set_type(type_template_))
 
     if CONF_ADDRESS in config:
@@ -265,7 +277,7 @@ async def tc_bus_update_setting_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args, parent)
 
     if CONF_TYPE in config:
-        type_template_ = await cg.templatable(config[CONF_TYPE], args, SettingType)
+        type_template_ = await cg.templatable(config[CONF_TYPE], args, SETTING_TYPE)
         cg.add(var.set_type(type_template_))
 
     if CONF_VALUE in config:

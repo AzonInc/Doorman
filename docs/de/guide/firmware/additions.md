@@ -84,11 +84,13 @@ service: esphome.doorman_s3_send_tc_command
 data:
   type: open_door
   address: 0
+  payload: 0
+  serial_number: 0
 ```
 
 32-Bit Befehle via `command`:
 ```yaml
-service: esphome.doorman_s3_send_tc_command
+service: esphome.doorman_s3_send_tc_command_raw
 data:
   command: 0x3a001100
 ```

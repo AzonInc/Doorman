@@ -81,13 +81,26 @@ logger:
 
 api:
   reboot_timeout: 0s
-  services:
-    - service: send_tc_command
+  actions:
+    - action: send_tc_command_raw
       variables:
         command: int
       then:
         - tc_bus.send:
             command: !lambda 'return command;'
+    # TODO: Fix String to command
+    - action: send_tc_command
+      variables:
+        type: string
+        address: int
+        payload: int
+        serial_number: int
+      then:
+        - tc_bus.send:
+            type: !lambda 'return string_to_command_type(type);'
+            address: !lambda 'return address;'
+            payload: !lambda 'return payload;'
+            serial_number: !lambda 'return serial_number;'
 
 web_server:
   version: 3

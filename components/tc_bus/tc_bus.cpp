@@ -1,5 +1,4 @@
 #include "protocol.h"
-#include "memory.h"
 #include "tc_bus.h"
 
 #include "esphome.h"
@@ -188,18 +187,11 @@ namespace esphome
                         reading_memory_ = false;
                         reading_memory_timer_ = 0;
 
-                        // Save Settings values
-                        settings_.handset_volume = memory_buffer_[21] & 0xF;
-                        settings_.ringtone_volume = memory_buffer_[20] & 0xF;
-                        settings_.door_call_ringtone = (memory_buffer_[3] >> 4) & 0xF;
-                        settings_.internal_call_ringtone = (memory_buffer_[6] >> 4) & 0xF;
-                        settings_.floor_call_ringtone = (memory_buffer_[9] >> 4) & 0xF;
-
-                        ESP_LOGD(TAG, "Handset volume %i", settings_.handset_volume);
-                        ESP_LOGD(TAG, "Ringtone volume %i", settings_.ringtone_volume);
-                        ESP_LOGD(TAG, "Door Call Ringtone %i", settings_.door_call_ringtone);
-                        ESP_LOGD(TAG, "Floor Call Ringtone %i", settings_.floor_call_ringtone);
-                        ESP_LOGD(TAG, "Internal Call Ringtone %i", settings_.internal_call_ringtone);
+                        ESP_LOGD(TAG, "Handset volume %i", get_setting(SETTING_VOLUME_HANDSET));
+                        ESP_LOGD(TAG, "Ringtone volume %i", get_setting(SETTING_VOLUME_RINGTONE));
+                        ESP_LOGD(TAG, "Door Call Ringtone %i", get_setting(SETTING_RINGTONE_DOOR_CALL));
+                        ESP_LOGD(TAG, "Floor Call Ringtone %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
+                        ESP_LOGD(TAG, "Internal Call Ringtone %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
 
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     }
@@ -531,7 +523,7 @@ namespace esphome
                 ESP_LOGV(TAG, "Pause reading");
                 this->rx_pin_->detach_interrupt();
 
-                // Made by https://github.com/atc1441/TCSintercomArduino
+                // Source: https://github.com/atc1441/TCSintercomArduino
                 this->sending = true;
 
                 // Determine message length and whether it's a long message
@@ -630,12 +622,41 @@ namespace esphome
             send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
         }
 
-        void TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number)
+        uint8_t TCBusComponent::get_setting(SettingType type)
+        {
+            if(memory_buffer_.size() == 0)
+            {
+                return 0;
+            }
+
+            // Get Setting Cell Data by Model
+            SettingCellData cellData = getSettingCellData(type);
+
+            if(cellData.index != 0)
+            {
+                if(cellData.left_nibble)
+                {
+                    return ((memory_buffer_[cellData.index] >> 4) & 0xF);
+                }
+                else
+                {
+                    return (memory_buffer_[cellData.index] & 0xF);
+                }
+            }
+            else
+            {
+                ESP_LOGV(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model_));
+                return 0;
+            }
+        }
+
+
+        bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number)
         {
             if(memory_buffer_.size() == 0)
             {
                 ESP_LOGW(TAG, "Memory Buffer is empty! Please read memory first!");
-                return;
+                return false;
             }
 
             if(serial_number == 0)
@@ -652,72 +673,84 @@ namespace esphome
             if(serial_number == 0)
             {
                 ESP_LOGW(TAG, "Serial Number is not set!");
-                return;
+                return false;
             }
 
-            // Prepare Transmission
-            ESP_LOGD(TAG, "Select Indoor Stations");
-            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
-            delay(50);
+            uint8_t saved_nibble = 0;
 
-            ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
-            send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
-            delay(50);
+            // Get Setting Cell Data by Model
+            SettingCellData cellData = getSettingCellData(type);
 
-            uint8_t index = 0;
-            uint8_t cell2 = 0;
-
-            switch(type)
+            if(cellData.index != 0)
             {
-                case SETTING_RINGTONE_DOOR_CALL:
-                    index = 3;
-                    cell2 = memory_buffer_[index] & 0xF;
-                    memory_buffer_[index] = (new_value << 4) | (cell2 & 0xF);
-                    settings_.door_call_ringtone = new_value;
-                    break;
+                // Apply new nibble and keep other nibble
+                saved_nibble = (cellData.left_nibble ? memory_buffer_[cellData.index] : (memory_buffer_[cellData.index] >> 4)) & 0xF;
+                memory_buffer_[cellData.index] = cellData.left_nibble ? ((new_value << 4) | (saved_nibble & 0xF)) : ((saved_nibble << 4) | (new_value & 0xF));
 
-                case SETTING_RINGTONE_INTERNAL_CALL:
-                    index = 6;
-                    cell2 = memory_buffer_[index] & 0xF;
-                    memory_buffer_[index] = (new_value << 4) | (cell2 & 0xF);
-                    settings_.internal_call_ringtone = new_value;
-                    break;
+                // Prepare Transmission
+                ESP_LOGD(TAG, "Select Indoor Stations");
+                send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
+                delay(50);
 
-                case SETTING_RINGTONE_FLOOR_CALL:
-                    index = 9;
-                    cell2 = memory_buffer_[index] & 0xF;
-                    memory_buffer_[index] = (new_value << 4) | (cell2 & 0xF);
-                    settings_.floor_call_ringtone = new_value;
-                    break;
+                ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+                send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
+                delay(50);
 
-                case SETTING_RINGTONE_VOLUME:
-                    index = 20;
-                    cell2 = (memory_buffer_[index] >> 4) & 0xF;
-                    memory_buffer_[index] = (cell2 << 4) | (new_value & 0xF);
-                    settings_.ringtone_volume = new_value;
-                    break;
+                // Transfer new settings value to memory
+                uint16_t new_values = (memory_buffer_[cellData.index] << 8) | memory_buffer_[cellData.index + 1];
+                send_command(COMMAND_TYPE_WRITE_MEMORY, cellData.index, new_values, serial_number);
 
-                case SETTING_HANDSET_VOLUME:
-                    index = 21;
-                    cell2 = (memory_buffer_[index] >> 4) & 0xF;
-                    memory_buffer_[index] = (cell2 << 4) | (new_value & 0xF);
-                    settings_.handset_volume = new_value;
-                    break;
-
-                default:
-                    ESP_LOGW(TAG, "Unknown Setting!");
-                    break;
-            }
-
-            if(index == 0)
-            {
-                return;
+                return true;
             }
             else
             {
-                uint16_t new_values = (memory_buffer_[index] << 8) | memory_buffer_[index + 1];
-                send_command(COMMAND_TYPE_WRITE_MEMORY, index, new_values, serial_number);
+                ESP_LOGW(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model_));
+                return false;
             }
+        }
+
+        SettingCellData TCBusComponent::getSettingCellData(SettingType setting)
+        {
+            SettingCellData data;
+
+            switch (model_)
+            {
+                case MODEL_ISH_3030:
+                    switch (setting)
+                    {
+                        case SETTING_RINGTONE_DOOR_CALL:
+                            data.index = 3;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_INTERNAL_CALL:
+                            data.index = 6;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_FLOOR_CALL:
+                            data.index = 9;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_VOLUME_RINGTONE:
+                            data.index = 20;
+                            data.left_nibble = false;
+                            break;
+
+                        case SETTING_VOLUME_HANDSET:
+                            data.index = 21;
+                            data.left_nibble = false;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                default: break;
+            }
+
+            return data;
         }
 
         void TCBusComponent::write_memory(uint32_t serial_number)

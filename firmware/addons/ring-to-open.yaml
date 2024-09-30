@@ -145,7 +145,7 @@ select:
 
   - platform: template
     id: doorman_ring_to_open_door_trigger
-    name: "Ring To Open: Triggering Door Staion"
+    name: "Ring To Open: Triggering Door Station"
     icon: mdi:door
     optimistic: true
     options:

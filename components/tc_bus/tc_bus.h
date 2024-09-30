@@ -1,7 +1,6 @@
 #pragma once
 
 #include "protocol.h"
-#include "memory.h"
 
 #include <utility>
 #include <vector>
@@ -78,6 +77,8 @@ namespace esphome
 
                 void register_listener(TCBusListener *listener);
 
+                void set_model(Model model) { this->model_ = model; }
+
                 void set_sn(uint32_t serial_number) { this->serial_number_ = serial_number; }
                 void set_sn_lambda(std::function<optional<uint32_t>()> &&serial_number_lambda) { this->serial_number_lambda_ = serial_number_lambda; }
 
@@ -88,23 +89,21 @@ namespace esphome
                 void send_command(uint32_t command);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
+
                 void read_memory(uint32_t serial_number);
                 void request_memory_blocks(uint8_t start_address);
-
                 void write_memory(uint32_t serial_number = 0);
 
-                Settings get_settings() { return settings_; };
-
-                void update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
+                uint8_t get_setting(SettingType type);
+                bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
+                SettingCellData getSettingCellData(SettingType setting);
 
                 void publish_command(uint32_t command, bool fire_events);
 
                 void add_received_command_callback(std::function<void(CommandData)> &&callback);
                 CallbackManager<void(CommandData)> received_command_callback_{};
-                
                 void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback);
                 CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
-
                 void add_read_memory_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> read_memory_timeout_callback_{};
 
@@ -114,6 +113,8 @@ namespace esphome
                 InternalGPIOPin *rx_pin_;
                 InternalGPIOPin *tx_pin_;
                 const char* event_;
+
+                Model model_;
 
                 TCBusComponentStore store_;
                 std::vector<TCBusListener *> listeners_{};
@@ -132,8 +133,6 @@ namespace esphome
                 uint8_t reading_memory_count_ = 0;
                 uint32_t reading_memory_timer_ = 0;
                 std::vector<uint8_t> memory_buffer_;
-
-                Settings settings_;
         };
 
     }  // namespace tc_bus
