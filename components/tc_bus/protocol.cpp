@@ -87,6 +87,12 @@ namespace esphome
                     command |= (payload & 0xFF); // 08
                     break;
 
+                case COMMAND_TYPE_REQUEST_VERSION:
+                    command |= (5 << 28); // 5
+                    command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    command |= (0xC0 & 0xFF); // C0
+                    break;
+
                 case COMMAND_TYPE_RESET:
                     command |= (5 << 12); // 5
                     command |= (1 << 8);  // 100
@@ -208,10 +214,11 @@ namespace esphome
                                 break;
 
                             case 0xC:
+                                data.type = COMMAND_TYPE_REQUEST_VERSION;
+
                                 // request type and version
                                 // request versions of subdevices
                                 // Not implemented
-
                                 // 5 12345 C0
                                 break;
 
@@ -343,14 +350,7 @@ namespace esphome
             return data;
         }
 
-        const Model string_to_model(std::string str)
-        {
-            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-
-            if (str == "ISH_3030") return MODEL_ISH_3030;
-
-            return MODEL_NONE;
-        }
+        
 
         const SettingType string_to_setting_type(std::string str)
         {
@@ -364,6 +364,20 @@ namespace esphome
 
             return SETTING_UNKNOWN;
         }
+
+        const char* setting_type_to_string(SettingType type)
+        {
+            switch (type)
+            {
+                case SETTING_RINGTONE_FLOOR_CALL: return "RINGTONE_FLOOR_CALL";
+                case SETTING_RINGTONE_DOOR_CALL: return "RINGTONE_DOOR_CALL";
+                case SETTING_RINGTONE_INTERNAL_CALL: return "RINGTONE_INTERNAL_CALL";
+                case SETTING_VOLUME_RINGTONE: return "VOLUME_RINGTONE";
+                case SETTING_VOLUME_HANDSET: return "VOLUME_HANDSET";
+                default: return "UNKNOWN";
+            }
+        }
+
 
         const CommandType string_to_command_type(std::string str)
         {
@@ -431,17 +445,16 @@ namespace esphome
             }
         }
 
-        const char* setting_type_to_string(SettingType type)
+
+
+        const Model string_to_model(std::string str)
         {
-            switch (type)
-            {
-                case SETTING_RINGTONE_FLOOR_CALL: return "RINGTONE_FLOOR_CALL";
-                case SETTING_RINGTONE_DOOR_CALL: return "RINGTONE_DOOR_CALL";
-                case SETTING_RINGTONE_INTERNAL_CALL: return "RINGTONE_INTERNAL_CALL";
-                case SETTING_VOLUME_RINGTONE: return "VOLUME_RINGTONE";
-                case SETTING_VOLUME_HANDSET: return "VOLUME_HANDSET";
-                default: return "UNKNOWN";
-            }
+            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+
+            if (str == "ISH_3030") return MODEL_ISH_3030;
+            if (str == "ISW_3030") return MODEL_ISW_3030;
+
+            return MODEL_NONE;
         }
 
         const char* model_to_string(Model model)
@@ -449,6 +462,7 @@ namespace esphome
             switch (model)
             {
                 case MODEL_ISH_3030: return "ISH_3030";
+                case MODEL_ISW_3030: return "ISW_3030";
                 default: return "NONE";
             }
         }

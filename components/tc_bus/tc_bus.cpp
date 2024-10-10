@@ -716,6 +716,7 @@ namespace esphome
             switch (model_)
             {
                 case MODEL_ISH_3030:
+                case MODEL_ISW_3030:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:

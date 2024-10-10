@@ -18,7 +18,7 @@ The `tc_bus` hub component offers the following configuration options:
 | `id`                   | Unique ID for the component.                                                                                                                  | Yes      |               |
 | `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
 | `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
-| `model`                | Model of your intercom phone (used to read and set settings). Take a look at the supported models and settings.                               | No       | `none`        |
+| `model`                | Model of your intercom phone (used to read and set settings). Take a look at the supported models and settings.                               | No       | `NONE`        |
 | `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tcs`, the event will be `esphome.tcs`. Set to `none` to disable event generation. | No       | `tcs`         |
 | `serial_number`        | 32-bit hexadecimal value representing the intercom's serial number.                                                                           | No       | `0`           |
 | `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.               | No       |               |
@@ -270,3 +270,4 @@ Here are the available settings for specific intercom phone models:
 |------------------|------------------------------------------------------------------------------------------------------------|
 | `NONE`           |                                                                                                            |
 | `ISH_3030`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `ISW_3030`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |

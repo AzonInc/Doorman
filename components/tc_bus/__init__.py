@@ -69,13 +69,15 @@ COMMAND_TYPES = {
     "programming_mode": COMMAND_TYPE.COMMAND_TYPE_PROGRAMMING_MODE,
     "read_memory_block": COMMAND_TYPE.COMMAND_TYPE_READ_MEMORY_BLOCK,
     "select_memory_page": COMMAND_TYPE.COMMAND_TYPE_SELECT_MEMORY_PAGE,
-    "write_memory": COMMAND_TYPE.COMMAND_TYPE_WRITE_MEMORY
+    "write_memory": COMMAND_TYPE.COMMAND_TYPE_WRITE_MEMORY,
+    "request_version": COMMAND_TYPE.COMMAND_TYPE_REQUEST_VERSION
 }
 
 MODEL = tc_bus_ns.enum("Model")
 MODELS = {
-    "none": MODEL.MODEL_NONE,
-    "ish_3030": MODEL.MODEL_ISH_3030,
+    "NONE": MODEL.MODEL_NONE,
+    "ISH_3030": MODEL.MODEL_ISH_3030,
+    "ISW_3030": MODEL.MODEL_ISW_3030,
 }
 
 CONF_TC_ID = "tc_bus"
@@ -115,7 +117,7 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(TCBus),
             cv.Optional(CONF_RX_PIN, default=9): pins.internal_gpio_input_pin_schema,
             cv.Optional(CONF_TX_PIN, default=8): pins.internal_gpio_output_pin_schema,
-            cv.Optional(CONF_MODEL, default="none"): cv.enum(MODELS, upper=False),
+            cv.Optional(CONF_MODEL, default="NONE"): cv.enum(MODELS, upper=True),
             cv.Optional(CONF_EVENT, default="tc"): cv.string,
             cv.Optional(CONF_SERIAL_NUMBER, default=0): cv.hex_uint32_t,
             cv.Optional(CONF_SERIAL_NUMBER_LAMBDA): cv.returning_lambda,

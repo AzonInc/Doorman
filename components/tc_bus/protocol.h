@@ -9,6 +9,7 @@ namespace esphome
         enum Model {
             MODEL_NONE,
             MODEL_ISH_3030,
+            MODEL_ISW_3030,
         };
 
         enum SettingType {
@@ -46,7 +47,8 @@ namespace esphome
             COMMAND_TYPE_PROGRAMMING_MODE,
             COMMAND_TYPE_READ_MEMORY_BLOCK,
             COMMAND_TYPE_SELECT_MEMORY_PAGE,
-            COMMAND_TYPE_WRITE_MEMORY
+            COMMAND_TYPE_WRITE_MEMORY,
+            COMMAND_TYPE_REQUEST_VERSION
         };
         
         struct CommandData {
