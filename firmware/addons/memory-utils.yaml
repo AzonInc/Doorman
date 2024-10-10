@@ -20,7 +20,7 @@ button:
 
 number:
   - platform: template
-    name: "Ringtone volume"
+    name: "Volume: Ringtone"
     min_value: 0
     max_value: 7
     step: 1
@@ -35,7 +35,7 @@ number:
     disabled_by_default: true
 
   - platform: template
-    name: "Handset volume"
+    name: "Volume: Handset"
     min_value: 0
     max_value: 7
     step: 1
