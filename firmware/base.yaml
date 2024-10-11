@@ -117,7 +117,7 @@ web_server:
     - id: sorting_group_controls
       name: "Controls"
       sorting_weight: 40
-    - id: sorting_group_bridge
+    - id: sorting_group_nuki
       name: "Nuki Bridge"
       sorting_weight: 50
 
