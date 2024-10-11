@@ -16,8 +16,8 @@ event:
       - "second_entrance_single"
       - "second_entrance_double"
       - "second_entrance_triple"
-    web_server:
-      sorting_group_id: sorting_group_sensors
+    #web_server:
+    #  sorting_group_id: sorting_group_sensors
 
   - platform: template
     id: phone_pick_up_pattern
@@ -27,8 +27,8 @@ event:
       - "single"
       - "double"
       - "triple"
-    web_server:
-      sorting_group_id: sorting_group_sensors
+    #web_server:
+    #  sorting_group_id: sorting_group_sensors
 
 binary_sensor:
   - id: !extend entrance_doorbell
