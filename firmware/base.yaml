@@ -124,7 +124,7 @@ web_server:
       name: "Nuki Bridge"
       sorting_weight: 50
     - id: sorting_group_system
-      name: "ESPHome"
+      name: "System"
       sorting_weight: 60
 
 ota:
@@ -160,12 +160,13 @@ tc_bus:
     icon: "mdi:router-wireless"
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_system
   bus_command:
     id: last_bus_command
     name: "Last Bus Command"
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -11
   serial_number_lambda: !lambda "return id(intercom_serial_number);"
 
 
@@ -180,6 +181,7 @@ switch:
     pin: ${relay_pin}
     web_server:
       sorting_group_id: sorting_group_controls
+      sorting_weight: -7
 
 button:
   # System Actions
@@ -219,6 +221,7 @@ button:
           address: 0
     web_server:
       sorting_group_id: sorting_group_controls
+      sorting_weight: -10
           
   - platform: template
     id: open_second_door
@@ -230,6 +233,7 @@ button:
           address: !lambda "return id(second_door_station_id);"
     web_server:
       sorting_group_id: sorting_group_controls
+      sorting_weight: -9
 
   - platform: template
     id: turn_on_light
@@ -241,6 +245,7 @@ button:
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_controls
+      sorting_weight: -8
 
 # Onboard Status LEDs
 light:
@@ -252,7 +257,7 @@ light:
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_controls
+      sorting_group_id: sorting_group_system
 
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led
@@ -287,7 +292,7 @@ light:
           min_brightness: 0%
           max_brightness: 40%
     web_server:
-      sorting_group_id: sorting_group_controls
+      sorting_group_id: sorting_group_system
 
 sensor:
   - platform: uptime
@@ -321,6 +326,7 @@ binary_sensor:
     auto_off: 0.2s
     web_server:
       sorting_group_id: sorting_group_listeners
+      sorting_weight: -9
 
   - platform: tc_bus
     id: second_entrance_doorbell
@@ -330,6 +336,7 @@ binary_sensor:
     auto_off: 0.2s
     web_server:
       sorting_group_id: sorting_group_listeners
+      sorting_weight: -8
 
   - platform: tc_bus
     id: apartment_doorbell
@@ -338,6 +345,7 @@ binary_sensor:
     auto_off: 0.2s
     web_server:
       sorting_group_id: sorting_group_listeners
+      sorting_weight: -10
 
   - platform: tc_bus
     id: pick_up_phone
@@ -349,6 +357,7 @@ binary_sensor:
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_listeners
+      sorting_weight: -6
 
   - platform: tc_bus
     id: hang_up_phone
@@ -360,6 +369,7 @@ binary_sensor:
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_listeners
+      sorting_weight: -5
 
   - platform: tc_bus
     id: function_button
@@ -381,6 +391,7 @@ binary_sensor:
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_listeners
+      sorting_weight: -7
 
   - platform: gpio
     id: doorman_external_button
@@ -394,7 +405,7 @@ binary_sensor:
         input: true
       inverted: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_system
 
 script:
   - id: update_led

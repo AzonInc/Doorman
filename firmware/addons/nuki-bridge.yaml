@@ -49,6 +49,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
+        sorting_weight: -10
 
     is_paired:
       id: nuki_paired
@@ -57,6 +58,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
+        sorting_weight: -9
 
     # Optional:
     battery_critical:
@@ -65,6 +67,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
+        sorting_weight: -8
 
     battery_level:
       id: nuki_battery_level
@@ -72,6 +75,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
+        sorting_weight: -7
 
     door_sensor:
       id: nuki_door_sensor
@@ -79,6 +83,7 @@ lock:
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
+        sorting_weight: -6
 
     door_sensor_state:
       id: nuki_door_sensor_state
@@ -86,20 +91,23 @@ lock:
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
-    
-    unpair:
-      id: nuki_unpair_device
-      name: "Nuki Unpair Device"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki
-
+        sorting_weight: -5
+        
     pairing_mode:
       id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
+        sorting_weight: -4
+
+    unpair:
+      id: nuki_unpair_device
+      name: "Nuki Unpair Device"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
 
     on_pairing_mode_on_action:
       - script.execute: update_led
@@ -120,6 +128,7 @@ lock:
 
     web_server:
       sorting_group_id: sorting_group_nuki
+      sorting_weight: -11
 
 script:
   - id: !extend update_led
