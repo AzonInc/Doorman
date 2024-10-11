@@ -276,8 +276,8 @@ You can use command types in binary sensors and also when [sending commands](#se
 - write_memory <Badge type="tip" text="COMMAND_TYPE_WRITE_MEMORY" />
 - request_version <Badge type="tip" text="COMMAND_TYPE_REQUEST_VERSION" />
 
-## Settings Types
-Here are the available settings types you can use to update the settings of your intercom phone:
+## Setting Types
+Here are the available setting types you can use to update the settings of your intercom phone:
 
 - ringtone_floor_call <Badge type="tip" text="SETTING_RINGTONE_FLOOR_CALL" />
 - ringtone_door_call <Badge type="tip" text="SETTING_RINGTONE_DOOR_CALL" />

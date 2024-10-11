@@ -18,7 +18,7 @@ tc_bus:
     # If no second door station id is set, wait for one
     - if:
         condition:
-          - lambda: return id(second_door_station_id) == 0 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != 0;
+          - lambda: return id(second_door_station_id) == 99 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != 0;
         then:
           - globals.set:
               id: second_door_station_id
