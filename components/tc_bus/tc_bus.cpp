@@ -10,10 +10,12 @@
 #include "esphome/core/helpers.h"
 #include "esphome/components/api/custom_api_device.h"
 
+#if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
 #include "soc/efuse_reg.h"
 #include "soc/efuse_periph.h"
 #include "esp_efuse.h"
 #include "esp_efuse_table.h"
+#endif
 
 #ifdef USE_ARDUINO
 #include "Arduino.h"
@@ -634,14 +636,7 @@ namespace esphome
 
             if(cellData.index != 0)
             {
-                if(cellData.left_nibble)
-                {
-                    return ((memory_buffer_[cellData.index] >> 4) & 0xF);
-                }
-                else
-                {
-                    return (memory_buffer_[cellData.index] & 0xF);
-                }
+                return cellData.left_nibble ? ((memory_buffer_[cellData.index] >> 4) & 0xF) : (memory_buffer_[cellData.index] & 0xF);
             }
             else
             {
@@ -649,7 +644,6 @@ namespace esphome
                 return 0;
             }
         }
-
 
         bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number)
         {
