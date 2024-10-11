@@ -105,27 +105,27 @@ api:
 web_server:
   version: 3
   sorting_groups:
-    - id: sorting_group_doorman_settings
-      name: "Doorman Settings"
-      sorting_weight: 10
-    - id: sorting_group_intercom_settings
-      name: "TC:BUS Intercom Settings"
-      sorting_weight: 20
-    - id: sorting_group_sensors
-      name: "Sensors"
-      sorting_weight: 30
-    - id: sorting_group_listeners
-      name: "Doorman Listeners"
-      sorting_weight: 31
     - id: sorting_group_controls
       name: "Controls"
-      sorting_weight: 40
+      sorting_weight: -11
+    - id: sorting_group_doorman_settings
+      name: "Doorman Settings"
+      sorting_weight: -10
+    - id: sorting_group_intercom_settings
+      name: "TC:BUS Intercom Settings"
+      sorting_weight: -9
+    - id: sorting_group_sensors
+      name: "Sensors"
+      sorting_weight: -8
+    - id: sorting_group_listeners
+      name: "Doorman Listeners"
+      sorting_weight: -7
     - id: sorting_group_nuki
       name: "Nuki Bridge"
-      sorting_weight: 50
+      sorting_weight: -5
     - id: sorting_group_system
       name: "System"
-      sorting_weight: 60
+      sorting_weight: -4
 
 ota:
   - platform: esphome
