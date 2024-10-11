@@ -109,22 +109,32 @@ web_server:
       name: "Doorman Settings"
       sorting_weight: 10
     - id: sorting_group_intercom_settings
-      name: "Intercom Settings"
+      name: "TC:BUS Intercom Settings"
       sorting_weight: 20
     - id: sorting_group_sensors
       name: "Sensors"
       sorting_weight: 30
+    - id: sorting_group_listeners
+      name: "Command Listeners"
+      sorting_weight: 31
     - id: sorting_group_controls
       name: "Controls"
       sorting_weight: 40
     - id: sorting_group_nuki
       name: "Nuki Bridge"
       sorting_weight: 50
+    - id: sorting_group_system
+      name: "ESPHome"
+      sorting_weight: 60
 
 ota:
   - platform: esphome
+    web_server:
+      sorting_group_id: sorting_group_system
   - platform: http_request
     id: ota_http_request
+    web_server:
+      sorting_group_id: sorting_group_system
 
 http_request:
   verify_ssl: false
@@ -184,7 +194,7 @@ button:
     icon: mdi:restart
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_controls
+      sorting_group_id: sorting_group_system
 
   - platform: safe_mode
     id: doorman_safe_mode
@@ -192,7 +202,7 @@ button:
     entity_category: CONFIG
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_controls
+      sorting_group_id: sorting_group_system
 
   - platform: factory_reset
     id: doorman_factory_reset
@@ -200,7 +210,7 @@ button:
     entity_category: CONFIG
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_controls
+      sorting_group_id: sorting_group_system
 
   # Preconfigured Open Door Button
   - platform: template
@@ -289,7 +299,7 @@ sensor:
     id: doorman_uptime
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_system
 
 binary_sensor:
   - platform: gpio
@@ -314,7 +324,7 @@ binary_sensor:
     type: door_call
     auto_off: 0.2s
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: tc_bus
     id: second_entrance_doorbell
@@ -323,7 +333,7 @@ binary_sensor:
     address_lambda: !lambda "return id(second_door_station_id);"
     auto_off: 0.2s
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: tc_bus
     id: apartment_doorbell
@@ -331,7 +341,7 @@ binary_sensor:
     type: floor_call
     auto_off: 0.2s
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: tc_bus
     id: pick_up_phone
@@ -342,7 +352,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: tc_bus
     id: hang_up_phone
@@ -353,7 +363,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: tc_bus
     id: function_button
@@ -364,7 +374,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: tc_bus
     id: light_button
@@ -374,7 +384,7 @@ binary_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_listeners
 
   - platform: gpio
     id: doorman_external_button
