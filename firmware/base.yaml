@@ -153,9 +153,13 @@ tc_bus:
     name: "Hardware"
     icon: "mdi:router-wireless"
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
   bus_command:
     id: last_bus_command
     name: "Last Bus Command"
+    web_server:
+      sorting_group_id: sorting_group_sensors
   serial_number_lambda: !lambda "return id(intercom_serial_number);"
 
 
