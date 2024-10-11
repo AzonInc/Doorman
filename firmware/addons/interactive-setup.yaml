@@ -11,6 +11,8 @@ switch:
       - script.execute: update_led
     on_turn_off:
       - script.execute: update_led
+    web_server:
+      sorting_group_id: sorting_group_doorman_settings
 
 # Extend TC:BUS Component
 tc_bus:

@@ -17,6 +17,8 @@ button:
     name: "Read Memory"
     on_press:
       - tc_bus.read_memory:
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
 
 number:
   - platform: template
@@ -33,6 +35,8 @@ number:
           value: !lambda "return x;"
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
 
   - platform: template
     name: "Volume: Handset"
@@ -48,6 +52,8 @@ number:
           value: !lambda "return x;"
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
 
 select:
   - platform: template
@@ -86,6 +92,8 @@ select:
             return (std::stoi(v[1].c_str()) - 1);
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
 
   - platform: template
     name: "Ringtone: Floor Call"
@@ -123,6 +131,8 @@ select:
             return (std::stoi(v[1].c_str()) - 1);
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
 
   - platform: template
     name: "Ringtone: Internal Call"
@@ -160,3 +170,5 @@ select:
             return (std::stoi(v[1].c_str()) - 1);
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings

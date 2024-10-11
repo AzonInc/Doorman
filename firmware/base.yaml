@@ -104,6 +104,22 @@ api:
 
 web_server:
   version: 3
+  sorting_groups:
+    - id: sorting_group_doorman_settings
+      name: "Doorman Settings"
+      sorting_weight: 10
+    - id: sorting_group_intercom_settings
+      name: "Intercom Settings"
+      sorting_weight: 20
+    - id: sorting_group_sensors
+      name: "Sensors"
+      sorting_weight: 30
+    - id: sorting_group_controls
+      name: "Controls"
+      sorting_weight: 40
+    - id: sorting_group_bridge
+      name: "Nuki Bridge"
+      sorting_weight: 50
 
 ota:
   - platform: esphome
@@ -152,6 +168,8 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     disabled_by_default: true
     pin: ${relay_pin}
+    web_server:
+      sorting_group_id: sorting_group_controls
 
 button:
   # System Actions
@@ -161,18 +179,24 @@ button:
     name: Restart
     icon: mdi:restart
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_controls
 
   - platform: safe_mode
     id: doorman_safe_mode
     name: Safe mode
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_controls
 
   - platform: factory_reset
     id: doorman_factory_reset
     name: Restore Factory Settings
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_controls
 
   # Preconfigured Open Door Button
   - platform: template
@@ -183,6 +207,8 @@ button:
       - tc_bus.send:
           type: open_door
           address: 0
+    web_server:
+      sorting_group_id: sorting_group_controls
           
   - platform: template
     id: open_second_door
@@ -192,6 +218,8 @@ button:
       - tc_bus.send:
           type: open_door
           address: !lambda "return id(second_door_station_id);"
+    web_server:
+      sorting_group_id: sorting_group_controls
 
   - platform: template
     id: turn_on_light
@@ -201,6 +229,8 @@ button:
       - tc_bus.send:
           type: light
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_controls
 
 # Onboard Status LEDs
 light:
@@ -211,6 +241,8 @@ light:
     pin: ${led_pin}
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_controls
 
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led
@@ -244,12 +276,16 @@ light:
           update_interval: 2s
           min_brightness: 0%
           max_brightness: 40%
+    web_server:
+      sorting_group_id: sorting_group_controls
 
 sensor:
   - platform: uptime
     name: Uptime
     id: doorman_uptime
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
 binary_sensor:
   - platform: gpio
@@ -264,6 +300,8 @@ binary_sensor:
     id: doorman_boot_button
     name: "Flash Button"
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   # Preconfigured Sensors
   - platform: tc_bus
@@ -271,6 +309,8 @@ binary_sensor:
     name: "Entrance Doorbell"
     type: door_call
     auto_off: 0.2s
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: tc_bus
     id: second_entrance_doorbell
@@ -278,12 +318,16 @@ binary_sensor:
     type: door_call
     address_lambda: !lambda "return id(second_door_station_id);"
     auto_off: 0.2s
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: tc_bus
     id: apartment_doorbell
     name: "Apartment Doorbell"
     type: floor_call
     auto_off: 0.2s
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: tc_bus
     id: pick_up_phone
@@ -293,6 +337,8 @@ binary_sensor:
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: tc_bus
     id: hang_up_phone
@@ -302,6 +348,8 @@ binary_sensor:
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: tc_bus
     id: function_button
@@ -311,6 +359,8 @@ binary_sensor:
     address: 8
     entity_category: DIAGNOSTIC
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: tc_bus
     id: light_button
@@ -319,6 +369,8 @@ binary_sensor:
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
   - platform: gpio
     id: doorman_external_button
@@ -331,6 +383,8 @@ binary_sensor:
         pullup: true
         input: true
       inverted: true
+    web_server:
+      sorting_group_id: sorting_group_sensors
 
 script:
   - id: update_led

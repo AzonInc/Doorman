@@ -47,43 +47,59 @@ lock:
       name: "Nuki Connected"
       icon: "mdi:link"
       entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     is_paired:
       id: nuki_paired
       name: "Nuki Paired"
       icon: "mdi:link"
       entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     # Optional:
     battery_critical:
       id: nuki_battery_critical
       name: "Nuki Battery Critical"
       entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     battery_level:
       id: nuki_battery_level
       name: "Nuki Battery Level"
       entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     door_sensor:
       id: nuki_door_sensor
       name: "Nuki Door Sensor"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     door_sensor_state:
       id: nuki_door_sensor_state
       name: "Nuki Door Sensor State"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
     
     unpair:
       id: nuki_unpair_device
       name: "Nuki Unpair Device"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     pairing_mode:
       id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
 
     on_pairing_mode_on_action:
       - script.execute: update_led
@@ -101,6 +117,9 @@ lock:
           brightness: 60%
       - delay: 3s
       - script.execute: update_led
+
+    web_server:
+      sorting_group_id: sorting_group_nuki
 
 script:
   - id: !extend update_led
