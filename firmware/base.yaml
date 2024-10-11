@@ -129,12 +129,8 @@ web_server:
 
 ota:
   - platform: esphome
-    web_server:
-      sorting_group_id: sorting_group_system
   - platform: http_request
     id: ota_http_request
-    web_server:
-      sorting_group_id: sorting_group_system
 
 http_request:
   verify_ssl: false
