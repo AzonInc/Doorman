@@ -18,18 +18,20 @@ The `tc_bus` hub component offers the following configuration options:
 | `id`                   | Unique ID for the component.                                                                                                                  | Yes      |               |
 | `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
 | `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
-| `model`                | Model of your intercom phone (used to read and set settings). Take a look at the supported models and settings.                               | No       | `NONE`        |
-| `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tcs`, the event will be `esphome.tcs`. Set to `none` to disable event generation. | No       | `tcs`         |
+| `model`                | Model of your intercom phone (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `NONE`        |
+| `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
 | `serial_number`        | 32-bit hexadecimal value representing the intercom's serial number.                                                                           | No       | `0`           |
-| `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.               | No       |               |
+| `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.              | No       |               |
 | `bus_command`          | Text sensor to display the last received bus command.                                                                                         | No       |               |
 | `hardware_version`     | Text sensor to display the Doorman-S3 hardware version.                                                                                       | No       |               |
 | `door_readiness`       | Binary sensor indicating the door readiness state.                                                                                            | No       |               |
-| `on_command_action`    | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.           | No       |               |
+| `on_command`           | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
+| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.          | No       |               |
+| `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                         | No       |               |
 
 ### Command Listener Binary Sensors
 
-The **TCS Intercom Binary Sensor** detects binary states such as doorbell presses. It can be configured to trigger based on a predefined command or a lambda expression.
+The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It can be configured to trigger based on a predefined command or a lambda expression.
 
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
@@ -37,14 +39,14 @@ The **TCS Intercom Binary Sensor** detects binary states such as doorbell presse
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
-| `command`        | A specific 32-bit hexadecimal command that triggers the binary sensor when received from the TCS intercom.| No       | `0`           |
+| `command`        | A specific 32-bit hexadecimal command that triggers the binary sensor when received from the TCS intercom.| Yes       | `0`           |
 | `command_lambda` | Lambda expression used to dynamically generate the command that will trigger the binary sensor, instead of using a fixed command. Cannot be used with `command`.  | No       |               |
-| `type`           | Command type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `command`.  | No       | `unknown`     |
-| `address`        | 8-bit address that serves as a condition to trigger the binary sensor.                                    | No       | `0`           |
+| `type`           | Command type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `command`.  | Yes       | `unknown`     |
+| `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
 | `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
-| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.                                   | No       | `0`           |
+| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
 | `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.              | No       |               |
-| `serial_number`  | Specific intercom serial number that serves as a condition to trigger the binary sensor.                  | No       | `unknown`     |
+| `serial_number`  | Specific intercom serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | No       | `unknown`     |
 
 ::: info
 You can use **either** `command`/`command_lambda` **or** a combination of `type`, `address`/`address_lambda`, `payload`/`payload_lambda`, and `serial_number`, but **not both** simultaneously.\
@@ -52,10 +54,10 @@ This ensures the binary sensor triggers either through a specific command or a c
 :::
 
 ## Callback
-The `on_command_action` callback of the `tc_bus` hub allows you to utilize the [CommandData](#command-data) structure, accessible as the `x` variable.
+The `on_command` callback of the `tc_bus` hub allows you to utilize the [CommandData](#command-data) structure, accessible as the `x` variable.
 
 ```yaml
-on_command_action:
+on_command:
   - lambda: |-
       ESP_LOGD("TAG", "Received Command Type: %s", command_type_to_string(x.type));
 
@@ -116,6 +118,7 @@ data:
   command: "0x00002400"
   type: "end_of_door_readiness"
   address: "0"
+  payload: "0"
   serial_number: "0"
 origin: LOCAL
 time_fired: "2024-01-01T00:00:00.000000+00:00"
@@ -150,7 +153,11 @@ Be sure to modify the command and event name as needed based on your configurati
 Here is an example configuration for the TCS Intercom component in ESPHome:
 
 ```yaml
-# TCS Intercom configuration
+external_components:
+  - source: github://AzonInc/Doorman
+    components: [ tc_bus ]
+
+# TC:BUS configuration
 tc_bus:
   id: my_tc_bus
   rx_pin: GPIO9
@@ -163,17 +170,31 @@ tc_bus:
     name: "Doorman Hardware"
   door_readiness:
     name: "Door Readiness"
-  on_command_action:
+  on_command:
     - logger.log: "Received command from intercom!"
 
 # Binary sensor for doorbell press
 binary_sensor:
   - platform: tc_bus
-    id: doorbell_sensor
-    name: "Doorbell Press"
+    id: doorbell_sensor_raw
+    name: "Outdoor Station Doorbell (raw)"
     icon: "mdi:doorbell"
     command: 0x0C30BA80
     auto_off: 2s
+
+  - platform: tc_bus
+    id: doorbell_sensor_new
+    name: "Outdoor Station Doorbell (parser)"
+    icon: "mdi:doorbell"
+    type: door_call
+    auto_off: 2s
+
+  - platform: tc_bus
+    id: doorbell_sensor_new_other
+    name: "Outdoor Station Doorbell of other serial number (parser)"
+    icon: "mdi:doorbell"
+    type: door_call
+    serial_number: 123456
 
   - platform: tc_bus
     id: door_opener_sensor
@@ -181,23 +202,23 @@ binary_sensor:
     icon: "mdi:door"
     type: open_door
     address: 0
-    serial_number: 0
-    auto_off: 2s
+    serial_number: 255 # 255 is used to catch all
 
-# Action to send a command
-script:
-  - id: send_command
-    then:
+# Sending commands
+button:
+  - platform: template
+    name: "Open Door (raw)"
+    on_press:
       - tc_bus.send:
-          command: 0x1C30BA80
-```
+          command: 0x1100
 
-### Explanation:
-- **`rx_pin` and `tx_pin`**: Define the GPIO pins used for communication with the TCS intercom.
-- **`serial_number`**: Specifies the intercom’s serial number.
-- **`bus_command`** and **`hardware_version`**: Set up text sensors to display the last bus command and hardware version.
-- **`door_readiness`**: Binary sensor indicating the door’s readiness state.
-- **`on_command_action`**: Specifies actions to be triggered based on received commands.
+  - platform: template
+    name: "Open Door (builder)"
+    on_press:
+      - tc_bus.send:
+          type: open_door
+          address: 0
+```
 
 ## Advanced Configuration
 
@@ -211,7 +232,7 @@ tc_bus:
 ```
 
 ## Command Data
-The `CommandData` structure is used internally and can also be used in the `on_command_action`.
+The `CommandData` structure is used internally and can also be used in the `on_command`.
 
 ```c++
 struct CommandData {
@@ -226,7 +247,7 @@ struct CommandData {
 ```
 
 ## Command Types
-Here are the available command types you can use as binary sensor conditions or with the `tc_bus.send` action:
+You can use command types in binary sensors and also when [sending commands](#sending-commands):
 
 - door_call <Badge type="tip" text="COMMAND_TYPE_DOOR_CALL" />
 - floor_call <Badge type="tip" text="COMMAND_TYPE_FLOOR_CALL" />
@@ -253,6 +274,7 @@ Here are the available command types you can use as binary sensor conditions or 
 - read_memory_block <Badge type="tip" text="COMMAND_TYPE_READ_MEMORY_BLOCK" />
 - select_memory_page <Badge type="tip" text="COMMAND_TYPE_SELECT_MEMORY_PAGE" />
 - write_memory <Badge type="tip" text="COMMAND_TYPE_WRITE_MEMORY" />
+- request_version <Badge type="tip" text="COMMAND_TYPE_REQUEST_VERSION" />
 
 ## Settings Types
 Here are the available settings types you can use to update the settings of your intercom phone:

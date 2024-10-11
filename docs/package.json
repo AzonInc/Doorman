@@ -1,6 +1,6 @@
 {
     "name": "doorman-docs",
-    "version": "2024.8.0",
+    "version": "2024.10.0",
     "private": true,
     "type": "module",
     "scripts": {

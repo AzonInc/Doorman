@@ -408,6 +408,7 @@ namespace esphome
             if (str == "READ_MEMORY_BLOCK") return COMMAND_TYPE_READ_MEMORY_BLOCK;
             if (str == "SELECT_MEMORY_PAGE") return COMMAND_TYPE_SELECT_MEMORY_PAGE;
             if (str == "WRITE_MEMORY") return COMMAND_TYPE_WRITE_MEMORY;
+            if (str == "REQUEST_VERSION") return COMMAND_TYPE_REQUEST_VERSION;
 
             return COMMAND_TYPE_UNKNOWN;
         }
@@ -441,6 +442,7 @@ namespace esphome
                 case COMMAND_TYPE_READ_MEMORY_BLOCK: return "READ_MEMORY_BLOCK";
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
                 case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
+                case COMMAND_TYPE_REQUEST_VERSION: return "REQUEST_VERSION";
                 default: return "UNKNOWN";
             }
         }

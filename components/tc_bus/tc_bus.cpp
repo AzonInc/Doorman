@@ -452,7 +452,7 @@ namespace esphome
                         }
                     } else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255)) {
                         if (listener_serial_number != 0) {
-                            if (cmd_data.serial_number == listener_serial_number) {
+                            if (cmd_data.serial_number == listener_serial_number || listener_serial_number == 255) {
                                 allow_publish = true;
                             }
                         } else {
