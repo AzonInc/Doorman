@@ -81,10 +81,10 @@ Controls the Nuki pairing mode.
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
 Opens the entrance door by sending a `open_door` command on the bus.
 
-### Open Second Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
+### Open Second Entrance Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
 Opens the second entrance door by sending a `open_door` command with the `address` of the second outdoor station on the bus.
 
-### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
+### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 Turns on the light by sending a `light` command on the bus.
 
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
@@ -124,7 +124,7 @@ Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) a
 - 5 to 60 minutes
 - Never
 
-### Ring To Open: Triggering Door Station <Badge type="tip" text="doorman_ring_to_open_door_trigger" />
+### Ring To Open: Door Station <Badge type="tip" text="doorman_ring_to_open_door_trigger" />
 Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
 ##### Options:

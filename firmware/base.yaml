@@ -132,6 +132,27 @@ ota:
 http_request:
   verify_ssl: false
 
+update:
+  - platform: http_request
+    id: update_http_request_stable
+    icon: "mdi:update"
+    name: Firmware (stable)
+    source: https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json
+    disabled_by_default: false
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -4
+
+  - platform: http_request
+    id: update_http_request_dev
+    icon: "mdi:update"
+    name: Firmware (dev)
+    source: https://doorman-dev.surge.sh/firmware/release/doorman-stock/manifest.json
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -3
+      
 wifi:
   ap:
     ssid: "Doorman-S3 Setup"
@@ -226,7 +247,7 @@ button:
           
   - platform: template
     id: open_second_door
-    name: "Open Second Door"
+    name: "Open Second Entrance Door"
     icon: mdi:door
     on_press:
       - tc_bus.send:
@@ -238,7 +259,7 @@ button:
 
   - platform: template
     id: turn_on_light
-    name: "Turn on the light"
+    name: "Turn on the Light"
     icon: mdi:lightbulb-on
     on_press:
       - tc_bus.send:
