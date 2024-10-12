@@ -114,9 +114,6 @@ web_server:
     - id: sorting_group_intercom_settings
       name: "TC:BUS Intercom Settings"
       sorting_weight: -9
-    - id: sorting_group_sensors
-      name: "Sensors"
-      sorting_weight: -8
     - id: sorting_group_listeners
       name: "Doorman Listeners"
       sorting_weight: -7
@@ -321,9 +318,11 @@ binary_sensor:
     internal: true
     id: doorman_boot_button
     name: "Flash Button"
+    entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_sensors
+      sorting_group_id: sorting_group_system
+      sorting_weight: -5
 
   # Preconfigured Sensors
   - platform: tc_bus

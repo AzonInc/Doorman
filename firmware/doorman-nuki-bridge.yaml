@@ -17,6 +17,7 @@ esphome:
 update:
   - platform: http_request
     id: update_http_request_stable
+    icon: "mdi:update"
     name: Firmware (stable)
     source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json
     disabled_by_default: false
@@ -27,6 +28,7 @@ update:
 
   - platform: http_request
     id: update_http_request_dev
+    icon: "mdi:update"
     name: Firmware (dev)
     source: https://doorman-dev.surge.sh/firmware/release/doorman-nuki-bridge/manifest.json
     disabled_by_default: true

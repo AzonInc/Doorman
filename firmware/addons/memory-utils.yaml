@@ -15,6 +15,7 @@ tc_bus:
 button:
   - platform: template
     name: "Read Memory"
+    icon: "mdi:file-arrow-up-down"
     on_press:
       - tc_bus.read_memory:
     web_server:
@@ -23,6 +24,7 @@ button:
 number:
   - platform: template
     name: "Volume: Ringtone"
+    icon: "mdi:volume-high"
     min_value: 0
     max_value: 7
     step: 1
@@ -40,6 +42,7 @@ number:
 
   - platform: template
     name: "Volume: Handset"
+    icon: "mdi:volume-high"
     min_value: 0
     max_value: 7
     step: 1
@@ -58,6 +61,7 @@ number:
 select:
   - platform: template
     name: "Ringtone: Door Call"
+    icon: "mdi:music"
     options:
       - "Ringtone 1"
       - "Ringtone 2"
@@ -97,6 +101,7 @@ select:
 
   - platform: template
     name: "Ringtone: Floor Call"
+    icon: "mdi:music"
     options:
       - "Ringtone 1"
       - "Ringtone 2"
@@ -136,6 +141,7 @@ select:
 
   - platform: template
     name: "Ringtone: Internal Call"
+    icon: "mdi:music"
     options:
       - "Ringtone 1"
       - "Ringtone 2"
