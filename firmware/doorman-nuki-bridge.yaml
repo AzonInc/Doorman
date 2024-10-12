@@ -19,10 +19,17 @@ update:
     id: update_http_request_stable
     name: Firmware (stable)
     source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json
-    disabled_by_default: false
+    disabled_by_default: 
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -4
+
 
   - platform: http_request
     id: update_http_request_dev
     name: Firmware (dev)
     source: https://doorman-dev.surge.sh/firmware/release/doorman-nuki-bridge/manifest.json
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -3
