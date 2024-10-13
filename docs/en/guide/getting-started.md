@@ -37,8 +37,8 @@ Example:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
 
-::: details 2-Wire Mode via intercom <Badge type="danger" text="Impossible" />
-> [!DANGER] Unfortunately this scenario is not possible!
+::: details 2-Wire Mode via intercom <Badge type="danger" text="Hardware revision 1.5 and later" />
+> [!DANGER] This method will produce a subtle, yet noticeable hissing sound on the speaker.
 > Using the `a`-bus line as a power source results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply and may be addressed in future hardware revisions.
 
 Example:

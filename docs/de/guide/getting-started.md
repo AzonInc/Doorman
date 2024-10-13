@@ -38,8 +38,8 @@ Beispiel:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
 
-::: details 2-Draht-Modus über die Gegensprechanlage <Badge type="danger" text="Nicht möglich" />
-> [!DANGER] Das ist leider nicht möglich!
+::: details 2-Draht-Modus über die Gegensprechanlage <Badge type="danger" text="Hardware Revision 1.5 und neuer" />
+> [!DANGER] Diese Methode erzeugt ein leises, aber dennoch wahrnehmbares Rauschen im Lautsprecher.
 > Die Nutzung der `a`-Bus-Leitung als Stromquelle führt zu einem lauten Piepton. Dieses Problem tritt wahrscheinlich aufgrund der Hochfrequenz-Schaltstromversorgung auf und könnte in zukünftigen Hardware-Versionen behoben werden.
 
 Beispiel:
