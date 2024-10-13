@@ -13,10 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile Stock Firmware
+      - name: Compile Stock (ESP32-S3) Firmware
         uses: esphome/build-action@v4.0.1
         with:
           yaml-file: firmware/doorman-stock.yaml
+          version: latest
+          complete-manifest: true
+
+      - name: Compile Stock (ESP8266) Firmware
+        uses: esphome/build-action@v4.0.1
+        with:
+          yaml-file: firmware/doorman-stock-8266.yaml
           version: latest
           complete-manifest: true
 

@@ -1,0 +1,18 @@
+# Helper File: Compile dev firmware
+dashboard_import:
+  package_import_url: github://AzonInc/doorman/firmware/examples/stock-8266.example.yaml@dev
+
+packages:
+  device_base: !include doorman-stock-8266.yaml
+
+external_components:
+  - source: github://AzonInc/Doorman@dev
+    components: [ tc_bus ]
+    refresh: 60s
+
+update:
+  - id: !extend update_http_request_stable
+    disabled_by_default: true
+    
+  - id: !extend update_http_request_dev
+    disabled_by_default: false
