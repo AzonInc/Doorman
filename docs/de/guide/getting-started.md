@@ -39,11 +39,15 @@ Beispiel:
 :::
 
 ::: details 2-Draht-Modus über die Gegensprechanlage <Badge type="danger" text="Hardware Revision 1.5 und neuer" />
-> [!DANGER] Diese Methode erzeugt ein leises, aber dennoch wahrnehmbares Rauschen im Lautsprecher.
-> Die Nutzung der `a`-Bus-Leitung als Stromquelle führt zu einem lauten Piepton. Dieses Problem tritt wahrscheinlich aufgrund der Hochfrequenz-Schaltstromversorgung auf und könnte in zukünftigen Hardware-Versionen behoben werden.
+> [!DANGER] Wichtig
+> Die Nutzung der `a`-Bus-Leitung als Stromquelle bei älteren Hardware Revisionen als `1.5` führt zu einem lauten Piepton. Dieses Problem tritt wahrscheinlich aufgrund der Hochfrequenz-Schaltstromversorgung auf.
+>
+> Ab Hardware Revision `1.5` erzeugt diese Methode nur noch ein leises, aber dennoch wahrnehmbares Rauschen im Lautsprecher.
+
+Nachdem du die `a` und `b` Leitung angeschlossen hast musst du noch `BUS PWR` mittels Jumper Kappe verbinden.
 
 Beispiel:
-![2-wire external via usb](./images/2wire_power_a_terminal.png){width=300px}
+![2-wire via intercom jumper](./images/2wire_intercom.png){width=300px}
 :::
 
 

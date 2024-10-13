@@ -38,11 +38,15 @@ Example:
 :::
 
 ::: details 2-Wire Mode via intercom <Badge type="danger" text="Hardware revision 1.5 and later" />
-> [!DANGER] This method will produce a subtle, yet noticeable hissing sound on the speaker.
-> Using the `a`-bus line as a power source results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply and may be addressed in future hardware revisions.
+> [!DANGER] Important Info
+> Using the `a`-bus line as a power source on revisions older than `1.5` results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply.
+>
+> Starting with revision `1.5` this method will only produce a subtle, yet noticeable hissing sound on the speaker.
+
+After connecting the `a` and `b` lines, you still need to connect `BUS PWR` using a jumper cap.
 
 Example:
-![2-wire external via usb](./images/2wire_power_a_terminal.png){width=300px}
+![2-wire via intercom jumper](./images/2wire_intercom.png){width=300px}
 :::
 
 
