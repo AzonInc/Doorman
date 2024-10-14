@@ -23,6 +23,9 @@ jobs:
           name: vitepress-docs
           path: output
 
+      - name: Copy interactive BOM
+        run: cp pcb/bom/ibom.html output/
+
       - name: Download Doorman Stock (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
