@@ -70,7 +70,10 @@ namespace esphome
                     esp32::ESP32InternalGPIOPin *gpio_pin_tx_;
                     gpio_pin_tx_ = new(esp32::ESP32InternalGPIOPin);
                     gpio_pin_tx_->set_pin(static_cast<gpio_num_t>(8));
+                    gpio_pin_tx_->set_inverted(false); 
                     gpio_pin_tx_->set_flags(gpio::Flags::FLAG_OUTPUT);
+                    gpio_pin_tx_->set_drive_strength(GPIO_DRIVE_CAP_DEFAULT);
+                    gpio_pin_tx_->digital_write(false);
                     this->set_tx_pin(gpio_pin_tx_);
 
                     ESP_LOGD(TAG, "Doorman Hardware GPIO Override: RX (%i), TX (%i)", this->rx_pin_->get_pin(), this->tx_pin_->get_pin());
