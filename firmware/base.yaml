@@ -330,6 +330,14 @@ sensor:
       sorting_group_id: sorting_group_system
       sorting_weight: -7
 
+  - platform: adc
+    id: bus_voltage
+    name: Bus Voltage
+    pin: 
+      number: GPIO10
+    update_interval: 1s
+    attenuation: 12dB
+
 binary_sensor:
   - platform: gpio
     pin:
