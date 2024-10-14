@@ -97,9 +97,9 @@ number:
 
 switch:
   - platform: template
-    name: Ring To Open
-    icon: mdi:party-popper
     id: doorman_ring_to_open
+    name: "Ring To Open"
+    icon: "mdi:checkbox-marked-circle-auto-outline"
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     turn_on_action:
@@ -114,9 +114,9 @@ switch:
       sorting_group_id: sorting_group_doorman_settings
 
   - platform: template
-    name: "Ring To Open: Confirmation"
-    icon: mdi:bell-check
     id: doorman_ring_to_open_confirmation
+    name: "Ring To Open: Confirmation"
+    icon: "mdi:bell-check"
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     entity_category: CONFIG
@@ -129,7 +129,7 @@ select:
   - platform: template
     id: doorman_ring_to_open_timeout_mode
     name: "Ring To Open: Timeout"
-    icon: mdi:clock-fast
+    icon: "mdi:clock-fast"
     optimistic: true
     options:
       - Never
@@ -154,7 +154,7 @@ select:
   - platform: template
     id: doorman_ring_to_open_door_trigger
     name: "Ring To Open: Door Station"
-    icon: mdi:door
+    icon: "mdi:door-open"
     optimistic: true
     options:
       - Entrance
