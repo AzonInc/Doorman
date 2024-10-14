@@ -50,7 +50,7 @@ jobs:
   # Build dev firmware
   build-doorman-stock-dev-firmware:
     if: github.ref != 'refs/heads/master'
-    name: Build Doorman Stock (ESP32-S3, ESP8266) Firmware (dev)
+    name: Build Doorman Stock (ESP32-S3) Firmware (dev)
     uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-stock.dev.yaml
