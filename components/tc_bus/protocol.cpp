@@ -352,7 +352,7 @@ namespace esphome
 
         
 
-        const SettingType string_to_setting_type(std::string str)
+        SettingType string_to_setting_type(std::string str)
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
@@ -379,7 +379,7 @@ namespace esphome
         }
 
 
-        const CommandType string_to_command_type(std::string str)
+        CommandType string_to_command_type(std::string str)
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
@@ -449,7 +449,7 @@ namespace esphome
 
 
 
-        const Model string_to_model(std::string str)
+        Model string_to_model(std::string str)
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 

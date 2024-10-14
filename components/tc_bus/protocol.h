@@ -71,13 +71,13 @@ namespace esphome
         CommandData parseCommand(uint32_t command);
 
         const char* command_type_to_string(CommandType type);
-        const CommandType string_to_command_type(std::string str);
+        CommandType string_to_command_type(std::string str);
 
         const char* setting_type_to_string(SettingType type);
-        const SettingType string_to_setting_type(std::string str);
+        SettingType string_to_setting_type(std::string str);
 
         const char* model_to_string(Model model);
-        const Model string_to_model(std::string str);
+        Model string_to_model(std::string str);
 
     }  // namespace tc_bus
 }  // namespace esphome
