@@ -381,7 +381,7 @@ namespace esphome
             ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %x, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number);
 
             // Update Door Readiness Status
-            if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_STATION) {
+            if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
                 bool door_readiness_state = cmd_data.payload == 1;
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
                 if (this->door_readiness_ != nullptr) {
