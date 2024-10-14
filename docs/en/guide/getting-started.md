@@ -43,7 +43,7 @@ Example:
 >
 > Starting with revision `1.5` this method will only produce a subtle, yet noticeable hissing sound on the speaker.
 
-After connecting the `a` and `b` lines, you still need to connect `BUS PWR` using a jumper cap.
+After connecting the `a` and `b` lines, you need to connect `BUS PWR` using a jumper cap.
 
 Example:
 ![2-wire via intercom jumper](./images/2wire_intercom.png){width=300px}
@@ -82,6 +82,10 @@ You don't need to manually activate this mode; it will start automatically at ea
 
 2. **Activate Setup Mode:**\
    Go to the `Configuration` section and enable `Setup Mode` to begin the interactive setup.
+
+::: warning Before you proceed
+The intercom phone must be connected, and the enclosure securely closed, to complete the setup process.
+:::
 
 3. **Perform the Setup:**\
    The RGB status LED will pulse green-turquoise. Press the doorbell button at your apartment or entrance.

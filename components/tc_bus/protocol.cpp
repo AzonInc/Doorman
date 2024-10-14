@@ -34,27 +34,27 @@ namespace esphome
                     command |= 0x41; // 41
                     break;
 
-                case COMMAND_TYPE_START_TALKING_IA:
+                case COMMAND_TYPE_START_TALKING_DOOR_CALL:
                     command |= (3 << 28); // 3
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     command |= (1 << 7);  // 8
                     command |= (address & 0xFF); // 0
                     break;
 
-                case COMMAND_TYPE_START_TALKING_DOOR_STATION:
+                case COMMAND_TYPE_START_TALKING:
                     command |= (3 << 28); // 3
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     command &= ~(1 << 7); // 0
                     command |= (address & 0xFF); // 0
                     break;
 
-                case COMMAND_TYPE_STOP_TALKING_IA:
+                case COMMAND_TYPE_STOP_TALKING_DOOR_CALL:
                     command |= (3 << 12); // 3
                     command |= (1 << 7);  // 08
                     command |= (address & 0xFF); // 0
                     break;
 
-                case COMMAND_TYPE_STOP_TALKING_DOOR_STATION:
+                case COMMAND_TYPE_STOP_TALKING:
                     command |= (3 << 12); // 3
                     command &= ~(1 << 7); // 00
                     command |= (address & 0xFF); // 0
@@ -185,11 +185,11 @@ namespace esphome
                         break;
 
                     case 3:
-                        data.type = (command & (1 << 7)) ? COMMAND_TYPE_START_TALKING_IA : COMMAND_TYPE_START_TALKING_DOOR_STATION;
+                        data.type = (command & (1 << 7)) ? COMMAND_TYPE_START_TALKING_DOOR_CALL : COMMAND_TYPE_START_TALKING;
                         data.address = command & 0xF;
 
                         // Door Readiness
-                        if(data.type == COMMAND_TYPE_START_TALKING_DOOR_STATION)
+                        if(data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
                         {
                             data.payload = (command & (1 << 8)) != 0;
                         }
@@ -292,7 +292,7 @@ namespace esphome
                 }
                 else if (first == 3)
                 {
-                    data.type = (command & (1 << 7)) ? COMMAND_TYPE_STOP_TALKING_IA : COMMAND_TYPE_STOP_TALKING_DOOR_STATION;
+                    data.type = (command & (1 << 7)) ? COMMAND_TYPE_STOP_TALKING_DOOR_CALL : COMMAND_TYPE_STOP_TALKING;
                     data.address = command & 0xF;
                 }
                 else if (first == 5)
@@ -387,10 +387,10 @@ namespace esphome
             if (str == "FLOOR_CALL") return COMMAND_TYPE_FLOOR_CALL;
             if (str == "INTERNAL_CALL") return COMMAND_TYPE_INTERNAL_CALL;
             if (str == "CONTROL_FUNCTION") return COMMAND_TYPE_CONTROL_FUNCTION;
-            if (str == "START_TALKING_DOOR_STATION") return COMMAND_TYPE_START_TALKING_DOOR_STATION;
-            if (str == "START_TALKING_IA") return COMMAND_TYPE_START_TALKING_IA;
-            if (str == "STOP_TALKING_DOOR_STATION") return COMMAND_TYPE_STOP_TALKING_DOOR_STATION;
-            if (str == "STOP_TALKING_IA") return COMMAND_TYPE_STOP_TALKING_IA;
+            if (str == "START_TALKING_DOOR_CALL") return COMMAND_TYPE_START_TALKING_DOOR_CALL;
+            if (str == "START_TALKING") return COMMAND_TYPE_START_TALKING;
+            if (str == "STOP_TALKING_DOOR_CALL") return COMMAND_TYPE_STOP_TALKING_DOOR_CALL;
+            if (str == "STOP_TALKING") return COMMAND_TYPE_STOP_TALKING;
             if (str == "OPEN_DOOR") return COMMAND_TYPE_OPEN_DOOR;
             if (str == "LIGHT") return COMMAND_TYPE_LIGHT;
             if (str == "DOOR_OPENED") return COMMAND_TYPE_DOOR_OPENED;
@@ -421,10 +421,10 @@ namespace esphome
                 case COMMAND_TYPE_FLOOR_CALL: return "FLOOR_CALL";
                 case COMMAND_TYPE_INTERNAL_CALL: return "INTERNAL_CALL";
                 case COMMAND_TYPE_CONTROL_FUNCTION: return "CONTROL_FUNCTION";
-                case COMMAND_TYPE_START_TALKING_DOOR_STATION: return "START_TALKING_DOOR_STATION";
-                case COMMAND_TYPE_START_TALKING_IA: return "START_TALKING_IA";
-                case COMMAND_TYPE_STOP_TALKING_DOOR_STATION: return "STOP_TALKING_DOOR_STATION";
-                case COMMAND_TYPE_STOP_TALKING_IA: return "STOP_TALKING_IA";
+                case COMMAND_TYPE_START_TALKING_DOOR_CALL: return "START_TALKING_DOOR_CALL";
+                case COMMAND_TYPE_START_TALKING: return "START_TALKING";
+                case COMMAND_TYPE_STOP_TALKING_DOOR_CALL: return "STOP_TALKING_DOOR_CALL";
+                case COMMAND_TYPE_STOP_TALKING: return "STOP_TALKING";
                 case COMMAND_TYPE_OPEN_DOOR: return "OPEN_DOOR";
                 case COMMAND_TYPE_LIGHT: return "LIGHT";
                 case COMMAND_TYPE_DOOR_OPENED: return "DOOR_OPENED";

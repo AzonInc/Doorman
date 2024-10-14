@@ -89,6 +89,10 @@ Du musst den Modus nicht manuell aktivieren; er wird bei jedem Neustart automati
 2. **Setup-Modus aktivieren:**\
    Gehe zum Bereich `Konfiguration` und schalte den `Setup Mode` ein, um die interaktive Einrichtung zu beginnen.
 
+::: warning Bevor du weitermachst 
+Deine Gegensprechanlage muss angeschlossen und das Gehäuse verschlossen sein, damit die Einrichtung abgeschlossen werden kann.
+:::
+
 3. **Einrichtung durchführen:**\
    Die RGB-Status-LED wird grün-türkis pulsieren. Drücke den Klingeltaster vor der Wohnung oder am Eingang.
 

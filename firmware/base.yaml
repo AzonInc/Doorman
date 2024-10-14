@@ -378,10 +378,10 @@ binary_sensor:
       sorting_weight: -29
 
   - platform: tc_bus
-    id: pick_up_phone
-    name: "Pick up phone"
+    id: pick_up_phone_door_call
+    name: "Pick up phone (door call)"
     icon: "mdi:phone-check"
-    type: start_talking_door_station
+    type: start_talking_door_call
     address: 255
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
@@ -391,10 +391,10 @@ binary_sensor:
       sorting_weight: -19
 
   - platform: tc_bus
-    id: hang_up_phone
-    name: "Hang up phone"
+    id: hang_up_phone_door_call
+    name: "Hang up phone (door call)"
     icon: "mdi:phone-remove"
-    type: stop_talking_door_station
+    type: stop_talking_door_call
     address: 255
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
@@ -402,6 +402,32 @@ binary_sensor:
     web_server:
       sorting_group_id: sorting_group_listeners
       sorting_weight: -18
+
+  - platform: tc_bus
+    id: pick_up_phone
+    name: "Pick up phone"
+    icon: "mdi:phone-check"
+    type: start_talking
+    address: 255
+    auto_off: 0.2s
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -17
+
+  - platform: tc_bus
+    id: hang_up_phone
+    name: "Hang up phone"
+    icon: "mdi:phone-remove"
+    type: stop_talking
+    address: 255
+    auto_off: 0.2s
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -16
 
   - platform: tc_bus
     id: function_button
