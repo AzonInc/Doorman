@@ -56,7 +56,7 @@ namespace esphome
             if(ver[0] > 0)
             {
                 ESP_LOGI(TAG, "Doorman Hardware detected: V%i.%i.%i", ver[0], ver[1], ver[2]);
-                this->hardware_version_str_ = "Doorman " + std::to_string(ver[0]) + "." + std::to_string(ver[1]) + "." + std::to_string(ver[2]);
+                this->hardware_version_str_ = "Doorman-S3 " + std::to_string(ver[0]) + "." + std::to_string(ver[1]) + "." + std::to_string(ver[2]);
 
                 // Override GPIO
                 if(ver[0] == 1 && (ver[1] == 3 || ver[1] == 4))
