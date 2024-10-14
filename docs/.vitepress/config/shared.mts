@@ -17,6 +17,10 @@ export const shared = defineConfig({
   lastUpdated: true,
   metaChunk: true,
 
+  ignoreDeadLinks: [
+    /ibom/,
+  ],
+
   sitemap: {
     hostname: pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh' : 'https://doorman.azon.ai',
     transformItems(items) {
