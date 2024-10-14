@@ -185,7 +185,7 @@ tc_bus:
     name: "Last Bus Command"
     web_server:
       sorting_group_id: sorting_group_listeners
-      sorting_weight: -11
+      sorting_weight: -99
   serial_number_lambda: !lambda "return id(intercom_serial_number);"
 
 
@@ -377,6 +377,7 @@ binary_sensor:
   - platform: tc_bus
     id: pick_up_phone
     name: "Pick up phone"
+    icon: "mdi:phone-check"
     type: start_talking_door_station
     address: 255
     auto_off: 0.2s
@@ -389,6 +390,7 @@ binary_sensor:
   - platform: tc_bus
     id: hang_up_phone
     name: "Hang up phone"
+    icon: "mdi:phone-remove"
     type: stop_talking_door_station
     address: 255
     auto_off: 0.2s
@@ -401,6 +403,7 @@ binary_sensor:
   - platform: tc_bus
     id: function_button
     name: "Function Button"
+    icon: "mdi:radiobox-blank"
     auto_off: 0.2s
     type: control_function
     address: 8
@@ -412,6 +415,7 @@ binary_sensor:
   - platform: tc_bus
     id: light_button
     name: "Light Button"
+    icon: "mdi:white-balance-sunny"
     type: light
     auto_off: 0.2s
     entity_category: DIAGNOSTIC
@@ -422,8 +426,8 @@ binary_sensor:
 
   - platform: gpio
     id: doorman_external_button
-    name: External Button
-    icon: mdi:gesture-tap
+    name: "External Button"
+    icon: "mdi:gesture-tap"
     disabled_by_default: true
     pin:
       number: ${external_button_pin}
