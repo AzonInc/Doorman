@@ -38,7 +38,7 @@ I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](fi
 - External Button (G + BTN)
 - Bridge rectifier for bus-wire input to correct polarity
 - TCS bus communication for functions like opening the front door and detecting the doorbell
-- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
+- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/guide/firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
 
 ## ✔️ Compatibility
 
