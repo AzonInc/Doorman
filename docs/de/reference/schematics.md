@@ -11,3 +11,6 @@ Nutze die interaktiven Viewer unten, um PCB- und Schaltplan-Designs anzusehen. V
 ## PCB-Viewer
 
 <kicanvas-embed src="https://raw.githubusercontent.com/AzonInc/Doorman/master/pcb/doorman.kicad_pcb" controls="full"></kicanvas-embed>
+
+## Interactive BOM
+Klicke [hier](../ibom.html), um den interaktiven BOM-Viewer zu öffnen.

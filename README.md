@@ -25,7 +25,7 @@ Be sure to visit the [Doorman Docs](https://doorman.azon.ai/) for all the inform
 
 Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf) or via [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 
-I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/nuki-bridge-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
+I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/stock-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
 
 ## 🤖 Features
 

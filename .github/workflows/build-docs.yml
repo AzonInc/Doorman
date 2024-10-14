@@ -51,6 +51,7 @@ jobs:
         run: |
           sed -i 's/@master/@dev/g' */guide/getting-started.md
           sed -i 's/master/dev/g' */guide/enclosure/3d-printing.md
+          sed -i 's/@master/@dev/g' */reference/schematics.md
           sed -i 's/@master/@dev/g' */guide/firmware/minimal.example.yaml
 
       - name: Install dependencies
