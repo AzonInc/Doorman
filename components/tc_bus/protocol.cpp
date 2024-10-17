@@ -268,6 +268,7 @@ namespace esphome
                     else if (second == 2)
                     {
                         data.type = COMMAND_TYPE_LIGHT;
+                        data.address = 0;
                     }
                 }
                 else if (first == 2)
