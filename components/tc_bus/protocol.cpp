@@ -448,14 +448,21 @@ namespace esphome
             }
         }
 
-
-
         Model string_to_model(std::string str)
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
+            if (str == "ISH_1030") return MODEL_ISH_1030;
             if (str == "ISH_3030") return MODEL_ISH_3030;
+            if (str == "ISH_3230") return MODEL_ISH_3230;
+            if (str == "ISH_3340") return MODEL_ISH_3340;
             if (str == "ISW_3030") return MODEL_ISW_3030;
+            if (str == "ISW_3230") return MODEL_ISW_3230;
+            if (str == "ISW_3340") return MODEL_ISW_3340;
+            if (str == "IVH_3222") return MODEL_IVH_3222;
+            if (str == "TC_50") return MODEL_TC_50;
+            if (str == "TCH_50") return MODEL_TCH_50;
+            if (str == "TCH_50_P") return MODEL_TCH_50_P;
 
             return MODEL_NONE;
         }
@@ -464,8 +471,17 @@ namespace esphome
         {
             switch (model)
             {
+                case MODEL_ISH_1030: return "ISH_1030";
                 case MODEL_ISH_3030: return "ISH_3030";
+                case MODEL_ISH_3230: return "ISH_3230";
+                case MODEL_ISH_3340: return "ISH_3340";
                 case MODEL_ISW_3030: return "ISW_3030";
+                case MODEL_ISW_3230: return "ISW_3230";
+                case MODEL_ISW_3340: return "ISW_3340";
+                case MODEL_IVH_3222: return "IVH_3222";
+                case MODEL_TC_50: return "TC_50";
+                case MODEL_TCH_50: return "TCH_50";
+                case MODEL_TCH_50_P: return "TCH_50_P";
                 default: return "NONE";
             }
         }

@@ -372,6 +372,14 @@ Here are the available settings for specific intercom phone models:
 
 | Model            | Available settings                                                                                         |
 |------------------|------------------------------------------------------------------------------------------------------------|
-| `NONE`           |                                                                                                            |
+| `ISH_1030`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
 | `ISH_3030`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `ISH_3230`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `ISH_3340`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
 | `ISW_3030`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `ISW_3230`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `ISW_3340`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `IVH_3222`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
+| `TC_50`          | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCH_50`         | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCH_50_P`       | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |

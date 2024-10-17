@@ -713,7 +713,14 @@ namespace esphome
             switch (model_)
             {
                 case MODEL_ISH_3030:
+                case MODEL_ISH_3230:
+                case MODEL_ISH_3340:
                 case MODEL_ISW_3030:
+                case MODEL_ISW_3230:
+                case MODEL_ISW_3340:
+                case MODEL_TC_50:
+                case MODEL_TCH_50:
+                case MODEL_TCH_50P:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -745,6 +752,51 @@ namespace esphome
                     }
                     break;
 
+                case MODEL_ISH_1030:
+                    switch (setting)
+                    {
+                        case SETTING_RINGTONE_DOOR_CALL:
+                            data.index = 3;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_INTERNAL_CALL:
+                            data.index = 6;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_FLOOR_CALL:
+                            data.index = 9;
+                            data.left_nibble = true;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                case MODEL_ISV_3222:
+                    switch (setting)
+                    {
+                        case SETTING_RINGTONE_DOOR_CALL:
+                            data.index = 3;
+                            data.left_nibble = true;
+                            break;
+
+                        // Is this really available?
+                        // It's set to 0 in default eep
+                        case SETTING_RINGTONE_INTERNAL_CALL:
+                            data.index = 6;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_FLOOR_CALL:
+                            data.index = 9;
+                            data.left_nibble = true;
+                            break;
+
+                        default: break;
+                    }
+                    break;
                 default: break;
             }
 
