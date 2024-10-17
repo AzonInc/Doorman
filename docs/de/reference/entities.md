@@ -36,6 +36,9 @@ Wird aktiviert, wenn der Befehl vom Typ `control_function` empfangen wird.
 ### Light Button <Badge type="tip" text="light_button" /> <Badge type="info" text="Deaktiviert" />
 Wird aktiviert, wenn der Befehl vom Typ `light` empfangen wird.
 
+### Door readiness <Badge type="tip" text="door_readiness" /> <Badge type="info" text="Deaktiviert" />
+Wird aktiviert, wenn die Türbereitschaft aktiv ist.
+
 ### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Deaktiviert" />
 Wird aktiviert, wenn der `FLASH` bzw. `PRG` Button auf deinem Doorman gedrückt wird.
 

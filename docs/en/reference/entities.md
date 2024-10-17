@@ -36,6 +36,9 @@ Activates whenever the `control_function` command type is received.
 ### Light Button <Badge type="tip" text="light_button" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `light` command type is received.
 
+### Door readiness <Badge type="tip" text="door_readiness" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the door readiness is active.
+
 ### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" />
 Activates when the `FLASH` or `PRG` button on the PCB is pressed.
 
