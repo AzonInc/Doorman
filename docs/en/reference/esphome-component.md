@@ -8,6 +8,7 @@ It also supports sending commands to the intercom and receiving various status u
 This component requires hardware like the Doorman-S3 or a [DIY solution](https://github.com/peteh/doorman) in order to communicate on the bus.
 :::
 
+
 ## Configuration Options
 
 ### TC:BUS Hub
@@ -53,7 +54,9 @@ You can use **either** `command`/`command_lambda` **or** a combination of `type`
 This ensures the binary sensor triggers either through a specific command or a combination of parameters, preventing conflicts.
 :::
 
-## Callback
+
+## Callbacks
+### Received Command
 The `on_command` callback of the `tc_bus` hub allows you to utilize the [CommandData](#command-data) structure, accessible as the `x` variable.
 
 ```yaml
@@ -66,7 +69,58 @@ on_command:
       }
 ```
 
-## Sending Commands
+### Read Memory Complete
+The `on_read_memory_complete` callback of the `tc_bus` hub allows you to work with the memory buffer, accessible as the `x` variable.
+
+```yaml
+on_read_memory_complete:
+  - logger.log: "Completed memory reading!"
+  - lambda: |-
+      std::string hexString = str_upper_case(format_hex(x));
+      ESP_LOGI("tcs_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+### Read Memory Timeout
+The `on_read_memory_timeout` callback of the `tc_bus` hub allows you to detect a failed memory reading. Most probably when a model doesn't support the related commands.
+
+```yaml
+on_read_memory_timeout:
+  - logger.log: "Failed to read Memory"
+```
+
+
+## Actions
+### Read Memory
+The `tc_bus.read_memory` action allows you to read the memory of any indoor station using the serial number.
+
+```yaml
+on_...:
+  - tc_bus.read_memory:
+      serial_number: 123456
+```
+
+### Set Programming Mode
+The `tc_bus.set_programming_mode` action allows you to enable or disable the programming mode of the control unit.
+
+```yaml
+on_...:
+  - tc_bus.set_programming_mode:
+      programming_mode: true
+```
+
+### Update Setting
+The `tc_bus.update_setting` action allows you to change the supported settings of any indoor station.
+Take a look at the [supported models and settings](#model-setting-availability).
+
+```yaml
+on_...:
+  - tc_bus.update_setting:
+      type: volume_ringtone
+      value: 7
+      serial_number: 123456
+```
+
+### Sending Commands
 
 You can send commands on the bus using the `tc_bus.send` action.
 
@@ -105,6 +159,7 @@ on_...:
   - tc_bus.send:
       command: 0x2100
 ```
+
 
 ## Event Handling
 If the `event` parameter is set (and not `none`), an event is generated each time a command is received. You can monitor these events in Home Assistant on the [developer tools](https://my.home-assistant.io/redirect/developer_events/) page.
@@ -147,6 +202,7 @@ event_data:
 ```
 
 Be sure to modify the command and event name as needed based on your configuration.
+
 
 ## Example YAML Configuration
 
@@ -220,6 +276,7 @@ button:
           address: 0
 ```
 
+
 ## Advanced Configuration
 
 ### Using Lambda for Serial Number
@@ -229,6 +286,28 @@ If you need to calculate or dynamically derive the serial number, use the `seria
 tc_bus:
   serial_number_lambda: |-
     return 123456;
+```
+
+### Accessing intercom settings
+If you need to access the supported settings in the memory buffer you can use the `get_setting` method of the `tc_bus` hub.
+
+Example (read and write setting):
+```yaml
+number:
+  - platform: template
+    id: intercom_volume_handset
+    name: "Volume: Handset"
+    icon: "mdi:volume-high"
+    min_value: 0
+    max_value: 7
+    step: 1
+    mode: slider
+    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET);"
+    update_interval: 1s
+    set_action:
+      - tc_bus.update_setting:
+          type: volume_handset
+          value: !lambda "return x;"
 ```
 
 ## Command Data
@@ -245,6 +324,7 @@ struct CommandData {
     uint8_t length;
 };
 ```
+
 
 ## Command Types
 You can use command types in binary sensors and also when [sending commands](#sending-commands):
@@ -276,6 +356,7 @@ You can use command types in binary sensors and also when [sending commands](#se
 - write_memory <Badge type="tip" text="COMMAND_TYPE_WRITE_MEMORY" />
 - request_version <Badge type="tip" text="COMMAND_TYPE_REQUEST_VERSION" />
 
+
 ## Setting Types
 Here are the available setting types you can use to update the settings of your intercom phone:
 
@@ -284,6 +365,7 @@ Here are the available setting types you can use to update the settings of your 
 - ringtone_internal_call <Badge type="tip" text="SETTING_RINGTONE_INTERNAL_CALL" />
 - volume_ringtone <Badge type="tip" text="SETTING_VOLUME_RINGTONE" />
 - volume_handset <Badge type="tip" text="SETTING_VOLUME_HANDSET" />
+
 
 ## Model Setting availability
 Here are the available settings for specific intercom phone models:
