@@ -1,7 +1,7 @@
 # Can I use Doorman?
 If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
 
-Some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms, which are counterparts to the TCS and Koch models, may also be compatible.
+Some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms, which are counterparts to the TCS and Koch models, may also be compatible.
 
 :::danger READ - BEFORE YOU ORDER
 Since this product is the result of reverse engineering, there is no guarantee that your intercom will work without testing it yourself.
@@ -17,7 +17,7 @@ Since this product is the result of reverse engineering, there is no guarantee t
 
 ## Wiring
 **2-Wire Mode:**\
-If your intercom is connected in 2-wire mode and you don't have a separate 24V `P`-line, use an external power supply via USB-C or the `P` (+5V to +30V DC) and `b` (Ground) screw terminals.
+If your intercom is connected in 2-wire mode and you don't have a separate 24V `P`-line, use either the `BUS PWR` jumper (starting with rev. 1.5), an external power supply via USB-C or the `P` (+5V to +30V DC) and `b` (Ground) screw terminals.
 
 **3-Wire Mode:**\
 If connected in 3-wire mode, you should be able to use the `P`-line to power your Doorman in most cases.
@@ -54,9 +54,10 @@ If other devices using the `P`-line draw too much current, it may not be suffici
 
 ## Known Issues
 
-Some intercom phones with a TTC1-B-1 connector module cause issues because the `a` and `P` connectors are somehow connected. It is not yet clear which models are affected.
+Intercom phones with a TTC1-B-1 connector module cause issues because the `a` and `P` lines are connected.
+Starting with revision `1.5` this issue is addressed with a new power supply option which will only produce a subtle, yet noticeable hissing sound on the speaker using the mentioned module.
 
-::: danger Problem
+::: danger Problem for revisions older than 1.5
 A loud beeping noise occurs whenever someone is talking.
 :::
 
@@ -70,8 +71,11 @@ A loud beeping noise occurs whenever someone is talking.
 If your intercom phone isn't listed here, it doesn't necessarily mean it's incompatible; it simply means it hasn't been tested yet.
 :::
 
-- TCS BVS20-SG / Koch BVS20
-- TCS ISH 3030 / ISH 3130
-- TCS ISW 3030 / ISW 3130
-- TCS HST 1030
-- TCS IMM 1300
+- TCS BVS20-SG / Koch BVS20 / Jung TK SV STG 60 REG
+- TCS ISH-3030 / ISH-3130
+- TCS ISW-3030 / ISW-3130
+- TCS HST-1030
+- TCS IMM-1300
+- Jung TK-ISV-LS-914
+- Jung TK-IS-LS-914
+- Jung TK-ASV-ES-114
