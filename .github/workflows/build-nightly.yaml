@@ -30,7 +30,7 @@ jobs:
       - name: Compile Component Test (ESP8266) Firmware
         uses: esphome/build-action@v4.0.1
         with:
-          yaml-file: firmware/tc-bus-8266.yaml
+          yaml-file: firmware/tc-bus-component-8266.yaml
           version: latest
 
       - name: Send Discord failure notification
