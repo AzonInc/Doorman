@@ -253,10 +253,10 @@ You can use command types in binary sensors and also when [sending commands](#se
 - floor_call <Badge type="tip" text="COMMAND_TYPE_FLOOR_CALL" />
 - internal_call <Badge type="tip" text="COMMAND_TYPE_INTERNAL_CALL" />
 - control_function <Badge type="tip" text="COMMAND_TYPE_CONTROL_FUNCTION" />
-- start_talking_door_station <Badge type="tip" text="COMMAND_TYPE_START_TALKING_DOOR_STATION" />
-- start_talking_ia <Badge type="tip" text="COMMAND_TYPE_START_TALKING_IA" />
-- stop_talking_door_station <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING_DOOR_STATION" />
-- stop_talking_ia <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING_IA" />
+- start_talking_door_call <Badge type="tip" text="COMMAND_TYPE_START_TALKING_DOOR_CALL" />
+- start_talking <Badge type="tip" text="COMMAND_TYPE_START_TALKING" />
+- stop_talking_door_call <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING_DOOR_CALL" />
+- stop_talking <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING" />
 - open_door <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR" />
 - light <Badge type="tip" text="COMMAND_TYPE_LIGHT" />
 - door_opened <Badge type="tip" text="COMMAND_TYPE_DOOR_OPENED" />
