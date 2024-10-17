@@ -6,6 +6,7 @@ switch:
     icon: mdi:cog
     id: doorman_setup_mode
     restore_mode: RESTORE_DEFAULT_ON
+    entity_category: CONFIG
     optimistic: true
     on_turn_on:
       - script.execute: update_led

@@ -18,6 +18,8 @@ button:
     icon: "mdi:file-arrow-up-down"
     on_press:
       - tc_bus.read_memory:
+    entity_category: CONFIG
+    disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_intercom_settings
 
