@@ -87,6 +87,9 @@ Opens the second entrance door by sending a `open_door` command with the `addres
 ### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 Turns on the light by sending a `light` command on the bus.
 
+### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Disabled by default" />
+Reads the memory of the intercom phone with the specified serial number.
+
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Unpairs your Nuki smart lock.
 
@@ -113,6 +116,12 @@ Sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automati
 Setting the delay to the maximum (60 seconds) will result in the automation generating a random delay between 5 and 15 seconds each time it is triggered. 
 :::
 
+### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone volume.
+
+### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone handset volume.
+
 
 ## Selects
 
@@ -131,6 +140,30 @@ Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open
 - Entrance
 - Second Entrance
 - Any
+
+### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for door calls.
+
+##### Options:
+- Ringtone 1
+...
+- Ringtone 13
+
+### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for floor calls.
+
+##### Options:
+- Ringtone 1
+...
+- Ringtone 13
+
+### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for internal calls.
+
+##### Options:
+- Ringtone 1
+...
+- Ringtone 13
 
 
 ## Locks

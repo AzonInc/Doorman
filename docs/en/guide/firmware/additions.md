@@ -1,7 +1,7 @@
 ## Examples
 
-::: details Create a simple TCS Command Binary Sensor
-You can easily add additional binary sensors for any TCS Command, alongside the preconfigured ones.
+::: details Create a simple TC Command Binary Sensor
+You can easily add additional binary sensors for any TC Command, alongside the preconfigured ones.
 
 Command Builder:
 ```yaml
@@ -12,6 +12,8 @@ binary_sensor: // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
     type: open_door // [!code ++] // [!code focus]
     address: 0 // [!code ++] // [!code focus]
+    web_server: // [!code ++] // [!code focus]
+      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
 ```
 
 32-Bit Commands:
@@ -22,6 +24,8 @@ binary_sensor: // [!code ++] // [!code focus]
   - platform: tc_bus // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
     command: 0x00001100 // [!code ++] // [!code focus]
+    web_server: // [!code ++] // [!code focus]
+      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
 ```
 :::
 
@@ -118,7 +122,7 @@ context:
 
 Automation Example (HEX Command):
 ```yaml
-alias: Trigger on Doorman TCS Open Door Command
+alias: Trigger on Doorman TC Open Door Command
 description: ""
 trigger:
   - platform: event
@@ -132,7 +136,7 @@ mode: single
 
 Automation Example (Command Builder):
 ```yaml
-alias: Trigger on Doorman TCS Open Door Command
+alias: Trigger on Doorman TC Open Door Command
 description: ""
 trigger:
   - platform: event
@@ -163,6 +167,8 @@ text: // [!code ++] // [!code focus]
     id: custom_command_input // [!code ++] // [!code focus]
     name: Custom Command // [!code ++] // [!code focus]
     entity_category: CONFIG // [!code ++] // [!code focus]
+    web_server: // [!code ++] // [!code focus]
+      sorting_group_id: sorting_group_doorman_settings // [!code ++] // [!code focus]
     icon: "mdi:console-network" // [!code ++] // [!code focus]
     mode: text // [!code ++] // [!code focus]
     lambda: |- // [!code ++] // [!code focus]
@@ -184,7 +190,9 @@ text: // [!code ++] // [!code focus]
 binary_sensor: // [!code ++] // [!code focus]
   - platform: tc_bus // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
-    lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
+    command_lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
+    web_server: // [!code ++] // [!code focus]
+      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
 ```
 :::
 

@@ -14,6 +14,7 @@ tc_bus:
 # Read Memory before reading and writing
 button:
   - platform: template
+    id: read_memory
     name: "Read Memory"
     icon: "mdi:file-arrow-up-down"
     on_press:
@@ -25,6 +26,7 @@ button:
 
 number:
   - platform: template
+    id: intercom_volume_ringtone
     name: "Volume: Ringtone"
     icon: "mdi:volume-high"
     min_value: 0
@@ -43,6 +45,7 @@ number:
       sorting_group_id: sorting_group_intercom_settings
 
   - platform: template
+    id: intercom_volume_handset
     name: "Volume: Handset"
     icon: "mdi:volume-high"
     min_value: 0
@@ -62,6 +65,7 @@ number:
 
 select:
   - platform: template
+    id: intercom_ringtone_door_call
     name: "Ringtone: Door Call"
     icon: "mdi:music"
     options:
@@ -102,6 +106,7 @@ select:
       sorting_group_id: sorting_group_intercom_settings
 
   - platform: template
+    id: intercom_ringtone_floor_call
     name: "Ringtone: Floor Call"
     icon: "mdi:music"
     options:
@@ -142,6 +147,7 @@ select:
       sorting_group_id: sorting_group_intercom_settings
 
   - platform: template
+    id: intercom_ringtone_internal_call
     name: "Ringtone: Internal Call"
     icon: "mdi:music"
     options:

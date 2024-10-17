@@ -87,6 +87,9 @@ Steuert den Nuki Kopplungsmodus.
 ### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Deaktiviert" />
 Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
 
+### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Deaktiviert" />
+Liest den internen speicher deines Gegensprechanlagen Telefons mit der angegebenen Seriennummer aus.
+
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
 Entkoppelt dein Nuki Smart Lock.
 
@@ -105,6 +108,7 @@ Alle Zugangsdaten, globalen Variablen, Zähler und gespeicherten Zustände, die 
 Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfiguriert hast, werden auch die WiFi-Einstellungen zurückgesetzt, wodurch solche Geräte offline gehen. Du musst das Gerät dann über einen eingebauten WiFi-Access-Point und das Captive Portal neu konfigurieren.
 :::
 
+
 ## Eingabe für Zahlenwert
 
 ### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Deaktiviert" />
@@ -114,28 +118,61 @@ Legt die Verzögerung für die [Ring To Open](../guide/automation/ring-to-open) 
 Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass die Automatisierung jedes Mal eine zufällige Verzögerung zwischen 5 und 15 Sekunden generiert, wenn sie ausgelöst wird.
 :::
 
+### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
+Legt die Lautstärke der Klingeltöne deines Gegensprechanlagen Telefons fest.
+
+### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
+Legt die Lautstärke des Hörers deines Gegensprechanlagen Telefons fest.
+
+
 ## Dropdowns
 
 ### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" />
 Legt den Timeout-Modus für die [Ring To Open](../guide/automation/ring-to-open) Automation fest.
 
 ##### Modi:
-- Einmal klingeln
-- 5 bis 60 Minuten
-- Nie
+- Ring once
+- 5...60 Minutes
+- Never
 
 ### Ring To Open: Door Station <Badge type="tip" text="doorman_ring_to_open_door_trigger" />
 Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ring-to-open) Automation fest.
 
 ##### Optionen:
-- Eingang
-- Zweiter Eingang
-- Egal
+- Entrance
+- Second Entrance
+- Any
+
+### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
+Legt den Klingelton für Tür-Rufe deines Gegensprechanlagen Telefons fest.
+
+##### Options:
+- Ringtone 1
+...
+- Ringtone 13
+
+### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
+Legt den Klingelton für Etagen-Rufe deines Gegensprechanlagen Telefons fest.
+
+##### Options:
+- Ringtone 1
+...
+- Ringtone 13
+
+### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
+Legt den Klingelton für Intern-Rufe deines Gegensprechanlagen Telefons fest.
+
+##### Options:
+- Ringtone 1
+...
+- Ringtone 13
+
 
 ## Schlösser
 
 ### Nuki Lock <Badge type="tip" text="nuki_smart_lock" /> <Badge type="info" text="Nuki Bridge only" />
 Repräsentiert die Schlosseinheit für dein gekoppeltes Nuki Smart Lock.
+
 
 ## Ereignisse
 
@@ -161,6 +198,7 @@ Wird ausgelöst, wenn ein Abhebe-Muster des Telefons erkannt wird. Erfahre mehr 
 - double
 - triple
 
+
 ## Updates
 
 ### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
@@ -168,6 +206,7 @@ Zeigt an, ob ein Update im stabilen Zweig verfügbar ist, und bietet eine Instal
 
 ### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
 Zeigt an, ob ein Update im Entwicklungszweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
+
 
 ## Lichter
 
