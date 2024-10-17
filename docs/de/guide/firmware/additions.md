@@ -3,17 +3,7 @@
 ::: details Einfachen TCS-Befehl-Binärsensor erstellen
 Neben den bereits vordefinierten kannst du ganz leicht zusätzliche Binärsensoren für jeden TCS-Befehl hinzufügen.
 
-Reiner 32 Bit Befehl:
-```yaml
-<!--@include: minimal.example.yaml-->
-
-binary_sensor: // [!code ++] // [!code focus]
-  - platform: tc_bus // [!code ++] // [!code focus]
-    name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
-    command: 0x00001100 // [!code ++] // [!code focus]
-```
-
-Command Parser:
+Command Builder:
 ```yaml
 <!--@include: minimal.example.yaml-->
 
@@ -22,6 +12,16 @@ binary_sensor: // [!code ++] // [!code focus]
     name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
     type: open_door // [!code ++] // [!code focus]
     address: 0 // [!code ++] // [!code focus]
+```
+
+32-Bit Command:
+```yaml
+<!--@include: minimal.example.yaml-->
+
+binary_sensor: // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
+    name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
+    command: 0x00001100 // [!code ++] // [!code focus]
 ```
 :::
 
@@ -76,7 +76,7 @@ Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu sende
 Benutze entweder `command` für reine 32 Bit Befehle oder `type`, `address`, `payload` und `serial_number` um Befehle über den Command Builder zu senden.
 
 > [!INFO]
-> Denk an das führende `0x` beim Senden eines Befehls mit der `command` Eigenschaft. Wenn du es weglässt, musst du den HEX-Befehl in eine Dezimalzahl umwandeln.
+> Denk an das führende `0x` beim Senden eines Befehls mit der `command` Eigenschaft. Wenn du es weglässt, musst du den HEX-Befehl zuerst in eine Dezimalzahl umwandeln.
 
 Command Builder:
 ```yaml
@@ -117,7 +117,7 @@ context:
   user_id: null
 ```
 
-Beispiel für eine Home Assistant-Automation:
+Beispiel für eine Home Assistant-Automation (HEX Command):
 ```yaml
 alias: Bei Doorman TCS Türöffnungsbefehl auslösen
 description: ""
@@ -130,10 +130,24 @@ condition: []
 action: []
 mode: single
 ```
+
+Beispiel für eine Home Assistant-Automation (Command Builder):
+```yaml
+alias: Bei Doorman TCS Türöffnungsbefehl auslösen
+description: ""
+trigger:
+  - platform: event
+    event_type: esphome.doorman
+    event_data:
+      type: "open_door"
+condition: []
+action: []
+mode: single
+```
 :::
 
 ### ESPHome
-::: details Einen zur Laufzeit konfigurierbaren TCS-Befehl-Binärsensor erstellen
+::: details Einen zur Laufzeit konfigurierbaren TC-Befehl-Binärsensor erstellen
 Du kannst zusätzliche konfigurierbare Befehl-Binärsensoren hinzufügen, indem du Lambda, Globals und Texteingaben verwendest.
 
 ```yaml
@@ -172,34 +186,6 @@ binary_sensor: // [!code ++] // [!code focus]
   - platform: tc_bus // [!code ++] // [!code focus]
     name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
     lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
-```
-:::
-
-::: details Einen Bus-Spannungssensor erstellen
-Du kannst einen Bus-Spannungssensor für ältere Gegensprechanlagen hinzufügen, die mit 14-24V DC arbeiten.\
-Es könnte in Zukunft auch möglich sein, andere Protokolle zu implementieren.
-```yaml
-<!--@include: minimal.example.yaml-->
-
-# Neuer ADC-Spannungssensor // [!code ++] // [!code focus]
-sensor: // [!code ++] // [!code focus]
-  - platform: adc // [!code ++] // [!code focus]
-    id: bus_voltage // [!code ++] // [!code focus]
-    name: Bus-Spannung // [!code ++] // [!code focus]
-    pin: // [!code ++] // [!code focus]
-      number: GPIO9 // [!code ++] // [!code focus]
-      allow_other_uses: true // [!code ++] // [!code focus]
-    update_interval: 500ms // [!code ++] // [!code focus]
-    attenuation: 12dB // [!code ++] // [!code focus]
-
-# TCS-Intercom-Komponente erweitern // [!code ++] // [!code focus]
-# RX-Pin auch für andere Zwecke nutzen // [!code ++] // [!code focus]
-tc_bus: // [!code ++] // [!code focus]
-  rx_pin: // [!code ++] // [!code focus]
-    number: GPIO9 // [!code
-
- ++] // [!code focus]
-    allow_other_uses: true // [!code ++] // [!code focus]
 ```
 :::
 
@@ -245,7 +231,7 @@ binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
       - tc_bus.send: // [!code ++] // [!code focus]
-          command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
+          type: "light" // [!code ++] // [!code focus]
 ```
 
 Wenn du auch die Sonnenhöhe berücksichtigen möchtest, kannst du das entsprechend anpassen.
@@ -272,6 +258,6 @@ binary_sensor: // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
             # Licht einschalten // [!code ++] // [!code focus]
             - tc_bus.send: // [!code ++] // [!code focus]
-                command: !lambda "return id(light_button_command);" // [!code ++] // [!code focus]
+                type: "light" // [!code ++] // [!code focus]
 ```
 :::
