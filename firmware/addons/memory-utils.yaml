@@ -67,7 +67,7 @@ select:
   - platform: template
     id: intercom_model
     name: "Intercom Model"
-    icon: "mdi:cog"
+    icon: "mdi:doorbell-video"
     options:
       - "NONE"
       - "TCS_ISH1030"

@@ -144,29 +144,26 @@ Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open
 - Second Entrance
 - Any
 
+### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone model. Check the [Supported Models and Settings](reference/esphome-component#model-setting-availability) to see your options.
+
 ### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for door calls.
 
 ##### Options:
-- Ringtone 1
-...
-- Ringtone 13
+- Ringtone 1 ... 13
 
 ### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for floor calls.
 
 ##### Options:
-- Ringtone 1
-...
-- Ringtone 13
+- Ringtone 1 ... 13
 
 ### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for internal calls.
 
 ##### Options:
-- Ringtone 1
-...
-- Ringtone 13
+- Ringtone 1 ... 13
 
 
 ## Locks

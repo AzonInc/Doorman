@@ -121,10 +121,10 @@ Legt die Verzögerung für die [Ring To Open](../guide/automation/ring-to-open) 
 Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass die Automatisierung jedes Mal eine zufällige Verzögerung zwischen 5 und 15 Sekunden generiert, wenn sie ausgelöst wird.
 :::
 
-### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
+### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke der Klingeltöne deines Gegensprechanlagen Telefons fest.
 
-### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
+### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke des Hörers deines Gegensprechanlagen Telefons fest.
 
 
@@ -146,29 +146,26 @@ Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ri
 - Second Entrance
 - Any
 
-### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
+### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Deaktiviert" />
+Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](reference/esphome-component#model-setting-availability) heraus.
+
+### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Tür-Rufe deines Gegensprechanlagen Telefons fest.
 
 ##### Options:
-- Ringtone 1
-...
-- Ringtone 13
+- Ringtone 1 ... 13
 
-### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
+### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Etagen-Rufe deines Gegensprechanlagen Telefons fest.
 
 ##### Options:
-- Ringtone 1
-...
-- Ringtone 13
+- Ringtone 1 ... 13
 
-### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
+### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Intern-Rufe deines Gegensprechanlagen Telefons fest.
 
 ##### Options:
-- Ringtone 1
-...
-- Ringtone 13
+- Ringtone 1 ... 13
 
 
 ## Schlösser
