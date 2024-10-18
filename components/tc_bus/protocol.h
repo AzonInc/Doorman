@@ -8,17 +8,17 @@ namespace esphome
     {
         enum Model {
             MODEL_NONE,
-            MODEL_ISH_1030,
-            MODEL_ISH_3030,
-            MODEL_ISH_3230,
-            MODEL_ISH_3340,
-            MODEL_ISW_3030,
-            MODEL_ISW_3230,
-            MODEL_ISW_3340,
-            MODEL_IVH_3222,
-            MODEL_TC_50,
-            MODEL_TCH_50,
-            MODEL_TCH_50_P
+            MODEL_TCS_ISH1030,
+            MODEL_TCS_ISH3030,
+            MODEL_TCS_ISH3230,
+            MODEL_TCS_ISH3340,
+            MODEL_TCS_ISW3030,
+            MODEL_TCS_ISW3230,
+            MODEL_TCS_ISW3340,
+            MODEL_TCS_IVH3222,
+            MODEL_KOCH_TC50,
+            MODEL_KOCH_TCH50,
+            MODEL_KOCH_TCH50P
         };
 
         enum SettingType {

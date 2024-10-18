@@ -712,15 +712,15 @@ namespace esphome
 
             switch (model_)
             {
-                case MODEL_ISH_3030:
-                case MODEL_ISH_3230:
-                case MODEL_ISH_3340:
-                case MODEL_ISW_3030:
-                case MODEL_ISW_3230:
-                case MODEL_ISW_3340:
-                case MODEL_TC_50:
-                case MODEL_TCH_50:
-                case MODEL_TCH_50P:
+                case MODEL_TCS_ISH3030:
+                case MODEL_TCS_ISH3230:
+                case MODEL_TCS_ISH3340:
+                case MODEL_TCS_ISW3030:
+                case MODEL_TCS_ISW3230:
+                case MODEL_TCS_ISW3340:
+                case MODEL_KOCH_TC50:
+                case MODEL_KOCH_TCH50:
+                case MODEL_KOCH_TCH50P:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -752,7 +752,7 @@ namespace esphome
                     }
                     break;
 
-                case MODEL_ISH_1030:
+                case MODEL_TCS_ISH1030:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -774,7 +774,7 @@ namespace esphome
                     }
                     break;
 
-                case MODEL_ISV_3222:
+                case MODEL_TCS_ISV3222:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:

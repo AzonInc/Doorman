@@ -452,17 +452,17 @@ namespace esphome
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
-            if (str == "ISH_1030") return MODEL_ISH_1030;
-            if (str == "ISH_3030") return MODEL_ISH_3030;
-            if (str == "ISH_3230") return MODEL_ISH_3230;
-            if (str == "ISH_3340") return MODEL_ISH_3340;
-            if (str == "ISW_3030") return MODEL_ISW_3030;
-            if (str == "ISW_3230") return MODEL_ISW_3230;
-            if (str == "ISW_3340") return MODEL_ISW_3340;
-            if (str == "IVH_3222") return MODEL_IVH_3222;
-            if (str == "TC_50") return MODEL_TC_50;
-            if (str == "TCH_50") return MODEL_TCH_50;
-            if (str == "TCH_50_P") return MODEL_TCH_50_P;
+            if (str == "TCS_ISH1030") return MODEL_TCS_ISH1030;
+            if (str == "TCS_ISH3030") return MODEL_TCS_ISH3030;
+            if (str == "TCS_ISH3230") return MODEL_TCS_ISH3230;
+            if (str == "TCS_ISH3340") return MODEL_TCS_ISH3340;
+            if (str == "TCS_ISW3030") return MODEL_TCS_ISW3030;
+            if (str == "TCS_ISW3230") return MODEL_TCS_ISW3230;
+            if (str == "TCS_ISW3340") return MODEL_TCS_ISW3340;
+            if (str == "TCS_IVH3222") return MODEL_TCS_IVH3222;
+            if (str == "KOCH_TC50") return MODEL_KOCH_TC50;
+            if (str == "KOCH_TCH50") return MODEL_KOCH_TCH50;
+            if (str == "KOCH_TCH50P") return MODEL_KOCH_TCH50P;
 
             return MODEL_NONE;
         }
@@ -471,17 +471,17 @@ namespace esphome
         {
             switch (model)
             {
-                case MODEL_ISH_1030: return "ISH_1030";
-                case MODEL_ISH_3030: return "ISH_3030";
-                case MODEL_ISH_3230: return "ISH_3230";
-                case MODEL_ISH_3340: return "ISH_3340";
-                case MODEL_ISW_3030: return "ISW_3030";
-                case MODEL_ISW_3230: return "ISW_3230";
-                case MODEL_ISW_3340: return "ISW_3340";
-                case MODEL_IVH_3222: return "IVH_3222";
-                case MODEL_TC_50: return "TC_50";
-                case MODEL_TCH_50: return "TCH_50";
-                case MODEL_TCH_50_P: return "TCH_50_P";
+                case MODEL_TCS_ISH1030: return "TCS_ISH1030";
+                case MODEL_TCS_ISH3030: return "TCS_ISH3030";
+                case MODEL_TCS_ISH3230: return "TCS_ISH3230";
+                case MODEL_TCS_ISH3340: return "TCS_ISH3340";
+                case MODEL_TCS_ISW3030: return "TCS_ISW3030";
+                case MODEL_TCS_ISW3230: return "TCS_ISW3230";
+                case MODEL_TCS_ISW3340: return "TCS_ISW3340";
+                case MODEL_TCS_IVH3222: return "TCS_IVH3222";
+                case MODEL_KOCH_TC50: return "KOCH_TC50";
+                case MODEL_KOCH_TCH50: return "KOCH_TCH50";
+                case MODEL_KOCH_TCH50P: return "KOCH_TCH50P";
                 default: return "NONE";
             }
         }
