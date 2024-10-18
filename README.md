@@ -8,11 +8,11 @@
 </h1>
 
 This repository provides the source files for the Doorman S3 Intercom Gateway, a device designed to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.\
-It's also compatible with some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms, which are counterparts of TCS and Koch models.
+It's also compatible with some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms, which are counterparts of TCS and Koch models.
 
 The Doorman S3 isn't limited to these intercoms alone. With its integrated relay, it can simulate button presses to trigger door openers or lights (supporting up to 40V and a maximum of 2.5A).
 
-If your intercom isn't a TCS, Koch, Niko or Scantron model but operates on a 2-wire bus within the 14-24V range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V) by replacing the tc_bus component with a template Binary Sensor combined with the ADC, allowing you to trigger specific actions based on the voltage readings.
+If your intercom isn't a TCS, Koch, Niko, Scantron or Jung model but operates on a 2-wire bus within the 14-24V DC range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V), allowing you to trigger specific actions based on the voltage readings.
 
 A big thanks to [PCBWay](https://pcbway.com) for sponsoring this project!
 For more details on the manufacturing process, scroll down to the "Manufacturing" section.

@@ -2,7 +2,7 @@
 
 # Was ist Doorman?
 
-Doorman ermöglicht es dir, deine [TCS](https://www.tcsag.de/) oder [Koch](https://www.kochag.ch/) Gegensprechanlage mit jedem Heimautomatisierungssystem zu verbinden. Zusätzlich sind einige umgebrandete [Niko](https://www.niko.eu/) und [Scantron](https://scantron.dk/) Gegensprechanlagen Gegenstücke zu den TCS- und Koch-Modellen.
+Doorman ermöglicht es dir, deine [TCS](https://www.tcsag.de/) oder [Koch](https://www.kochag.ch/) Gegensprechanlage mit jedem Heimautomatisierungssystem zu verbinden. Zusätzlich sind einige umgebrandete [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) und ältere [Jung](https://www.jung-group.com/) Gegensprechanlagen Gegenstücke zu den TCS- und Koch-Modellen.
 
 ### Was ist mit anderen Gegensprechanlagen?
 Doorman ist nicht auf TCS- oder Koch-Gegensprechanlagen beschränkt.\
@@ -10,7 +10,7 @@ Du kannst ihn auch verwenden, um einen Tastendruck zu simulieren und damit einen
 
 Wenn deine Gegensprechanlage auf einem 2-Draht-Bus im Bereich von 14-24V DC arbeitet, könnte es möglich sein, auch andere Protokolle zu implementieren.
 
-Alternativ kannst du den Spannungspegel auf älteren Gegensprechanlagen (14-24V DC) [mithilfe des internen ADC überwachen](firmware/stock-firmware#fortgeschrittene-beispiele) und spezifische Aktionen basierend auf den Messwerten auslösen.
+Alternativ kannst du den Spannungspegel auf älteren Gegensprechanlagen (14-24V DC) mithilfe des internen ADC überwachen und spezifische Aktionen basierend auf den Messwerten auslösen.
 
 <div class="tip custom-block" style="padding-top: 8px">
 
