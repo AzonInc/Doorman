@@ -67,7 +67,3 @@ script:
                 green: 100%
                 blue: 10%
                 effect: pulse
-          else:
-            - light.turn_off:
-                id: doorman_rgb_status_led
-                transition_length: 1s

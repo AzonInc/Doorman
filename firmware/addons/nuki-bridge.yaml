@@ -92,7 +92,7 @@ lock:
       web_server:
         sorting_group_id: sorting_group_nuki
         sorting_weight: -5
-        
+
     pairing_mode:
       id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
@@ -143,7 +143,3 @@ script:
                 green: 0%
                 blue: 100%
                 effect: pulse
-          else:
-            - light.turn_off:
-                id: doorman_rgb_status_led
-                transition_length: 1s

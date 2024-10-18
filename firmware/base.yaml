@@ -483,5 +483,8 @@ script:
   - id: update_led
     then:
       - logger.log: "Conditionally set LED State"
+      - light.turn_off:
+          id: doorman_rgb_status_led
+          transition_length: 1s
       # TODO: Restore specific state conditionally
       # Extended by addons
