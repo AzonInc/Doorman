@@ -774,7 +774,7 @@ namespace esphome
                     }
                     break;
 
-                case MODEL_TCS_ISV3222:
+                case MODEL_TCS_IVH3222:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
