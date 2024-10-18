@@ -1,43 +1,60 @@
-# Changelog
+# **Release Notes & Changelog**  
+Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
 ## 2024.10.0
-### 🚀 What's new?
-- **TC:BUS Protocol Support**: Take a look at the [supported commands](reference/esphome-component#command-types).
-   - Introducing intuitive command types with parameters like `address`, `payload`, and `serial_number`.
-- **Interactive Setup Enhancements**: During initial setup, the system now saves the serial number of the indoor station, while also automatically detecting the address of a second outdoor station.
-- **Expanded Functionality**: The doorbell and phone pickup patterns now work for a second entrance.
-- **New Memory Management Tools**:
-   - You can now modify ringtones and adjust volumes on indoor stations.
-   - Currently supports TCS ISH/ISW3030 models. For other models, memory must be analyzed and implemented.
-- **Programming Mode Actions**: Simply toggle the control units programming mode via ESPHome.
+### 🚀 What's New?
+- **TC:BUS Protocol Support**  
+   Unleash more power with the **new protocol support**!
+   You can now use intuitive command types with parameters like `address`, `payload`, and `serial_number`.  
 
-### ✨ Improvements
-- **Entity Grouping**: On the webserver, entities are now better grouped for easier navigation and control.
-- **Simplified ESPHome Configuration**: The configuration is now divided into separate add-ons, making it more modular and easier to manage.
+   👉 **Explore the [Supported Commands](reference/esphome-component#command-types)**
 
-### 📝 Other Updates
-- The `tcs_intercom` component is now called `tc_bus`, with all documentation now centralized in this repository.
+- **Interactive Setup Enhancements**  
+   The system now **remembers** your indoor station's serial number and automatically detects any additional outdoor stations during setup.
 
-### ⛑️ BREAKING CHANGES
-- **Re-setup Required**: Due to the new protocol implementation based on serial numbers, existing stored commands will no longer work. You'll need to reconfigure by pressing the apartment or entrance doorbell. [See detailed setup guide](guide/getting-started#step-3-interactive-setup).
-- **Simplified Service Names**: We’ve made changes to the Home Assistant service names to make them easier to understand and use:
+- **Expanded Doorbell Functionality**  
+   Got more than one entrance? No problem! Your **doorbell and phone pickup patterns** now work seamlessly for a **second entrance**.
 
+- **New Memory Management Tools**  
+   You can now **customize ringtones** and **adjust volumes** of indoor stations.  
+
+   👉 **Check the [Supported Models and Settings](reference/esphome-component#model-setting-availability)**
+
+- **Programming Mode Actions**  
+   Just **toggle the control unit’s programming mode** using ESPHome for instant actions.
+
+### ✨ **Improvements**
+- **Better Entity Grouping**  
+   Navigate with ease! **Entities** are now more logically grouped on the webserver for effortless control and access.
+
+- **Simplified ESPHome Configuration**  
+   We’ve made the ESPHome config files **more modular**! Configurations are now split into separate add-ons for smoother management.
+
+### 📝 **Other Updates**
+- **Component Name Change**  
+   The `tcs_intercom` component has been renamed to **`tc_bus`** and merged into this repository. All documentation is now centralized [here](reference/esphome-component).
+
+### 🚨 **Breaking Changes**
+- **Re-setup Required!**  
+   The new protocol means you’ll need to **reconfigure** your system. Old stored commands won't work anymore. Simply **press the apartment or entrance doorbell** to start the setup again.  
+
+   👉 **Check the [setup guide](guide/getting-started#step-3-interactive-setup) for details!**
+
+- **New Service Names**  
+   We’ve made changes to the Home Assistant service names to make them easier to understand and use:
    - **Old Format**:
      ```yaml
      service: esphome.doorman_s3_send_tcs_command
      data:
        command: 0x1C30BA41
      ```
-
    - **New Format**:
      ```yaml
      service: esphome.doorman_s3_send_tc_command_raw
      data:
        command: 0x1C30BA41
      ```
-     This keeps the original command format but uses a more consistent name (`tc_command_raw`).
-
-   - **New Simplified Option**: For most cases, you can now use the easier, more descriptive command structure:
+   - **New User-Friendly Option**:
      ```yaml
      service: esphome.doorman_s3_send_tc_command
      data:
@@ -46,36 +63,63 @@
        payload: 0        # Data payload
        serial_number: 0  # Indoor Station serial number
      ```
-     This format is more readable and helps you specify the type of command directly, making it much easier to manage.
+     **Why it’s awesome**: It’s now **more readable** and lets you **easily specify** command types!
+
 
 ## 2024.8.5
-### 🚀 What's new?
-- The Interactive Setup process now allows for seamless capture and storage of bus commands. It will start automatically the first time you use the firmware, provided you haven't configured commands previously.
+### 🚀 What's New?
+- **Enhanced Interactive Setup**  
+   Setup is even easier! **Automatically capture and store bus commands** during first-time setup if no previous commands are detected.
 
-### ✨ Improvements
-- Resolved issue with dashboard import file names.
-- Status colors have been enhanced for better visibility and clarity.
+### ✨ **Improvements**  
+- **Dashboard Import Fix**  
+   Fixed those pesky import file name issues—no more confusion!
 
-### 📝 Other Updates
-- Use the [tcs_intercom](<https://github.com/AzonInc/ESPHome_tcs_intercom>) development branch for development builds.
+- **Better Status Colors**  
+   We’ve revamped the **status colors** to improve visibility and clarity, making it easier to track everything at a glance.
+
+### 📝 **Other Updates**
+- **Development Builds**  
+   We now use the [tcs_intercom](<https://github.com/AzonInc/ESPHome_tcs_intercom>) development branch for development builds.
+
 
 ## 2024.8.3
-### 🚀 What's new?
-- Simplified initial setup via Access Point, Improv Serial, or Improv BLE
-- [Runtime configuration](<reference/entities#texts>) for bus commands and various settings
-- [Pattern Event](<guide/automation/pattern-events>) entites (e.g., entrance/apartment doorbell, lift handset)
-- Enhanced [Ring To Open](<guide/automation/ring-to-open>) (Party Mode 2.0) with customizable timeout settings
-- Introduced a Door Opener Button for your secondary door (if applicable)
-- Added a button to activate the hallway light (if applicable)
-- New HTTP OTA Update Option for seamless upgrades to the latest stable Doorman release via Home Assistant (without ESPHome Dashboard)
+### 🚀 What's New?
+- **Simplified Setup**  
+   Initial setup is now a breeze with options like **Access Point**, **Improv Serial**, or **Improv BLE**.
 
-### ✨ Improvements
-- Install or Update the [Stock Firmware](<guide/firmware/stock-firmware>) directly from the documentation page. You no longer need to compile the firmware using the ESPHome Dashboard if you’re just setting up commands.
-- Several additional minor improvements
+- **Runtime Configuration**  
+   Easily configure **bus commands** and settings on the fly!
 
-### 📝 Other Updates
-- Enable Webserver
-- Set the minimum required ESPHome version to `2024.8.0`
+- **New Event Entities**  
+   New entities for doorbell and handset patterns (like **entrance or apartment doorbell**, and **lift handset**).
 
-### ⛑️ BREAKING CHANGES
-This version will reset your existing saved commands. You will need to reconfigure them using the new configuration input entities. 
+- **Ring to Open 2.0**  
+   Enjoy an enhanced **Ring to Open** mode with fully customizable timeout settings.
+
+- **New Door Opener Button**  
+   Added a **button for secondary door** controls (if applicable).
+
+- **Hallway Light Button**  
+   Turn on your hallway lights with the new **dedicated button** (if applicable).
+
+- **HTTP OTA Updates**  
+   Seamlessly upgrade to the latest Doorman firmware via **Home Assistant**—no need for ESPHome Dashboard!
+
+### ✨ **Improvements**
+- **Direct Stock Firmware Updates**  
+   Now you can **install or update** the stock firmware directly from the documentation page. No need to compile it separately!
+
+- **General Tweaks**  
+   Several small but useful improvements for a smoother experience.
+
+### 📝 **Other Updates**
+- **Webserver Enabled**  
+   The webserver feature is now enabled for quicker access.
+
+- **📋 Minimum ESPHome Version Set**  
+   We’ve bumped the minimum required version to **2024.8.0**.
+
+### 🚨 **Breaking Changes**
+- **Command Reset**  
+   Due to the simplified setup process and configurable commands, the substituations are not used anymore. Thus you’ll need to **reconfigure** them using the new input entities.
