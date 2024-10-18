@@ -45,7 +45,7 @@ mode: single
 ```
 :::
 
-## Telefon-Auflegen-Muster
+## Phone Hang up-Muster
 
 ### Ereignistypen
 - single

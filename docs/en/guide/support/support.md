@@ -17,7 +17,7 @@ If you've received a Doorman-S3 PCB that hasn't been pre-flashed with the [Stock
 To resolve this, hold down the button labeled `FLASH` while connecting the USB cable to your computer. This will put the ESP into bootloader mode, preventing it from constantly restarting.
 :::
 
-::: details A loud beeping noise occurs on the phone
+::: details A loud beeping noise occurs on the speaker
 Please take a look [here](../hardware-compatibility#known-issues).
 :::
 

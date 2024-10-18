@@ -91,7 +91,7 @@ Steuert den Nuki Kopplungsmodus.
 Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
 
 ### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Deaktiviert" />
-Liest den internen speicher deines Gegensprechanlagen Telefons mit der angegebenen Seriennummer aus.
+Liest den internen speicher deiner Innenstation mit der angegebenen Seriennummer aus.
 
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
 Entkoppelt dein Nuki Smart Lock.
@@ -122,10 +122,10 @@ Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass 
 :::
 
 ### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Deaktiviert" />
-Legt die Lautstärke der Klingeltöne deines Gegensprechanlagen Telefons fest.
+Legt die Lautstärke der Klingeltöne deiner Innenstation fest.
 
 ### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Deaktiviert" />
-Legt die Lautstärke des Hörers deines Gegensprechanlagen Telefons fest.
+Legt die Lautstärke des Hörers deiner Innenstation fest.
 
 
 ## Dropdowns
@@ -150,19 +150,19 @@ Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ri
 Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](esphome-component#model-setting-availability) heraus.
 
 ### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Deaktiviert" />
-Legt den Klingelton für Tür-Rufe deines Gegensprechanlagen Telefons fest.
+Legt den Klingelton für Tür-Rufe deiner Innenstation fest.
 
 ##### Options:
 - Ringtone 1 ... 13
 
 ### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Deaktiviert" />
-Legt den Klingelton für Etagen-Rufe deines Gegensprechanlagen Telefons fest.
+Legt den Klingelton für Etagen-Rufe deiner Innenstation fest.
 
 ##### Options:
 - Ringtone 1 ... 13
 
 ### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Deaktiviert" />
-Legt den Klingelton für Intern-Rufe deines Gegensprechanlagen Telefons fest.
+Legt den Klingelton für Intern-Rufe deiner Innenstation fest.
 
 ##### Options:
 - Ringtone 1 ... 13
@@ -191,7 +191,7 @@ Wird ausgelöst, wenn ein Klingelmuster erkannt wird. Erfahre mehr über Mustere
 - second_entrance_triple
 
 ### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
-Wird ausgelöst, wenn ein Abhebe-Muster des Telefons erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
+Wird ausgelöst, wenn ein Abhebe-Muster des Telefons der Innenstation erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
 - single

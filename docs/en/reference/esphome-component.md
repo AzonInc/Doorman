@@ -19,7 +19,7 @@ The `tc_bus` hub component offers the following configuration options:
 | `id`                   | Unique ID for the component.                                                                                                                  | Yes      |               |
 | `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
 | `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
-| `model`                | Model of your intercom phone (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `NONE`        |
+| `model`                | Model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `NONE`        |
 | `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
 | `serial_number`        | 32-bit hexadecimal value representing the intercom's serial number.                                                                           | No       | `0`           |
 | `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.              | No       |               |
@@ -358,7 +358,7 @@ You can use command types in binary sensors and also when [sending commands](#se
 
 
 ## Setting Types
-Here are the available setting types you can use to update the settings of your intercom phone:
+Here are the available setting types you can use to update the settings of your indoor station:
 
 - ringtone_floor_call <Badge type="tip" text="SETTING_RINGTONE_FLOOR_CALL" />
 - ringtone_door_call <Badge type="tip" text="SETTING_RINGTONE_DOOR_CALL" />
@@ -368,7 +368,7 @@ Here are the available setting types you can use to update the settings of your 
 
 
 ## Model Setting availability
-Here are the available settings for specific intercom phone models:
+Here are the available settings for specific indoor station models:
 
 | Model            | Available settings                                                                                         |
 |------------------|------------------------------------------------------------------------------------------------------------|

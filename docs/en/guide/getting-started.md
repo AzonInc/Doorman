@@ -84,7 +84,7 @@ You don't need to manually activate this mode; it will start automatically at ea
    Go to the `Configuration` section and enable `Setup Mode` to begin the interactive setup.
 
 ::: warning Before you proceed
-The intercom phone must be connected, and the enclosure securely closed, to complete the setup process.
+The indoor station must be connected, and the enclosure securely closed, to complete the setup process.
 :::
 
 3. **Perform the Setup:**\
