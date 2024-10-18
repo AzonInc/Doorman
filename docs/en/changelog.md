@@ -117,7 +117,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Webserver Enabled**  
    The webserver feature is now enabled for quicker access.
 
-- **📋 Minimum ESPHome Version Set**  
+- **Minimum ESPHome Version Set**  
    We’ve bumped the minimum required version to **2024.8.0**.
 
 ### 🚨 **Breaking Changes**
