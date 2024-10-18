@@ -145,7 +145,7 @@ Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open
 - Any
 
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
-Sets the intercom phone model. Check the [Supported Models and Settings](reference/esphome-component#model-setting-availability) to see your options.
+Sets the intercom phone model. Check the [Supported Models and Settings](esphome-component#model-setting-availability) to see your options.
 
 ### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for door calls.

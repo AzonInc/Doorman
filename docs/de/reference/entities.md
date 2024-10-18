@@ -147,7 +147,7 @@ Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ri
 - Any
 
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Deaktiviert" />
-Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](reference/esphome-component#model-setting-availability) heraus.
+Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](esphome-component#model-setting-availability) heraus.
 
 ### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Tür-Rufe deines Gegensprechanlagen Telefons fest.
