@@ -483,6 +483,8 @@ namespace esphome
 
                     bool allow_publish = false;
 
+                     ESP_LOGD(TAG, "Address %i/%i Payload %i/%i SN: %i/%i", cmd_data.address, listener_address, cmd_data.payload, listener_payload, cmd_data.serial_number, listener_serial_number);
+
                     // Check if listener matches the command
                     if (listener_command != 0)
                     {
