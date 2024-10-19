@@ -491,7 +491,8 @@ namespace esphome
                             allow_publish = true;
                         }
                     }
-                    else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255)) {
+                    else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255))
+                    {
                         if (listener_serial_number != 0)
                         {
                             if (cmd_data.serial_number == listener_serial_number || listener_serial_number == 255)
@@ -506,13 +507,15 @@ namespace esphome
                     }
 
                     // Trigger listener binary sensor if match found
-                    if (allow_publish) {
+                    if (allow_publish)
+                    {
                         listener->turn_on(&listener->timer_, listener->auto_off_);
                     }
                 }
 
                 // Fire Home Assistant Event if event name is specified
-                if (strcmp(event_, "esphome.none") != 0) {
+                if (strcmp(event_, "esphome.none") != 0)
+                {
                     auto capi = new esphome::api::CustomAPIDevice();
                     ESP_LOGD(TAG, "Send event to Home Assistant on %s", event_);
                     capi->fire_homeassistant_event(event_, {
