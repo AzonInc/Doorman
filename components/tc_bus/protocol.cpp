@@ -243,7 +243,7 @@ namespace esphome
                         break;
 
                     case 7:
-                        if((command >> 24) & 0xFF == 0x7F)
+                        if(((command >> 24) & 0xFF) == 0x7F)
                         {
                             data.type = COMMAND_TYPE_FOUND_DOORMAN_DEVICE;
                             data.payload = command & 0xFFFFFF; // MAC Address
