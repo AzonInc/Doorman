@@ -98,6 +98,15 @@ namespace esphome
                     command |= (1 << 8);  // 100
                     break;
 
+                case COMMAND_TYPE_SEARCH_DOORMAN_DEVICES:
+                    command = 0x7FFF;
+                    break;
+
+                case COMMAND_TYPE_FOUND_DOORMAN_DEVICE:
+                    command |= (0x7F << 24); // 7F
+                    command |= payload & 0xFFFFFF; // MAC address
+                    break;
+
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP:
                     command |= (5 << 12); // 5
                     command |= (8 << 8);  // 80
@@ -233,6 +242,14 @@ namespace esphome
                         data.payload = (command & 0xFF); // Function number
                         break;
 
+                    case 7:
+                        if((command >> 24) & 0xFF == 0x7F)
+                        {
+                            data.type = COMMAND_TYPE_FOUND_DOORMAN_DEVICE;
+                            data.payload = command & 0xFFFFFF; // MAC Address
+                        }
+                        break;
+
                     case 8:
                         switch ((command >> 24) & 0xF)
                         {
@@ -331,6 +348,13 @@ namespace esphome
                             break;
                     }
                 }
+                else if (first == 7)
+                {
+                    if(command == 0x7FFF)
+                    {
+                        data.type = COMMAND_TYPE_SEARCH_DOORMAN_DEVICES;
+                    }
+                }
                 else if (first == 8)
                 {
                     switch(second)
@@ -384,6 +408,8 @@ namespace esphome
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
+            if (str == "SEARCH_DOORMAN_DEVICES") return COMMAND_TYPE_SEARCH_DOORMAN_DEVICES;
+            if (str == "FOUND_DOORMAN_DEVICE") return COMMAND_TYPE_FOUND_DOORMAN_DEVICE;
             if (str == "DOOR_CALL") return COMMAND_TYPE_DOOR_CALL;
             if (str == "FLOOR_CALL") return COMMAND_TYPE_FLOOR_CALL;
             if (str == "INTERNAL_CALL") return COMMAND_TYPE_INTERNAL_CALL;
@@ -418,6 +444,8 @@ namespace esphome
         {
             switch (type)
             {
+                case COMMAND_TYPE_SEARCH_DOORMAN_DEVICES: return "SEARCH_DOORMAN_DEVICES";
+                case COMMAND_TYPE_FOUND_DOORMAN_DEVICE: return "FOUND_DOORMAN_DEVICE";
                 case COMMAND_TYPE_DOOR_CALL: return "DOOR_CALL";
                 case COMMAND_TYPE_FLOOR_CALL: return "FLOOR_CALL";
                 case COMMAND_TYPE_INTERNAL_CALL: return "INTERNAL_CALL";

@@ -372,9 +372,11 @@ namespace esphome
         {
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
-            if (serial_number_lambda_.has_value()) {
+            if (serial_number_lambda_.has_value())
+            {
                 auto optional_value = (*serial_number_lambda_)();
-                if (optional_value.has_value()) {
+                if (optional_value.has_value())
+                {
                     tcs_serial = optional_value.value();
                 }
             }
@@ -384,24 +386,53 @@ namespace esphome
             ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %x, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number);
 
             // Update Door Readiness Status
-            if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
+            if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
+            {
                 bool door_readiness_state = cmd_data.payload == 1;
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
                 if (this->door_readiness_ != nullptr) {
                     this->door_readiness_->publish_state(door_readiness_state);
                 }
-            } else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS) {
+            }
+            else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS)
+            {
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
                 if (this->door_readiness_ != nullptr) {
                     this->door_readiness_->publish_state(false);
                 }
-            } else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE) {
+            }
+            else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE)
+            {
                 ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
                 this->programming_mode_ = cmd_data.payload == 1;
             }
+            else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES && received)
+            {
+                ESP_LOGD(TAG, "Replying to Doorman search request");
+
+                uint8_t mac[6];
+                get_mac_address_raw(mac);
+
+                uint32_t mac_addr = 0;
+                mac_addr |= (mac[3] << 16);
+                mac_addr |= (mac[4] << 8);
+                mac_addr |= (mac[5] << 0);
+
+                send_command(COMMAND_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
+            }
+            else if (cmd_data.type == COMMAND_TYPE_FOUND_DOORMAN_DEVICE)
+            {
+                uint8_t mac[3];
+                mac[0] = (cmd_data.payload >> 16) & 0xFF;
+                mac[1] = (cmd_data.payload >> 8) & 0xFF;
+                mac[2] = cmd_data.payload & 0xFF;
+
+                ESP_LOGD(TAG, "Found a Doorman device (%02x:%02x:%02x)", mac[0], mac[1], mac[2]);
+            }
 
             // Publish Command to Last Bus Command Sensor
-            if (this->bus_command_ != nullptr) {
+            if (this->bus_command_ != nullptr)
+            {
                 this->bus_command_->publish_state(cmd_data.command_hex);
             }
 
@@ -412,10 +443,12 @@ namespace esphome
                 this->received_command_callback_.call(cmd_data);
 
                 // Fire Binary Sensors
-                for (auto &listener : listeners_) {
+                for (auto &listener : listeners_)
+                {
                     // Listener Command lambda or command property when not available
                     uint32_t listener_command = listener->command_.has_value() ? listener->command_.value() : 0;
-                    if (listener->command_lambda_.has_value()) {
+                    if (listener->command_lambda_.has_value())
+                    {
                         auto optional_value = (*listener->command_lambda_)();
                         if (optional_value.has_value()) {
                             listener_command = optional_value.value();
@@ -427,7 +460,8 @@ namespace esphome
                     
                     // Listener Address lambda or address property when not available
                     uint8_t listener_address = listener->address_.has_value() ? listener->address_.value() : 0;
-                    if (listener->address_lambda_.has_value()) {
+                    if (listener->address_lambda_.has_value())
+                    {
                         auto optional_value = (*listener->address_lambda_)();
                         if (optional_value.has_value()) {
                             listener_address = optional_value.value();
@@ -436,7 +470,8 @@ namespace esphome
 
                     // Listener payload lambda or payload property when not available
                     uint32_t listener_payload = listener->payload_.has_value() ? listener->payload_.value() : 0;
-                    if (listener->payload_lambda_.has_value()) {
+                    if (listener->payload_lambda_.has_value())
+                    {
                         auto optional_value = (*listener->payload_lambda_)();
                         if (optional_value.has_value()) {
                             listener_payload = optional_value.value();
@@ -449,16 +484,23 @@ namespace esphome
                     bool allow_publish = false;
 
                     // Check if listener matches the command
-                    if (listener_command != 0) {
-                        if (cmd_data.command == listener_command) {
+                    if (listener_command != 0)
+                    {
+                        if (cmd_data.command == listener_command)
+                        {
                             allow_publish = true;
                         }
-                    } else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255)) {
-                        if (listener_serial_number != 0) {
-                            if (cmd_data.serial_number == listener_serial_number || listener_serial_number == 255) {
+                    }
+                    else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255)) {
+                        if (listener_serial_number != 0)
+                        {
+                            if (cmd_data.serial_number == listener_serial_number || listener_serial_number == 255)
+                            {
                                 allow_publish = true;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             allow_publish = true;  // Accept any serial number
                         }
                     }
@@ -490,9 +532,11 @@ namespace esphome
 
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
-            if (serial_number_lambda_.has_value()) {
+            if (serial_number_lambda_.has_value())
+            {
                 auto optional_value = (*serial_number_lambda_)();
-                if (optional_value.has_value()) {
+                if (optional_value.has_value())
+                {
                     tcs_serial = optional_value.value();
                 }
             }
@@ -599,9 +643,11 @@ namespace esphome
             if(serial_number == 0)
             {
                 serial_number = this->serial_number_;
-                if (serial_number_lambda_.has_value()) {
+                if (serial_number_lambda_.has_value())
+                {
                     auto optional_value = (*serial_number_lambda_)();
-                    if (optional_value.has_value()) {
+                    if (optional_value.has_value())
+                    {
                         serial_number = optional_value.value();
                     }
                 }
@@ -659,9 +705,11 @@ namespace esphome
             if(serial_number == 0)
             {
                 serial_number = this->serial_number_;
-                if (serial_number_lambda_.has_value()) {
+                if (serial_number_lambda_.has_value())
+                {
                     auto optional_value = (*serial_number_lambda_)();
-                    if (optional_value.has_value()) {
+                    if (optional_value.has_value())
+                    {
                         serial_number = optional_value.value();
                     }
                 }
@@ -814,9 +862,11 @@ namespace esphome
             if(serial_number == 0)
             {
                 serial_number = this->serial_number_;
-                if (serial_number_lambda_.has_value()) {
+                if (serial_number_lambda_.has_value())
+                {
                     auto optional_value = (*serial_number_lambda_)();
-                    if (optional_value.has_value()) {
+                    if (optional_value.has_value())
+                    {
                         serial_number = optional_value.value();
                     }
                 }
