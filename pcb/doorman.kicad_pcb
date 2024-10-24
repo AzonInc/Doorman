@@ -9,7 +9,7 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3")
-		(date "2024-09-05")
+		(date "2024-10-20")
 		(rev "1.5")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -9132,7 +9132,7 @@
 				)
 			)
 		)
-		(property "Description" "Gold Direct Insert Policy 1mm 2P 4mm -40℃~+105℃ 2.2mm 1.27mm Single Row 1x2P Plugin,P=1.27mm  Pin Headers ROHS"
+		(property "Description" "1A Direct Insert Policy 1mm 2P 3mm 2.5mm 1.27mm Single Row 1x2P Plugin,P=1.27mm  Pin Headers ROHS"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9157,7 +9157,7 @@
 				)
 			)
 		)
-		(property "MPN" "1271WV-2P"
+		(property "MPN" "DZ127R-11-02-25"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")

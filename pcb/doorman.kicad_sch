@@ -15879,7 +15879,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Gold Direct Insert Policy 1mm 2P 4mm -40℃~+105℃ 2.2mm 1.27mm Single Row 1x2P Plugin,P=1.27mm  Pin Headers ROHS"
+		(property "Description" "1A Direct Insert Policy 1mm 2P 3mm 2.5mm 1.27mm Single Row 1x2P Plugin,P=1.27mm  Pin Headers ROHS"
 			(at 114.3 34.29 0)
 			(effects
 				(font
@@ -15897,7 +15897,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1271WV-2P"
+		(property "MPN" "DZ127R-11-02-25"
 			(at 114.3 34.29 0)
 			(effects
 				(font
