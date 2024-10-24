@@ -571,14 +571,14 @@ namespace esphome
             }
             else
             {
-                std::srand(std::time(0));
+                /*std::srand(std::time(0));
                 delay(std::rand() % 101 + 50);
 
                 uint32_t msNow = millis();
                 while((msNow - tcsReader.lastBitTimestamp()) < 50)
                 {
                     delay(std::rand() % 101 + 50);
-                }
+                }*/
 
 
                 // Pause reading
