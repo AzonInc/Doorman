@@ -9,10 +9,10 @@ esphome:
   - Preferences
   - https://github.com/h2zero/NimBLE-Arduino#1.4.0
   - Crc16
-  - https://github.com/AzonInc/NukiBleEsp32
-
+  - https://github.com/I-Connect/NukiBleEsp32
+  
 external_components:
-  - source: github://AzonInc/ESPHome_nuki_lock@main
+  - source: github://AzonInc/ESPHome_nuki_lock@feature/basic-settings
 
 # Pairing Mode
 binary_sensor:
