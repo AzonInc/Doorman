@@ -13,6 +13,7 @@ esphome:
 
 external_components:
   - source: github://AzonInc/ESPHome_nuki_lock@feature/basic-settings
+    refresh: 60s
 
 # Pairing Mode
 binary_sensor:
