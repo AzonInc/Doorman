@@ -10,7 +10,7 @@ esphome:
   - https://github.com/h2zero/NimBLE-Arduino#1.4.0
   - Crc16
   - https://github.com/I-Connect/NukiBleEsp32
-  
+
 external_components:
   - source: github://AzonInc/ESPHome_nuki_lock@feature/basic-settings
 
@@ -108,6 +108,26 @@ lock:
       web_server:
         sorting_group_id: sorting_group_nuki
         sorting_weight: -3
+
+    auto_unlatch:
+      id: nuki_auto_unlatch
+      name: "Nuki Auto unlatch"
+      disabled_by_default: true
+
+    button_enabled:
+      name: "Nuki Button enabled"
+      disabled_by_default: true
+
+    led_enabled:
+      id: nuki_led_enabled
+      name: "Nuki LED enabled"
+      disabled_by_default: true
+
+    led_brightness:
+      id: nuki_brightness
+      name: "Nuki LED brightness"
+      disabled_by_default: true
+      mode: slider
 
     on_pairing_mode_on_action:
       - script.execute: update_led
