@@ -406,7 +406,7 @@ namespace esphome
                 ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
                 this->programming_mode_ = cmd_data.payload == 1;
             }
-            else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES && received)
+            else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES)
             {
                 ESP_LOGD(TAG, "Replying to Doorman search request");
 
@@ -571,6 +571,16 @@ namespace esphome
             }
             else
             {
+                std::srand(std::time(0));
+                delay(std::rand() % 101 + 50);
+
+                uint32_t msNow = millis();
+                while((msNow - tcsReader.lastBitTimestamp()) < 50)
+                {
+                    delay(std::rand() % 101 + 50);
+                }
+
+
                 // Pause reading
                 ESP_LOGV(TAG, "Pause reading");
                 this->rx_pin_->detach_interrupt();
