@@ -9,10 +9,11 @@ esphome:
   - Preferences
   - https://github.com/h2zero/NimBLE-Arduino#1.4.0
   - Crc16
-  - https://github.com/AzonInc/NukiBleEsp32
+  - https://github.com/I-Connect/NukiBleEsp32
 
 external_components:
-  - source: github://AzonInc/ESPHome_nuki_lock@main
+  - source: github://AzonInc/ESPHome_nuki_lock@feature/auth-logs
+    refresh: 60s
 
 # Pairing Mode
 binary_sensor:
@@ -40,6 +41,9 @@ lock:
   - platform: nuki_lock
     name: Nuki Lock
     id: nuki_smart_lock
+    web_server:
+      sorting_group_id: sorting_group_nuki
+      sorting_weight: -100
 
     # Required:
     is_connected: 
@@ -49,7 +53,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -10
+        sorting_weight: -30
 
     is_paired:
       id: nuki_paired
@@ -58,7 +62,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -9
+        sorting_weight: -29
 
     # Optional:
     battery_critical:
@@ -67,7 +71,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -8
+        sorting_weight: -28
 
     battery_level:
       id: nuki_battery_level
@@ -75,7 +79,7 @@ lock:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -7
+        sorting_weight: -27
 
     door_sensor:
       id: nuki_door_sensor
@@ -83,15 +87,152 @@ lock:
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -6
+        sorting_weight: -26
 
     door_sensor_state:
       id: nuki_door_sensor_state
-      name: "Nuki Door Sensor State"
+      name: "Nuki Door Sensor: State"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -25
+
+    last_unlock_user:
+      id: nuki_last_unlock_user
+      name: "Nuki Last Unlock User"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -24
+
+    auto_unlatch:
+      id: nuki_auto_unlatch
+      name: "Nuki Auto unlatch"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -23
+
+    button_enabled:
+      id: nuki_button_locking_operations
+      name: "Nuki Button: Locking operations"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -20
+
+    single_buton_press_action:
+      id: nuki_single_button_press_action
+      name: "Nuki Button: Single Press Action"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -19
+
+    double_buton_press_action:
+      id: nuki_double_button_press_action
+      name: "Nuki Button: Double Press Action"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -18
+
+    led_enabled:
+      id: nuki_led_enabled
+      name: "Nuki LED: Signal"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -15
+
+    led_brightness:
+      id: nuki_led_brightness
+      name: "Nuki LED: Brightness"
+      disabled_by_default: true
+      mode: slider
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -14
+
+    night_mode_enabled:
+      id: nuki_night_mode
+      name: "Nuki Night Mode"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -10
+
+    night_mode_auto_lock_enabled:
+      id: nuki_night_mode_auto_lock_enabled
+      name: "Nuki Night Mode: Auto Lock"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -9
+
+    night_mode_auto_unlock_disabled:
+      id: nuki_night_mode_auto_unlock_disabled
+      name: "Nuki Night Mode: Reject Auto Unlock"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -8
+
+    night_mode_immediate_lock_on_start_enabled:
+      id: nuki_night_mode_immediate_lock_on_start
+      name: "Nuki Night Mode: Lock at Start Time"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -7
+
+    auto_lock_enabled:
+      id: nuki_auto_lock
+      name: "Nuki Auto Lock"
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
         sorting_weight: -5
+
+    immediate_auto_lock_enabled:
+      id: nuki_immediate_auto_lock
+      name: "Nuki Auto Lock: Immediately"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -4
+
+    auto_unlock_disabled:
+      id: nuki_auto_unlock_disabled
+      name: "Nuki Auto Unlock: Disable"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    fob_action_1:
+      id: nuki_fob_action_1
+      name: "Nuki Fob: Action 1"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: 1
+
+    fob_action_2:
+      id: nuki_fob_action_2
+      name: "Nuki Fob: Action 2"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: 2
+
+    fob_action_3:
+      id: nuki_fob_action_3
+      name: "Nuki Fob: Action 3"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: 3
 
     pairing_mode:
       id: nuki_pairing_mode
@@ -99,7 +240,7 @@ lock:
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -4
+        sorting_weight: 10
 
     unpair:
       id: nuki_unpair_device
@@ -107,7 +248,15 @@ lock:
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki
-        sorting_weight: -3
+        sorting_weight: 11
+
+    auto_update_enabled:
+      id: nuki_auto_update
+      name: "Nuki Automatic Updates"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: 12
 
     on_pairing_mode_on_action:
       - script.execute: update_led
