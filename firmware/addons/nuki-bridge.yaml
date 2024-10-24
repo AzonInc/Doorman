@@ -114,21 +114,113 @@ lock:
       id: nuki_auto_unlatch
       name: "Nuki Auto unlatch"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
 
     button_enabled:
       name: "Nuki Button enabled"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
 
     led_enabled:
       id: nuki_led_enabled
       name: "Nuki LED enabled"
       disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
 
     led_brightness:
       id: nuki_brightness
       name: "Nuki LED brightness"
       disabled_by_default: true
       mode: slider
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    night_mode_enabled:
+      id: nuki_night_mode
+      name: "Nuki Night Mode"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    night_mode_auto_lock_enabled:
+      id: nuki_night_mode_auto_lock_enabled
+      name: "Nuki Night Mode: Auto Lock"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    night_mode_auto_unlock_disabled:
+      id: nuki_night_mode_auto_unlock_disabled
+      name: "Nuki Night Mode: Reject Auto Unlock"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    night_mode_immediate_lock_on_start_enabled:
+      id: nuki_night_mode_immediate_lock_on_start
+      name: "Nuki Night Mode: Lock at Start Time"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    auto_lock_enabled:
+      id: nuki_auto_lock
+      name: "Nuki Auto Lock"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    auto_unlock_disabled:
+      id: nuki_auto_unlock_disabled
+      name: "Nuki Auto Unlock: Disable"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    immediate_auto_lock_enabled:
+      id: nuki_immediate_auto_lock
+      name: "Nuki Auto Lock: Immediately"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    auto_update_enabled:
+      id: nuki_auto_update
+      name: "Nuki Automatic Updates"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    single_buton_press_action:
+      id: nuki_single_button_press_action
+      name: "Nuki Single Button Press Action"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
+
+    double_buton_press_action:
+      id: nuki_double_button_press_action
+      name: "Nuki Double Button Press Action"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -3
 
     on_pairing_mode_on_action:
       - script.execute: update_led
