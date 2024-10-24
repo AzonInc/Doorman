@@ -1,4 +1,4 @@
-# **Release Notes & Changelog**  
+# Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
 ## 2024.10.0
@@ -23,18 +23,18 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Programming Mode Actions**  
    Just **toggle the control unit’s programming mode** using ESPHome for instant actions.
 
-### ✨ **Improvements**
+### ✨ Improvements
 - **Better Entity Grouping**  
    Navigate with ease! **Entities** are now more logically grouped on the webserver for effortless control and access.
 
 - **Simplified ESPHome Configuration**  
    We’ve made the ESPHome config files **more modular**! Configurations are now split into separate add-ons for smoother management.
 
-### 📝 **Other Updates**
+### 📝 Other Updates
 - **Component Name Change**  
    The `tcs_intercom` component has been renamed to **`tc_bus`** and merged into this repository. All documentation is now centralized [here](reference/esphome-component).
 
-### 🚨 **Breaking Changes**
+### 🚨 Breaking Changes
 - **Re-setup Required!**  
    The new protocol means you’ll need to **reconfigure** your system. Old stored commands won't work anymore. Simply **press the apartment or entrance doorbell** to start the setup again.  
 
@@ -71,14 +71,14 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Enhanced Interactive Setup**  
    Setup is even easier! **Automatically capture and store bus commands** during first-time setup if no previous commands are detected.
 
-### ✨ **Improvements**  
+### ✨ Improvements
 - **Dashboard Import Fix**  
    Fixed those pesky import file name issues—no more confusion!
 
 - **Better Status Colors**  
    We’ve revamped the **status colors** to improve visibility and clarity, making it easier to track everything at a glance.
 
-### 📝 **Other Updates**
+### 📝 Other Updates
 - **Development Builds**  
    We now use the [tcs_intercom](<https://github.com/AzonInc/ESPHome_tcs_intercom>) development branch for development builds.
 
@@ -106,7 +106,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **HTTP OTA Updates**  
    Seamlessly upgrade to the latest Doorman firmware via **Home Assistant**—no need for ESPHome Dashboard!
 
-### ✨ **Improvements**
+### ✨ Improvements
 - **Direct Stock Firmware Updates**  
    Now you can **install or update** the stock firmware directly from the documentation page. No need to compile it separately!
 
@@ -120,6 +120,6 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Minimum ESPHome Version Set**  
    We’ve bumped the minimum required version to **2024.8.0**.
 
-### 🚨 **Breaking Changes**
+### 🚨 Breaking Changes
 - **Command Reset**  
    Due to the simplified setup process and configurable commands, the substituations are not used anymore. Thus you’ll need to **reconfigure** them using the new input entities.
