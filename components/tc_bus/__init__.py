@@ -1,12 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import text_sensor, binary_sensor
+from esphome.components import text_sensor, binary_sensor, select, number
 from esphome import pins, automation
-from esphome.const import CONF_ID, ENTITY_CATEGORY_DIAGNOSTIC, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE
+from esphome.const import CONF_ID, ENTITY_CATEGORY_DIAGNOSTIC, ENTITY_CATEGORY_CONFIG, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE
 
-AUTO_LOAD = ["binary_sensor", "text_sensor"]
+AUTO_LOAD = ["binary_sensor", "text_sensor", "select", "number"]
 
 CODEOWNERS = ["@azoninc"]
+
 tc_bus_ns = cg.esphome_ns.namespace("tc_bus")
 TCBus = tc_bus_ns.class_("TCBusComponent", cg.Component)
 
@@ -28,6 +29,13 @@ TCBusReadMemoryAction = tc_bus_ns.class_(
 
 CommandData = tc_bus_ns.struct(f"CommandData")
 SettingData = tc_bus_ns.struct(f"SettingData")
+
+IntercomModelSelect = tc_bus_ns.class_("IntercomModelSelect", select.Select, cg.Component)
+IntercomRingtoneDoorCallSelect = tc_bus_ns.class_("IntercomRingtoneDoorCallSelect", select.Select, cg.Component)
+IntercomRingtoneFloorCallSelect = tc_bus_ns.class_("IntercomRingtoneFloorCallSelect", select.Select, cg.Component)
+IntercomRingtoneInternalCallSelect = tc_bus_ns.class_("IntercomRingtoneInternalCallSelect", select.Select, cg.Component)
+IntercomVolumeHandsetNumber = tc_bus_ns.class_("IntercomVolumeHandsetNumber", number.Number, cg.Component)
+IntercomVolumeRingtoneNumber = tc_bus_ns.class_("IntercomVolumeRingtoneNumber", number.Number, cg.Component)
 
 ReadMemoryCompleteTrigger = tc_bus_ns.class_("ReadMemoryCompleteTrigger", automation.Trigger.template())
 ReadMemoryTimeoutTrigger = tc_bus_ns.class_("ReadMemoryTimeoutTrigger", automation.Trigger.template())
@@ -75,21 +83,36 @@ COMMAND_TYPES = {
     "request_version": COMMAND_TYPE.COMMAND_TYPE_REQUEST_VERSION
 }
 
-MODEL = tc_bus_ns.enum("Model")
-MODELS = {
-    "NONE": MODEL.MODEL_NONE,
-    "TCS_ISH1030": MODEL.MODEL_TCS_ISH1030,
-    "TCS_ISH3030": MODEL.MODEL_TCS_ISH3030,
-    "TCS_ISH3230": MODEL.MODEL_TCS_ISH3230,
-    "TCS_ISH3340": MODEL.MODEL_TCS_ISH3340,
-    "TCS_ISW3030": MODEL.MODEL_TCS_ISW3030,
-    "TCS_ISW3230": MODEL.MODEL_TCS_ISW3230,
-    "TCS_ISW3340": MODEL.MODEL_TCS_ISW3340,
-    "TCS_IVH3222": MODEL.MODEL_TCS_IVH3222,
-    "KOCH_TC50": MODEL.MODEL_KOCH_TC50,
-    "KOCH_TCH50": MODEL.MODEL_KOCH_TCH50,
-    "KOCH_TCH50P": MODEL.MODEL_KOCH_TCH50P
-}
+CONF_MODELS = [
+    "None",
+    "TCS ISH1030", 
+    "TCS ISH3030",
+    "TCS ISH3230",
+    "TCS ISH3340",
+    "TCS ISW3030",
+    "TCS ISW3230",
+    "TCS ISW3340",
+    "TCS IVH3222",
+    "Koch TC50",
+    "Koch TCH50",
+    "Koch TCH50P"
+]
+
+CONF_RINGTONES = [
+    "Ringtone 1",
+    "Ringtone 2",
+    "Ringtone 3",
+    "Ringtone 4",
+    "Ringtone 5",
+    "Ringtone 6",
+    "Ringtone 7",
+    "Ringtone 8",
+    "Ringtone 9",
+    "Ringtone 10",
+    "Ringtone 11",
+    "Ringtone 12",
+    "Ringtone 13"
+]
 
 CONF_TC_ID = "tc_bus"
 
@@ -107,6 +130,12 @@ CONF_PAYLOAD = "payload"
 CONF_PAYLOAD_LAMBDA = "payload_lambda"
 
 CONF_MODEL = "model"
+
+CONF_RINGTONE_DOOR_CALL = "ringtone_door_call"
+CONF_RINGTONE_FLOOR_CALL = "ringtone_floor_call"
+CONF_RINGTONE_INTERNAL_CALL = "ringtone_internal_call"
+CONF_VOLUME_HANDSET = "volume_handset"
+CONF_VOLUME_RINGTONE = "volume_ringtone"
 
 CONF_BUS_COMMAND = "bus_command"
 CONF_HARDWARE_VERSION = "hardware_version"
@@ -128,10 +157,33 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(TCBus),
             cv.Optional(CONF_RX_PIN, default=9): pins.internal_gpio_input_pin_schema,
             cv.Optional(CONF_TX_PIN, default=8): pins.internal_gpio_output_pin_schema,
-            cv.Optional(CONF_MODEL, default="NONE"): cv.enum(MODELS, upper=True),
             cv.Optional(CONF_EVENT, default="tc"): cv.string,
             cv.Optional(CONF_SERIAL_NUMBER, default=0): cv.hex_uint32_t,
             cv.Optional(CONF_SERIAL_NUMBER_LAMBDA): cv.returning_lambda,
+            cv.Optional(CONF_MODEL): select.select_schema(
+                IntercomModelSelect,
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
+            cv.Optional(CONF_RINGTONE_DOOR_CALL): select.select_schema(
+                IntercomRingtoneDoorCallSelect,
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
+            cv.Optional(CONF_RINGTONE_FLOOR_CALL): select.select_schema(
+                IntercomRingtoneFloorCallSelect,
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
+            cv.Optional(CONF_RINGTONE_INTERNAL_CALL): select.select_schema(
+                IntercomRingtoneInternalCallSelect,
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
+            cv.Optional(CONF_VOLUME_HANDSET): number.number_schema(
+                IntercomVolumeHandsetNumber,
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
+            cv.Optional(CONF_VOLUME_RINGTONE): number.number_schema(
+                IntercomVolumeRingtoneNumber,
+                entity_category=ENTITY_CATEGORY_CONFIG,
+            ),
             cv.Optional(CONF_BUS_COMMAND): text_sensor.text_sensor_schema(
                 entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
                 icon="mdi:console-network",
@@ -176,9 +228,6 @@ async def to_code(config):
     pin = await cg.gpio_pin_expression(config[CONF_TX_PIN])
     cg.add(var.set_tx_pin(pin))
 
-    if CONF_MODEL in config:
-        cg.add(var.set_model(config[CONF_MODEL]))
-
     cg.add(var.set_event("esphome." + config[CONF_EVENT]))
 
     if CONF_SERIAL_NUMBER in config:
@@ -190,17 +239,63 @@ async def to_code(config):
         )
         cg.add(var.set_sn_lambda(template_))
 
+    if model := config.get(CONF_MODEL):
+        sel = await select.new_select(
+            model,
+            options=[CONF_MODELS],
+        )
+        await cg.register_parented(sel, config[CONF_ID])
+        cg.add(var.set_intercom_model_select(sel))
+
+    if ringtone_door_call := config.get(CONF_RINGTONE_DOOR_CALL):
+        sel = await select.new_select(
+            ringtone_door_call,
+            options=[CONF_RINGTONES],
+        )
+        await cg.register_parented(sel, config[CONF_ID])
+        cg.add(var.set_intercom_ringtone_door_call_select(sel))
+
+    if ringtone_floor_call := config.get(CONF_RINGTONE_FLOOR_CALL):
+        sel = await select.new_select(
+            ringtone_floor_call,
+            options=[CONF_RINGTONES],
+        )
+        await cg.register_parented(sel, config[CONF_ID])
+        cg.add(var.set_intercom_ringtone_floor_call_select(sel))
+
+    if ringtone_internal_call := config.get(CONF_RINGTONE_INTERNAL_CALL):
+        sel = await select.new_select(
+            ringtone_internal_call,
+            options=[CONF_RINGTONES],
+        )
+        await cg.register_parented(sel, config[CONF_ID])
+        cg.add(var.set_intercom_ringtone_internal_call_select(sel))
+
+    if volume_handset := config.get(CONF_VOLUME_HANDSET):
+        n = await number.new_number(
+            volume_handset, min_value=0, max_value=7, step=1
+        )
+        await cg.register_parented(n, config[CONF_ID])
+        cg.add(var.set_intercom_volume_handset_number(n))
+
+    if volume_ringtone := config.get(CONF_VOLUME_RINGTONE):
+        n = await number.new_number(
+            volume_ringtone, min_value=0, max_value=7, step=1
+        )
+        await cg.register_parented(n, config[CONF_ID])
+        cg.add(var.set_intercom_volume_ringtone_number(n))
+
     if CONF_BUS_COMMAND in config:
         sens = await text_sensor.new_text_sensor(config[CONF_BUS_COMMAND])
-        cg.add(var.set_bus_command_sensor(sens))
+        cg.add(var.set_bus_command_text_sensor(sens))
 
     if CONF_HARDWARE_VERSION in config:
         sens = await text_sensor.new_text_sensor(config[CONF_HARDWARE_VERSION])
-        cg.add(var.set_hardware_version_sensor(sens))
+        cg.add(var.set_hardware_version_text_sensor(sens))
 
     if CONF_DOOR_READINESS in config:
         sens = await binary_sensor.new_binary_sensor(config[CONF_DOOR_READINESS])
-        cg.add(var.set_door_readiness_sensor(sens))
+        cg.add(var.set_door_readiness_binary_sensor(sens))
 
     for conf in config.get(CONF_ON_COMMAND, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)

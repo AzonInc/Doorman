@@ -478,19 +478,17 @@ namespace esphome
 
         Model string_to_model(std::string str)
         {
-            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-
-            if (str == "TCS_ISH1030") return MODEL_TCS_ISH1030;
-            if (str == "TCS_ISH3030") return MODEL_TCS_ISH3030;
-            if (str == "TCS_ISH3230") return MODEL_TCS_ISH3230;
-            if (str == "TCS_ISH3340") return MODEL_TCS_ISH3340;
-            if (str == "TCS_ISW3030") return MODEL_TCS_ISW3030;
-            if (str == "TCS_ISW3230") return MODEL_TCS_ISW3230;
-            if (str == "TCS_ISW3340") return MODEL_TCS_ISW3340;
-            if (str == "TCS_IVH3222") return MODEL_TCS_IVH3222;
-            if (str == "KOCH_TC50") return MODEL_KOCH_TC50;
-            if (str == "KOCH_TCH50") return MODEL_KOCH_TCH50;
-            if (str == "KOCH_TCH50P") return MODEL_KOCH_TCH50P;
+            if (str == "TCS ISH1030") return MODEL_TCS_ISH1030;
+            if (str == "TCS ISH3030") return MODEL_TCS_ISH3030;
+            if (str == "TCS ISH3230") return MODEL_TCS_ISH3230;
+            if (str == "TCS ISH3340") return MODEL_TCS_ISH3340;
+            if (str == "TCS ISW3030") return MODEL_TCS_ISW3030;
+            if (str == "TCS ISW3230") return MODEL_TCS_ISW3230;
+            if (str == "TCS ISW3340") return MODEL_TCS_ISW3340;
+            if (str == "TCS IVH3222") return MODEL_TCS_IVH3222;
+            if (str == "Koch TC50") return MODEL_KOCH_TC50;
+            if (str == "Koch TCH50") return MODEL_KOCH_TCH50;
+            if (str == "Koch TCH50P") return MODEL_KOCH_TCH50P;
 
             return MODEL_NONE;
         }
@@ -499,19 +497,50 @@ namespace esphome
         {
             switch (model)
             {
-                case MODEL_TCS_ISH1030: return "TCS_ISH1030";
-                case MODEL_TCS_ISH3030: return "TCS_ISH3030";
-                case MODEL_TCS_ISH3230: return "TCS_ISH3230";
-                case MODEL_TCS_ISH3340: return "TCS_ISH3340";
-                case MODEL_TCS_ISW3030: return "TCS_ISW3030";
-                case MODEL_TCS_ISW3230: return "TCS_ISW3230";
-                case MODEL_TCS_ISW3340: return "TCS_ISW3340";
-                case MODEL_TCS_IVH3222: return "TCS_IVH3222";
-                case MODEL_KOCH_TC50: return "KOCH_TC50";
-                case MODEL_KOCH_TCH50: return "KOCH_TCH50";
-                case MODEL_KOCH_TCH50P: return "KOCH_TCH50P";
-                default: return "NONE";
+                case MODEL_TCS_ISH1030: return "TCS ISH1030";
+                case MODEL_TCS_ISH3030: return "TCS ISH3030";
+                case MODEL_TCS_ISH3230: return "TCS ISH3230";
+                case MODEL_TCS_ISH3340: return "TCS ISH3340";
+                case MODEL_TCS_ISW3030: return "TCS ISW3030";
+                case MODEL_TCS_ISW3230: return "TCS ISW3230";
+                case MODEL_TCS_ISW3340: return "TCS ISW3340";
+                case MODEL_TCS_IVH3222: return "TCS IVH3222";
+                case MODEL_KOCH_TC50: return "Koch TC50";
+                case MODEL_KOCH_TCH50: return "Koch TCH50";
+                case MODEL_KOCH_TCH50P: return "Koch TCH50P";
+                default: return "None";
             }
         }
+
+        uint8_t ringtone_to_int(std::string str)
+        {
+            if(str == "Ringtone 1") return 0;
+            if(str == "Ringtone 2") return 1;
+            if(str == "Ringtone 3") return 2;
+            if(str == "Ringtone 4") return 3;
+            if(str == "Ringtone 5") return 4;
+            if(str == "Ringtone 6") return 5;
+            if(str == "Ringtone 7") return 6;
+            if(str == "Ringtone 8") return 7;
+            if(str == "Ringtone 9") return 8;
+            if(str == "Ringtone 10") return 9;
+            if(str == "Ringtone 11") return 10;
+            if(str == "Ringtone 12") return 11;
+            if(str == "Ringtone 13") return 12;
+            return 0;
+        }
+
+        std::string int_to_ringtone(uint8_t ringtone)
+        {
+            if(ringtone > 12)
+            {
+                ringtone = 0;
+            }
+
+            ringtone = ringtone + 1;
+
+            return "Ringtone " + ringtone;
+        }
+
     }  // namespace tc_bus
 }  // namespace esphome

@@ -7,7 +7,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    Unleash more power with the **new protocol support**!
    You can now use intuitive command types with parameters like `address`, `payload`, and `serial_number`.  
 
-   👉 **Explore the [Supported Commands](reference/esphome-component#command-types)**
+   👉 **Explore the [Supported Commands](../reference/esphome-component#command-types)**
 
 - **Interactive Setup Enhancements**  
    The system now **remembers** your indoor station's serial number and automatically detects any additional outdoor stations during setup.
@@ -18,7 +18,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **New Memory Management Tools**  
    You can now **customize ringtones** and **adjust volumes** of indoor stations.  
 
-   👉 **Check the [Supported Models and Settings](reference/esphome-component#model-setting-availability)**
+   👉 **Check the [Supported Models and Settings](../reference/esphome-component#model-setting-availability)**
 
 - **Programming Mode Actions**  
    Just **toggle the control unit’s programming mode** using ESPHome for instant actions.
@@ -32,13 +32,13 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
 ### 📝 Other Updates
 - **Component Name Change**  
-   The `tcs_intercom` component has been renamed to **`tc_bus`** and merged into this repository. All documentation is now centralized [here](reference/esphome-component).
+   The `tcs_intercom` component has been renamed to **`tc_bus`** and merged into this repository. All documentation is now centralized [here](../reference/esphome-component).
 
 ### 🚨 Breaking Changes
 - **Re-setup Required!**  
    The new protocol means you’ll need to **reconfigure** your system. Old stored commands won't work anymore. Simply **press the apartment or entrance doorbell** to start the setup again.  
 
-   👉 **Check the [setup guide](guide/getting-started#step-3-interactive-setup) for details!**
+   👉 **Check the [setup guide](../guide/getting-started#step-3-interactive-setup) for details!**
 
 - **New Service Names**  
    We’ve made changes to the Home Assistant service names to make them easier to understand and use:

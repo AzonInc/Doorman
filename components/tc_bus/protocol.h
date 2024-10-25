@@ -90,5 +90,8 @@ namespace esphome
         const char* model_to_string(Model model);
         Model string_to_model(std::string str);
 
+        uint8_t ringtone_to_int(std::string str);
+        std::string int_to_ringtone(uint8_t ringtone);
+
     }  // namespace tc_bus
 }  // namespace esphome

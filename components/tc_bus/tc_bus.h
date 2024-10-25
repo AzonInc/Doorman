@@ -4,12 +4,15 @@
 
 #include <utility>
 #include <vector>
+#include "esphome/core/preferences.h"
 #include "esphome/core/component.h"
 #include "esphome/core/hal.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
-#include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/binary_sensor/binary_sensor.h"
+#include "esphome/components/text_sensor/text_sensor.h"
+#include "esphome/components/select/select.h"
+#include "esphome/components/number/number.h"
 
 namespace esphome
 {
@@ -82,9 +85,17 @@ namespace esphome
                 void set_sn(uint32_t serial_number) { this->serial_number_ = serial_number; }
                 void set_sn_lambda(std::function<optional<uint32_t>()> &&serial_number_lambda) { this->serial_number_lambda_ = serial_number_lambda; }
 
-                void set_bus_command_sensor(text_sensor::TextSensor *bus_command) { this->bus_command_ = bus_command; }
-                void set_hardware_version_sensor(text_sensor::TextSensor *hardware_version) { this->hardware_version_ = hardware_version; }
-                void set_door_readiness_sensor(binary_sensor::BinarySensor *door_readiness) { this->door_readiness_ = door_readiness; }
+                void set_bus_command_text_sensor(text_sensor::TextSensor *bus_command) { this->bus_command_text_sensor_ = bus_command; }
+                void set_hardware_version_text_sensor(text_sensor::TextSensor *hardware_version) { this->hardware_version_text_sensor_ = hardware_version; }
+                void set_door_readiness_binary_sensor(binary_sensor::BinarySensor *door_readiness) { this->door_readiness_binary_sensor_ = door_readiness; }
+                void set_intercom_model_select(select::Select *intercom_model) { this->intercom_model_select_ = intercom_model; }
+                
+                void set_intercom_ringtone_door_call_select(select::Select *intercom_ringtone_door_call) { this->intercom_ringtone_door_call_select_ = intercom_ringtone_door_call; }
+                void set_intercom_ringtone_floor_call_select(select::Select *intercom_ringtone_floor_call) { this->intercom_ringtone_floor_call_select_ = intercom_ringtone_floor_call; }
+                void set_intercom_ringtone_internal_call_select(select::Select *intercom_ringtone_internal_call) { this->intercom_ringtone_internal_call_select_ = intercom_ringtone_internal_call; }
+                
+                void set_intercom_volume_handset_number(number::Number *intercom_volume_handset) { this->intercom_volume_handset_number_ = intercom_volume_handset; }
+                void set_intercom_volume_ringtone_number(number::Number *intercom_volume_ringtone) { this->intercom_volume_ringtone_number_ = intercom_volume_ringtone; }
 
                 void send_command(uint32_t command);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
@@ -109,6 +120,10 @@ namespace esphome
 
                 bool sending;
 
+                ESPPreferenceObject &get_pref() {
+                    return this->pref_;
+                }
+
             protected:
                 InternalGPIOPin *rx_pin_;
                 InternalGPIOPin *tx_pin_;
@@ -122,10 +137,18 @@ namespace esphome
                 uint32_t serial_number_;
                 optional<std::function<optional<uint32_t>()>> serial_number_lambda_;
 
-                text_sensor::TextSensor *bus_command_{nullptr};
-                text_sensor::TextSensor *hardware_version_{nullptr};
-                binary_sensor::BinarySensor *door_readiness_{nullptr};
                 std::string hardware_version_str_ = "Generic";
+
+                text_sensor::TextSensor *bus_command_text_sensor_{nullptr};
+                text_sensor::TextSensor *hardware_version_text_sensor_{nullptr};
+                binary_sensor::BinarySensor *door_readiness_binary_sensor_{nullptr};
+                
+                select::Select *intercom_model_select_{nullptr};
+                select::Select *intercom_ringtone_door_call_select_{nullptr};
+                select::Select *intercom_ringtone_floor_call_select_{nullptr};
+                select::Select *intercom_ringtone_internal_call_select_{nullptr};
+                number::Number *intercom_volume_handset_number_{nullptr};
+                number::Number *intercom_volume_ringtone_number_{nullptr};
 
                 bool programming_mode_ = false;
 
@@ -133,6 +156,52 @@ namespace esphome
                 uint8_t reading_memory_count_ = 0;
                 uint32_t reading_memory_timer_ = 0;
                 std::vector<uint8_t> memory_buffer_;
+
+                ESPPreferenceObject pref_;
+        };
+
+        class IntercomModelSelect : public select::Select, public Parented<TCBusComponent> {
+            public:
+                IntercomModelSelect() = default;
+            protected:
+                void control(const std::string &value) override;
+        };
+
+        class IntercomRingtoneDoorCallSelect : public select::Select, public Parented<TCBusComponent> {
+            public:
+                IntercomRingtoneDoorCallSelect() = default;
+            protected:
+                void control(const std::string &value) override;
+        };
+
+        class IntercomRingtoneFloorCallSelect : public select::Select, public Parented<TCBusComponent> {
+            public:
+                IntercomRingtoneFloorCallSelect() = default;
+            protected:
+                void control(const std::string &value) override;
+        };
+
+        class IntercomRingtoneInternalCallSelect : public select::Select, public Parented<TCBusComponent> {
+            public:
+                IntercomRingtoneInternalCallSelect() = default;
+            protected:
+                void control(const std::string &value) override;
+        };
+
+        class IntercomVolumeHandsetNumber : public number::Number, public Parented<TCBusComponent> {
+            public:
+                IntercomVolumeHandsetNumber() = default;
+
+            protected:
+                void control(float value) override;
+        };
+
+        class IntercomVolumeRingtoneNumber : public number::Number, public Parented<TCBusComponent> {
+            public:
+                IntercomVolumeRingtoneNumber() = default;
+
+            protected:
+                void control(float value) override;
         };
 
     }  // namespace tc_bus

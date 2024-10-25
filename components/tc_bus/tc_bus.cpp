@@ -32,6 +32,8 @@ namespace esphome
     {
         static const char *const TAG = "tc_bus";
 
+        uint32_t global_tcs_id = 1911044085ULL;
+
         static const uint8_t TCS_MSG_START_MS = 6; // a new message
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
@@ -42,6 +44,22 @@ namespace esphome
         {
             ESP_LOGCONFIG(TAG, "Setting up TC:BUS Intercom...");
 
+            this->pref_ = global_preferences->make_preference<Model>(global_tcs_id);
+
+            Model saved_model;
+            if (this->pref_.load(&saved_model))
+            {
+                this->model_ = saved_model;
+            }
+            else
+            {
+                this->model_ = MODEL_NONE;
+                this->pref_.save(&this->model_);
+            }
+
+            if (this->intercom_model_select_ != nullptr)
+                this->intercom_model_select_->publish_state(model_to_string(model_));
+            
             #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
             ESP_LOGD(TAG, "Check for Doorman Hardware");
 
@@ -81,10 +99,8 @@ namespace esphome
             }
             #endif
 
-            if (this->hardware_version_ != nullptr)
-            {
-                this->hardware_version_->publish_state(this->hardware_version_str_);
-            }
+            if (this->hardware_version_text_sensor_ != nullptr)
+                this->hardware_version_text_sensor_->publish_state(this->hardware_version_str_);
 
             this->rx_pin_->setup();
             this->tx_pin_->setup();
@@ -96,15 +112,11 @@ namespace esphome
             this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
             // Reset Sensors
-            if (this->bus_command_ != nullptr)
-            {
-                this->bus_command_->publish_state("");
-            }
+            if (this->bus_command_text_sensor_ != nullptr)
+                this->bus_command_text_sensor_->publish_state("");
 
-            if (this->door_readiness_ != nullptr)
-            {
-                this->door_readiness_->publish_initial_state(false);
-            }
+            if (this->door_readiness_binary_sensor_ != nullptr)
+                this->door_readiness_binary_sensor_->publish_initial_state(false);
 
             for (auto &listener : listeners_)
             {
@@ -129,16 +141,12 @@ namespace esphome
 
             ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
 
-            #ifdef USE_BINARY_SENSOR
             ESP_LOGCONFIG(TAG, "Binary Sensors:");
-            LOG_BINARY_SENSOR("  ", "Door readiness", this->door_readiness_);
-            #endif
+            LOG_BINARY_SENSOR("  ", "Door readiness", this->door_readiness_binary_sensor_);
 
-            #ifdef USE_TEXT_SENSOR
             ESP_LOGCONFIG(TAG, "Text Sensors:");
-            LOG_TEXT_SENSOR("  ", "Last Bus Command", this->bus_command_);
-            LOG_TEXT_SENSOR("  ", "Hardware Version", this->hardware_version_);
-            #endif
+            LOG_TEXT_SENSOR("  ", "Last Bus Command", this->bus_command_text_sensor_);
+            LOG_TEXT_SENSOR("  ", "Hardware Version", this->hardware_version_text_sensor_);
         }
 
         void TCBusComponent::loop()
@@ -197,6 +205,17 @@ namespace esphome
                         ESP_LOGD(TAG, "Door Call Ringtone %i", get_setting(SETTING_RINGTONE_DOOR_CALL));
                         ESP_LOGD(TAG, "Floor Call Ringtone %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
                         ESP_LOGD(TAG, "Internal Call Ringtone %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
+
+                        if (this->intercom_ringtone_door_call_select_ != nullptr)
+                            this->intercom_ringtone_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_DOOR_CALL)));
+                        if (this->intercom_ringtone_floor_call_select_ != nullptr)
+                            this->intercom_ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
+                        if (this->intercom_ringtone_internal_call_select_ != nullptr)
+                            this->intercom_ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
+                        if (this->intercom_volume_handset_number_ != nullptr)
+                            this->intercom_volume_handset_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET));
+                        if (this->intercom_volume_ringtone_number_ != nullptr)
+                            this->intercom_volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
 
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     }
@@ -390,17 +409,16 @@ namespace esphome
             {
                 bool door_readiness_state = cmd_data.payload == 1;
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
-                if (this->door_readiness_ != nullptr) {
-                    this->door_readiness_->publish_state(door_readiness_state);
-                }
+                
+                if (this->door_readiness_binary_sensor_ != nullptr)
+                    this->door_readiness_binary_sensor_->publish_state(door_readiness_state);
             }
             else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS)
             {
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
-                if (this->door_readiness_ != nullptr) {
-                    this->door_readiness_->publish_state(false);
-                }
-            }
+                
+                if (this->door_readiness_binary_sensor_ != nullptr)
+                    this->door_readiness_binary_sensor_->publish_state(false);            }
             else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE)
             {
                 ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
@@ -431,10 +449,8 @@ namespace esphome
             }
 
             // Publish Command to Last Bus Command Sensor
-            if (this->bus_command_ != nullptr)
-            {
-                this->bus_command_->publish_state(cmd_data.command_hex);
-            }
+            if (this->bus_command_text_sensor_ != nullptr)
+                this->bus_command_text_sensor_->publish_state(cmd_data.command_hex);
 
             // If the command was received, notify the listeners
             if (received)
@@ -909,6 +925,48 @@ namespace esphome
                 address = address + 2;
                 delay(50);
             }
+        }
+
+        void IntercomModelSelect::control(const std::string &value)
+        {
+            this->publish_state(value);
+
+            Model model = string_to_model(value);
+            this->parent_->set_model(model);
+            this->parent_->get_pref().save(&model);
+        }
+
+        void IntercomRingtoneDoorCallSelect::control(const std::string &value)
+        {
+            this->publish_state(value);
+            uint8_t ringtone = ringtone_to_int(value);
+            this->parent_->update_setting(SETTING_RINGTONE_DOOR_CALL, ringtone, 0);
+        }
+
+        void IntercomRingtoneFloorCallSelect::control(const std::string &value)
+        {
+            this->publish_state(value);
+            uint8_t ringtone = ringtone_to_int(value);
+            this->parent_->update_setting(SETTING_RINGTONE_FLOOR_CALL, ringtone, 0);
+        }
+
+        void IntercomRingtoneInternalCallSelect::control(const std::string &value)
+        {
+            this->publish_state(value);
+            uint8_t ringtone = ringtone_to_int(value);
+            this->parent_->update_setting(SETTING_RINGTONE_INTERNAL_CALL, ringtone, 0);
+        }
+
+        void IntercomVolumeHandsetNumber::control(float value)
+        {
+            this->publish_state(value);
+            this->parent_->update_setting(SETTING_VOLUME_HANDSET, value, 0);
+        }
+
+        void IntercomVolumeRingtoneNumber::control(float value)
+        {
+            this->publish_state(value);
+            this->parent_->update_setting(SETTING_VOLUME_RINGTONE, value, 0);
         }
 
     }  // namespace tc_bus
