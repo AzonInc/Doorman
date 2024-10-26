@@ -539,7 +539,7 @@ namespace esphome
 
             ringtone = ringtone + 1;
 
-            return "Ringtone " + ringtone;
+            return "Ringtone " + std::to_string(ringtone);
         }
 
     }  // namespace tc_bus
