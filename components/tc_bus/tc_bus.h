@@ -111,6 +111,8 @@ namespace esphome
 
                 void publish_command(uint32_t command, bool fire_events);
 
+                void publish_settings();
+
                 void add_received_command_callback(std::function<void(CommandData)> &&callback);
                 CallbackManager<void(CommandData)> received_command_callback_{};
                 void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback);

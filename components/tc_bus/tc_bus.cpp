@@ -200,22 +200,7 @@ namespace esphome
                         reading_memory_ = false;
                         reading_memory_timer_ = 0;
 
-                        ESP_LOGD(TAG, "Handset volume %i", get_setting(SETTING_VOLUME_HANDSET));
-                        ESP_LOGD(TAG, "Ringtone volume %i", get_setting(SETTING_VOLUME_RINGTONE));
-                        ESP_LOGD(TAG, "Door Call Ringtone %i", get_setting(SETTING_RINGTONE_DOOR_CALL));
-                        ESP_LOGD(TAG, "Floor Call Ringtone %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
-                        ESP_LOGD(TAG, "Internal Call Ringtone %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
-
-                        if (this->intercom_ringtone_door_call_select_ != nullptr)
-                            this->intercom_ringtone_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_DOOR_CALL)));
-                        if (this->intercom_ringtone_floor_call_select_ != nullptr)
-                            this->intercom_ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
-                        if (this->intercom_ringtone_internal_call_select_ != nullptr)
-                            this->intercom_ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
-                        if (this->intercom_volume_handset_number_ != nullptr)
-                            this->intercom_volume_handset_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET));
-                        if (this->intercom_volume_ringtone_number_ != nullptr)
-                            this->intercom_volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
+                        this->publish_settings();
 
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     }
@@ -237,6 +222,27 @@ namespace esphome
                 s.s_cmdReady = false;
                 s.s_cmd = 0;
             }
+        }
+
+        void TCBusComponent::publish_settings()
+        {
+            ESP_LOGD(TAG, "Handset volume %i", get_setting(SETTING_VOLUME_HANDSET));
+            ESP_LOGD(TAG, "Ringtone volume %i", get_setting(SETTING_VOLUME_RINGTONE));
+            ESP_LOGD(TAG, "Door Call Ringtone %i", get_setting(SETTING_RINGTONE_DOOR_CALL));
+            ESP_LOGD(TAG, "Floor Call Ringtone %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
+            ESP_LOGD(TAG, "Internal Call Ringtone %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
+
+            if (this->intercom_ringtone_door_call_select_ != nullptr)
+                this->intercom_ringtone_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_DOOR_CALL)));
+            if (this->intercom_ringtone_floor_call_select_ != nullptr)
+                this->intercom_ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
+            if (this->intercom_ringtone_internal_call_select_ != nullptr)
+                this->intercom_ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
+            
+            if (this->intercom_volume_handset_number_ != nullptr)
+                this->intercom_volume_handset_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET));
+            if (this->intercom_volume_ringtone_number_ != nullptr)
+                this->intercom_volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
         }
 
         void TCBusComponent::register_listener(TCBusListener *listener)
@@ -934,6 +940,8 @@ namespace esphome
             Model model = string_to_model(value);
             this->parent_->set_model(model);
             this->parent_->get_pref().save(&model);
+
+            this->parent_->publish_settings();
         }
 
         void IntercomRingtoneDoorCallSelect::control(const std::string &value)
