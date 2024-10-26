@@ -38,6 +38,33 @@ tc_bus:
     web_server:
       sorting_group_id: sorting_group_intercom_settings
 
+  ringtone_door_call:
+    id: intercom_ringtone_door_call
+    name: "Ringtone: Door Call"
+    icon: "mdi:music"
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
+
+  ringtone_floor_call:
+    id: intercom_ringtone_floor_call
+    name: "Ringtone: Floor Call"
+    icon: "mdi:music"
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
+
+  ringtone_internal_call:
+    id: intercom_ringtone_internal_call
+    name: "Ringtone: Internal Call"
+    icon: "mdi:music"
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
+      
 # Read Memory before reading and writing
 button:
   - platform: template
@@ -46,169 +73,6 @@ button:
     icon: "mdi:file-arrow-up-down"
     on_press:
       - tc_bus.read_memory:
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
-
-#number:
-#  - platform: template
-#    id: intercom_volume_ringtone
-#    name: "Volume: Ringtone"
-#    icon: "mdi:volume-high"
-#    min_value: 0
-#    max_value: 7
-#    step: 1
-#    mode: slider
-#    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_VOLUME_RINGTONE);"
-#    update_interval: 1s
-#    set_action:
-#      - tc_bus.update_setting:
-#          type: volume_ringtone
-#          value: !lambda "return x;"
-#    entity_category: CONFIG
-#    disabled_by_default: true
-#    web_server:
-#      sorting_group_id: sorting_group_intercom_settings
-
-#  - platform: template
-#    id: intercom_volume_handset
-#    name: "Volume: Handset"
-#    icon: "mdi:volume-high"
-#    min_value: 0
-#    max_value: 7
-#    step: 1
-#    mode: slider
-#    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET);"
-#    update_interval: 1s
-#    set_action:
-#      - tc_bus.update_setting:
-#          type: volume_handset
-#          value: !lambda "return x;"
-#    entity_category: CONFIG
-#    disabled_by_default: true
-#    web_server:
-#      sorting_group_id: sorting_group_intercom_settings
-
-select:
-  - platform: template
-    id: intercom_ringtone_door_call
-    name: "Ringtone: Door Call"
-    icon: "mdi:music"
-    options:
-      - "Ringtone 1"
-      - "Ringtone 2"
-      - "Ringtone 3"
-      - "Ringtone 4"
-      - "Ringtone 5"
-      - "Ringtone 6"
-      - "Ringtone 7"
-      - "Ringtone 8"
-      - "Ringtone 9"
-      - "Ringtone 10"
-      - "Ringtone 11"
-      - "Ringtone 12"
-      - "Ringtone 13"
-    lambda: |-
-      return "Ringtone " + std::to_string(id(tc_bus_intercom)->get_setting(SETTING_RINGTONE_DOOR_CALL) + 1);
-    update_interval: 1s
-    set_action:
-      - tc_bus.update_setting:
-          type: ringtone_door_call
-          value: !lambda |-
-            std::string str = x;
-            std::vector<std::string> v;
-            char * token;
-            char seps[] = " ";
-            token = strtok (&str[1],seps);
-            while (token != NULL)
-            {
-              v.push_back(token);
-              token = strtok (NULL, seps);
-            }
-            return (std::stoi(v[1].c_str()) - 1);
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
-
-  - platform: template
-    id: intercom_ringtone_floor_call
-    name: "Ringtone: Floor Call"
-    icon: "mdi:music"
-    options:
-      - "Ringtone 1"
-      - "Ringtone 2"
-      - "Ringtone 3"
-      - "Ringtone 4"
-      - "Ringtone 5"
-      - "Ringtone 6"
-      - "Ringtone 7"
-      - "Ringtone 8"
-      - "Ringtone 9"
-      - "Ringtone 10"
-      - "Ringtone 11"
-      - "Ringtone 12"
-      - "Ringtone 13"
-    lambda: |-
-      return "Ringtone " + std::to_string(id(tc_bus_intercom)->get_setting(SETTING_RINGTONE_FLOOR_CALL) + 1);
-    update_interval: 1s
-    set_action:
-      - tc_bus.update_setting:
-          type: ringtone_floor_call
-          value: !lambda |-
-            std::string str = x;
-            std::vector<std::string> v;
-            char * token;
-            char seps[] = " ";
-            token = strtok (&str[1],seps);
-            while (token != NULL)
-            {
-              v.push_back(token);
-              token = strtok (NULL, seps);
-            }
-            return (std::stoi(v[1].c_str()) - 1);
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
-
-  - platform: template
-    id: intercom_ringtone_internal_call
-    name: "Ringtone: Internal Call"
-    icon: "mdi:music"
-    options:
-      - "Ringtone 1"
-      - "Ringtone 2"
-      - "Ringtone 3"
-      - "Ringtone 4"
-      - "Ringtone 5"
-      - "Ringtone 6"
-      - "Ringtone 7"
-      - "Ringtone 8"
-      - "Ringtone 9"
-      - "Ringtone 10"
-      - "Ringtone 11"
-      - "Ringtone 12"
-      - "Ringtone 13"
-    lambda: |-
-      return "Ringtone " + std::to_string(id(tc_bus_intercom)->get_setting(SETTING_RINGTONE_INTERNAL_CALL) + 1);
-    update_interval: 1s
-    set_action:
-      - tc_bus.update_setting:
-          type: ringtone_internal_call
-          value: !lambda |-
-            std::string str = x;
-            std::vector<std::string> v;
-            char * token;
-            char seps[] = " ";
-            token = strtok (&str[1],seps);
-            while (token != NULL)
-            {
-              v.push_back(token);
-              token = strtok (NULL, seps);
-            }
-            return (std::stoi(v[1].c_str()) - 1);
     entity_category: CONFIG
     disabled_by_default: true
     web_server:
