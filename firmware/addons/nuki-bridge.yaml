@@ -41,6 +41,7 @@ lock:
   - platform: nuki_lock
     name: Nuki Lock
     id: nuki_smart_lock
+    icon: "mdi:lock"
     web_server:
       sorting_group_id: sorting_group_nuki
       sorting_weight: -100
@@ -49,7 +50,6 @@ lock:
     is_connected: 
       id: nuki_connected
       name: "Nuki Connected"
-      icon: "mdi:link"
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
@@ -58,7 +58,6 @@ lock:
     is_paired:
       id: nuki_paired
       name: "Nuki Paired"
-      icon: "mdi:link"
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_nuki
@@ -274,10 +273,6 @@ lock:
           brightness: 60%
       - delay: 3s
       - script.execute: update_led
-
-    web_server:
-      sorting_group_id: sorting_group_nuki
-      sorting_weight: -11
 
 script:
   - id: !extend update_led
