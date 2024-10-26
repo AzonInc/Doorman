@@ -19,13 +19,18 @@ The `tc_bus` hub component offers the following configuration options:
 | `id`                   | Unique ID for the component.                                                                                                                  | Yes      |               |
 | `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
 | `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
-| `model`                | Model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `NONE`        |
 | `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
 | `serial_number`        | 32-bit hexadecimal value representing the intercom's serial number.                                                                           | No       | `0`           |
 | `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.              | No       |               |
-| `bus_command`          | Text sensor to display the last received bus command.                                                                                         | No       |               |
-| `hardware_version`     | Text sensor to display the Doorman-S3 hardware version.                                                                                       | No       |               |
-| `door_readiness`       | Binary sensor indicating the door readiness state.                                                                                            | No       |               |
+| `model`                | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
+| `ringtone_door_call`       | Door Call Ringtone Select to set the door call ringtone of your indoor station | No       | |
+| `ringtone_floor_call`      | Floor Call Ringtone Select to set the floor call ringtone of your indoor station | No       | |
+| `ringtone_internal_call`   | Internal Call Ringtone Select to set the internal call ringtone of your indoor station | No       | |
+| `volume_handset`           | Handset Volume Select to set the handset volume of your indoor station | No       | |
+| `volume_ringtone`          | Ringtone Volume Select to set the ringtone volume of your indoor station | No       | |
+| `bus_command`          | Text Sensor to display the last received bus command.                                                                                         | No       |               |
+| `hardware_version`     | Text Sensor to display the Doorman-S3 hardware version.                                                                                       | No       |               |
+| `door_readiness`       | Binary Sensor indicating the door readiness state.                                                                                            | No       |               |
 | `on_command`           | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.          | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                         | No       |               |
@@ -290,24 +295,23 @@ tc_bus:
 
 ### Accessing intercom settings
 If you need to access the supported settings in the memory buffer you can use the `get_setting` method of the `tc_bus` hub.
+Take a look at the [setting types](#setting-types).
 
 Example (read and write setting):
 ```yaml
-number:
+button:
   - platform: template
-    id: intercom_volume_handset
-    name: "Volume: Handset"
-    icon: "mdi:volume-high"
-    min_value: 0
-    max_value: 7
-    step: 1
-    mode: slider
-    lambda: !lambda "return id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET);"
-    update_interval: 1s
-    set_action:
+    name: "Read Handset volume"
+    on_press:
+      -lambda: |-
+          ESP_LOGD("TAG", "Handset volume: %i", id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET));
+
+  - platform: template
+    name: "Set Handset volume"
+    on_press:
       - tc_bus.update_setting:
           type: volume_handset
-          value: !lambda "return x;"
+          value: 7
 ```
 
 ## Command Data
@@ -372,14 +376,14 @@ Here are the available settings for specific indoor station models:
 
 | Model            | Available settings                                                                                         |
 |------------------|------------------------------------------------------------------------------------------------------------|
-| `TCS_ISH1030`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| `TCS_ISH3030`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `TCS_ISH3230`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `TCS_ISH3340`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `TCS_ISW3030`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `TCS_ISW3230`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `TCS_ISW3340`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `TCS_IVH3222`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| `KOCH_TC50`      | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `KOCH_TCH50`     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| `KOCH_TCH50P`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS ISH1030`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
+| `TCS ISH3030`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS ISH3230`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS ISH3340`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS ISW3030`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS ISW3230`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS ISW3340`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `TCS IVH3222`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
+| `Koch TC50`      | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `Koch TCH50`     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| `Koch TCH50P`    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
