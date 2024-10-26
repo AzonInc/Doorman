@@ -91,7 +91,6 @@ api:
       then:
         - tc_bus.send:
             command: !lambda 'return command;'
-    # TODO: Fix String to command
     - action: send_tc_command
       variables:
         type: string

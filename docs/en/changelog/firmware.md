@@ -23,12 +23,18 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Programming Mode Actions**  
    Just **toggle the control unit’s programming mode** using ESPHome for instant actions.
 
+- **New Nuki Lock Settings**  
+   With this release, we fully harness the expanded settings options of the Nuki Lock component, unlocking enhanced customization and control for an elevated user experience.
+
 ### ✨ Improvements
 - **Better Entity Grouping**  
    Navigate with ease! **Entities** are now more logically grouped on the webserver for effortless control and access.
 
 - **Simplified ESPHome Configuration**  
    We’ve made the ESPHome config files **more modular**! Configurations are now split into separate add-ons for smoother management.
+
+- **Doorman Discovery**  
+   We've introduced a new custom protocol that enables seamless discovery of other devices running this firmware for troubleshooting, as well as those utilizing the [custom Doorman firmware](../guide/firmware/custom-firmware) .
 
 ### 📝 Other Updates
 - **Component Name Change**  
