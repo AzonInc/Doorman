@@ -1,16 +1,13 @@
 #pragma once
 
 #include "../tc_bus.h"
-
-#include "esphome/core/helpers.h"
-#include "esphome/core/log.h"
 #include "esphome/components/binary_sensor/binary_sensor.h"
 
 namespace esphome
 {
     namespace tc_bus
     {
-        class TCBusBinarySensor : public binary_sensor::BinarySensor, public TCBusListener
+        class CommandListenerBinarySensor : public binary_sensor::BinarySensor, public TCBusListener
         {
             public:
                 void turn_on(uint32_t *timer, uint16_t auto_off) override;

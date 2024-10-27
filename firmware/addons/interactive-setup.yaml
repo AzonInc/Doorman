@@ -22,9 +22,9 @@ tc_bus:
     # If no second door station id is set, wait for one
     - if:
         condition:
-          - lambda: return id(second_door_station_id) == 99 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != 0;
+          - lambda: return id(second_door_station_id).state == 99 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != 0;
         then:
-          - globals.set:
+          - number.set:
               id: second_door_station_id
               value: !lambda "return x.address;"
 
@@ -34,8 +34,8 @@ tc_bus:
           - switch.is_on: doorman_setup_mode
           - lambda: "return x.type == COMMAND_TYPE_FLOOR_CALL || x.type == COMMAND_TYPE_DOOR_CALL;"
         then:
-          - globals.set:
-              id: intercom_serial_number
+          - number.set:
+              id: serial_number
               value: !lambda "return x.serial_number;"
 
           - switch.turn_off: doorman_setup_mode

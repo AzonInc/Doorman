@@ -150,52 +150,6 @@ mode: single
 :::
 
 ### ESPHome
-::: details Create a Runtime Config TC Command Binary Sensor
-You can add additional configurable command binary sensors alongside the preconfigured ones by using lambda, globals, and text inputs.
-
-```yaml
-<!--@include: minimal.example.yaml-->
-
-globals: // [!code ++] // [!code focus]
-  - id: custom_command // [!code ++] // [!code focus]
-    type: int // [!code ++] // [!code focus]
-    restore_value: true // [!code ++] // [!code focus]
-    initial_value: '0x3b8f9a00' // [!code ++] // [!code focus]
-
-text: // [!code ++] // [!code focus]
-  - platform: template // [!code ++] // [!code focus]
-    id: custom_command_input // [!code ++] // [!code focus]
-    name: Custom Command // [!code ++] // [!code focus]
-    entity_category: CONFIG // [!code ++] // [!code focus]
-    web_server: // [!code ++] // [!code focus]
-      sorting_group_id: sorting_group_doorman_settings // [!code ++] // [!code focus]
-    icon: "mdi:console-network" // [!code ++] // [!code focus]
-    mode: text // [!code ++] // [!code focus]
-    lambda: |- // [!code ++] // [!code focus]
-      unsigned long number = id(custom_command); // [!code ++] // [!code focus]
-      return str_upper_case(format_hex(number)); // [!code ++] // [!code focus]
-    set_action: // [!code ++] // [!code focus]
-      then: // [!code ++] // [!code focus]
-        - lambda: |- // [!code ++] // [!code focus]
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end()); // [!code ++] // [!code focus]
-            x.erase(0, x.find_first_not_of('0')); // [!code ++] // [!code focus]
-            x.resize(8); // [!code ++] // [!code focus]
-            unsigned long number = 0; // [!code ++] // [!code focus]
-            if(std::string(x.c_str()) != "") { // [!code ++] // [!code focus]
-              number = std::stoul(x.c_str(), nullptr, 16); // [!code ++] // [!code focus]
-            } // [!code ++] // [!code focus]
-            id(custom_command) = number; // [!code ++] // [!code focus]
-            id(custom_command_input)->publish_state(str_upper_case(format_hex(number))); // [!code ++] // [!code focus]
-
-binary_sensor: // [!code ++] // [!code focus]
-  - platform: tc_bus // [!code ++] // [!code focus]
-    name: "Custom Command" // [!code ++] // [!code focus]
-    command_lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
-    web_server: // [!code ++] // [!code focus]
-      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
-```
-:::
-
 ::: details Create Your Own Doorbell Pattern
 If you want to create a custom doorbell pattern, you can easily extend the existing doorbell entities. For more information about patterns, refer to the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 ```yaml

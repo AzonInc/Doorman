@@ -8,7 +8,11 @@
 #include "esphome/core/hal.h"
 #include "esphome/core/component.h"
 #include "esphome/core/helpers.h"
+#include "esphome/core/preferences.h"
+
+#ifdef USE_API
 #include "esphome/components/api/custom_api_device.h"
+#endif
 
 #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
 #include "soc/efuse_reg.h"
@@ -21,8 +25,9 @@
 #include "Arduino.h"
 #endif
 
-#include <stdint.h>
 #include <optional>
+#include <utility>
+#include <vector>
 
 using namespace esphome;
 
@@ -44,21 +49,26 @@ namespace esphome
         {
             ESP_LOGCONFIG(TAG, "Setting up TC:BUS Intercom...");
 
-            this->pref_ = global_preferences->make_preference<Model>(global_tcs_id);
+            this->pref_ = global_preferences->make_preference<TCBusSettings>(global_tcs_id);
+            
+            TCBusSettings recovered;
 
-            Model saved_model;
-            if (this->pref_.load(&saved_model))
+            if (!this->pref_.load(&recovered))
             {
-                this->model_ = saved_model;
-            }
-            else
-            {
-                this->model_ = MODEL_NONE;
-                this->pref_.save(&this->model_);
+                recovered = {MODEL_NONE, 0};
             }
 
-            if (this->intercom_model_select_ != nullptr)
-                this->intercom_model_select_->publish_state(model_to_string(model_));
+            this->model_ = recovered.model;
+            this->serial_number_ = recovered.serial_number;
+
+            #ifdef USE_SELECT
+            if (this->model_select_ != nullptr)
+                this->model_select_->publish_state(model_to_string(this->model_));
+            #endif
+            #ifdef USE_NUMBER
+            if (this->serial_number_number_ != nullptr)
+                this->serial_number_number_->publish_state(this->serial_number_);
+            #endif
             
             #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
             ESP_LOGD(TAG, "Check for Doorman Hardware");
@@ -99,8 +109,10 @@ namespace esphome
             }
             #endif
 
+            #ifdef USE_TEXT_SENSOR
             if (this->hardware_version_text_sensor_ != nullptr)
                 this->hardware_version_text_sensor_->publish_state(this->hardware_version_str_);
+            #endif
 
             this->rx_pin_->setup();
             this->tx_pin_->setup();
@@ -112,15 +124,29 @@ namespace esphome
             this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
             // Reset Sensors
+            #ifdef USE_TEXT_SENSOR
             if (this->bus_command_text_sensor_ != nullptr)
                 this->bus_command_text_sensor_->publish_state("");
+            #endif
 
-            if (this->door_readiness_binary_sensor_ != nullptr)
-                this->door_readiness_binary_sensor_->publish_initial_state(false);
-
+            #ifdef USE_BINARY_SENSOR
             for (auto &listener : listeners_)
             {
                 listener->turn_off(&listener->timer_);
+            }
+            #endif
+        }
+
+        void TCBusComponent::save_settings()
+        {
+            TCBusSettings settings {
+                this->model_,
+                this->serial_number_
+            };
+
+            if (!this->pref_.save(&settings))
+            {
+                ESP_LOGW(TAG, "Failed to save settings");
             }
         }
 
@@ -141,16 +167,16 @@ namespace esphome
 
             ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
 
-            ESP_LOGCONFIG(TAG, "Binary Sensors:");
-            LOG_BINARY_SENSOR("  ", "Door readiness", this->door_readiness_binary_sensor_);
-
+            #ifdef USE_TEXT_SENSOR
             ESP_LOGCONFIG(TAG, "Text Sensors:");
             LOG_TEXT_SENSOR("  ", "Last Bus Command", this->bus_command_text_sensor_);
             LOG_TEXT_SENSOR("  ", "Hardware Version", this->hardware_version_text_sensor_);
+            #endif
         }
 
         void TCBusComponent::loop()
         {
+            #ifdef USE_BINARY_SENSOR
             // Turn off binary sensor after ... milliseconds
             uint32_t now_millis = millis();
             for (auto &listener : listeners_)
@@ -160,6 +186,7 @@ namespace esphome
                     listener->turn_off(&listener->timer_);
                 }
             }
+            #endif
 
             // Cancel Reading memory
             if(reading_memory_)
@@ -232,23 +259,29 @@ namespace esphome
             ESP_LOGD(TAG, "Floor Call Ringtone %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
             ESP_LOGD(TAG, "Internal Call Ringtone %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
 
-            if (this->intercom_ringtone_door_call_select_ != nullptr)
-                this->intercom_ringtone_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_DOOR_CALL)));
-            if (this->intercom_ringtone_floor_call_select_ != nullptr)
-                this->intercom_ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
-            if (this->intercom_ringtone_internal_call_select_ != nullptr)
-                this->intercom_ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
-            
-            if (this->intercom_volume_handset_number_ != nullptr)
-                this->intercom_volume_handset_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET));
-            if (this->intercom_volume_ringtone_number_ != nullptr)
-                this->intercom_volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
+            #ifdef USE_SELECT
+            if (this->ringtone_door_call_select_ != nullptr)
+                this->ringtone_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_DOOR_CALL)));
+            if (this->ringtone_floor_call_select_ != nullptr)
+                this->ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
+            if (this->ringtone_internal_call_select_ != nullptr)
+                this->ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
+            #endif
+
+            #ifdef USE_NUMBER
+            if (this->volume_handset_number_ != nullptr)
+                this->volume_handset_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET));
+            if (this->volume_ringtone_number_ != nullptr)
+                this->volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
+            #endif
         }
 
+        #ifdef USE_BINARY_SENSOR
         void TCBusComponent::register_listener(TCBusListener *listener)
         {
             this->listeners_.push_back(listener); 
         }
+        #endif
 
         volatile uint32_t TCBusComponentStore::s_cmd = 0;
         volatile uint8_t TCBusComponentStore::s_cmdLength = 0;
@@ -397,14 +430,6 @@ namespace esphome
         {
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
-            if (serial_number_lambda_.has_value())
-            {
-                auto optional_value = (*serial_number_lambda_)();
-                if (optional_value.has_value())
-                {
-                    tcs_serial = optional_value.value();
-                }
-            }
 
             // Parse Command
             CommandData cmd_data = parseCommand(command);
@@ -415,16 +440,11 @@ namespace esphome
             {
                 bool door_readiness_state = cmd_data.payload == 1;
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
-                
-                if (this->door_readiness_binary_sensor_ != nullptr)
-                    this->door_readiness_binary_sensor_->publish_state(door_readiness_state);
             }
             else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS)
             {
                 ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
-                
-                if (this->door_readiness_binary_sensor_ != nullptr)
-                    this->door_readiness_binary_sensor_->publish_state(false);            }
+            }
             else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE)
             {
                 ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
@@ -454,9 +474,11 @@ namespace esphome
                 ESP_LOGD(TAG, "Found a Doorman device (%02x:%02x:%02x)", mac[0], mac[1], mac[2]);
             }
 
+            #ifdef USE_TEXT_SENSOR
             // Publish Command to Last Bus Command Sensor
             if (this->bus_command_text_sensor_ != nullptr)
                 this->bus_command_text_sensor_->publish_state(cmd_data.command_hex);
+            #endif
 
             // If the command was received, notify the listeners
             if (received)
@@ -464,6 +486,7 @@ namespace esphome
                 // Fire Callback
                 this->received_command_callback_.call(cmd_data);
 
+                #ifdef USE_BINARY_SENSOR
                 // Fire Binary Sensors
                 for (auto &listener : listeners_)
                 {
@@ -534,10 +557,12 @@ namespace esphome
                         listener->turn_on(&listener->timer_, listener->auto_off_);
                     }
                 }
+                #endif
 
                 // Fire Home Assistant Event if event name is specified
                 if (strcmp(event_, "esphome.none") != 0)
                 {
+                    #ifdef USE_API
                     auto capi = new esphome::api::CustomAPIDevice();
                     ESP_LOGD(TAG, "Send event to Home Assistant on %s", event_);
                     capi->fire_homeassistant_event(event_, {
@@ -547,6 +572,7 @@ namespace esphome
                         {"payload", std::to_string(cmd_data.payload)},
                         {"serial_number", std::to_string(cmd_data.serial_number)}
                     });
+                    #endif
                 }
             }
         }
@@ -557,14 +583,6 @@ namespace esphome
 
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
-            if (serial_number_lambda_.has_value())
-            {
-                auto optional_value = (*serial_number_lambda_)();
-                if (optional_value.has_value())
-                {
-                    tcs_serial = optional_value.value();
-                }
-            }
 
             if(serial_number == 0)
             {
@@ -678,14 +696,6 @@ namespace esphome
             if(serial_number == 0)
             {
                 serial_number = this->serial_number_;
-                if (serial_number_lambda_.has_value())
-                {
-                    auto optional_value = (*serial_number_lambda_)();
-                    if (optional_value.has_value())
-                    {
-                        serial_number = optional_value.value();
-                    }
-                }
             }
 
             memory_buffer_.clear();
@@ -740,14 +750,6 @@ namespace esphome
             if(serial_number == 0)
             {
                 serial_number = this->serial_number_;
-                if (serial_number_lambda_.has_value())
-                {
-                    auto optional_value = (*serial_number_lambda_)();
-                    if (optional_value.has_value())
-                    {
-                        serial_number = optional_value.value();
-                    }
-                }
             }
 
             if(serial_number == 0)
@@ -897,14 +899,6 @@ namespace esphome
             if(serial_number == 0)
             {
                 serial_number = this->serial_number_;
-                if (serial_number_lambda_.has_value())
-                {
-                    auto optional_value = (*serial_number_lambda_)();
-                    if (optional_value.has_value())
-                    {
-                        serial_number = optional_value.value();
-                    }
-                }
             }
 
             if(serial_number == 0)
@@ -931,50 +925,6 @@ namespace esphome
                 address = address + 2;
                 delay(50);
             }
-        }
-
-        void IntercomModelSelect::control(const std::string &value)
-        {
-            this->publish_state(value);
-
-            Model model = string_to_model(value);
-            this->parent_->set_model(model);
-            this->parent_->get_pref().save(&model);
-
-            this->parent_->publish_settings();
-        }
-
-        void IntercomRingtoneDoorCallSelect::control(const std::string &value)
-        {
-            this->publish_state(value);
-            uint8_t ringtone = ringtone_to_int(value);
-            this->parent_->update_setting(SETTING_RINGTONE_DOOR_CALL, ringtone, 0);
-        }
-
-        void IntercomRingtoneFloorCallSelect::control(const std::string &value)
-        {
-            this->publish_state(value);
-            uint8_t ringtone = ringtone_to_int(value);
-            this->parent_->update_setting(SETTING_RINGTONE_FLOOR_CALL, ringtone, 0);
-        }
-
-        void IntercomRingtoneInternalCallSelect::control(const std::string &value)
-        {
-            this->publish_state(value);
-            uint8_t ringtone = ringtone_to_int(value);
-            this->parent_->update_setting(SETTING_RINGTONE_INTERNAL_CALL, ringtone, 0);
-        }
-
-        void IntercomVolumeHandsetNumber::control(float value)
-        {
-            this->publish_state(value);
-            this->parent_->update_setting(SETTING_VOLUME_HANDSET, value, 0);
-        }
-
-        void IntercomVolumeRingtoneNumber::control(float value)
-        {
-            this->publish_state(value);
-            this->parent_->update_setting(SETTING_VOLUME_RINGTONE, value, 0);
         }
 
     }  // namespace tc_bus

@@ -9,7 +9,7 @@ Meldet jeden veröffentlichten Befehl auf dem Bus.
 ### Uptime <Badge type="tip" text="doorman_uptime" /> <Badge type="info" text="Deaktiviert" />
 Meldet die Betriebszeit in Sekunden.
 
-### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
+### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge" />
 Meldet den Akkustand des verbundenen Nuki Smart Locks.
 
 
@@ -45,20 +45,26 @@ Wird aktiviert, wenn der `FLASH` bzw. `PRG` Button auf deinem Doorman gedrückt 
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Deaktiviert" />
 Wird aktiviert, wenn der externe Button gedrückt wird.
 
-### Nuki Connected <Badge type="tip" text="nuki_connected" /> <Badge type="info" text="Nuki Bridge only" />
+### Nuki Connected <Badge type="tip" text="nuki_connected" /> <Badge type="info" text="Nuki Bridge" />
 Wird aktiviert, wenn das gekoppelte Nuki Smart Lock verbunden ist.
 
-### Nuki Paired <Badge type="tip" text="nuki_paired" /> <Badge type="info" text="Nuki Bridge only" />
+### Nuki Paired <Badge type="tip" text="nuki_paired" /> <Badge type="info" text="Nuki Bridge" />
 Wird aktiviert, wenn ein Nuki Smart Lock gekoppelt ist.
 
-### Nuki Battery Critical <Badge type="tip" text="nuki_battery_critical" /> <Badge type="info" text="Nuki Bridge only" />
+### Nuki Battery Critical <Badge type="tip" text="nuki_battery_critical" /> <Badge type="info" text="Nuki Bridge" />
 Wird aktiviert, wenn das gekoppelte Nuki Smart Lock einen kritischen Akkustand hat.
 
-### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
+### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Keine Beschreibung vorhanden.
 
-### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
+
+## Text Sensoren
+
+### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Meldet den Türsensorstatus des gekoppelten Nuki Smart Locks.
+
+### Nuki Last Unlock User <Badge type="tip" text="nuki_last_unlock_user" /> <Badge type="info" text="Nuki Bridge" />
+Reports the last user who locked or unlocked the Nuki smart lock.
 
 
 ## Schalter
@@ -75,8 +81,41 @@ Steuert das eingebaute Relais.
 ### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
 Aktiviert oder deaktiviert den Modus für die [interaktive Einrichtung](../guide/getting-started#schritt-3-interaktive-einrichtung).
 
-### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
+### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Steuert den Nuki Kopplungsmodus.
+
+### Nuki Auto unlatch <Badge type="tip" text="nuki_auto_unlatch" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Auto unlatch setting.
+
+### Nuki Button: Locking operations <Badge type="tip" text="nuki_button_locking_operations" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Button locking operations setting.
+
+### Nuki LED: Signal <Badge type="tip" text="nuki_led_enabled" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock LED Signal setting.
+
+### Nuki Night Mode <Badge type="tip" text="nuki_night_mode" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Night Mode setting.
+
+### Nuki Night Mode: Auto Lock <Badge type="tip" text="nuki_night_mode_auto_lock_enabled" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Night Mode Auto Lock setting.
+
+### Nuki Night Mode: Reject Auto Unlock <Badge type="tip" text="nuki_night_mode_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Night Mode Reject Auto Unlock setting.
+
+### Nuki Night Mode: Lock at Start Time <Badge type="tip" text="nuki_night_mode_immediate_lock_on_start" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Night Mode Lock at Start Time setting.
+
+### Nuki Auto Lock <Badge type="tip" text="nuki_auto_lock" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Auto Lock setting.
+
+### Nuki Auto Lock: Immediately <Badge type="tip" text="nuki_immediate_auto_lock" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Auto Lock Immediately setting.
+
+### Nuki Auto Unlock: Disable <Badge type="tip" text="nuki_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Auto Unlock Disable setting.
+
+### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Automatic Updates setting.
 
 
 ## Buttons
@@ -93,7 +132,7 @@ Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gese
 ### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Deaktiviert" />
 Liest den internen speicher deiner Innenstation mit der angegebenen Seriennummer aus.
 
-### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Deaktiviert" />
+### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Entkoppelt dein Nuki Smart Lock.
 
 ### Restart <Badge type="tip" text="doorman_restart" /> <Badge type="info" text="Deaktiviert" />
@@ -126,6 +165,12 @@ Legt die Lautstärke der Klingeltöne deiner Innenstation fest.
 
 ### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke des Hörers deiner Innenstation fest.
+
+### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock LED Brightness setting.
+
+### Nuki Security Pin <Badge type="tip" text="nuki_security_pin" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Sets the Nuki Bridge Security Pin to authenticate against the Nuki Smart Lock.
 
 
 ## Dropdowns
@@ -167,10 +212,64 @@ Legt den Klingelton für Intern-Rufe deiner Innenstation fest.
 ##### Options:
 - Ringtone 1 ... 13
 
+### Nuki Button: Single Press Action <Badge type="tip" text="nuki_single_button_press_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Single Button Press Action setting.
+
+##### Options:
+- No Action
+- Intelligent
+- Unlock
+- Lock
+- Unlatch
+- Lock n Go
+- Show Status
+
+### Nuki Button: Double Press Action <Badge type="tip" text="nuki_double_button_press_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Double Button Press Action setting.
+
+##### Options:
+- No Action
+- Intelligent
+- Unlock
+- Lock
+- Unlatch
+- Lock n Go
+- Show Status
+
+### Nuki Fob: Action 1 <Badge type="tip" text="nuki_fob_action_1" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Fob Action 1 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Fob: Action 2 <Badge type="tip" text="nuki_fob_action_2" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Fob Action 2 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Fob: Action 3 <Badge type="tip" text="nuki_fob_action_3" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Controls the Nuki Smart Lock Fob Action 3 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
 
 ## Schlösser
 
-### Nuki Lock <Badge type="tip" text="nuki_smart_lock" /> <Badge type="info" text="Nuki Bridge only" />
+### Nuki Lock <Badge type="tip" text="nuki_smart_lock" /> <Badge type="info" text="Nuki Bridge" />
 Repräsentiert die Schlosseinheit für dein gekoppeltes Nuki Smart Lock.
 
 
