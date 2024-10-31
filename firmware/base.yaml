@@ -175,7 +175,7 @@ number:
     serial_number:
       id: serial_number
       name: Serial Number
-      icon: "mdi:number"
+      icon: "mdi:numeric"
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_intercom_settings
