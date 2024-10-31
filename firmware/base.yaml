@@ -174,7 +174,7 @@ number:
   - platform: tc_bus
     serial_number:
       id: serial_number
-      name: Serial Number
+      name: "Serial Number"
       icon: "mdi:numeric"
       disabled_by_default: true
       web_server:
@@ -183,7 +183,7 @@ number:
 
   - platform: template
     id: second_door_station_id
-    name: Second Door Station ID
+    name: "Second Door Station ID"
     mode : box
     icon: "mdi:counter"
     restore_value: true
@@ -192,6 +192,8 @@ number:
     min_value: 0
     step: 1
     optimistic: true
+    disabled_by_default: true
+    entity_category: CONFIG
     web_server:
       sorting_group_id: sorting_group_intercom_settings
       sorting_weight: -20

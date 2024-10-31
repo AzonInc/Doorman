@@ -153,6 +153,12 @@ Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfigurier
 
 ## Eingabe für Zahlenwert
 
+### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Deaktiviert" />
+Legt die Seriennummer der Innenstation für den Commandbuilder/parser fest.
+
+### Second Door Station ID <Badge type="tip" text="second_door_station_id" /> <Badge type="info" text="Deaktiviert" />
+Legt die ID der zweiten Außenstelle fest.
+
 ### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Deaktiviert" />
 Legt die Verzögerung für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung fest.
 
