@@ -187,8 +187,8 @@ number:
     mode : box
     icon: "mdi:counter"
     restore_value: true
-    initial_value: '99'
-    max_value: 255
+    initial_value: '63'
+    max_value: 63
     min_value: 0
     step: 1
     optimistic: true
