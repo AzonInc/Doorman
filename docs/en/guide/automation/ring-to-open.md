@@ -22,6 +22,6 @@ This setting allows you to configure a delay for the `Open Entrance Door Command
 You can choose to disable the Ring To Open automation after 5 to 60 minutes, after a single ring, or never.
 :::
 
-::: info Triggering Door Station
+::: info Door Station
 You can choose which door station will trigger the automation.
 :::

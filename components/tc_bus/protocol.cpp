@@ -18,14 +18,14 @@ namespace esphome
                     command |= (0 << 28);  // 0
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     command |= (1 << 7);  // 8
-                    command |= (address & 0xFF); // 0
+                    command |= (address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_INTERNAL_CALL:
                     command |= (0 << 28);  // 0
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     command &= ~(1 << 7);  // 0
-                    command |= (address & 0xFF); // 0
+                    command |= (address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_FLOOR_CALL:
@@ -38,26 +38,26 @@ namespace esphome
                     command |= (3 << 28); // 3
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     command |= (1 << 7);  // 8
-                    command |= (address & 0xFF); // 0
+                    command |= (address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_START_TALKING:
                     command |= (3 << 28); // 3
                     command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     command &= ~(1 << 7); // 0
-                    command |= (address & 0xFF); // 0
+                    command |= (address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_STOP_TALKING_DOOR_CALL:
                     command |= (3 << 12); // 3
                     command |= (1 << 7);  // 08
-                    command |= (address & 0xFF); // 0
+                    command |= (address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_STOP_TALKING:
                     command |= (3 << 12); // 3
                     command &= ~(1 << 7); // 00
-                    command |= (address & 0xFF); // 0
+                    command |= (address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR:
@@ -65,14 +65,14 @@ namespace esphome
                     {
                         command |= (1 << 12); // 1
                         command |= (1 << 8); // 1
-                        command |= (address & 0xFF); // 00
+                        command |= (address & 0x3F); // 00
                     }
                     else
                     {
                         command |= (1 << 28);  // 1
                         command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                         command |= (1 << 7);  // 8
-                        command |= (address & 0xFF); // 0
+                        command |= (address & 0x3F); // 0
                     }
                     break;
 
@@ -178,7 +178,7 @@ namespace esphome
                 {
                     case 0:
                         data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CALL : COMMAND_TYPE_INTERNAL_CALL;
-                        data.address = command & 0xF;
+                        data.address = command & 0x3F;
                         break;
 
                     case 1:
@@ -189,13 +189,13 @@ namespace esphome
                         else if (command & (1 << 7))
                         {
                             data.type = COMMAND_TYPE_OPEN_DOOR;
-                            data.address = command & 0xF;
+                            data.address = command & 0x3F;
                         }
                         break;
 
                     case 3:
                         data.type = (command & (1 << 7)) ? COMMAND_TYPE_START_TALKING_DOOR_CALL : COMMAND_TYPE_START_TALKING;
-                        data.address = command & 0xF;
+                        data.address = command & 0x3F;
 
                         // Door Readiness
                         if(data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
@@ -280,7 +280,7 @@ namespace esphome
                     if (second == 1)
                     {
                         data.type = COMMAND_TYPE_OPEN_DOOR;
-                        data.address = command & 0xF;
+                        data.address = command & 0x3F;
                     }
                     else if (second == 2)
                     {
@@ -306,12 +306,12 @@ namespace esphome
                             break;
                     }
 
-                    data.address = command & 0xF;
+                    data.address = command & 0x3F;
                 }
                 else if (first == 3)
                 {
                     data.type = (command & (1 << 7)) ? COMMAND_TYPE_STOP_TALKING_DOOR_CALL : COMMAND_TYPE_STOP_TALKING;
-                    data.address = command & 0xF;
+                    data.address = command & 0x3F;
                 }
                 else if (first == 5)
                 {

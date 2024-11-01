@@ -20,22 +20,41 @@ The `tc_bus` hub component offers the following configuration options:
 | `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
 | `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
 | `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
-| `serial_number`        | 32-bit hexadecimal value representing the intercom's serial number.                                                                           | No       | `0`           |
-| `serial_number_lambda` | Lambda function to dynamically assign the serial number. This can be used as an alternative to manually setting `serial_number`.              | No       |               |
-| `model`                | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
-| `ringtone_door_call`       | Door Call Ringtone Select to set the door call ringtone of your indoor station | No       | |
-| `ringtone_floor_call`      | Floor Call Ringtone Select to set the floor call ringtone of your indoor station | No       | |
-| `ringtone_internal_call`   | Internal Call Ringtone Select to set the internal call ringtone of your indoor station | No       | |
-| `volume_handset`           | Handset Volume Select to set the handset volume of your indoor station | No       | |
-| `volume_ringtone`          | Ringtone Volume Select to set the ringtone volume of your indoor station | No       | |
-| `bus_command`          | Text Sensor to display the last received bus command.                                                                                         | No       |               |
-| `hardware_version`     | Text Sensor to display the Doorman-S3 hardware version.                                                                                       | No       |               |
-| `door_readiness`       | Binary Sensor indicating the door readiness state.                                                                                            | No       |               |
 | `on_command`           | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.          | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                         | No       |               |
 
-### Command Listener Binary Sensors
+
+### Text Sensors
+The `tc_bus` Text Sensor component offers the following configuration options:
+
+| Option                 | Description                                                                                    | Required | Default       |
+|------------------------|------------------------------------------------------------------------------------------------|----------|---------------|
+| `serial_number`        | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.  | No       |               |
+| `volume_handset`       | Handset Volume Select to set the handset volume of your indoor station                         | No       |               |
+| `volume_ringtone`      | Ringtone Volume Select to set the ringtone volume of your indoor station                       | No       |               |
+
+
+### Number Inputs
+The `tc_bus` Number component offers the following configuration options:
+
+| Option                 | Description                                                | Required | Default       |
+|------------------------|------------------------------------------------------------|----------|---------------|
+| `bus_command`          | Text Sensor to display the last received bus command.      | No       |               |
+| `hardware_version`     | Text Sensor to display the Doorman-S3 hardware version.    | No       |               |
+
+### Select Inputs
+The `tc_bus` Select component offers the following configuration options:
+
+| Option                 | Description                                                                                    | Required | Default       |
+|------------------------|------------------------------------------------------------------------------------------------|----------|---------------|
+| `model`                | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
+| `ringtone_door_call`       | Door Call Ringtone Select to set the door call ringtone of your indoor station | No       | |
+| `ringtone_floor_call`      | Floor Call Ringtone Select to set the floor call ringtone of your indoor station | No       | |
+| `ringtone_internal_call`   | Internal Call Ringtone Select to set the internal call ringtone of your indoor station | No       | |
+
+
+### Binary Sensors
 
 The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It can be configured to trigger based on a predefined command or a lambda expression.
 
@@ -224,15 +243,18 @@ tc_bus:
   rx_pin: GPIO9
   tx_pin: GPIO8
   event: "doorman"
-  serial_number: 798906
-  bus_command:
-    name: "Last Bus Command"
-  hardware_version:
-    name: "Doorman Hardware"
-  door_readiness:
-    name: "Door Readiness"
   on_command:
     - logger.log: "Received command from intercom!"
+
+number:
+  - platform: tc_bus
+    serial_number:
+      name: "Serial Number"
+
+text_sensor:
+  - platform: tc_bus
+    bus_command:
+      name: "Last Bus Command"
 
 # Binary sensor for doorbell press
 binary_sensor:
@@ -283,15 +305,6 @@ button:
 
 
 ## Advanced Configuration
-
-### Using Lambda for Serial Number
-If you need to calculate or dynamically derive the serial number, use the `serial_number_lambda` option:
-
-```yaml
-tc_bus:
-  serial_number_lambda: |-
-    return 123456;
-```
 
 ### Accessing intercom settings
 If you need to access the supported settings in the memory buffer you can use the `get_setting` method of the `tc_bus` hub.

@@ -11,59 +11,63 @@ tc_bus:
   on_read_memory_timeout:
     - logger.log: "Failed to read Memory"
 
-  model:
-    id: intercom_model
-    name: "Intercom Model"
-    icon: "mdi:doorbell-video"
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
+select:
+  - platform: tc_bus
+    model:
+      id: intercom_model
+      name: "Intercom Model"
+      icon: "mdi:doorbell-video"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
+        
+    ringtone_door_call:
+      id: intercom_ringtone_door_call
+      name: "Ringtone: Door Call"
+      icon: "mdi:music"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
 
-  volume_ringtone:
-    id: intercom_volume_ringtone
-    name: "Volume: Ringtone"
-    icon: "mdi:volume-high"
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
+    ringtone_floor_call:
+      id: intercom_ringtone_floor_call
+      name: "Ringtone: Floor Call"
+      icon: "mdi:music"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
 
-  volume_handset:
-    id: intercom_volume_handset
-    name: "Volume: Handset"
-    icon: "mdi:volume-high"
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
+    ringtone_internal_call:
+      id: intercom_ringtone_internal_call
+      name: "Ringtone: Internal Call"
+      icon: "mdi:music"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
 
-  ringtone_door_call:
-    id: intercom_ringtone_door_call
-    name: "Ringtone: Door Call"
-    icon: "mdi:music"
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
+number:
+  - platform: tc_bus
+    volume_ringtone:
+      id: intercom_volume_ringtone
+      name: "Volume: Ringtone"
+      icon: "mdi:volume-high"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
 
-  ringtone_floor_call:
-    id: intercom_ringtone_floor_call
-    name: "Ringtone: Floor Call"
-    icon: "mdi:music"
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
-
-  ringtone_internal_call:
-    id: intercom_ringtone_internal_call
-    name: "Ringtone: Internal Call"
-    icon: "mdi:music"
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
+    volume_handset:
+      id: intercom_volume_handset
+      name: "Volume: Handset"
+      icon: "mdi:volume-high"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
       
 # Read Memory before reading and writing
 button:

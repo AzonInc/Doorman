@@ -21,13 +21,8 @@ tc_bus:
   rx_pin: GPIO12
   tx_pin: GPIO13
   event: "doorman"
-  hardware_version:
-    name: "Hardware"
-    icon: "mdi:router-wireless"
-  bus_command:
-    id: last_bus_command
-    name: "Last Bus Command"
-  serial_number_lambda: !lambda "return 123456;"
+  on_command:
+    - logger.log: "Command received"
   on_read_memory_complete:
     - logger.log: "Completed memory reading!"
     - lambda: |-
@@ -35,6 +30,18 @@ tc_bus:
         ESP_LOGD("tcs_bus", "Memory Dump: %s", hexString.c_str());
   on_read_memory_timeout:
     - logger.log: "Failed to read Memory"
+
+text_sensor:
+  - platform: tc_bus
+    hardware_version:
+      name: "Hardware"
+    bus_command:
+      name: "Last Bus Command"
+
+number:
+  - platform: tc_bus
+    serial_number:
+      name: "Serial Number"
 
 button:
   - platform: template

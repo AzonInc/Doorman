@@ -2,13 +2,9 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
 from esphome.const import CONF_ID, CONF_ICON, CONF_TYPE
-from .. import tc_bus_ns, TCBus, CONF_TC_ID, COMMAND_TYPES
+from .. import tc_bus_ns, TCBusComponent, CONF_TC_ID, COMMAND_TYPES
 
-TCBusBinarySensor = tc_bus_ns.class_(
-    "TCBusBinarySensor",
-    binary_sensor.BinarySensor,
-    cg.Component
-)
+CommandListenerBinarySensor = tc_bus_ns.class_("CommandListenerBinarySensor", binary_sensor.BinarySensor, cg.Component)
 
 CONF_ADDRESS = "address"
 CONF_ADDRESS_LAMBDA = "address_lambda"
@@ -68,10 +64,10 @@ def validate(config):
     return config
 
 CONFIG_SCHEMA = cv.All(
-    binary_sensor.binary_sensor_schema(TCBusBinarySensor).extend(
+    binary_sensor.binary_sensor_schema(CommandListenerBinarySensor).extend(
         {
-            cv.GenerateID(): cv.declare_id(TCBusBinarySensor),
-            cv.GenerateID(CONF_TC_ID): cv.use_id(TCBus),
+            cv.GenerateID(): cv.declare_id(CommandListenerBinarySensor),
+            cv.GenerateID(CONF_TC_ID): cv.use_id(TCBusComponent),
 
             cv.Optional(CONF_COMMAND): cv.hex_uint32_t,
             cv.Optional(CONF_COMMAND_LAMBDA): cv.returning_lambda,

@@ -151,52 +151,6 @@ mode: single
 :::
 
 ### ESPHome
-::: details Einen zur Laufzeit konfigurierbaren TC-Befehl-Binärsensor erstellen
-Du kannst zusätzliche konfigurierbare Befehl-Binärsensoren hinzufügen, indem du Lambda, Globals und Texteingaben verwendest.
-
-```yaml
-<!--@include: minimal.example.yaml-->
-
-globals: // [!code ++] // [!code focus]
-  - id: custom_command // [!code ++] // [!code focus]
-    type: int // [!code ++] // [!code focus]
-    restore_value: true // [!code ++] // [!code focus]
-    initial_value: '0x3b8f9a00' // [!code ++] // [!code focus]
-
-text: // [!code ++] // [!code focus]
-  - platform: template // [!code ++] // [!code focus]
-    id: custom_command_input // [!code ++] // [!code focus]
-    name: Benutzerdefinierter Befehl // [!code ++] // [!code focus]
-    entity_category: CONFIG // [!code ++] // [!code focus]
-    web_server: // [!code ++] // [!code focus]
-      sorting_group_id: sorting_group_doorman_settings // [!code ++] // [!code focus]
-    icon: "mdi:console-network" // [!code ++] // [!code focus]
-    mode: text // [!code ++] // [!code focus]
-    lambda: |- // [!code ++] // [!code focus]
-      unsigned long number = id(custom_command); // [!code ++] // [!code focus]
-      return str_upper_case(format_hex(number)); // [!code ++] // [!code focus]
-    set_action: // [!code ++] // [!code focus]
-      then: // [!code ++] // [!code focus]
-        - lambda: |- // [!code ++] // [!code focus]
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end()); // [!code ++] // [!code focus]
-            x.erase(0, x.find_first_not_of('0')); // [!code ++] // [!code focus]
-            x.resize(8); // [!code ++] // [!code focus]
-            unsigned long number = 0; // [!code ++] // [!code focus]
-            if(std::string(x.c_str()) != "") { // [!code ++] // [!code focus]
-              number = std::stoul(x.c_str(), nullptr, 16); // [!code ++] // [!code focus]
-            } // [!code ++] // [!code focus]
-            id(custom_command) = number; // [!code ++] // [!code focus]
-            id(custom_command_input)->publish_state(str_upper_case(format_hex(number))); // [!code ++] // [!code focus]
-
-binary_sensor: // [!code ++] // [!code focus]
-  - platform: tc_bus // [!code ++] // [!code focus]
-    name: "Benutzerdefinierter Befehl" // [!code ++] // [!code focus]
-    command_lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
-    web_server: // [!code ++] // [!code focus]
-      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
-```
-:::
-
 ::: details Eigene Klingel-Muster erstellen
 Wenn du ein benutzerdefiniertes Klingelmuster erstellen möchtest, kannst du die bestehenden Klingel-Entities einfach erweitern. Weitere Informationen zu Mustern findest du in der [ESPHome Dokumentation](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 ```yaml

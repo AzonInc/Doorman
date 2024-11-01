@@ -21,6 +21,6 @@ Diese Einstellung erlaubt es dir, eine Verzögerung für den `Open Entrance Door
 Du kannst die Ring To Open-Automation nach 5 bis 60 Minuten, nach einem einzigen Klingeln oder nie automatisch deaktivieren.
 :::
 
-::: info Triggering Door Station
+::: info Door Station
 Du kannst entscheiden welche Außenstelle (Tür) die Automation auslöst.
 :::

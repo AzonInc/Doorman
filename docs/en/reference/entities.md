@@ -57,8 +57,14 @@ Activates when the paired Nuki smart lock has a critical battery level.
 ### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 No description yet.
 
+
+## Text Sensors
+
 ### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Reports the door sensor state of the paired Nuki smart lock.
+
+### Nuki Last Unlock User <Badge type="tip" text="nuki_last_unlock_user" /> <Badge type="info" text="Nuki Bridge only" />
+Reports the last user who locked or unlocked the Nuki smart lock.
 
 
 ## Switches
@@ -78,6 +84,38 @@ Toggles the [Interactive Setup](../guide/getting-started#step-3-interactive-setu
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki pairing mode.
 
+### Nuki Auto unlatch <Badge type="tip" text="nuki_auto_unlatch" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto unlatch setting.
+
+### Nuki Button: Locking operations <Badge type="tip" text="nuki_button_locking_operations" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Button locking operations setting.
+
+### Nuki LED: Signal <Badge type="tip" text="nuki_led_enabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock LED Signal setting.
+
+### Nuki Night Mode <Badge type="tip" text="nuki_night_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode setting.
+
+### Nuki Night Mode: Auto Lock <Badge type="tip" text="nuki_night_mode_auto_lock_enabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode Auto Lock setting.
+
+### Nuki Night Mode: Reject Auto Unlock <Badge type="tip" text="nuki_night_mode_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode Reject Auto Unlock setting.
+
+### Nuki Night Mode: Lock at Start Time <Badge type="tip" text="nuki_night_mode_immediate_lock_on_start" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode Lock at Start Time setting.
+
+### Nuki Auto Lock <Badge type="tip" text="nuki_auto_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto Lock setting.
+
+### Nuki Auto Lock: Immediately <Badge type="tip" text="nuki_immediate_auto_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto Lock Immediately setting.
+
+### Nuki Auto Unlock: Disable <Badge type="tip" text="nuki_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto Unlock Disable setting.
+
+### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Automatic Updates setting.
 
 ## Buttons
 
@@ -113,6 +151,12 @@ If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, t
 
 ## Numbers
 
+### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Disabled by default" />
+Sets the indoor station serial number for the command builder/parser.
+
+### Second Door Station ID <Badge type="tip" text="second_door_station_id" /> <Badge type="info" text="Disabled by default" />
+Sets the ID of the second outdoor station.
+
 ### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Disabled by default" />
 Sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automation.
 ::: tip
@@ -124,6 +168,12 @@ Sets the intercom phone ringtone volume.
 
 ### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone handset volume.
+
+### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock LED Brightness setting.
+
+### Nuki Security Pin <Badge type="tip" text="nuki_security_pin" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Sets the Nuki Bridge Security Pin to authenticate against the Nuki Smart Lock.
 
 
 ## Selects
@@ -164,6 +214,60 @@ Sets the intercom phone ringtone for internal calls.
 
 ##### Options:
 - Ringtone 1 ... 13
+
+### Nuki Button: Single Press Action <Badge type="tip" text="nuki_single_button_press_action" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Single Button Press Action setting.
+
+##### Options:
+- No Action
+- Intelligent
+- Unlock
+- Lock
+- Unlatch
+- Lock n Go
+- Show Status
+
+### Nuki Button: Double Press Action <Badge type="tip" text="nuki_double_button_press_action" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Double Button Press Action setting.
+
+##### Options:
+- No Action
+- Intelligent
+- Unlock
+- Lock
+- Unlatch
+- Lock n Go
+- Show Status
+
+### Nuki Fob: Action 1 <Badge type="tip" text="nuki_fob_action_1" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Fob Action 1 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Fob: Action 2 <Badge type="tip" text="nuki_fob_action_2" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Fob Action 2 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Fob: Action 3 <Badge type="tip" text="nuki_fob_action_3" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Fob Action 3 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
 
 
 ## Locks
