@@ -74,6 +74,7 @@ namespace esphome
         {
             static void gpio_intr(TCBusComponentStore *arg);
 
+            static volatile uint32_t s_last_bit_change;
             static volatile uint32_t s_cmd;
             static volatile uint8_t s_cmdLength;
             static volatile bool s_cmdReady;

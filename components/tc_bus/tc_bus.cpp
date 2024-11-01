@@ -42,6 +42,7 @@ namespace esphome
         static const uint8_t TCS_MSG_START_MS = 6; // a new message
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
+        static const uint8_t TCS_SEND_WAIT_DURATION = 50;
 
         TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
@@ -283,6 +284,7 @@ namespace esphome
         }
         #endif
 
+        volatile uint32_t TCBusComponentStore::s_last_bit_change = 0;
         volatile uint32_t TCBusComponentStore::s_cmd = 0;
         volatile uint8_t TCBusComponentStore::s_cmdLength = 0;
         volatile bool TCBusComponentStore::s_cmdReady = false;
@@ -410,6 +412,9 @@ namespace esphome
             {
                 curPos = 0;
             }
+
+            // Save last bit timestamp
+            arg->s_last_bit_change = millis();
 
             if (cmdIntReady)
             {
@@ -611,15 +616,17 @@ namespace esphome
             }
             else
             {
-                /*std::srand(std::time(0));
-                delay(std::rand() % 101 + 50);
+                // Prevent collisions
+                auto &s = this->store_;
 
                 uint32_t msNow = millis();
-                while((msNow - tcsReader.lastBitTimestamp()) < 50)
-                {
-                    delay(std::rand() % 101 + 50);
-                }*/
+                std::srand(msNow);
 
+                delay(std::rand() % 101 + 50); // 50-150
+                while((msNow - s.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
+                {
+                    delay(std::rand() % 101 + 50); // 50-150
+                }
 
                 // Pause reading
                 ESP_LOGV(TAG, "Pause reading");
