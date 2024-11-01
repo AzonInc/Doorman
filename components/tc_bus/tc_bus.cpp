@@ -617,7 +617,7 @@ namespace esphome
             else
             {
                 // Prevent collisions
-                auto &s = this->store_;
+                /*auto &s = this->store_;
 
                 uint32_t msNow = millis();
                 std::srand(msNow);
@@ -626,7 +626,7 @@ namespace esphome
                 while((msNow - s.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
                     delay(std::rand() % 101 + 50); // 50-150
-                }
+                }*/
 
                 // Pause reading
                 ESP_LOGV(TAG, "Pause reading");
