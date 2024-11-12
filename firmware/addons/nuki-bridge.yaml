@@ -39,7 +39,7 @@ lock:
       sorting_group_id: sorting_group_nuki
       sorting_weight: -100
 
-    # Required:
+    # Optional:
     is_connected: 
       id: nuki_connected
       name: "Nuki Connected"
@@ -54,7 +54,6 @@ lock:
         sorting_group_id: sorting_group_nuki_bridge_settings
         sorting_weight: -29
 
-    # Optional:
     battery_critical:
       id: nuki_battery_critical
       name: "Nuki Battery Critical"
@@ -92,13 +91,29 @@ lock:
         sorting_group_id: sorting_group_nuki
         sorting_weight: -24
 
+    last_lock_action:
+      id: nuki_last_lock_action
+      name: "Nuki Last Lock Action"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -23
+
+    last_lock_action_trigger:
+      id: nuki_last_lock_action_trigger
+      name: "Nuki Last Lock Action Trigger"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -22
+
     auto_unlatch:
       id: nuki_auto_unlatch
       name: "Nuki Auto unlatch"
       disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: -23
+        sorting_weight: -21
 
     button_enabled:
       id: nuki_button_locking_operations
@@ -157,21 +172,21 @@ lock:
         sorting_group_id: sorting_group_nuki_settings
         sorting_weight: 5
 
-    latitude:
-      id: nuki_latitude
-      name: "Nuki Latitude"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: 6
+    #latitude:
+    #  id: nuki_latitude
+    #  name: "Nuki Latitude"
+    #  disabled_by_default: true
+    #  web_server:
+    #    sorting_group_id: sorting_group_nuki_settings
+    #    sorting_weight: 6
 
-    longitude:
-      id: nuki_longitude
-      name: "Nuki Longitude"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: 7
+    #longitude:
+    #  id: nuki_longitude
+    #  name: "Nuki Longitude"
+    #  disabled_by_default: true
+    #  web_server:
+    #    sorting_group_id: sorting_group_nuki_settings
+    #    sorting_weight: 7
 
     night_mode_enabled:
       id: nuki_night_mode
