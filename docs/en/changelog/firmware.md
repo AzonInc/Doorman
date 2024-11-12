@@ -1,7 +1,7 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2024.10.0
+## 2024.11.0
 ### 🚀 What's New?
 - **TC:BUS Protocol Support**  
    Unleash more power with the **new protocol support**!
