@@ -14,7 +14,7 @@ Wenn du diese Einstellung aktivierst, wird deine Wohnungs-Klingel jedes Mal klin
 :::
 
 ::: info Delay
-Diese Einstellung erlaubt es dir, eine Verzögerung für den `Open Entrance Door Command` zu konfigurieren. Wenn du die Verzögerung auf 60 Sekunden einstellst, wird bei jeder Ausführung der Automation zufällig eine Verzögerung zwischen 5 und 15 Sekunden ausgewählt.
+Diese Einstellung erlaubt es dir, eine Verzögerung für den Türöffner zu konfigurieren. Wenn du die Verzögerung auf 60 Sekunden einstellst, wird bei jeder Ausführung der Automation zufällig eine Verzögerung zwischen 5 und 15 Sekunden ausgewählt.
 :::
 
 ::: info Timeout

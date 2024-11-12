@@ -25,10 +25,16 @@ Wird aktiviert, wenn der Befehl vom Typ `door_call` mit zweiter Außenstation `a
 Wird aktiviert, wenn der Befehl vom Typ `floor_call` empfangen wird.
 
 ### Pick up phone <Badge type="tip" text="pick_up_phone" /> <Badge type="info" text="Deaktiviert" />
-Wird aktiviert, wenn der Befehl vom Typ `start_talking_door_station` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `start_talking` empfangen wird.
+
+### Pick up phone (door call) <Badge type="tip" text="pick_up_phone_door_call" /> <Badge type="info" text="Deaktiviert" />
+Wird aktiviert, wenn der Befehl vom Typ `start_talking_door_call` empfangen wird.
 
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Deaktiviert" />
-Wird aktiviert, wenn der Befehl vom Typ `stop_talking_door_station` empfangen wird.
+Wird aktiviert, wenn der Befehl vom Typ `stop_talking` empfangen wird.
+
+### Hang up phone (door call) <Badge type="tip" text="hang_up_phone_door_call" /> <Badge type="info" text="Deaktiviert" />
+Wird aktiviert, wenn der Befehl vom Typ `stop_talking_door_call` empfangen wird.
 
 ### Function Button <Badge type="tip" text="function_button" /> <Badge type="info" text="Deaktiviert" />
 Wird aktiviert, wenn der Befehl vom Typ `control_function` empfangen wird.
@@ -65,6 +71,12 @@ Meldet den Türsensorstatus des gekoppelten Nuki Smart Locks.
 
 ### Nuki Last Unlock User <Badge type="tip" text="nuki_last_unlock_user" /> <Badge type="info" text="Nuki Bridge" />
 Reports the last user who locked or unlocked the Nuki smart lock.
+
+### Nuki Last Lock Action <Badge type="tip" text="nuki_last_lock_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Reports the last lock action of the Nuki smart lock.
+
+### Nuki Last Lock Action Trigger <Badge type="tip" text="nuki_last_lock_action_trigger" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
+Reports the last log action trigger of the Nuki smart lock.
 
 
 ## Schalter
@@ -113,6 +125,12 @@ Controls the Nuki Smart Lock Auto Lock Immediately setting.
 
 ### Nuki Auto Unlock: Disable <Badge type="tip" text="nuki_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Auto Unlock Disable setting.
+
+### Nuki Single Lock <Badge type="tip" text="nuki_single_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Single Lock setting.
+
+### Nuki Daylight Saving Time <Badge type="tip" text="nuki_dst_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock DST Mode setting.
 
 ### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Automatic Updates setting.
@@ -271,6 +289,21 @@ Controls the Nuki Smart Lock Fob Action 3 setting.
 - Lock
 - Lock n Go
 - Intelligent
+
+### Nuki Timezone <Badge type="tip" text="nuki_timezone" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Timezone setting.
+
+##### Options:
+Check out the nuki developer documentation.
+
+### Nuki Advertising Mode <Badge type="tip" text="nuki_advertising_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Advertising Mode setting.
+
+##### Options:
+- Automatic
+- Normal
+- Slow
+- Slowest
 
 
 ## Schlösser

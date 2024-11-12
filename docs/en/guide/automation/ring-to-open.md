@@ -11,11 +11,11 @@ You can enable or disable the Ring To Open automation using the switch in Home A
 
 #### Configuration Options:
 ::: info Confirmation
-If you enable this setting, your apartment doorbell will ring each time you activate the Ring To Open automation via command.
+If you enable this setting, your apartment doorbell will ring each time you activate the Ring To Open automation via command (function button).
 :::
 
 ::: info Delay
-This setting allows you to configure a delay for the `Open Entrance Door Command`. If you set the delay to 60 seconds, it will randomly select a delay between 5 and 15 seconds whenever the automation is executed.
+This setting allows you to configure a delay for the door opener. If you set the delay to 60 seconds, it will randomly select a delay between 5 and 15 seconds whenever the automation is executed.
 :::
 
 ::: info Timeout
