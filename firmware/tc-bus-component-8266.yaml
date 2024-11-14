@@ -1,0 +1,61 @@
+# Component Test
+esphome:
+  name: test-tc-bus
+
+esp8266:
+  board: esp01_1m
+
+wifi:
+  ssid: "My Network"
+  password: "My Password"
+
+api:
+
+external_components:
+  - source:
+      type: local
+      path: "../components"
+
+tc_bus:
+  id: tc_bus_intercom
+  rx_pin: GPIO12
+  tx_pin: GPIO13
+  event: "doorman"
+  on_command:
+    - logger.log: "Command received"
+  on_read_memory_complete:
+    - logger.log: "Completed memory reading!"
+    - lambda: |-
+        std::string hexString = str_upper_case(format_hex(x));
+        ESP_LOGD("tcs_bus", "Memory Dump: %s", hexString.c_str());
+  on_read_memory_timeout:
+    - logger.log: "Failed to read Memory"
+
+text_sensor:
+  - platform: tc_bus
+    hardware_version:
+      name: "Hardware"
+    bus_command:
+      name: "Last Bus Command"
+
+number:
+  - platform: tc_bus
+    serial_number:
+      name: "Serial Number"
+
+button:
+  - platform: template
+    id: open_entrance_door
+    name: "Open Entrance Door"
+    icon: mdi:door
+    on_press:
+      - tc_bus.send:
+          type: open_door
+          address: 0
+
+binary_sensor:
+  - platform: tc_bus
+    id: entrance_doorbell
+    name: "Entrance Doorbell"
+    type: door_call
+    auto_off: 0.2s

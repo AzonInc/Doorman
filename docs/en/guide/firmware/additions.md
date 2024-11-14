@@ -1,14 +1,31 @@
 ## Examples
 
-::: details Create a simple TCS Command Binary Sensor
-You can easily add additional binary sensors for any TCS Command, alongside the preconfigured ones.
+::: details Create a simple TC Command Binary Sensor
+You can easily add additional binary sensors for any TC Command, alongside the preconfigured ones.
+
+Command Builder:
 ```yaml
 <!--@include: minimal.example.yaml-->
 
 binary_sensor: // [!code ++] // [!code focus]
-  - platform: tcs_intercom // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
     name: "Custom Command" // [!code ++] // [!code focus]
-    command: 0x3b8f9a00 // [!code ++] // [!code focus]
+    type: open_door // [!code ++] // [!code focus]
+    address: 0 // [!code ++] // [!code focus]
+    web_server: // [!code ++] // [!code focus]
+      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
+```
+
+32-Bit Commands:
+```yaml
+<!--@include: minimal.example.yaml-->
+
+binary_sensor: // [!code ++] // [!code focus]
+  - platform: tc_bus // [!code ++] // [!code focus]
+    name: "Custom Command" // [!code ++] // [!code focus]
+    command: 0x00001100 // [!code ++] // [!code focus]
+    web_server: // [!code ++] // [!code focus]
+      sorting_group_id: sorting_group_listeners // [!code ++] // [!code focus]
 ```
 :::
 
@@ -59,13 +76,26 @@ i2c: // [!code ++] // [!code focus]
 ### Home Assistant
 ::: details Sending Bus commands
 You can use Home Assistant actions (formerly known as services) to send commands on the bus.
-> [!INFO]
-> Remember to include the leading `0x` when sending a HEX command. If you omit it, you'll need to convert the HEX command to a decimal number.
+Either use the `command` to send raw commands or `type`, `address`, `payload` and `serial_number` to send commands via the command builder.
 
+> [!INFO]
+> Remember to include the leading `0x` when calling the action with the `command` property. If you omit it, you'll need to convert the HEX command to a decimal number first.
+
+Command Builder:
 ```yaml
-service: esphome.doorman_s3_send_tcs_command
+service: esphome.doorman_s3_send_tc_command
 data:
-  command: 0x3a001100
+  type: open_door
+  address: 0
+  payload: 0
+  serial_number: 123456
+```
+
+32-Bit Commands via `command`:
+```yaml
+service: esphome.doorman_s3_send_tc_command_raw
+data:
+  command: 0x11E24080
 ```
 :::
 
@@ -78,6 +108,10 @@ event_type: esphome.doorman
 data:
   device_id: 373c62d6788cf81d322763235513310e
   command: "00001100"
+  type: "open_door"
+  address: "0"
+  payload: "0"
+  serial_number: "0"
 origin: LOCAL
 time_fired: "2024-08-12T12:34:13.718317+00:00"
 context:
@@ -86,9 +120,9 @@ context:
   user_id: null
 ```
 
-Home Assistant Automation Example:
+Automation Example (HEX Command):
 ```yaml
-alias: Trigger on Doorman TCS Open Door Command
+alias: Trigger on Doorman TC Open Door Command
 description: ""
 trigger:
   - platform: event
@@ -99,77 +133,23 @@ condition: []
 action: []
 mode: single
 ```
+
+Automation Example (Command Builder):
+```yaml
+alias: Trigger on Doorman TC Open Door Command
+description: ""
+trigger:
+  - platform: event
+    event_type: esphome.doorman
+    event_data:
+      type: "open_door"
+condition: []
+action: []
+mode: single
+```
 :::
 
 ### ESPHome
-::: details Create a Runtime Config TCS Command Binary Sensor
-You can add additional configurable command binary sensors alongside the preconfigured ones by using lambda, globals, and text inputs.
-
-```yaml
-<!--@include: minimal.example.yaml-->
-
-globals: // [!code ++] // [!code focus]
-  - id: custom_command // [!code ++] // [!code focus]
-    type: int // [!code ++] // [!code focus]
-    restore_value: true // [!code ++] // [!code focus]
-    initial_value: '0x3b8f9a00' // [!code ++] // [!code focus]
-
-text: // [!code ++] // [!code focus]
-  - platform: template // [!code ++] // [!code focus]
-    id: custom_command_input // [!code ++] // [!code focus]
-    name: Custom Command // [!code ++] // [!code focus]
-    entity_category: CONFIG // [!code ++] // [!code focus]
-    icon: "mdi:console-network" // [!code ++] // [!code focus]
-    mode: text // [!code ++] // [!code focus]
-    lambda: |- // [!code ++] // [!code focus]
-      unsigned long number = id(custom_command); // [!code ++] // [!code focus]
-      return str_upper_case(format_hex(number)); // [!code ++] // [!code focus]
-    set_action: // [!code ++] // [!code focus]
-      then: // [!code ++] // [!code focus]
-        - lambda: |- // [!code ++] // [!code focus]
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end()); // [!code ++] // [!code focus]
-            x.erase(0, x.find_first_not_of('0')); // [!code ++] // [!code focus]
-            x.resize(8); // [!code ++] // [!code focus]
-            unsigned long number = 0; // [!code ++] // [!code focus]
-            if(std::string(x.c_str()) != "") { // [!code ++] // [!code focus]
-              number = std::stoul(x.c_str(), nullptr, 16); // [!code ++] // [!code focus]
-            } // [!code ++] // [!code focus]
-            id(custom_command) = number; // [!code ++] // [!code focus]
-            id(custom_command_input)->publish_state(str_upper_case(format_hex(number))); // [!code ++] // [!code focus]
-
-binary_sensor: // [!code ++] // [!code focus]
-  - platform: tcs_intercom // [!code ++] // [!code focus]
-    name: "Custom Command" // [!code ++] // [!code focus]
-    lambda: !lambda "return id(custom_command);" // [!code ++] // [!code focus]
-```
-:::
-
-::: details Create a Bus Voltage Sensor
-You can add a Bus Voltage sensor for older intercoms operating on 14-24V DC.\
-It may also be possible to implement other protocols in the future.
-```yaml
-<!--@include: minimal.example.yaml-->
-
-# New ADC Voltage Sensor // [!code ++] // [!code focus]
-sensor: // [!code ++] // [!code focus]
-  - platform: adc // [!code ++] // [!code focus]
-    id: bus_voltage // [!code ++] // [!code focus]
-    name: Bus Voltage // [!code ++] // [!code focus]
-    pin: // [!code ++] // [!code focus]
-      number: GPIO9 // [!code ++] // [!code focus]
-      allow_other_uses: true // [!code ++] // [!code focus]
-    update_interval: 500ms // [!code ++] // [!code focus]
-    attenuation: 12dB // [!code ++] // [!code focus]
-
-# Extend tcs_intercom component // [!code ++] // [!code focus]
-# Allow RX pin to be used for other cases as well // [!code ++] // [!code focus]
-tcs_intercom: // [!code ++] // [!code focus]
-  rx_pin: // [!code ++] // [!code focus]
-    number: GPIO9 // [!code ++] // [!code focus]
-    allow_other_uses: true // [!code ++] // [!code focus]
-```
-:::
-
 ::: details Create Your Own Doorbell Pattern
 If you want to create a custom doorbell pattern, you can easily extend the existing doorbell entities. For more information about patterns, refer to the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 ```yaml
@@ -211,8 +191,8 @@ You can turn on the light when someone rings the entrance doorbell.
 binary_sensor: // [!code ++] // [!code focus]
   - id: !extend entrance_doorbell // [!code ++] // [!code focus]
     on_press: // [!code ++] // [!code focus]
-      - tcs_intercom.send: // [!code ++] // [!code focus]
-          command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+      - tc_bus.send: // [!code ++] // [!code focus]
+          type: "light" // [!code ++] // [!code focus]
 ```
 
 If you want to account for the sun's elevation as well, you can adjust it accordingly.
@@ -238,7 +218,7 @@ binary_sensor: // [!code ++] // [!code focus]
               below: 1 // [!code ++] // [!code focus]
           then: // [!code ++] // [!code focus]
             # Turn on the light // [!code ++] // [!code focus]
-            - tcs_intercom.send: // [!code ++] // [!code focus]
-                command: !lambda "return id(turn_on_light_command);" // [!code ++] // [!code focus]
+            - tc_bus.send: // [!code ++] // [!code focus]
+                type: "light" // [!code ++] // [!code focus]
 ```
 :::

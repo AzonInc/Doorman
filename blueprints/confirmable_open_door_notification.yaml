@@ -19,18 +19,6 @@ blueprint:
             entity:
               integration: esphome
               domain: binary_sensor
-        open_door_command:
-          name: "Open Door Command"
-          description: "This Command will be sent to open the Door"
-          default: "1100"
-          selector:
-            text:
-        open_door_button_command:
-          name: "Open Door Button Command"
-          description: "This command will be used to check if the physical 'Open Door' button of your intercom was pressed."
-          default: "1c30ba80"
-          selector:
-            text:
     
     notification_details_section:
       name: "Notification Details"
@@ -81,9 +69,12 @@ blueprint:
           name: "Confirmation Action"
           description: "Action to run when notification is confirmed"
           default:
-            - service: esphome.doorman_s3_send_tcs_command
+            - service: esphome.doorman_s3_send_tc_command
               data:
-                command: "{{ open_door_command | int(base=16) }}"
+                type: "open_door"
+                address: "0"
+                payload: "0"
+                serial_number: "0"
           selector:
             action:
         dismiss_action:
@@ -107,8 +98,6 @@ action:
     variables:
       action_confirm: "{{ 'CONFIRM_' ~ context.id }}"
       action_dismiss: "{{ 'DISMISS_' ~ context.id }}"
-      open_door_command: !input open_door_command
-      open_door_button_command: !input open_door_button_command
   - parallel:
       - sequence:
           - alias: "Send notification"
@@ -166,11 +155,7 @@ action:
               - platform: event
                 event_type: esphome.doorman
                 event_data:
-                  command: !input open_door_command
-              - platform: event
-                event_type: esphome.doorman
-                event_data:
-                  command: !input open_door_button_command
+                  type: "open_door"
             continue_on_timeout: false
             timeout:
               hours: 0

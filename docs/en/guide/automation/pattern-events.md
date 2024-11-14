@@ -18,6 +18,9 @@ Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) 
 - entrance_single
 - entrance_double
 - entrance_triple
+- second_entrance_single
+- second_entrance_double
+- second_entrance_triple
 
 ### Example Automation
 ::: details Automatically open the door when the Entrance Doorbell is pressed twice in a specific pattern.

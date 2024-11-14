@@ -10,58 +10,6 @@ substitutions:
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
 
-globals:
-  - id: first_door_opener_command
-    type: int
-    restore_value: true
-    initial_value: '0x1100'
-
-  - id: second_door_opener_command
-    type: int
-    restore_value: true
-    initial_value: '0x1100'
-
-  - id: apartment_doorbell_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: entrance_doorbell_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: pick_up_phone_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: hang_up_phone_command
-    type: int
-    restore_value: true
-    initial_value: '0x3000'
-
-  - id: ring_to_open_toggle_command
-    type: int
-    restore_value: true
-    initial_value: '0x00000000'
-
-  - id: turn_on_light_command
-    type: int
-    restore_value: true
-    initial_value: '0x1200'
-
-  - id: initial_setup_done
-    type: bool
-    restore_value: yes
-    initial_value: "false"
-
-  - id: interactive_setup_step
-    type: std::string
-    restore_value: no
-    initial_value: '""'
-
-
 # Board Setup
 esp32:
   board: esp32-s3-devkitc-1
@@ -76,11 +24,11 @@ esphome:
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
   
-  min_version: "2024.8.0"
+  min_version: "2024.11.0"
 
   project:
     name: "AzonInc.Doorman"
-    version: "2024.8.5"
+    version: "2024.11.0"
 
   platformio_options:
     board_build.flash_mode: dio
@@ -114,37 +62,63 @@ esphome:
           color_brightness: 60%
       - delay: 3s
       - script.execute: update_led
-      - delay: 2s
-      - if:
-          condition:
-            # Ignore initial setup if something is already set
-            - lambda: |-
-                return 
-                  id(initial_setup_done) == false && 
-                  apartment_doorbell_command == 0 && 
-                  entrance_doorbell_command == 0 && 
-                  pick_up_phone_command == 0 &&
-                  ring_to_open_toggle_command == 0;
-          then:
-            - button.press: doorman_interactive_setup_start
-
 
 # Enable logging
 logger:
   level: ${log_level}
+  logs:
+    select: INFO
+    number: INFO
 
 api:
   reboot_timeout: 0s
-  services:
-    - service: send_tcs_command
+  actions:
+    - action: send_tc_command_raw
       variables:
         command: int
       then:
-        - tcs_intercom.send:
+        - tc_bus.send:
             command: !lambda 'return command;'
+    - action: send_tc_command
+      variables:
+        type: string
+        address: int
+        payload: int
+        serial_number: int
+      then:
+        - tc_bus.send:
+            type: !lambda 'return string_to_command_type(type);'
+            address: !lambda 'return address;'
+            payload: !lambda 'return payload;'
+            serial_number: !lambda 'return serial_number;'
 
 web_server:
   version: 3
+  sorting_groups:
+    - id: sorting_group_controls
+      name: "Controls"
+      sorting_weight: -11
+    - id: sorting_group_doorman_settings
+      name: "Doorman Settings"
+      sorting_weight: -10
+    - id: sorting_group_intercom_settings
+      name: "TC:BUS Intercom Settings"
+      sorting_weight: -9
+    - id: sorting_group_listeners
+      name: "Doorman Listeners"
+      sorting_weight: -7
+    - id: sorting_group_nuki
+      name: "Nuki Lock"
+      sorting_weight: -5
+    - id: sorting_group_nuki_settings
+      name: "Nuki Lock Settings"
+      sorting_weight: -4
+    - id: sorting_group_nuki_bridge_settings
+      name: "Nuki Bridge"
+      sorting_weight: -3
+    - id: sorting_group_system
+      name: "System"
+      sorting_weight: -2
 
 ota:
   - platform: esphome
@@ -154,6 +128,27 @@ ota:
 http_request:
   verify_ssl: false
 
+update:
+  - platform: http_request
+    id: update_http_request_stable
+    icon: "mdi:update"
+    name: Firmware (stable)
+    source: https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json
+    disabled_by_default: false
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -4
+
+  - platform: http_request
+    id: update_http_request_dev
+    icon: "mdi:update"
+    name: Firmware (dev)
+    source: https://doorman-dev.surge.sh/firmware/release/doorman-stock/manifest.json
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -3
+      
 wifi:
   ap:
     ssid: "Doorman-S3 Setup"
@@ -164,208 +159,63 @@ captive_portal:
 # Improv for easy provisioning
 improv_serial:
 
-# Import TCS Intercom Component
+# Import TC:BUS Component
 external_components:
-  - source: github://AzonInc/esphome_tcs_intercom@master
-    components: [ tcs_intercom ]
+  - source: github://AzonInc/Doorman@dev
+    components: [ tc_bus ]
     refresh: 60s
 
-# Setup TCS Intercom Component
-tcs_intercom:
+# Setup TC:BUS Component
+tc_bus:
+  id: tc_bus_intercom
   event: "doorman"
-  hardware_version:
-    name: "Hardware"
-    icon: "mdi:router-wireless"
-    disabled_by_default: true
-  bus_command:
-    id: last_bus_command
-    name: "Last Bus Command"
-    on_value:
-      # Interactive Setup running
-      - if:
-          condition:
-            - lambda: return id(interactive_setup_step) != "";
-          then:
-            - lambda: |-
-                ESP_LOGI("MAIN", "Setup: Current Step: %s", id(interactive_setup_step).c_str());
+  
+number:
+  - platform: tc_bus
+    serial_number:
+      id: serial_number
+      name: "Serial Number"
+      icon: "mdi:numeric"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
+        sorting_weight: -20
 
-            # Step: first_door_opener_command
-            - if:
-                condition:
-                  - lambda: |-
-                      return id(interactive_setup_step) == "first_door_opener_command";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(first_door_opener_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "ring_to_open_toggle_command"
-                      text: "Press the 'Function (Circle)' Button"
-                      first_step: false
-
-            # Step: ring_to_open_toggle_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "ring_to_open_toggle_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(ring_to_open_toggle_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "pick_up_phone_command"
-                      text: "Pick up the phone"
-                      first_step: false
-
-            # Step: pick_up_phone_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "pick_up_phone_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(pick_up_phone_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "apartment_doorbell_command"
-                      text: "Press the 'Apartment Doorbell' Button"
-                      first_step: false
-
-            # Step: apartment_doorbell_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "apartment_doorbell_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(apartment_doorbell_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "entrance_doorbell_command"
-                      text: "Press the 'Entrance Doorbell' Button"
-                      first_step: false
-
-             # Step: entrance_doorbell_command
-            - if:
-                condition:
-                  - lambda: |-
-                      std::string str = std::string(x.c_str());
-                      if (str.length() > 4)
-                      {
-                          str.erase(4); // Ingore system commands
-                      }
-                      return id(interactive_setup_step) == "entrance_doorbell_command" && str != "0000";
-                then:
-                  # Save Command
-                  - lambda: |-
-                      unsigned long number = 0;
-                      if(std::string(x.c_str()) != "") {
-                        number = std::stoul(x.c_str(), nullptr, 16);
-                      }
-                      id(entrance_doorbell_command) = number;
-                      ESP_LOGI("MAIN", "Setup: Saved Step: %s", id(interactive_setup_step).c_str());
-                  # LED State
-                  - script.execute:
-                      id: interactive_setup_next
-                      next_step: "complete"
-                      text: "Setup complete"
-                      first_step: false
-
-
-select:
   - platform: template
-    id: doorman_ring_to_open_timeout_mode
-    name: "Ring To Open: Timeout"
-    icon: mdi:clock-fast
+    id: second_door_station_id
+    name: "Second Door Station ID"
+    mode : box
+    icon: "mdi:counter"
+    restore_value: true
+    initial_value: '63'
+    max_value: 63
+    min_value: 0
+    step: 1
     optimistic: true
-    options:
-      - Never
-      - Ring once
-      - 5 minutes
-      - 10 minutes
-      - 15 minutes
-      - 20 minutes
-      - 25 minutes
-      - 30 minutes
-      - 35 minutes
-      - 40 minutes
-      - 45 minutes
-      - 50 minutes
-      - 55 minutes
-      - 60 minutes
-    initial_option: Never
-    entity_category: CONFIG
     disabled_by_default: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
+      sorting_weight: -20
+
+text_sensor:
+  - platform: tc_bus
+    hardware_version:
+      id: doorman_hardware_version
+      name: "Hardware"
+      icon: "mdi:router-wireless"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_system
+        sorting_weight: -20
+    bus_command:
+      id: last_bus_command
+      name: "Last Bus Command"
+      web_server:
+        sorting_group_id: sorting_group_listeners
+        sorting_weight: -99
 
 switch:
-  # Preconfigured Ring To Open Mode Switch
-  - platform: template
-    name: Ring To Open
-    icon: mdi:party-popper
-    id: doorman_ring_to_open
-    restore_mode: RESTORE_DEFAULT_OFF
-    optimistic: true
-    turn_on_action:
-      - script.execute: ring_to_open_timer
-    turn_off_action:
-      - script.stop: ring_to_open_timer
-    on_turn_on:
-      - script.execute: update_led
-    on_turn_off:
-      - script.execute: update_led
-
-  - platform: template
-    name: "Ring To Open: Confirmation"
-    icon: mdi:bell-check
-    id: doorman_ring_to_open_confirmation
-    restore_mode: RESTORE_DEFAULT_OFF
-    optimistic: true
-    entity_category: CONFIG
-    disabled_by_default: true
-
   # Preconfigured Relay Switch
   - platform: gpio
     name: Relay
@@ -374,6 +224,9 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     disabled_by_default: true
     pin: ${relay_pin}
+    web_server:
+      sorting_group_id: sorting_group_controls
+      sorting_weight: -7
 
 button:
   # System Actions
@@ -383,41 +236,27 @@ button:
     name: Restart
     icon: mdi:restart
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -2
 
   - platform: safe_mode
     id: doorman_safe_mode
     name: Safe mode
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -1
 
   - platform: factory_reset
     id: doorman_factory_reset
     name: Restore Factory Settings
     entity_category: CONFIG
     disabled_by_default: true
-
-  # Interactive Setup
-  - platform: template
-    id: doorman_interactive_setup_start
-    name: "Interactive Setup: Start"
-    on_press: 
-      - script.execute:
-          id: interactive_setup_next
-          next_step: "first_door_opener_command"
-          text: "Press the 'Door Opener (Key)' Button"
-          first_step: true
-    entity_category: CONFIG
-
-  - platform: template
-    id: doorman_interactive_setup_cancel
-    name: "Interactive Setup: Cancel"
-    on_press: 
-      - script.execute:
-          id: interactive_setup_next
-          next_step: "complete"
-          text: "Setup complete"
-          first_step: false
-    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: 0
 
   # Preconfigured Open Door Button
   - platform: template
@@ -425,26 +264,36 @@ button:
     name: "Open Entrance Door"
     icon: mdi:door
     on_press:
-      - tcs_intercom.send:
-          command: !lambda "return id(first_door_opener_command);"
-
+      - tc_bus.send:
+          type: open_door
+          address: 0
+    web_server:
+      sorting_group_id: sorting_group_controls
+      sorting_weight: -10
+          
   - platform: template
     id: open_second_door
-    name: "Open Second Door"
+    name: "Open Second Entrance Door"
     icon: mdi:door
     on_press:
-      - tcs_intercom.send:
-          command: !lambda "return id(second_door_opener_command);"
-    disabled_by_default: true
+      - tc_bus.send:
+          type: open_door
+          address: !lambda "return id(second_door_station_id).state;"
+    web_server:
+      sorting_group_id: sorting_group_controls
+      sorting_weight: -9
 
   - platform: template
     id: turn_on_light
-    name: "Turn on the light"
+    name: "Turn on the Light"
     icon: mdi:lightbulb-on
     on_press:
-      - tcs_intercom.send:
-          command: !lambda "return id(turn_on_light_command);"
+      - tc_bus.send:
+          type: light
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_controls
+      sorting_weight: -8
 
 # Onboard Status LEDs
 light:
@@ -455,6 +304,9 @@ light:
     pin: ${led_pin}
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -9
 
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led
@@ -488,193 +340,153 @@ light:
           update_interval: 2s
           min_brightness: 0%
           max_brightness: 40%
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -8
 
 sensor:
   - platform: uptime
     name: Uptime
     id: doorman_uptime
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -7
 
-binary_sensor:   
+  - platform: adc
+    id: bus_voltage
+    name: Bus Voltage
+    pin: GPIO10
+    update_interval: 1s
+    attenuation: 12dB
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    icon: "mdi:current-dc"
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -5
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+      ignore_strapping_warning: true
+    internal: true
+    id: doorman_boot_button
+    name: "Flash Button"
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -5
+
   # Preconfigured Sensors
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: entrance_doorbell
     name: "Entrance Doorbell"
-    lambda: !lambda "return id(entrance_doorbell_command);"
+    type: door_call
     auto_off: 0.2s
-    on_press:
-      then:
-        # Ring To Open Action
-        - if:
-            condition:
-              switch.is_on: doorman_ring_to_open
-            then:
-              # Deactivate Ring To Open when Ring once is selected
-              - if:
-                  condition:
-                    - lambda: !lambda 'return id(doorman_ring_to_open_timeout_mode).state == "Ring once";'
-                  then:
-                    - switch.turn_off: doorman_ring_to_open
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -28
 
-              # If delay is 60 seconds, use random delay from 5 to 15 seconds
-              - if:
-                  condition:
-                    number.in_range:
-                      id: doorman_ring_to_open_delay
-                      above: 59
-                  then:
-                    - delay: !lambda "return 5000 + (rand() % 10000);"
-                  else:
-                    - delay: !lambda "return (id(doorman_ring_to_open_delay).state*1000) + 300;"
+  - platform: tc_bus
+    id: second_entrance_doorbell
+    name: "Second Entrance Doorbell"
+    type: door_call
+    address_lambda: !lambda "return id(second_door_station_id).state;"
+    auto_off: 0.2s
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -27
 
-              - tcs_intercom.send:
-                  command: !lambda "return id(first_door_opener_command);"
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_triple
-
-
-  - platform: tcs_intercom
+  - platform: tc_bus
     id: apartment_doorbell
     name: "Apartment Doorbell"
-    lambda: !lambda "return id(apartment_doorbell_command);"
+    type: floor_call
     auto_off: 0.2s
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_single
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -29
 
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
+  - platform: tc_bus
+    id: pick_up_phone_door_call
+    name: "Pick up phone (door call)"
+    icon: "mdi:phone-check"
+    type: start_talking_door_call
+    address: 255
+    auto_off: 0.2s
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -19
 
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
+  - platform: tc_bus
+    id: hang_up_phone_door_call
+    name: "Hang up phone (door call)"
+    icon: "mdi:phone-remove"
+    type: stop_talking_door_call
+    address: 255
+    auto_off: 0.2s
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -18
 
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_triple
-
-
-  - platform: tcs_intercom
-    id: "pick_up_phone"
+  - platform: tc_bus
+    id: pick_up_phone
     name: "Pick up phone"
-    lambda: !lambda "return id(pick_up_phone_command);"
+    icon: "mdi:phone-check"
+    type: start_talking
+    address: 255
     auto_off: 0.2s
-    entity_category: DIAGNOSTIC
     disabled_by_default: true
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: single
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -17
 
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 2s
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: triple
-
-  - platform: tcs_intercom
-    id: "hang_up_phone"
+  - platform: tc_bus
+    id: hang_up_phone
     name: "Hang up phone"
-    lambda: !lambda "return id(hang_up_phone_command);"
+    icon: "mdi:phone-remove"
+    type: stop_talking
+    address: 255
     auto_off: 0.2s
-    entity_category: DIAGNOSTIC
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -16
 
-  - platform: tcs_intercom
-    id: "turn_on_light_trigger"
-    name: "Turn on light: Trigger"
-    internal: true
-    lambda: !lambda "return id(turn_on_light_command);"
+  - platform: tc_bus
+    id: function_button
+    name: "Function Button"
+    icon: "mdi:circle-outline"
     auto_off: 0.2s
-    entity_category: DIAGNOSTIC
+    type: control_function
+    payload: 255
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -6
+
+  - platform: tc_bus
+    id: light_button
+    name: "Light Button"
+    icon: "mdi:white-balance-sunny"
+    type: light
+    auto_off: 0.2s
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -7
 
   - platform: gpio
     id: doorman_external_button
-    name: External Button
-    icon: mdi:gesture-tap
+    name: "External Button"
+    icon: "mdi:gesture-tap"
     disabled_by_default: true
     pin:
       number: ${external_button_pin}
@@ -682,352 +494,16 @@ binary_sensor:
         pullup: true
         input: true
       inverted: true
-
-  # Ring To Open - toggle switch automation
-  - platform: tcs_intercom
-    id: ring_to_open_toggle
-    name: "Ring To Open: Trigger"
-    auto_off: 0.2s
-    internal: true
-    lambda: !lambda "return id(ring_to_open_toggle_command);"
-    on_press:
-      - switch.toggle: doorman_ring_to_open
-      - delay: 300ms
-      - if: 
-          condition:
-            - switch.is_on: doorman_ring_to_open
-            - switch.is_on: doorman_ring_to_open_confirmation
-          then:
-            - tcs_intercom.send:
-                command: !lambda "return id(apartment_doorbell_command);"
-    entity_category: DIAGNOSTIC
-    disabled_by_default: true
-
-number:
-  - platform: template
-    name: "Ring To Open: Delay"
-    id: doorman_ring_to_open_delay
-    icon: "mdi:clock-end"
-    mode: slider
-    min_value: 0
-    max_value: 60
-    step: 1
-    optimistic: true
-    restore_value: true
-    initial_value: 0
-    unit_of_measurement: seconds
-    entity_category: CONFIG
-    disabled_by_default: true
-
-text:
-  - platform: template
-    id: open_entrance_door_command_input
-    name: "Command: Open Entrance Door"
-    mode: text
-    lambda: |-
-      unsigned long number = id(first_door_opener_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(first_door_opener_command) = number;
-            id(open_entrance_door_command_input)->publish_state(str_upper_case(format_hex(number)));
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: open_second_door_command_input
-    name: "Command: Open Second Door"
-    mode: text
-    lambda: |-
-      unsigned long number = id(second_door_opener_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(second_door_opener_command) = number;
-            id(open_second_door_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: entrance_doorbell_command_input
-    name: "Command: Entrance Doorbell"
-    mode: text
-    lambda: |-
-      unsigned long number = id(entrance_doorbell_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(entrance_doorbell_command) = number;
-            id(entrance_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: apartment_doorbell_command_input
-    name: "Command: Apartment Doorbell"
-    mode: text
-    lambda: |-
-      unsigned long number = id(apartment_doorbell_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(apartment_doorbell_command) = number;
-            id(apartment_doorbell_command_input)->publish_state(str_upper_case(format_hex(number)));
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: pick_up_phone_command_input
-    name: "Command: Pick up phone"
-    mode: text
-    lambda: |-
-      unsigned long number = id(pick_up_phone_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(pick_up_phone_command) = number;
-            id(pick_up_phone_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: hang_up_command_input
-    name: "Command: Hang up phone"
-    mode: text
-    lambda: |-
-      unsigned long number = id(hang_up_phone_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(hang_up_phone_command) = number;
-            id(hang_up_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: ring_to_open_toggle_command_input
-    name: "Command: Toggle Ring To Open"
-    mode: text
-    lambda: |-
-      unsigned long number = id(ring_to_open_toggle_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(ring_to_open_toggle_command) = number;
-            id(ring_to_open_toggle_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-  - platform: template
-    id: turn_on_light_command_input
-    name: "Command: Turn on light"
-    mode: text
-    lambda: |-
-      unsigned long number = id(turn_on_light_command);
-      return str_upper_case(format_hex(number));
-    set_action:
-      then:
-        - lambda: |-
-            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
-            x.erase(0, x.find_first_not_of('0'));
-            x.resize(8);
-            unsigned long number = 0;
-            if(std::string(x.c_str()) != "") {
-              number = std::stoul(x.c_str(), nullptr, 16);
-            }
-            id(turn_on_light_command) = number;
-            id(turn_on_light_command_input)->publish_state(str_upper_case(format_hex(number)));
-    disabled_by_default: true
-    entity_category: CONFIG
-    icon: "mdi:console-network"
-
-
-text_sensor:
-  - platform: template
-    id: doorman_interactive_setup_step
-    name: "Interactive Setup: Status"
-    entity_category: CONFIG
-
-event:
-  - platform: template
-    id: doorbell_pattern
-    name: "Doorbell Pattern"
-    icon: "mdi:doorbell"
-    device_class: DOORBELL
-    event_types:
-      - "apartment_single"
-      - "apartment_double"
-      - "apartment_triple"
-      - "entrance_single"
-      - "entrance_double"
-      - "entrance_triple"
-
-  - platform: template
-    id: phone_pick_up_pattern
-    name: "Phone pick up Pattern"
-    icon: "mdi:phone-incoming-outgoing"
-    event_types:
-      - "single"
-      - "double"
-      - "triple"
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: 99
 
 script:
   - id: update_led
     then:
+      - logger.log: "Conditionally set LED State"
+      - light.turn_off:
+          id: doorman_rgb_status_led
+          transition_length: 1s
       # TODO: Restore specific state conditionally
-      - if:
-          condition:
-            - switch.is_on: doorman_ring_to_open
-          then:
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 100%
-                green: 100%
-                blue: 3%
-                effect: slow_pulse
-          else:
-            - light.turn_off:
-                id: doorman_rgb_status_led
-                transition_length: 1s
-
-  - id: ring_to_open_timer
-    then:
-      # Turn off Ring To Open Mode after selected time
-      - if:
-          condition:
-            - lambda: !lambda 'return id(doorman_ring_to_open_timeout_mode).state != "Never" && id(doorman_ring_to_open_timeout_mode).state != "Ring once";'
-          then:
-            - delay: !lambda |-
-                std::string str = id(doorman_ring_to_open_timeout_mode).state;
-                std::vector<std::string> v;
-                char * token;
-                char seps[] = " ";
-                token = strtok (&str[0],seps);
-                while (token != NULL)
-                {
-                  v.push_back(token);
-                  token = strtok (NULL, seps);
-                }
-
-                ESP_LOGD("main", "Ring To Open will stay turned on for %s minutes", v[0].c_str());
-
-                return std::stoi(v[0].c_str()) * 60 * 1000;
-
-            - switch.turn_off: doorman_ring_to_open
-
-  - id: interactive_setup_next
-    parameters:
-      next_step: string
-      text: string
-      first_step: bool
-    then:
-      - if:
-          condition:
-            - lambda: "return first_step == false;"
-          then:
-            # Temporary break
-            - globals.set:
-                id: interactive_setup_step
-                value: '""'
-            - text_sensor.template.publish:
-                id: doorman_interactive_setup_step
-                state: "Saving command..."
-            # LED State: Saved
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 0%
-                green: 100%
-                blue: 10%
-                effect: none
-            - delay: 3s
-
-      - text_sensor.template.publish:
-          id: doorman_interactive_setup_step
-          state: !lambda "return text.c_str();"
-
-      - if:
-          condition:
-            - lambda: "return next_step != \"complete\";"
-          then:
-            # Next step
-            - globals.set:
-                id: interactive_setup_step
-                value: !lambda "return next_step;"
-            # LED State: Waiting
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 0%
-                green: 100%
-                blue: 10%
-                effect: pulse
-          else:
-            # Initial setup done
-            - globals.set:
-                id: initial_setup_done
-                value: 'true'
-            # Reset step
-            - globals.set:
-                id: interactive_setup_step
-                value: '""'
-            - script.execute: update_led
-            - logger.log: "Interactive Setup complete!"
+      # Extended by addons

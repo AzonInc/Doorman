@@ -6,12 +6,13 @@ packages:
   device_base: !include doorman-nuki-bridge.yaml
 
 external_components:
-  - source: github://AzonInc/esphome_tcs_intercom@dev
-    components: [ tcs_intercom ]
+  - source: github://AzonInc/Doorman@dev-structure
+    components: [ tc_bus ]
     refresh: 60s
     
 update:
   - id: !extend update_http_request_stable
     disabled_by_default: true
+    
   - id: !extend update_http_request_dev
     disabled_by_default: false

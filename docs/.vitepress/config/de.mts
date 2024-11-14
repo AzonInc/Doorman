@@ -21,7 +21,8 @@ export const de = defineConfig({
 
     sidebar: {
         '/de/guide/': { base: '/de/guide/', items: sidebarGuide() },
-        '/de/reference/': { base: '/de/reference/', items: sidebarReference() }
+        '/de/reference/': { base: '/de/reference/', items: sidebarReference() },
+        '/de/changelog/': { base: '/de/changelog/', items: sidebarChangelog() }
     },
 
     editLink: {
@@ -78,6 +79,11 @@ function nav(): DefaultTheme.NavItem[] {
           text: pkg.version,
           items: [
             { text: 'Issues', link: 'https://github.com/AzonInc/Doorman/issues' },
+            {
+              text: 'Changelog',
+              link: '/changelog/firmware',
+              activeMatch: '/de/changelog/'
+            },
             {
               text: 'Docs',
               items: [
@@ -150,7 +156,20 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'Entitäten', link: 'entities' },
         { text: 'GPIO Pinbelegung', link: 'gpio' },
         { text: 'Schaltpläne', link: 'schematics' },
-        { text: 'Spezifikationen', link: 'specifications' }
+        { text: 'Spezifikationen', link: 'specifications' },
+        { text: 'ESPHome Komponente', link: 'esphome-component' }
+      ]
+    }
+  ];
+}
+
+function sidebarChangelog(): DefaultTheme.SidebarItem[] {
+  return [
+    {
+      text: 'Changelog',
+      items: [
+        { text: 'Firmware', link: 'firmware' },
+        { text: 'Hardware', link: 'hardware' }
       ]
     }
   ];

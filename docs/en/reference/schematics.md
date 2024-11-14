@@ -12,5 +12,5 @@ To view the PCB and schematic designs, use the interactive viewers below. If you
 
 <kicanvas-embed src="https://raw.githubusercontent.com/AzonInc/Doorman/master/pcb/doorman.kicad_pcb" controls="full"></kicanvas-embed>
 
-
-
+## Interactive BOM
+Click [here](../ibom.html) to open the interactive BOM viewer.

@@ -28,7 +28,7 @@ jobs:
   # Build stable firmware
   build-doorman-stock-stable-firmware:
     if: github.ref == 'refs/heads/master'
-    name: Build Doorman Stock Firmware (stable)
+    name: Build Doorman Stock (ESP32-S3) Firmware (stable)
     uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-stock.yaml
@@ -38,7 +38,7 @@ jobs:
 
   build-doorman-nuki-bridge-stable-firmware:
     if: github.ref == 'refs/heads/master'
-    name: Build Doorman Nuki Bridge Firmware (stable)
+    name: Build Doorman Nuki Bridge (ESP32-S3) Firmware (stable)
     uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-nuki-bridge.yaml
@@ -50,7 +50,7 @@ jobs:
   # Build dev firmware
   build-doorman-stock-dev-firmware:
     if: github.ref != 'refs/heads/master'
-    name: Build Doorman Stock Firmware (dev)
+    name: Build Doorman Stock (ESP32-S3) Firmware (dev)
     uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-stock.dev.yaml
@@ -60,7 +60,7 @@ jobs:
 
   build-doorman-nuki-bridge-dev-firmware:
     if: github.ref != 'refs/heads/master'
-    name: Build Doorman Nuki Bridge Firmware (dev)
+    name: Build Doorman Nuki Bridge (ESP32-S3) Firmware (dev)
     uses: ./.github/workflows/build-esphome.yml
     with:
       files: firmware/doorman-nuki-bridge.dev.yaml

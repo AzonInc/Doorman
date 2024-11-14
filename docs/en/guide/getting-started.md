@@ -10,7 +10,7 @@ Please note that these instructions are based on the pre-flashed Doorman PCB tha
 ## Wiring
 First, open your intercom enclosure. On most models, you will find a screw terminal labeled with `a`, `b`, `E`, and `P`.
 
-Connect the `b` line (Ground) to one of the TCS:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TCS:BUS terminal on your Doorman.
+Connect the `b` line (Ground) to one of the TC:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TC:BUS terminal on your Doorman.
 
 ### Power supply options:
 ::: details 3-Wire Mode via intercom <Badge type="tip" text="Recommended" />
@@ -37,12 +37,16 @@ Example:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
 
-::: details 2-Wire Mode via intercom <Badge type="danger" text="Impossible" />
-> [!DANGER] Unfortunately this scenario is not possible!
-> Using the `a`-bus line as a power source results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply and may be addressed in future hardware revisions.
+::: details 2-Wire Mode via intercom <Badge type="danger" text="Hardware revision 1.5 and later" />
+> [!DANGER] Important Info
+> Using the `a`-bus line as a power source on revisions older than `1.5` results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply.
+>
+> Starting with revision `1.5` this method will only produce a subtle, yet noticeable hissing sound on the speaker.
+
+After connecting the `a` and `b` lines, you need to connect `BUS PWR` using a jumper cap.
 
 Example:
-![2-wire external via usb](./images/2wire_power_a_terminal.png){width=300px}
+![2-wire via intercom jumper](./images/2wire_intercom.png){width=300px}
 :::
 
 
@@ -66,30 +70,31 @@ Additionally, with mDNS support, Home Assistant will automatically discover your
 ### Step 2: Connect to Home Assistant
 After connecting Doorman to your network, it will blink slowly (blue) and should be automatically discovered by Home Assistant. Simply click on `Configure` to add the newly discovered ESPHome node.
 
-### Step 3: Bus Commands
+### Step 3: Interactive Setup
 ::: tip
-After connecting your Doorman to Home Assistant, the `Interactive Setup` Process will automatically begin as described below.
+When you first connect your Doorman to Home Assistant, it will be in `Setup Mode` for interactive setup already.
 
-There's no need to start it manually; it will initiate automatically on every restart, provided the process hasn't been completed or canceled.
+You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed or canceled.
 :::
 
-#### Interactive Setup <Badge type="warning" text="NEW" />
-To simplify the configuration of the key commands, you can use the Interactive Setup Process.
+1. **Access the Settings:**\
+   Open the settings either through your Doorman’s internal web server or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the Doorman S3 device.
 
-To get started, either access the internal web server of your Doorman or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the newly listed Doorman S3 device entry.
+2. **Activate Setup Mode:**\
+   Go to the `Configuration` section and enable `Setup Mode` to begin the interactive setup.
 
-In the `Configuration` section, you will find the `Interactive Setup: Start` button. Click this button to initiate the setup process.
+::: warning Before you proceed
+The indoor station must be connected, and the enclosure securely closed, to complete the setup process.
+:::
 
-Once started, the `Interactive Setup: Status` Text Sensor will guide you through the required steps (e.g., press button X, wait, or pick up the phone).\
-During the setup, the RGB Status LED will pulse green-turquoise while waiting for you to complete each task and will remain solid green-turquoise for 3 seconds after saving the command.
+3. **Perform the Setup:**\
+   The RGB status LED will pulse green-turquoise. Press the doorbell button at your apartment or entrance.
 
-After the setup is complete, the process will automatically end and display the corresponding status.
+4. **Complete the Setup:**\
+   After pressing the doorbell button, the LED will stay green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
 
-#### Manual: No pain, no gain!
-You will also find the good old `Last Bus Command` Text Sensor that tracks the most recent bus command in hexadecimal format.
-Additionally, each received command is logged in the ESPHome Console (at the Debug log level) and published as a Home Assistant event.
-
-To capture the codes, press the buttons on your intercom phone and then copy the codes into the corresponding configuration text inputs.
+If you have multiple door stations, the firmware will attempt to automatically detect the additional station.
+To enable detection of the second doorbell and the ability to unlock the second door, you must press the second doorbell or unlock the second door at least once to store its address.
 
 ## ESPHome adoption
 

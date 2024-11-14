@@ -8,11 +8,11 @@
 </h1>
 
 This repository provides the source files for the Doorman S3 Intercom Gateway, a device designed to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.\
-It's also compatible with some rebranded [Niko](https://www.niko.eu/) and [Scantron](https://scantron.dk/) intercoms, which are counterparts of TCS and Koch models.
+It's also compatible with some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms, which are counterparts of TCS and Koch models.
 
 The Doorman S3 isn't limited to these intercoms alone. With its integrated relay, it can simulate button presses to trigger door openers or lights (supporting up to 40V and a maximum of 2.5A).
 
-If your intercom isn't a TCS, Koch, Niko or Scantron model but operates on a 2-wire bus within the 14-24V range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V) by replacing the tcs_intercom component with a template Binary Sensor combined with the ADC, allowing you to trigger specific actions based on the voltage readings.
+If your intercom isn't a TCS, Koch, Niko, Scantron or Jung model but operates on a 2-wire bus within the 14-24V DC range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V), allowing you to trigger specific actions based on the voltage readings.
 
 A big thanks to [PCBWay](https://pcbway.com) for sponsoring this project!
 For more details on the manufacturing process, scroll down to the "Manufacturing" section.
@@ -25,7 +25,7 @@ Be sure to visit the [Doorman Docs](https://doorman.azon.ai/) for all the inform
 
 Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf) or via [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 
-I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/nuki-bridge-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
+I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/stock-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
 
 ## 🤖 Features
 
@@ -38,7 +38,7 @@ I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](fi
 - External Button (G + BTN)
 - Bridge rectifier for bus-wire input to correct polarity
 - TCS bus communication for functions like opening the front door and detecting the doorbell
-- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
+- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/guide/firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
 
 ## ✔️ Compatibility
 
@@ -51,6 +51,7 @@ The repository is organized into the following directories:
 
 - `pcb`: Contains KiCad schematic and PCB design files
 - `firmware`: Includes ESPHome configuration files
+- `components`: Includes ESPHome external component files
 - `enclosure`: Provides STL files for the enclosure design
 
 ## 🛠️ Manufacturing
@@ -93,3 +94,6 @@ This module builds an ESPHome lock platform for Nuki Smartlock (nuki_lock).
 
 **[AStrehlau](https://github.com/AStrehlau)**\
 Thank you so much for your time, patience, expertise, and every piece of invaluable advice that helped make this project better, smaller, and more affordable.
+
+**[calibanorg](https://github.com/calibanorg)**\
+Thank you so much for your support, both in terms of encouragement and financial assistance, in the development of Doorman.

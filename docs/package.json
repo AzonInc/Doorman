@@ -1,10 +1,10 @@
 {
     "name": "doorman-docs",
-    "version": "2024.8.0",
+    "version": "2024.10.0",
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vitepress dev",
+        "dev": "vitepress dev --port 8123",
         "build": "vitepress build",
         "preview": "vitepress preview",
         "lunaria:build": "lunaria build",

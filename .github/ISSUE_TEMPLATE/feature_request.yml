@@ -1,0 +1,13 @@
+name: Feature Request
+description: Have a good idea? Tell me :)
+labels: ["enhancement"]
+assignees:
+  - AzonInc
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe the new feature.
+    validations:
+      required: true

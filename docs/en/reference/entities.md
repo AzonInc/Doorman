@@ -6,7 +6,7 @@ The Doorman firmware exposes many entities by default. This page explains the pu
 ### Last Bus Command <Badge type="tip" text="last_bus_command" />
 Reports every published command on the bus.
 
-### Uptime <Badge type="tip" text="doorman_uptime" />
+### Uptime <Badge type="tip" text="doorman_uptime" /> <Badge type="info" text="Disabled by default" />
 Reports the uptime in seconds.
 
 ### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
@@ -16,22 +16,37 @@ Reports the battery level of the paired Nuki smart lock.
 ## Binary Sensors
 
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
-Activates whenever the `entrance_doorbell_command` command is received.
+Activates whenever the `door_call` command type is received.
+
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `door_call` command type with the second entrance door station `address` is received.
 
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
-Activates whenever the `apartment_doorbell_command` command is received.
+Activates whenever the `floor_call` command type is received.
 
 ### Pick up phone <Badge type="tip" text="pick_up_phone" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `pick_up_phone_command` command is received.
+Activates whenever the `start_talking` command type is received.
+
+### Pick up phone (door call) <Badge type="tip" text="pick_up_phone_door_call" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `start_talking_door_call` command type is received.
 
 ### Hang up phone <Badge type="tip" text="hang_up_phone" /> <Badge type="info" text="Disabled by default" />
-Activates whenever the `hang_up_phone_command` command is received.
+Activates whenever the `stop_talking` command type is received.
 
-### Ring To Open: Toggle <Badge type="tip" text="ring_to_open_toggle" /> <Badge type="info" text="Internal" />
-Activates whenever the `ring_to_open_toggle_command` command is received.
+### Hang up phone (door call) <Badge type="tip" text="hang_up_phone_door_call" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `stop_talking_door_call` command type is received.
 
-### Turn on light: Trigger <Badge type="tip" text="turn_on_light_trigger" /> <Badge type="info" text="Internal" />
-Activates whenever the `turn_on_light_command` command is received.
+### Function Button <Badge type="tip" text="function_button" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `control_function` command type is received.
+
+### Light Button <Badge type="tip" text="light_button" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `light` command type is received.
+
+### Door readiness <Badge type="tip" text="door_readiness" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the door readiness is active.
+
+### Flash Button <Badge type="tip" text="doorman_boot_button" /> <Badge type="info" text="Disabled by default" />
+Activates when the `FLASH` or `PRG` button on the PCB is pressed.
 
 ### External Button <Badge type="tip" text="doorman_external_button" /> <Badge type="info" text="Disabled by default" />
 Activates when the external button is pressed.
@@ -48,14 +63,20 @@ Activates when the paired Nuki smart lock has a critical battery level.
 ### Nuki Door Sensor <Badge type="tip" text="nuki_door_sensor" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 No description yet.
 
-### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Reports the door sensor state of the paired Nuki smart lock.
-
 
 ## Text Sensors
 
-### Interactive Setup: Status
-Shows the current state of [Interactive Setup](../guide/getting-started#interactive-setup) for Commands.
+### Nuki Door Sensor State <Badge type="tip" text="nuki_door_sensor_state" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Reports the door sensor state of the paired Nuki smart lock.
+
+### Nuki Last Unlock User <Badge type="tip" text="nuki_last_unlock_user" /> <Badge type="info" text="Nuki Bridge only" />
+Reports the last user who locked or unlocked the Nuki smart lock.
+
+### Nuki Last Lock Action <Badge type="tip" text="nuki_last_lock_action" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Reports the last lock action of the Nuki smart lock.
+
+### Nuki Last Lock Action Trigger <Badge type="tip" text="nuki_last_lock_action_trigger" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Reports the last log action trigger of the Nuki smart lock.
 
 
 ## Switches
@@ -69,26 +90,64 @@ Controls the turn-on confirmation for the [Ring To Open](../guide/automation/rin
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 Controls the built-in relay.
 
+### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
+Toggles the [Interactive Setup](../guide/getting-started#step-3-interactive-setup) Mode to easily setup your Doorman.
+
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki pairing mode.
 
+### Nuki Auto unlatch <Badge type="tip" text="nuki_auto_unlatch" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto unlatch setting.
+
+### Nuki Button: Locking operations <Badge type="tip" text="nuki_button_locking_operations" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Button locking operations setting.
+
+### Nuki LED: Signal <Badge type="tip" text="nuki_led_enabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock LED Signal setting.
+
+### Nuki Night Mode <Badge type="tip" text="nuki_night_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode setting.
+
+### Nuki Night Mode: Auto Lock <Badge type="tip" text="nuki_night_mode_auto_lock_enabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode Auto Lock setting.
+
+### Nuki Night Mode: Reject Auto Unlock <Badge type="tip" text="nuki_night_mode_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode Reject Auto Unlock setting.
+
+### Nuki Night Mode: Lock at Start Time <Badge type="tip" text="nuki_night_mode_immediate_lock_on_start" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Night Mode Lock at Start Time setting.
+
+### Nuki Auto Lock <Badge type="tip" text="nuki_auto_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto Lock setting.
+
+### Nuki Auto Lock: Immediately <Badge type="tip" text="nuki_immediate_auto_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto Lock Immediately setting.
+
+### Nuki Auto Unlock: Disable <Badge type="tip" text="nuki_auto_unlock_disabled" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Auto Unlock Disable setting.
+
+### Nuki Single Lock <Badge type="tip" text="nuki_single_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Single Lock setting.
+
+### Nuki Daylight Saving Time <Badge type="tip" text="nuki_dst_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock DST Mode setting.
+
+### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Automatic Updates setting.
 
 ## Buttons
 
 ### Open Entrance Door <Badge type="tip" text="open_entrance_door" />
-Opens the entrance door by sending the `open_entrance_door_command` command on the Bus.
+Opens the entrance door by sending a `open_door` command on the bus.
 
-### Open Second Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
-Opens the second door by sending the `open_second_door_command` command on the Bus.
+### Open Second Entrance Door <Badge type="tip" text="open_second_door" /> <Badge type="info" text="Disabled by default" />
+Opens the second entrance door by sending a `open_door` command with the `address` of the second outdoor station on the bus.
 
-### Turn on the light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
-Turns on the light by sending the `turn_on_light_command` command on the Bus.
+### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
+Turns on the light by sending a `light` command on the bus.
 
-### Interactive Setup: Start <Badge type="tip" text="doorman_interactive_setup_start" />
-Starts the [Interactive Setup](../guide/getting-started#interactive-setup) Process to interactively setup bus commands.
-
-### Interactive Setup: Cancel <Badge type="tip" text="doorman_interactive_setup_cancel" />
-Cancels the [Interactive Setup](../guide/getting-started#interactive-setup) Process.
+### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Disabled by default" />
+Reads the memory of the intercom phone with the specified serial number.
 
 ### Nuki Unpair Device <Badge type="tip" text="nuki_unpair_device" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Unpairs your Nuki smart lock.
@@ -108,35 +167,13 @@ If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, t
 :::
 
 
-## Texts
-
-### Command: Apartment Doorbell <Badge type="tip" text="apartment_doorbell_command_input" />
-Sets the code sent when someone rings the apartment doorbell.
-
-### Command: Entrance Doorbell <Badge type="tip" text="entrance_doorbell_command_input" />
-Sets the code sent when someone rings the entrance doorbell.
-
-### Command: Open Entrance Door <Badge type="tip" text="open_entrance_door_command_input" />
-Sets the code sent when you press the button to open the entrance door.
-
-### Command: Open Second Door <Badge type="tip" text="open_second_door_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to open the second door.
-
-### Command: Pick up phone <Badge type="tip" text="pick_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you pick up the phone.
-
-### Command: Hang up phone <Badge type="tip" text="hang_up_phone_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you hang up the phone.
-
-### Command: Turn on light <Badge type="tip" text="turn_on_light_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code sent when you press the button to turn on the hallway light.
-
-### Command: Ring To Open Toggle <Badge type="tip" text="ring_to_open_toggle_command_input" /> <Badge type="info" text="Disabled by default" />
-Sets the code used to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
-The function button is often used for this purpose as it is usually not utilized.
-
-
 ## Numbers
+
+### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Disabled by default" />
+Sets the indoor station serial number for the command builder/parser.
+
+### Second Door Station ID <Badge type="tip" text="second_door_station_id" /> <Badge type="info" text="Disabled by default" />
+Sets the ID of the second outdoor station.
 
 ### Ring To Open: Delay <Badge type="tip" text="doorman_ring_to_open_delay" /> <Badge type="info" text="Disabled by default" />
 Sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automation.
@@ -144,16 +181,129 @@ Sets the delay for the [Ring To Open](../guide/automation/ring-to-open) automati
 Setting the delay to the maximum (60 seconds) will result in the automation generating a random delay between 5 and 15 seconds each time it is triggered. 
 :::
 
+### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone volume.
+
+### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone handset volume.
+
+### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock LED Brightness setting.
+
+### Nuki Timezone: Offset <Badge type="tip" text="nuki_timezone_offset" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Timezone offset setting (Lock v1).
+
+### Nuki Security Pin <Badge type="tip" text="nuki_security_pin" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Sets the Nuki Bridge Security Pin to authenticate against the Nuki Smart Lock.
+
 
 ## Selects
 
-### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" /> <Badge type="info" text="Disabled by default" />
+### Ring To Open: Timeout <Badge type="tip" text="doorman_ring_to_open_timeout_mode" />
 Sets the timeout mode for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
 ##### Modes:
 - Ring once
 - 5 to 60 minutes
 - Never
+
+### Ring To Open: Door Station <Badge type="tip" text="doorman_ring_to_open_door_trigger" />
+Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open) automation.
+
+##### Options:
+- Entrance
+- Second Entrance
+- Any
+
+### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone model. Check the [Supported Models and Settings](esphome-component#model-setting-availability) to see your options.
+
+### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for door calls.
+
+##### Options:
+- Ringtone 1 ... 13
+
+### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for floor calls.
+
+##### Options:
+- Ringtone 1 ... 13
+
+### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for internal calls.
+
+##### Options:
+- Ringtone 1 ... 13
+
+### Nuki Button: Single Press Action <Badge type="tip" text="nuki_single_button_press_action" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Single Button Press Action setting.
+
+##### Options:
+- No Action
+- Intelligent
+- Unlock
+- Lock
+- Unlatch
+- Lock n Go
+- Show Status
+
+### Nuki Button: Double Press Action <Badge type="tip" text="nuki_double_button_press_action" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Double Button Press Action setting.
+
+##### Options:
+- No Action
+- Intelligent
+- Unlock
+- Lock
+- Unlatch
+- Lock n Go
+- Show Status
+
+### Nuki Fob: Action 1 <Badge type="tip" text="nuki_fob_action_1" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Fob Action 1 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Fob: Action 2 <Badge type="tip" text="nuki_fob_action_2" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Fob Action 2 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Fob: Action 3 <Badge type="tip" text="nuki_fob_action_3" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Fob Action 3 setting.
+
+##### Options:
+- No Action
+- Unlock
+- Lock
+- Lock n Go
+- Intelligent
+
+### Nuki Timezone <Badge type="tip" text="nuki_timezone" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Timezone setting.
+
+##### Options:
+Check out the nuki developer documentation.
+
+### Nuki Advertising Mode <Badge type="tip" text="nuki_advertising_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Controls the Nuki Smart Lock Advertising Mode setting.
+
+##### Options:
+- Automatic
+- Normal
+- Slow
+- Slowest
 
 
 ## Locks
@@ -174,6 +324,9 @@ Triggers each time a doorbell pattern is detected. Learn more about pattern even
 - entrance_single
 - entrance_double
 - entrance_triple
+- second_entrance_single
+- second_entrance_double
+- second_entrance_triple
 
 ### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
 Triggers each time a phone pick up pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
@@ -182,7 +335,6 @@ Triggers each time a phone pick up pattern is detected. Learn more about pattern
 - single
 - double
 - triple
-
 
 ## Updates
 
