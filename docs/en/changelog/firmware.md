@@ -1,6 +1,15 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2024.11.1
+### ✨ Improvements
+- **Fixed dev branch name**  
+   Updated the development branch name to resolve future issues.
+
+### 📝 Other Updates
+- **Switch Nuki Component branch**  
+   Migrated the `nuki_lock` component to the main branch as the new features got merged.
+
 ## 2024.11.0
 ### 🚀 What's New?
 - **TC:BUS Protocol Support**  

@@ -6,7 +6,7 @@ packages:
   device_base: !include doorman-stock.yaml
 
 external_components:
-  - source: github://AzonInc/Doorman@dev-structure
+  - source: github://AzonInc/Doorman@dev
     components: [ tc_bus ]
     refresh: 60s
 
