@@ -13,6 +13,10 @@ Sofern du selbst ein PCB produzieren lassen hast, musst du zuerst die Firmware f
 
 Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss deines Doorman.
 
+::: warning Hinweis
+Standardmäßig versende ich Revision 1.5 mit einer Jumper-Kappe auf `BUS PWR`. Bitte entferne diese, sofern du Doorman nicht nach dem Schema `2-Draht-Modus über die Gegensprechanlage` anschließt.
+:::
+
 ### Stromversorgungsoptionen:
 ::: details 3-Draht-Modus über die Gegensprechanlage <Badge type="tip" text="Empfohlen" />
 Verbinde die `P`-Leitung (+24V) mit dem `P`-Terminal an deinem Doorman.

@@ -12,6 +12,10 @@ First, open your intercom enclosure. On most models, you will find a screw termi
 
 Connect the `b` line (Ground) to one of the TC:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TC:BUS terminal on your Doorman.
 
+::: warning Note
+By default, I ship version 1.5 with a jumper cap on `BUS PWR`. Please remove this if you are not connecting Doorman in the `2-Wire Mode via intercom` configuration.
+:::
+
 ### Power supply options:
 ::: details 3-Wire Mode via intercom <Badge type="tip" text="Recommended" />
 Connect the `P` line (+24V) to the `P` terminal on your Doorman.
