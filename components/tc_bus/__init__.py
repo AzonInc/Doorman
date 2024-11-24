@@ -120,6 +120,7 @@ CONF_PAYLOAD_LAMBDA = "payload_lambda"
 CONF_ON_COMMAND = "on_command"
 CONF_ON_MEMORY = "on_read_memory_complete"
 CONF_ON_MEMORY_TIMEOUT = "on_read_memory_timeout"
+
 CONF_PROGRAMMING_MODE = "programming_mode"
 
 MULTI_CONF = False
