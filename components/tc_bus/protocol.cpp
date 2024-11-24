@@ -61,6 +61,12 @@ namespace esphome
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR:
+                    command |= (1 << 12); // 1
+                    command |= (1 << 8); // 1
+                    command |= (address & 0x3F); // 00
+                    break;
+
+                /*case COMMAND_TYPE_OPEN_DOOR_LONG:
                     if(serial_number == 0)
                     {
                         command |= (1 << 12); // 1
@@ -74,7 +80,7 @@ namespace esphome
                         command |= (1 << 7);  // 8
                         command |= (address & 0x3F); // 0
                     }
-                    break;
+                    break;*/
 
                 case COMMAND_TYPE_LIGHT:
                     command |= (1 << 12); // 1
