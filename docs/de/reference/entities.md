@@ -87,6 +87,9 @@ Steuert die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
 ### Ring To Open: Confirmation <Badge type="tip" text="doorman_ring_to_open_confirmation" /> <Badge type="info" text="Deaktiviert" />
 Steuert die Einschaltbestätigung für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
 
+### Ring To Open: Display Status <Badge type="tip" text="doorman_ring_to_open_led_status" /> <Badge type="info" text="Deaktiviert" />
+Steuert die Status LED anzeige für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
+
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Deaktiviert" />
 Steuert das eingebaute Relais.
 
