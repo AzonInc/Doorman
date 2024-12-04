@@ -76,6 +76,7 @@ If your indoor station isn't listed here, it doesn't necessarily mean it's incom
 - TCS ISW-3030 / ISW-3130
 - TCS HST-1030
 - TCS IMM-1300
+- TCS IVW511x-0145
 - Jung TK-ISV-LS-914
 - Jung TK-IS-LS-914
 - Jung TK-ASV-ES-114
