@@ -11,16 +11,15 @@ Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) 
 
 ## Doorbell Pattern
 
+### Event (Sensors)
+- doorbell_entrance_pattern
+- doorbell_second_entrance_pattern
+- doorbell_apartment_pattern
+
 ### Event Types
-- apartment_single
-- apartment_double
-- apartment_triple
-- entrance_single
-- entrance_double
-- entrance_triple
-- second_entrance_single
-- second_entrance_double
-- second_entrance_triple
+- single_press
+- double_press
+- triple_press
 
 ### Example Automation
 ::: details Automatically open the door when the Entrance Doorbell is pressed twice in a specific pattern.
@@ -31,9 +30,9 @@ description: "Open the entrance door after pressing the entrance doorbell two ti
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_doorbell_pattern
+      - event.doorman_s3_doorbell_entrance_pattern
     attribute: event_type
-    to: entrance_double
+    to: double_press
 condition: []
 action:
   - service: button.press
@@ -48,9 +47,9 @@ mode: single
 ## Phone pickup Pattern
 
 ### Event Types
-- single
-- double
-- triple
+- single_press
+- double_press
+- triple_press
 
 ### Example Automation
 ::: details Toggle Ring To Open Mode by quickly picking up the phone three times.
@@ -63,7 +62,7 @@ trigger:
     entity_id:
       - event.doorman_s3_phone_pick_up_pattern
     attribute: event_type
-    to: triple
+    to: triple_press
 condition: []
 action:
   - service: switch.toggle

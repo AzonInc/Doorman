@@ -158,7 +158,7 @@ If you want to create a custom doorbell pattern, you can easily extend the exist
 # Extend the doorbell_pattern event entity // [!code ++] // [!code focus]
 # Add a new apartment_special event type // [!code ++] // [!code focus]
 event: // [!code ++] // [!code focus]
-  - id: !extend doorbell_pattern // [!code ++] // [!code focus]
+  - id: !extend doorbell_apartment_pattern // [!code ++] // [!code focus]
     event_types: // [!code ++] // [!code focus]
       - "apartment_special" // [!code ++] // [!code focus]
 
