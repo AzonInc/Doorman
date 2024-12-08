@@ -124,6 +124,17 @@ switch:
     web_server:
       sorting_group_id: sorting_group_doorman_settings
 
+  - platform: template
+    id: doorman_ring_to_open_led_status
+    name: "Ring To Open: Display Status"
+    icon: "mdi:led-on"
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_doorman_settings
+
 
 select:
   - platform: template
@@ -197,6 +208,7 @@ script:
       - if:
           condition:
             - switch.is_on: doorman_ring_to_open
+            - switch.is_on: doorman_ring_to_open_led_status
           then:
             - light.turn_on:
                 id: doorman_rgb_status_led

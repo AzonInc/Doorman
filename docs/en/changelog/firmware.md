@@ -1,6 +1,16 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2024.12.0
+### 🚀 What's New?
+- **Added a Switch to turn off the Status LED while Ring to Open is active**  
+   If you don't want the Status LED to blink while Ring to Open is active, you can now simply turn it off.
+
+## 2024.11.2
+### ✨ Improvements
+- **Fixed open door command**  
+   Use the short open door command instead of the long one (with serial number) as this seems to cause issues on some setups.
+
 ## 2024.11.1
 ### ✨ Improvements
 - **Fixed dev branch name**  
