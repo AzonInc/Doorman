@@ -159,7 +159,7 @@ Wenn du ein benutzerdefiniertes Klingelmuster erstellen möchtest, kannst du die
 # Türglocken-Muster-Event-Entity erweitern // [!code ++] // [!code focus]
 # Neues apartment_special-Eventtyp hinzufügen // [!code ++] // [!code focus]
 event: // [!code ++] // [!code focus]
-  - id: !extend doorbell_pattern // [!code ++] // [!code focus]
+  - id: !extend doorbell_apartment_pattern // [!code ++] // [!code focus]
     event_types: // [!code ++] // [!code focus]
       - "apartment_special" // [!code ++] // [!code focus]
 
