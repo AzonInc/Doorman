@@ -317,37 +317,37 @@ Repräsentiert die Schlosseinheit für dein gekoppeltes Nuki Smart Lock.
 
 ## Ereignisse
 
-### Doorbell Entrance Pattern <Badge type="tip" text="doorbell_entrance_pattern" />
+### Doorbell Entrance Pattern <Badge type="tip" text="entrance_doorbell_pattern" />
 Wird ausgelöst, wenn ein Klingelmuster an der Eingangstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
-- single_press
-- double_press
-- triple_press
+- single
+- double
+- triple
 
-### Doorbell Second Entrance Pattern <Badge type="tip" text="doorbell_second_entrance_pattern" />
+### Doorbell Second Entrance Pattern <Badge type="tip" text="second_entrance_doorbell_pattern" />
 Wird ausgelöst, wenn ein Klingelmuster an der zweiten Eingangstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
-- single_press
-- double_press
-- triple_press
+- single
+- double
+- triple
 
-### Doorbell Apartment Pattern <Badge type="tip" text="doorbell_apartment_pattern" />
+### Doorbell Apartment Pattern <Badge type="tip" text="apartment_doorbell_pattern" />
 Wird ausgelöst, wenn ein Klingelmuster an der Wohnungstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
-- single_press
-- double_press
-- triple_press
+- single
+- double
+- triple
 
 ### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
 Wird ausgelöst, wenn ein Abhebe-Muster des Telefons der Innenstation erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
-- single_press
-- double_press
-- triple_press
+- single
+- double
+- triple
 
 
 ## Updates

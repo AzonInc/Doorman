@@ -12,14 +12,14 @@ Sieh dir die [fortgeschrittenen Beispiele](../firmware/stock-firmware#fortgeschr
 ## Klingelmuster
 
 ### Ereignisse (Sensoren)
-- doorbell_entrance_pattern
-- doorbell_second_entrance_pattern
-- doorbell_apartment_pattern
+- entrance_doorbell_pattern
+- second_entrance_doorbell_pattern
+- apartment_doorbell_pattern
 
 ### Ereignistypen
-- single_press
-- double_press
-- triple_press
+- single
+- double
+- triple
 
 ### Beispiel-Automatisierung
 ::: details Tür automatisch öffnen, wenn die Eingangsklingel zweimal in einem bestimmten Muster gedrückt wird.
@@ -30,9 +30,9 @@ description: "Öffne die Eingangstür, nachdem die Eingangsklingel zweimal gedr�
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_doorbell_entrance_pattern
+      - event.doorman_s3_entrance_doorbell_pattern
     attribute: event_type
-    to: double_press
+    to: double
 condition: []
 action:
   - service: button.press
@@ -47,9 +47,9 @@ mode: single
 ## Phone Hang up-Muster
 
 ### Ereignistypen
-- single_press
-- double_press
-- triple_press
+- single
+- double
+- triple
 
 ### Beispiel-Automatisierung
 ::: details Ring-To-Open-Modus umschalten, indem du schnell dreimal den Telefonhörer auflegst.
@@ -62,7 +62,7 @@ trigger:
     entity_id:
       - event.doorman_s3_phone_pick_up_pattern
     attribute: event_type
-    to: triple_press
+    to: triple
 condition: []
 action:
   - service: switch.toggle
