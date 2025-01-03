@@ -317,7 +317,7 @@ Repräsentiert die Schlosseinheit für dein gekoppeltes Nuki Smart Lock.
 
 ## Ereignisse
 
-### Doorbell Entrance Pattern <Badge type="tip" text="entrance_doorbell_pattern" />
+### Doorbell Entrance <Badge type="tip" text="entrance_doorbell_pattern" />
 Wird ausgelöst, wenn ein Klingelmuster an der Eingangstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
@@ -325,7 +325,7 @@ Wird ausgelöst, wenn ein Klingelmuster an der Eingangstür erkannt wird. Erfahr
 - double
 - triple
 
-### Doorbell Second Entrance Pattern <Badge type="tip" text="second_entrance_doorbell_pattern" />
+### Doorbell Second Entrance <Badge type="tip" text="second_entrance_doorbell_pattern" />
 Wird ausgelöst, wenn ein Klingelmuster an der zweiten Eingangstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
@@ -333,7 +333,7 @@ Wird ausgelöst, wenn ein Klingelmuster an der zweiten Eingangstür erkannt wird
 - double
 - triple
 
-### Doorbell Apartment Pattern <Badge type="tip" text="apartment_doorbell_pattern" />
+### Doorbell Apartment <Badge type="tip" text="apartment_doorbell_pattern" />
 Wird ausgelöst, wenn ein Klingelmuster an der Wohnungstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
@@ -341,7 +341,7 @@ Wird ausgelöst, wenn ein Klingelmuster an der Wohnungstür erkannt wird. Erfahr
 - double
 - triple
 
-### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
+### Phone pick up <Badge type="tip" text="phone_pick_up_pattern" />
 Wird ausgelöst, wenn ein Abhebe-Muster des Telefons der Innenstation erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
