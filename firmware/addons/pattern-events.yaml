@@ -42,7 +42,7 @@ event:
 
   - platform: template
     id: phone_pick_up_pattern
-    name: "Phone pick up Pattern"
+    name: "Phone pick up"
     icon: "mdi:phone-incoming-outgoing"
     event_types:
       - "single"

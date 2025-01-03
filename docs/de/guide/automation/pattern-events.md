@@ -12,9 +12,9 @@ Sieh dir die [fortgeschrittenen Beispiele](../firmware/stock-firmware#fortgeschr
 ## Klingelmuster
 
 ### Ereignisse (Sensoren)
-- entrance_doorbell_pattern
-- second_entrance_doorbell_pattern
-- apartment_doorbell_pattern
+- entrance_doorbell
+- second_entrance_doorbell
+- apartment_doorbell
 
 ### Ereignistypen
 - single
@@ -30,7 +30,7 @@ description: "Öffne die Eingangstür, nachdem die Eingangsklingel zweimal gedr�
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_entrance_doorbell_pattern
+      - event.doorman_s3_entrance_doorbell
     attribute: event_type
     to: double
 condition: []
@@ -60,7 +60,7 @@ description: "Schalte den Ring-To-Open-Modus um, wenn du schnell dreimal den Tel
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_phone_pick_up_pattern
+      - event.doorman_s3_phone_pick_up
     attribute: event_type
     to: triple
 condition: []

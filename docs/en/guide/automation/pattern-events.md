@@ -12,11 +12,11 @@ Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) 
 ## Doorbell Pattern
 
 ### Event (Sensors)
-- entrance_doorbell_pattern
-- second_entrance_doorbell_pattern
-- apartment_doorbell_pattern
+- entrance_doorbell
+- second_entrance_doorbell
+- apartment_doorbell
 
-### Event  Types
+### Event Types
 - single
 - double
 - triple
@@ -30,7 +30,7 @@ description: "Open the entrance door after pressing the entrance doorbell two ti
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_entrance_doorbell_pattern
+      - event.doorman_s3_entrance_doorbell
     attribute: event_type
     to: double
 condition: []
@@ -60,7 +60,7 @@ description: "Toggle Ring To Open Mode when you quickly pick up the phone 3 time
 trigger:
   - platform: state
     entity_id:
-      - event.doorman_s3_phone_pick_up_pattern
+      - event.doorman_s3_phone_pick_up
     attribute: event_type
     to: triple
 condition: []
