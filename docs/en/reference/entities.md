@@ -317,24 +317,24 @@ Represents the lock entity for your paired Nuki smart lock.
 
 ## Events
 
-### Doorbell Entrance <Badge type="tip" text="entrance_doorbell_pattern" />
-Triggers each time a doorbell pattern is detected on the entrance. Learn more about pattern events [here](../guide/automation/pattern-events).
+### Entrance Doorbell <Badge type="tip" text="entrance_doorbell_pattern" />
+Triggers each time a doorbell pattern is detected at the entrance. Learn more about pattern events [here](../guide/automation/pattern-events).
 
 ##### Event Types
 - single
 - double
 - triple
 
-### Doorbell Second Entrance <Badge type="tip" text="second_entrance_doorbell_pattern" />
-Triggers each time a doorbell pattern is detected on the second entrance. Learn more about pattern events [here](../guide/automation/pattern-events).
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell_pattern" />
+Triggers each time a doorbell pattern is detected at the second entrance. Learn more about pattern events [here](../guide/automation/pattern-events).
 
 ##### Event Types
 - single
 - double
 - triple
 
-### Doorbell Apartment <Badge type="tip" text="apartment_doorbell_pattern" />
-Triggers each time a doorbell pattern is detected on the apartment. Learn more about pattern events [here](../guide/automation/pattern-events).
+### Apartment Doorbell <Badge type="tip" text="apartment_doorbell_pattern" />
+Triggers each time a doorbell pattern is detected at the apartment. Learn more about pattern events [here](../guide/automation/pattern-events).
 
 ##### Event Types
 - single

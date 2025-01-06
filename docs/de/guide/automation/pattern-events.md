@@ -11,10 +11,10 @@ Sieh dir die [fortgeschrittenen Beispiele](../firmware/stock-firmware#fortgeschr
 
 ## Klingelmuster
 
-### Ereignisse (Sensoren)
-- entrance_doorbell
-- second_entrance_doorbell
-- apartment_doorbell
+### Ereignis Sensoren
+- Entrance Doorbell <Badge type="tip" text="entrance_doorbell" />
+- Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" />
+- Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
 
 ### Ereignistypen
 - single

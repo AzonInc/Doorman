@@ -56,17 +56,13 @@ The repository is organized into the following directories:
 
 ## 🛠️ Manufacturing
 
-<img src=".github/images/pcbway_delivery.png" alt="PCBWay Delivery" height="275">
+<img src=".github/images/pcbx_example.png" alt="PCBX Delivery" height="275">
 
-I was unsure which PCB manufacturer to choose, but fortunately, PCBWay reached out and offered to sponsor the PCB fabrication. I couldn't be happier with the results—the quality is exceptional, especially with the vibrant colors. Everything arrived in pristine condition, and sourcing parts was hassle-free. They even included two extra unpopulated PCBs.
+A huge thanks to PCBX for manufacturing and sponsoring 10 awesome PCBs for this project! Your support means a lot to us, and your prices are seriously hard to beat. We're thrilled to have you on board!
 
-I handled the soldering of the ESP modules myself using a heating plate, as I already had ESP32 modules at home.
+If you're looking for a reliable PCB manufacturer for your own project, definitely check out [PCBX](https://www.pcbx.com/?mtm_campaign=review&mtm_kwd=BD&mtm_source=flo). While their production might take a little longer than some others, the unbeatable prices and super-easy part sourcing make it absolutely worth it. They handle everything for you!  
 
-PCBWay made the entire process straightforward and responsive. A special thanks to Liam and Lynne for their support throughout, especially given the numerous changes I made. Their patience and assistance were greatly appreciated.
-
-If you're looking for a reliable, high-quality PCB manufacturer, I highly recommend [PCBWay](https://pcbway.com) :)
-
-You can find all the neccessary files [here](https://github.com/AzonInc/doorman/tree/master/pcb).
+You can find all the necessary files for manufacturing the Doorman-S3 [here](https://github.com/AzonInc/doorman/tree/master/pcb).
 
 ## 🙌 Contributing
 If you'd like to contribute to the Doorman project, we welcome your involvement!\

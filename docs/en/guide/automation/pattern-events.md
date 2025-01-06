@@ -11,10 +11,10 @@ Check out the [advanced examples](../firmware/stock-firmware#advanced-examples) 
 
 ## Doorbell Pattern
 
-### Event (Sensors)
-- entrance_doorbell
-- second_entrance_doorbell
-- apartment_doorbell
+### Event Sensors
+- Entrance Doorbell <Badge type="tip" text="entrance_doorbell_pattern" />
+- Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" />
+- Apartment Doorbell <Badge type="tip" text="apartment_doorbell" />
 
 ### Event Types
 - single
