@@ -2,27 +2,47 @@
 
 event:
   - platform: template
-    id: doorbell_pattern
-    name: "Doorbell Pattern"
+    id: entrance_doorbell_pattern
+    name: "Entrance Doorbell"
     icon: "mdi:doorbell"
     device_class: DOORBELL
     event_types:
-      - "apartment_single"
-      - "apartment_double"
-      - "apartment_triple"
-      - "entrance_single"
-      - "entrance_double"
-      - "entrance_triple"
-      - "second_entrance_single"
-      - "second_entrance_double"
-      - "second_entrance_triple"
+      - "single"
+      - "double"
+      - "triple"
     web_server:
       sorting_group_id: sorting_group_listeners
       sorting_weight: -30
 
   - platform: template
+    id: second_entrance_doorbell_pattern
+    name: "Second Entrance Doorbell"
+    icon: "mdi:doorbell"
+    device_class: DOORBELL
+    event_types:
+      - "single"
+      - "double"
+      - "triple"
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -40
+
+  - platform: template
+    id: apartment_doorbell_pattern
+    name: "Apartment Doorbell"
+    icon: "mdi:doorbell"
+    device_class: DOORBELL
+    event_types:
+      - "single"
+      - "double"
+      - "triple"
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: -50
+
+  - platform: template
     id: phone_pick_up_pattern
-    name: "Phone pick up Pattern"
+    name: "Phone pick up"
     icon: "mdi:phone-incoming-outgoing"
     event_types:
       - "single"
@@ -41,8 +61,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_single
+              id: entrance_doorbell_pattern
+              event_type: single
 
       # Double press
       - timing:
@@ -53,8 +73,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_double
+              id: entrance_doorbell_pattern
+              event_type: double
               
       # Triple press
       - timing:
@@ -68,8 +88,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: entrance_triple
+              id: entrance_doorbell_pattern
+              event_type: triple
 
 
   - id: !extend second_entrance_doorbell
@@ -80,8 +100,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: second_entrance_single
+              id: second_entrance_doorbell_pattern
+              event_type: single
 
       # Double press
       - timing:
@@ -92,8 +112,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: second_entrance_double
+              id: second_entrance_doorbell_pattern
+              event_type: double
               
       # Triple press
       - timing:
@@ -107,8 +127,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: second_entrance_triple
+              id: second_entrance_doorbell_pattern
+              event_type: triple
 
 
   - id: !extend apartment_doorbell
@@ -119,8 +139,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_single
+              id: apartment_doorbell_pattern
+              event_type: single
 
       # Double press
       - timing:
@@ -131,8 +151,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_double
+              id: apartment_doorbell_pattern
+              event_type: double
               
       # Triple press
       - timing:
@@ -146,8 +166,8 @@ binary_sensor:
           - OFF for at least 2s
         then:
           - event.trigger:
-              id: doorbell_pattern
-              event_type: apartment_triple
+              id: apartment_doorbell_pattern
+              event_type: triple
 
 
   - id: !extend pick_up_phone
