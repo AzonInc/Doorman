@@ -14,7 +14,6 @@ The Doorman S3 isn't limited to these intercoms alone. With its integrated relay
 
 If your intercom isn't a TCS, Koch, Niko, Scantron or Jung model but operates on a 2-wire bus within the 14-24V DC range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V), allowing you to trigger specific actions based on the voltage readings.
 
-A big thanks to [PCBWay](https://pcbway.com) for sponsoring this project!
 For more details on the manufacturing process, scroll down to the "Manufacturing" section.
 
 ## 🚀 Getting started
