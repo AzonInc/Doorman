@@ -132,12 +132,6 @@ Controls the Nuki Smart Lock Auto Unlock Disable setting.
 ### Nuki Single Lock <Badge type="tip" text="nuki_single_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Single Lock setting.
 
-### Nuki Daylight Saving Time <Badge type="tip" text="nuki_dst_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock DST Mode setting.
-
-### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
-Controls the Nuki Smart Lock Automatic Updates setting.
-
 
 ## Buttons
 
@@ -292,12 +286,6 @@ Controls the Nuki Smart Lock Fob Action 3 setting.
 - Lock
 - Lock n Go
 - Intelligent
-
-### Nuki Timezone <Badge type="tip" text="nuki_timezone" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock Timezone setting.
-
-##### Options:
-Check out the nuki developer documentation.
 
 ### Nuki Advertising Mode <Badge type="tip" text="nuki_advertising_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Advertising Mode setting.
