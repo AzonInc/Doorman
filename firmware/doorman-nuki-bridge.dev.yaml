@@ -4,6 +4,7 @@ dashboard_import:
 
 packages:
   device_base: !include doorman-nuki-bridge.yaml
+  debug_utilities: !include addons/debug-utilities.yaml
 
 external_components:
   - source: github://AzonInc/Doorman@dev

@@ -4,7 +4,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 ## 2025.1.0
 ### 🚀 What's New?
 - **Added a Switch to turn off the Status LED while Ring to Open is active**  
-   If you don't want the Status LED to blink while Ring to Open is active, you can now simply turn it off.
+   If you don't want the Status LED to blink while Ring to Open is active, you can now easily turn it off.
 
 ### ✨ Improvements
 - **Fix parsing of 16 bit Door Call Commands**  
