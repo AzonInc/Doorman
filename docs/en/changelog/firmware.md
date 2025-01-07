@@ -7,9 +7,16 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    If you don't want the Status LED to blink while Ring to Open is active, you can now simply turn it off.
 
 ### ✨ Improvements
+- **Fix parsing of 16 bit Door Call Commands**  
+   In some cases, serial numbers are just 8-bit numbers; thus, it's not possible to interpret them as 32-bit commands.
+
+### 🚨 Breaking Changes
 - **Separate Event entities**  
-   [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.\
+   [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
    This enhancement enables event tracking on a per-button basis, providing more granular and precise support for doorbell interactions.  
+   You will need to adjust your automations if you previously used the Doorbell Pattern Event Entity. Additionally, the event types have been changed.
+
+   👉 **Check the [Entities](../reference/entities#events) for details!**
 
 ## 2024.11.2
 ### ✨ Improvements

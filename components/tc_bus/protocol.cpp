@@ -281,7 +281,13 @@ namespace esphome
                 uint8_t first = (command >> 12) & 0xF;
                 uint8_t second = (command >> 8) & 0xF;
 
-                if (first == 1)
+                if(first == 0)
+                {
+                    data.serial_number = (command >> 8) & 0xFF;
+                    data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CALL : COMMAND_TYPE_INTERNAL_CALL;
+                    data.address = command & 0x3F;
+                }
+                else if (first == 1)
                 {
                     if (second == 1)
                     {
