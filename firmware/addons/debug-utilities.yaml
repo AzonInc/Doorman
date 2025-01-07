@@ -40,6 +40,26 @@ text:
 
 button:
   - platform: template
+    name: "Request Version"
+    on_press:
+      - tc_bus.send:
+          type: select_device_group
+          payload: 0
+      - delay: 200ms
+      - tc_bus.send:
+          type: request_version
+    web_server:
+      sorting_group_id: sorting_group_system
+
+  - platform: template
+    name: "System Restart"
+    on_press:
+      - tc_bus.send:
+          command: 0x5100
+    web_server:
+      sorting_group_id: sorting_group_system
+
+  - platform: template
     name: "System Discovery"
     disabled_by_default: true
     on_press: 
@@ -94,20 +114,21 @@ button:
       - logger.log:
           format: "Search complete! Found %i outdoor station(s), %i 0-indoor station(s) and %i 1-indoor station(s)."
           args: [ 'id(as_list).size()', 'id(is0_list).size()', 'id(is1_list).size()']
+          level: info
       - lambda: |-
           for (const auto& value : id(as_list))
           {
-            ESP_LOGD("DEBUG", "AS: %d", value);
+            ESP_LOGI("DEBUG", "AS: %d", value);
           }
 
           for (const auto& value : id(is0_list))
           {
-            ESP_LOGD("DEBUG", "IS0: %d", value);
+            ESP_LOGI("DEBUG", "IS0: %d", value);
           }
 
           for (const auto& value : id(is1_list))
           {
-            ESP_LOGD("DEBUG", "IS1: %d", value);
+            ESP_LOGI("DEBUG", "IS1: %d", value);
           }
       - light.turn_on:
           id: doorman_rgb_status_led
