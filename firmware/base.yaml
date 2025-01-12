@@ -182,6 +182,23 @@ number:
         sorting_weight: -20
 
   - platform: template
+    id: entrance_door_station_id
+    name: "Entrance Door Station ID"
+    mode : box
+    icon: "mdi:counter"
+    restore_value: true
+    initial_value: '0'
+    max_value: 63
+    min_value: 0
+    step: 1
+    optimistic: true
+    disabled_by_default: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
+      sorting_weight: -20
+
+  - platform: template
     id: second_door_station_id
     name: "Second Door Station ID"
     mode : box
@@ -266,7 +283,7 @@ button:
     on_press:
       - tc_bus.send:
           type: open_door
-          address: 0
+          address: !lambda "return id(entrance_door_station_id).state;"
     web_server:
       sorting_group_id: sorting_group_controls
       sorting_weight: -10

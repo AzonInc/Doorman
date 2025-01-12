@@ -10,6 +10,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Fix parsing of 16 bit Door Call Commands**  
    In some cases, serial numbers are just 8-bit numbers; thus, it's not possible to interpret them as 32-bit commands.
 
+- **Configure Entrance Outdoor Station ID**  
+   It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized.
+
 ### 🚨 Breaking Changes
 - **Separate Event entities**  
    [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  

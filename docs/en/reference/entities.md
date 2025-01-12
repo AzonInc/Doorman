@@ -170,6 +170,9 @@ If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, t
 ### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Disabled by default" />
 Sets the indoor station serial number for the command builder/parser.
 
+### Entrance Door Station ID <Badge type="tip" text="entrance_door_station_id" /> <Badge type="info" text="Disabled by default" />
+Sets the ID of the entrance outdoor station.
+
 ### Second Door Station ID <Badge type="tip" text="second_door_station_id" /> <Badge type="info" text="Disabled by default" />
 Sets the ID of the second outdoor station.
 

@@ -30,7 +30,7 @@ binary_sensor:
 
               - tc_bus.send:
                   type: open_door
-                  address: 0
+                  address: !lambda "return id(entrance_door_station_id).state;"
 
   - id: !extend second_entrance_doorbell
     on_press:
