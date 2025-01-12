@@ -405,6 +405,7 @@ binary_sensor:
     id: entrance_doorbell
     name: "Entrance Doorbell"
     type: door_call
+    address_lambda: !lambda "return id(entrance_door_station_id).state;"
     auto_off: 0.2s
     web_server:
       sorting_group_id: sorting_group_listeners
