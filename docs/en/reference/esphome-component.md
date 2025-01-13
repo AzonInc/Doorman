@@ -338,7 +338,7 @@ struct CommandData {
     uint8_t address;
     uint32_t serial_number;
     uint32_t payload;
-    uint8_t length;
+    bool is_long;
 };
 ```
 
@@ -355,6 +355,7 @@ You can use command types in binary sensors and also when [sending commands](#se
 - stop_talking_door_call <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING_DOOR_CALL" />
 - stop_talking <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING" />
 - open_door <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR" />
+- open_door_long <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR_LONG" />
 - light <Badge type="tip" text="COMMAND_TYPE_LIGHT" />
 - door_opened <Badge type="tip" text="COMMAND_TYPE_DOOR_OPENED" />
 - door_closed <Badge type="tip" text="COMMAND_TYPE_DOOR_CLOSED" />

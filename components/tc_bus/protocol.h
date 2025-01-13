@@ -43,6 +43,7 @@ namespace esphome
             COMMAND_TYPE_STOP_TALKING_DOOR_CALL,
             COMMAND_TYPE_STOP_TALKING,
             COMMAND_TYPE_OPEN_DOOR,
+            COMMAND_TYPE_OPEN_DOOR_LONG,
             COMMAND_TYPE_LIGHT,
             COMMAND_TYPE_DOOR_OPENED,
             COMMAND_TYPE_DOOR_CLOSED,
@@ -69,7 +70,7 @@ namespace esphome
             uint8_t address;
             uint32_t serial_number;
             uint32_t payload;
-            uint8_t length;
+            bool is_long;
         };
 
         struct SettingCellData {
@@ -78,8 +79,8 @@ namespace esphome
         };
 
 
-        uint32_t buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
-        CommandData parseCommand(uint32_t command);
+        CommandData buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
+        CommandData parseCommand(uint32_t command, bool is_long = true);
 
         const char* command_type_to_string(CommandType type);
         CommandType string_to_command_type(std::string str);

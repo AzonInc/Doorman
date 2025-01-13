@@ -243,8 +243,8 @@ namespace esphome
                 }
                 else
                 {
-                    ESP_LOGD(TAG, "Received command %08X", s.s_cmd);
-                    this->publish_command(s.s_cmd, true);
+                    ESP_LOGD(TAG, "Received %i-Bit command %08X", (s.s_cmd_is_long ? 32 : 16), s.s_cmd);
+                    this->publish_command(s.s_cmd, s.s_cmd_is_long, true);
                 }
 
                 s.s_cmdReady = false;
@@ -286,55 +286,57 @@ namespace esphome
 
         volatile uint32_t TCBusComponentStore::s_last_bit_change = 0;
         volatile uint32_t TCBusComponentStore::s_cmd = 0;
-        volatile uint8_t TCBusComponentStore::s_cmdLength = 0;
+        volatile bool TCBusComponentStore::s_cmd_is_long = false;
         volatile bool TCBusComponentStore::s_cmdReady = false;
-
-        void bitSetIDF(uint32_t *variable, int bitPosition) {
-            *variable |= (1UL << bitPosition);
-        }
-
-        uint8_t bitReadIDF(uint32_t variable, int bitPosition) {
-            return (variable >> bitPosition) & 0x01;
-        }
 
         void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
         {
             // Made by https://github.com/atc1441/TCSintercomArduino
-            static uint32_t curCMD;
-            static uint32_t usLast;
 
-            static uint8_t curCRC;
-            static uint8_t calCRC;
-            static uint8_t curLength;
-            static uint8_t cmdIntReady;
-            static uint8_t curPos;
+            // Timing thresholds (in microseconds)
+            const uint32_t BIT_0_MIN = 1000, BIT_0_MAX = 2999;
+            const uint32_t BIT_1_MIN = 3000, BIT_1_MAX = 4999;
+            const uint32_t BIT_2_MIN = 5000, BIT_2_MAX = 6999;
+            const uint32_t RESET_MIN = 7000, RESET_MAX = 24000;
 
+            static uint32_t curCMD = 0;   // Current command being constructed
+            static uint32_t usLast = 0;  // Last timestamp in microseconds
+            static uint8_t curCRC = 0;   // CRC received in the data
+            static uint8_t calCRC = 1;   // Calculated CRC (starts at 1)
+            static uint8_t curPos = 0;   // Current position in the bit stream
+            static uint8_t curLength = 0; // Length of the command
+            static uint8_t cmdIntReady = 0; // Command ready flag
+
+            // Calculate time difference
             uint32_t usNow = micros();
             uint32_t timeInUS = usNow - usLast;
             usLast = usNow;
 
-            uint8_t curBit = 4;
-
-            if (timeInUS >= 1000 && timeInUS <= 2999)
-            {
+            // Determine current bit based on time interval
+            uint8_t curBit = 4; // Default to undefined bit
+            if (timeInUS >= BIT_0_MIN && timeInUS <= BIT_0_MAX) {
                 curBit = 0;
-            }
-            else if (timeInUS >= 3000 && timeInUS <= 4999)
-            {
+            } else if (timeInUS >= BIT_1_MIN && timeInUS <= BIT_1_MAX) {
                 curBit = 1;
-            }
-            else if (timeInUS >= 5000 && timeInUS <= 6999)
-            {
+            } else if (timeInUS >= BIT_2_MIN && timeInUS <= BIT_2_MAX) {
                 curBit = 2;
-            }
-            else if (timeInUS >= 7000 && timeInUS <= 24000)
-            {
-                curBit = 3;
+            } else if (timeInUS >= RESET_MIN && timeInUS <= RESET_MAX) {
+                curBit = 3; // Reset condition
+            } else {
+                // Invalid timing, reset the position
                 curPos = 0;
+                return;
+            }
+
+            // Reset if a reset signal is detected
+            if (curBit == 3) {
+                curPos = 0;
+                return;
             }
 
             if (curPos == 0)
             {
+                // First bit after reset: expect start signal (bit 2)
                 if (curBit == 2)
                 {
                     curPos++;
@@ -344,101 +346,100 @@ namespace esphome
                 curCRC = 0;
                 calCRC = 1;
                 curLength = 0;
+                arg->s_cmd_is_long = false;
             }
             else if (curBit == 0 || curBit == 1)
             {
+                // Process bits based on position
                 if (curPos == 1)
                 {
+                    // Second bit: command length (0 or 1)
                     curLength = curBit;
+                    arg->s_cmd_is_long = curLength ? true : false;
                     curPos++;
                 }
                 else if (curPos >= 2 && curPos <= 17)
                 {
+                    // Bits 2-17: Command data (low 16 bits)
                     if (curBit)
                     {
-                        #if defined(USE_ESP_IDF)
-                        bitSetIDF(&curCMD, (curLength ? 33 : 17) - curPos);
-                        #else
-                        bitSet(curCMD, (curLength ? 33 : 17) - curPos);
-                        #endif
+                        BIT_SET(curCMD, (curLength ? 33 : 17) - curPos);
                     }
 
-                    calCRC ^= curBit;
+                    calCRC ^= curBit; // Update CRC
                     curPos++;
                 }
                 else if (curPos == 18)
                 {
+                    // Bit 18: Either part of data (32-bit command) or CRC for 16-bit command
                     if (curLength)
                     {
                         if (curBit)
                         {
-                            #if defined(USE_ESP_IDF)
-                            bitSetIDF(&curCMD, 33 - curPos);
-                            #else
-                            bitSet(curCMD, 33 - curPos);
-                            #endif
+                            BIT_SET(curCMD, 33 - curPos);
                         }
 
-                        calCRC ^= curBit;
+                        calCRC ^= curBit; // Update CRC
                         curPos++;
                     }
                     else
                     {
-                        curCRC = curBit;
+                        curCRC = curBit; // Save CRC for 16-bit command
                         cmdIntReady = 1;
                     }
                 }
                 else if (curPos >= 19 && curPos <= 33)
                 {
+                    // Bits 19-33: Remaining bits for 32-bit command
                     if (curBit)
                     {
-                        #if defined(USE_ESP_IDF)
-                        bitSetIDF(&curCMD, 33 - curPos);
-                        #else
-                        bitSet(curCMD, 33 - curPos);
-                        #endif
+                        BIT_SET(curCMD, 33 - curPos);
                     }
                     
-                    calCRC ^= curBit;
+                    calCRC ^= curBit; // Update CRC
                     curPos++;
                 }
                 else if (curPos == 34)
                 {
+                    // Bit 34: CRC for 32-bit command
                     curCRC = curBit;
                     cmdIntReady = 1;
                 }
             }
             else
             {
+                // Undefined bit, reset the position
                 curPos = 0;
             }
 
             // Save last bit timestamp
             arg->s_last_bit_change = millis();
 
+            // If the command is ready, validate CRC and save the command
             if (cmdIntReady)
             {
                 cmdIntReady = 0;
 
                 if (curCRC == calCRC)
                 {
-                    arg->s_cmdReady = true;
-                    arg->s_cmd = curCMD;
+                    arg->s_cmdReady = true; // Indicate that a command is ready
+                    arg->s_cmd = curCMD; // Save the decoded command
                 }
 
+                // Reset state
                 curCMD = 0;
                 curPos = 0;
             }
         }
 
-        void TCBusComponent::publish_command(uint32_t command, bool received)
+        void TCBusComponent::publish_command(uint32_t command, bool is_long, bool received)
         {
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
 
             // Parse Command
-            CommandData cmd_data = parseCommand(command);
-            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %x, Serial: %i", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number);
+            CommandData cmd_data = parseCommand(command, is_long);
+            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %x, Serial: %i, Length: %i-Bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
 
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
@@ -595,20 +596,27 @@ namespace esphome
                 serial_number = tcs_serial;
             }
 
-            uint32_t command = buildCommand(type, address, payload, serial_number);
-            if(command == 0)
+            CommandData command_data = buildCommand(type, address, payload, serial_number);
+            if(command_data.command == 0)
             {
                 ESP_LOGW(TAG, "Sending commands of type %s is not supported!", command_type_to_string(type));
             }
             else
             {
-                send_command(command);
+                send_command(command_data.command, command_data.is_long);
             }
         }
 
         void TCBusComponent::send_command(uint32_t command)
         {
-            ESP_LOGD(TAG, "Sending command %08X", command);
+            // Determine length of command
+            // not so reliable as its based on the 32 bit integer itself
+            send_command(command, (command > 0xFFFF));
+        }
+
+        void TCBusComponent::send_command(uint32_t command, bool is_long)
+        {
+            ESP_LOGD(TAG, "Sending %i-Bit command %08X", (is_long ? 32 : 16), command);
 
             if (this->sending)
             {
@@ -635,10 +643,6 @@ namespace esphome
                 // Source: https://github.com/atc1441/TCSintercomArduino
                 this->sending = true;
 
-                // Determine message length and whether it's a long message
-                bool isLongMessage = (command > 0xFFFF);
-                int length = isLongMessage ? 32 : 16;
-
                 uint8_t checksm = 1;
                 bool output_state = false;
 
@@ -647,16 +651,15 @@ namespace esphome
                 delay(TCS_MSG_START_MS);
 
                 this->tx_pin_->digital_write(false);
-                delay(isLongMessage ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
                 int curBit = 0;
+                uint8_t length = is_long ? 32 : 16;
+
                 for (uint8_t i = length; i > 0; i--)
                 {
-                    #if defined(USE_ESP_IDF)
-                    curBit = bitReadIDF(command, i - 1);
-                    #else
-                    curBit = bitRead(command, i - 1);
-                    #endif
+                    curBit = BIT_READ(command, i - 1);
+
                     output_state = !output_state;
                     this->tx_pin_->digital_write(output_state);
                     delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
@@ -674,7 +677,7 @@ namespace esphome
                 this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
                 // Publish received Command on Sensors, Events, etc.
-                this->publish_command(command, false);
+                this->publish_command(command, is_long, false);
             }
         }
 

@@ -31,6 +31,14 @@ namespace esphome
 {
     namespace tc_bus
     {
+        #if defined(USE_ESP_IDF)
+            #define BIT_SET(var, pos) ((var) |= (1UL << (pos)))
+            #define BIT_READ(var, pos) ((var >> pos) & 0x01)
+        #else
+            #define BIT_SET(var, pos) bitSet((var), (pos))
+            #define BIT_READ(var, pos) bitRead((var), (pos))
+        #endif
+
         #ifdef USE_BINARY_SENSOR
         class TCBusListener
         {
@@ -76,7 +84,7 @@ namespace esphome
 
             static volatile uint32_t s_last_bit_change;
             static volatile uint32_t s_cmd;
-            static volatile uint8_t s_cmdLength;
+            static volatile bool s_cmd_is_long;
             static volatile bool s_cmdReady;
 
             ISRInternalGPIOPin rx_pin;
@@ -126,6 +134,7 @@ namespace esphome
                 #endif
 
                 void send_command(uint32_t command);
+                void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
                 void read_memory(uint32_t serial_number);
@@ -136,7 +145,7 @@ namespace esphome
                 bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
                 SettingCellData getSettingCellData(SettingType setting);
 
-                void publish_command(uint32_t command, bool fire_events);
+                void publish_command(uint32_t command, bool is_long, bool fire_events);
 
                 void publish_settings();
                 void save_settings();
