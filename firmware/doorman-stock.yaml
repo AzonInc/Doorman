@@ -9,5 +9,16 @@ packages:
   memory_utils: !include addons/intercom-settings.yaml
   interactive_setup: !include addons/interactive-setup.yaml
 
+esp32_ble:
+  name: doorman-s3
+
 esp32_improv:
   authorizer: none
+
+wifi:
+  on_connect:
+    - delay: 5s  # Gives time for improv results to be transmitted
+    - ble.disable:
+
+  on_disconnect:
+    - ble.enable:
