@@ -34,6 +34,10 @@ number:
     id: nuki_security_pin
     name: "Nuki Security Pin"
     disabled_by_default: true
+    mode: box
+    step: 1
+    min_value: 0
+    max_value: 65535
     set_action:
       - nuki_lock.set_security_pin:
           security_pin: !lambda return x;
