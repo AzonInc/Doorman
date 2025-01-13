@@ -294,7 +294,8 @@ namespace esphome
             }
             else
             {
-                if (data.command_hex.substr(0, 4) == "0000") {
+                if (data.command_hex.substr(0, 4) == "0000")
+                {
                     data.command_hex = data.command_hex.substr(4);
                 }
 

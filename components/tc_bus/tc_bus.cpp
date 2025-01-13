@@ -249,6 +249,7 @@ namespace esphome
 
                 s.s_cmdReady = false;
                 s.s_cmd = 0;
+                s.s_cmd_is_long = false;
             }
         }
 
@@ -304,7 +305,7 @@ namespace esphome
             static uint8_t curCRC = 0;   // CRC received in the data
             static uint8_t calCRC = 1;   // Calculated CRC (starts at 1)
             static uint8_t curPos = 0;   // Current position in the bit stream
-            static uint8_t curLength = 0; // Length of the command
+            static bool curIsLong = false; // 32 or 16 Bit Command
             static uint8_t cmdIntReady = 0; // Command ready flag
 
             // Calculate time difference
@@ -314,22 +315,32 @@ namespace esphome
 
             // Determine current bit based on time interval
             uint8_t curBit = 4; // Default to undefined bit
-            if (timeInUS >= BIT_0_MIN && timeInUS <= BIT_0_MAX) {
+            if (timeInUS >= BIT_0_MIN && timeInUS <= BIT_0_MAX)
+            {
                 curBit = 0;
-            } else if (timeInUS >= BIT_1_MIN && timeInUS <= BIT_1_MAX) {
+            }
+            else if (timeInUS >= BIT_1_MIN && timeInUS <= BIT_1_MAX)
+            {
                 curBit = 1;
-            } else if (timeInUS >= BIT_2_MIN && timeInUS <= BIT_2_MAX) {
+            }
+            else if (timeInUS >= BIT_2_MIN && timeInUS <= BIT_2_MAX)
+            {
                 curBit = 2;
-            } else if (timeInUS >= RESET_MIN && timeInUS <= RESET_MAX) {
+            }
+            else if (timeInUS >= RESET_MIN && timeInUS <= RESET_MAX)
+            {
                 curBit = 3; // Reset condition
-            } else {
+            }
+            else
+            {
                 // Invalid timing, reset the position
                 curPos = 0;
                 return;
             }
 
             // Reset if a reset signal is detected
-            if (curBit == 3) {
+            if (curBit == 3)
+            {
                 curPos = 0;
                 return;
             }
@@ -345,8 +356,7 @@ namespace esphome
                 curCMD = 0;
                 curCRC = 0;
                 calCRC = 1;
-                curLength = 0;
-                arg->s_cmd_is_long = false;
+                curIsLong = false;
             }
             else if (curBit == 0 || curBit == 1)
             {
@@ -354,8 +364,7 @@ namespace esphome
                 if (curPos == 1)
                 {
                     // Second bit: command length (0 or 1)
-                    curLength = curBit;
-                    arg->s_cmd_is_long = curLength ? true : false;
+                    curIsLong = curBit;
                     curPos++;
                 }
                 else if (curPos >= 2 && curPos <= 17)
@@ -363,7 +372,7 @@ namespace esphome
                     // Bits 2-17: Command data (low 16 bits)
                     if (curBit)
                     {
-                        BIT_SET(curCMD, (curLength ? 33 : 17) - curPos);
+                        BIT_SET(curCMD, (curIsLong ? 33 : 17) - curPos);
                     }
 
                     calCRC ^= curBit; // Update CRC
@@ -372,13 +381,12 @@ namespace esphome
                 else if (curPos == 18)
                 {
                     // Bit 18: Either part of data (32-bit command) or CRC for 16-bit command
-                    if (curLength)
+                    if (curIsLong)
                     {
                         if (curBit)
                         {
                             BIT_SET(curCMD, 33 - curPos);
                         }
-
                         calCRC ^= curBit; // Update CRC
                         curPos++;
                     }
@@ -395,7 +403,6 @@ namespace esphome
                     {
                         BIT_SET(curCMD, 33 - curPos);
                     }
-                    
                     calCRC ^= curBit; // Update CRC
                     curPos++;
                 }
@@ -422,8 +429,9 @@ namespace esphome
 
                 if (curCRC == calCRC)
                 {
-                    arg->s_cmdReady = true; // Indicate that a command is ready
+                    arg->s_cmd_is_long = curIsLong ? true : false;
                     arg->s_cmd = curCMD; // Save the decoded command
+                    arg->s_cmdReady = true; // Indicate that a command is ready
                 }
 
                 // Reset state

@@ -7,9 +7,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    If you don't want the Status LED to blink while Ring to Open is active, you can now easily turn it off.
 
 ### ✨ Improvements
-- **Fix parsing of 16 bit Door Call Commands**  
-   In some cases, serial numbers are just 8-bit numbers; thus, it's not possible to interpret them as 32-bit commands.
-
+- **Fix Parser Command Length**  
+   Previously, the command length was not properly parsed, which occasionally led to 32-bit commands being misinterpreted. This issue has now been resolved.
+   
 - **Configure Entrance Outdoor Station ID**  
    It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized.
 
