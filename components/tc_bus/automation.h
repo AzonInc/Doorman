@@ -28,7 +28,7 @@ namespace esphome
                     }
                     else
                     {
-                        if(this->is_long.value(x...) == false)
+                        if(this->is_long_.value(x...) == false)
                         {
                             this->parent_->send_command(this->command_.value(x...));
                         }
