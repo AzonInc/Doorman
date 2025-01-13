@@ -13,6 +13,10 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Configure Entrance Outdoor Station ID**  
    It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized.
 
+- **Automatically Disable BLE Server When Not Needed**  
+   The BLE Server is now automatically disabled once Wi-Fi is connected. Note: This behavior applies exclusively to the Stock Firmware.
+
+
 ### 🚨 Breaking Changes
 - **Separate Event entities**  
    [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
