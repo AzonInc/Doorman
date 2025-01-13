@@ -6,7 +6,7 @@ esp32:
     sdkconfig_options: !remove
 
 external_components:
-  - source: github://uriyacovy/ESPHome_nuki_lock
+  - source: github://uriyacovy/ESPHome_nuki_lock@fix/lock-action-freeze
     refresh: 60s
 
 # Pairing Mode
@@ -29,7 +29,19 @@ binary_sensor:
               id: nuki_smart_lock
               pairing_mode: true
 
+number:
+  - platform: template
+    id: nuki_security_pin
+    name: "Nuki Security Pin"
+    disabled_by_default: true
+    set_action:
+      - nuki_lock.set_security_pin:
+          security_pin: !lambda return x;
+    web_server:
+      sorting_group_id: sorting_group_nuki_bridge_settings
+      sorting_weight: -31
 
+      
 # Nuki Lock Bridge
 lock:
   - platform: nuki_lock
@@ -156,14 +168,6 @@ lock:
       web_server:
         sorting_group_id: sorting_group_nuki_settings
         sorting_weight: -14
-
-    security_pin:
-      id: nuki_security_pin
-      name: "Nuki Security Pin"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_bridge_settings
-        sorting_weight: -31
 
     night_mode_enabled:
       id: nuki_night_mode
