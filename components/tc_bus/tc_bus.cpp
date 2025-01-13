@@ -243,13 +243,20 @@ namespace esphome
                 }
                 else
                 {
-                    ESP_LOGD(TAG, "Received %i-Bit command %08X", (s.s_cmd_is_long ? 32 : 16), s.s_cmd);
+                    if(s.s_cmd_is_long)
+                    {
+                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.s_cmd);
+                    }
+                    else
+                    {
+                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.s_cmd);
+                    }
                     this->publish_command(s.s_cmd, s.s_cmd_is_long, true);
                 }
 
                 s.s_cmdReady = false;
-                s.s_cmd = 0;
                 s.s_cmd_is_long = false;
+                s.s_cmd = 0;
             }
         }
 
@@ -306,7 +313,7 @@ namespace esphome
             static uint8_t calCRC = 1;   // Calculated CRC (starts at 1)
             static uint8_t curPos = 0;   // Current position in the bit stream
             static bool curIsLong = false; // 32 or 16 Bit Command
-            static uint8_t cmdIntReady = 0; // Command ready flag
+            static bool cmdIntReady = false; // Command ready flag
 
             // Calculate time difference
             uint32_t usNow = micros();
@@ -393,7 +400,7 @@ namespace esphome
                     else
                     {
                         curCRC = curBit; // Save CRC for 16-bit command
-                        cmdIntReady = 1;
+                        cmdIntReady = true;
                     }
                 }
                 else if (curPos >= 19 && curPos <= 33)
@@ -410,7 +417,7 @@ namespace esphome
                 {
                     // Bit 34: CRC for 32-bit command
                     curCRC = curBit;
-                    cmdIntReady = 1;
+                    cmdIntReady = true;
                 }
             }
             else
@@ -425,7 +432,7 @@ namespace esphome
             // If the command is ready, validate CRC and save the command
             if (cmdIntReady)
             {
-                cmdIntReady = 0;
+                cmdIntReady = false;
 
                 if (curCRC == calCRC)
                 {
@@ -624,7 +631,14 @@ namespace esphome
 
         void TCBusComponent::send_command(uint32_t command, bool is_long)
         {
-            ESP_LOGD(TAG, "Sending %i-Bit command %08X", (is_long ? 32 : 16), command);
+            if(is_long)
+            {
+                ESP_LOGD(TAG, "Sending 32-Bit command %08X", command);
+            }
+            else
+            {
+                ESP_LOGD(TAG, "Sending 16-Bit command %04X", command);
+            }
 
             if (this->sending)
             {
