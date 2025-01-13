@@ -14,6 +14,7 @@ namespace esphome
             public:
                 TCBusSendAction(TCBusComponent *parent) : parent_(parent) {}
                 TEMPLATABLE_VALUE(uint32_t, command)
+                TEMPLATABLE_VALUE(bool, is_long)
                 TEMPLATABLE_VALUE(CommandType, type)
                 TEMPLATABLE_VALUE(uint8_t, address)
                 TEMPLATABLE_VALUE(uint32_t, payload)
@@ -27,7 +28,14 @@ namespace esphome
                     }
                     else
                     {
-                        this->parent_->send_command(this->command_.value(x...));
+                        if(this->is_long.value(x...) == false)
+                        {
+                            this->parent_->send_command(this->command_.value(x...));
+                        }
+                        else
+                        {
+                            this->parent_->send_command(this->command_.value(x...), true);
+                        }
                     }
                 }
 

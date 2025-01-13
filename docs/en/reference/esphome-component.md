@@ -150,6 +150,8 @@ You can send commands on the bus using the `tc_bus.send` action.
 
 ::: tip Note
 You can either use the `command` field to send a specific command or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
+
+You can explicitly send a 32-bit command by using the optional `is_long` property, which is useful when the command begins with leading zeros.
 :::
 
 #### Example 1: Sending a raw Command
@@ -159,8 +161,16 @@ on_...:
   - tc_bus.send:
       command: 0x1A2B3C4D
 ```
+#### Example 2: Sending a raw Command with fixed size
 
-#### Example 2: Sending a Command via Command Builder
+```yaml
+on_...:
+  - tc_bus.send:
+      command: 0x00000280
+      is_long: True
+```
+
+#### Example 3: Sending a Command via Command Builder
 
 ```yaml
 on_...:

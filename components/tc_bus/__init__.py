@@ -113,6 +113,7 @@ CONF_EVENT = "event"
 
 CONF_SERIAL_NUMBER = "serial_number"
 CONF_COMMAND = "command"
+CONF_IS_LONG = "length"
 CONF_ADDRESS = "address"
 CONF_ADDRESS_LAMBDA = "address_lambda"
 CONF_PAYLOAD = "payload"
@@ -198,6 +199,7 @@ TC_BUS_SEND_SCHEMA = cv.All(
     {
         cv.GenerateID(): cv.use_id(TCBusComponent),
         cv.Optional(CONF_COMMAND): cv.templatable(cv.hex_uint32_t),
+        cv.Optional(CONF_IS_LONG): cv.templatable(cv.boolean),
         cv.Optional(CONF_TYPE): cv.templatable(cv.enum(COMMAND_TYPES, upper=False)),
         cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_PAYLOAD, default="0"): cv.templatable(cv.hex_uint32_t),
@@ -218,6 +220,10 @@ async def tc_bus_send_to_code(config, action_id, template_args, args):
     if CONF_COMMAND in config:
         command_template_ = await cg.templatable(config[CONF_COMMAND], args, cg.uint32)
         cg.add(var.set_command(command_template_))
+
+    if CONF_IS_LONG in config:
+        is_long_template_ = await cg.templatable(config[CONF_IS_LONG], args, cg.bool_)
+        cg.add(var.set_is_long(is_long_template_))
 
     if CONF_TYPE in config:
         type_template_ = await cg.templatable(config[CONF_TYPE], args, COMMAND_TYPE)
