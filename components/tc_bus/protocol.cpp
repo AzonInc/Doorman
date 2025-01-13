@@ -191,9 +191,10 @@ namespace esphome
             data.payload = 0;
             data.is_long = is_long;
 
+            data.command_hex = str_upper_case(format_hex(command));
+
             if (is_long)
             {
-                data.command_hex = str_upper_case(format_hex(command));
                 data.serial_number = (command >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
 
                 switch ((command >> 28) & 0xF)
@@ -293,8 +294,9 @@ namespace esphome
             }
             else
             {
-                int16_t command_16bit = static_cast<int16_t>(command);
-                data.command_hex = str_upper_case(format_hex(command_16bit));
+                if (data.command_hex.substr(0, 4) == "0000") {
+                    data.command_hex = data.command_hex.substr(4);
+                }
 
                 // For 16-bit commands, work on the lower 16 bits
                 uint8_t first = (command >> 12) & 0xF;
