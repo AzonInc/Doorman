@@ -113,7 +113,7 @@ CONF_EVENT = "event"
 
 CONF_SERIAL_NUMBER = "serial_number"
 CONF_COMMAND = "command"
-CONF_IS_LONG = "length"
+CONF_IS_LONG = "is_long"
 CONF_ADDRESS = "address"
 CONF_ADDRESS_LAMBDA = "address_lambda"
 CONF_PAYLOAD = "payload"
