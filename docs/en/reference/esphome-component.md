@@ -401,14 +401,14 @@ Here are the available settings for specific indoor station models:
 | Model                        | Available settings                                                                                         |
 |------------------------------|------------------------------------------------------------------------------------------------------------|
 | TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| TCS ISH3030 / Koch TCH50     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3130 / Koch TCH50P    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
 | TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
 | TCS ISH3340                  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3030 / Koch TC50      | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISW3030 / Koch TC50 / Scantron Stilux | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
 | TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
 | TCS ISW3340                  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS IVH3222 / Koch VTCH50    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
+| TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
 | TCS ISW3130 / Koch TC50P     | Verification and implementation required |
 | TCS ISW3330 / Koch TC50 BW   | Verification and implementation required |
 | TCS ISW5010 / Koch TC60      | Verification and implementation required |
@@ -416,6 +416,7 @@ Here are the available settings for specific indoor station models:
 | TCS ISW5030                  | Verification and implementation required |
 | TCS ISW5031                  | Verification and implementation required |
 | TCS ISW5033                  | Verification and implementation required |
+| TCS IVW521x / Koch VTC60/2D / Scantron VIVO | Verification and implementation required |
 | TCS ISW6031                  | Verification and implementation required |
 | TCS ISW7030 / Koch TC70      | Verification and implementation required |
 | TCS IVW7510 / Koch VTC70     | Verification and implementation required |

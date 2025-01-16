@@ -840,6 +840,7 @@ namespace esphome
                 case MODEL_ISW5030:
                 case MODEL_ISW5031:
                 case MODEL_ISW5033:
+                case MODEL_IVW521X:
                 case MODEL_ISW6031:
                 case MODEL_ISW7030: /* TC70 */
                 case MODEL_IVW7510: /* VTC70 */
@@ -861,7 +862,6 @@ namespace esphome
                 case MODEL_TC2000:
                 case MODEL_TC20P:
                 case MODEL_TC20F:
-                case MODEL_TC2000:
                     return 1;
 
                 case MODEL_ISH3340:

@@ -508,7 +508,7 @@ namespace esphome
 
         Model string_to_model(std::string str)
         {
-            if (str == "TCS ISW3030 / Koch TC50") return MODEL_ISW3030;
+            if (str == "TCS ISW3030 / Koch TC50 / Scantron Stilux") return MODEL_ISW3030;
             if (str == "TCS ISW3130 / Koch TC50P") return MODEL_ISW3130;
             if (str == "TCS ISW3230 / Koch TC50 GFA") return MODEL_ISW3230;
             if (str == "TCS ISW3330 / Koch TC50 BW") return MODEL_ISW3330;
@@ -518,6 +518,7 @@ namespace esphome
             if (str == "TCS ISW5030") return MODEL_ISW5030;
             if (str == "TCS ISW5031") return MODEL_ISW5031;
             if (str == "TCS ISW5033") return MODEL_ISW5033;
+            if (str == "TCS IVW521x / Koch VTC60/2D / Scantron VIVO") return MODEL_IVW521X;
             if (str == "TCS ISW6031") return MODEL_ISW6031;
             if (str == "TCS ISW7030 / Koch TC70") return MODEL_ISW7030;
             if (str == "TCS IVW7510 / Koch VTC70") return MODEL_IVW7510;
@@ -541,10 +542,10 @@ namespace esphome
             if (str == "TCS TC20F") return MODEL_TC20F;
             if (str == "TCS ISH3340") return MODEL_ISH3340;
             if (str == "TCS ISH3022 / Koch TCH50P") return MODEL_ISH3022;
-            if (str == "TCS ISH3130 / Koch TCH50P") return MODEL_ISH3130;
+            if (str == "TCS ISH3130 / Koch TCH50P / Scantron LuxPlus") return MODEL_ISH3130;
             if (str == "TCS ISW3022") return MODEL_ISW3022;
             if (str == "TCS ISH3230 / Koch TCH50 GFA") return MODEL_ISH3230;
-            if (str == "TCS ISH3030 / Koch TCH50") return MODEL_ISH3030;
+            if (str == "TCS ISH3030 / Koch TCH50 / Scantron Lux2") return MODEL_ISH3030;
             if (str == "TCS ISH1030 / Koch TTS25") return MODEL_ISH1030;
             if (str == "TCS IMM1000 / Koch TCH30") return MODEL_IMM1000;
             if (str == "TCS IMM1100 / Koch TCHE30") return MODEL_IMM1100;
@@ -552,7 +553,7 @@ namespace esphome
             if (str == "TCS IMM1500") return MODEL_IMM1500;
             if (str == "TCS IMM1310 / Koch VTCHE30") return MODEL_IMM1310;
             if (str == "TCS IMM1110 / Koch TCHEE30") return MODEL_IMM1110;
-            if (str == "TCS IVH3222 / Koch VTCH50") return MODEL_IVH3222;
+            if (str == "TCS IVH3222 / Koch VTCH50 / Scantron VLux") return MODEL_IVH3222;
             if (str == "TCS IVH4222 / Koch VTCH50/2D") return MODEL_IVH4222;
 
             return MODEL_NONE;
@@ -562,7 +563,7 @@ namespace esphome
         {
             switch (model)
             {
-                case MODEL_ISW3030: return "TCS ISW3030 / Koch TC50";
+                case MODEL_ISW3030: return "TCS ISW3030 / Koch TC50 / Scantron Stilux";
                 case MODEL_ISW3130: return "TCS ISW3130 / Koch TC50P";
                 case MODEL_ISW3230: return "TCS ISW3230 / Koch TC50 GFA";
                 case MODEL_ISW3330: return "TCS ISW3330 / Koch TC50 BW";
@@ -572,6 +573,7 @@ namespace esphome
                 case MODEL_ISW5030: return "TCS ISW5030";
                 case MODEL_ISW5031: return "TCS ISW5031";
                 case MODEL_ISW5033: return "TCS ISW5033";
+                case MODEL_IVW521X: return "TCS IVW521x / Koch VTC60/2D / Scantron VIVO";
                 case MODEL_ISW6031: return "TCS ISW6031";
                 case MODEL_ISW7030: return "TCS ISW7030 / Koch TC70";
                 case MODEL_IVW7510: return "TCS IVW7510 / Koch VTC70";
@@ -595,10 +597,10 @@ namespace esphome
                 case MODEL_TC20F: return "TCS TC20F";
                 case MODEL_ISH3340: return "TCS ISH3340";
                 case MODEL_ISH3022: return "TCS ISH3022";
-                case MODEL_ISH3130: return "TCS ISH3130 / Koch TCH50P";
+                case MODEL_ISH3130: return "TCS ISH3130 / Koch TCH50P / Scantron LuxPlus";
                 case MODEL_ISW3022: return "TCS ISW3022";
                 case MODEL_ISH3230: return "TCS ISH3230 / Koch TCH50 GFA";
-                case MODEL_ISH3030: return "TCS ISH3030 / Koch TCH50";
+                case MODEL_ISH3030: return "TCS ISH3030 / Koch TCH50 / Scantron Lux2";
                 case MODEL_ISH1030: return "TCS ISH1030 / Koch TTS25";
                 case MODEL_IMM1000: return "TCS IMM1000 / Koch TCH30";
                 case MODEL_IMM1100: return "TCS IMM1100 / Koch TCHE30";
@@ -606,7 +608,7 @@ namespace esphome
                 case MODEL_IMM1500: return "TCS IMM1500";
                 case MODEL_IMM1310: return "TCS IMM1310 / Koch VTCHE30";
                 case MODEL_IMM1110: return "TCS IMM1110 / Koch TCHEE30";
-                case MODEL_IVH3222: return "TCS IVH3222 / Koch VTCH50";
+                case MODEL_IVH3222: return "TCS IVH3222 / Koch VTCH50 / Scantron VLux";
                 case MODEL_IVH4222: return "TCS IVH4222 / Koch VTCH50/2D";
                 default: return "None";
             }

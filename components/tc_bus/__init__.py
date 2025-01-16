@@ -86,6 +86,7 @@ CONF_MODELS = [
     "TCS ISW5030",
     "TCS ISW5031",
     "TCS ISW5033",
+    "TCS IVW521x / Koch VTC60/2D / Scantron VIVO",
     "TCS ISW6031",
     "TCS ISW7030 / Koch TC70",
     "TCS IVW7510 / Koch VTC70",
