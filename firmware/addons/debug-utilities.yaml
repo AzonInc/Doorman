@@ -100,6 +100,9 @@ button:
       - delay: 10s
       # Search Indoor Stations 1
       - logger.log: Search indoor stations (1)...
+      - globals.set:
+          id: search_mode
+          value: "3"
       - tc_bus.send:
           command: 0x5801
       - delay: 350ms
