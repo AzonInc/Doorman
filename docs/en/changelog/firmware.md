@@ -16,6 +16,8 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Automatically Disable BLE Server When Not Needed**  
    The BLE Server is now automatically disabled once Wi-Fi is connected. Note: This behavior applies exclusively to the Stock Firmware.
 
+- **Fixed Memory Reading for Some Intercom Models**  
+   The memory will now be correctly read from your indoor station.
 
 ### 🚨 Breaking Changes
 - **Separate Event entities**  
@@ -24,6 +26,13 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    You will need to adjust your automations if you previously used the Doorbell Pattern Event Entity. Additionally, the event types have been changed.
 
    👉 **Check the [Entities](../reference/entities#events) for details!**
+
+- **Intercom Models Renamed**  
+   As part of streamlining the models for each manufacturer, you may need to reconfigure your intercom model.
+   Now, you can also see the Koch and Scantron models.
+
+   👉 **Check the [Model Setting availability](../reference/esphome-component#model-setting-availability) for details!**
+
 
 ## 2024.11.2
 ### ✨ Improvements
