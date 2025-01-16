@@ -734,8 +734,10 @@ namespace esphome
             reading_memory_count_ = 0;
             reading_memory_ = false;
 
+            uint8_t device_category = getDeviceCategory();
+
             ESP_LOGD(TAG, "Select Indoor Stations");
-            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, device_category);
             delay(50);
 
             ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
@@ -802,8 +804,9 @@ namespace esphome
                 memory_buffer_[cellData.index] = cellData.left_nibble ? ((new_value << 4) | (saved_nibble & 0xF)) : ((saved_nibble << 4) | (new_value & 0xF));
 
                 // Prepare Transmission
-                ESP_LOGD(TAG, "Select Indoor Stations");
-                send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
+                ESP_LOGD(TAG, "Select Device Category");
+                uint8_t device_category = getDeviceCategory();
+                send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, device_category);
                 delay(50);
 
                 ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
@@ -823,21 +826,78 @@ namespace esphome
             }
         }
 
+        uint8_t TCBusComponent::getDeviceCategory()
+        {
+            switch (model_)
+            {
+                case MODEL_ISW3030: /* TC50 */
+                case MODEL_ISW3130: /* TC50P */
+                case MODEL_ISW3230: /* TC50 GFA */
+                case MODEL_ISW3330: /* TC50 BW */
+                case MODEL_ISW3340:
+                case MODEL_ISW5010: /* TC60 */
+                case MODEL_ISW5020:
+                case MODEL_ISW5030:
+                case MODEL_ISW5031:
+                case MODEL_ISW5033:
+                case MODEL_ISW6031:
+                case MODEL_ISW7030: /* TC70 */
+                case MODEL_IVW7510: /* VTC70 */
+                case MODEL_ISH7030: /* TCH70 */
+                case MODEL_IVH7510: /* VTCH70 */
+                case MODEL_ISW6010:
+                case MODEL_IVW6511:
+                case MODEL_ISWM7000:
+                case MODEL_IVWM7000:
+                case MODEL_ISW4100: /* TC31 */
+                case MODEL_IMM2100: /* TCE31 */
+                case MODEL_IVW2210: /* Ecoos */
+                case MODEL_IVW2211: /* Ecoos */
+                case MODEL_IVW2212: /* Ecoos */
+                case MODEL_VTC42V2:
+                case MODEL_TC40V2:
+                case MODEL_VTC40:
+                case MODEL_TC40:
+                case MODEL_TC2000:
+                case MODEL_TC20P:
+                case MODEL_TC20F:
+                case MODEL_TC2000:
+                    return 1;
+
+                case MODEL_ISH3340:
+                case MODEL_ISH3022: /* TCH50P */
+                case MODEL_ISH3130: /* TCH50P */
+                case MODEL_ISW3022:
+                case MODEL_ISH3230: /* TCH50 GFA */
+                case MODEL_ISH3030: /* TCH50 */
+                case MODEL_ISH1030: /* TTS25 */
+                case MODEL_IMM1000: /* TCH30 */
+                case MODEL_IMM1100: /* TCHE30 */
+                case MODEL_IMM1300: /* VTCH30 */
+                case MODEL_IMM1500:
+                case MODEL_IMM1310: /* VTCHE30 */
+                case MODEL_IMM1110: /* TCHEE30 */
+                case MODEL_IVH3222: /* VTCH50 */
+                case MODEL_IVH4222: /* VTCH50/2D */
+                    return 0;
+
+                default:
+                    return 0;
+            }
+        }
+
         SettingCellData TCBusComponent::getSettingCellData(SettingType setting)
         {
             SettingCellData data;
 
             switch (model_)
             {
-                case MODEL_TCS_ISH3030:
-                case MODEL_TCS_ISH3230:
-                case MODEL_TCS_ISH3340:
-                case MODEL_TCS_ISW3030:
-                case MODEL_TCS_ISW3230:
-                case MODEL_TCS_ISW3340:
-                case MODEL_KOCH_TC50:
-                case MODEL_KOCH_TCH50:
-                case MODEL_KOCH_TCH50P:
+                case MODEL_ISH3030:
+                case MODEL_ISH3230:
+                case MODEL_ISH3340:
+                case MODEL_ISW3030:
+                case MODEL_ISW3230:
+                case MODEL_ISW3340:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -869,7 +929,7 @@ namespace esphome
                     }
                     break;
 
-                case MODEL_TCS_ISH1030:
+                case MODEL_ISH1030:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -891,7 +951,7 @@ namespace esphome
                     }
                     break;
 
-                case MODEL_TCS_IVH3222:
+                case MODEL_IVH3222:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -899,8 +959,6 @@ namespace esphome
                             data.left_nibble = true;
                             break;
 
-                        // Is this really available?
-                        // It's set to 0 in default eep
                         case SETTING_RINGTONE_INTERNAL_CALL:
                             data.index = 6;
                             data.left_nibble = true;
@@ -924,7 +982,7 @@ namespace esphome
         {
             if(memory_buffer_.size() == 0)
             {
-                ESP_LOGW(TAG, "Memory Buffer is empty! Please read memory first!");
+                ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return;
             }
 
@@ -935,26 +993,25 @@ namespace esphome
 
             if(serial_number == 0)
             {
-                ESP_LOGW(TAG, "Serial Number is not set!");
+                ESP_LOGW(TAG, "Serial number is not set!");
                 return;
             }
 
             // Prepare Transmission
-            ESP_LOGD(TAG, "Select Indoor Stations");
-            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // payload 0 = indoor stations
+            ESP_LOGD(TAG, "Select device category");
+            uint8_t device_category = getDeviceCategory();
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, device_category);
             delay(50);
 
-            ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+            ESP_LOGD(TAG, "Select memory page %i of serial number %i", 0, serial_number);
             send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
             delay(50);
 
             // Transmit Memory
-            uint8_t address = 0;
-            for (size_t i = 0; i < memory_buffer_.size(); i += 2)
+            for (size_t address = 0; address < memory_buffer_.size(); address += 2)
             {
-                uint16_t new_value = (memory_buffer_[i] << 8) | memory_buffer_[i + 1];
+                uint16_t new_value = (memory_buffer_[address] << 8) | memory_buffer_[address + 1];
                 send_command(COMMAND_TYPE_WRITE_MEMORY, address, new_value, serial_number);
-                address = address + 2;
                 delay(50);
             }
         }

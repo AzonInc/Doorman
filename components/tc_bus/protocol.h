@@ -8,17 +8,52 @@ namespace esphome
     {
         enum Model {
             MODEL_NONE,
-            MODEL_TCS_ISH1030,
-            MODEL_TCS_ISH3030,
-            MODEL_TCS_ISH3230,
-            MODEL_TCS_ISH3340,
-            MODEL_TCS_ISW3030,
-            MODEL_TCS_ISW3230,
-            MODEL_TCS_ISW3340,
-            MODEL_TCS_IVH3222,
-            MODEL_KOCH_TC50,
-            MODEL_KOCH_TCH50,
-            MODEL_KOCH_TCH50P
+            MODEL_ISW3030,
+            MODEL_ISW3130,
+            MODEL_ISW3230,
+            MODEL_ISW3330,
+            MODEL_ISW3340,
+            MODEL_ISW5010,
+            MODEL_ISW5020,
+            MODEL_ISW5030,
+            MODEL_ISW5031,
+            MODEL_ISW5033,
+            MODEL_ISW6031,
+            MODEL_ISW7030,
+            MODEL_IVW7510,
+            MODEL_ISH7030,
+            MODEL_IVH7510,
+            MODEL_ISW6010,
+            MODEL_IVW6511,
+            MODEL_ISWM7000,
+            MODEL_IVWM7000,
+            MODEL_ISW4100,
+            MODEL_IMM2100,
+            MODEL_IVW2210,
+            MODEL_IVW2211,
+            MODEL_IVW2212,
+            MODEL_VTC42V2,
+            MODEL_TC40V2,
+            MODEL_VTC40,
+            MODEL_TC40,
+            MODEL_TC2000,
+            MODEL_TC20P,
+            MODEL_TC20F,
+            MODEL_ISH3340,
+            MODEL_ISH3022,
+            MODEL_ISH3130,
+            MODEL_ISW3022,
+            MODEL_ISH3230,
+            MODEL_ISH3030,
+            MODEL_ISH1030,
+            MODEL_IMM1000,
+            MODEL_IMM1100,
+            MODEL_IMM1300,
+            MODEL_IMM1500,
+            MODEL_IMM1310,
+            MODEL_IMM1110,
+            MODEL_IVH3222,
+            MODEL_IVH4222
         };
 
         enum SettingType {
@@ -77,7 +112,6 @@ namespace esphome
             uint8_t index = 0;
             bool left_nibble = false;
         };
-
 
         CommandData buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
         CommandData parseCommand(uint32_t command, bool is_long = true);

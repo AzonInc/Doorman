@@ -144,6 +144,7 @@ namespace esphome
                 uint8_t get_setting(SettingType type);
                 bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
                 SettingCellData getSettingCellData(SettingType setting);
+                uint8_t getDeviceCategory();
 
                 void publish_command(uint32_t command, bool is_long, bool fire_events);
 

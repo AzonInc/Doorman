@@ -508,17 +508,52 @@ namespace esphome
 
         Model string_to_model(std::string str)
         {
-            if (str == "TCS ISH1030") return MODEL_TCS_ISH1030;
-            if (str == "TCS ISH3030") return MODEL_TCS_ISH3030;
-            if (str == "TCS ISH3230") return MODEL_TCS_ISH3230;
-            if (str == "TCS ISH3340") return MODEL_TCS_ISH3340;
-            if (str == "TCS ISW3030") return MODEL_TCS_ISW3030;
-            if (str == "TCS ISW3230") return MODEL_TCS_ISW3230;
-            if (str == "TCS ISW3340") return MODEL_TCS_ISW3340;
-            if (str == "TCS IVH3222") return MODEL_TCS_IVH3222;
-            if (str == "Koch TC50") return MODEL_KOCH_TC50;
-            if (str == "Koch TCH50") return MODEL_KOCH_TCH50;
-            if (str == "Koch TCH50P") return MODEL_KOCH_TCH50P;
+            if (str == "TCS ISW3030 / Koch TC50") return MODEL_ISW3030;
+            if (str == "TCS ISW3130 / Koch TC50P") return MODEL_ISW3130;
+            if (str == "TCS ISW3230 / Koch TC50 GFA") return MODEL_ISW3230;
+            if (str == "TCS ISW3330 / Koch TC50 BW") return MODEL_ISW3330;
+            if (str == "TCS ISW3340") return MODEL_ISW3340;
+            if (str == "TCS ISW5010 / Koch TC60") return MODEL_ISW5010;
+            if (str == "TCS ISW5020") return MODEL_ISW5020;
+            if (str == "TCS ISW5030") return MODEL_ISW5030;
+            if (str == "TCS ISW5031") return MODEL_ISW5031;
+            if (str == "TCS ISW5033") return MODEL_ISW5033;
+            if (str == "TCS ISW6031") return MODEL_ISW6031;
+            if (str == "TCS ISW7030 / Koch TC70") return MODEL_ISW7030;
+            if (str == "TCS IVW7510 / Koch VTC70") return MODEL_IVW7510;
+            if (str == "TCS ISH7030 / Koch TCH70") return MODEL_ISH7030;
+            if (str == "TCS IVH7510 / Koch VTCH70") return MODEL_IVH7510;
+            if (str == "TCS ISW6010") return MODEL_ISW6010;
+            if (str == "TCS IVW6511") return MODEL_IVW6511;
+            if (str == "TCS ISWM7000") return MODEL_ISWM7000;
+            if (str == "TCS IVWM7000") return MODEL_IVWM7000;
+            if (str == "TCS ISW4100 / Koch TC31") return MODEL_ISW4100;
+            if (str == "TCS IMM2100 / Koch TCE31") return MODEL_IMM2100;
+            if (str == "TCS IVW2210 / Koch Ecoos") return MODEL_IVW2210;
+            if (str == "TCS IVW2211 / Koch Ecoos") return MODEL_IVW2211;
+            if (str == "TCS IVW2212 / Koch Ecoos") return MODEL_IVW2212;
+            if (str == "TCS VTC42V2") return MODEL_VTC42V2;
+            if (str == "TCS TC40V2") return MODEL_TC40V2;
+            if (str == "TCS VTC40") return MODEL_VTC40;
+            if (str == "TCS TC40") return MODEL_TC40;
+            if (str == "TCS TC2000") return MODEL_TC2000;
+            if (str == "TCS TC20P") return MODEL_TC20P;
+            if (str == "TCS TC20F") return MODEL_TC20F;
+            if (str == "TCS ISH3340") return MODEL_ISH3340;
+            if (str == "TCS ISH3022 / Koch TCH50P") return MODEL_ISH3022;
+            if (str == "TCS ISH3130 / Koch TCH50P") return MODEL_ISH3130;
+            if (str == "TCS ISW3022") return MODEL_ISW3022;
+            if (str == "TCS ISH3230 / Koch TCH50 GFA") return MODEL_ISH3230;
+            if (str == "TCS ISH3030 / Koch TCH50") return MODEL_ISH3030;
+            if (str == "TCS ISH1030 / Koch TTS25") return MODEL_ISH1030;
+            if (str == "TCS IMM1000 / Koch TCH30") return MODEL_IMM1000;
+            if (str == "TCS IMM1100 / Koch TCHE30") return MODEL_IMM1100;
+            if (str == "TCS IMM1300 / Koch VTCH30") return MODEL_IMM1300;
+            if (str == "TCS IMM1500") return MODEL_IMM1500;
+            if (str == "TCS IMM1310 / Koch VTCHE30") return MODEL_IMM1310;
+            if (str == "TCS IMM1110 / Koch TCHEE30") return MODEL_IMM1110;
+            if (str == "TCS IVH3222 / Koch VTCH50") return MODEL_IVH3222;
+            if (str == "TCS IVH4222 / Koch VTCH50/2D") return MODEL_IVH4222;
 
             return MODEL_NONE;
         }
@@ -527,17 +562,52 @@ namespace esphome
         {
             switch (model)
             {
-                case MODEL_TCS_ISH1030: return "TCS ISH1030";
-                case MODEL_TCS_ISH3030: return "TCS ISH3030";
-                case MODEL_TCS_ISH3230: return "TCS ISH3230";
-                case MODEL_TCS_ISH3340: return "TCS ISH3340";
-                case MODEL_TCS_ISW3030: return "TCS ISW3030";
-                case MODEL_TCS_ISW3230: return "TCS ISW3230";
-                case MODEL_TCS_ISW3340: return "TCS ISW3340";
-                case MODEL_TCS_IVH3222: return "TCS IVH3222";
-                case MODEL_KOCH_TC50: return "Koch TC50";
-                case MODEL_KOCH_TCH50: return "Koch TCH50";
-                case MODEL_KOCH_TCH50P: return "Koch TCH50P";
+                case MODEL_ISW3030: return "TCS ISW3030 / Koch TC50";
+                case MODEL_ISW3130: return "TCS ISW3130 / Koch TC50P";
+                case MODEL_ISW3230: return "TCS ISW3230 / Koch TC50 GFA";
+                case MODEL_ISW3330: return "TCS ISW3330 / Koch TC50 BW";
+                case MODEL_ISW3340: return "TCS ISW3340";
+                case MODEL_ISW5010: return "TCS ISW5010 / Koch TC60";
+                case MODEL_ISW5020: return "TCS ISW5020";
+                case MODEL_ISW5030: return "TCS ISW5030";
+                case MODEL_ISW5031: return "TCS ISW5031";
+                case MODEL_ISW5033: return "TCS ISW5033";
+                case MODEL_ISW6031: return "TCS ISW6031";
+                case MODEL_ISW7030: return "TCS ISW7030 / Koch TC70";
+                case MODEL_IVW7510: return "TCS IVW7510 / Koch VTC70";
+                case MODEL_ISH7030: return "TCS ISH7030 / Koch TCH70";
+                case MODEL_IVH7510: return "TCS IVH7510 / Koch VTCH70";
+                case MODEL_ISW6010: return "TCS ISW6010";
+                case MODEL_IVW6511: return "TCS IVW6511";
+                case MODEL_ISWM7000: return "TCS ISWM7000";
+                case MODEL_IVWM7000: return "TCS IVWM7000";
+                case MODEL_ISW4100: return "TCS ISW4100 / Koch TC31";
+                case MODEL_IMM2100: return "TCS IMM2100 / Koch TCE31";
+                case MODEL_IVW2210: return "TCS IVW2210 / Koch Ecoos";
+                case MODEL_IVW2211: return "TCS IVW2211 / Koch Ecoos";
+                case MODEL_IVW2212: return "TCS IVW2212 / Koch Ecoos";
+                case MODEL_VTC42V2: return "TCS VTC42V2";
+                case MODEL_TC40V2: return "TCS TC40V2";
+                case MODEL_VTC40: return "TCS VTC40";
+                case MODEL_TC40: return "TCS TC40";
+                case MODEL_TC2000: return "TCS TC2000";
+                case MODEL_TC20P: return "TCS TC20P";
+                case MODEL_TC20F: return "TCS TC20F";
+                case MODEL_ISH3340: return "TCS ISH3340";
+                case MODEL_ISH3022: return "TCS ISH3022";
+                case MODEL_ISH3130: return "TCS ISH3130 / Koch TCH50P";
+                case MODEL_ISW3022: return "TCS ISW3022";
+                case MODEL_ISH3230: return "TCS ISH3230 / Koch TCH50 GFA";
+                case MODEL_ISH3030: return "TCS ISH3030 / Koch TCH50";
+                case MODEL_ISH1030: return "TCS ISH1030 / Koch TTS25";
+                case MODEL_IMM1000: return "TCS IMM1000 / Koch TCH30";
+                case MODEL_IMM1100: return "TCS IMM1100 / Koch TCHE30";
+                case MODEL_IMM1300: return "TCS IMM1300 / Koch VTCH30";
+                case MODEL_IMM1500: return "TCS IMM1500";
+                case MODEL_IMM1310: return "TCS IMM1310 / Koch VTCHE30";
+                case MODEL_IMM1110: return "TCS IMM1110 / Koch TCHEE30";
+                case MODEL_IVH3222: return "TCS IVH3222 / Koch VTCH50";
+                case MODEL_IVH4222: return "TCS IVH4222 / Koch VTCH50/2D";
                 default: return "None";
             }
         }

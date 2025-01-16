@@ -398,16 +398,51 @@ Here are the available setting types you can use to update the settings of your 
 ## Model Setting availability
 Here are the available settings for specific indoor station models:
 
-| Model          | Available settings                                                                                         |
-|----------------|------------------------------------------------------------------------------------------------------------|
-| TCS ISH1030    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| TCS ISH3030    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3230    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3340    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3030    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3230    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3340    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS IVH3222    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| Koch TC50      | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| Koch TCH50     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| Koch TCH50P    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| Model                        | Available settings                                                                                         |
+|------------------------------|------------------------------------------------------------------------------------------------------------|
+| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
+| TCS ISH3030 / Koch TCH50     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISH3130 / Koch TCH50P    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISH3340                  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISW3030 / Koch TC50      | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS ISW3340                  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| TCS IVH3222 / Koch VTCH50    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
+| TCS ISW3130 / Koch TC50P     | Verification and implementation required |
+| TCS ISW3330 / Koch TC50 BW   | Verification and implementation required |
+| TCS ISW5010 / Koch TC60      | Verification and implementation required |
+| TCS ISW5020                  | Verification and implementation required |
+| TCS ISW5030                  | Verification and implementation required |
+| TCS ISW5031                  | Verification and implementation required |
+| TCS ISW5033                  | Verification and implementation required |
+| TCS ISW6031                  | Verification and implementation required |
+| TCS ISW7030 / Koch TC70      | Verification and implementation required |
+| TCS IVW7510 / Koch VTC70     | Verification and implementation required |
+| TCS ISH7030 / Koch TCH70     | Verification and implementation required |
+| TCS IVH7510 / Koch VTCH70    | Verification and implementation required |
+| TCS ISW6010                  | Verification and implementation required |
+| TCS IVW6511                  | Verification and implementation required |
+| TCS ISWM7000                 | Verification and implementation required |
+| TCS IVWM7000                 | Verification and implementation required |
+| TCS ISW4100 / Koch TC31      | Verification and implementation required |
+| TCS IMM2100 / Koch TCE31     | Verification and implementation required |
+| TCS IVW2210 / Koch Ecoos     | Verification and implementation required |
+| TCS IVW2211 / Koch Ecoos     | Verification and implementation required |
+| TCS IVW2212 / Koch Ecoos     | Verification and implementation required |
+| TCS VTC42V2                  | Verification and implementation required |
+| TCS TC40V2                   | Verification and implementation required |
+| TCS VTC40                    | Verification and implementation required |
+| TCS TC40                     | Verification and implementation required |
+| TCS TC2000                   | Verification and implementation required |
+| TCS TC20P                    | Verification and implementation required |
+| TCS TC20F                    | Verification and implementation required |
+| TCS ISH3022                  | Verification and implementation required |
+| TCS ISW3022                  | Verification and implementation required |
+| TCS IMM1000 / Koch TCH30     | Verification and implementation required |
+| TCS IMM1100 / Koch TCHE30    | Verification and implementation required |
+| TCS IMM1300 / Koch VTCH30    | Verification and implementation required |
+| TCS IMM1500                  | Verification and implementation required |
+| TCS IMM1310 / Koch VTCHE30   | Verification and implementation required |
+| TCS IMM1110 / Koch TCHEE30   | Verification and implementation required |
+| TCS IVH4222 / Koch VTCH50/2D | Verification and implementation required |
