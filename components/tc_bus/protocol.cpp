@@ -532,7 +532,7 @@ namespace esphome
             if (str == "TCS IMM2100 / Koch TCE31") return MODEL_IMM2100;
             if (str == "TCS IVW2210 / Koch Ecoos") return MODEL_IVW2210;
             if (str == "TCS IVW2211 / Koch Ecoos") return MODEL_IVW2211;
-            if (str == "TCS IVW2212 / Koch Ecoos") return MODEL_IVW2212;
+            if (str == "TCS IVW2212 / Koch Ecoos / Scantron SLIM60T") return MODEL_IVW2212;
             if (str == "TCS VTC42V2") return MODEL_VTC42V2;
             if (str == "TCS TC40V2") return MODEL_TC40V2;
             if (str == "TCS VTC40") return MODEL_VTC40;
@@ -587,7 +587,7 @@ namespace esphome
                 case MODEL_IMM2100: return "TCS IMM2100 / Koch TCE31";
                 case MODEL_IVW2210: return "TCS IVW2210 / Koch Ecoos";
                 case MODEL_IVW2211: return "TCS IVW2211 / Koch Ecoos";
-                case MODEL_IVW2212: return "TCS IVW2212 / Koch Ecoos";
+                case MODEL_IVW2212: return "TCS IVW2212 / Koch Ecoos / Scantron SLIM60T";
                 case MODEL_VTC42V2: return "TCS VTC42V2";
                 case MODEL_TC40V2: return "TCS TC40V2";
                 case MODEL_VTC40: return "TCS VTC40";

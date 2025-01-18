@@ -100,7 +100,7 @@ CONF_MODELS = [
     "TCS IMM2100 / Koch TCE31",
     "TCS IVW2210 / Koch Ecoos",
     "TCS IVW2211 / Koch Ecoos",
-    "TCS IVW2212 / Koch Ecoos",
+    "TCS IVW2212 / Koch Ecoos / Scantron SLIM60T",
     "TCS VTC42V2",
     "TCS TC40V2",
     "TCS VTC40",

@@ -898,6 +898,9 @@ namespace esphome
                 case MODEL_ISW3030:
                 case MODEL_ISW3230:
                 case MODEL_ISW3340:
+                case MODEL_ISW3130:
+                case MODEL_ISW3330:
+                case MODEL_IVH4222:
                     switch (setting)
                     {
                         case SETTING_RINGTONE_DOOR_CALL:
@@ -968,6 +971,35 @@ namespace esphome
                             data.index = 9;
                             data.left_nibble = true;
                             break;
+
+                        default: break;
+                    }
+                    break;
+
+                case MODEL_IVW2210:
+                case MODEL_IVW2211:
+                case MODEL_IVW2212:
+                    switch (setting)
+                    {
+                        /*case SETTING_RINGTONE_DOOR_CALL:
+                            data.index = 3;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_INTERNAL_CALL:
+                            data.index = 6;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_FLOOR_CALL:
+                            data.index = 9;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_VOLUME_RINGTONE:
+                            data.index = 20;
+                            data.left_nibble = false;
+                            break;*/
 
                         default: break;
                     }
