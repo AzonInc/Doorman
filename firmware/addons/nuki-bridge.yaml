@@ -6,7 +6,7 @@ esp32:
     sdkconfig_options: !remove
 
 external_components:
-  - source: github://uriyacovy/ESPHome_nuki_lock@fix/lock-action-freeze
+  - source: github://uriyacovy/ESPHome_nuki_lock@improve-memory-footprint
     refresh: 60s
 
 # Pairing Mode
