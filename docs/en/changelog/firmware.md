@@ -19,6 +19,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Fixed Memory Reading for Some Intercom Models**  
    The memory will now be correctly read from your indoor station.
 
+- **Experimental Update Switch**   
+   Instead of having two separate update entities, there's now a single one that checks for updates based on a new switch. This switch lets you easily toggle experimental updates from the dev branch on or off.
+
 ### 🚨 Breaking Changes
 - **Separate Event entities**  
    [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
