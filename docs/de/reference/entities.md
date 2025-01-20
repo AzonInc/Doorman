@@ -96,6 +96,9 @@ Steuert das eingebaute Relais.
 ### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
 Aktiviert oder deaktiviert den Modus für die [interaktive Einrichtung](../guide/getting-started#schritt-3-interaktive-einrichtung).
 
+### Experimental Updates <Badge type="tip" text="dev_firmware" />
+Schaltet experimentelle Updates frei, damit du ganz einfach zwischen dem Master- und Dev-Zweig wechseln und die neuesten Änderungen ausprobieren kannst.
+
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Steuert den Nuki Kopplungsmodus.
 
@@ -343,11 +346,8 @@ Wird ausgelöst, wenn ein Abhebe-Muster des Telefons der Innenstation erkannt wi
 
 ## Updates
 
-### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
-Zeigt an, ob ein Update im stabilen Zweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
-
-### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
-Zeigt an, ob ein Update im Entwicklungszweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
+### Firmware <Badge type="tip" text="update_http_request" />
+Zeigt an, ob ein Update verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
 
 
 ## Lichter

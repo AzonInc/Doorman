@@ -14,9 +14,8 @@ esphome:
   project:
     name: "AzonInc.Doorman-Nuki-Bridge"
 
-update:
-  - id: !extend update_http_request_stable
-    source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json
-
-  - id: !extend update_http_request_dev
-    source: https://doorman-dev.surge.sh/firmware/release/doorman-nuki-bridge/manifest.json
+esp32:
+  framework:
+    type: arduino
+    version: 2.0.16
+    platform_version: 6.7.0

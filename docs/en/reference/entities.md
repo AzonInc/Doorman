@@ -96,6 +96,9 @@ Controls the built-in relay.
 ### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
 Toggles the [Interactive Setup](../guide/getting-started#step-3-interactive-setup) Mode to easily setup your Doorman.
 
+### Experimental Updates <Badge type="tip" text="dev_firmware" />
+Enables experimental updates, allowing you to easily switch between the master and dev branches to check for the latest changes.
+
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki pairing mode.
 
@@ -340,11 +343,8 @@ Triggers each time a phone pick up pattern is detected. Learn more about pattern
 
 ## Updates
 
-### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
-Shows if an update on the stable branch is available and offers installation via the HTTP OTA update mechanism.
-
-### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
-Shows if an update on the development branch is available and offers installation via the HTTP OTA update mechanism.
+### Firmware <Badge type="tip" text="update_http_request" />
+Shows if an update is available and offers installation via the HTTP OTA update mechanism.
 
 
 ## Lights
