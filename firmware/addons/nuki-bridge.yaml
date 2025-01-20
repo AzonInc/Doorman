@@ -279,16 +279,23 @@ lock:
         sorting_weight: 11
 
     on_pairing_mode_on_action:
+      - logger.log: "Pairing Mode On - push pairing_mode"
       - status.push:
           trigger_id: pairing_mode
 
     on_pairing_mode_off_action:
+      - logger.log: "Pairing Mode Off - pop pairing_mode"
+      - logger.log: "Pairing Mode Off - pop pairing_mode_complete"
       - status.pop:
           trigger_id: pairing_mode
       - status.pop:
           trigger_id: pairing_mode_complete
     
     on_paired_action:
+      - logger.log: "Pairing Mode Complete - pop pairing_mode"
+      - logger.log: "Pairing Mode Complete - push pairing_mode_complete"
+      - status.pop:
+          trigger_id: pairing_mode
       - status.push:
           trigger_id: pairing_mode_complete
 
@@ -313,5 +320,6 @@ status_indicator:
             effect: none
             brightness: 60%
         - delay: 3s
+        - logger.log: "Pairing Mode Complete - delay - pop pairing_mode_complete"
         - status.pop:
             trigger_id: pairing_mode_complete

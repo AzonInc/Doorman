@@ -105,6 +105,7 @@ switch:
     turn_on_action:
       - script.execute: ring_to_open_timer
     on_turn_on:
+      - logger.log: "Ring To Open On - push ring_to_open"
       - if:
           condition:
             - switch.is_on: doorman_ring_to_open_led_status
@@ -114,6 +115,7 @@ switch:
     turn_off_action:
       - script.stop: ring_to_open_timer
     on_turn_off:
+      - logger.log: "Ring To Open Off - pop ring_to_open"
       - status.pop:
           trigger_id: ring_to_open
     web_server:

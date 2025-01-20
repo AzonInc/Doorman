@@ -503,6 +503,7 @@ binary_sensor:
 # Status LED
 status_indicator:
   on_turn_off:
+    - logger.log: "STATUS INDICATOR TURN OFF"
     - light.turn_off:
         id: doorman_rgb_status_led
         transition_length: 1s

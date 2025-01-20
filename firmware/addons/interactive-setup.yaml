@@ -9,9 +9,12 @@ switch:
     entity_category: CONFIG
     optimistic: true
     turn_on_action:
+        - logger.log: "Setup Mode On - push setup_mode"
         - status.push:
             trigger_id: setup_mode
     turn_off_action:
+      - logger.log: "Setup Mode Off - pop setup_mode"
+      - logger.log: "Setup Mode Off - pop setup_mode_complete"
       - status.pop:
           trigger_id: setup_mode
       - status.pop:
@@ -44,6 +47,10 @@ tc_bus:
 
           - switch.turn_off: doorman_setup_mode
 
+          - logger.log: "Setup Mode Complete - pop setup_mode"
+          - logger.log: "Setup Mode Complete - push setup_mode_complete"
+          - status.pop:
+              trigger_id: setup_mode
           - status.push:
               trigger_id: setup_mode_complete
 
@@ -69,5 +76,6 @@ status_indicator:
               blue: 10%
               effect: none
         - delay: 3s
+        - logger.log: "Setup Mode Complete - delay - pop setup_mode_complete"
         - status.pop:
             trigger_id: setup_mode_complete
