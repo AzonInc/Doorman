@@ -312,12 +312,12 @@ status_indicator:
     - trigger_id: pairing_mode_complete
       then:
         - light.turn_on:
-          id: doorman_rgb_status_led
-          red: 100%
-          green: 0%
-          blue: 100%
-          effect: none
-          brightness: 60%
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 100%
+            effect: none
+            brightness: 60%
         - delay: 3s
         - status.pop:
             trigger_id: pairing_mode_complete
