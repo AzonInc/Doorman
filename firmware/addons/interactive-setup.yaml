@@ -8,10 +8,10 @@ switch:
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
     optimistic: true
-    on_turn_on:
+    turn_on_action:
         - status.push:
             trigger_id: setup_mode
-    on_turn_off:
+    turn_off_action:
       - status.pop:
           trigger_id: setup_mode
       - status.pop:

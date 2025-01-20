@@ -104,16 +104,14 @@ switch:
     optimistic: true
     turn_on_action:
       - script.execute: ring_to_open_timer
-    turn_off_action:
-      - script.stop: ring_to_open_timer
-    on_turn_on:
       - if:
           condition:
             - switch.is_on: doorman_ring_to_open_led_status
         then:
           - status.push:
               trigger_id: ring_to_open
-    on_turn_off:
+    turn_off_action:
+      - script.stop: ring_to_open_timer
       - status.pop:
           trigger_id: ring_to_open
     web_server:

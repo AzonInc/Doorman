@@ -266,10 +266,10 @@ lock:
       id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
       disabled_by_default: true
-      on_turn_on:
+      turn_on_action:
         - status.push:
             trigger_id: pairing_mode
-      on_turn_off:
+      turn_off_action:
         - status.pop:
             trigger_id: pairing_mode
       web_server:
