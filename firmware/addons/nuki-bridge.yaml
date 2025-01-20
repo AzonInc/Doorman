@@ -266,12 +266,6 @@ lock:
       id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
       disabled_by_default: true
-      on_turn_on:
-        - status.push:
-            trigger_id: pairing_mode
-      on_turn_off:
-        - status.pop:
-            trigger_id: pairing_mode
       web_server:
         sorting_group_id: sorting_group_nuki_bridge_settings
         sorting_weight: 10
