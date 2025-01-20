@@ -107,9 +107,9 @@ switch:
       - if:
           condition:
             - switch.is_on: doorman_ring_to_open_led_status
-        then:
-          - status.push:
-              trigger_id: ring_to_open
+          then:
+            - status.push:
+                trigger_id: ring_to_open
     turn_off_action:
       - script.stop: ring_to_open_timer
       - status.pop:
