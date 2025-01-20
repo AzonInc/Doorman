@@ -68,12 +68,6 @@ button:
           id(as_list).clear();
           id(is0_list).clear();
           id(is1_list).clear();
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          red: 0%
-          green: 100%
-          blue: 10%
-          effect: pulse
       # Search Outdoor Stations
       - logger.log: Search outdoor stations...
       - tc_bus.send:
@@ -133,14 +127,6 @@ button:
           {
             ESP_LOGI("DEBUG", "IS1: %d", value);
           }
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          red: 0%
-          green: 100%
-          blue: 10%
-          effect: none
-      - delay: 3s
-      - script.execute: update_led
     web_server:
       sorting_group_id: sorting_group_system
 

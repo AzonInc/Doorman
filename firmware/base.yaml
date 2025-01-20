@@ -35,37 +35,7 @@ esphome:
   platformio_options:
     board_build.flash_mode: dio
     build_flags:
-      - -DBOARD_HAS_PSRAM 
-
-  on_boot:
-    then:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: pulse
-          red: 100%
-          green: 65%
-          blue: 0%
-      - wait_until:
-          condition:
-            wifi.connected:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: slow_pulse
-          red: 0%
-          green: 22%
-          blue: 100%
-      - wait_until:
-          condition:
-            api.connected:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: none
-          red: 0%
-          green: 22%
-          blue: 100%
-          color_brightness: 60%
-      - delay: 3s
-      - script.execute: update_led
+      - -DBOARD_HAS_PSRAM
 
 # Enable logging
 logger:
@@ -155,6 +125,8 @@ external_components:
   - source: github://AzonInc/Doorman@dev
     components: [ tc_bus ]
     refresh: 60s
+  - source: github://pr#5814
+    components: [ status_indicator, wifi ]
 
 # Setup TC:BUS Component
 tc_bus:
@@ -527,12 +499,50 @@ binary_sensor:
       sorting_group_id: sorting_group_listeners
       sorting_weight: 99
 
-script:
-  - id: update_led
-    then:
-      - logger.log: "Conditionally set LED State"
-      - light.turn_off:
-          id: doorman_rgb_status_led
-          transition_length: 1s
-      # TODO: Restore specific state conditionally
-      # Extended by addons
+
+# Status LED
+status_indicator:
+  on_turn_off:
+    - light.turn_off:
+        id: doorman_rgb_status_led
+        transition_length: 1s
+
+  on_wifi_ap_enabled:
+    - light.turn_on:
+        id: doorman_rgb_status_led
+        effect: pulse
+        red: 100%
+        green: 65%
+        blue: 0%
+
+  on_network_connected:
+    # Wait for API
+    - light.turn_on:
+        id: doorman_rgb_status_led
+        effect: slow_pulse
+        red: 0%
+        green: 22%
+        blue: 100%
+
+  on_api_connected:
+    # API connected, now custom status
+    - light.turn_on:
+        id: doorman_rgb_status_led
+        effect: none
+        red: 0%
+        green: 22%
+        blue: 100%
+        color_brightness: 60%
+    - delay: 3s
+    - light.turn_off:
+        id: doorman_rgb_status_led
+        transition_length: 1s
+
+  on_api_disconnected:
+    # Wait for API
+    - light.turn_on:
+        id: doorman_rgb_status_led
+        effect: slow_pulse
+        red: 0%
+        green: 22%
+        blue: 100%

@@ -266,6 +266,12 @@ lock:
       id: nuki_pairing_mode
       name: "Nuki Pairing Mode"
       disabled_by_default: true
+      on_turn_on:
+        - status.push:
+            trigger_id: pairing_mode
+      on_turn_off:
+        - status.pop:
+            trigger_id: pairing_mode
       web_server:
         sorting_group_id: sorting_group_nuki_bridge_settings
         sorting_weight: 10
@@ -279,32 +285,39 @@ lock:
         sorting_weight: 11
 
     on_pairing_mode_on_action:
-      - script.execute: update_led
+      - status.push:
+          trigger_id: pairing_mode
 
     on_pairing_mode_off_action:
-      - script.execute: update_led
+      - status.pop:
+          trigger_id: pairing_mode
+      - status.pop:
+          trigger_id: pairing_mode_complete
     
     on_paired_action:
-      - light.turn_on:
+      - status.push:
+          trigger_id: pairing_mode_complete
+
+status_indicator:
+ on_custom_status:
+    - trigger_id: pairing_mode
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 100%
+            effect: pulse
+
+    - trigger_id: pairing_mode_complete
+      then:
+        - light.turn_on:
           id: doorman_rgb_status_led
           red: 100%
           green: 0%
           blue: 100%
           effect: none
           brightness: 60%
-      - delay: 3s
-      - script.execute: update_led
-
-script:
-  - id: !extend update_led
-    then:
-      - if:
-          condition:
-            - switch.is_on: nuki_pairing_mode
-          then:
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 100%
-                green: 0%
-                blue: 100%
-                effect: pulse
+        - delay: 3s
+        - status.pop:
+            trigger_id: pairing_mode_complete

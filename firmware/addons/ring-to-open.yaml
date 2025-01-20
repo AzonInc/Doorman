@@ -107,9 +107,15 @@ switch:
     turn_off_action:
       - script.stop: ring_to_open_timer
     on_turn_on:
-      - script.execute: update_led
+      - if:
+          condition:
+            - switch.is_on: doorman_ring_to_open_led_status
+        then:
+          - status.push:
+              trigger_id: ring_to_open
     on_turn_off:
-      - script.execute: update_led
+      - status.pop:
+          trigger_id: ring_to_open
     web_server:
       sorting_group_id: sorting_group_doorman_settings
 
@@ -203,16 +209,13 @@ script:
 
             - switch.turn_off: doorman_ring_to_open
 
-  - id: !extend update_led
-    then:
-      - if:
-          condition:
-            - switch.is_on: doorman_ring_to_open
-            - switch.is_on: doorman_ring_to_open_led_status
-          then:
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 100%
-                green: 100%
-                blue: 3%
-                effect: slow_pulse
+status_indicator:
+ on_custom_status:
+    - trigger_id: ring_to_open
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 100%
+            blue: 3%
+            effect: slow_pulse
