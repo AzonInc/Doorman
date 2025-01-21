@@ -518,7 +518,8 @@ namespace esphome
             if (str == "TCS ISW5030") return MODEL_ISW5030;
             if (str == "TCS ISW5031") return MODEL_ISW5031;
             if (str == "TCS ISW5033") return MODEL_ISW5033;
-            if (str == "TCS IVW521x / Koch VTC60/2D / Scantron VIVO") return MODEL_IVW521X;
+            if (str == "TCS IVW511x / Koch VTC60 / Scantron VIVO") return MODEL_IVW511X;
+            if (str == "TCS IVW521x / Koch VTC60/2D") return MODEL_IVW521X;
             if (str == "TCS ISW6031") return MODEL_ISW6031;
             if (str == "TCS ISW7030 / Koch TC70") return MODEL_ISW7030;
             if (str == "TCS IVW7510 / Koch VTC70") return MODEL_IVW7510;
@@ -573,7 +574,8 @@ namespace esphome
                 case MODEL_ISW5030: return "TCS ISW5030";
                 case MODEL_ISW5031: return "TCS ISW5031";
                 case MODEL_ISW5033: return "TCS ISW5033";
-                case MODEL_IVW521X: return "TCS IVW521x / Koch VTC60/2D / Scantron VIVO";
+                case MODEL_IVW511X: return "TCS IVW511x / Koch VTC60 / Scantron VIVO";
+                case MODEL_IVW521X: return "TCS IVW521x / Koch VTC60/2D";
                 case MODEL_ISW6031: return "TCS ISW6031";
                 case MODEL_ISW7030: return "TCS ISW7030 / Koch TC70";
                 case MODEL_IVW7510: return "TCS IVW7510 / Koch VTC70";

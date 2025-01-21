@@ -840,7 +840,8 @@ namespace esphome
                 case MODEL_ISW5030:
                 case MODEL_ISW5031:
                 case MODEL_ISW5033:
-                case MODEL_IVW521X:
+                case MODEL_IVW511X: /* VTC60 */
+                case MODEL_IVW521X: /* VTC60/2D */
                 case MODEL_ISW6031:
                 case MODEL_ISW7030: /* TC70 */
                 case MODEL_IVW7510: /* VTC70 */
@@ -976,9 +977,39 @@ namespace esphome
                     }
                     break;
 
+                case MODEL_IVW511X:
+                case MODEL_IVW521X:
+                    // TASTA
+                    switch (setting)
+                    {
+                        /*case SETTING_RINGTONE_DOOR_CALL:
+                            data.index = 3;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_INTERNAL_CALL:
+                            data.index = 6;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_RINGTONE_FLOOR_CALL:
+                            data.index = 9;
+                            data.left_nibble = true;
+                            break;
+
+                        case SETTING_VOLUME_RINGTONE:
+                            data.index = 20;
+                            data.left_nibble = false;
+                            break;*/
+
+                        default: break;
+                    }
+                    break;
+
                 case MODEL_IVW2210:
                 case MODEL_IVW2211:
                 case MODEL_IVW2212:
+                    // ECOOS
                     switch (setting)
                     {
                         /*case SETTING_RINGTONE_DOOR_CALL:

@@ -18,6 +18,7 @@ namespace esphome
             MODEL_ISW5030,
             MODEL_ISW5031,
             MODEL_ISW5033,
+            MODEL_IVW511X,
             MODEL_IVW521X,
             MODEL_ISW6031,
             MODEL_ISW7030,
