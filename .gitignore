@@ -23,3 +23,5 @@ TODOs.md
 __pycache__
 .esphome
 /*.yaml
+.esphome/
+/secrets.yaml
