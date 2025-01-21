@@ -22,6 +22,7 @@ text:
   - platform: template
     mode: text
     name: "Send Command"
+    icon: "mdi:send"
     disabled_by_default: true
     optimistic: true
     set_action: 
@@ -41,6 +42,7 @@ text:
 button:
   - platform: template
     name: "Request Version"
+    icon: "mdi:numeric"
     on_press:
       - tc_bus.send:
           type: select_device_group
@@ -53,6 +55,7 @@ button:
 
   - platform: template
     name: "System Restart"
+    icon: mdi:restart
     on_press:
       - tc_bus.send:
           command: 0x5100
@@ -61,6 +64,7 @@ button:
 
   - platform: template
     name: "System Discovery"
+    icon: "mdi:home-search"
     disabled_by_default: true
     on_press: 
       # Clear Lists

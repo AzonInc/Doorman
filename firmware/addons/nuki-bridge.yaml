@@ -26,6 +26,7 @@ number:
   - platform: template
     id: nuki_security_pin
     name: "Nuki Security Pin"
+    icon: "mdi:shield-key"
     disabled_by_default: true
     mode: box
     step: 1
