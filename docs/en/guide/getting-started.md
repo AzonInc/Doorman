@@ -95,10 +95,10 @@ The indoor station must be connected, and the enclosure securely closed, to comp
    The RGB status LED will pulse green-turquoise. Press the doorbell button at your apartment or entrance.
 
 4. **Complete the Setup:**\
-   After pressing the doorbell button, the LED will stay green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
+   After pressing the doorbell button, the system will attempt to detect your indoor station model. Once the model detection either succeeds or times out, the LED will remain green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
 
 If you have multiple door stations, the firmware will attempt to automatically detect the additional station.
-To enable detection of the second doorbell and the ability to unlock the second door, you must press the second doorbell or unlock the second door at least once to store its address.
+To enable detection of the second doorbell and the ability to unlock the second door, you need to press the second doorbell or physically push the unlock button for the second door at least once to store its address.
 
 ## ESPHome adoption
 

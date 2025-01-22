@@ -18,8 +18,21 @@ globals:
     type: std::vector<int>
     initial_value: ''
 
+binary_sensor:
+  - platform: template
+    id: debug_bus_connected
+    name: Bus Connection Status
+    icon: "mdi:connection"
+    lambda: |-
+      if (id(bus_voltage).state >= 3) {
+        return true;
+      } else {
+        return false;
+      }
+
 text:
   - platform: template
+    id: debug_send_command
     mode: text
     name: "Send Command"
     icon: "mdi:send"
@@ -41,19 +54,7 @@ text:
 
 button:
   - platform: template
-    name: "Request Version"
-    icon: "mdi:numeric"
-    on_press:
-      - tc_bus.send:
-          type: select_device_group
-          payload: 0
-      - delay: 200ms
-      - tc_bus.send:
-          type: request_version
-    web_server:
-      sorting_group_id: sorting_group_system
-
-  - platform: template
+    id: debug_restart_control_unit
     name: "System Restart"
     icon: mdi:restart
     on_press:
@@ -63,6 +64,7 @@ button:
       sorting_group_id: sorting_group_system
 
   - platform: template
+    id: debug_system_discovery
     name: "System Discovery"
     icon: "mdi:home-search"
     disabled_by_default: true

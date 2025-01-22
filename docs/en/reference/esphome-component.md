@@ -112,6 +112,25 @@ on_read_memory_timeout:
   - logger.log: "Failed to read Memory"
 ```
 
+### Identification of Indoor Station Complete
+The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [DeviceData](#device-data) structure, accessible as the `x` variable.
+
+```yaml
+on_identify_complete:
+  - logger.log: "Completed identification!"
+  - lambda: |-
+      std::string hexString = str_upper_case(format_hex(x));
+      ESP_LOGI("tcs_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+### Identification of Indoor Station Timeout
+The `on_identify_timeout` callback of the `tc_bus` hub allows you to detect a failed identification of the indoor station. Most probably when a model is too old doesn't support this process.
+
+```yaml
+on_identify_timeout:
+  - logger.log: "Failed to identify indoor station!"
+```
+
 
 ## Actions
 ### Read Memory
@@ -352,6 +371,19 @@ struct CommandData {
 };
 ```
 
+## Device Data
+The `DeviceData` structure is used internally in the identification process.
+
+```c++
+struct DeviceData {
+    Model model = MODEL_NONE;
+    uint32_t firmware_version = 0;
+    uint8_t firmware_major = 0;
+    uint8_t firmware_minor = 0;
+    uint8_t firmware_patch = 0;
+    uint8_t hardware_version = 0; 
+};
+```
 
 ## Command Types
 You can use command types in binary sensors and also when [sending commands](#sending-commands):

@@ -147,6 +147,12 @@ Controls the Nuki Smart Lock Single Lock setting.
 ### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Deaktiviert" />
 Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
 
+### Identify Indoor Station <Badge type="tip" text="identify_indoor_station" /> <Badge type="info" text="Deaktiviert" />
+Ermittelt das Modell der Innenstation und speichert es.
+::: note Hinweis
+Es werden nicht alle Modelle unterstützt, da ältere Modelle diese Funktion ggfs. nicht unterstützen.
+:::
+
 ### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Deaktiviert" />
 Liest den internen speicher deiner Innenstation mit der angegebenen Seriennummer aus.
 

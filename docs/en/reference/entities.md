@@ -147,6 +147,12 @@ Opens the second entrance door by sending a `open_door` command with the `addres
 ### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 Turns on the light by sending a `light` command on the bus.
 
+### Identify Indoor Station <Badge type="tip" text="identify_indoor_station" /> <Badge type="info" text="Disabled by default" />
+Quickly identifies your indoor station model and saves it.
+::: note
+Not all models are supported as old models might not support this feature.
+:::
+
 ### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Disabled by default" />
 Reads the memory of the intercom phone with the specified serial number.
 

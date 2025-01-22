@@ -55,7 +55,19 @@ namespace esphome
             MODEL_IMM1310,
             MODEL_IMM1110,
             MODEL_IVH3222,
-            MODEL_IVH4222
+            MODEL_IVH4222,
+            MODEL_IVW2220,
+            MODEL_IVW2221,
+            MODEL_IVW3011,
+            MODEL_IVW3012,
+            MODEL_VMH,
+            MODEL_VML,
+            MODEL_VMF,
+            MODEL_TKIS,
+            MODEL_TKISV,
+            MODEL_CAIXXXX,
+            MODEL_CAI2000,
+            MODEL_ISW42X0
         };
 
         enum SettingType {
@@ -115,6 +127,15 @@ namespace esphome
             bool left_nibble = false;
         };
 
+        struct DeviceData {
+            Model model = MODEL_NONE;
+            uint32_t firmware_version = 0;
+            uint8_t firmware_major = 0;
+            uint8_t firmware_minor = 0;
+            uint8_t firmware_patch = 0;
+            uint8_t hardware_version = 0; 
+        };
+
         CommandData buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
         CommandData parseCommand(uint32_t command, bool is_long = true);
 
@@ -125,9 +146,10 @@ namespace esphome
         SettingType string_to_setting_type(std::string str);
 
         const char* model_to_string(Model model);
-        Model string_to_model(std::string str);
+        Model string_to_model(const std::string& str);
+        Model identifier_string_to_model(const std::string& model_key, const uint8_t& hw_version = 0, const uint32_t& fw_version = 0);
 
-        uint8_t ringtone_to_int(std::string str);
+        uint8_t ringtone_to_int(const std::string& str);
         std::string int_to_ringtone(uint8_t ringtone);
 
     }  // namespace tc_bus

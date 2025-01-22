@@ -189,22 +189,6 @@ namespace esphome
             }
             #endif
 
-            // Cancel Reading memory
-            if(reading_memory_)
-            {
-                uint32_t now_millis = millis();
-
-                if(now_millis - reading_memory_timer_ >= 5000)
-                {
-                    reading_memory_ = false;
-                    reading_memory_count_ = 0;
-                    reading_memory_timer_ = 0;
-                        
-                    ESP_LOGE(TAG, "Reading memory timed out!");
-                    this->read_memory_timeout_callback_.call();
-                }
-            }
-
             auto &s = this->store_;
 
             if(s.s_cmdReady)
@@ -222,14 +206,14 @@ namespace esphome
                     // Next 4 Data Blocks
                     reading_memory_count_++;
 
+                    // Memory reading complete
                     if(reading_memory_count_ == 6)
                     {
                         // Turn off
+                        this->cancel_timeout("wait_for_memory_reading");
                         reading_memory_ = false;
-                        reading_memory_timer_ = 0;
 
                         this->publish_settings();
-
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     }
                     else
@@ -239,6 +223,48 @@ namespace esphome
                         // Request Data Blocks
                         ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
                         send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
+                    }
+                }
+                else if(reading_version_)
+                {
+                    std::string hex_result = str_upper_case(format_hex(s.s_cmd));
+                    if(hex_result.substr(4, 1) == "D")
+                    {
+                        reading_version_ = false;
+                        this->cancel_timeout("wait_for_identification");
+
+                        DeviceData device;
+
+                        // FW Version
+                        device.firmware_version = std::stoi(hex_result.substr(5, 3));
+                        device.firmware_major = std::stoi(hex_result.substr(5, 1), nullptr, 16);
+                        device.firmware_minor = std::stoi(hex_result.substr(6, 1), nullptr, 16);
+                        device.firmware_patch = std::stoi(hex_result.substr(7, 1), nullptr, 16);
+
+                        // HW Version
+                        device.hardware_version = std::stoi(hex_result.substr(0, 1));
+                        device.model = identifier_string_to_model(hex_result.substr(1, 3), device.hardware_version, device.firmware_version);
+                        std::string hw_model = model_to_string(device.model);
+
+                        ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
+                            hw_model.c_str(), device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
+
+                        this->identify_complete_callback_.call(device);
+
+                        // Update Model
+                        if(device.model != MODEL_NONE && device.model != this->model_)
+                        {
+                            this->model_ = device.model;
+                            if (this->model_select_ != nullptr)
+                            {
+                                this->model_select_->publish_state(hw_model.c_str());
+                            }
+                            this->save_settings();
+                        }
+                    }
+                    else
+                    {
+                        ESP_LOGE(TAG, "Invalid indentification response!");
                     }
                 }
                 else
@@ -718,9 +744,45 @@ namespace esphome
             this->read_memory_timeout_callback_.add(std::move(callback));
         }
 
+        void TCBusComponent::add_identify_complete_callback(std::function<void(DeviceData)> &&callback)
+        {
+            this->identify_complete_callback_.add(std::move(callback));
+        }
+
+        void TCBusComponent::add_identify_timeout_callback(std::function<void()> &&callback)
+        {
+            this->identify_timeout_callback_.add(std::move(callback));
+        }
+
         void TCBusComponent::set_programming_mode(bool enabled)
         {
             send_command(COMMAND_TYPE_PROGRAMMING_MODE, 0, enabled ? 1 : 0);
+        }
+
+        void TCBusComponent::read_version(uint32_t serial_number)
+        {
+            if(serial_number == 0)
+            {
+                serial_number = this->serial_number_;
+            }
+
+            this->cancel_timeout("wait_for_identification");
+
+            reading_version_ = true;
+
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0); // class 0
+            delay(50);
+            send_command(COMMAND_TYPE_REQUEST_VERSION, 0, 0, serial_number);
+            delay(200);
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 1); // class 1
+            delay(50);
+            send_command(COMMAND_TYPE_REQUEST_VERSION, 0, 0, serial_number);
+
+            this->set_timeout("wait_for_identification", 600, [this]() {
+                reading_version_ = false;
+                this->identify_timeout_callback_.call();
+                ESP_LOGE(TAG, "Reading version timed out!");
+            });
         }
 
         void TCBusComponent::read_memory(uint32_t serial_number)
@@ -730,8 +792,7 @@ namespace esphome
                 serial_number = this->serial_number_;
             }
 
-            memory_buffer_.clear();
-            reading_memory_count_ = 0;
+            this->cancel_timeout("wait_for_memory_reading");
             reading_memory_ = false;
 
             uint8_t device_category = getDeviceCategory();
@@ -744,9 +805,18 @@ namespace esphome
             send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
             delay(50);
 
+            memory_buffer_.clear();
             reading_memory_ = true;
             reading_memory_count_ = 0;
-            reading_memory_timer_ = millis();
+
+            this->set_timeout("wait_for_memory_reading", 5000, [this]() {
+                memory_buffer_.clear();
+                reading_memory_ = false;
+                reading_memory_count_ = 0;
+
+                this->read_memory_timeout_callback_.call();
+                ESP_LOGE(TAG, "Reading memory timed out!");
+            });
                 
             ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
             send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
@@ -863,6 +933,15 @@ namespace esphome
                 case MODEL_TC2000:
                 case MODEL_TC20P:
                 case MODEL_TC20F:
+                case MODEL_IVW2220:
+                case MODEL_IVW2221:
+                case MODEL_IVW3011:
+                case MODEL_IVW3012:
+                case MODEL_TKIS:
+                case MODEL_TKISV:
+                case MODEL_CAI2000:
+                case MODEL_CAIXXXX:
+                case MODEL_ISW42X0:
                     return 1;
 
                 case MODEL_ISH3340:
@@ -880,6 +959,9 @@ namespace esphome
                 case MODEL_IMM1110: /* TCHEE30 */
                 case MODEL_IVH3222: /* VTCH50 */
                 case MODEL_IVH4222: /* VTCH50/2D */
+                case MODEL_VMH:
+                case MODEL_VML:
+                case MODEL_VMF:
                     return 0;
 
                 default:

@@ -6,12 +6,18 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Added a Switch to turn off the Status LED while Ring to Open is active**  
    If you don't want the Status LED to blink while Ring to Open is active, you can now easily turn it off.
 
+- **Automatic Model Detection**  
+   The setup mode now attempts to automatically identify the indoor station model. However, this process is not compatible with all models, as some do not support automatic detection.
+
+- **Introduced a button to identify your indoor station model**  
+   You can now effortlessly determine the correct model for your settings by simply pressing the "Identify Indoor Station" button, perfect for cases where you're unsure which model you own.
+
 ### ✨ Improvements
 - **Fix Parser Command Length**  
    Previously, the command length was not properly parsed, which occasionally led to 32-bit commands being misinterpreted. This issue has now been resolved.
    
 - **Configure Entrance Outdoor Station ID**  
-   It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized.
+   It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized. The setup mode will also set the entrance outdoor station address.
 
 - **Automatically Disable BLE Server When Not Needed**  
    The BLE Server is now automatically disabled once Wi-Fi is connected. Note: This behavior applies exclusively to the Stock Firmware.

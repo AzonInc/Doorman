@@ -101,10 +101,10 @@ Deine Gegensprechanlage muss angeschlossen und das Gehäuse verschlossen sein, d
    Die RGB-Status-LED wird grün-türkis pulsieren. Drücke den Klingeltaster vor der Wohnung oder am Eingang.
 
 4. **Abschluss der Einrichtung:**\
-   Nach dem Drücken des Klingeltasters leuchtet die LED für 3 Sekunden durchgehend grün-türkis. Danach schaltet sich die LED aus, und die Einrichtung ist abgeschlossen.
+   Nach dem Drücken des Klingeltasters versucht das System, das Modell deiner Innenstation zu erkennen. Sobald die Modell-Erkennung erfolgreich war oder einen Timeout bekommt, leuchtet die LED für 3 Sekunden grün-türkis. Danach schaltet sich die LED aus, und die Einrichtung ist abgeschlossen.
 
 Wenn du mehrere Außenstationen hast, wird die Firmware versuchen, die zusätzliche Station automatisch zu erkennen.
-Um die Erkennung der zweiten Türklingel und das Öffnen der zweiten Tür zu ermöglichen, musst du die zweite Türklingel einmal betätigen oder die zweite Tür einmal öffnen, damit die Adresse gespeichert wird.
+Um die Erkennung der zweiten Türklingel und das Öffnen der zweiten Tür zu ermöglichen, musst du die zweite Türklingel einmal betätigen oder den physischen Entsperrknopf der zweiten Tür mindestens einmal betätigen, damit die Adresse gespeichert wird.
 
 ## ESPHome adoption
 Wenn du die Firmware deines Doorman anpassen möchtest, kannst du diesen zu deinem [ESPHome-Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) hinzufügen und deine angepasste [Stock](firmware/stock-firmware.md) oder [Nuki Bridge](firmware/nuki-bridge-firmware.md) Firmware flashen.

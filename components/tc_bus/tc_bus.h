@@ -137,6 +137,7 @@ namespace esphome
                 void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
+                void read_version(uint32_t serial_number);
                 void read_memory(uint32_t serial_number);
                 void request_memory_blocks(uint8_t start_address);
                 void write_memory(uint32_t serial_number = 0);
@@ -157,6 +158,10 @@ namespace esphome
                 CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
                 void add_read_memory_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> read_memory_timeout_callback_{};
+                void add_identify_complete_callback(std::function<void(DeviceData)> &&callback);
+                CallbackManager<void(DeviceData)> identify_complete_callback_{};
+                void add_identify_timeout_callback(std::function<void()> &&callback);
+                CallbackManager<void()> identify_timeout_callback_{};
 
                 bool sending;
 
@@ -182,9 +187,9 @@ namespace esphome
 
                 bool programming_mode_ = false;
 
+                bool reading_version_ = false;
                 bool reading_memory_ = false;
                 uint8_t reading_memory_count_ = 0;
-                uint32_t reading_memory_timer_ = 0;
                 std::vector<uint8_t> memory_buffer_;
 
                 ESPPreferenceObject pref_;

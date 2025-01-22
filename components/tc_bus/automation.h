@@ -84,6 +84,18 @@ namespace esphome
                 TCBusComponent *parent_;
         };
 
+        template<typename... Ts> class TCBusIdentifyAction : public Action<Ts...>
+        {
+            public:
+                TCBusIdentifyAction(TCBusComponent *parent) : parent_(parent) {}
+                TEMPLATABLE_VALUE(uint32_t, serial_number)
+
+                void play(Ts... x) { this->parent_->read_version(this->serial_number_.value(x...)); }
+
+            protected:
+                TCBusComponent *parent_;
+        };
+
         class ReceivedCommandTrigger : public Trigger<CommandData> {
             public:
                 explicit ReceivedCommandTrigger(TCBusComponent *parent) {
@@ -102,6 +114,19 @@ namespace esphome
             public:
                 explicit ReadMemoryTimeoutTrigger(TCBusComponent *parent) {
                     parent->add_read_memory_timeout_callback([this]() { this->trigger(); });
+                }
+        };
+
+        class IdentifyTimeoutTrigger : public Trigger<> {
+            public:
+                explicit IdentifyTimeoutTrigger(TCBusComponent *parent) {
+                    parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                }
+        };
+        class IdentifyCompleteTrigger : public Trigger<DeviceData> {
+            public:
+                explicit IdentifyCompleteTrigger(TCBusComponent *parent) {
+                    parent->add_identify_complete_callback([this](const DeviceData &value) { this->trigger(value); });
                 }
         };
     }  // namespace tc_bus

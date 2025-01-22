@@ -24,11 +24,19 @@ TCBusReadMemoryAction = tc_bus_ns.class_(
     "TCBusReadMemoryAction", automation.Action
 )
 
+TCBusIdentifyAction = tc_bus_ns.class_(
+    "TCBusIdentifyAction", automation.Action
+)
+
 CommandData = tc_bus_ns.struct(f"CommandData")
 SettingData = tc_bus_ns.struct(f"SettingData")
+DeviceData = tc_bus_ns.struct(f"DeviceData")
 
+IdentifyCompleteTrigger = tc_bus_ns.class_("IdentifyCompleteTrigger", automation.Trigger.template())
+IdentifyTimeoutTrigger = tc_bus_ns.class_("IdentifyTimeoutTrigger", automation.Trigger.template())
 ReadMemoryCompleteTrigger = tc_bus_ns.class_("ReadMemoryCompleteTrigger", automation.Trigger.template())
 ReadMemoryTimeoutTrigger = tc_bus_ns.class_("ReadMemoryTimeoutTrigger", automation.Trigger.template())
+
 ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.Trigger.template())
 
 SETTING_TYPE = tc_bus_ns.enum("SettingType")
@@ -123,7 +131,19 @@ CONF_MODELS = [
     "TCS IMM1310 / Koch VTCHE30",
     "TCS IMM1110 / Koch TCHEE30",
     "TCS IVH3222 / Koch VTCH50",
-    "TCS IVH4222 / Koch VTCH50/2D"
+    "TCS IVH4222 / Koch VTCH50/2D",
+    "TCS IVW2220 / Koch Sky",
+    "TCS IVW2221 / Koch Sky R1.00",
+    "TCS IVW3011 / Koch Skyline Plus",
+    "TCS IVW3012 / Koch Skyline/Aldup",
+    "VMH",
+    "VML",
+    "VMF",
+    "Jung TKIS",
+    "Jung TKISV",
+    "TCS CAIXXXX / Koch CAIXXXX",
+    "TCS CAI2000 / Koch Carus",
+    "TCS ISW42X0"
 ]
 
 CONF_RINGTONES = [
@@ -157,8 +177,10 @@ CONF_PAYLOAD = "payload"
 CONF_PAYLOAD_LAMBDA = "payload_lambda"
 
 CONF_ON_COMMAND = "on_command"
-CONF_ON_MEMORY = "on_read_memory_complete"
-CONF_ON_MEMORY_TIMEOUT = "on_read_memory_timeout"
+CONF_ON_READ_MEMORY_COMPLETE = "on_read_memory_complete"
+CONF_ON_READ_MEMORY_TIMEOUT = "on_read_memory_timeout"
+CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
+CONF_ON_IDENTIFY_TIMEOUT = "on_identify_timeout"
 
 CONF_PROGRAMMING_MODE = "programming_mode"
 
@@ -178,14 +200,24 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReceivedCommandTrigger),
             }
         ),
-        cv.Optional(CONF_ON_MEMORY): automation.validate_automation(
+        cv.Optional(CONF_ON_READ_MEMORY_COMPLETE): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryCompleteTrigger),
             }
         ),
-        cv.Optional(CONF_ON_MEMORY_TIMEOUT): automation.validate_automation(
+        cv.Optional(CONF_ON_READ_MEMORY_TIMEOUT): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryTimeoutTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_IDENTIFY_COMPLETE): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyCompleteTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_IDENTIFY_TIMEOUT): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyTimeoutTrigger),
             }
         ),
     }
@@ -213,11 +245,19 @@ async def to_code(config):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [(CommandData, "x")], conf)
 
-    for conf in config.get(CONF_ON_MEMORY, []):
+    for conf in config.get(CONF_ON_READ_MEMORY_COMPLETE, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [(cg.std_vector.template(cg.uint8), "x")], conf)
 
-    for conf in config.get(CONF_ON_MEMORY_TIMEOUT, []):
+    for conf in config.get(CONF_ON_READ_MEMORY_TIMEOUT, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
+
+    for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [(DeviceData, "x")], conf)
+
+    for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [], conf)
 
@@ -347,6 +387,25 @@ async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, 
     ),
 )
 async def tc_bus_read_memory_to_code(config, action_id, template_args, args):
+    parent = await cg.get_variable(config[CONF_ID])
+    var = cg.new_Pvariable(action_id, template_args, parent)
+
+    serial_number_template_ = await cg.templatable(config[CONF_SERIAL_NUMBER], args, cg.uint32)
+    cg.add(var.set_serial_number(serial_number_template_))
+    
+    return var
+
+@automation.register_action(
+    "tc_bus.identify",
+    TCBusIdentifyAction,
+    automation.maybe_simple_id(
+        {
+            cv.GenerateID(): cv.use_id(TCBusComponent),
+            cv.Optional(CONF_SERIAL_NUMBER, default=0): cv.templatable(cv.hex_uint32_t)
+        }
+    ),
+)
+async def tc_bus_read_version_to_code(config, action_id, template_args, args):
     parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
 
