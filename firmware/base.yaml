@@ -37,61 +37,9 @@ esphome:
     build_flags:
       - -DBOARD_HAS_PSRAM 
 
-  on_boot:
-    then:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: pulse
-          red: 100%
-          green: 65%
-          blue: 0%
-      - wait_until:
-          condition:
-            wifi.connected:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: slow_pulse
-          red: 0%
-          green: 22%
-          blue: 100%
-      - wait_until:
-          condition:
-            api.connected:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: none
-          red: 0%
-          green: 22%
-          blue: 100%
-          color_brightness: 60%
-      - delay: 3s
-      - script.execute: update_led
-
 # Enable logging
 logger:
   level: ${log_level}
-
-api:
-  reboot_timeout: 0s
-  actions:
-    - action: send_tc_command_raw
-      variables:
-        command: int
-      then:
-        - tc_bus.send:
-            command: !lambda 'return command;'
-    - action: send_tc_command
-      variables:
-        type: string
-        address: int
-        payload: int
-        serial_number: int
-      then:
-        - tc_bus.send:
-            type: !lambda 'return string_to_command_type(type);'
-            address: !lambda 'return address;'
-            payload: !lambda 'return payload;'
-            serial_number: !lambda 'return serial_number;'
 
 web_server:
   version: 3

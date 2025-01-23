@@ -8,11 +8,11 @@ There are several ways to update the firmware:
 - HTTP OTA <Badge type="tip" text="Latest release build, no customization" />
 - Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
-You can connect your Doorman via USB-C and click the button below to install the latest Doorman Stock Firmware directly through Web Serial.
+You can connect your Doorman via USB-C and click the button below to install the latest Doorman Stock Firmware (Home Assistant) directly through Web Serial.
 <esp-web-install-button manifest="../../firmware/release/doorman-stock/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
-            <a class="btn">Install or Update Firmware</a>
+            <a class="btn">Install or Update Firmware (Home Assistant)</a>
         </div>
     </button>
     <div slot="unsupported">
@@ -29,12 +29,22 @@ You can connect your Doorman via USB-C and click the button below to install the
     </div>
 </esp-web-install-button>
 
-## Firmware YAML
-This is the minimal ESPHome configuration YAML file. Be sure to update the API key.
+## Firmware YAML for Home Assistant
+This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
 
-::: details Minimal Stock Firmware
+::: details Minimal Stock Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/stock.example.yaml-->
+<!--@include: ../../../../firmware/examples/ha-stock.example.yaml-->
+```
+:::
+
+## Firmware YAML for MQTT
+
+This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure to update the Broker details.
+
+::: details Minimal Stock Firmware (MQTT)
+```yaml
+<!--@include: ../../../../firmware/examples/mqtt-stock.example.yaml-->
 ```
 :::
 

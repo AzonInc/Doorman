@@ -16,14 +16,14 @@ jobs:
       - name: Compile Stock (ESP32-S3) Firmware
         uses: esphome/build-action@v4.0.1
         with:
-          yaml-file: firmware/doorman-stock.yaml
+          yaml-file: firmware/ha-doorman-stock.yaml
           version: latest
           complete-manifest: true
 
       - name: Compile Nuki Bridge (ES32-S3) Firmware
         uses: esphome/build-action@v4.0.1
         with:
-          yaml-file: firmware/doorman-nuki-bridge.yaml
+          yaml-file: firmware/ha-doorman-nuki-bridge.yaml
           version: latest
           complete-manifest: true
 

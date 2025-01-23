@@ -1,0 +1,30 @@
+esphome:
+  on_boot:
+    then:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+      - wait_until:
+          condition:
+            wifi.connected:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: slow_pulse
+          red: 0%
+          green: 22%
+          blue: 100%
+      - wait_until:
+          condition:
+            mqtt.connected:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: none
+          red: 0%
+          green: 22%
+          blue: 100%
+          color_brightness: 60%
+      - delay: 3s
+      - script.execute: update_led

@@ -1,4 +1,4 @@
-# Doorman S3 Nuki Bridge Firmware
+# Doorman S3 Stock Firmware
 
 # You can change a few options here.
 substitutions:
@@ -10,9 +10,9 @@ substitutions:
   # relay_pin: "GPIO42"
   # external_button_pin: "GPIO41"
 
-# Import Doorman Nuki Bridge Firmware Config
+# Import Doorman Stock Firmware Config
 packages:
-  AzonInc.Doorman-Nuki-Bridge: github://AzonInc/doorman/firmware/doorman-nuki-bridge.yaml@master
+  AzonInc.Doorman: github://AzonInc/doorman/firmware/ha-doorman-stock.yaml@master
 
 esphome:
   name: ${name}

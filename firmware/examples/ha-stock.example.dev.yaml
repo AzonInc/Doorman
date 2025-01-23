@@ -12,7 +12,7 @@ substitutions:
 
 # Import Doorman Stock Firmware Config
 packages:
-  AzonInc.Doorman: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
+  AzonInc.Doorman: github://AzonInc/doorman/firmware/ha-doorman-stock.dev.yaml@dev
 
 esphome:
   name: ${name}
