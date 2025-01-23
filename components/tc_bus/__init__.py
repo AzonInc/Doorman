@@ -42,10 +42,12 @@ ReceivedCommandTrigger = tc_bus_ns.class_("ReceivedCommandTrigger", automation.T
 SETTING_TYPE = tc_bus_ns.enum("SettingType")
 SETTING_TYPES = {
     "ringtone_floor_call": SETTING_TYPE.SETTING_RINGTONE_FLOOR_CALL,
-    "ringtone_door_call": SETTING_TYPE.SETTING_RINGTONE_DOOR_CALL,
+    "ringtone_entrance_door_call": SETTING_TYPE.SETTING_RINGTONE_ENTRANCE_DOOR_CALL,
+    "ringtone_second_entrance_door_call": SETTING_TYPE.SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL,
     "ringtone_internal_call": SETTING_TYPE.SETTING_RINGTONE_INTERNAL_CALL,
     "volume_ringtone": SETTING_TYPE.SETTING_VOLUME_RINGTONE,
-    "volume_handset": SETTING_TYPE.SETTING_VOLUME_HANDSET
+    "volume_handset_door": SETTING_TYPE.SETTING_VOLUME_HANDSET_DOOR,
+    "volume_handset_internal": SETTING_TYPE.SETTING_VOLUME_HANDSET_INTERNAL
 }
 
 COMMAND_TYPE = tc_bus_ns.enum("CommandType")
@@ -136,9 +138,9 @@ CONF_MODELS = [
     "TCS IVW2221 / Koch Sky R1.00",
     "TCS IVW3011 / Koch Skyline Plus",
     "TCS IVW3012 / Koch Skyline/Aldup",
-    "VMH",
-    "VML",
-    "VMF",
+    "TCS VMH / Koch VMH",
+    "TCS VML / Koch VML",
+    "TCS VMF / Koch VMF",
     "Jung TKIS",
     "Jung TKISV",
     "TCS CAIXXXX / Koch CAIXXXX",
@@ -405,7 +407,7 @@ async def tc_bus_read_memory_to_code(config, action_id, template_args, args):
         }
     ),
 )
-async def tc_bus_read_version_to_code(config, action_id, template_args, args):
+async def tc_bus_request_version_to_code(config, action_id, template_args, args):
     parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
 

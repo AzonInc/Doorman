@@ -196,8 +196,11 @@ Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass 
 ### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke der Klingeltöne deiner Innenstation fest.
 
-### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Deaktiviert" />
-Legt die Lautstärke des Hörers deiner Innenstation fest.
+### Volume: Handset Door Call <Badge type="tip" text="intercom_volume_handset_door_call" /> <Badge type="info" text="Deaktiviert" />
+Legt die Lautstärke des Hörers deiner Innenstation bei Türrufen fest.
+
+### Volume: Handset Internal Call <Badge type="tip" text="intercom_volume_handset_internal_call" /> <Badge type="info" text="Deaktiviert" />
+Legt die Lautstärke des Hörers deiner Innenstation bei Internrufen fest.
 
 ### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock LED Brightness setting.
@@ -227,28 +230,34 @@ Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ri
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Deaktiviert" />
 Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](esphome-component#model-setting-availability) heraus.
 
-### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Deaktiviert" />
-Legt den Klingelton für Tür-Rufe deiner Innenstation fest.
+### Ringtone: Entrance Door Call <Badge type="tip" text="intercom_ringtone_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
+Legt den Klingelton für Tür-Rufe (Eingang) deiner Innenstation fest.
 
-##### Options:
+##### Optionen:
+- Ringtone 1 ... 13
+
+### Ringtone: Second Entrance Door Call <Badge type="tip" text="intercom_ringtone_second_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
+Legt den Klingelton für Tür-Rufe (Zweiter Eingang) deiner Innenstation fest.
+
+##### Optionen:
 - Ringtone 1 ... 13
 
 ### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Etagen-Rufe deiner Innenstation fest.
 
-##### Options:
+##### Optionen:
 - Ringtone 1 ... 13
 
 ### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Intern-Rufe deiner Innenstation fest.
 
-##### Options:
+##### Optionen:
 - Ringtone 1 ... 13
 
 ### Nuki Button: Single Press Action <Badge type="tip" text="nuki_single_button_press_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Single Button Press Action setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Intelligent
 - Unlock
@@ -260,7 +269,7 @@ Controls the Nuki Smart Lock Single Button Press Action setting.
 ### Nuki Button: Double Press Action <Badge type="tip" text="nuki_double_button_press_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Double Button Press Action setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Intelligent
 - Unlock
@@ -272,7 +281,7 @@ Controls the Nuki Smart Lock Double Button Press Action setting.
 ### Nuki Fob: Action 1 <Badge type="tip" text="nuki_fob_action_1" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Fob Action 1 setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Unlock
 - Lock
@@ -282,7 +291,7 @@ Controls the Nuki Smart Lock Fob Action 1 setting.
 ### Nuki Fob: Action 2 <Badge type="tip" text="nuki_fob_action_2" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Fob Action 2 setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Unlock
 - Lock
@@ -292,7 +301,7 @@ Controls the Nuki Smart Lock Fob Action 2 setting.
 ### Nuki Fob: Action 3 <Badge type="tip" text="nuki_fob_action_3" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Fob Action 3 setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Unlock
 - Lock
@@ -302,7 +311,7 @@ Controls the Nuki Smart Lock Fob Action 3 setting.
 ### Nuki Advertising Mode <Badge type="tip" text="nuki_advertising_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Advertising Mode setting.
 
-##### Options:
+##### Optionen:
 - Automatic
 - Normal
 - Slow

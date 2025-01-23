@@ -8,12 +8,14 @@ from esphome.const import (
 from .. import CONF_TC_ID, CONF_MODELS, CONF_RINGTONES, TCBusComponent, tc_bus_ns
 
 ModelSelect = tc_bus_ns.class_("ModelSelect", select.Select, cg.Component)
-RingtoneDoorCallSelect = tc_bus_ns.class_("RingtoneDoorCallSelect", select.Select, cg.Component)
+RingtoneEntranceDoorCallSelect = tc_bus_ns.class_("RingtoneEntranceDoorCallSelect", select.Select, cg.Component)
+RingtoneSecondEntranceDoorCallSelect = tc_bus_ns.class_("RingtoneSecondEntranceDoorCallSelect", select.Select, cg.Component)
 RingtoneFloorCallSelect = tc_bus_ns.class_("RingtoneFloorCallSelect", select.Select, cg.Component)
 RingtoneInternalCallSelect = tc_bus_ns.class_("RingtoneInternalCallSelect", select.Select, cg.Component)
 
 CONF_MODEL = "model"
-CONF_RINGTONE_DOOR_CALL = "ringtone_door_call"
+CONF_RINGTONE_ENTRANCE_DOOR_CALL = "ringtone_entrance_door_call"
+CONF_RINGTONE_SECOND_ENTRANCE_DOOR_CALL = "ringtone_second_entrance_door_call"
 CONF_RINGTONE_FLOOR_CALL = "ringtone_floor_call"
 CONF_RINGTONE_INTERNAL_CALL = "ringtone_internal_call"
 
@@ -25,8 +27,13 @@ CONFIG_SCHEMA = cv.Schema(
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:doorbell-video"
         ),
-        cv.Optional(CONF_RINGTONE_DOOR_CALL): select.select_schema(
-            RingtoneDoorCallSelect,
+        cv.Optional(CONF_RINGTONE_ENTRANCE_DOOR_CALL): select.select_schema(
+            RingtoneEntranceDoorCallSelect,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:music"
+        ),
+        cv.Optional(CONF_RINGTONE_SECOND_ENTRANCE_DOOR_CALL): select.select_schema(
+            RingtoneSecondEntranceDoorCallSelect,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:music"
         ),
@@ -55,13 +62,21 @@ async def to_code(config):
         await cg.register_parented(sel, config[CONF_TC_ID])
         cg.add(tc_bus_component.set_model_select(sel))
 
-    if ringtone_door_call := config.get(CONF_RINGTONE_DOOR_CALL):
+    if ringtone_entrance_door_call := config.get(CONF_RINGTONE_ENTRANCE_DOOR_CALL):
         sel = await select.new_select(
-            ringtone_door_call,
+            ringtone_entrance_door_call,
             options=[CONF_RINGTONES],
         )
         await cg.register_parented(sel, config[CONF_TC_ID])
-        cg.add(tc_bus_component.set_ringtone_door_call_select(sel))
+        cg.add(tc_bus_component.set_ringtone_entrance_door_call_select(sel))
+
+    if ringtone_second_entrance_door_call := config.get(CONF_RINGTONE_SECOND_ENTRANCE_DOOR_CALL):
+        sel = await select.new_select(
+            ringtone_second_entrance_door_call,
+            options=[CONF_RINGTONES],
+        )
+        await cg.register_parented(sel, config[CONF_TC_ID])
+        cg.add(tc_bus_component.set_ringtone_second_entrance_door_call_select(sel))
 
     if ringtone_floor_call := config.get(CONF_RINGTONE_FLOOR_CALL):
         sel = await select.new_select(

@@ -28,11 +28,12 @@ The `tc_bus` hub component offers the following configuration options:
 ### Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
 
-| Option                 | Description                                                                                    | Required | Default       |
-|------------------------|------------------------------------------------------------------------------------------------|----------|---------------|
-| `serial_number`        | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.  | No       |               |
-| `volume_handset`       | Handset Volume Select to set the handset volume of your indoor station                         | No       |               |
-| `volume_ringtone`      | Ringtone Volume Select to set the ringtone volume of your indoor station                       | No       |               |
+| Option                         | Description                                                                                             | Required | Default       |
+|--------------------------------|---------------------------------------------------------------------------------------------------------|----------|---------------|
+| `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.           | No       |               |
+| `volume_handset_door_call`     | Door Call Handset Volume Select to set the handset volume for door calls of your indoor station.        | No       |               |
+| `volume_handset_internal_call` | Internal Call Handset Volume Select to set the handset volume for internal calls of your indoor station.| No       |               |
+| `volume_ringtone`              | Ringtone Volume Select to set the ringtone volume of your indoor station.                               | No       |               |
 
 
 ### Number Inputs
@@ -46,12 +47,13 @@ The `tc_bus` Number component offers the following configuration options:
 ### Select Inputs
 The `tc_bus` Select component offers the following configuration options:
 
-| Option                 | Description                                                                                    | Required | Default       |
-|------------------------|------------------------------------------------------------------------------------------------|----------|---------------|
-| `model`                | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
-| `ringtone_door_call`       | Door Call Ringtone Select to set the door call ringtone of your indoor station | No       | |
-| `ringtone_floor_call`      | Floor Call Ringtone Select to set the floor call ringtone of your indoor station | No       | |
-| `ringtone_internal_call`   | Internal Call Ringtone Select to set the internal call ringtone of your indoor station | No       | |
+| Option                               | Description                                                                                                    | Required | Default       |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `model`                              | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
+| `ringtone_entrance_door_call`        | Entrance Door Call Ringtone Select to set the entrance door call ringtone of your indoor station.              | No       | |
+| `ringtone_second_entrance_door_call` | Second Entrance Door Call Ringtone Select to set the second entrance door call ringtone of your indoor station.| No       | |
+| `ringtone_floor_call`                | Floor Call Ringtone Select to set the floor call ringtone of your indoor station.                              | No       | |
+| `ringtone_internal_call`             | Internal Call Ringtone Select to set the internal call ringtone of your indoor station.                        | No       | |
 
 
 ### Binary Sensors
@@ -139,6 +141,18 @@ The `tc_bus.read_memory` action allows you to read the memory of any indoor stat
 ```yaml
 on_...:
   - tc_bus.read_memory:
+      serial_number: 123456
+```
+
+### Identify Indoor Station
+The `tc_bus.identify` action allows you to identify the model of any indoor station using the serial number.
+::: note
+Not all models support this feature. For older indoor stations, you may need to select the model manually.
+:::
+
+```yaml
+on_...:
+  - tc_bus.identify:
       serial_number: 123456
 ```
 
@@ -346,13 +360,13 @@ button:
     name: "Read Handset volume"
     on_press:
       -lambda: |-
-          ESP_LOGD("TAG", "Handset volume: %i", id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET));
+          ESP_LOGD("TAG", "Handset volume: %i", id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
 
   - platform: template
     name: "Set Handset volume"
     on_press:
       - tc_bus.update_setting:
-          type: volume_handset
+          type: volume_handset_door_call
           value: 7
 ```
 
@@ -421,10 +435,12 @@ You can use command types in binary sensors and also when [sending commands](#se
 Here are the available setting types you can use to update the settings of your indoor station:
 
 - ringtone_floor_call <Badge type="tip" text="SETTING_RINGTONE_FLOOR_CALL" />
-- ringtone_door_call <Badge type="tip" text="SETTING_RINGTONE_DOOR_CALL" />
+- ringtone_entrance_door_call <Badge type="tip" text="SETTING_RINGTONE_ENTRANCE_DOOR_CALL" />
+- ringtone_second_entrance_door_call <Badge type="tip" text="SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL" />
 - ringtone_internal_call <Badge type="tip" text="SETTING_RINGTONE_INTERNAL_CALL" />
 - volume_ringtone <Badge type="tip" text="SETTING_VOLUME_RINGTONE" />
-- volume_handset <Badge type="tip" text="SETTING_VOLUME_HANDSET" />
+- volume_handset_door_call <Badge type="tip" text="SETTING_VOLUME_HANDSET_DOOR_CALL" />
+- volume_handset_internal_call <Badge type="tip" text="SETTING_VOLUME_HANDSET_INTERNAL_CALL" />
 
 
 ## Model Setting availability
@@ -432,32 +448,32 @@ Here are the available settings for specific indoor station models:
 
 | Model                        | Available settings                                                                                         |
 |------------------------------|------------------------------------------------------------------------------------------------------------|
-| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3340                  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3030 / Koch TC50 / Scantron Stilux | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3340                  | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3130 / Koch TC50P     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call` |
-| TCS IVH4222 / Koch VTCH50/2D | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call` |
-| TCS ISW3330 / Koch TC50 BW   | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW5010 / Koch TC60      | Verification and implementation required |
-| TCS IVW511x / Koch VTC60/2D / Scantron VIVO | Verification and implementation required |
-| TCS IVW521x | Verification and implementation required |
-| TCS ISW5020                  | Verification and implementation required |
-| TCS ISW5030                  | Verification and implementation required |
-| TCS ISW5031                  | Verification and implementation required |
-| TCS ISW5033                  | Verification and implementation required |
+| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`                                      |
+| TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISH3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3030 / Koch TC50 / Scantron Stilux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3130 / Koch TC50P     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS IVH4222 / Koch VTCH50/2D | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS ISW3330 / Koch TC50 BW   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW5010 / Koch TC60      | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5020                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5030                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5031                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5033                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS IVW511x / Koch VTC60/2D / Scantron VIVO | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS IVW521x | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW6010                  | Verification and implementation required |
 | TCS ISW6031                  | Verification and implementation required |
+| TCS IVW6511                  | Verification and implementation required |
 | TCS ISW7030 / Koch TC70      | Verification and implementation required |
 | TCS IVW7510 / Koch VTC70     | Verification and implementation required |
 | TCS ISH7030 / Koch TCH70     | Verification and implementation required |
 | TCS IVH7510 / Koch VTCH70    | Verification and implementation required |
-| TCS ISW6010                  | Verification and implementation required |
-| TCS IVW6511                  | Verification and implementation required |
 | TCS ISWM7000                 | Verification and implementation required |
 | TCS IVWM7000                 | Verification and implementation required |
 | TCS ISW4100 / Koch TC31      | Verification and implementation required |
@@ -480,3 +496,15 @@ Here are the available settings for specific indoor station models:
 | TCS IMM1310 / Koch VTCHE30   | Verification and implementation required |
 | TCS IMM1110 / Koch TCHEE30   | Verification and implementation required |
 | TCS IMM1500                  | Verification and implementation required |
+| TCS IVW2220 / Koch Sky       | Verification and implementation required |
+| TCS IVW2221 / Koch Sky R1.00 | Verification and implementation required |
+| TCS IVW3011 / Koch Skyline Plus | Verification and implementation required |
+| TCS IVW3012 / Koch Skyline/Aldup | Verification and implementation required |
+| TCS VMH / Koch VMH           | Verification and implementation required |
+| TCS VML / Koch VML           | Verification and implementation required |
+| TCS VMF / Koch VMF           | Verification and implementation required |
+| Jung TKIS                    | Verification and implementation required |
+| Jung TKISV                   | Verification and implementation required |
+| TCS CAIXXXX / Koch CAIXXXX   | Verification and implementation required |
+| TCS CAI2000 / Koch Carus     | Verification and implementation required |
+| TCS ISW42X0                  | Verification and implementation required |

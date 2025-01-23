@@ -22,9 +22,18 @@ select:
       web_server:
         sorting_group_id: sorting_group_intercom_settings
         
-    ringtone_door_call:
-      id: intercom_ringtone_door_call
-      name: "Ringtone: Door Call"
+    ringtone_entrance_door_call:
+      id: intercom_ringtone_entrance_door_call
+      name: "Ringtone: Entrance Door Call"
+      icon: "mdi:music"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
+
+    ringtone_second_entrance_door_call:
+      id: intercom_ringtone_second_entrance_door_call
+      name: "Ringtone: Second Entrance Door Call"
       icon: "mdi:music"
       entity_category: CONFIG
       disabled_by_default: true
@@ -60,9 +69,18 @@ number:
       web_server:
         sorting_group_id: sorting_group_intercom_settings
 
-    volume_handset:
-      id: intercom_volume_handset
-      name: "Volume: Handset"
+    volume_handset_door_call:
+      id: intercom_volume_handset_door_call
+      name: "Volume: Handset Door Call"
+      icon: "mdi:volume-high"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_intercom_settings
+
+    volume_handset_internal_call:
+      id: intercom_volume_handset_internal_call
+      name: "Volume: Handset Internal Call"
       icon: "mdi:volume-high"
       entity_category: CONFIG
       disabled_by_default: true

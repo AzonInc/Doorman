@@ -104,15 +104,15 @@ namespace esphome
             #endif
             #ifdef USE_SELECT
             SUB_SELECT(model)
-            SUB_SELECT(ringtone_door_call)
+            SUB_SELECT(ringtone_entrance_door_call)
+            SUB_SELECT(ringtone_second_entrance_door_call)
             SUB_SELECT(ringtone_floor_call)
             SUB_SELECT(ringtone_internal_call)
-            SUB_SELECT(volume_handset)
-            SUB_SELECT(volume_ringtone)
             #endif
             #ifdef USE_NUMBER
             SUB_NUMBER(serial_number)
-            SUB_NUMBER(volume_handset)
+            SUB_NUMBER(volume_handset_door_call)
+            SUB_NUMBER(volume_handset_internal_call)
             SUB_NUMBER(volume_ringtone)
             #endif
 
@@ -137,7 +137,7 @@ namespace esphome
                 void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
-                void read_version(uint32_t serial_number);
+                void request_version(uint32_t serial_number);
                 void read_memory(uint32_t serial_number);
                 void request_memory_blocks(uint8_t start_address);
                 void write_memory(uint32_t serial_number = 0);
@@ -187,7 +187,7 @@ namespace esphome
 
                 bool programming_mode_ = false;
 
-                bool reading_version_ = false;
+                bool identify_model_ = false;
                 bool reading_memory_ = false;
                 uint8_t reading_memory_count_ = 0;
                 std::vector<uint8_t> memory_buffer_;

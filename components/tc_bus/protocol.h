@@ -73,10 +73,12 @@ namespace esphome
         enum SettingType {
             SETTING_UNKNOWN,
             SETTING_RINGTONE_FLOOR_CALL,
-            SETTING_RINGTONE_DOOR_CALL,
+            SETTING_RINGTONE_ENTRANCE_DOOR_CALL,
+            SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL,
             SETTING_RINGTONE_INTERNAL_CALL,
             SETTING_VOLUME_RINGTONE,
-            SETTING_VOLUME_HANDSET
+            SETTING_VOLUME_HANDSET_DOOR_CALL,
+            SETTING_VOLUME_HANDSET_INTERNAL_CALL
         };
 
         enum CommandType {

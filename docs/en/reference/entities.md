@@ -194,8 +194,11 @@ Setting the delay to the maximum (60 seconds) will result in the automation gene
 ### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone volume.
 
-### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
-Sets the intercom phone handset volume.
+### Volume: Handset Door Call <Badge type="tip" text="intercom_volume_handset_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone handset door call volume.
+
+### Volume: Handset Internal Call <Badge type="tip" text="intercom_volume_handset_internal_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone handset internal call volume.
 
 ### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock LED Brightness setting.
@@ -225,8 +228,14 @@ Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone model. Check the [Supported Models and Settings](esphome-component#model-setting-availability) to see your options.
 
-### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
-Sets the intercom phone ringtone for door calls.
+### Ringtone: Entrance Door Call <Badge type="tip" text="intercom_ringtone_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for entrance door calls.
+
+##### Options:
+- Ringtone 1 ... 13
+
+### Ringtone: Second Entrance Door Call <Badge type="tip" text="intercom_ringtone_second_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for second entrance door calls.
 
 ##### Options:
 - Ringtone 1 ... 13

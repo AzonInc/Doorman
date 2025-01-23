@@ -12,6 +12,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Introduced a button to identify your indoor station model**  
    You can now effortlessly determine the correct model for your settings by simply pressing the "Identify Indoor Station" button, perfect for cases where you're unsure which model you own.
 
+- **Expand Support for Model Settings**  
+   Implemented settings compatibility for TCS TASTA (Koch TC60) IVW5xxx and ISW5xxx models.
+
 ### ✨ Improvements
 - **Fix Parser Command Length**  
    Previously, the command length was not properly parsed, which occasionally led to 32-bit commands being misinterpreted. This issue has now been resolved.
@@ -42,6 +45,10 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
    👉 **Check the [Model Setting availability](../reference/esphome-component#model-setting-availability) for details!**
 
+- **Intercom Settings Updated**  
+   To accommodate compatibility with new models, the settings `ringtone_door_call` and `volume_handset` have been renamed.  
+
+   👉 **Refer to the [Setting Types](../reference/esphome-component#setting-types) for the updated names and additional settings!**
 
 ## 2024.11.2
 ### ✨ Improvements

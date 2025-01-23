@@ -410,10 +410,12 @@ namespace esphome
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
             if (str == "RINGTONE_FLOOR_CALL") return SETTING_RINGTONE_FLOOR_CALL;
-            if (str == "RINGTONE_DOOR_CALL") return SETTING_RINGTONE_DOOR_CALL;
+            if (str == "RINGTONE_ENTRANCE_DOOR_CALL") return SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+            if (str == "RINGTONE_SECOND_ENTRANCE_DOOR_CALL") return SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
             if (str == "RINGTONE_INTERNAL_CALL") return SETTING_RINGTONE_INTERNAL_CALL;
             if (str == "VOLUME_RINGTONE") return SETTING_VOLUME_RINGTONE;
-            if (str == "VOLUME_HANDSET") return SETTING_VOLUME_HANDSET;
+            if (str == "VOLUME_HANDSET_DOOR_CALL") return SETTING_VOLUME_HANDSET_DOOR_CALL;
+            if (str == "VOLUME_HANDSET_INTERNAL_CALL") return SETTING_VOLUME_HANDSET_INTERNAL_CALL;
 
             return SETTING_UNKNOWN;
         }
@@ -423,10 +425,12 @@ namespace esphome
             switch (type)
             {
                 case SETTING_RINGTONE_FLOOR_CALL: return "RINGTONE_FLOOR_CALL";
-                case SETTING_RINGTONE_DOOR_CALL: return "RINGTONE_DOOR_CALL";
+                case SETTING_RINGTONE_ENTRANCE_DOOR_CALL: return "RINGTONE_ENTRANCE_DOOR_CALL";
+                case SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL: return "RINGTONE_SECOND_ENTRANCE_DOOR_CALL";
                 case SETTING_RINGTONE_INTERNAL_CALL: return "RINGTONE_INTERNAL_CALL";
                 case SETTING_VOLUME_RINGTONE: return "VOLUME_RINGTONE";
-                case SETTING_VOLUME_HANDSET: return "VOLUME_HANDSET";
+                case SETTING_VOLUME_HANDSET_DOOR_CALL: return "VOLUME_HANDSET_DOOR_CALL";
+                case SETTING_VOLUME_HANDSET_INTERNAL_CALL: return "VOLUME_HANDSET_INTERNAL_CALL";
                 default: return "UNKNOWN";
             }
         }
@@ -560,9 +564,9 @@ namespace esphome
             if (str == "TCS IVW2221 / Koch Sky R1.00") return MODEL_IVW2221;
             if (str == "TCS IVW3011 / Koch Skyline Plus") return MODEL_IVW3011;
             if (str == "TCS IVW3012 / Koch Skyline/Aldup") return MODEL_IVW3012;
-            if (str == "VMH") return MODEL_VMH;
-            if (str == "VML") return MODEL_VML;
-            if (str == "VMF") return MODEL_VMF;
+            if (str == "TCS VMH / Koch VMH") return MODEL_VMH;
+            if (str == "TCS VML / Koch VML") return MODEL_VML;
+            if (str == "TCS VMF / Koch VMF") return MODEL_VMF;
             if (str == "Jung TKIS") return MODEL_TKIS;
             if (str == "Jung TKISV") return MODEL_TKISV;
             if (str == "TCS CAIXXXX / Koch CAIXXXX") return MODEL_CAIXXXX;
@@ -732,9 +736,9 @@ namespace esphome
                 case MODEL_IVW2221: return "TCS IVW2221 / Koch Sky R1.00";
                 case MODEL_IVW3011: return "TCS IVW3011 / Koch Skyline Plus";
                 case MODEL_IVW3012: return "TCS IVW3012 / Koch Skyline/Aldup";
-                case MODEL_VMH: return "VMH";
-                case MODEL_VML: return "VML";
-                case MODEL_VMF: return "VMF";
+                case MODEL_VMH: return "TCS VMH / Koch VMH";
+                case MODEL_VML: return "TCS VML / Koch VML";
+                case MODEL_VMF: return "TCS VMF / Koch VMF";
                 case MODEL_TKIS: return "Jung TKIS";
                 case MODEL_TKISV: return "Jung TKISV";
                 case MODEL_CAIXXXX: return "TCS CAIXXXX / Koch CAIXXXX";
