@@ -29,19 +29,15 @@ You can connect your Doorman via USB-C and click the button below to install the
     </div>
 </esp-web-install-button>
 
-## Firmware YAML for Home Assistant
+## Firmware YAML
 This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
-
 ::: details Minimal Stock Firmware (Home Assistant)
 ```yaml
 <!--@include: ../../../../firmware/examples/ha-stock.example.yaml-->
 ```
 :::
 
-## Firmware YAML for MQTT
-
 This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure to update the Broker details.
-
 ::: details Minimal Stock Firmware (MQTT)
 ```yaml
 <!--@include: ../../../../firmware/examples/mqtt-stock.example.yaml-->

@@ -29,20 +29,16 @@ Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden But
     </div>
 </esp-web-install-button>
 
-## Firmware YAML für Home Assistant
+## Firmware YAML
 
 Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit Home Assistant. Vergiss nicht, den API-Schlüssel zu aktualisieren.
-
 ::: details Minimale Nuki-Bridge Firmware (Home Assistant)
 ```yaml
 <!--@include: ../../../../firmware/examples/ha-nuki-bridge.example.yaml-->
 ```
 :::
 
-## Firmware YAML für MQTT
-
 Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit MQTT. Vergiss nicht, die MQTT Broker Daten zu aktualisieren.
-
 ::: details Minimale Nuki-Bridge Firmware (MQTT)
 ```yaml
 <!--@include: ../../../../firmware/examples/mqtt-nuki-bridge.example.yaml-->

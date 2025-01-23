@@ -29,13 +29,13 @@ jobs:
       - name: Download Doorman Stock for Home Assistant (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
-          name: firmware-ha-doorman-stock
+          name: firmware-doorman-stock
           path: output/firmware/release
 
       - name: Download Doorman Nuki Bridge for Home Assistant (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
-          name: firmware-ha-doorman-nuki-bridge
+          name: firmware-doorman-nuki-bridge
           path: output/firmware/release
 
       - name: Upload Pages artifact
