@@ -146,7 +146,7 @@ on_...:
 
 ### Identify Indoor Station
 The `tc_bus.identify` action allows you to identify the model of any indoor station using the serial number.
-::: note
+::: tip Note
 Not all models support this feature. For older indoor stations, you may need to select the model manually.
 :::
 
