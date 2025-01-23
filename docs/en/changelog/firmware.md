@@ -31,6 +31,10 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Experimental Update Switch**   
    Instead of having two separate update entities, there's now a single one that checks for updates based on a new switch. This switch lets you easily toggle experimental updates from the dev branch on or off.
 
+### 📝 Other Updates
+- **Switch Nuki Component branch**  
+   Migrated the `nuki_lock` component to the `improve-memory-footprint` branch. This update leverages Doorman-S3's PSRAM, potentially enhancing the overall performance of the `nuki_lock` component.
+
 ### 🚨 Breaking Changes
 - **Separate Event entities**  
    [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
