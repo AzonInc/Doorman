@@ -1,4 +1,4 @@
-## MQTT Firmware
+## MQTT
 
 When using the MQTT firmware, various topics are published to your broker. Here's how the topic structure and controls work.
 
@@ -9,33 +9,55 @@ Each entity publishes its state to a topic in the following format:
 ```
 
 You can control certain entities by publishing a command to this topic format:
+::: code-group
+``` [Topic]
+<TOPIC_PREFIX>/<COMPONENT_TYPE>/<COMPONENT_NAME>/command 
 ```
-Topic: <TOPIC_PREFIX>/<COMPONENT_TYPE>/<COMPONENT_NAME>/command  
-Payload: ON or OFF or whatever is supported
+``` [Payload]
+ON or OFF or whatever is supported
 ```
+:::
 
 ### Example
-To enable or disable the [Ring-To-Open](../automation/ring-to-open.md) automation, send `ON` or `OFF` as the payload to the topic:  
+To enable or disable the [Ring-To-Open](../automation/ring-to-open.md) automation, send `ON` or `OFF` as the payload to the topic:
+::: code-group
+``` [Topic]
+doorman-s3/switch/ring_to_open/command
 ```
-Topic: doorman-s3/switch/ring_to_open/command  
-Payload: ON
+``` [Payload]
+ON
 ```
+:::
 
 ### Special Topics
 Certain special topics allow for advanced commands.
 
-#### Send a hexadecimal Command
-To send a hexadecimal command to the bus, use the topic `doorman-s3/send_raw_command ` with a JSON payload. Here's an example payload:
-```json
+#### Send a Command (Hexadecimal)
+Here's an example of how to send a hexadecimal command (uint32) to the bus:
+::: code-group
+``` [Topic]
+doorman-s3/send_raw_command
+```
+```json [Payload]
+{
+    "command": 0x1C30BA80
+}
+```
+```json [Advanced Payload]
 {
     "command": 0x1C30BA80,
     "is_long": false
 }
 ```
+:::
 
-#### Send a parsed Command
-To send a command via command builder to the bus, use the topic `doorman-s3/send_command` with a JSON payload. Here's an example payload:
-```json
+#### Send a Command (Command Builder)
+Here's an example of how to use the command builder to send a command to the bus:
+::: code-group
+``` [Topic]
+doorman-s3/send_command
+```
+```json [Payload]
 {
     "type": "open_door",
     "address": 0,
@@ -43,3 +65,4 @@ To send a command via command builder to the bus, use the topic `doorman-s3/send
     "serial_number": 123456
 }
 ```
+:::

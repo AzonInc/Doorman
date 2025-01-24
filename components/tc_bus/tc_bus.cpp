@@ -767,7 +767,7 @@ namespace esphome
             if(cellData.index != 0) {
                 return cellData.left_nibble ? ((memory_buffer_[cellData.index] >> 4) & 0xF) : (memory_buffer_[cellData.index] & 0xF);
             } else {
-                ESP_LOGV(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model_));
+                ESP_LOGD(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model_));
                 return 0;
             }
         }
