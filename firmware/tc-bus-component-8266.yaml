@@ -34,7 +34,7 @@ tc_bus:
   on_identify_complete:
     - logger.log:
         format: "Setup: Identified Hardware: %s (version %i), Firmware: %i.%i.%i"
-        args: [ 'model_to_string(x.model).c_str()', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
+        args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
   on_identify_timeout:
     - logger.log: "Setup: Unable to identify the Indoor Station, please select manually."
 

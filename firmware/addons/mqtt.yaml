@@ -28,3 +28,9 @@ esphome:
           color_brightness: 60%
       - delay: 3s
       - script.execute: update_led
+
+mqtt:
+  on_message:
+    - topic: doorman/test
+        then:
+          - # ...

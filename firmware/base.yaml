@@ -16,10 +16,6 @@ esp32:
   variant: esp32s3
   flash_size: 8MB
 
-psram:
-  mode: octal
-  speed: 80MHz
-
 # Essential ESPHome Configuration Options
 esphome:
   name: ${name}
@@ -36,6 +32,11 @@ esphome:
     board_build.flash_mode: dio
     build_flags:
       - -DBOARD_HAS_PSRAM 
+
+# Utilize PSRAM
+psram:
+  mode: octal
+  speed: 80MHz
 
 # Enable logging
 logger:

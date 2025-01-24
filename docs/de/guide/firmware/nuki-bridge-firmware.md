@@ -9,6 +9,7 @@ Es gibt mehrere Möglichkeiten, die Firmware zu aktualisieren:
 - Web Serial <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 
 Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden Button klicken, um die neueste Doorman Nuki-Bridge Firmware (Home Assistant) direkt über Web Serial zu installieren.
+Wenn du MQTT ohne Home Assistant nutzen möchtest, kannst du Doorman in dein ESPHome Dashboard aufnehmen und das untenstehende Beispiel `Minimale Nuki-Bridge Firmware (MQTT)` verwenden.
 <esp-web-install-button manifest="../../../firmware/release/doorman-nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">

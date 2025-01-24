@@ -231,10 +231,10 @@ namespace esphome
                         // HW Version
                         device.hardware_version = std::stoi(hex_result.substr(0, 1));
                         device.model = identifier_string_to_model(hex_result.substr(1, 3), device.hardware_version, device.firmware_version);
-                        std::string hw_model = model_to_string(device.model);
+                        const char* hw_model = model_to_string(device.model);
 
                         ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
-                            hw_model.c_str(), device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
+                            hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
 
                         this->identify_complete_callback_.call(device);
 
@@ -243,7 +243,7 @@ namespace esphome
                             this->model_ = device.model;
                             #ifdef USE_SELECT
                             if (this->model_select_ != nullptr) {
-                                this->model_select_->publish_state(hw_model.c_str());
+                                this->model_select_->publish_state(hw_model);
                             }
                             #endif
                             this->save_settings();
