@@ -30,7 +30,41 @@ esphome:
       - script.execute: update_led
 
 mqtt:
-  on_message:
-    - topic: doorman/test
+  on_json_message:
+    - topic: doorman-s3/send_tc_command_raw
+      then:
+        - tc_bus.send:
+            command: !lambda |-
+              int command = 0;
+              if (x.containsKey("command"))
+                command = x["command"];
+              return command;
+            is_long: !lambda |-
+              bool is_long = false;
+              if (x.containsKey("is_long"))
+                is_long = x["is_long"];
+              return is_long;
+              
+    - topic: doorman-s3/send_tc_command
         then:
-          - # ...
+          - tc_bus.send:
+              type: !lambda |-
+                CommandType commandType = COMMAND_TYPE_UNKNOWN;
+                if (x.containsKey("type"))
+                  commandType = string_to_command_type(x["type"]);
+                return commandType;
+              address: !lambda |-
+                int address = 0;
+                if (x.containsKey("address"))
+                  address = x["address"];
+                return address;
+              payload: !lambda |-
+                int payload = 0;
+                if (x.containsKey("payload"))
+                  payload = x["payload"];
+                return payload;
+              serial_number: !lambda |-
+                int serial_number = 0;
+                if (x.containsKey("serial_number"))
+                  serial_number = x["serial_number"];
+                return serial_number;

@@ -62,3 +62,5 @@ If your lock is already paired with Doorman, press the `FLASH` or `PRG` button o
 :::
 
 <!--@include: ./additions.md-->
+
+<!--@include: ./mqtt.md-->

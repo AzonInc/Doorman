@@ -75,9 +75,9 @@ i2c: // [!code ++] // [!code focus]
 ## Fortgeschrittene Beispiele
 ### Home Assistant
 
-::: details Sending Bus commands
+::: details Bus Commands senden
 Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu senden.
-Benutze entweder `command` für reine 32 Bit Befehle oder `type`, `address`, `payload` und `serial_number` um Befehle über den Command Builder zu senden.
+Benutze entweder `command` für hexadezimale Befehle oder `type`, `address`, `payload` und `serial_number` um Befehle über den Command Builder zu senden.
 
 > [!INFO]
 > Denk an das führende `0x` beim Senden eines Befehls mit der `command` Eigenschaft. Wenn du es weglässt, musst du den HEX-Befehl zuerst in eine Dezimalzahl umwandeln.
@@ -92,7 +92,7 @@ data:
   serial_number: 0
 ```
 
-32-Bit Befehle via `command`:
+Hexadezimale Befehle via `command`:
 ```yaml
 service: esphome.doorman_s3_send_tc_command_raw
 data:

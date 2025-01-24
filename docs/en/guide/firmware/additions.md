@@ -91,7 +91,7 @@ data:
   serial_number: 123456
 ```
 
-32-Bit Commands via `command`:
+Hexadecimal Commands via `command`:
 ```yaml
 service: esphome.doorman_s3_send_tc_command_raw
 data:

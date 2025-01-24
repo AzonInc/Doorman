@@ -47,3 +47,5 @@ Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit 
 :::
 
 <!--@include: ./additions.md-->
+
+<!--@include: ./mqtt.md-->

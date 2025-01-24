@@ -46,3 +46,5 @@ This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure t
 :::
 
 <!--@include: ./additions.md-->
+
+<!--@include: ./mqtt.md-->

@@ -23,12 +23,15 @@ binary_sensor:
     id: debug_bus_connected
     name: Bus Connection Status
     icon: "mdi:connection"
+    disabled_by_default: true
     lambda: |-
       if (id(bus_voltage).state >= 3) {
         return true;
       } else {
         return false;
       }
+    web_server:
+      sorting_group_id: sorting_group_system
 
 text:
   - platform: template
@@ -57,6 +60,7 @@ button:
     id: debug_restart_control_unit
     name: "System Restart"
     icon: mdi:restart
+    disabled_by_default: true
     on_press:
       - tc_bus.send:
           command: 0x5100

@@ -65,3 +65,5 @@ Falls dein Schloss bereits mit Doorman gekoppelt ist, drücke die `FLASH`- oder 
 :::
 
 <!--@include: ./additions.md-->
+
+<!--@include: ./mqtt.md-->
