@@ -199,7 +199,7 @@ namespace esphome
                     reading_memory_count_++;
 
                     // Memory reading complete
-                    if(reading_memory_count_ == 6) {
+                    if(reading_memory_count_ == reading_memory_max_) {
                         // Turn off
                         this->cancel_timeout("wait_for_memory_reading");
                         reading_memory_ = false;
@@ -220,7 +220,10 @@ namespace esphome
                         identify_model_ = false;
                         this->cancel_timeout("wait_for_identification");
 
-                        DeviceData device;
+                        ModelData device;
+
+                        device.category = 0;
+                        device.memory_size = 0;
 
                         // FW Version
                         device.firmware_version = std::stoi(hex_result.substr(5, 3));
@@ -553,9 +556,9 @@ namespace esphome
                 }
                 #endif
 
+                #ifdef USE_API
                 // Fire Home Assistant Event if event name is specified
                 if (strcmp(event_, "esphome.none") != 0) {
-                    #ifdef USE_API
                     auto capi = new esphome::api::CustomAPIDevice();
                     ESP_LOGD(TAG, "Send event to Home Assistant on %s", event_);
                     capi->fire_homeassistant_event(event_, {
@@ -565,8 +568,8 @@ namespace esphome
                         {"payload", std::to_string(cmd_data.payload)},
                         {"serial_number", std::to_string(cmd_data.serial_number)}
                     });
-                    #endif
                 }
+                #endif
             }
         }
 
@@ -679,7 +682,7 @@ namespace esphome
             this->read_memory_timeout_callback_.add(std::move(callback));
         }
 
-        void TCBusComponent::add_identify_complete_callback(std::function<void(DeviceData)> &&callback)
+        void TCBusComponent::add_identify_complete_callback(std::function<void(ModelData)> &&callback)
         {
             this->identify_complete_callback_.add(std::move(callback));
         }
@@ -696,8 +699,11 @@ namespace esphome
 
         void TCBusComponent::request_version(uint32_t serial_number)
         {
-            if(serial_number == 0) {
+            if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
+            } else {
+                ESP_LOGW(TAG, "Serial Number is not set!");
+                return;
             }
 
             this->cancel_timeout("wait_for_identification");
@@ -719,33 +725,47 @@ namespace esphome
             });
         }
 
-        void TCBusComponent::read_memory(uint32_t serial_number)
+        void TCBusComponent::read_memory(uint32_t serial_number, Model model)
         {
-            if(serial_number == 0) {
+            if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
+            } else {
+                ESP_LOGW(TAG, "Serial Number is not set!");
+                return;
+            }
+
+            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+                model = this->model_;
+            } else {
+                ESP_LOGW(TAG, "Model is not set!");
+                return;
             }
 
             this->cancel_timeout("wait_for_memory_reading");
             reading_memory_ = false;
 
-            uint8_t device_category = getDeviceCategory();
+            ModelData model_data = getModelData(model);
 
-            ESP_LOGD(TAG, "Select Indoor Stations");
-            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, device_category);
+            ESP_LOGD(TAG, "Select device category");
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, model_data.category);
             delay(50);
 
-            ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+            ESP_LOGD(TAG, "Select memory page %i of serial number %i", 0, serial_number);
             send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
             delay(50);
 
             memory_buffer_.clear();
             reading_memory_ = true;
+            reading_memory_serial_number_ = serial_number;
             reading_memory_count_ = 0;
+            reading_memory_max_ = (model_data.memory_size / 4);
 
             this->set_timeout("wait_for_memory_reading", 5000, [this]() {
                 memory_buffer_.clear();
                 reading_memory_ = false;
+                reading_memory_serial_number_ = 0;
                 reading_memory_count_ = 0;
+                reading_memory_max_ = 0;
 
                 this->read_memory_timeout_callback_.call();
                 ESP_LOGE(TAG, "Reading memory timed out!");
@@ -755,43 +775,55 @@ namespace esphome
             send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
         }
 
-        uint8_t TCBusComponent::get_setting(SettingType type)
+        uint8_t TCBusComponent::get_setting(SettingType type, Model model)
         {
             if(memory_buffer_.size() == 0) {
                 return 0;
             }
 
+            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+                model = this->model_;
+            } else {
+                ESP_LOGW(TAG, "Model is not set!");
+                return 0;
+            }
+
             // Get Setting Cell Data by Model
-            SettingCellData cellData = getSettingCellData(type);
+            SettingCellData cellData = getSettingCellData(type, model);
 
             if(cellData.index != 0) {
                 return cellData.left_nibble ? ((memory_buffer_[cellData.index] >> 4) & 0xF) : (memory_buffer_[cellData.index] & 0xF);
             } else {
-                ESP_LOGD(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model_));
+                ESP_LOGD(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
                 return 0;
             }
         }
 
-        bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number)
+        bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number, Model model)
         {
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory Buffer is empty! Please read memory first!");
                 return false;
             }
 
-            if(serial_number == 0) {
+            if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
+            } else {
+                ESP_LOGW(TAG, "Serial Number is not set!");
+                return false;
             }
 
-            if(serial_number == 0) {
-                ESP_LOGW(TAG, "Serial Number is not set!");
+            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+                model = this->model_;
+            } else {
+                ESP_LOGW(TAG, "Model is not set!");
                 return false;
             }
 
             uint8_t saved_nibble = 0;
 
             // Get Setting Cell Data by Model
-            SettingCellData cellData = getSettingCellData(type);
+            SettingCellData cellData = getSettingCellData(type, model);
 
             if(cellData.index != 0) {
                 // Apply new nibble and keep other nibble
@@ -799,318 +831,55 @@ namespace esphome
                 memory_buffer_[cellData.index] = cellData.left_nibble ? ((new_value << 4) | (saved_nibble & 0xF)) : ((saved_nibble << 4) | (new_value & 0xF));
 
                 // Prepare Transmission
-                ESP_LOGD(TAG, "Select Device Category");
-                uint8_t device_category = getDeviceCategory();
-                send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, device_category);
+                ESP_LOGD(TAG, "Select device category");
+                ModelData model_data = getModelData(model);
+                send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, model_data.category);
                 delay(50);
 
-                ESP_LOGD(TAG, "Select Memory Page %i of Serial Number %i", 0, serial_number);
+                ESP_LOGD(TAG, "Select memory page %i of serial number %i", 0, serial_number);
                 send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
                 delay(50);
 
                 // Transfer new settings value to memory
                 uint16_t new_values = (memory_buffer_[cellData.index] << 8) | memory_buffer_[cellData.index + 1];
                 send_command(COMMAND_TYPE_WRITE_MEMORY, cellData.index, new_values, serial_number);
+                delay(50);
+
+                // Reset
+                send_command(COMMAND_TYPE_RESET);
 
                 return true;
             } else {
-                ESP_LOGW(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model_));
+                ESP_LOGW(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
                 return false;
             }
         }
 
-        uint8_t TCBusComponent::getDeviceCategory()
-        {
-            switch (model_) {
-                case MODEL_ISW3030: /* TC50 */
-                case MODEL_ISW3130: /* TC50P */
-                case MODEL_ISW3230: /* TC50 GFA */
-                case MODEL_ISW3330: /* TC50 BW */
-                case MODEL_ISW3340:
-                case MODEL_ISW5010: /* TC60 */
-                case MODEL_ISW5020:
-                case MODEL_ISW5030:
-                case MODEL_ISW5031:
-                case MODEL_ISW5033:
-                case MODEL_IVW511X: /* VTC60 */
-                case MODEL_IVW521X: /* VTC60/2D */
-                case MODEL_ISW6031:
-                case MODEL_ISW7030: /* TC70 */
-                case MODEL_IVW7510: /* VTC70 */
-                case MODEL_ISH7030: /* TCH70 */
-                case MODEL_IVH7510: /* VTCH70 */
-                case MODEL_ISW6010:
-                case MODEL_IVW6511:
-                case MODEL_ISWM7000:
-                case MODEL_IVWM7000:
-                case MODEL_ISW4100: /* TC31 */
-                case MODEL_IMM2100: /* TCE31 */
-                case MODEL_IVW2210: /* Ecoos */
-                case MODEL_IVW2211: /* Ecoos */
-                case MODEL_IVW2212: /* Ecoos */
-                case MODEL_VTC42V2:
-                case MODEL_TC40V2:
-                case MODEL_VTC40:
-                case MODEL_TC40:
-                case MODEL_TC2000:
-                case MODEL_TC20P:
-                case MODEL_TC20F:
-                case MODEL_IVW2220:
-                case MODEL_IVW2221:
-                case MODEL_IVW3011:
-                case MODEL_IVW3012:
-                case MODEL_TKIS:
-                case MODEL_TKISV:
-                case MODEL_CAI2000:
-                case MODEL_CAIXXXX:
-                case MODEL_ISW42X0:
-                    return 1;
-
-                case MODEL_ISH3340:
-                case MODEL_ISH3022: /* TCH50P */
-                case MODEL_ISH3130: /* TCH50P */
-                case MODEL_ISW3022:
-                case MODEL_ISH3230: /* TCH50 GFA */
-                case MODEL_ISH3030: /* TCH50 */
-                case MODEL_ISH1030: /* TTS25 */
-                case MODEL_IMM1000: /* TCH30 */
-                case MODEL_IMM1100: /* TCHE30 */
-                case MODEL_IMM1300: /* VTCH30 */
-                case MODEL_IMM1500:
-                case MODEL_IMM1310: /* VTCHE30 */
-                case MODEL_IMM1110: /* TCHEE30 */
-                case MODEL_IVH3222: /* VTCH50 */
-                case MODEL_IVH4222: /* VTCH50/2D */
-                case MODEL_VMH:
-                case MODEL_VML:
-                case MODEL_VMF:
-                    return 0;
-
-                default:
-                    return 0;
-            }
-        }
-
-        SettingCellData TCBusComponent::getSettingCellData(SettingType setting)
-        {
-            SettingCellData data;
-
-            switch (model_) {
-                case MODEL_ISH3030:
-                case MODEL_ISH3230:
-                case MODEL_ISH3340:
-                case MODEL_ISW3030:
-                case MODEL_ISW3230:
-                case MODEL_ISW3340:
-                case MODEL_ISW3130:
-                case MODEL_ISW3330:
-                case MODEL_IVH4222:
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;
-
-                        case SETTING_VOLUME_HANDSET_DOOR_CALL:
-                            data.index = 21;
-                            data.left_nibble = false;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_ISH1030:
-                case MODEL_IVH3222:
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_IVW511X:
-                case MODEL_IVW521X:
-                    // TASTA Video
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL:
-                            data.index = 12;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        // Values: 0,2,4,6
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_DOOR_CALL:
-                            data.index = 21;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_INTERNAL_CALL:
-                            data.index = 21;
-                            data.left_nibble = true;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_ISW5010:
-                case MODEL_ISW5020:
-                case MODEL_ISW5030:
-                case MODEL_ISW5031:
-                case MODEL_ISW5033:
-                    // TASTA Audio
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL:
-                            data.index = 12;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        // Values: 0,2,4,6
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_DOOR_CALL:
-                            data.index = 21;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_INTERNAL_CALL:
-                            data.index = 21;
-                            data.left_nibble = true;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_IVW2210:
-                case MODEL_IVW2211:
-                case MODEL_IVW2212:
-                    // ECOOS
-                    switch (setting)
-                    {
-                        /*case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;*/
-
-                        default: break;
-                    }
-                    break;
-                default: break;
-            }
-
-            return data;
-        }
-
-        void TCBusComponent::write_memory(uint32_t serial_number)
+        void TCBusComponent::write_memory(uint32_t serial_number, Model model)
         {
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return;
             }
 
-            if(serial_number == 0) {
+            if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
+            } else {
+                ESP_LOGW(TAG, "Serial number is not set!");
+                return;
             }
 
-            if(serial_number == 0) {
-                ESP_LOGW(TAG, "Serial number is not set!");
+            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+                model = this->model_;
+            } else {
+                ESP_LOGW(TAG, "Model is not set!");
                 return;
             }
 
             // Prepare Transmission
             ESP_LOGD(TAG, "Select device category");
-            uint8_t device_category = getDeviceCategory();
-            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, device_category);
+            ModelData model_data = getModelData(model);
+            send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, model_data.category);
             delay(50);
 
             ESP_LOGD(TAG, "Select memory page %i of serial number %i", 0, serial_number);

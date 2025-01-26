@@ -385,17 +385,19 @@ struct CommandData {
 };
 ```
 
-## Device Data
-The `DeviceData` structure is used internally in the identification process.
+## Model Data
+The `ModelData` structure is used internally in the identification process.
 
 ```c++
-struct DeviceData {
+struct ModelData {
     Model model = MODEL_NONE;
     uint32_t firmware_version = 0;
     uint8_t firmware_major = 0;
     uint8_t firmware_minor = 0;
     uint8_t firmware_patch = 0;
     uint8_t hardware_version = 0; 
+    uint8_t category = 0;
+    uint8_t memory_size = 0; 
 };
 ```
 

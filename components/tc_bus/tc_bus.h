@@ -137,15 +137,14 @@ namespace esphome
                 void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
-                void request_version(uint32_t serial_number);
-                void read_memory(uint32_t serial_number);
-                void request_memory_blocks(uint8_t start_address);
-                void write_memory(uint32_t serial_number = 0);
 
-                uint8_t get_setting(SettingType type);
-                bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
-                SettingCellData getSettingCellData(SettingType setting);
-                uint8_t getDeviceCategory();
+                void request_version(uint32_t serial_number);
+                void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
+                void request_memory_blocks(uint8_t start_address);
+                void write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
+
+                uint8_t get_setting(SettingType type, Model model = MODEL_NONE);
+                bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0, Model model = MODEL_NONE);
 
                 void publish_command(uint32_t command, bool is_long, bool fire_events);
 
@@ -158,8 +157,8 @@ namespace esphome
                 CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
                 void add_read_memory_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> read_memory_timeout_callback_{};
-                void add_identify_complete_callback(std::function<void(DeviceData)> &&callback);
-                CallbackManager<void(DeviceData)> identify_complete_callback_{};
+                void add_identify_complete_callback(std::function<void(ModelData)> &&callback);
+                CallbackManager<void(ModelData)> identify_complete_callback_{};
                 void add_identify_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> identify_timeout_callback_{};
 
@@ -186,10 +185,12 @@ namespace esphome
                 std::string hardware_version_str_ = "Generic";
 
                 bool programming_mode_ = false;
-
                 bool identify_model_ = false;
+                
                 bool reading_memory_ = false;
                 uint8_t reading_memory_count_ = 0;
+                uint8_t reading_memory_max_ = 0;
+                uint32_t reading_memory_serial_number_ = 0;
                 std::vector<uint8_t> memory_buffer_;
 
                 ESPPreferenceObject pref_;

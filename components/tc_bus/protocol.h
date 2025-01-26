@@ -129,13 +129,15 @@ namespace esphome
             bool left_nibble = false;
         };
 
-        struct DeviceData {
+        struct ModelData {
             Model model = MODEL_NONE;
             uint32_t firmware_version = 0;
             uint8_t firmware_major = 0;
             uint8_t firmware_minor = 0;
             uint8_t firmware_patch = 0;
             uint8_t hardware_version = 0; 
+            uint8_t category = 0;
+            uint8_t memory_size = 0;
         };
 
         CommandData buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
@@ -147,7 +149,10 @@ namespace esphome
         const char* setting_type_to_string(SettingType type);
         SettingType string_to_setting_type(std::string str);
 
-        const char* model_to_string(Model model);
+        SettingCellData getSettingCellData(SettingType setting, Model model);
+        ModelData getModelData(Model model = MODEL_NONE);
+
+        const char* model_to_string(Model model = MODEL_NONE);
         Model string_to_model(const std::string& str);
         Model identifier_string_to_model(const std::string& model_key, const uint8_t& hw_version = 0, const uint32_t& fw_version = 0);
 

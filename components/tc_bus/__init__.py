@@ -30,7 +30,7 @@ TCBusIdentifyAction = tc_bus_ns.class_(
 
 CommandData = tc_bus_ns.struct(f"CommandData")
 SettingData = tc_bus_ns.struct(f"SettingData")
-DeviceData = tc_bus_ns.struct(f"DeviceData")
+ModelData = tc_bus_ns.struct(f"ModelData")
 
 IdentifyCompleteTrigger = tc_bus_ns.class_("IdentifyCompleteTrigger", automation.Trigger.template())
 IdentifyTimeoutTrigger = tc_bus_ns.class_("IdentifyTimeoutTrigger", automation.Trigger.template())
@@ -86,7 +86,7 @@ COMMAND_TYPES = {
 
 CONF_MODELS = [
     "None",
-    "TCS ISW3030 / Koch TC50",
+    "TCS ISW3030 / Koch TC50 / Scantron Stilux",
     "TCS ISW3130 / Koch TC50P",
     "TCS ISW3230 / Koch TC50 GFA",
     "TCS ISW3330 / Koch TC50 BW",
@@ -119,12 +119,10 @@ CONF_MODELS = [
     "TCS TC2000",
     "TCS TC20P",
     "TCS TC20F",
-    "TCS ISH3340",
     "TCS ISH3022 / Koch TCH50P",
-    "TCS ISH3130 / Koch TCH50P",
-    "TCS ISW3022",
+    "TCS ISH3130 / Koch TCH50P / Scantron LuxPlus",
     "TCS ISH3230 / Koch TCH50 GFA",
-    "TCS ISH3030 / Koch TCH50",
+    "TCS ISH3030 / Koch TCH50 / Scantron Lux2",
     "TCS ISH1030 / Koch TTS25",
     "TCS IMM1000 / Koch TCH30",
     "TCS IMM1100 / Koch TCHE30",
@@ -132,7 +130,7 @@ CONF_MODELS = [
     "TCS IMM1500",
     "TCS IMM1310 / Koch VTCHE30",
     "TCS IMM1110 / Koch TCHEE30",
-    "TCS IVH3222 / Koch VTCH50",
+    "TCS IVH3222 / Koch VTCH50 / Scantron VLux",
     "TCS IVH4222 / Koch VTCH50/2D",
     "TCS IVW2220 / Koch Sky",
     "TCS IVW2221 / Koch Sky R1.00",
@@ -257,7 +255,7 @@ async def to_code(config):
 
     for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(DeviceData, "x")], conf)
+        await automation.build_automation(trigger, [(ModelData, "x")], conf)
 
     for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)

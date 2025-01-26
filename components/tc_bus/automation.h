@@ -123,10 +123,10 @@ namespace esphome
                     parent->add_identify_timeout_callback([this]() { this->trigger(); });
                 }
         };
-        class IdentifyCompleteTrigger : public Trigger<DeviceData> {
+        class IdentifyCompleteTrigger : public Trigger<ModelData> {
             public:
                 explicit IdentifyCompleteTrigger(TCBusComponent *parent) {
-                    parent->add_identify_complete_callback([this](const DeviceData &value) { this->trigger(value); });
+                    parent->add_identify_complete_callback([this](const ModelData &value) { this->trigger(value); });
                 }
         };
     }  // namespace tc_bus
