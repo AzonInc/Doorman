@@ -136,6 +136,23 @@ namespace esphome
                 listener->turn_off(&listener->timer_);
             }
             #endif
+
+            #ifdef TC_DEBUG_TIMING
+            this->set_interval("timing_debug", 2000, [this] {
+                this->rx_pin_->detach_interrupt();
+                uint8_t index = this->store_.debug_buffer_index;
+                this->store_.debug_buffer_index = 0;
+                this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+
+                if(index > 0)
+                {
+                    ESP_LOGI(TAG, "Timings:");
+                    for (uint8_t i = 0; i < index; i++) {
+                        ESP_LOGI(TAG, "Diff: %i", this->store_.debug_buffer[i]);
+                    }
+                }
+            });
+            #endif
         }
 
         void TCBusComponent::save_settings()
@@ -163,6 +180,10 @@ namespace esphome
             }
 
             ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
+            
+            #ifdef TC_DEBUG_TIMING
+            ESP_LOGCONFIG(TAG, "  Debug Timings: Enabled");
+            #endif
 
             #ifdef USE_TEXT_SENSOR
             ESP_LOGCONFIG(TAG, "Text Sensors:");
@@ -316,6 +337,10 @@ namespace esphome
         }
         #endif
 
+        #ifdef TC_DEBUG_TIMING
+        volatile uint32_t TCBusComponentStore::debug_buffer[100];
+        volatile uint8_t TCBusComponentStore::debug_buffer_index = 0;
+        #endif
         volatile uint32_t TCBusComponentStore::s_last_bit_change = 0;
         volatile uint32_t TCBusComponentStore::s_cmd = 0;
         volatile bool TCBusComponentStore::s_cmd_is_long = false;
@@ -328,7 +353,7 @@ namespace esphome
             // Timing thresholds (in microseconds)
             const uint32_t BIT_0_MIN = 1000, BIT_0_MAX = 2999;
             const uint32_t BIT_1_MIN = 3000, BIT_1_MAX = 4999;
-            const uint32_t BIT_2_MIN = 5000, BIT_2_MAX = 6999;
+            const uint32_t START_MIN = 5000, START_MAX = 6999;
             const uint32_t RESET_MIN = 7000, RESET_MAX = 24000;
 
             static uint32_t curCMD = 0;   // Current command being constructed
@@ -344,24 +369,26 @@ namespace esphome
             uint32_t timeInUS = usNow - usLast;
             usLast = usNow;
 
+            #ifdef TC_DEBUG_TIMING
+            if (arg->debug_buffer_index < 100) {
+                arg->debug_buffer[arg->debug_buffer_index++] = timeInUS;
+            }
+            #endif
+
             // Determine current bit based on time interval
             uint8_t curBit = 4; // Default to undefined bit
             if (timeInUS >= BIT_0_MIN && timeInUS <= BIT_0_MAX) {
                 curBit = 0;
             } else if (timeInUS >= BIT_1_MIN && timeInUS <= BIT_1_MAX) {
                 curBit = 1;
-            } else if (timeInUS >= BIT_2_MIN && timeInUS <= BIT_2_MAX) {
+            } else if (timeInUS >= START_MIN && timeInUS <= START_MAX) {
                 curBit = 2;
-            } else if (timeInUS >= RESET_MIN && timeInUS <= RESET_MAX) {
-                curBit = 3; // Reset condition
-            } else {
-                // Invalid timing, reset the position
+            } else if (timeInUS >= RESET_MIN) {
+                // Reset if a reset signal is detected
                 curPos = 0;
                 return;
-            }
-
-            // Reset if a reset signal is detected
-            if (curBit == 3) {
+            } else {
+                // Invalid timing, reset the position
                 curPos = 0;
                 return;
             }
