@@ -159,7 +159,7 @@ namespace esphome
             if (strcmp(this->event_, "esphome.none") != 0) {
                 ESP_LOGCONFIG(TAG, "  Event: %s", this->event_);
             } else {
-                ESP_LOGCONFIG(TAG, "  Event: disabled");
+                ESP_LOGCONFIG(TAG, "  Event: Disabled");
             }
 
             ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
@@ -272,14 +272,14 @@ namespace esphome
 
         void TCBusComponent::publish_settings()
         {
-            ESP_LOGD(TAG, "Handset volume (Door Call) %i", get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
-            ESP_LOGD(TAG, "Handset volume (Internal Call) %i", get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
-            ESP_LOGD(TAG, "Ringtone volume %i", get_setting(SETTING_VOLUME_RINGTONE));
+            ESP_LOGD(TAG, "Handset volume (Door Call): %i", get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+            ESP_LOGD(TAG, "Handset volume (Internal Call): %i", get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
+            ESP_LOGD(TAG, "Ringtone volume: %i", get_setting(SETTING_VOLUME_RINGTONE));
 
-            ESP_LOGD(TAG, "Entrance Door Call Ringtone %i", get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL));
-            ESP_LOGD(TAG, "Second Entrance Door Call Ringtone %i", get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL));
-            ESP_LOGD(TAG, "Floor Call Ringtone %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
-            ESP_LOGD(TAG, "Internal Call Ringtone %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
+            ESP_LOGD(TAG, "Entrance Door Call Ringtone: %i", get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL));
+            ESP_LOGD(TAG, "Second Entrance Door Call Ringtone: %i", get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL));
+            ESP_LOGD(TAG, "Floor Call Ringtone: %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
+            ESP_LOGD(TAG, "Internal Call Ringtone: %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
 
             #ifdef USE_SELECT
             if (this->ringtone_entrance_door_call_select_) {
@@ -452,7 +452,7 @@ namespace esphome
 
             // Parse Command
             CommandData cmd_data = parseCommand(command, is_long);
-            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %x, Serial: %i, Length: %i-Bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
+            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
 
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
@@ -603,13 +603,13 @@ namespace esphome
         void TCBusComponent::send_command(uint32_t command, bool is_long)
         {
             if(is_long) {
-                ESP_LOGD(TAG, "Sending 32-Bit command %08X", command);
+                ESP_LOGD(TAG, "Sending 32-bit command %08X", command);
             } else {
-                ESP_LOGD(TAG, "Sending 16-Bit command %04X", command);
+                ESP_LOGD(TAG, "Sending 16-bit command %04X", command);
             }
 
             if (this->sending) {
-                ESP_LOGD(TAG, "Sending of command %i cancelled, another sending is in progress", command);
+                ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
             } else {
                 // Prevent collisions
                 /*auto &s = this->store_;
@@ -699,10 +699,12 @@ namespace esphome
 
         void TCBusComponent::request_version(uint32_t serial_number)
         {
+            ESP_LOGD(TAG, "Identifying model of device with serial number: %i...", serial_number);
+
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
-                ESP_LOGW(TAG, "Serial Number is not set!");
+                ESP_LOGW(TAG, "Serial number is not set!");
                 return;
             }
 
@@ -727,10 +729,12 @@ namespace esphome
 
         void TCBusComponent::read_memory(uint32_t serial_number, Model model)
         {
+            ESP_LOGD(TAG, "Reading EEPROM of %s (%i)...", model_to_string(model), serial_number);
+
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
-                ESP_LOGW(TAG, "Serial Number is not set!");
+                ESP_LOGW(TAG, "Serial number is not set!");
                 return;
             }
 
@@ -794,22 +798,24 @@ namespace esphome
             if(cellData.index != 0) {
                 return cellData.left_nibble ? ((memory_buffer_[cellData.index] >> 4) & 0xF) : (memory_buffer_[cellData.index] & 0xF);
             } else {
-                ESP_LOGD(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
+                ESP_LOGV(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
                 return 0;
             }
         }
 
         bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number, Model model)
         {
+            ESP_LOGD(TAG, "Write setting %s (%X) to EEPROM of %s (%i)...", setting_type_to_string(type), new_value, model_to_string(model), serial_number);
+
             if(memory_buffer_.size() == 0) {
-                ESP_LOGW(TAG, "Memory Buffer is empty! Please read memory first!");
+                ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return false;
             }
 
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
-                ESP_LOGW(TAG, "Serial Number is not set!");
+                ESP_LOGW(TAG, "Serial number is not set!");
                 return false;
             }
 
@@ -842,7 +848,7 @@ namespace esphome
 
                 // Transfer new settings value to memory
                 uint16_t new_values = (memory_buffer_[cellData.index] << 8) | memory_buffer_[cellData.index + 1];
-                send_command(COMMAND_TYPE_WRITE_MEMORY, cellData.index, new_values, serial_number);
+                send_command(COMMAND_TYPE_WRITE_MEMORY, cellData.index, new_values);
                 delay(50);
 
                 // Reset
@@ -850,30 +856,32 @@ namespace esphome
 
                 return true;
             } else {
-                ESP_LOGW(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
+                ESP_LOGV(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
                 return false;
             }
         }
 
-        void TCBusComponent::write_memory(uint32_t serial_number, Model model)
+        bool TCBusComponent::write_memory(uint32_t serial_number, Model model)
         {
+            ESP_LOGD(TAG, "Write memory buffer to EEPROM of %s (%i)...", model_to_string(model), serial_number);
+
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
-                return;
+                return false;
             }
 
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
                 ESP_LOGW(TAG, "Serial number is not set!");
-                return;
+                return false;
             }
 
             if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
                 model = this->model_;
             } else {
                 ESP_LOGW(TAG, "Model is not set!");
-                return;
+                return false;
             }
 
             // Prepare Transmission
@@ -889,9 +897,14 @@ namespace esphome
             // Transmit Memory
             for (size_t address = 0; address < memory_buffer_.size(); address += 2) {
                 uint16_t new_value = (memory_buffer_[address] << 8) | memory_buffer_[address + 1];
-                send_command(COMMAND_TYPE_WRITE_MEMORY, address, new_value, serial_number);
+                send_command(COMMAND_TYPE_WRITE_MEMORY, address, new_value);
                 delay(50);
             }
+
+            // Reset
+            send_command(COMMAND_TYPE_RESET);
+
+            return true;
         }
 
     }  // namespace tc_bus

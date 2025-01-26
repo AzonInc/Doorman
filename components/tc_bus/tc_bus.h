@@ -141,7 +141,7 @@ namespace esphome
                 void request_version(uint32_t serial_number);
                 void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
                 void request_memory_blocks(uint8_t start_address);
-                void write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
+                bool write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
 
                 uint8_t get_setting(SettingType type, Model model = MODEL_NONE);
                 bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0, Model model = MODEL_NONE);
@@ -186,7 +186,7 @@ namespace esphome
 
                 bool programming_mode_ = false;
                 bool identify_model_ = false;
-                
+
                 bool reading_memory_ = false;
                 uint8_t reading_memory_count_ = 0;
                 uint8_t reading_memory_max_ = 0;
