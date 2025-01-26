@@ -17,18 +17,6 @@ switch:
       sorting_group_id: sorting_group_system
       sorting_weight: -19
 
-button:
-  - platform: template
-    id: identify_indoor_station
-    name: "Identify Indoor Station"
-    icon: "mdi:identifier"
-    entity_category: CONFIG
-    disabled_by_default: true
-    on_press:
-      - tc_bus.identify:
-    web_server:
-      sorting_group_id: sorting_group_intercom_settings
-
 # Extend TC:BUS Component
 tc_bus:
   on_identify_complete:
@@ -36,9 +24,6 @@ tc_bus:
         condition:
           - switch.is_on: doorman_setup_mode
         then:
-          - logger.log:
-              format: "Setup: Identified Hardware: %s (version %i), Firmware: %i.%i.%i"
-              args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
           - script.execute: complete_setup
 
   on_identify_timeout:
@@ -46,7 +31,6 @@ tc_bus:
         condition:
           - switch.is_on: doorman_setup_mode
         then:
-          - logger.log: "Setup: Unable to identify the Indoor Station, please select manually."
           - script.execute: complete_setup
 
   on_command:

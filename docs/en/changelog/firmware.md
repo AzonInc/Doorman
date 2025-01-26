@@ -28,6 +28,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Fixed Memory Reading for Some Intercom Models**  
    The memory will now be correctly read from your indoor station.
 
+- **Automatic Intercom Memory Reading**  
+   The intercom memory is now automatically read during boot and after model identification. Manual memory readings are still possible but no longer necessary.
+
 - **Experimental Update Switch**   
    Instead of having two separate update entities, there's now a single one that checks for updates based on a new switch. This switch lets you easily toggle experimental updates from the dev branch on or off.
 
@@ -36,6 +39,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    Migrated the `nuki_lock` component to the `improve-memory-footprint` branch. This update leverages Doorman-S3's PSRAM, potentially enhancing the overall performance of the `nuki_lock` component.
 
 ### 🚨 Breaking Changes
+- **Hexadecimal Command-String Length changed**  
+   With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the `Last Bus Command` sensor.
+
 - **Separate Event entities**  
    [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
    This enhancement enables event tracking on a per-button basis, providing more granular and precise support for doorbell interactions.  

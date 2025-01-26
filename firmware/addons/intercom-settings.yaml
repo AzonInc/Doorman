@@ -1,5 +1,14 @@
 # Intercom Settings Addon
 
+esphome:
+  on_boot:
+    then:
+      - if:
+          condition:
+             - lambda: return id(serial_number).state != 0 && id(intercom_model).state != "None";
+          then:
+            - tc_bus.read_memory:
+
 # Extend TC:BUS Component
 tc_bus:
   on_read_memory_complete:
@@ -10,6 +19,19 @@ tc_bus:
 
   on_read_memory_timeout:
     - logger.log: "Failed to read Memory"
+
+  on_identify_complete:
+    - logger.log:
+        format: "Identified Hardware: %s (version %i), Firmware: %i.%i.%i"
+        args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
+    - if:
+        condition:
+          - lambda: return x.model != MODEL_NONE;
+        then:
+          - tc_bus.read_memory:
+
+  on_identify_timeout:
+    - logger.log: "Unable to identify the Indoor Station, please select manually."
 
 select:
   - platform: tc_bus
@@ -97,5 +119,16 @@ button:
       - tc_bus.read_memory:
     entity_category: CONFIG
     disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_intercom_settings
+
+  - platform: template
+    id: identify_indoor_station
+    name: "Identify Indoor Station"
+    icon: "mdi:identifier"
+    entity_category: CONFIG
+    disabled_by_default: true
+    on_press:
+      - tc_bus.identify:
     web_server:
       sorting_group_id: sorting_group_intercom_settings

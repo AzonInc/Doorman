@@ -7,7 +7,7 @@ packages:
   mqtt: !include addons/mqtt.yaml
   pattern_events: !include addons/pattern-events.yaml
   ring_to_open: !include addons/ring-to-open.yaml
-  memory_utils: !include addons/intercom-settings.yaml
+  intercom_settings: !include addons/intercom-settings.yaml
   addon_nuki_bridge: !include addons/nuki-bridge.yaml
   interactive_setup: !include addons/interactive-setup.yaml
 

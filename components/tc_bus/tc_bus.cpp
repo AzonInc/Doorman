@@ -239,8 +239,6 @@ namespace esphome
                         ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
                             hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
 
-                        this->identify_complete_callback_.call(device);
-
                         // Update Model
                         if(device.model != MODEL_NONE && device.model != this->model_) {
                             this->model_ = device.model;
@@ -251,6 +249,8 @@ namespace esphome
                             #endif
                             this->save_settings();
                         }
+
+                        this->identify_complete_callback_.call(device);
                     } else {
                         ESP_LOGE(TAG, "Invalid indentification response!");
                     }
