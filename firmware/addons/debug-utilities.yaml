@@ -48,20 +48,18 @@ binary_sensor:
 
 sensor:
   - platform: wifi_signal
-    name: "WiFi Signal dB"
     id: debug_wifi_signal_db
     update_interval: 60s
-    entity_category: "diagnostic"
-    web_server:
-      sorting_group_id: sorting_group_diagnostic
+    internal: True
 
   - platform: copy
     id: debug_wifi_signal
+    icon: "mdi:wifi"
     source_id: debug_wifi_signal_db
     name: "WiFi Signal"
     filters:
       - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
-    unit_of_measurement: "Signal %"
+    unit_of_measurement: "%"
     entity_category: "diagnostic"
     device_class: ""
     web_server:
