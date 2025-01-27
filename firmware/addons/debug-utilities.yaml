@@ -47,6 +47,11 @@ binary_sensor:
       sorting_group_id: sorting_group_diagnostic
 
 sensor:
+  - platform: wifi_signal
+    id: debug_wifi_signal
+    name: "WiFi Signal"
+    update_interval: 60s
+
   - platform: adc
     id: debug_bus_voltage
     name: Bus Voltage
