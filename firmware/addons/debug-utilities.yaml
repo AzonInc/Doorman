@@ -18,6 +18,18 @@ globals:
     type: std::vector<int>
     initial_value: ''
 
+debug:
+  update_interval: 5s
+
+text_sensor:
+  - platform: debug
+    reset_reason:
+      name: "Reset Reason"
+      id: debug_restart_reason
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+
 binary_sensor:
   - platform: template
     id: debug_bus_connected
@@ -25,13 +37,28 @@ binary_sensor:
     icon: "mdi:connection"
     disabled_by_default: true
     lambda: |-
-      if (id(bus_voltage).state >= 3) {
+      if (id(debug_bus_voltage).state >= 3) {
         return true;
       } else {
         return false;
       }
+    entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_system
+      sorting_group_id: sorting_group_diagnostic
+
+sensor:
+  - platform: adc
+    id: debug_bus_voltage
+    name: Bus Voltage
+    pin: GPIO10
+    update_interval: 1s
+    attenuation: 12dB
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    icon: "mdi:current-dc"
+    web_server:
+      sorting_group_id: sorting_group_diagnostic
+      sorting_weight: -5
 
 text:
   - platform: template
