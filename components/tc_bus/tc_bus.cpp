@@ -48,6 +48,10 @@ namespace esphome
         static const uint8_t TCS_SEND_MIN_DELAY_MS = 20;
         static const uint8_t TCS_SEND_MAX_DELAY_MS = 50;
 
+        #ifdef TC_DEBUG_TIMING
+        static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
+        #endif
+
         TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
         void TCBusComponent::setup()
@@ -342,7 +346,7 @@ namespace esphome
         #endif
 
         #ifdef TC_DEBUG_TIMING
-        volatile uint32_t TCBusComponentStore::debug_buffer[100];
+        volatile uint32_t TCBusComponentStore::debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
         volatile uint8_t TCBusComponentStore::debug_buffer_index = 0;
         #endif
         volatile uint32_t TCBusComponentStore::s_last_bit_change = 0;
@@ -374,7 +378,7 @@ namespace esphome
             usLast = usNow;
 
             #ifdef TC_DEBUG_TIMING
-            if (arg->debug_buffer_index < 100) {
+            if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                 arg->debug_buffer[arg->debug_buffer_index++] = timeInUS;
             }
             #endif
@@ -408,7 +412,7 @@ namespace esphome
 
                     #ifdef TC_DEBUG_TIMING
                     // END OF COMMAND
-                    if (arg->debug_buffer_index < 100) {
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                         arg->debug_buffer[arg->debug_buffer_index++] = 1;
                     }
                     #endif
@@ -478,7 +482,7 @@ namespace esphome
 
                     #ifdef TC_DEBUG_TIMING
                     // END OF COMMAND
-                    if (arg->debug_buffer_index < 100) {
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                         arg->debug_buffer[arg->debug_buffer_index++] = 0;
                     }
                     #endif
@@ -487,7 +491,7 @@ namespace esphome
                 {
                     #ifdef TC_DEBUG_TIMING
                     // CRC ERROR
-                    if (arg->debug_buffer_index < 100) {
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                         arg->debug_buffer[arg->debug_buffer_index++] = 99;
                     }
                     #endif
