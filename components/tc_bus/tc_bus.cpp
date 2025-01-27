@@ -42,7 +42,11 @@ namespace esphome
         static const uint8_t TCS_MSG_START_MS = 6; // a new message
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
+
         static const uint8_t TCS_SEND_WAIT_DURATION = 50;
+        static const uint8_t TCS_SEND_WAIT_TIMEOUT_MS = 100;
+        static const uint8_t TCS_SEND_MIN_DELAY_MS = 20;
+        static const uint8_t TCS_SEND_MAX_DELAY_MS = 50;
 
         TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
@@ -393,6 +397,9 @@ namespace esphome
                 return;
             }
 
+            // Save last bit timestamp
+            arg->s_last_bit_change = millis();
+
             if (curPos == 0) {
                 // First bit after reset: expect start signal (bit 2)
                 if (curBit == 2)
@@ -453,9 +460,6 @@ namespace esphome
                 curPos = 0;
             }
 
-            // Save last bit timestamp
-            arg->s_last_bit_change = millis();
-
             // If the command is ready, validate CRC and save the command
             if (cmdIntReady) {
                 cmdIntReady = false;
@@ -464,6 +468,22 @@ namespace esphome
                     arg->s_cmd_is_long = curIsLong ? true : false;
                     arg->s_cmd = curCMD; // Save the decoded command
                     arg->s_cmdReady = true; // Indicate that a command is ready
+
+                    #ifdef TC_DEBUG_TIMING
+                    // END OF COMMAND
+                    if (arg->debug_buffer_index < 100) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 0;
+                    }
+                    #endif
+                }
+                else
+                {
+                    #ifdef TC_DEBUG_TIMING
+                    // CRC ERROR
+                    if (arg->debug_buffer_index < 100) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 99;
+                    }
+                    #endif
                 }
 
                 // Reset state
@@ -639,16 +659,20 @@ namespace esphome
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
             } else {
                 // Prevent collisions
-                /*auto &s = this->store_;
+                std::srand(millis());
+                uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
+                uint32_t start_wait = millis();
 
-                uint32_t msNow = millis();
-                std::srand(msNow);
+                delay(delay_time);
 
-                delay(std::rand() % 101 + 50); // 50-150
-                while((msNow - s.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
+                while((millis() - this->store_.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
-                    delay(std::rand() % 101 + 50); // 50-150
-                }*/
+                    // Add timeout protection
+                    if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
+                        break;
+                    }
+                    delay(delay_time);
+                }
 
                 // Pause reading
                 ESP_LOGV(TAG, "Pause reading");
