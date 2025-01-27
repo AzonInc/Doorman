@@ -7,6 +7,6 @@ packages:
   debug_utilities: !include addons/debug-utilities.yaml
 
 external_components:
-  - source: github://AzonInc/Doorman@dev
+  - source: github://AzonInc/Doorman@dev-ack-cmd
     components: [ tc_bus ]
     refresh: 60s
