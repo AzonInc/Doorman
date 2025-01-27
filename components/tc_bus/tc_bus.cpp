@@ -43,6 +43,8 @@ namespace esphome
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
         static const uint8_t TCS_SEND_WAIT_DURATION = 50;
+        static const uint8_t TCS_SEND_MIN_DELAY_MS = 20;
+        static const uint8_t TCS_SEND_MAX_DELAY_MS = 50;
 
         TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
@@ -639,16 +641,17 @@ namespace esphome
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
             } else {
                 // Prevent collisions
-                /*auto &s = this->store_;
+                auto &s = this->store_;
 
-                uint32_t msNow = millis();
-                std::srand(msNow);
+                uint32_t now_millis = millis();
+                std::srand(now_millis);
 
-                delay(std::rand() % 101 + 50); // 50-150
-                while((msNow - s.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
+                delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
+
+                while((now_millis - s.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
-                    delay(std::rand() % 101 + 50); // 50-150
-                }*/
+                    delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
+                }
 
                 // Pause reading
                 ESP_LOGV(TAG, "Pause reading");
