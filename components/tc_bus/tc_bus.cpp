@@ -641,17 +641,12 @@ namespace esphome
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
             } else {
                 // Prevent collisions
-                auto &s = this->store_;
-
-                uint32_t now_millis = millis();
-                std::srand(now_millis);
-
-                /*delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
-
-                while((now_millis - s.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
+                std::srand(millis());
+                delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
+                while((millis() - this->store_.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
                     delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
-                }*/
+                }
 
                 // Pause reading
                 ESP_LOGV(TAG, "Pause reading");
