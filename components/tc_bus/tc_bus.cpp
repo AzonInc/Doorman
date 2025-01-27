@@ -392,7 +392,6 @@ namespace esphome
             const uint32_t BIT_1_MIN = 3000, BIT_1_MAX = 4999;
             const uint32_t START_MIN = 5000, START_MAX = 6999;
             const uint32_t RESET_MIN = 7000, RESET_MAX = 24000;
-            const uint32_t ACK_START_MIN = 1500, ACK_START_MAX = 2500;
 
             static uint32_t curCMD = 0;   // Current command being constructed
             static uint32_t usLast = 0;  // Last timestamp in microseconds
@@ -401,7 +400,6 @@ namespace esphome
             static uint8_t curPos = 0;   // Current position in the bit stream
             static bool curIsLong = false; // 32 or 16 Bit Command
             static bool cmdIntReady = false; // Command ready flag
-            static bool isAckMessage = false; // Acknowledge message flag
 
             // Calculate time difference
             uint32_t usNow = micros();
@@ -422,17 +420,13 @@ namespace esphome
                 curBit = 1;
             } else if (timeInUS >= START_MIN && timeInUS <= START_MAX) {
                 curBit = 2;
-            } else if (timeInUS >= ACK_START_MIN && timeInUS <= ACK_START_MAX) {
-                curBit = 5; // Acknowledge start
             } else if (timeInUS >= RESET_MIN) {
                 // Reset if a reset signal is detected
                 curPos = 0;
-                isAckMessage = false;
                 return;
             } else {
                 // Invalid timing, reset the position
                 curPos = 0;
-                isAckMessage = false;
                 return;
             }
 
@@ -440,55 +434,23 @@ namespace esphome
             arg->last_bit_change = millis();
 
             if (curPos == 0) {
-                // First bit after reset: expect start signal (bit 2) or ACK start (bit 5)
-                if (curBit == 2) {
+                // First bit after reset: expect start signal (bit 2)
+                if (curBit == 2)
+                {
                     curPos++;
-                } else if (curBit == 5) {
-                    isAckMessage = true;
-                    curPos++;
-                }
 
-                #ifdef TC_DEBUG_TIMING
-                // END OF COMMAND
-                if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-                    arg->debug_buffer[arg->debug_buffer_index++] = isAckMessage ? 2 : 1;
+                    #ifdef TC_DEBUG_TIMING
+                    // END OF COMMAND
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 1;
+                    }
+                    #endif
                 }
-                #endif
 
                 curCMD = 0;
                 curCRC = 0;
                 calCRC = 1;
                 curIsLong = false;
-            } else if (isAckMessage) {
-                // Process acknowledge message
-                if (curPos == 1) {
-                    // Expect 6ms start pulse after 2ms ACK start
-                    if (curBit == 2) {
-                        curPos++;
-                    } else {
-                        curPos = 0;
-                        isAckMessage = false;
-                    }
-                } else if (curPos >= 2 && curPos <= 7) {
-                    // Process 6 bits of data (000010)
-                    if (curBit == 0 || curBit == 1) {
-                        if (curBit) {
-                            BIT_SET(curCMD, 7 - curPos);
-                        }
-                        curPos++;
-                    } else {
-                        curPos = 0;
-                        isAckMessage = false;
-                    }
-                } else if (curPos == 8) {
-                    // Acknowledge message complete
-                    if (curCMD == 0x02) { // Check if the 6 bits are 000010
-                        arg->command = curCMD;
-                        arg->command_is_ready = true;
-                    }
-                    curPos = 0;
-                    isAckMessage = false;
-                }
             } else if (curBit == 0 || curBit == 1) {
                 // Process bits based on position
                 if (curPos == 1) {
@@ -496,28 +458,43 @@ namespace esphome
                     curIsLong = curBit;
                     curPos++;
                 } else if (curPos >= 2 && curPos <= 17) {
-                    // Bits 2-17: Command data (low 16 bits)
-                    if (curBit) {
-                        BIT_SET(curCMD, (curIsLong ? 33 : 17) - curPos);
+                    if (curPos == 8 && curCMD == 0x02) {
+
+                        // Acknowledge message complete
+                        arg->command = curCMD;
+                        arg->command_is_ready = true;
+                        curPos = 0;
+                        
+                    } else {
+                        // Bits 2-17: Command data (low 16 bits)
+                        if (curBit)
+                        {
+                            BIT_SET(curCMD, (curIsLong ? 33 : 17) - curPos);
+                        }
+
+                        calCRC ^= curBit; // Update CRC
+                        curPos++;
                     }
-        
-                    calCRC ^= curBit; // Update CRC
-                    curPos++;
                 } else if (curPos == 18) {
                     // Bit 18: Either part of data (32-bit command) or CRC for 16-bit command
-                    if (curIsLong) {
-                        if (curBit) {
+                    if (curIsLong)
+                    {
+                        if (curBit)
+                        {
                             BIT_SET(curCMD, 33 - curPos);
                         }
                         calCRC ^= curBit; // Update CRC
                         curPos++;
-                    } else {
+                    }
+                    else
+                    {
                         curCRC = curBit; // Save CRC for 16-bit command
                         cmdIntReady = true;
                     }
                 } else if (curPos >= 19 && curPos <= 33) {
                     // Bits 19-33: Remaining bits for 32-bit command
-                    if (curBit) {
+                    if (curBit)
+                    {
                         BIT_SET(curCMD, 33 - curPos);
                     }
                     calCRC ^= curBit; // Update CRC
