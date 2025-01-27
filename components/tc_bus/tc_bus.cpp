@@ -152,7 +152,38 @@ namespace esphome
                 {
                     ESP_LOGI(TAG, "Timings:");
                     for (uint8_t i = 0; i < index; i++) {
-                        ESP_LOGI(TAG, "Diff: %i", this->store_.debug_buffer[i]);
+                        std::string timing_type = "unknown";
+                        uint32_t timing = this->store_.debug_buffer[i];
+                        if(timing == 0)
+                        {
+                            timing_type = "end";
+                        }
+                        else if(timing == 1)
+                        {
+                            timing_type = "start sequence";
+                        }
+                        else if(timing == 99)
+                        {
+                            timing_type = "crc error";
+                        }
+                        else if(timing >= 1000 && timing <= 2999)
+                        {
+                            timing_type = "0";
+                        }
+                        else if(timing >= 3000 && timing <= 4999)
+                        {
+                            timing_type = "1";
+                        }
+                        else if(timing >= 5000 && timing <= 6999)
+                        {
+                            timing_type = "start";
+                        }
+                        else if(timing >= 7000)
+                        {
+                            timing_type = "reset";
+                        }
+
+                        ESP_LOGI(TAG, "Microseconds: %i (%s)", timing, timing_type);
                     }
                 }
             });
