@@ -405,6 +405,13 @@ namespace esphome
                 if (curBit == 2)
                 {
                     curPos++;
+
+                    #ifdef TC_DEBUG_TIMING
+                    // END OF COMMAND
+                    if (arg->debug_buffer_index < 100) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 1;
+                    }
+                    #endif
                 }
 
                 curCMD = 0;
