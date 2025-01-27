@@ -397,6 +397,9 @@ namespace esphome
                 return;
             }
 
+            // Save last bit timestamp
+            arg->s_last_bit_change = millis();
+
             if (curPos == 0) {
                 // First bit after reset: expect start signal (bit 2)
                 if (curBit == 2)
@@ -457,9 +460,6 @@ namespace esphome
                 curPos = 0;
             }
 
-            // Save last bit timestamp
-            arg->s_last_bit_change = millis();
-
             // If the command is ready, validate CRC and save the command
             if (cmdIntReady) {
                 cmdIntReady = false;
@@ -468,6 +468,22 @@ namespace esphome
                     arg->s_cmd_is_long = curIsLong ? true : false;
                     arg->s_cmd = curCMD; // Save the decoded command
                     arg->s_cmdReady = true; // Indicate that a command is ready
+
+                    #ifdef TC_DEBUG_TIMING
+                    // END OF COMMAND
+                    if (arg->debug_buffer_index < 100) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 0;
+                    }
+                    #endif
+                }
+                else
+                {
+                    #ifdef TC_DEBUG_TIMING
+                    // CRC ERROR
+                    if (arg->debug_buffer_index < 100) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 99;
+                    }
+                    #endif
                 }
 
                 // Reset state
