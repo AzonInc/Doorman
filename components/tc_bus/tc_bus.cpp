@@ -443,7 +443,6 @@ namespace esphome
                 // First bit after reset: expect start signal (bit 2)
                 if (curBit == 2) {
                     curPos++;
-                    isAckSequence = true; // Might be ACK sequence
                     ackBits = 0;
                     curCMD = 0;
 
@@ -457,36 +456,52 @@ namespace esphome
                 curCRC = 0;
                 calCRC = 1;
                 curIsLong = false;
+            } else if (curPos == 1) {
+                // First bit after start - could be length bit or first ACK bit
+                if (curBit == 0 || curBit == 1) {
+                    if (curBit == 0) {
+                        // Could be ACK sequence or 16-bit message
+                        isAckSequence = true;
+                        ackBits = 1;
+                    } else {
+                        // 32-bit message
+                        isAckSequence = false;
+                        curIsLong = true;
+                    }
+                    curPos++;
+                } else {
+                    // Invalid bit, reset
+                }
+            } else if (isAckSequence && curPos == 2) {
+                // Second bit determines if this is ACK or normal message
+                if (curBit == 0) {
+                    // Continue ACK sequence
+                    ackBits = 2;
+                    curPos++;
+                } else {
+                    // Switch to normal message processing (16-bit)
+                    isAckSequence = false;
+                    curIsLong = false;
+                    curPos++;
+                }
             } else if (isAckSequence) {
-                // Process potential ACK sequence
+                // Process remaining ACK bits (expecting 000010)
                 if (curBit == 0 || curBit == 1) {
                     if (curBit) {
                         BIT_SET(curCMD, 5 - ackBits);
                     }
                     ackBits++;
-                    
-                    // Check if we have all 6 bits
                     if (ackBits == 6) {
-                        if (curCMD == 0x02) { // Check if sequence is 000010
+                        if (curCMD == 0x02) {
                             arg->command = curCMD;
                             arg->command_is_ready = true;
-
-                            #ifdef TC_DEBUG_TIMING
-                            // END OF COMMAND
-                            if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-                                arg->debug_buffer[arg->debug_buffer_index++] = 0;
-                            }
-                            #endif
                         }
                         curPos = 0;
                         isAckSequence = false;
-                        ackBits = 0;
                     }
                 } else {
-                    // Invalid bit for ACK sequence
                     curPos = 0;
                     isAckSequence = false;
-                    ackBits = 0;
                 }
             } else if (curBit == 0 || curBit == 1) {
                 // Process normal command bits
