@@ -48,11 +48,6 @@ binary_sensor:
 
 sensor:
   - platform: wifi_signal
-    id: debug_wifi_signal
-    name: "WiFi Signal"
-    update_interval: 60s
-
-  - platform: wifi_signal
     name: "WiFi Signal dB"
     id: debug_wifi_signal_db
     update_interval: 60s
