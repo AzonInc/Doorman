@@ -142,7 +142,7 @@ namespace esphome
             #endif
 
             #ifdef TC_DEBUG_TIMING
-            this->set_interval("timing_debug", 2000, [this] {
+            this->set_interval("timing_debug", 5000, [this] {
                 this->rx_pin_->detach_interrupt();
                 uint8_t index = this->store_.debug_buffer_index;
                 this->store_.debug_buffer_index = 0;
@@ -160,7 +160,7 @@ namespace esphome
                         }
                         else if(timing == 1)
                         {
-                            timing_type = "start sequence";
+                            timing_type = "start";
                         }
                         else if(timing == 99)
                         {
@@ -176,7 +176,7 @@ namespace esphome
                         }
                         else if(timing >= 5000 && timing <= 6999)
                         {
-                            timing_type = "start";
+                            timing_type = "start sequence";
                         }
                         else if(timing >= 7000)
                         {
