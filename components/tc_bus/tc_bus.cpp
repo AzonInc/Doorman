@@ -161,7 +161,11 @@ namespace esphome
                         }
                         else if(timing == 1)
                         {
-                            timing_type = "start";
+                            timing_type = "start cmd";
+                        }
+                        else if(timing == 2)
+                        {
+                            timing_type = "start ack";
                         }
                         else if(timing == 99)
                         {
