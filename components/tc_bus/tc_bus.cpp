@@ -185,6 +185,8 @@ namespace esphome
 
                         ESP_LOGI(TAG, "Microseconds: %i (%s)", timing, timing_type.c_str());
                     }
+                } else {
+                    ESP_LOGI(TAG, "Timings: No data available");
                 }
             });
             #endif
