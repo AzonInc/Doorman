@@ -183,7 +183,7 @@ namespace esphome
                             timing_type = "reset";
                         }
 
-                        ESP_LOGI(TAG, "Microseconds: %i (%s)", timing, timing_type);
+                        ESP_LOGI(TAG, "Microseconds: %i (%s)", timing, timing_type.c_str());
                     }
                 }
             });
