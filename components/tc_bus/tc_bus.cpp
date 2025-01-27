@@ -42,7 +42,9 @@ namespace esphome
         static const uint8_t TCS_MSG_START_MS = 6; // a new message
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
+
         static const uint8_t TCS_SEND_WAIT_DURATION = 50;
+        static const uint8_t TCS_SEND_WAIT_TIMEOUT_MS = 100;
         static const uint8_t TCS_SEND_MIN_DELAY_MS = 20;
         static const uint8_t TCS_SEND_MAX_DELAY_MS = 50;
 
@@ -642,10 +644,18 @@ namespace esphome
             } else {
                 // Prevent collisions
                 std::srand(millis());
-                delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
+                uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
+                uint32_t start_wait = millis();
+
+                delay(delay_time);
+
                 while((millis() - this->store_.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
-                    delay(std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS);
+                    // Add timeout protection
+                    if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
+                        break;
+                    }
+                    delay(delay_time);
                 }
 
                 // Pause reading
