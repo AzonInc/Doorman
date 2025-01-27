@@ -69,6 +69,9 @@ web_server:
     - id: sorting_group_system
       name: "System"
       sorting_weight: -2
+    - id: sorting_group_diagnostic
+      name: "Diagnostic"
+      sorting_weight: -1
 
 ota:
   - platform: esphome
@@ -162,8 +165,9 @@ text_sensor:
       name: "Hardware"
       icon: "mdi:router-wireless"
       disabled_by_default: true
+      entity_category: DIAGNOSTIC
       web_server:
-        sorting_group_id: sorting_group_system
+        sorting_group_id: sorting_group_diagnostic
         sorting_weight: -20
     bus_command:
       id: last_bus_command
@@ -326,22 +330,10 @@ sensor:
     name: Uptime
     id: doorman_uptime
     disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_system
-      sorting_weight: -7
-
-  - platform: adc
-    id: bus_voltage
-    name: Bus Voltage
-    pin: GPIO10
-    update_interval: 1s
-    attenuation: 12dB
     entity_category: DIAGNOSTIC
-    disabled_by_default: true
-    icon: "mdi:current-dc"
     web_server:
-      sorting_group_id: sorting_group_system
-      sorting_weight: -5
+      sorting_group_id: sorting_group_diagnostic
+      sorting_weight: -7
 
 binary_sensor:
   - platform: gpio
