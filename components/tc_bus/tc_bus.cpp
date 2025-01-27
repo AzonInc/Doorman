@@ -142,7 +142,7 @@ namespace esphome
             #endif
 
             #ifdef TC_DEBUG_TIMING
-            this->set_interval("timing_debug", 2000, [this] {
+            this->set_interval("timing_debug", 5000, [this] {
                 this->rx_pin_->detach_interrupt();
                 uint8_t index = this->store_.debug_buffer_index;
                 this->store_.debug_buffer_index = 0;
@@ -152,8 +152,41 @@ namespace esphome
                 {
                     ESP_LOGI(TAG, "Timings:");
                     for (uint8_t i = 0; i < index; i++) {
-                        ESP_LOGI(TAG, "Diff: %i", this->store_.debug_buffer[i]);
+                        std::string timing_type = "unknown";
+                        uint32_t timing = this->store_.debug_buffer[i];
+                        if(timing == 0)
+                        {
+                            timing_type = "end";
+                        }
+                        else if(timing == 1)
+                        {
+                            timing_type = "start";
+                        }
+                        else if(timing == 99)
+                        {
+                            timing_type = "crc error";
+                        }
+                        else if(timing >= 1000 && timing <= 2999)
+                        {
+                            timing_type = "0";
+                        }
+                        else if(timing >= 3000 && timing <= 4999)
+                        {
+                            timing_type = "1";
+                        }
+                        else if(timing >= 5000 && timing <= 6999)
+                        {
+                            timing_type = "start sequence";
+                        }
+                        else if(timing >= 7000)
+                        {
+                            timing_type = "reset";
+                        }
+
+                        ESP_LOGI(TAG, "Microseconds: %i (%s)", timing, timing_type.c_str());
                     }
+                } else {
+                    ESP_LOGI(TAG, "Timings: No data available");
                 }
             });
             #endif
@@ -210,15 +243,15 @@ namespace esphome
 
             auto &s = this->store_;
 
-            if(s.s_cmdReady) {
+            if(s.command_is_ready) {
                 if(reading_memory_) {
                     ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
 
                     // Save Data to memory Store
-                    memory_buffer_.push_back((s.s_cmd >> 24) & 0xFF);
-                    memory_buffer_.push_back((s.s_cmd >> 16) & 0xFF);
-                    memory_buffer_.push_back((s.s_cmd >> 8) & 0xFF);
-                    memory_buffer_.push_back(s.s_cmd & 0xFF);
+                    memory_buffer_.push_back((s.command >> 24) & 0xFF);
+                    memory_buffer_.push_back((s.command >> 16) & 0xFF);
+                    memory_buffer_.push_back((s.command >> 8) & 0xFF);
+                    memory_buffer_.push_back(s.command & 0xFF);
 
                     // Next 4 Data Blocks
                     reading_memory_count_++;
@@ -240,7 +273,7 @@ namespace esphome
                     }
                 }
                 else if(identify_model_) {
-                    std::string hex_result = str_upper_case(format_hex(s.s_cmd));
+                    std::string hex_result = str_upper_case(format_hex(s.command));
                     if(hex_result.substr(4, 1) == "D") {
                         identify_model_ = false;
                         this->cancel_timeout("wait_for_identification");
@@ -281,17 +314,17 @@ namespace esphome
                     }
                 }
                 else {
-                    if(s.s_cmd_is_long) {
-                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.s_cmd);
+                    if(s.command_is_long) {
+                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.command);
                     } else {
-                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.s_cmd);
+                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.command);
                     }
-                    this->publish_command(s.s_cmd, s.s_cmd_is_long, true);
+                    this->publish_command(s.command, s.command_is_long, true);
                 }
 
-                s.s_cmdReady = false;
-                s.s_cmd_is_long = false;
-                s.s_cmd = 0;
+                s.command_is_ready = false;
+                s.command_is_long = false;
+                s.command = 0;
             }
         }
 
@@ -342,13 +375,13 @@ namespace esphome
         #endif
 
         #ifdef TC_DEBUG_TIMING
-        volatile uint32_t TCBusComponentStore::debug_buffer[100];
+        volatile uint32_t TCBusComponentStore::debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
         volatile uint8_t TCBusComponentStore::debug_buffer_index = 0;
         #endif
-        volatile uint32_t TCBusComponentStore::s_last_bit_change = 0;
-        volatile uint32_t TCBusComponentStore::s_cmd = 0;
-        volatile bool TCBusComponentStore::s_cmd_is_long = false;
-        volatile bool TCBusComponentStore::s_cmdReady = false;
+        volatile uint32_t TCBusComponentStore::last_bit_change = 0;
+        volatile uint32_t TCBusComponentStore::command = 0;
+        volatile bool TCBusComponentStore::command_is_long = false;
+        volatile bool TCBusComponentStore::command_is_ready = false;
 
         void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
         {
@@ -374,7 +407,7 @@ namespace esphome
             usLast = usNow;
 
             #ifdef TC_DEBUG_TIMING
-            if (arg->debug_buffer_index < 100) {
+            if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                 arg->debug_buffer[arg->debug_buffer_index++] = timeInUS;
             }
             #endif
@@ -398,13 +431,20 @@ namespace esphome
             }
 
             // Save last bit timestamp
-            arg->s_last_bit_change = millis();
+            arg->last_bit_change = millis();
 
             if (curPos == 0) {
                 // First bit after reset: expect start signal (bit 2)
                 if (curBit == 2)
                 {
                     curPos++;
+
+                    #ifdef TC_DEBUG_TIMING
+                    // END OF COMMAND
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
+                        arg->debug_buffer[arg->debug_buffer_index++] = 1;
+                    }
+                    #endif
                 }
 
                 curCMD = 0;
@@ -465,13 +505,13 @@ namespace esphome
                 cmdIntReady = false;
 
                 if (curCRC == calCRC) {
-                    arg->s_cmd_is_long = curIsLong ? true : false;
-                    arg->s_cmd = curCMD; // Save the decoded command
-                    arg->s_cmdReady = true; // Indicate that a command is ready
+                    arg->command_is_long = curIsLong ? true : false;
+                    arg->command = curCMD; // Save the decoded command
+                    arg->command_is_ready = true; // Indicate that a command is ready
 
                     #ifdef TC_DEBUG_TIMING
                     // END OF COMMAND
-                    if (arg->debug_buffer_index < 100) {
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                         arg->debug_buffer[arg->debug_buffer_index++] = 0;
                     }
                     #endif
@@ -480,7 +520,7 @@ namespace esphome
                 {
                     #ifdef TC_DEBUG_TIMING
                     // CRC ERROR
-                    if (arg->debug_buffer_index < 100) {
+                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
                         arg->debug_buffer[arg->debug_buffer_index++] = 99;
                     }
                     #endif
@@ -665,7 +705,7 @@ namespace esphome
 
                 delay(delay_time);
 
-                while((millis() - this->store_.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
+                while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
                     // Add timeout protection
                     if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
