@@ -48,10 +48,6 @@ namespace esphome
         static const uint8_t TCS_SEND_MIN_DELAY_MS = 20;
         static const uint8_t TCS_SEND_MAX_DELAY_MS = 50;
 
-        #ifdef TC_DEBUG_TIMING
-        static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
-        #endif
-
         TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
         void TCBusComponent::setup()
@@ -214,15 +210,15 @@ namespace esphome
 
             auto &s = this->store_;
 
-            if(s.s_cmdReady) {
+            if(s.command_is_ready) {
                 if(reading_memory_) {
                     ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
 
                     // Save Data to memory Store
-                    memory_buffer_.push_back((s.s_cmd >> 24) & 0xFF);
-                    memory_buffer_.push_back((s.s_cmd >> 16) & 0xFF);
-                    memory_buffer_.push_back((s.s_cmd >> 8) & 0xFF);
-                    memory_buffer_.push_back(s.s_cmd & 0xFF);
+                    memory_buffer_.push_back((s.command >> 24) & 0xFF);
+                    memory_buffer_.push_back((s.command >> 16) & 0xFF);
+                    memory_buffer_.push_back((s.command >> 8) & 0xFF);
+                    memory_buffer_.push_back(s.command & 0xFF);
 
                     // Next 4 Data Blocks
                     reading_memory_count_++;
@@ -244,7 +240,7 @@ namespace esphome
                     }
                 }
                 else if(identify_model_) {
-                    std::string hex_result = str_upper_case(format_hex(s.s_cmd));
+                    std::string hex_result = str_upper_case(format_hex(s.command));
                     if(hex_result.substr(4, 1) == "D") {
                         identify_model_ = false;
                         this->cancel_timeout("wait_for_identification");
@@ -285,17 +281,17 @@ namespace esphome
                     }
                 }
                 else {
-                    if(s.s_cmd_is_long) {
-                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.s_cmd);
+                    if(s.command_is_long) {
+                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.command);
                     } else {
-                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.s_cmd);
+                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.command);
                     }
-                    this->publish_command(s.s_cmd, s.s_cmd_is_long, true);
+                    this->publish_command(s.command, s.command_is_long, true);
                 }
 
-                s.s_cmdReady = false;
-                s.s_cmd_is_long = false;
-                s.s_cmd = 0;
+                s.command_is_ready = false;
+                s.command_is_long = false;
+                s.command = 0;
             }
         }
 
@@ -349,10 +345,10 @@ namespace esphome
         volatile uint32_t TCBusComponentStore::debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
         volatile uint8_t TCBusComponentStore::debug_buffer_index = 0;
         #endif
-        volatile uint32_t TCBusComponentStore::s_last_bit_change = 0;
-        volatile uint32_t TCBusComponentStore::s_cmd = 0;
-        volatile bool TCBusComponentStore::s_cmd_is_long = false;
-        volatile bool TCBusComponentStore::s_cmdReady = false;
+        volatile uint32_t TCBusComponentStore::last_bit_change = 0;
+        volatile uint32_t TCBusComponentStore::command = 0;
+        volatile bool TCBusComponentStore::command_is_long = false;
+        volatile bool TCBusComponentStore::command_is_ready = false;
 
         void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
         {
@@ -402,7 +398,7 @@ namespace esphome
             }
 
             // Save last bit timestamp
-            arg->s_last_bit_change = millis();
+            arg->last_bit_change = millis();
 
             if (curPos == 0) {
                 // First bit after reset: expect start signal (bit 2)
@@ -476,9 +472,9 @@ namespace esphome
                 cmdIntReady = false;
 
                 if (curCRC == calCRC) {
-                    arg->s_cmd_is_long = curIsLong ? true : false;
-                    arg->s_cmd = curCMD; // Save the decoded command
-                    arg->s_cmdReady = true; // Indicate that a command is ready
+                    arg->command_is_long = curIsLong ? true : false;
+                    arg->command = curCMD; // Save the decoded command
+                    arg->command_is_ready = true; // Indicate that a command is ready
 
                     #ifdef TC_DEBUG_TIMING
                     // END OF COMMAND
@@ -676,7 +672,7 @@ namespace esphome
 
                 delay(delay_time);
 
-                while((millis() - this->store_.s_last_bit_change) < TCS_SEND_WAIT_DURATION)
+                while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
                 {
                     // Add timeout protection
                     if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {

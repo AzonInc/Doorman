@@ -31,6 +31,10 @@ namespace esphome
 {
     namespace tc_bus
     {
+        #ifdef TC_DEBUG_TIMING
+        static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
+        #endif
+
         #if defined(USE_ESP_IDF)
             #define BIT_SET(var, pos) ((var) |= (1UL << (pos)))
             #define BIT_READ(var, pos) ((var >> pos) & 0x01)
@@ -83,13 +87,14 @@ namespace esphome
             static void gpio_intr(TCBusComponentStore *arg);
 
             #ifdef TC_DEBUG_TIMING
-            static volatile uint32_t debug_buffer[100];
+            static volatile uint32_t debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
             static volatile uint8_t debug_buffer_index;
             #endif
-            static volatile uint32_t s_last_bit_change;
-            static volatile uint32_t s_cmd;
-            static volatile bool s_cmd_is_long;
-            static volatile bool s_cmdReady;
+            
+            static volatile uint32_t last_bit_change;
+            static volatile uint32_t command;
+            static volatile bool command_is_long;
+            static volatile bool command_is_ready;
 
             ISRInternalGPIOPin rx_pin;
         };
