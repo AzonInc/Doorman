@@ -20,6 +20,14 @@ namespace esphome
 
             switch (type)
             {
+                case COMMAND_TYPE_ACK:
+                    data.command = 0xACCCCCCA;
+                    data.is_long = false;
+                    data.address = 0;
+                    data.payload = 0;
+                    data.serial_number = 0;
+                    break;
+
                 case COMMAND_TYPE_DOOR_CALL:
                     data.command |= (0 << 28);  // 0
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
@@ -192,6 +200,14 @@ namespace esphome
             data.is_long = is_long;
 
             data.command_hex = str_upper_case(format_hex(command));
+
+            // Acknowledge Response
+            if(command == 0xACCCCCCA)
+            {
+                data.type = COMMAND_TYPE_ACK;
+                data.is_long = false;
+                return data;
+            }
 
             if (is_long)
             {
@@ -468,6 +484,7 @@ namespace esphome
             if (str == "SELECT_MEMORY_PAGE") return COMMAND_TYPE_SELECT_MEMORY_PAGE;
             if (str == "WRITE_MEMORY") return COMMAND_TYPE_WRITE_MEMORY;
             if (str == "REQUEST_VERSION") return COMMAND_TYPE_REQUEST_VERSION;
+            if (str == "ACK") return COMMAND_TYPE_ACK;
 
             return COMMAND_TYPE_UNKNOWN;
         }
@@ -505,6 +522,7 @@ namespace esphome
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
                 case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
                 case COMMAND_TYPE_REQUEST_VERSION: return "REQUEST_VERSION";
+                case COMMAND_TYPE_ACK: return "ACK";
                 default: return "UNKNOWN";
             }
         }

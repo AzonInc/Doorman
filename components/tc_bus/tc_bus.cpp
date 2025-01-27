@@ -39,7 +39,8 @@ namespace esphome
 
         uint32_t global_tcs_id = 1911044085ULL;
 
-        static const uint8_t TCS_MSG_START_MS = 6; // a new message
+        static const uint32_t TCS_MSG_START_US = 6000; // a new message
+        static const uint32_t TCS_ACK_START_US = 6250; // a new ack message
         static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
         static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
 
@@ -479,13 +480,21 @@ namespace esphome
                     ackBitsReceived++;
                     curCMD = (curCMD << 1) | curBit;
                     
-                    if (ackBitsReceived == 6) {
-                        // Verify ACK pattern (000010)
-                        if (curCMD == 0x02) {
-                            arg->command = 0xFFFFFFFF;  // Special value for ACK
-                            arg->command_is_ready = true;
-                            arg->command_is_long = false;
+                    if (ackBitsReceived <= 6) {  // 1 length + 4 data + 1 CRC
+                        if (ackBitsReceived < 6) {
+                            curCMD = (curCMD << 1) | curBit;
+                            calCRC ^= curBit;
+                        } else {
+                            // Last bit is CRC
+                            if (curBit == calCRC) {
+                                arg->command = 0xACCCCCCA;  // Special value for ACK
+                                arg->command_is_ready = true;
+                                arg->command_is_long = true;
+                            }
                         }
+                    }
+
+                    if (ackBitsReceived >= 6) {
                         curPos = 0;
                         isAckCommand = false;
                         ackBitsReceived = 0;
@@ -507,7 +516,6 @@ namespace esphome
                     {
                         BIT_SET(curCMD, (curIsLong ? 33 : 17) - curPos);
                     }
-                    
 
                     calCRC ^= curBit; // Update CRC
                     curPos++;
@@ -735,73 +743,81 @@ namespace esphome
 
         void TCBusComponent::send_command(uint32_t command, bool is_long)
         {
-            if(is_long) {
-                ESP_LOGD(TAG, "Sending 32-bit command %08X", command);
-            } else {
-                ESP_LOGD(TAG, "Sending 16-bit command %04X", command);
-            }
-
             if (this->sending) {
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
-            } else {
-                // Prevent collisions
-                std::srand(millis());
-                uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
-                uint32_t start_wait = millis();
-
-                delay(delay_time);
-
-                while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
-                {
-                    // Add timeout protection
-                    if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
-                        break;
-                    }
-                    delay(delay_time);
-                }
-
-                // Pause reading
-                ESP_LOGV(TAG, "Pause reading");
-                this->rx_pin_->detach_interrupt();
-
-                // Source: https://github.com/atc1441/TCSintercomArduino
-                this->sending = true;
-
-                uint8_t checksm = 1;
-                bool output_state = false;
-
-                // Start transmission
-                this->tx_pin_->digital_write(true);
-                delay(TCS_MSG_START_MS);
-
-                this->tx_pin_->digital_write(false);
-                delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-
-                int curBit = 0;
-                uint8_t length = is_long ? 32 : 16;
-
-                for (uint8_t i = length; i > 0; i--) {
-                    curBit = BIT_READ(command, i - 1);
-
-                    output_state = !output_state;
-                    this->tx_pin_->digital_write(output_state);
-                    delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    checksm ^= curBit;
-                }
-
-                this->tx_pin_->digital_write(!output_state);
-                delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                this->tx_pin_->digital_write(false);
-
-                this->sending = false;
-
-                // Resume reading
-                ESP_LOGV(TAG, "Resume reading");
-                this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
-
-                // Publish received Command on Sensors, Events, etc.
-                this->publish_command(command, is_long, false);
+                return;
             }
+
+            // Prevent collisions
+            std::srand(millis());
+            uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
+            uint32_t start_wait = millis();
+
+            delay(delay_time);
+
+            while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
+            {
+                // Add timeout protection
+                if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
+                    break;
+                }
+                delay(delay_time);
+            }
+
+            // Acknowledge Response
+            bool isAck = false;
+            if(command == 0xACCCCCCA) {
+                isAck = true;
+                command = 2;
+                ESP_LOGD(TAG, "Sending acknowledge command");
+            } else {
+                if(is_long) {
+                    ESP_LOGD(TAG, "Sending 32-bit command %08X", command);
+                } else {
+                    ESP_LOGD(TAG, "Sending 16-bit command %04X", command);
+                }
+            }
+
+            // Pause reading
+            ESP_LOGV(TAG, "Pause reading");
+            this->rx_pin_->detach_interrupt();
+
+            // Source: https://github.com/atc1441/TCSintercomArduino
+            this->sending = true;
+
+            uint8_t checksm = 1;
+            bool output_state = false;
+
+            // Start transmission
+            this->tx_pin_->digital_write(true);
+            delayMicroseconds(isAck ? TCS_ACK_START_US : TCS_MSG_START_US);
+
+            this->tx_pin_->digital_write(false);
+            delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+
+            int curBit = 0;
+            uint8_t length = (isAck ? 4 : (is_long ? 32 : 16));
+
+            for (uint8_t i = length; i > 0; i--) {
+                curBit = BIT_READ(command, i - 1);
+
+                output_state = !output_state;
+                this->tx_pin_->digital_write(output_state);
+                delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                checksm ^= curBit;
+            }
+
+            this->tx_pin_->digital_write(!output_state);
+            delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            this->tx_pin_->digital_write(false);
+
+            // Resume reading
+            this->sending = false;
+            ESP_LOGV(TAG, "Resume reading");
+            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+
+            // Publish received Command on Sensors, Events, etc.
+            this->publish_command(command, is_long, false);
         }
 
         void TCBusComponent::add_received_command_callback(std::function<void(CommandData)> &&callback)
