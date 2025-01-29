@@ -1,12 +1,12 @@
 # Helper File: Compile dev firmware
 dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/ha-stock.example.dev.yaml@dev
+  package_import_url: github://AzonInc/doorman/firmware/examples/ha-stock.example.dev.yaml@dev-rmt2
 
 packages:
   device_base: !include ha-doorman-stock.yaml
   debug_utilities: !include addons/debug-utilities.yaml
 
 external_components:
-  - source: github://AzonInc/Doorman@dev
+  - source: github://AzonInc/Doorman@dev-rmt2
     components: [ tc_bus ]
     refresh: 60s

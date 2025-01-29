@@ -28,8 +28,9 @@
 #include <optional>
 #include <utility>
 #include <vector>
+#include <cinttypes>
 
-using namespace esphome;
+//using namespace esphome;
 
 namespace esphome
 {
@@ -92,7 +93,7 @@ namespace esphome
                 this->hardware_version_str_ = "Doorman-S3 " + std::to_string(ver[0]) + "." + std::to_string(ver[1]) + "." + std::to_string(ver[2]);
 
                 // Override GPIO
-                if(ver[0] == 1 && (ver[1] == 3 || ver[1] == 4 || ver[1] == 5)) {
+                /*if(ver[0] == 1 && (ver[1] == 3 || ver[1] == 4 || ver[1] == 5)) {
                     esp32::ESP32InternalGPIOPin *gpio_pin_rx_;
                     gpio_pin_rx_ = new(esp32::ESP32InternalGPIOPin);
                     gpio_pin_rx_->set_pin(static_cast<gpio_num_t>(9));
@@ -109,7 +110,7 @@ namespace esphome
                     this->set_tx_pin(gpio_pin_tx_);
 
                     ESP_LOGD(TAG, "Doorman Hardware GPIO Override: RX (%i), TX (%i)", this->rx_pin_->get_pin(), this->tx_pin_->get_pin());
-                }
+                }*/
             }
             #endif
 
@@ -119,14 +120,7 @@ namespace esphome
             }
             #endif
 
-            this->rx_pin_->setup();
-            this->tx_pin_->setup();
-            this->tx_pin_->digital_write(false);
-            
-            auto &s = this->store_;
-
-            s.rx_pin = this->rx_pin_->to_isr();
-            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+            this->rx_->register_listener(this);
 
             // Reset Sensors
             #ifdef USE_TEXT_SENSOR
@@ -139,56 +133,6 @@ namespace esphome
             for (auto &listener : listeners_) {
                 listener->turn_off(&listener->timer_);
             }
-            #endif
-
-            #ifdef TC_DEBUG_TIMING
-            this->set_interval("timing_debug", 5000, [this] {
-                this->rx_pin_->detach_interrupt();
-                uint8_t index = this->store_.debug_buffer_index;
-                this->store_.debug_buffer_index = 0;
-                this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
-
-                if(index > 0)
-                {
-                    ESP_LOGI(TAG, "Timings:");
-                    for (uint8_t i = 0; i < index; i++) {
-                        std::string timing_type = "unknown";
-                        uint32_t timing = this->store_.debug_buffer[i];
-                        if(timing == 0)
-                        {
-                            timing_type = "end";
-                        }
-                        else if(timing == 1)
-                        {
-                            timing_type = "start";
-                        }
-                        else if(timing == 99)
-                        {
-                            timing_type = "crc error";
-                        }
-                        else if(timing >= 1000 && timing <= 2999)
-                        {
-                            timing_type = "0";
-                        }
-                        else if(timing >= 3000 && timing <= 4999)
-                        {
-                            timing_type = "1";
-                        }
-                        else if(timing >= 5000 && timing <= 6999)
-                        {
-                            timing_type = "start sequence";
-                        }
-                        else if(timing >= 7000)
-                        {
-                            timing_type = "reset";
-                        }
-
-                        ESP_LOGI(TAG, "Microseconds: %i (%s)", timing, timing_type.c_str());
-                    }
-                } else {
-                    ESP_LOGI(TAG, "Timings: No data available");
-                }
-            });
             #endif
         }
 
@@ -207,8 +151,6 @@ namespace esphome
         void TCBusComponent::dump_config()
         {
             ESP_LOGCONFIG(TAG, "TC:BUS:");
-            LOG_PIN("  Pin RX: ", this->rx_pin_);
-            LOG_PIN("  Pin TX: ", this->tx_pin_);
 
             if (strcmp(this->event_, "esphome.none") != 0) {
                 ESP_LOGCONFIG(TAG, "  Event: %s", this->event_);
@@ -241,7 +183,7 @@ namespace esphome
             }
             #endif
 
-            auto &s = this->store_;
+            /*auto &s = this->store_;
 
             if(s.command_is_ready) {
                 if(reading_memory_) {
@@ -325,66 +267,14 @@ namespace esphome
                 s.command_is_ready = false;
                 s.command_is_long = false;
                 s.command = 0;
-            }
+            }*/
         }
 
-        void TCBusComponent::publish_settings()
+        bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
         {
-            ESP_LOGD(TAG, "Handset volume (Door Call): %i", get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
-            ESP_LOGD(TAG, "Handset volume (Internal Call): %i", get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
-            ESP_LOGD(TAG, "Ringtone volume: %i", get_setting(SETTING_VOLUME_RINGTONE));
+            ESP_LOGD(TAG, "Received raw data with length %" PRIi32, data.size());
 
-            ESP_LOGD(TAG, "Entrance Door Call Ringtone: %i", get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL));
-            ESP_LOGD(TAG, "Second Entrance Door Call Ringtone: %i", get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL));
-            ESP_LOGD(TAG, "Floor Call Ringtone: %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
-            ESP_LOGD(TAG, "Internal Call Ringtone: %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
-
-            #ifdef USE_SELECT
-            if (this->ringtone_entrance_door_call_select_) {
-                this->ringtone_entrance_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL)));
-            }
-            if (this->ringtone_second_entrance_door_call_select_) {
-                this->ringtone_second_entrance_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL)));
-            }
-            if (this->ringtone_floor_call_select_) {
-                this->ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
-            }
-            if (this->ringtone_internal_call_select_) {
-                this->ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
-            }
-            #endif
-
-            #ifdef USE_NUMBER
-            if (this->volume_handset_door_call_number_) {
-                this->volume_handset_door_call_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
-            }
-            if (this->volume_handset_internal_call_number_) {
-                this->volume_handset_internal_call_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
-            }
-            if (this->volume_ringtone_number_) {
-                this->volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
-            }
-            #endif
-        }
-
-        #ifdef USE_BINARY_SENSOR
-        void TCBusComponent::register_listener(TCBusListener *listener)
-        {
-            this->listeners_.push_back(listener); 
-        }
-        #endif
-
-        #ifdef TC_DEBUG_TIMING
-        volatile uint32_t TCBusComponentStore::debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
-        volatile uint8_t TCBusComponentStore::debug_buffer_index = 0;
-        #endif
-        volatile uint32_t TCBusComponentStore::last_bit_change = 0;
-        volatile uint32_t TCBusComponentStore::command = 0;
-        volatile bool TCBusComponentStore::command_is_long = false;
-        volatile bool TCBusComponentStore::command_is_ready = false;
-
-        void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
-        {
+            /*
             // Made by https://github.com/atc1441/TCSintercomArduino
 
             // Timing thresholds (in microseconds)
@@ -529,8 +419,55 @@ namespace esphome
                 // Reset state
                 curCMD = 0;
                 curPos = 0;
-            }
+            }*/
+            return true;
         }
+
+        void TCBusComponent::publish_settings()
+        {
+            ESP_LOGD(TAG, "Handset volume (Door Call): %i", get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+            ESP_LOGD(TAG, "Handset volume (Internal Call): %i", get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
+            ESP_LOGD(TAG, "Ringtone volume: %i", get_setting(SETTING_VOLUME_RINGTONE));
+
+            ESP_LOGD(TAG, "Entrance Door Call Ringtone: %i", get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL));
+            ESP_LOGD(TAG, "Second Entrance Door Call Ringtone: %i", get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL));
+            ESP_LOGD(TAG, "Floor Call Ringtone: %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
+            ESP_LOGD(TAG, "Internal Call Ringtone: %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
+
+            #ifdef USE_SELECT
+            if (this->ringtone_entrance_door_call_select_) {
+                this->ringtone_entrance_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL)));
+            }
+            if (this->ringtone_second_entrance_door_call_select_) {
+                this->ringtone_second_entrance_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL)));
+            }
+            if (this->ringtone_floor_call_select_) {
+                this->ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
+            }
+            if (this->ringtone_internal_call_select_) {
+                this->ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
+            }
+            #endif
+
+            #ifdef USE_NUMBER
+            if (this->volume_handset_door_call_number_) {
+                this->volume_handset_door_call_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+            }
+            if (this->volume_handset_internal_call_number_) {
+                this->volume_handset_internal_call_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
+            }
+            if (this->volume_ringtone_number_) {
+                this->volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
+            }
+            #endif
+        }
+
+        #ifdef USE_BINARY_SENSOR
+        void TCBusComponent::register_listener(TCBusListener *listener)
+        {
+            this->listeners_.push_back(listener); 
+        }
+        #endif
 
         void TCBusComponent::publish_command(uint32_t command, bool is_long, bool received)
         {
@@ -698,7 +635,7 @@ namespace esphome
             if (this->sending) {
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
             } else {
-                // Prevent collisions
+                /*// Prevent collisions
                 std::srand(millis());
                 uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
                 uint32_t start_wait = millis();
@@ -755,6 +692,7 @@ namespace esphome
 
                 // Publish received Command on Sensors, Events, etc.
                 this->publish_command(command, is_long, false);
+                */
             }
         }
 

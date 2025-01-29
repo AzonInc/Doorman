@@ -102,13 +102,26 @@ captive_portal:
 # Improv for easy provisioning
 improv_serial:
 
-# Import TC:BUS Component
+# Import TC:BUS component
 external_components:
   - source: github://AzonInc/Doorman@dev
     components: [ tc_bus ]
     refresh: 60s
 
-# Setup TC:BUS Component
+# Setup RMT components
+remote_receiver:
+  pin:
+    number: GPIO9
+    inverted: true
+    mode: INPUT
+  filter: 1000us
+  idle: 7000us
+
+remote_transmitter:
+  pin: GPIO8
+  carrier_duty_percent: 100%
+
+# Setup TC:BUS component
 tc_bus:
   id: tc_bus_intercom
   event: "doorman"

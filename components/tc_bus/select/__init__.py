@@ -2,7 +2,6 @@ import esphome.codegen as cg
 from esphome.components import select
 import esphome.config_validation as cv
 from esphome.const import (
-    CONF_ID,
     ENTITY_CATEGORY_CONFIG,
 )
 from .. import CONF_TC_ID, CONF_MODELS, CONF_RINGTONES, TCBusComponent, tc_bus_ns
