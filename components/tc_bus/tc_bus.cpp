@@ -30,7 +30,6 @@
 #include <vector>
 #include <cinttypes>
 
-//using namespace esphome;
 
 namespace esphome
 {
@@ -159,10 +158,6 @@ namespace esphome
             }
 
             ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
-            
-            #ifdef TC_DEBUG_TIMING
-            ESP_LOGCONFIG(TAG, "  Debug Timings: Enabled");
-            #endif
 
             #ifdef USE_TEXT_SENSOR
             ESP_LOGCONFIG(TAG, "Text Sensors:");
@@ -270,9 +265,124 @@ namespace esphome
             }*/
         }
 
+        TCBusComponent::on_command(CommandData cmd_data)
+        {
+            ESP_LOGD(TAG, "[Received] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
+        }
+
         bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
         {
             ESP_LOGD(TAG, "Received raw data with length %" PRIi32, data.size());
+
+            uint32_t command = 0;
+            uint8_t curPos = 0;
+            uint8_t curCRC = 0;
+            uint8_t calCRC = 1;
+
+            bool curIsLong = false;
+            bool cmdIntReady = false;
+
+            for (auto pulse_duration : data.get_raw_data()) {
+                uint32_t abs_duration = std::abs(pulse_duration); // Normalize duration
+
+                // Determine bit value based on absolute duration thresholds
+                uint8_t curBit = 4;  // Undefined by default
+                if (abs_duration >= BIT_0_MIN && abs_duration <= BIT_0_MAX) {
+                    curBit = 0;
+                } else if (abs_duration >= BIT_1_MIN && abs_duration <= BIT_1_MAX) {
+                    curBit = 1;
+                } else if (abs_duration >= START_MIN && abs_duration <= START_MAX) {
+                    curBit = 2;
+                } else {
+                    curPos = 0;
+                    continue;  // Invalid timing, reset state
+                }
+    
+                if (curPos == 0) {
+                    if (curBit == 2) {
+                        curPos++;
+                    }
+                    command = 0;
+                    curCRC = 0;
+                    calCRC = 1;
+                    curIsLong = false;
+                } else if (curBit == 0 || curBit == 1) {
+                    if (curPos == 1) {
+                        curIsLong = curBit;
+                        curPos++;
+                    } else if (curPos >= 2 && curPos <= 17) {
+                        if (curBit) {
+                            command |= (1 << ((curIsLong ? 33 : 17) - curPos));
+                        }
+                        calCRC ^= curBit;
+                        curPos++;
+                    } else if (curPos == 18) {
+                        if (curIsLong) {
+                            if (curBit) {
+                                command |= (1 << (33 - curPos));
+                            }
+                            calCRC ^= curBit;
+                            curPos++;
+                        } else {
+                            curCRC = curBit;
+                            cmdIntReady = true;
+                        }
+                    } else if (curPos >= 19 && curPos <= 33) {
+                        if (curBit) {
+                            command |= (1 << (33 - curPos));
+                        }
+                        calCRC ^= curBit;
+                        curPos++;
+                    } else if (curPos == 34) {
+                        curCRC = curBit;
+                        cmdIntReady = true;
+                    }
+                } else {
+                    curPos = 0;
+                }
+    
+                if (cmdIntReady) {
+                    cmdIntReady = false;
+    
+                    if (curCRC == calCRC) {
+                        CommandData cmd_data = parseCommand(command, is_long);
+                        on_command(cmd_data);
+                    } else {
+                        ESP_LOGW(TAG, "CRC mismatch: Received %d, Calculated %d", curCRC, calCRC);
+                    }
+    
+                    command = 0;
+                    curPos = 0;
+                }
+            }
+
+            return true;
+
+
+            /*for (auto i : data.get_raw_data())
+            {
+                bool is_start = std::abs(6000 - std::abs(i)) < 500;
+                bool is_zero = std::abs(2000 - std::abs(i)) < 500;
+                bool is_one = std::abs(4000 - std::abs(i)) < 500;
+
+                if(is_start)
+                {
+                    ESP_LOGD(TAG, "Start");
+                }
+                else if(is_zero)
+                {
+                    ESP_LOGD(TAG, "0");
+                }
+                else if(is_one)
+                {
+                    ESP_LOGD(TAG, "1");
+                }
+                else
+                {
+                    // invalid
+                    ESP_LOGD(TAG, "invalid");
+                }
+            }*/
 
             /*
             // Made by https://github.com/atc1441/TCSintercomArduino
@@ -295,12 +405,6 @@ namespace esphome
             uint32_t usNow = micros();
             uint32_t timeInUS = usNow - usLast;
             usLast = usNow;
-
-            #ifdef TC_DEBUG_TIMING
-            if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-                arg->debug_buffer[arg->debug_buffer_index++] = timeInUS;
-            }
-            #endif
 
             // Determine current bit based on time interval
             uint8_t curBit = 4; // Default to undefined bit
@@ -328,13 +432,6 @@ namespace esphome
                 if (curBit == 2)
                 {
                     curPos++;
-
-                    #ifdef TC_DEBUG_TIMING
-                    // END OF COMMAND
-                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-                        arg->debug_buffer[arg->debug_buffer_index++] = 1;
-                    }
-                    #endif
                 }
 
                 curCMD = 0;
@@ -398,29 +495,13 @@ namespace esphome
                     arg->command_is_long = curIsLong ? true : false;
                     arg->command = curCMD; // Save the decoded command
                     arg->command_is_ready = true; // Indicate that a command is ready
-
-                    #ifdef TC_DEBUG_TIMING
-                    // END OF COMMAND
-                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-                        arg->debug_buffer[arg->debug_buffer_index++] = 0;
-                    }
-                    #endif
-                }
-                else
-                {
-                    #ifdef TC_DEBUG_TIMING
-                    // CRC ERROR
-                    if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-                        arg->debug_buffer[arg->debug_buffer_index++] = 99;
-                    }
-                    #endif
                 }
 
                 // Reset state
                 curCMD = 0;
                 curPos = 0;
             }*/
-            return true;
+            
         }
 
         void TCBusComponent::publish_settings()
@@ -634,81 +715,112 @@ namespace esphome
 
             if (this->sending) {
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
-            } else {
-
-
-
-
-                auto call = id(this->tx_).transmit();
-                remote_base::RemoteTransmitData *dst = call.get_data();
-
-                dst->item(6000, 2000);
-                dst->space(4000);
-                dst->item(2000, 2000);
-                dst->item(4000, 4000);
-
-                call.perform();
-
-
-                /*// Prevent collisions
-                std::srand(millis());
-                uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
-                uint32_t start_wait = millis();
-
-                delay(delay_time);
-
-                while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
-                {
-                    // Add timeout protection
-                    if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
-                        break;
-                    }
-                    delay(delay_time);
-                }
-
-                // Pause reading
-                ESP_LOGV(TAG, "Pause reading");
-                this->rx_pin_->detach_interrupt();
-
-                // Source: https://github.com/atc1441/TCSintercomArduino
-                this->sending = true;
-
-                uint8_t checksm = 1;
-                bool output_state = false;
-
-                // Start transmission
-                this->tx_pin_->digital_write(true);
-                delay(TCS_MSG_START_MS);
-
-                this->tx_pin_->digital_write(false);
-                delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-
-                int curBit = 0;
-                uint8_t length = is_long ? 32 : 16;
-
-                for (uint8_t i = length; i > 0; i--) {
-                    curBit = BIT_READ(command, i - 1);
-
-                    output_state = !output_state;
-                    this->tx_pin_->digital_write(output_state);
-                    delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    checksm ^= curBit;
-                }
-
-                this->tx_pin_->digital_write(!output_state);
-                delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                this->tx_pin_->digital_write(false);
-
-                this->sending = false;
-
-                // Resume reading
-                ESP_LOGV(TAG, "Resume reading");
-                this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
-
-                // Publish received Command on Sensors, Events, etc.
-                this->publish_command(command, is_long, false);
-                */
+                return;
             }
+
+            auto call = id(this->tx_).transmit();
+            remote_base::RemoteTransmitData *dst = call.get_data();
+
+            // Start transmission with initial mark and space
+            dst->item(TCS_MSG_START_MS, is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+
+            // Calculate length based on command type
+            uint8_t length = is_long ? 32 : 16;
+            
+            // Track checksum
+            uint8_t checksm = 1;
+            
+            // Send bits in pairs
+            for (int i = length - 1; i >= 0; i -= 2)
+            {
+                // Get current bit pair
+                bool bit1 = (command >> i) & 0x01;
+                bool bit2 = (i > 0) ? (command >> (i-1)) & 0x01 : 0;
+                
+                // Update checksum
+                checksm ^= bit1;
+                if (i > 0)
+                {
+                    checksm ^= bit2;
+                }
+
+                // Handle last single bit + checksum
+                if (i == 0) {
+                    dst->item(
+                        bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
+                        checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
+                    );
+                } else {
+                    dst->item(
+                        bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
+                        bit2 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
+                    );
+                }
+            }
+
+            // End transmission
+            dst->item(0, 0);
+            call.perform();
+
+
+            /*// Prevent collisions
+            std::srand(millis());
+            uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
+            uint32_t start_wait = millis();
+
+            delay(delay_time);
+
+            while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
+            {
+                // Add timeout protection
+                if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
+                    break;
+                }
+                delay(delay_time);
+            }
+
+            // Pause reading
+            ESP_LOGV(TAG, "Pause reading");
+            this->rx_pin_->detach_interrupt();
+
+            // Source: https://github.com/atc1441/TCSintercomArduino
+            this->sending = true;
+
+            uint8_t checksm = 1;
+            bool output_state = false;
+
+            // Start transmission
+            this->tx_pin_->digital_write(true);
+            delay(TCS_MSG_START_MS);
+
+            this->tx_pin_->digital_write(false);
+            delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+
+            int curBit = 0;
+            uint8_t length = is_long ? 32 : 16;
+
+            for (uint8_t i = length; i > 0; i--) {
+                curBit = BIT_READ(command, i - 1);
+
+                output_state = !output_state;
+                this->tx_pin_->digital_write(output_state);
+                delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                checksm ^= curBit;
+            }
+
+            this->tx_pin_->digital_write(!output_state);
+            delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            this->tx_pin_->digital_write(false);
+
+            this->sending = false;
+
+            // Resume reading
+            ESP_LOGV(TAG, "Resume reading");
+            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+
+            // Publish received Command on Sensors, Events, etc.
+            this->publish_command(command, is_long, false);
+            */
         }
 
         void TCBusComponent::add_received_command_callback(std::function<void(CommandData)> &&callback)

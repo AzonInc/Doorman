@@ -118,7 +118,10 @@ remote_receiver:
   idle: 7000us
 
 remote_transmitter:
-  pin: GPIO8
+  pin:
+    number: GPIO8
+    inverted: true
+    mode: OUTPUT
   carrier_duty_percent: 100%
 
 # Setup TC:BUS component

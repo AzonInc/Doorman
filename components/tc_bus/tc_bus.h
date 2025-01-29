@@ -34,10 +34,6 @@ namespace esphome
 {
     namespace tc_bus
     {
-        #ifdef TC_DEBUG_TIMING
-        static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
-        #endif
-
         #if defined(USE_ESP_IDF)
             #define BIT_SET(var, pos) ((var) |= (1UL << (pos)))
             #define BIT_READ(var, pos) ((var >> pos) & 0x01)
@@ -130,6 +126,7 @@ namespace esphome
                 void register_listener(TCBusListener *listener);
                 #endif
 
+                void on_command(CommandData cmd_data);
                 void send_command(uint32_t command);
                 void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
@@ -160,6 +157,13 @@ namespace esphome
                 CallbackManager<void()> identify_timeout_callback_{};
 
                 bool sending;
+
+                static constexpr uint32_t BIT_0_MIN = 1000;
+                static constexpr uint32_t BIT_0_MAX = 2999;
+                static constexpr uint32_t BIT_1_MIN = 3000;
+                static constexpr uint32_t BIT_1_MAX = 4999;
+                static constexpr uint32_t START_MIN = 5000;
+                static constexpr uint32_t START_MAX = 6999;
 
                 ESPPreferenceObject &get_pref() {
                     return this->pref_;
