@@ -635,6 +635,21 @@ namespace esphome
             if (this->sending) {
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
             } else {
+
+
+
+
+                auto call = id(this->tx_).transmit();
+                remote_base::RemoteTransmitData *dst = call.get_data();
+
+                dst->item(6000, 2000);
+                dst->space(4000);
+                dst->item(2000, 2000);
+                dst->item(4000, 4000);
+
+                call.perform();
+
+
                 /*// Prevent collisions
                 std::srand(millis());
                 uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
