@@ -267,7 +267,7 @@ namespace esphome
 
         void TCBusComponent::on_command(CommandData cmd_data)
         {
-            ESP_LOGD(TAG, "[Received] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
+            ESP_LOGD(TAG, "[Received] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16));
         }
 
         bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
