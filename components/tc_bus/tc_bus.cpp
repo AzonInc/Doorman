@@ -39,9 +39,9 @@ namespace esphome
 
         uint32_t global_tcs_id = 1911044085ULL;
 
-        static const uint8_t TCS_MSG_START_MS = 6000; // a new message
-        static const uint8_t TCS_ONE_BIT_MS = 4000; // a 1-bit is 4ms long
-        static const uint8_t TCS_ZERO_BIT_MS = 2000; // a 0-bit is 2ms long
+        static const uint32_t TCS_MSG_START_MS = 6000; // a new message
+        static const uint32_t TCS_ONE_BIT_MS = 4000; // a 1-bit is 4ms long
+        static const uint32_t TCS_ZERO_BIT_MS = 2000; // a 0-bit is 2ms long
 
         static const uint8_t TCS_SEND_WAIT_DURATION = 50;
         static const uint8_t TCS_SEND_WAIT_TIMEOUT_MS = 100;
