@@ -337,6 +337,17 @@ namespace esphome
                         ackBits++;
                         ESP_LOGD(TAG, "ACK command before validation: %02X, CRC: %d", ackCommand, ackCRC);
                     }
+                } else if (curBit == 2) {  // Start bit - reset ACK tracking
+                    if (ackBits == 6) {  // Check if we have a complete ACK before resetting
+                        if (ackCRC == ackCalCRC) {
+                            ESP_LOGI(TAG, "ACK received on start: %02X", ackCommand);
+                        }
+                    }
+                    // Reset ACK tracking on new command
+                    ackBits = 0;
+                    ackCommand = 0;
+                    ackCRC = 0;
+                    ackCalCRC = 1;
                 }
 
                 // Check for ACK command on new command start or reset
