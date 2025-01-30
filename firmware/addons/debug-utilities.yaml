@@ -23,9 +23,9 @@ debug:
 
 text_sensor:
   - platform: debug
+    id: debug_restart_reason
     reset_reason:
       name: "Reset Reason"
-      id: debug_restart_reason
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_diagnostic
