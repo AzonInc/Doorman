@@ -291,7 +291,7 @@ namespace esphome
                     ESP_LOGD(TAG, "Command Bit %i", 1);
                 } else if (abs_duration >= START_MIN && abs_duration <= START_MAX) {
                     curBit = 2;
-                    ESP_LOGD(TAG, "Begin Command %i", abs_duration);
+                    ESP_LOGD(TAG, "Begin %i", abs_duration);
                 } else {
                     // Reset state for invalid bit and check for ACK
                     
@@ -299,7 +299,7 @@ namespace esphome
 
                     if (ackBits == 6) {
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK received on reset: %01X", ackCommand);
+                            ESP_LOGI(TAG, "ACK: %01X", ackCommand);
                         }
                         ackBits = 0;
                         ackCommand = 0;
@@ -308,7 +308,7 @@ namespace esphome
                     }
 
                     curPos = 0;
-                    ESP_LOGD(TAG, "Bit invalid - duration %i - reset", abs_duration);
+                    ESP_LOGD(TAG, "Reset %i", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
 
@@ -332,7 +332,7 @@ namespace esphome
                 } else if (curBit == 2) {  // Start bit - check and reset ACK tracking
                     if (ackBits == 6) {  // Check if we have a complete ACK
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK received on start: %01X", ackCommand);
+                            ESP_LOGI(TAG, "ACK: %01X", ackCommand);
                         }
                     }
                     // Reset ACK tracking on new command
@@ -461,9 +461,6 @@ namespace esphome
 
         void TCBusComponent::publish_command(uint32_t command, bool is_long, bool received)
         {
-            // Get current TCS Serial Number
-            uint32_t tcs_serial = this->serial_number_;
-
             // Parse Command
             CommandData cmd_data = parseCommand(command, is_long);
             ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
@@ -523,7 +520,7 @@ namespace esphome
                     }
 
                     // Listener Serial Number or TCS Serial Number when empty
-                    uint32_t listener_serial_number = listener->serial_number_.has_value() ? listener->serial_number_.value() : tcs_serial;
+                    uint32_t listener_serial_number = listener->serial_number_.has_value() ? listener->serial_number_.value() : this->serial_number_;
                     
                     // Listener Address lambda or address property when not available
                     uint8_t listener_address = listener->address_.has_value() ? listener->address_.value() : 0;
@@ -591,12 +588,11 @@ namespace esphome
         {
             ESP_LOGV(TAG, "Generating command: Type: %s, Address: %i, Payload: %X, Serial number: %i", command_type_to_string(type), address, payload, serial_number);
 
-            // Get current TCS Serial Number
-            uint32_t tcs_serial = this->serial_number_;
-
-            if(serial_number == 0) {
-                ESP_LOGV(TAG, "Serial Number is 0, use intercom serial number: %i", tcs_serial);
-                serial_number = tcs_serial;
+            if(serial_number == 0 && this->serial_number_ != 0) {
+                serial_number = this->serial_number_;
+                ESP_LOGV(TAG, "Serial Number is 0, use intercom serial number: %i", serial_number);
+            } else {
+                ESP_LOGW(TAG, "Serial number is not set!");
             }
 
             CommandData command_data = buildCommand(type, address, payload, serial_number);
