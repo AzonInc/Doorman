@@ -325,20 +325,23 @@ namespace esphome
 
                 // Store bit for potential ACK command
                 if (curBit == 0 || curBit == 1) {
-                    if (ackBits < 4) {  // 4 data bits
+                    if (ackBits == 0) {  // Length bit
+                        ackBits++;
+                        ESP_LOGD(TAG, "ACK length bit: %d", curBit);
+                    } else if (ackBits >= 1 && ackBits <= 4) {  // 4 data bits
                         if (curBit) {
-                            ackCommand |= (1 << (3 - ackBits));  // Store bits from MSB to LSB (3,2,1,0)
+                            ackCommand |= (1 << (4 - ackBits));  // Store bits from MSB to LSB
                         }
                         ackCalCRC ^= curBit;
                         ackBits++;
-                        ESP_LOGD(TAG, "ACK bit %d: %d, command now: %02X", ackBits, curBit, ackCommand);
-                    } else if (ackBits == 4) {  // CRC bit
+                        ESP_LOGD(TAG, "ACK data bit %d: %d, command now: %02X", ackBits-1, curBit, ackCommand);
+                    } else if (ackBits == 5) {  // CRC bit
                         ackCRC = curBit;
                         ackBits++;
-                        ESP_LOGD(TAG, "ACK command before validation: %02X, CRC: %d", ackCommand, ackCRC);
+                        ESP_LOGD(TAG, "ACK CRC bit: %d, command: %02X", curBit, ackCommand);
                     }
-                } else if (curBit == 2) {  // Start bit - reset ACK tracking
-                    if (ackBits == 6) {  // Check if we have a complete ACK before resetting
+                } else if (curBit == 2) {  // Start bit - check and reset ACK tracking
+                    if (ackBits == 6) {  // Check if we have a complete ACK
                         if (ackCRC == ackCalCRC) {
                             ESP_LOGI(TAG, "ACK received on start: %02X", ackCommand);
                         }
@@ -348,19 +351,6 @@ namespace esphome
                     ackCommand = 0;
                     ackCRC = 0;
                     ackCalCRC = 1;
-                }
-
-                // Check for ACK command on new command start or reset
-                if (ackBits == 6) {
-                    if (curBit == 2) {  // Start bit
-                        if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK received on start: %02X", ackCommand);
-                        }
-                        ackBits = 0;
-                        ackCommand = 0;
-                        ackCRC = 0;
-                        ackCalCRC = 1;
-                    }
                 }
 
                 if (curPos == 0) {
