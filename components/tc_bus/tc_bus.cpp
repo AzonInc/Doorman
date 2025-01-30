@@ -322,7 +322,7 @@ namespace esphome
                     ESP_LOGD(TAG, "Bit invalid - duration %i - reset", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
-                
+
                 // Store bit for potential ACK command
                 if (curBit == 0 || curBit == 1) {
                     if (ackBits < 5) {
@@ -389,6 +389,10 @@ namespace esphome
                     }
                 } else {
                     curPos = 0;
+                    ackBits = 0;
+                    ackCommand = 0;
+                    ackCRC = 0;
+                    ackCalCRC = 1;
                 }
     
                 if (cmdIntReady) {
@@ -402,6 +406,11 @@ namespace esphome
                         ESP_LOGW(TAG, "CRC mismatch: Received %d, Calculated %d", curCRC, calCRC);
                     }
     
+                    ackBits = 0;
+                    ackCommand = 0;
+                    ackCRC = 0;
+                    ackCalCRC = 1;
+
                     command = 0;
                     curPos = 0;
                 }
