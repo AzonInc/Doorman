@@ -23,8 +23,8 @@ debug:
 
 text_sensor:
   - platform: debug
-    id: debug_restart_reason
     reset_reason:
+      id: debug_restart_reason
       name: "Reset Reason"
       entity_category: DIAGNOSTIC
       web_server:
