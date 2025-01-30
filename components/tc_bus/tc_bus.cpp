@@ -294,13 +294,21 @@ namespace esphome
                 uint8_t curBit = 4;  // Undefined by default
                 if (abs_duration >= BIT_0_MIN && abs_duration <= BIT_0_MAX) {
                     curBit = 0;
+                    ESP_LOGD(TAG, "Command Bit %i", 0);
                 } else if (abs_duration >= BIT_1_MIN && abs_duration <= BIT_1_MAX) {
                     curBit = 1;
+                    ESP_LOGD(TAG, "Command Bit %i", 1);
                 } else if (abs_duration >= START_MIN && abs_duration <= START_MAX) {
                     curBit = 2;
+                    ESP_LOGD(TAG, "Begin Command %i", abs_duration);
                 } else {
                     // Reset state for invalid bit and check for ACK
+                    
+                    ESP_LOGD(TAG, "ackBits %i", ackBits);
+
                     if (ackBits == 6) {
+                        ESP_LOGD(TAG, "ackBits == 6");
+
                         if (ackCRC == ackCalCRC) {
                             ESP_LOGI(TAG, "ACK received on reset: %02X", ackCommand);
                         }
@@ -314,9 +322,7 @@ namespace esphome
                     ESP_LOGD(TAG, "Bit invalid - duration %i - reset", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
-
-                ESP_LOGD(TAG, "Bit %i", curBit);
-
+                
                 // Store bit for potential ACK command
                 if (curBit == 0 || curBit == 1) {
                     if (ackBits < 5) {
@@ -332,6 +338,7 @@ namespace esphome
 
                 // Check for ACK command on new command start
                 if (curBit == 2 && ackBits == 6) {
+                    ESP_LOGD(TAG, "curBit == 2 && ackBits == 6");
                     if (ackCRC == ackCalCRC) {
                         ESP_LOGI(TAG, "ACK received on new command: %02X", ackCommand);
                     }
