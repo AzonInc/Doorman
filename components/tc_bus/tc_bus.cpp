@@ -325,16 +325,17 @@ namespace esphome
 
                 // Store bit for potential ACK command
                 if (curBit == 0 || curBit == 1) {
-                    if (ackBits < 5) {
+                    if (ackBits < 4) {  // Changed from 5 to 4 since we want 4 data bits
                         if (curBit) {
-                            ackCommand |= (1 << (4 - ackBits));  // Store data bits
+                            ackCommand |= (1 << ackBits);  // Changed bit shifting to use ackBits directly
                         }
                         ackCalCRC ^= curBit;
                         ackBits++;
-                    } else if (ackBits == 5) {
+                        ESP_LOGD(TAG, "ACK bit %d: %d, command now: %02X", ackBits, curBit, ackCommand);
+                    } else if (ackBits == 4) {  // Changed from 5 to 4
                         ackCRC = curBit;  // Store CRC bit
                         ackBits++;
-                        ESP_LOGD(TAG, "ACK command before validation: %02X", ackCommand);  // Debug log
+                        ESP_LOGD(TAG, "ACK command before validation: %02X, CRC: %d", ackCommand, ackCRC);
                     }
                 }
 
