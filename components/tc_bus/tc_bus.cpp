@@ -287,6 +287,9 @@ namespace esphome
             bool curIsLong = false;
             bool cmdIntReady = false;
 
+            bool isAckCommand = false;  // New flag for ACK detection
+            uint8_t ackBitsReceived = 0;  // Counter for ACK bits
+
             for (auto pulse_duration : data.get_raw_data()) {
                 uint32_t abs_duration = std::abs(pulse_duration); // Normalize duration
 
@@ -298,8 +301,12 @@ namespace esphome
                     curBit = 1;
                 } else if (abs_duration >= START_MIN && abs_duration <= START_MAX) {
                     curBit = 2;
+                } else if (abs_duration >= ACK_MIN && abs_duration <= ACK_MAX) {
+                    curBit = 3;
                 } else {
                     curPos = 0;
+                    isAckCommand = false;
+                    ackBitsReceived = 0;
                     ESP_LOGD(TAG, "Bit invalid - duration %i - reset", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
@@ -309,11 +316,42 @@ namespace esphome
                 if (curPos == 0) {
                     if (curBit == 2) {
                         curPos++;
+                        isAckCommand = false;
+                    } else if (curBit == 3) {
+                        // ACK command start
+                        curPos++;
+                        isAckCommand = true;
+                        ackBitsReceived = 0;
                     }
                     command = 0;
                     curCRC = 0;
                     calCRC = 1;
                     curIsLong = false;
+                } else if (isAckCommand) {
+                    // Handle ACK command bits
+                    if (curBit == 0 || curBit == 1) {
+                        ackBitsReceived++;
+
+                        if (ackBitsReceived <= 5) {
+                            command = (command << 1) | curBit;
+                            calCRC ^= curBit;
+                        } else if (ackBitsReceived == 6) {
+                            // Last bit is CRC
+                            curCRC = curBit;
+                            cmdIntReady = true;
+                            curIsLong = true;  // ACK is always short format
+                        }
+    
+                        if (ackBitsReceived >= 6) {
+                            curPos = 0;
+                            isAckCommand = false;
+                            ackBitsReceived = 0;
+                        }
+                    } else {
+                        curPos = 0;
+                        isAckCommand = false;
+                        ackBitsReceived = 0;
+                    }
                 } else if (curBit == 0 || curBit == 1) {
                     if (curPos == 1) {
                         curIsLong = curBit;
@@ -347,6 +385,7 @@ namespace esphome
                     }
                 } else {
                     curPos = 0;
+                    isAckCommand = false;
                 }
     
                 if (cmdIntReady) {

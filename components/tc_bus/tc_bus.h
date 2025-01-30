@@ -166,7 +166,9 @@ namespace esphome
                 static constexpr uint32_t BIT_1_MIN = 3000;
                 static constexpr uint32_t BIT_1_MAX = 4999;
                 static constexpr uint32_t START_MIN = 5000;
-                static constexpr uint32_t START_MAX = 6999;
+                static constexpr uint32_t START_MAX = 6259;
+                static constexpr uint32_t ACK_MIN = 6260;
+                static constexpr uint32_t ACK_MAX = 6999;
 
                 ESPPreferenceObject &get_pref() {
                     return this->pref_;
