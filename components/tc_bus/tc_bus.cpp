@@ -257,7 +257,7 @@ namespace esphome
                 } else {
                     ESP_LOGD(TAG, "Received 16-Bit command %04X", cmd_data.command);
                 }
-                this->publish_command(s.command, cmd_data.is_long, true);
+                this->publish_command(cmd_data.command, cmd_data.is_long, true);
             }
         }
 
