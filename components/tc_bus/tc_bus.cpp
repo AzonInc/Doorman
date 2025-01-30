@@ -295,8 +295,11 @@ namespace esphome
                     curBit = 2;
                 } else {
                     curPos = 0;
+                    ESP_LOGD(TAG, "Bit invalid");
                     continue;  // Invalid timing, reset state
                 }
+
+                ESP_LOGD(TAG, "Bit ", curBit);
 
                 if (curPos == 0) {
                     if (curBit == 2) {
@@ -347,7 +350,7 @@ namespace esphome
                     if (curCRC == calCRC) {
                         //CommandData cmd_data = parseCommand(command, curIsLong);
                         //on_command(cmd_data);
-                        ESP_LOGW(TAG, "CMD received: %08X", command);
+                        ESP_LOGI(TAG, "CMD received: %08X", command);
                     } else {
                         ESP_LOGW(TAG, "CRC mismatch: Received %d, Calculated %d", curCRC, calCRC);
                     }
