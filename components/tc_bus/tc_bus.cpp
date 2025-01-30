@@ -327,22 +327,22 @@ namespace esphome
                 if (curBit == 0 || curBit == 1) {
                     if (ackBits < 5) {
                         if (curBit) {
-                            ackCommand |= (1 << (4 - ackBits));
+                            ackCommand |= (1 << (4 - ackBits));  // Store data bits
                         }
                         ackCalCRC ^= curBit;
                         ackBits++;
                     } else if (ackBits == 5) {
-                        ackCRC = curBit;
+                        ackCRC = curBit;  // Store CRC bit
                         ackBits++;
+                        ESP_LOGD(TAG, "ACK command before validation: %02X", ackCommand);  // Debug log
                     }
                 }
 
                 // Check for ACK command on new command start or reset
                 if (ackBits == 6) {
-                    if ((curBit == 2)) {  // Start bit or invalid bit (reset)
-                        ESP_LOGD(TAG, "ackBits == 6 with curBit = %d", curBit);
+                    if (curBit == 2) {  // Start bit
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK received: %02X", ackCommand);
+                            ESP_LOGI(TAG, "ACK received on start: %02X", ackCommand);
                         }
                         ackBits = 0;
                         ackCommand = 0;
