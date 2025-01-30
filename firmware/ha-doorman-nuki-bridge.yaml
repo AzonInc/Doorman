@@ -20,3 +20,13 @@ esp32:
     type: arduino
     version: 2.0.16
     platform_version: 6.7.0
+
+remote_receiver:
+  rmt_channel: 4
+
+remote_transmitter:
+  rmt_channel: 1
+
+light:
+  - id: !extend doorman_rgb_status_led
+    rmt_channel: 0

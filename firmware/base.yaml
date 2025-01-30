@@ -316,7 +316,6 @@ light:
     rgb_order: GRB
     pin: ${rgb_led_pin}
     num_leds: 1
-    rmt_channel: 0
     chipset: ws2812
     gamma_correct: 1
     default_transition_length: 0ms
