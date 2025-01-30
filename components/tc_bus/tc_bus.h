@@ -116,7 +116,7 @@ namespace esphome
                 void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
                 void set_programming_mode(bool enabled);
 
-                //float get_setup_priority() const override { return setup_priority::LATE; }
+                float get_setup_priority() const override { return setup_priority::LATE; }
                 void setup() override;
                 void dump_config() override;
                 void loop() override;
