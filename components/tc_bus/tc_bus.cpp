@@ -300,7 +300,7 @@ namespace esphome
                     curBit = 2;
                 } else {
                     curPos = 0;
-                    ESP_LOGD(TAG, "Bit invalid - duration %i - skip", abs_duration);
+                    ESP_LOGD(TAG, "Bit invalid - duration %i - reset", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
 
