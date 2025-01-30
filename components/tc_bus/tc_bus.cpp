@@ -295,11 +295,11 @@ namespace esphome
                     curBit = 2;
                 } else {
                     curPos = 0;
-                    ESP_LOGD(TAG, "Bit invalid");
+                    ESP_LOGD(TAG, "Bit invalid - duration %i", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
 
-                ESP_LOGD(TAG, "Bit ", curBit);
+                ESP_LOGD(TAG, "Bit %i", curBit);
 
                 if (curPos == 0) {
                     if (curBit == 2) {
