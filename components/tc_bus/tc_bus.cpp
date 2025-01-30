@@ -298,9 +298,7 @@ namespace esphome
                     continue;  // Invalid timing, reset state
                 }
 
-                ESP_LOGD(TAG, "Bit: %i", curBit);
-    
-                /*if (curPos == 0) {
+                if (curPos == 0) {
                     if (curBit == 2) {
                         curPos++;
                     }
@@ -355,7 +353,7 @@ namespace esphome
     
                     command = 0;
                     curPos = 0;
-                }*/
+                }
             }
 
             return true;
@@ -587,32 +585,32 @@ namespace esphome
             // Track checksum
             uint8_t checksm = 1;
             
-            // Send bits in pairs
-            for (int i = length - 1; i >= 0; i -= 2)
-            {
-                // Get current bit pair
-                bool bit1 = (command >> i) & 0x01;
-                bool bit2 = (i > 0) ? (command >> (i-1)) & 0x01 : 0;
+            // Process all bits except the last one
+            for (int i = length - 1; i > 0; i -= 2) {
+                uint32_t mask1 = 1UL << i;
+                uint32_t mask2 = 1UL << (i-1);
                 
-                // Update checksum
+                bool bit1 = (command & mask1) != 0;
+                bool bit2 = (command & mask2) != 0;
+                
                 checksm ^= bit1;
-                if (i > 0)
-                {
-                    checksm ^= bit2;
-                }
+                checksm ^= bit2;
 
-                // Handle last single bit + checksum
-                if (i == 0) {
-                    dst->item(
-                        bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
-                        checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
-                    );
-                } else {
-                    dst->item(
-                        bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
-                        bit2 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
-                    );
-                }
+                dst->item(
+                    bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
+                    bit2 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
+                );
+            }
+
+            // Handle last bit + checksum if length is odd
+            if (length % 2 != 0) {
+                bool last_bit = (command & 1) != 0;
+                checksm ^= last_bit;
+                
+                dst->item(
+                    last_bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
+                    checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
+                );
             }
 
             // End transmission
