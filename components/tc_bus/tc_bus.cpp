@@ -39,9 +39,9 @@ namespace esphome
 
         uint32_t global_tcs_id = 1911044085ULL;
 
-        static const uint8_t TCS_MSG_START_MS = 6; // a new message
-        static const uint8_t TCS_ONE_BIT_MS = 4; // a 1-bit is 4ms long
-        static const uint8_t TCS_ZERO_BIT_MS = 2; // a 0-bit is 2ms long
+        static const uint8_t TCS_MSG_START_MS = 6000; // a new message
+        static const uint8_t TCS_ONE_BIT_MS = 4000; // a 1-bit is 4ms long
+        static const uint8_t TCS_ZERO_BIT_MS = 2000; // a 0-bit is 2ms long
 
         static const uint8_t TCS_SEND_WAIT_DURATION = 50;
         static const uint8_t TCS_SEND_WAIT_TIMEOUT_MS = 100;
@@ -297,8 +297,10 @@ namespace esphome
                     curPos = 0;
                     continue;  // Invalid timing, reset state
                 }
+
+                ESP_LOGD(TAG, "Bit: %i", curBit);
     
-                if (curPos == 0) {
+                /*if (curPos == 0) {
                     if (curBit == 2) {
                         curPos++;
                     }
@@ -353,155 +355,10 @@ namespace esphome
     
                     command = 0;
                     curPos = 0;
-                }
+                }*/
             }
 
             return true;
-
-
-            /*for (auto i : data.get_raw_data())
-            {
-                bool is_start = std::abs(6000 - std::abs(i)) < 500;
-                bool is_zero = std::abs(2000 - std::abs(i)) < 500;
-                bool is_one = std::abs(4000 - std::abs(i)) < 500;
-
-                if(is_start)
-                {
-                    ESP_LOGD(TAG, "Start");
-                }
-                else if(is_zero)
-                {
-                    ESP_LOGD(TAG, "0");
-                }
-                else if(is_one)
-                {
-                    ESP_LOGD(TAG, "1");
-                }
-                else
-                {
-                    // invalid
-                    ESP_LOGD(TAG, "invalid");
-                }
-            }*/
-
-            /*
-            // Made by https://github.com/atc1441/TCSintercomArduino
-
-            // Timing thresholds (in microseconds)
-            const uint32_t BIT_0_MIN = 1000, BIT_0_MAX = 2999;
-            const uint32_t BIT_1_MIN = 3000, BIT_1_MAX = 4999;
-            const uint32_t START_MIN = 5000, START_MAX = 6999;
-            const uint32_t RESET_MIN = 7000, RESET_MAX = 24000;
-
-            static uint32_t curCMD = 0;   // Current command being constructed
-            static uint32_t usLast = 0;  // Last timestamp in microseconds
-            static uint8_t curCRC = 0;   // CRC received in the data
-            static uint8_t calCRC = 1;   // Calculated CRC (starts at 1)
-            static uint8_t curPos = 0;   // Current position in the bit stream
-            static bool curIsLong = false; // 32 or 16 Bit Command
-            static bool cmdIntReady = false; // Command ready flag
-
-            // Calculate time difference
-            uint32_t usNow = micros();
-            uint32_t timeInUS = usNow - usLast;
-            usLast = usNow;
-
-            // Determine current bit based on time interval
-            uint8_t curBit = 4; // Default to undefined bit
-            if (timeInUS >= BIT_0_MIN && timeInUS <= BIT_0_MAX) {
-                curBit = 0;
-            } else if (timeInUS >= BIT_1_MIN && timeInUS <= BIT_1_MAX) {
-                curBit = 1;
-            } else if (timeInUS >= START_MIN && timeInUS <= START_MAX) {
-                curBit = 2;
-            } else if (timeInUS >= RESET_MIN) {
-                // Reset if a reset signal is detected
-                curPos = 0;
-                return;
-            } else {
-                // Invalid timing, reset the position
-                curPos = 0;
-                return;
-            }
-
-            // Save last bit timestamp
-            arg->last_bit_change = millis();
-
-            if (curPos == 0) {
-                // First bit after reset: expect start signal (bit 2)
-                if (curBit == 2)
-                {
-                    curPos++;
-                }
-
-                curCMD = 0;
-                curCRC = 0;
-                calCRC = 1;
-                curIsLong = false;
-            } else if (curBit == 0 || curBit == 1) {
-                // Process bits based on position
-                if (curPos == 1) {
-                    // Second bit: command length (0 or 1)
-                    curIsLong = curBit;
-                    curPos++;
-                } else if (curPos >= 2 && curPos <= 17) {
-                    // Bits 2-17: Command data (low 16 bits)
-                    if (curBit)
-                    {
-                        BIT_SET(curCMD, (curIsLong ? 33 : 17) - curPos);
-                    }
-
-                    calCRC ^= curBit; // Update CRC
-                    curPos++;
-                } else if (curPos == 18) {
-                    // Bit 18: Either part of data (32-bit command) or CRC for 16-bit command
-                    if (curIsLong)
-                    {
-                        if (curBit)
-                        {
-                            BIT_SET(curCMD, 33 - curPos);
-                        }
-                        calCRC ^= curBit; // Update CRC
-                        curPos++;
-                    }
-                    else
-                    {
-                        curCRC = curBit; // Save CRC for 16-bit command
-                        cmdIntReady = true;
-                    }
-                } else if (curPos >= 19 && curPos <= 33) {
-                    // Bits 19-33: Remaining bits for 32-bit command
-                    if (curBit)
-                    {
-                        BIT_SET(curCMD, 33 - curPos);
-                    }
-                    calCRC ^= curBit; // Update CRC
-                    curPos++;
-                } else if (curPos == 34) {
-                    // Bit 34: CRC for 32-bit command
-                    curCRC = curBit;
-                    cmdIntReady = true;
-                }
-            } else {
-                // Undefined bit, reset the position
-                curPos = 0;
-            }
-
-            // If the command is ready, validate CRC and save the command
-            if (cmdIntReady) {
-                cmdIntReady = false;
-
-                if (curCRC == calCRC) {
-                    arg->command_is_long = curIsLong ? true : false;
-                    arg->command = curCMD; // Save the decoded command
-                    arg->command_is_ready = true; // Indicate that a command is ready
-                }
-
-                // Reset state
-                curCMD = 0;
-                curPos = 0;
-            }*/
-            
         }
 
         void TCBusComponent::publish_settings()
