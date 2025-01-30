@@ -345,8 +345,9 @@ namespace esphome
                     cmdIntReady = false;
     
                     if (curCRC == calCRC) {
-                        CommandData cmd_data = parseCommand(command, curIsLong);
-                        on_command(cmd_data);
+                        //CommandData cmd_data = parseCommand(command, curIsLong);
+                        //on_command(cmd_data);
+                        ESP_LOGW(TAG, "CMD received: %08X", command);
                     } else {
                         ESP_LOGW(TAG, "CRC mismatch: Received %d, Calculated %d", curCRC, calCRC);
                     }
