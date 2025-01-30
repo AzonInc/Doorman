@@ -112,25 +112,28 @@ namespace esphome
                 void set_rx(remote_receiver::RemoteReceiverComponent *rx) { this->rx_ = rx; }
 
                 void set_event(const char *event) { this->event_ = event; }
-
                 void set_model(Model model) { this->model_ = model; }
                 void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
+                void set_programming_mode(bool enabled);
 
-                float get_setup_priority() const override { return setup_priority::LATE; }
+                //float get_setup_priority() const override { return setup_priority::LATE; }
                 void setup() override;
                 void dump_config() override;
                 void loop() override;
                 bool on_receive(remote_base::RemoteReceiveData data) override;
+                void on_command(CommandData cmd_data);
+
+                void send_command(uint32_t command);
+                void send_command(uint32_t command, bool is_long);
+                void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
 
                 #ifdef USE_BINARY_SENSOR
                 void register_listener(TCBusListener *listener);
                 #endif
 
-                void on_command(CommandData cmd_data);
-                void send_command(uint32_t command);
-                void send_command(uint32_t command, bool is_long);
-                void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
-                void set_programming_mode(bool enabled);
+                
+                
+                
 
                 void request_version(uint32_t serial_number);
                 void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
