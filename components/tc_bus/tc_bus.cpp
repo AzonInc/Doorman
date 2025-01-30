@@ -177,97 +177,88 @@ namespace esphome
                 }
             }
             #endif
-
-            /*auto &s = this->store_;
-
-            if(s.command_is_ready) {
-                if(reading_memory_) {
-                    ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
-
-                    // Save Data to memory Store
-                    memory_buffer_.push_back((s.command >> 24) & 0xFF);
-                    memory_buffer_.push_back((s.command >> 16) & 0xFF);
-                    memory_buffer_.push_back((s.command >> 8) & 0xFF);
-                    memory_buffer_.push_back(s.command & 0xFF);
-
-                    // Next 4 Data Blocks
-                    reading_memory_count_++;
-
-                    // Memory reading complete
-                    if(reading_memory_count_ == reading_memory_max_) {
-                        // Turn off
-                        this->cancel_timeout("wait_for_memory_reading");
-                        reading_memory_ = false;
-
-                        this->publish_settings();
-                        this->read_memory_complete_callback_.call(memory_buffer_);
-                    } else {
-                        delay(20);
-
-                        // Request Data Blocks
-                        ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
-                        send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
-                    }
-                }
-                else if(identify_model_) {
-                    std::string hex_result = str_upper_case(format_hex(s.command));
-                    if(hex_result.substr(4, 1) == "D") {
-                        identify_model_ = false;
-                        this->cancel_timeout("wait_for_identification");
-
-                        ModelData device;
-
-                        device.category = 0;
-                        device.memory_size = 0;
-
-                        // FW Version
-                        device.firmware_version = std::stoi(hex_result.substr(5, 3));
-                        device.firmware_major = std::stoi(hex_result.substr(5, 1), nullptr, 16);
-                        device.firmware_minor = std::stoi(hex_result.substr(6, 1), nullptr, 16);
-                        device.firmware_patch = std::stoi(hex_result.substr(7, 1), nullptr, 16);
-
-                        // HW Version
-                        device.hardware_version = std::stoi(hex_result.substr(0, 1));
-                        device.model = identifier_string_to_model(hex_result.substr(1, 3), device.hardware_version, device.firmware_version);
-                        const char* hw_model = model_to_string(device.model);
-
-                        ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
-                            hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
-
-                        // Update Model
-                        if(device.model != MODEL_NONE && device.model != this->model_) {
-                            this->model_ = device.model;
-                            #ifdef USE_SELECT
-                            if (this->model_select_ != nullptr) {
-                                this->model_select_->publish_state(hw_model);
-                            }
-                            #endif
-                            this->save_settings();
-                        }
-
-                        this->identify_complete_callback_.call(device);
-                    } else {
-                        ESP_LOGE(TAG, "Invalid indentification response!");
-                    }
-                }
-                else {
-                    if(s.command_is_long) {
-                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.command);
-                    } else {
-                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.command);
-                    }
-                    this->publish_command(s.command, s.command_is_long, true);
-                }
-
-                s.command_is_ready = false;
-                s.command_is_long = false;
-                s.command = 0;
-            }*/
         }
 
         void TCBusComponent::on_command(CommandData cmd_data)
         {
             ESP_LOGD(TAG, "[Received] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16));
+        
+            if(reading_memory_) {
+                ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
+
+                // Save Data to memory Store
+                memory_buffer_.push_back((cmd_data.command >> 24) & 0xFF);
+                memory_buffer_.push_back((cmd_data.command >> 16) & 0xFF);
+                memory_buffer_.push_back((cmd_data.command >> 8) & 0xFF);
+                memory_buffer_.push_back(cmd_data.command & 0xFF);
+
+                // Next 4 Data Blocks
+                reading_memory_count_++;
+
+                // Memory reading complete
+                if(reading_memory_count_ == reading_memory_max_) {
+                    // Turn off
+                    this->cancel_timeout("wait_for_memory_reading");
+                    reading_memory_ = false;
+
+                    this->publish_settings();
+                    this->read_memory_complete_callback_.call(memory_buffer_);
+                } else {
+                    delay(20);
+
+                    // Request Data Blocks
+                    ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
+                    send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
+                }
+            }
+            else if(identify_model_) {
+                std::string hex_result = str_upper_case(cmd_data.command_hex);
+                if(hex_result.substr(4, 1) == "D") {
+                    identify_model_ = false;
+                    this->cancel_timeout("wait_for_identification");
+
+                    ModelData device;
+
+                    device.category = 0;
+                    device.memory_size = 0;
+
+                    // FW Version
+                    device.firmware_version = std::stoi(hex_result.substr(5, 3));
+                    device.firmware_major = std::stoi(hex_result.substr(5, 1), nullptr, 16);
+                    device.firmware_minor = std::stoi(hex_result.substr(6, 1), nullptr, 16);
+                    device.firmware_patch = std::stoi(hex_result.substr(7, 1), nullptr, 16);
+
+                    // HW Version
+                    device.hardware_version = std::stoi(hex_result.substr(0, 1));
+                    device.model = identifier_string_to_model(hex_result.substr(1, 3), device.hardware_version, device.firmware_version);
+                    const char* hw_model = model_to_string(device.model);
+
+                    ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
+                        hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
+
+                    // Update Model
+                    if(device.model != MODEL_NONE && device.model != this->model_) {
+                        this->model_ = device.model;
+                        #ifdef USE_SELECT
+                        if (this->model_select_ != nullptr) {
+                            this->model_select_->publish_state(hw_model);
+                        }
+                        #endif
+                        this->save_settings();
+                    }
+
+                    this->identify_complete_callback_.call(device);
+                } else {
+                    ESP_LOGE(TAG, "Invalid indentification response!");
+                }
+            } else {
+                if(cmd_data.is_long) {
+                    ESP_LOGD(TAG, "Received 32-Bit command %08X", cmd_data.command);
+                } else {
+                    ESP_LOGD(TAG, "Received 16-Bit command %04X", cmd_data.command);
+                }
+                this->publish_command(s.command, cmd_data.is_long, true);
+            }
         }
 
         bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
@@ -280,7 +271,7 @@ namespace esphome
             uint8_t calCRC = 1;
 
             uint8_t ackBits = 0;
-            uint32_t ackCommand = 0;
+            uint8_t ackCommand = 0;
             uint8_t ackCRC = 0;
             uint8_t ackCalCRC = 1;
 
@@ -304,13 +295,11 @@ namespace esphome
                 } else {
                     // Reset state for invalid bit and check for ACK
                     
-                    ESP_LOGD(TAG, "ackBits %i", ackBits);
+                    //ESP_LOGD(TAG, "ackBits %i", ackBits);
 
                     if (ackBits == 6) {
-                        ESP_LOGD(TAG, "ackBits == 6");
-
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK received on reset: %02X", ackCommand);
+                            ESP_LOGI(TAG, "ACK received on reset: %01X", ackCommand);
                         }
                         ackBits = 0;
                         ackCommand = 0;
@@ -327,23 +316,23 @@ namespace esphome
                 if (curBit == 0 || curBit == 1) {
                     if (ackBits == 0) {  // Length bit
                         ackBits++;
-                        ESP_LOGD(TAG, "ACK length bit: %d", curBit);
+                        //ESP_LOGD(TAG, "ACK length bit: %d", curBit);
                     } else if (ackBits >= 1 && ackBits <= 4) {  // 4 data bits
                         if (curBit) {
                             ackCommand |= (1 << (4 - ackBits));  // Store bits from MSB to LSB
                         }
                         ackCalCRC ^= curBit;
                         ackBits++;
-                        ESP_LOGD(TAG, "ACK data bit %d: %d, command now: %02X", ackBits-1, curBit, ackCommand);
+                        //ESP_LOGD(TAG, "ACK data bit %d: %d, command now: %02X", ackBits-1, curBit, ackCommand);
                     } else if (ackBits == 5) {  // CRC bit
                         ackCRC = curBit;
                         ackBits++;
-                        ESP_LOGD(TAG, "ACK CRC bit: %d, command: %02X", curBit, ackCommand);
+                        //ESP_LOGD(TAG, "ACK CRC bit: %d, command: %02X", curBit, ackCommand);
                     }
                 } else if (curBit == 2) {  // Start bit - check and reset ACK tracking
                     if (ackBits == 6) {  // Check if we have a complete ACK
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK received on start: %02X", ackCommand);
+                            ESP_LOGI(TAG, "ACK received on start: %01X", ackCommand);
                         }
                     }
                     // Reset ACK tracking on new command
@@ -404,9 +393,9 @@ namespace esphome
                     cmdIntReady = false;
     
                     if (curCRC == calCRC) {
-                        //CommandData cmd_data = parseCommand(command, curIsLong);
-                        //on_command(cmd_data);
-                        ESP_LOGI(TAG, "CMD received: %08X", command);
+                        //ESP_LOGI(TAG, "CMD received: %08X", command);
+                        CommandData cmd_data = parseCommand(command, curIsLong);
+                        on_command(cmd_data);
                     } else {
                         ESP_LOGW(TAG, "CRC mismatch: Received %d, Calculated %d", curCRC, calCRC);
                     }
