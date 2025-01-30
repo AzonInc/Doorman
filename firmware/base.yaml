@@ -116,6 +116,8 @@ remote_receiver:
     mode: INPUT
   filter: 1000us
   idle: 7000us
+  dump:
+    - raw
 
 remote_transmitter:
   pin:
