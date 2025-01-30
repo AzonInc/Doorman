@@ -273,11 +273,11 @@ namespace esphome
         bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
         {
             ESP_LOGD(TAG, "Received raw data with length %" PRIi32, data.size());
-            for (auto pulse_duration : data.get_raw_data()) {
+            /*for (auto pulse_duration : data.get_raw_data()) {
                 uint32_t abs_duration = std::abs(pulse_duration);
                 ESP_LOGD(TAG, "Time %i", abs_duration);
             }
-            return true;
+            return true;*/
 
             uint32_t command = 0;
             uint8_t curPos = 0;
@@ -300,7 +300,7 @@ namespace esphome
                     curBit = 2;
                 } else {
                     curPos = 0;
-                    ESP_LOGD(TAG, "Bit invalid - duration %i", abs_duration);
+                    ESP_LOGD(TAG, "Bit invalid - duration %i - skip", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
 
