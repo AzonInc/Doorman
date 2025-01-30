@@ -573,7 +573,7 @@ namespace esphome
                 return;
             }
 
-            auto call = id(this->tx_).transmit();
+            /*auto call = id(this->tx_).transmit();
             remote_base::RemoteTransmitData *dst = call.get_data();
 
             // Start transmission with initial mark and space
@@ -615,7 +615,7 @@ namespace esphome
 
             // End transmission
             dst->item(0, 0);
-            call.perform();
+            call.perform();*/
 
 
             /*// Prevent collisions
