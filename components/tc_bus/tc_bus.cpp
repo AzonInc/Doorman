@@ -330,22 +330,25 @@ namespace esphome
                             ackCommand |= (1 << (4 - ackBits));
                         }
                         ackCalCRC ^= curBit;
+                        ackBits++;
                     } else if (ackBits == 5) {
                         ackCRC = curBit;
+                        ackBits++;
                     }
-                    ackBits++;
                 }
 
-                // Check for ACK command on new command start
-                if (curBit == 2 && ackBits == 6) {
-                    ESP_LOGD(TAG, "curBit == 2 && ackBits == 6");
-                    if (ackCRC == ackCalCRC) {
-                        ESP_LOGI(TAG, "ACK received on new command: %02X", ackCommand);
+                // Check for ACK command on new command start or reset
+                if (ackBits == 6) {
+                    if ((curBit == 2)) {  // Start bit or invalid bit (reset)
+                        ESP_LOGD(TAG, "ackBits == 6 with curBit = %d", curBit);
+                        if (ackCRC == ackCalCRC) {
+                            ESP_LOGI(TAG, "ACK received: %02X", ackCommand);
+                        }
+                        ackBits = 0;
+                        ackCommand = 0;
+                        ackCRC = 0;
+                        ackCalCRC = 1;
                     }
-                    ackBits = 0;
-                    ackCommand = 0;
-                    ackCRC = 0;
-                    ackCalCRC = 1;
                 }
 
                 if (curPos == 0) {
