@@ -201,3 +201,7 @@ tc_bus:
               if (!found) {
                 list.push_back(x.serial_number);
               }
+
+remote_receiver:
+  dump:
+    - raw

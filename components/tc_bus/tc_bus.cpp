@@ -626,29 +626,22 @@ namespace esphome
             auto call = id(this->tx_).transmit();
             remote_base::RemoteTransmitData *dst = call.get_data();
 
-            // Initial space to bring line low
-            dst->item(0, TCS_MSG_START_MS);
-        
-            // Start mark and length bit
+            // Start transmission with initial mark and space
             dst->item(TCS_MSG_START_MS, is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            
+
             // Calculate length based on command type
             uint8_t length = is_long ? 32 : 16;
-
+            
             // Track checksum
             uint8_t checksm = 1;
-            checksm ^= is_long ? 1 : 0;
             
             // Process all bits except the last one
             for (int i = length - 1; i > 0; i -= 2) {
-                
                 uint32_t mask1 = 1UL << i;
                 uint32_t mask2 = 1UL << (i-1);
                 
                 bool bit1 = (command & mask1) != 0;
-                ESP_LOGD(TAG, "bit1 %i", bit1);
                 bool bit2 = (command & mask2) != 0;
-                ESP_LOGD(TAG, "bit2 %i", bit2);
                 
                 checksm ^= bit1;
                 checksm ^= bit2;
@@ -659,25 +652,12 @@ namespace esphome
                 );
             }
 
-            // Handle last bit + checksum if length is odd
-            if (length % 2 != 0) {
-                bool last_bit = (command & 1) != 0;
-                checksm ^= last_bit;
-                
-                dst->item(
-                    last_bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
-                    checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
-                );
-            }
+            dst->item(
+                checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
+                -1
+            );
 
-            // End transmission
-            dst->item(0, 0);
-
-            ESP_LOGD(TAG, "perform");
             call.perform();
-
-            
-
 
 
 
