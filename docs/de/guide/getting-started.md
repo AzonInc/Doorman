@@ -9,16 +9,16 @@ Sofern du selbst ein PCB produzieren lassen hast, musst du zuerst die Firmware f
 **Vielen Dank, dass du Doorman verwendest! ❤️**
 
 ## Verkabelung
-Öffne als Erstes das Gehäuse deiner Gegensprechanlage. In den meisten Fällen findest du dort eine Schraubklemme mit den Bezeichnungen `a`, `b`, `E` und `P`.
+Öffne als Erstes das Gehäuse deiner Innenstation. In den meisten Fällen findest du dort eine Schraubklemme mit den Bezeichnungen `a`, `b`, `E` und `P`.
 
-Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss deines Doorman.
+Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss deines Doorman. Doorman ist wie jedes andere Gerät am Bus und wird **parallel angeschlossen**.
 
 ::: warning Hinweis
-Standardmäßig versende ich Revision 1.5 mit einer Jumper-Kappe auf `BUS PWR`. Bitte entferne diese, sofern du Doorman nicht nach dem Schema `2-Draht-Modus über die Gegensprechanlage` anschließt.
+Standardmäßig versende ich Revision 1.5 mit einer Jumper-Kappe auf `BUS PWR`. Bitte entferne diese, sofern du Doorman nicht nach dem Schema `2-Draht-Modus über die Innenstation` anschließt.
 :::
 
 ### Stromversorgungsoptionen:
-::: details 3-Draht-Modus über die Gegensprechanlage <Badge type="tip" text="Empfohlen" />
+::: details 3-Draht-Modus über die Innenstation <Badge type="tip" text="Empfohlen" />
 Verbinde die `P`-Leitung (+24V) mit dem `P`-Terminal an deinem Doorman.
 
 > [!WARNING]
@@ -42,7 +42,7 @@ Beispiel:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
 
-::: details 2-Draht-Modus über die Gegensprechanlage <Badge type="danger" text="Hardware Revision 1.5 und neuer" />
+::: details 2-Draht-Modus über die Innenstation <Badge type="danger" text="Hardware Revision 1.5 und neuer" />
 > [!DANGER] Wichtig
 > Die Nutzung der `a`-Bus-Leitung als Stromquelle bei älteren Hardware Revisionen als `1.5` führt zu einem lauten Piepton. Dieses Problem tritt wahrscheinlich aufgrund der Hochfrequenz-Schaltstromversorgung auf.
 >
@@ -94,7 +94,7 @@ Du musst den Modus nicht manuell aktivieren; er wird bei jedem Neustart automati
    Gehe zum Bereich `Konfiguration` und schalte den `Setup Mode` ein, um die interaktive Einrichtung zu beginnen.
 
 ::: warning Bevor du weitermachst 
-Deine Gegensprechanlage muss angeschlossen und das Gehäuse verschlossen sein, damit die Einrichtung abgeschlossen werden kann.
+Deine Innenstation muss angeschlossen und das Gehäuse verschlossen sein, damit die Einrichtung abgeschlossen werden kann.
 :::
 
 3. **Einrichtung durchführen:**\
@@ -105,6 +105,10 @@ Deine Gegensprechanlage muss angeschlossen und das Gehäuse verschlossen sein, d
 
 Wenn du mehrere Außenstationen hast, wird die Firmware versuchen, die zusätzliche Station automatisch zu erkennen.
 Um die Erkennung der zweiten Türklingel und das Öffnen der zweiten Tür zu ermöglichen, musst du die zweite Türklingel einmal betätigen oder den physischen Entsperrknopf der zweiten Tür mindestens einmal betätigen, damit die Adresse gespeichert wird.
+
+::: tip Mehrere Innenstationen
+Wenn du mehrere Innenstationen hast, wird's etwas tricky. Du musst dann eine eigene YAML-Konfiguration erstellen, damit alle zusammen funktionieren. Die Standard-Firmware kann nämlich nur mit einer Innenstation umgehen.
+:::
 
 ## ESPHome adoption
 Wenn du die Firmware deines Doorman anpassen möchtest, kannst du diesen zu deinem [ESPHome-Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) hinzufügen und deine angepasste [Stock](firmware/stock-firmware.md) oder [Nuki Bridge](firmware/nuki-bridge-firmware.md) Firmware flashen.

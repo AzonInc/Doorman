@@ -23,6 +23,8 @@ The `tc_bus` hub component offers the following configuration options:
 | `on_command`           | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.          | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                         | No       |               |
+| `on_identify_complete` | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.          | No       |               |
+| `on_identify_timeout`  | Defines actions to be triggered when the identification of the indoor station times out.                                                                         | No       |               |
 
 
 ### Text Sensors
@@ -115,7 +117,7 @@ on_read_memory_timeout:
 ```
 
 ### Identification of Indoor Station Complete
-The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [DeviceData](#device-data) structure, accessible as the `x` variable.
+The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [ModelData](#model-data) structure, accessible as the `x` variable.
 
 ```yaml
 on_identify_complete:
@@ -273,7 +275,7 @@ Be sure to modify the command and event name as needed based on your configurati
 
 ## Example YAML Configuration
 
-Here is an example configuration for the TCS Intercom component in ESPHome:
+Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
