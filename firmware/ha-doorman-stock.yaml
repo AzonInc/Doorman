@@ -5,10 +5,10 @@ dashboard_import:
 packages:
   device_base: !include base.yaml
   homeassistant: !include addons/homeassistant.yaml
-  pattern_events: !include addons/pattern-events.yaml
-  ring_to_open: !include addons/ring-to-open.yaml
-  intercom_settings: !include addons/intercom-settings.yaml
-  interactive_setup: !include addons/interactive-setup.yaml
+  #pattern_events: !include addons/pattern-events.yaml
+  #ring_to_open: !include addons/ring-to-open.yaml
+  #intercom_settings: !include addons/intercom-settings.yaml
+  #interactive_setup: !include addons/interactive-setup.yaml
 
 esp32:
   framework:
