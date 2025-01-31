@@ -34,14 +34,6 @@ namespace esphome
 {
     namespace tc_bus
     {
-        #if defined(USE_ESP_IDF)
-            #define BIT_SET(var, pos) ((var) |= (1UL << (pos)))
-            #define BIT_READ(var, pos) ((var >> pos) & 0x01)
-        #else
-            #define BIT_SET(var, pos) bitSet((var), (pos))
-            #define BIT_READ(var, pos) bitRead((var), (pos))
-        #endif
-
         #ifdef USE_BINARY_SENSOR
         class TCBusListener
         {
