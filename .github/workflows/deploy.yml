@@ -24,27 +24,31 @@ jobs:
     name: Build Docs
     uses: ./.github/workflows/build-docs.yml
 
-  prepare-release-summary:
+  prepare-release:
     runs-on: ubuntu-latest
-    name: Prepare release summary
+    name: Prepare release data
     outputs:
       release_summary: ${{ steps.generate-summary.outputs.summary }}
+      release_url: ${{ steps.generate-summary.outputs.url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Generate Release Summary
+      - name: Generate Release Data
         id: generate-summary
         run: |
           GITHUB_REF_NAME=${{ github.ref_name }}
           SHA=${{ github.sha }}
 
+          URL="https://doorman.azon.ai/changelog/firmware"
+
           if [[ "${GITHUB_REF_NAME}" == "master" ]]; then
             SUMMARY="Stable Firmware"
           elif [[ "${GITHUB_REF_NAME}" == dev* ]]; then
             SUMMARY="Experimental Firmware (${GITHUB_REF_NAME}), $(git log -1 --pretty=%B), ${SHA}"
+            URL="https://doorman-dev.surge.sh/changelog/firmware"
           else
             SUMMARY=""
           fi
@@ -54,6 +58,7 @@ jobs:
           SUMMARY="${SUMMARY//$'\n'/'%0A'}"
           SUMMARY="${SUMMARY//$'\r'/'%0D'}"
   
+          echo "url=$URL" >> $GITHUB_OUTPUT
           echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
 
   # Build stable firmware
@@ -61,25 +66,27 @@ jobs:
     if: github.ref_name == 'master'
     name: Build Doorman Stock for Home Assistant (ESP32-S3) Firmware (stable)
     uses: ./.github/workflows/build-esphome.yml
-    needs: prepare-release-summary
+    needs: prepare-release
     with:
       files: firmware/ha-doorman-stock.yaml
       name: AzonInc.Doorman
       esphome_version: latest
       directory_name: doorman-stock
-      summary: ${{ needs.prepare-release-summary.outputs.release_summary }}
+      summary: ${{ needs.prepare-release.outputs.release_summary }}
+      url: ${{ needs.prepare-release.outputs.release_url }}
 
   build-doorman-nuki-bridge-stable-firmware:
     if: github.ref_name == 'master'
     name: Build Doorman Nuki Bridge for Home Assistant (ESP32-S3) Firmware (stable)
     uses: ./.github/workflows/build-esphome.yml
-    needs: prepare-release-summary
+    needs: prepare-release
     with:
       files: firmware/ha-doorman-nuki-bridge.yaml
       name: AzonInc.Doorman-Nuki-Bridge
       esphome_version: latest
       directory_name: doorman-nuki-bridge
-      summary: ${{ needs.prepare-release-summary.outputs.release_summary }}
+      summary: ${{ needs.prepare-release.outputs.release_summary }}
+      url: ${{ needs.prepare-release.outputs.release_url }}
 
 
   # Build dev firmware
@@ -87,25 +94,27 @@ jobs:
     if: startsWith(github.ref_name, 'dev')
     name: Build Doorman Stock for Home Assistant (ESP32-S3) Firmware (dev)
     uses: ./.github/workflows/build-esphome.yml
-    needs: prepare-release-summary
+    needs: prepare-release
     with:
       files: firmware/ha-doorman-stock.dev.yaml
       name: AzonInc.Doorman
       esphome_version: latest
       directory_name: doorman-stock
-      summary: ${{ needs.prepare-release-summary.outputs.release_summary }}
+      summary: ${{ needs.prepare-release.outputs.release_summary }}
+      url: ${{ needs.prepare-release.outputs.release_url }}
 
   build-doorman-nuki-bridge-dev-firmware:
     if: startsWith(github.ref_name, 'dev')
     name: Build Doorman Nuki Bridge for Home Assistant (ESP32-S3) Firmware (dev)
     uses: ./.github/workflows/build-esphome.yml
-    needs: prepare-release-summary
+    needs: prepare-release
     with:
       files: firmware/ha-doorman-nuki-bridge.dev.yaml
       name: AzonInc.Doorman-Nuki-Bridge
       esphome_version: latest
       directory_name: doorman-nuki-bridge
-      summary: ${{ needs.prepare-release-summary.outputs.release_summary }}
+      summary: ${{ needs.prepare-release.outputs.release_summary }}
+      url: ${{ needs.prepare-release.outputs.release_url }}
           
   # Bundle all assets for Pages
   bundle-assets-stable:
