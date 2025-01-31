@@ -1,7 +1,7 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2025.1.0
+## 2025.2.0
 ### 🚀 What's New?
 - **Added a Switch to turn off the Status LED while Ring to Open is active**  
    If you don't want the Status LED to blink while Ring to Open is active, you can now easily turn it off.
@@ -36,11 +36,16 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
 ### 📝 Other Updates
 - **Nuki Component**  
-   The `nuki_lock` component now leverages Doorman-S3's PSRAM, potentially enhancing the overall performance.
+   The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now leverages Doorman-S3's PSRAM, potentially enhancing the overall performance.
 
 ### 🚨 Breaking Changes
+- **PSRAM Compatibility**  
+   Some users, particularly those with Revision 1.4 PCBs, may encounter issues due to the newly added PSRAM component. This is because certain Revision 1.4 boards use the N16R2 variant of the ESP32S3, which requires a different configuration for proper PSRAM booting.
+   
+   For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/AzonInc/Doorman/issues).
+
 - **Hexadecimal Command-String Length changed**  
-   With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the `Last Bus Command` sensor.
+   With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the [Last Bus Command](../reference/entities#last-bus-command) sensor.
 
 - **Separate Event entities**  
    [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
