@@ -641,11 +641,14 @@ namespace esphome
             
             // Process all bits except the last one
             for (int i = length - 1; i > 0; i -= 2) {
+                
                 uint32_t mask1 = 1UL << i;
                 uint32_t mask2 = 1UL << (i-1);
                 
                 bool bit1 = (command & mask1) != 0;
+                ESP_LOGD(TAG, "bit1 %i", bit1);
                 bool bit2 = (command & mask2) != 0;
+                ESP_LOGD(TAG, "bit2 %i", bit2);
                 
                 checksm ^= bit1;
                 checksm ^= bit2;
@@ -669,9 +672,11 @@ namespace esphome
 
             // End transmission
             dst->item(0, 0);
+
+            ESP_LOGD(TAG, "perform");
             call.perform();
 
-
+            
 
 
 
