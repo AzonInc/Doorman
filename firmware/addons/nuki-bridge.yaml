@@ -1,5 +1,5 @@
 external_components:
-  - source: github://uriyacovy/ESPHome_nuki_lock@improve-memory-footprint
+  - source: github://uriyacovy/ESPHome_nuki_lock
     refresh: 60s
 
 # Pairing Mode
