@@ -39,13 +39,13 @@ jobs:
           path: output/firmware/release
 
       - name: Upload Pages artifact
-        if: github.ref == 'refs/heads/master'
+        if: github.ref_name == 'master'
         uses: actions/upload-pages-artifact@v3
         with:
           path: output
       
       - name: Upload Assets Bundle
-        if: github.ref != 'refs/heads/master'
+        if: startsWith(github.ref_name, 'dev')
         uses: actions/upload-artifact@v4
         with:
           name: asset-bundle
