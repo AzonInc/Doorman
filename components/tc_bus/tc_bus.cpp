@@ -617,27 +617,24 @@ namespace esphome
             } else {
                 ESP_LOGD(TAG, "Sending 16-bit command %04X", command);
             }
-        
+
             if (this->sending) {
-                ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending in progress", command);
+                ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
                 return;
             }
-        
+
             auto call = id(this->tx_).transmit();
             remote_base::RemoteTransmitData *dst = call.get_data();
-        
+
             // Initial space to bring line low
             dst->item(0, TCS_MSG_START_MS);
         
             // Start mark and length bit
             dst->item(TCS_MSG_START_MS, is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-        
-            // Calculate length based on command type
-            uint8_t length = is_long ? 32 : 16;
             
             // Track checksum
             uint8_t checksm = 1;
-            checksm ^= is_long ? 1 : 0;  // Include length bit in CRC
+            checksm ^= is_long ? 1 : 0;
             
             // Process all bits except the last one
             for (int i = length - 1; i > 0; i -= 2) {
@@ -649,13 +646,13 @@ namespace esphome
                 
                 checksm ^= bit1;
                 checksm ^= bit2;
-        
+
                 dst->item(
                     bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
                     bit2 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
                 );
             }
-        
+
             // Handle last bit + checksum if length is odd
             if (length % 2 != 0) {
                 bool last_bit = (command & 1) != 0;
@@ -666,10 +663,14 @@ namespace esphome
                     checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
                 );
             }
-        
+
             // End transmission
             dst->item(0, 0);
             call.perform();
+
+
+
+
 
 
             /*// Prevent collisions
