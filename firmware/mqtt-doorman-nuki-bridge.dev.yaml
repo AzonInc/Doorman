@@ -10,3 +10,7 @@ external_components:
   - source: github://AzonInc/Doorman@dev
     components: [ tc_bus ]
     refresh: 60s
+
+switch:
+  - id: !extend dev_firmware
+    restore_mode: RESTORE_DEFAULT_ON
