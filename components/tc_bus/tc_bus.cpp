@@ -632,6 +632,9 @@ namespace esphome
             // Start mark and length bit
             dst->item(TCS_MSG_START_MS, is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             
+            // Calculate length based on command type
+            uint8_t length = is_long ? 32 : 16;
+
             // Track checksum
             uint8_t checksm = 1;
             checksm ^= is_long ? 1 : 0;
