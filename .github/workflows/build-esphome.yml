@@ -49,10 +49,11 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Change ESPHome project version to dev
-        if: github.ref != 'refs/heads/master'
+        if: startsWith(github.ref, 'refs/heads/dev')
         run: |
           VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
-          sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev"/' firmware/base.yaml
+          TIMESTAMP=$(date +%d%H%M)
+          sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev.'"$TIMESTAMP"'"/' firmware/base.yaml
 
       - uses: esphome/build-action@v4.0.1
         id: esphome-build

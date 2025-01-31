@@ -37,23 +37,23 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/dev')
         working-directory: docs
         run: |
-          TIMESTAMP=$(date +%s)
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev${TIMESTAMP}\"/" package.json
+          TIMESTAMP=$(date +%d%H%M)
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev.${TIMESTAMP}\"/" package.json
           
       - name: Update example fw branch
         if: startsWith(github.ref, 'refs/heads/dev')
         working-directory: firmware/examples
         run: |
           BRANCH_NAME=${{ github.ref }} # Access github.ref directly
-          BRANCH_NAME=${BRANCH_NAME#refs/heads/} # Remove the refs/heads/ prefix
+          BRANCH_NAME=${BRANCH_NAME#refs/heads/}
           sed -i "s/@master/@${BRANCH_NAME}/g" *.example.yaml
 
       - name: Update docs branch
         if: startsWith(github.ref, 'refs/heads/dev')
         working-directory: docs
         run: |
-          BRANCH_NAME=${{ github.ref }} # Access github.ref directly
-          BRANCH_NAME=${BRANCH_NAME#refs/heads/} # Remove the refs/heads/ prefix
+          BRANCH_NAME=${{ github.ref }}
+          BRANCH_NAME=${BRANCH_NAME#refs/heads/}
           sed -i "s/@master/@${BRANCH_NAME}/g" */guide/getting-started.md
           sed -i "s/master/${BRANCH_NAME}/g" */guide/enclosure/3d-printing.md
           sed -i "s/@master/@${BRANCH_NAME}/g" */reference/schematics.md
