@@ -639,7 +639,7 @@ namespace esphome
             uint8_t checksm = 1;
 
             // Process all bits
-            for (int i = length - 1; i >= 0; i--) {
+            for (uint8_t i = length - 1; i >= 0; i--) {
                 // Extract single bit
                 bool bit = (command & (1UL << i)) != 0;
                 
@@ -659,8 +659,8 @@ namespace esphome
             dst->space(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             ESP_LOGD(TAG, "space chksm %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             
-            dst->mark(9000);
-            ESP_LOGD(TAG, "mark %i", 9000);
+            dst->mark(2000);
+            ESP_LOGD(TAG, "mark %i", 2000);
 
             call.perform();
             ESP_LOGD(TAG, "perform");
