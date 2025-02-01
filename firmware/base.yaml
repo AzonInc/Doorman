@@ -112,7 +112,6 @@ external_components:
 remote_receiver:
   pin:
     number: GPIO9
-    inverted: true
     mode: INPUT
   filter: 1500us
   idle: 7000us
@@ -120,7 +119,6 @@ remote_receiver:
 remote_transmitter:
   pin:
     number: GPIO8
-    inverted: false
     mode: OUTPUT
   carrier_duty_percent: 100%
 
