@@ -114,10 +114,8 @@ remote_receiver:
     number: GPIO9
     inverted: true
     mode: INPUT
-  filter: 100us
+  filter: 1500us
   idle: 7000us
-  dump:
-    - raw
 
 remote_transmitter:
   pin:
