@@ -627,7 +627,8 @@ namespace esphome
             remote_base::RemoteTransmitData *dst = call.get_data();
 
             // Start transmission with initial mark and space
-            dst->item(TCS_MSG_START_MS, is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->mark(TCS_MSG_START_MS);
+            dst->space(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
             // Calculate length based on command type
             uint8_t length = is_long ? 32 : 16;
@@ -635,27 +636,31 @@ namespace esphome
             // Track checksum
             uint8_t checksm = 1;
             
-            // Process all bits except the last one
-            for (int i = length - 1; i > 0; i -= 2) {
-                uint32_t mask1 = 1UL << i;
-                uint32_t mask2 = 1UL << (i-1);
-                
-                bool bit1 = (command & mask1) != 0;
-                bool bit2 = (command & mask2) != 0;
-                
-                checksm ^= bit1;
-                checksm ^= bit2;
+            bool output_state = true;
 
-                dst->item(
-                    bit1 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
-                    bit2 ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS
-                );
+            // Process all bits
+            for (int i = length - 1; i >= 0; i--) {
+                // Extract single bit
+                bool bit = (command & (1UL << i)) != 0;
+                
+                // Update checksum
+                checksm ^= bit;
+
+                // Send bit as mark/space sequence
+                if(output_state)
+                {
+                    dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                }
+                else {
+                    dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                }
+
+                // Toggle state
+                output_state = !output_state;
             }
-
-            dst->item(
-                checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS,
-                -1
-            );
+            
+            dst->mark(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->space(0);
 
             call.perform();
 
