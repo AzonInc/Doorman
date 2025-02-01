@@ -648,18 +648,18 @@ namespace esphome
 
                 // Send bit as mark/space sequence
                 if(i % 2 == 0) {
-                    dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    ESP_LOGD(TAG, "space %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                } else {
                     dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                     ESP_LOGD(TAG, "mark %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                } else {
+                    dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGD(TAG, "space %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
             }
             
-            dst->space(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            ESP_LOGD(TAG, "space %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            dst->mark(0);
-            ESP_LOGD(TAG, "mark %i", 0);
+            dst->mark(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGD(TAG, "mark %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->space(0);
+            ESP_LOGD(TAG, "space %i", 0);
 
             call.perform();
             ESP_LOGD(TAG, "perform");
