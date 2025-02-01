@@ -627,10 +627,10 @@ namespace esphome
             remote_base::RemoteTransmitData *dst = call.get_data();
 
             // Start transmission with initial mark and space
-            dst->space(TCS_MSG_START_MS);
-            ESP_LOGD(TAG, "space start %i", TCS_MSG_START_MS);
-            dst->mark(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            ESP_LOGD(TAG, "mark lngth %i", is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->mark(TCS_MSG_START_MS);
+            ESP_LOGD(TAG, "mark start %i", TCS_MSG_START_MS);
+            dst->space(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGD(TAG, "space lngth %i", is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
             // Calculate length based on command type
             uint8_t length = is_long ? 32 : 16;
@@ -648,19 +648,19 @@ namespace esphome
 
                 // Send bit as mark/space sequence
                 if(i % 2 == 0) {
-                    dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    ESP_LOGD(TAG, "mark bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                } else {
                     dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                     ESP_LOGD(TAG, "space bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                } else {
+                    dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGD(TAG, "mark bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
             }
             
-            dst->space(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            ESP_LOGD(TAG, "space chksm %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->mark(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGD(TAG, "mark chksm %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             
-            dst->mark(1600);
-            ESP_LOGD(TAG, "mark %i", 1600);
+            dst->space(1600);
+            ESP_LOGD(TAG, "space %i", 1600);
 
             call.perform();
             ESP_LOGD(TAG, "perform");
