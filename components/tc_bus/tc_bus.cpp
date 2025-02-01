@@ -635,8 +635,6 @@ namespace esphome
             
             // Track checksum
             uint8_t checksm = 1;
-            
-            bool output_state = true;
 
             // Process all bits
             for (int i = length - 1; i >= 0; i--) {
@@ -647,22 +645,20 @@ namespace esphome
                 checksm ^= bit;
 
                 // Send bit as mark/space sequence
-                if(output_state)
-                {
+                if(i % 2 == 0) {
                     dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                }
-                else {
+                } else {
                     dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
-
-                // Toggle state
-                output_state = !output_state;
             }
             
             dst->mark(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             dst->space(0);
 
             call.perform();
+
+            // Publish received Command on Sensors, Events, etc.
+            this->publish_command(command, is_long, false);
 
 
 
