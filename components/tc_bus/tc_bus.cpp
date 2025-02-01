@@ -639,7 +639,7 @@ namespace esphome
             uint8_t checksm = 1;
 
             // Process all bits
-            for (uint8_t i = length - 1; i >= 0; i--) {
+            for (int i = length - 1; i >= 0; i--) {
                 // Extract single bit
                 bool bit = (command & (1UL << i)) != 0;
                 
