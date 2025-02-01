@@ -628,7 +628,9 @@ namespace esphome
 
             // Start transmission with initial mark and space
             dst->space(TCS_MSG_START_MS);
+            ESP_LOGD(TAG, "space %i", TCS_MSG_START_MS);
             dst->mark(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGD(TAG, "mark %i", is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
             // Calculate length based on command type
             uint8_t length = is_long ? 32 : 16;
@@ -647,15 +649,20 @@ namespace esphome
                 // Send bit as mark/space sequence
                 if(i % 2 == 0) {
                     dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGD(TAG, "space %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 } else {
                     dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGD(TAG, "mark %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
             }
             
             dst->space(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGD(TAG, "space %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             dst->mark(0);
+            ESP_LOGD(TAG, "mark %i", 0);
 
             call.perform();
+            ESP_LOGD(TAG, "perform");
 
             // Publish received Command on Sensors, Events, etc.
             this->publish_command(command, is_long, false);
