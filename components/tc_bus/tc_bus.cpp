@@ -659,10 +659,9 @@ namespace esphome
             dst->space(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             ESP_LOGD(TAG, "space chksm %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             
-            dst->mark(1000);
-            dst->space(1000);
-            ESP_LOGD(TAG, "mark %i", 1000);
-            ESP_LOGD(TAG, "space %i", 1000);
+            dst->mark(500);
+
+            ESP_LOGD(TAG, "mark %i", 500);
 
             call.perform();
             ESP_LOGD(TAG, "perform");
