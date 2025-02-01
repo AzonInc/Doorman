@@ -649,10 +649,10 @@ namespace esphome
                 // Send bit as mark/space sequence
                 if(i % 2 == 0) {
                     dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    ESP_LOGD(TAG, "mark bit %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGD(TAG, "mark bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 } else {
                     dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    ESP_LOGD(TAG, "space bit %i", bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGD(TAG, "space bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
             }
             
