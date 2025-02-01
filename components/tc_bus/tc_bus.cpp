@@ -627,8 +627,8 @@ namespace esphome
             remote_base::RemoteTransmitData *dst = call.get_data();
 
             // Start transmission with initial mark and space
-            dst->mark(TCS_MSG_START_MS);
-            dst->space(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->space(TCS_MSG_START_MS);
+            dst->mark(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
             // Calculate length based on command type
             uint8_t length = is_long ? 32 : 16;
@@ -646,14 +646,14 @@ namespace esphome
 
                 // Send bit as mark/space sequence
                 if(i % 2 == 0) {
-                    dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                } else {
                     dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                } else {
+                    dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
             }
             
-            dst->mark(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            dst->space(0);
+            dst->space(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            dst->mark(0);
 
             call.perform();
 
