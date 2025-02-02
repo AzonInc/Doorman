@@ -13,9 +13,6 @@ namespace esphome
             CommandData data{};
             data.command = 0;
             data.type = type;
-            data.address = address;
-            data.payload = payload;
-            data.serial_number = serial_number;
             data.is_long = true;
 
             switch (type)
@@ -25,6 +22,8 @@ namespace esphome
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (1 << 7);  // 8
                     data.command |= (address & 0x3F); // 0
+                    data.serial_number = serial_number;
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_INTERNAL_CALL:
@@ -32,12 +31,15 @@ namespace esphome
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command &= ~(1 << 7);  // 0
                     data.command |= (address & 0x3F); // 0
+                    data.serial_number = serial_number;
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_FLOOR_CALL:
                     data.command |= (1 << 28);  // 1
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= 0x41; // 41
+                    data.serial_number = serial_number;
                     break;
 
                 case COMMAND_TYPE_START_TALKING_DOOR_CALL:
@@ -45,6 +47,8 @@ namespace esphome
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (1 << 7);  // 8
                     data.command |= (address & 0x3F); // 0
+                    data.serial_number = serial_number;
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_START_TALKING:
@@ -52,6 +56,8 @@ namespace esphome
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command &= ~(1 << 7); // 0
                     data.command |= (address & 0x3F); // 0
+                    data.serial_number = serial_number;
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_STOP_TALKING_DOOR_CALL:
@@ -59,6 +65,7 @@ namespace esphome
                     data.command |= (3 << 12); // 3
                     data.command |= (1 << 7);  // 08
                     data.command |= (address & 0x3F); // 0
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_STOP_TALKING:
@@ -66,6 +73,7 @@ namespace esphome
                     data.command |= (3 << 12); // 3
                     data.command &= ~(1 << 7); // 00
                     data.command |= (address & 0x3F); // 0
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR:
@@ -73,6 +81,7 @@ namespace esphome
                     data.command |= (1 << 12); // 1
                     data.command |= (1 << 8); // 1
                     data.command |= (address & 0x3F); // 00
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR_LONG:
@@ -82,6 +91,7 @@ namespace esphome
                         data.command |= (1 << 12); // 1
                         data.command |= (1 << 8); // 1
                         data.command |= (address & 0x3F); // 00
+                        data.address = address;
                     }
                     else
                     {
@@ -89,6 +99,8 @@ namespace esphome
                         data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                         data.command |= (1 << 7);  // 8
                         data.command |= (address & 0x3F); // 0
+                        data.serial_number = serial_number;
+                        data.address = address;
                     }
                     break;
 
@@ -102,12 +114,15 @@ namespace esphome
                     data.command |= (6 << 28); // 6
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (payload & 0xFF); // 08
+                    data.serial_number = serial_number;
+                    data.payload = payload;
                     break;
 
                 case COMMAND_TYPE_REQUEST_VERSION:
                     data.command |= (5 << 28); // 5
                     data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (0xC0 & 0xFF); // C0
+                    data.serial_number = serial_number;
                     break;
 
                 case COMMAND_TYPE_RESET:
@@ -124,6 +139,7 @@ namespace esphome
                 case COMMAND_TYPE_FOUND_DOORMAN_DEVICE:
                     data.command |= (0x7F << 24); // 7F
                     data.command |= payload & 0xFFFFFF; // MAC address
+                    data.payload = payload;
                     break;
 
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP:
@@ -131,6 +147,7 @@ namespace esphome
                     data.command |= (5 << 12); // 5
                     data.command |= (8 << 8);  // 80
                     data.command |= (payload & 0xFF); // 0
+                    data.payload = payload;
                     break;
 
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET:
@@ -138,6 +155,7 @@ namespace esphome
                     data.command |= (5 << 12); // 5
                     data.command |= (9 << 8);  // 90
                     data.command |= (payload & 0xFF); // 0
+                    data.payload = payload;
                     break;
 
                 case COMMAND_TYPE_SEARCH_DEVICES:
@@ -152,6 +170,7 @@ namespace esphome
                     data.command |= (0 << 8);  // 0
                     data.command |= (4 << 4);  // 4
                     data.command |= (payload & 0xF); // 0 / 1
+                    data.payload = payload;
                     break;
 
                 case COMMAND_TYPE_READ_MEMORY_BLOCK:
@@ -159,6 +178,7 @@ namespace esphome
                     data.command |= (8 << 12); // 8
                     data.command |= (4 << 8);  // 4
                     data.command |= ((data.address * 4) & 0xFF); // 00
+                    data.address = address;
                     break;
 
                 case COMMAND_TYPE_WRITE_MEMORY:
@@ -166,6 +186,8 @@ namespace esphome
                     data.command |= (2 << 24); // 2
                     data.command |= (address & 0xFF) << 16; // start address
                     data.command |= payload & 0xFFFF; // ABCD payload
+                    data.address = address;
+                    data.payload = payload;
                     break;
 
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE:
@@ -173,6 +195,8 @@ namespace esphome
                     data.command |= (1 << 24); // 1
                     data.command |= (address & 0xF) << 20; // page
                     data.command |= serial_number & 0xFFFFF;
+                    data.serial_number = serial_number;
+                    data.address = address;
                     break;
 
                 default:
