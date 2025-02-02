@@ -45,9 +45,9 @@ jobs:
           URL="https://doorman.azon.ai/changelog/firmware"
 
           if [[ "${GITHUB_REF_NAME}" == "master" ]]; then
-            SUMMARY="Stable Firmware"
+            SUMMARY="Kindly review the release notes for further details, as there may be some breaking changes."
           elif [[ "${GITHUB_REF_NAME}" == dev* ]]; then
-            SUMMARY="Experimental Firmware (${GITHUB_REF_NAME}), $(git log -1 --pretty=%B), ${SHA}"
+            SUMMARY="Please note this is an experimental update (${GITHUB_REF_NAME}) and may contain unstable features. Details: $(git log -1 --pretty=%B), ${SHA}"
             URL="https://doorman-dev.surge.sh/changelog/firmware"
           else
             SUMMARY=""
