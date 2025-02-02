@@ -179,10 +179,13 @@ namespace esphome
             #endif
         }
 
+        void TCBusComponent::on_acknowledge(uint8_t type)
+        {
+            ESP_LOGI(TAG, "Message acknowledgement: %01X", type);
+        }
+
         void TCBusComponent::on_command(CommandData cmd_data)
         {
-            ESP_LOGD(TAG, "[Received] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16));
-        
             if(reading_memory_) {
                 ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
 
@@ -210,60 +213,54 @@ namespace esphome
                     ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
                     send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
                 }
-            }
-            else if(identify_model_) {
-                std::string hex_result = str_upper_case(cmd_data.command_hex);
-                if(hex_result.substr(4, 1) == "D") {
-                    identify_model_ = false;
-                    this->cancel_timeout("wait_for_identification");
+            } else if(identify_model_ && (cmd_data.is_long && cmd_data.command_hex.substr(4, 1) == "D")) {
+                identify_model_ = false;
+                this->cancel_timeout("wait_for_identification");
 
-                    ModelData device;
+                ModelData device;
 
-                    device.category = 0;
-                    device.memory_size = 0;
+                device.category = 0;
+                device.memory_size = 0;
 
-                    // FW Version
-                    device.firmware_version = std::stoi(hex_result.substr(5, 3));
-                    device.firmware_major = std::stoi(hex_result.substr(5, 1), nullptr, 16);
-                    device.firmware_minor = std::stoi(hex_result.substr(6, 1), nullptr, 16);
-                    device.firmware_patch = std::stoi(hex_result.substr(7, 1), nullptr, 16);
+                // FW Version
+                device.firmware_version = std::stoi(cmd_data.command_hex.substr(5, 3));
+                device.firmware_major = std::stoi(cmd_data.command_hex.substr(5, 1), nullptr, 16);
+                device.firmware_minor = std::stoi(cmd_data.command_hex.substr(6, 1), nullptr, 16);
+                device.firmware_patch = std::stoi(cmd_data.command_hex.substr(7, 1), nullptr, 16);
 
-                    // HW Version
-                    device.hardware_version = std::stoi(hex_result.substr(0, 1));
-                    device.model = identifier_string_to_model(hex_result.substr(1, 3), device.hardware_version, device.firmware_version);
-                    const char* hw_model = model_to_string(device.model);
+                // HW Version
+                device.hardware_version = std::stoi(cmd_data.command_hex.substr(0, 1));
+                device.model = identifier_string_to_model(cmd_data.command_hex.substr(1, 3), device.hardware_version, device.firmware_version);
+                const char* hw_model = model_to_string(device.model);
 
-                    ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
-                        hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
+                ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
+                    hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
 
-                    // Update Model
-                    if(device.model != MODEL_NONE && device.model != this->model_) {
-                        this->model_ = device.model;
-                        #ifdef USE_SELECT
-                        if (this->model_select_ != nullptr) {
-                            this->model_select_->publish_state(hw_model);
-                        }
-                        #endif
-                        this->save_settings();
+                // Update Model
+                if(device.model != MODEL_NONE && device.model != this->model_) {
+                    this->model_ = device.model;
+                    #ifdef USE_SELECT
+                    if (this->model_select_ != nullptr) {
+                        this->model_select_->publish_state(hw_model);
                     }
+                    #endif
+                    this->save_settings();
+                }
 
-                    this->identify_complete_callback_.call(device);
-                } else {
-                    ESP_LOGE(TAG, "Invalid indentification response!");
-                }
+                this->identify_complete_callback_.call(device);
             } else {
-                if(cmd_data.is_long) {
-                    ESP_LOGD(TAG, "Received 32-Bit command %08X", cmd_data.command);
-                } else {
-                    ESP_LOGD(TAG, "Received 16-Bit command %04X", cmd_data.command);
-                }
+                ESP_LOGD(TAG, "Received Command Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
                 this->publish_command(cmd_data.command, cmd_data.is_long, true);
             }
         }
 
         bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
         {
-            ESP_LOGD(TAG, "Received raw data with length %" PRIi32, data.size());
+            if (this->sending_) {
+                return false;
+            }
+
+            ESP_LOGV(TAG, "Received raw data with length %" PRIi32, data.size());
 
             uint32_t command = 0;
             uint8_t curPos = 0;
@@ -285,21 +282,18 @@ namespace esphome
                 uint8_t curBit = 4;  // Undefined by default
                 if (abs_duration >= BIT_0_MIN && abs_duration <= BIT_0_MAX) {
                     curBit = 0;
-                    ESP_LOGD(TAG, "Command Bit %i", 0);
+                    ESP_LOGV(TAG, "Command Bit %i", 0);
                 } else if (abs_duration >= BIT_1_MIN && abs_duration <= BIT_1_MAX) {
                     curBit = 1;
-                    ESP_LOGD(TAG, "Command Bit %i", 1);
+                    ESP_LOGV(TAG, "Command Bit %i", 1);
                 } else if (abs_duration >= START_MIN && abs_duration <= START_MAX) {
                     curBit = 2;
-                    ESP_LOGD(TAG, "Begin %i", abs_duration);
+                    ESP_LOGV(TAG, "Begin %i", abs_duration);
                 } else {
                     // Reset state for invalid bit and check for ACK
-                    
-                    //ESP_LOGD(TAG, "ackBits %i", ackBits);
-
                     if (ackBits == 6) {
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK: %01X", ackCommand);
+                            on_acknowledge(ackCommand);
                         }
                         ackBits = 0;
                         ackCommand = 0;
@@ -308,33 +302,39 @@ namespace esphome
                     }
 
                     curPos = 0;
-                    ESP_LOGD(TAG, "Reset %i", abs_duration);
+                    ESP_LOGV(TAG, "Reset %i", abs_duration);
                     continue;  // Invalid timing, reset state
                 }
 
                 // Store bit for potential ACK command
                 if (curBit == 0 || curBit == 1) {
-                    if (ackBits == 0) {  // Length bit
+                    if (ackBits == 0) {
+                        // Length bit
                         ackBits++;
-                        //ESP_LOGD(TAG, "ACK length bit: %d", curBit);
-                    } else if (ackBits >= 1 && ackBits <= 4) {  // 4 data bits
+                    } else if (ackBits >= 1 && ackBits <= 4) {
+                        // 4 data bits
+
                         if (curBit) {
-                            ackCommand |= (1 << (4 - ackBits));  // Store bits from MSB to LSB
+                            // Store bits from MSB to LSB
+                            ackCommand |= (1 << (4 - ackBits));  
                         }
                         ackCalCRC ^= curBit;
                         ackBits++;
-                        //ESP_LOGD(TAG, "ACK data bit %d: %d, command now: %02X", ackBits-1, curBit, ackCommand);
-                    } else if (ackBits == 5) {  // CRC bit
+                    } else if (ackBits == 5) {
+                        // CRC bit
                         ackCRC = curBit;
                         ackBits++;
-                        //ESP_LOGD(TAG, "ACK CRC bit: %d, command: %02X", curBit, ackCommand);
                     }
-                } else if (curBit == 2) {  // Start bit - check and reset ACK tracking
-                    if (ackBits == 6) {  // Check if we have a complete ACK
+                } else if (curBit == 2) {
+                    // Start bit - check and reset ACK tracking
+
+                    // Check if we have a complete ACK
+                    if (ackBits == 6) { 
                         if (ackCRC == ackCalCRC) {
-                            ESP_LOGI(TAG, "ACK: %01X", ackCommand);
+                            on_acknowledge(ackCommand);
                         }
                     }
+
                     // Reset ACK tracking on new command
                     ackBits = 0;
                     ackCommand = 0;
@@ -393,7 +393,6 @@ namespace esphome
                     cmdIntReady = false;
     
                     if (curCRC == calCRC) {
-                        //ESP_LOGI(TAG, "CMD received: %08X", command);
                         CommandData cmd_data = parseCommand(command, curIsLong);
                         on_command(cmd_data);
                     } else {
@@ -463,7 +462,6 @@ namespace esphome
         {
             // Parse Command
             CommandData cmd_data = parseCommand(command, is_long);
-            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
 
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
@@ -586,7 +584,7 @@ namespace esphome
 
         void TCBusComponent::send_command(CommandType type, uint8_t address, uint32_t payload, uint32_t serial_number)
         {
-            ESP_LOGV(TAG, "Generating command: Type: %s, Address: %i, Payload: %X, Serial number: %i", command_type_to_string(type), address, payload, serial_number);
+            ESP_LOGD(TAG, "Sending Structured Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
 
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
@@ -605,6 +603,8 @@ namespace esphome
 
         void TCBusComponent::send_command(uint32_t command)
         {
+            ESP_LOGD(TAG, "Sending Raw Command: Data: %08X, Assumed Length: %i-bit", command, (command > 0xFFFF) ? 32 : 16);
+
             // Determine length of command
             // not so reliable as its based on the 32 bit integer itself
             send_command(command, (command > 0xFFFF));
@@ -618,19 +618,38 @@ namespace esphome
                 ESP_LOGD(TAG, "Sending 16-bit command %04X", command);
             }
 
-            if (this->sending) {
-                ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
+            if (this->sending_) {
+                ESP_LOGW(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
                 return;
             }
+
+            /*// Prevent collisions
+            std::srand(millis());
+            uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
+            uint32_t start_wait = millis();
+
+            delay(delay_time);
+
+            while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
+            {
+                // Add timeout protection
+                if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
+                    break;
+                }
+                delay(delay_time);
+            }*/
+
+
+            this->sending_ = true;
 
             auto call = id(this->tx_).transmit();
             remote_base::RemoteTransmitData *dst = call.get_data();
 
             // Start transmission with initial mark and space
             dst->mark(TCS_MSG_START_MS);
-            ESP_LOGD(TAG, "mark start %i", TCS_MSG_START_MS);
+            ESP_LOGV(TAG, "mark start %i", TCS_MSG_START_MS);
             dst->space(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            ESP_LOGD(TAG, "space lngth %i", is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGV(TAG, "space lngth %i", is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
             // Calculate length based on command type
             uint8_t length = is_long ? 32 : 16;
@@ -649,85 +668,26 @@ namespace esphome
                 // Send bit as mark/space sequence
                 if(i % 2 == 0) {
                     dst->space(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    ESP_LOGD(TAG, "space bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGV(TAG, "space bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 } else {
                     dst->mark(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    ESP_LOGD(TAG, "mark bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+                    ESP_LOGV(TAG, "mark bit %i - %i", bit, bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
             }
             
             dst->mark(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            ESP_LOGD(TAG, "mark chksm %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
+            ESP_LOGV(TAG, "mark chksm %i", checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
             
             dst->space(1600);
-            ESP_LOGD(TAG, "space %i", 1600);
+            ESP_LOGV(TAG, "space %i", 1600);
 
             call.perform();
-            ESP_LOGD(TAG, "perform");
+            ESP_LOGV(TAG, "perform");
+
+            this->sending_ = false;
 
             // Publish received Command on Sensors, Events, etc.
             this->publish_command(command, is_long, false);
-
-
-
-            /*// Prevent collisions
-            std::srand(millis());
-            uint32_t delay_time = std::rand() % (TCS_SEND_MAX_DELAY_MS - TCS_SEND_MIN_DELAY_MS + 1) + TCS_SEND_MIN_DELAY_MS;
-            uint32_t start_wait = millis();
-
-            delay(delay_time);
-
-            while((millis() - this->store_.last_bit_change) < TCS_SEND_WAIT_DURATION)
-            {
-                // Add timeout protection
-                if((millis() - start_wait) > TCS_SEND_WAIT_TIMEOUT_MS) {
-                    break;
-                }
-                delay(delay_time);
-            }
-
-            // Pause reading
-            ESP_LOGV(TAG, "Pause reading");
-            this->rx_pin_->detach_interrupt();
-
-            // Source: https://github.com/atc1441/TCSintercomArduino
-            this->sending = true;
-
-            uint8_t checksm = 1;
-            bool output_state = false;
-
-            // Start transmission
-            this->tx_pin_->digital_write(true);
-            delay(TCS_MSG_START_MS);
-
-            this->tx_pin_->digital_write(false);
-            delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-
-            int curBit = 0;
-            uint8_t length = is_long ? 32 : 16;
-
-            for (uint8_t i = length; i > 0; i--) {
-                curBit = BIT_READ(command, i - 1);
-
-                output_state = !output_state;
-                this->tx_pin_->digital_write(output_state);
-                delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                checksm ^= curBit;
-            }
-
-            this->tx_pin_->digital_write(!output_state);
-            delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-            this->tx_pin_->digital_write(false);
-
-            this->sending = false;
-
-            // Resume reading
-            ESP_LOGV(TAG, "Resume reading");
-            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
-
-            // Publish received Command on Sensors, Events, etc.
-            this->publish_command(command, is_long, false);
-            */
         }
 
         void TCBusComponent::add_received_command_callback(std::function<void(CommandData)> &&callback)

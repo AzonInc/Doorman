@@ -114,6 +114,7 @@ namespace esphome
                 void loop() override;
                 bool on_receive(remote_base::RemoteReceiveData data) override;
                 void on_command(CommandData cmd_data);
+                void on_acknowledge(uint8_t type);
 
                 void send_command(uint32_t command);
                 void send_command(uint32_t command, bool is_long);
@@ -151,8 +152,6 @@ namespace esphome
                 void add_identify_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> identify_timeout_callback_{};
 
-                bool sending;
-
                 static constexpr uint32_t BIT_0_MIN = 1000;
                 static constexpr uint32_t BIT_0_MAX = 2999;
                 static constexpr uint32_t BIT_1_MIN = 3000;
@@ -181,6 +180,8 @@ namespace esphome
 
                 bool programming_mode_ = false;
                 bool identify_model_ = false;
+
+                bool sending_ = false;
 
                 bool reading_memory_ = false;
                 uint8_t reading_memory_count_ = 0;
