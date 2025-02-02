@@ -592,7 +592,7 @@ namespace esphome
             }
 
             CommandData command_data = buildCommand(type, address, payload, serial_number);
-            ESP_LOGD(TAG, "Sending Structured Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(command_data.type), command_data.address, command_data.payload, command_data.serial_number, (command_data.is_long ? 32 : 16), command_data.command);
+            ESP_LOGD(TAG, "Building Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(command_data.type), command_data.address, command_data.payload, command_data.serial_number, (command_data.is_long ? 32 : 16), command_data.command);
 
             if(command_data.command == 0) {
                 ESP_LOGW(TAG, "Sending commands of type %s is not supported yet! Please use raw commands for that.", command_type_to_string(type));
