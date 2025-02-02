@@ -584,8 +584,6 @@ namespace esphome
 
         void TCBusComponent::send_command(CommandType type, uint8_t address, uint32_t payload, uint32_t serial_number)
         {
-            ESP_LOGD(TAG, "Sending Structured Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
-
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
                 ESP_LOGV(TAG, "Serial Number is 0, use intercom serial number: %i", serial_number);
@@ -594,8 +592,10 @@ namespace esphome
             }
 
             CommandData command_data = buildCommand(type, address, payload, serial_number);
+            ESP_LOGD(TAG, "Sending Structured Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(command_data.type), command_data.address, command_data.payload, command_data.serial_number, (command_data.is_long ? 32 : 16), command_data.command);
+
             if(command_data.command == 0) {
-                ESP_LOGW(TAG, "Sending commands of type %s is not supported!", command_type_to_string(type));
+                ESP_LOGW(TAG, "Sending commands of type %s is not supported yet! Please use raw commands for that.", command_type_to_string(type));
             } else {
                 send_command(command_data.command, command_data.is_long);
             }
