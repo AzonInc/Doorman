@@ -584,7 +584,7 @@ namespace esphome
 
         void TCBusComponent::send_command(CommandType type, uint8_t address, uint32_t payload, uint32_t serial_number)
         {
-            ESP_LOGD(TAG, "Sending Structured Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
+            ESP_LOGD(TAG, "Sending Structured Command: Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
 
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
