@@ -6,13 +6,22 @@
 namespace esphome {
 namespace tc_bus {
 
-class VolumeHandsetNumber : public number::Number, public Parented<TCBusComponent> {
+class VolumeHandsetDoorCallNumber : public number::Number, public Parented<TCBusComponent> {
  public:
-  VolumeHandsetNumber() = default;
+  VolumeHandsetDoorCallNumber() = default;
 
  protected:
   void control(float value) override;
 };
+
+
+class VolumeHandsetInternalCallNumber : public number::Number, public Parented<TCBusComponent> {
+  public:
+   VolumeHandsetInternalCallNumber() = default;
+ 
+  protected:
+   void control(float value) override;
+ };
 
 }  // namespace tc_bus
 }  // namespace esphome

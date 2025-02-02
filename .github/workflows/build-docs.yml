@@ -28,31 +28,34 @@ jobs:
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           
       - name: Update package.json version
-        if: github.ref == 'refs/heads/master'
+        if: github.ref_name == 'master'
         working-directory: docs
         run: |
           sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}\"/" package.json
 
       - name: Update package.json version
-        if: github.ref != 'refs/heads/master'
+        if: startsWith(github.ref_name, 'dev')
         working-directory: docs
         run: |
-          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev\"/" package.json
+          TIMESTAMP=$(date +%d%H%M)
+          sed -i "s/\"version\": \".*\"/\"version\": \"${VERSION}-dev.${TIMESTAMP}\"/" package.json
           
       - name: Update example fw branch
-        if: github.ref != 'refs/heads/master'
+        if: startsWith(github.ref_name, 'dev')
         working-directory: firmware/examples
         run: |
-          sed -i 's/@master/@dev/g' *.example.yaml
+          BRANCH_NAME=${{ github.ref_name }}
+          sed -i "s/@master/@${BRANCH_NAME}/g" *.example.yaml
 
       - name: Update docs branch
-        if: github.ref != 'refs/heads/master'
+        if: startsWith(github.ref_name, 'dev')
         working-directory: docs
         run: |
-          sed -i 's/@master/@dev/g' */guide/getting-started.md
-          sed -i 's/master/dev/g' */guide/enclosure/3d-printing.md
-          sed -i 's/@master/@dev/g' */reference/schematics.md
-          sed -i 's/@master/@dev/g' */guide/firmware/minimal.example.yaml
+          BRANCH_NAME=${{ github.ref_name }}
+          sed -i "s/@master/@${BRANCH_NAME}/g" */guide/getting-started.md
+          sed -i "s/master/${BRANCH_NAME}/g" */guide/enclosure/3d-printing.md
+          sed -i "s/@master/@${BRANCH_NAME}/g" */reference/schematics.md
+          sed -i "s/@master/@${BRANCH_NAME}/g" */guide/firmware/minimal.example.yaml
 
       - name: Install dependencies
         working-directory: docs

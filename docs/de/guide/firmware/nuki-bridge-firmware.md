@@ -8,11 +8,12 @@ Es gibt mehrere Möglichkeiten, die Firmware zu aktualisieren:
 - HTTP OTA <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 - Web Serial <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 
-Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden Button klicken, um die neueste Doorman Nuki-Bridge Firmware direkt über Web Serial zu installieren.
+Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden Button klicken, um die neueste Doorman Nuki-Bridge Firmware (Home Assistant) direkt über Web Serial zu installieren.
+Wenn du MQTT ohne Home Assistant nutzen möchtest, kannst du Doorman in dein ESPHome Dashboard aufnehmen und das untenstehende Beispiel `Minimale Nuki-Bridge Firmware (MQTT)` verwenden.
 <esp-web-install-button manifest="../../../firmware/release/doorman-nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
-            <a class="btn">Firmware installieren oder updaten</a>
+            <a class="btn">Firmware (Home Assistant) installieren oder updaten</a>
         </div>
     </button>
     <div slot="unsupported">
@@ -31,11 +32,17 @@ Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden But
 
 ## Firmware YAML
 
-Dies ist die minimale ESPHome-Konfigurations-YAML-Datei. Vergiss nicht, den API-Schlüssel zu aktualisieren.
-
-::: details Minimale Nuki-Bridge Firmware
+Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit Home Assistant. Vergiss nicht, den API-Schlüssel zu aktualisieren.
+::: details Minimale Nuki-Bridge Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/ha-nuki-bridge.example.yaml-->
+```
+:::
+
+Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit MQTT. Vergiss nicht, die MQTT Broker Daten zu aktualisieren.
+::: details Minimale Nuki-Bridge Firmware (MQTT)
+```yaml
+<!--@include: ../../../../firmware/examples/mqtt-nuki-bridge.example.yaml-->
 ```
 :::
 
@@ -58,3 +65,5 @@ Falls dein Schloss bereits mit Doorman gekoppelt ist, drücke die `FLASH`- oder 
 :::
 
 <!--@include: ./additions.md-->
+
+<!--@include: ./mqtt.md-->

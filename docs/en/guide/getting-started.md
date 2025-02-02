@@ -8,16 +8,16 @@ Please note that these instructions are based on the pre-flashed Doorman PCB tha
 **Thank you so much for using Doorman! ❤️**
 
 ## Wiring
-First, open your intercom enclosure. On most models, you will find a screw terminal labeled with `a`, `b`, `E`, and `P`.
+First, open your indoor station enclosure. On most models, you will find a screw terminal labeled with `a`, `b`, `E`, and `P`.
 
-Connect the `b` line (Ground) to one of the TC:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TC:BUS terminal on your Doorman.
+Connect the `b` line (Ground) to one of the TC:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TC:BUS terminal on your Doorman. Doorman is just like any other device on the bus, **connected in parallel**.
 
 ::: warning Note
-By default, I ship version 1.5 with a jumper cap on `BUS PWR`. Please remove this if you are not connecting Doorman in the `2-Wire Mode via intercom` configuration.
+By default, I ship version 1.5 with a jumper cap on `BUS PWR`. Please remove this if you are not connecting Doorman in the `2-Wire Mode via indoor station` configuration.
 :::
 
 ### Power supply options:
-::: details 3-Wire Mode via intercom <Badge type="tip" text="Recommended" />
+::: details 3-Wire Mode via indoor station <Badge type="tip" text="Recommended" />
 Connect the `P` line (+24V) to the `P` terminal on your Doorman.
 
 > [!WARNING]
@@ -41,7 +41,7 @@ Example:
 ![2-wire external via usb](./images/2wire_power_usb_c.png){width=300px}
 :::
 
-::: details 2-Wire Mode via intercom <Badge type="danger" text="Hardware revision 1.5 and later" />
+::: details 2-Wire Mode via indoor station <Badge type="danger" text="Hardware revision 1.5 and later" />
 > [!DANGER] Important Info
 > Using the `a`-bus line as a power source on revisions older than `1.5` results in a loud beeping noise. This issue is likely due to the high-frequency switching power supply.
 >
@@ -50,7 +50,7 @@ Example:
 After connecting the `a` and `b` lines, you need to connect `BUS PWR` using a jumper cap.
 
 Example:
-![2-wire via intercom jumper](./images/2wire_intercom.png){width=300px}
+![2-wire via bus pwr jumper](./images/2wire_intercom.png){width=300px}
 :::
 
 
@@ -95,10 +95,14 @@ The indoor station must be connected, and the enclosure securely closed, to comp
    The RGB status LED will pulse green-turquoise. Press the doorbell button at your apartment or entrance.
 
 4. **Complete the Setup:**\
-   After pressing the doorbell button, the LED will stay green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
+   After pressing the doorbell button, the system will attempt to detect your indoor station model. Once the model detection either succeeds or times out, the LED will remain green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
 
 If you have multiple door stations, the firmware will attempt to automatically detect the additional station.
-To enable detection of the second doorbell and the ability to unlock the second door, you must press the second doorbell or unlock the second door at least once to store its address.
+To enable detection of the second doorbell and the ability to unlock the second door, you need to press the second doorbell or physically push the unlock button for the second door at least once to store its address.
+
+::: tip Multiple Indoor Stations
+If you have multiple indoor stations, things become a bit more complex. You'll need to create a custom YAML configuration to integrate all the indoor stations. The default firmware only supports a single indoor station.
+:::
 
 ## ESPHome adoption
 

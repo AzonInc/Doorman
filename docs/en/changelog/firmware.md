@@ -1,6 +1,75 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2025.2.0
+### 🚀 What's New?
+- **Added a Switch to turn off the Status LED while Ring to Open is active**  
+   If you don't want the Status LED to blink while Ring to Open is active, you can now easily turn it off.
+
+- **Automatic Model Detection**  
+   The setup mode now attempts to automatically identify the indoor station model. However, this process is not compatible with all models, as some do not support automatic detection.
+
+- **Introduced a button to identify your indoor station model**  
+   You can now effortlessly determine the correct model for your settings by simply pressing the "Identify Indoor Station" button, perfect for cases where you're unsure which model you own.
+
+- **Expand Support for Model Settings**  
+   Implemented settings compatibility for TCS TASTA (Koch TC60) IVW5xxx and ISW5xxx models.
+
+### ✨ Improvements
+- **Fix Parser Command Length**  
+   Previously, the command length was not properly parsed, which occasionally led to 32-bit commands being misinterpreted. This issue has now been resolved.
+   
+- **Configure Entrance Outdoor Station ID**  
+   It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized. The setup mode will also set the entrance outdoor station address.
+
+- **Automatically Disable BLE Server When Not Needed**  
+   The BLE Server is now automatically disabled once Wi-Fi is connected. Note: This behavior applies exclusively to the Stock Firmware.
+
+- **Fixed Memory Reading for Some Intercom Models**  
+   The memory will now be correctly read from your indoor station.
+
+- **Automatic Intercom Memory Reading**  
+   The intercom memory is now automatically read during boot and after model identification. Manual memory readings are still possible but no longer necessary.
+
+- **Experimental Update Switch**   
+   Instead of having two separate update entities, there's now a single one that checks for updates based on a new switch. This switch lets you easily toggle experimental updates from the dev branch on or off.
+
+### 📝 Other Updates
+- **Nuki Component**  
+   The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now leverages Doorman-S3's PSRAM, potentially enhancing the overall performance.
+
+### 🚨 Breaking Changes
+- **PSRAM Compatibility**  
+   Some users, particularly those with Revision 1.4 PCBs, may encounter issues due to the newly added PSRAM component. This is because certain Revision 1.4 boards use the N16R2 variant of the ESP32S3, which requires a different configuration for proper PSRAM booting.
+   
+   For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/AzonInc/Doorman/issues).
+
+- **Hexadecimal Command-String Length changed**  
+   With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the [Last Bus Command](../reference/entities#last-bus-command) sensor.
+
+- **Separate Event entities**  
+   [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
+   This enhancement enables event tracking on a per-button basis, providing more granular and precise support for doorbell interactions.  
+   You will need to adjust your automations if you previously used the Doorbell Pattern Event Entity. Additionally, the event types have been changed.
+
+   👉 **Check the [Entities](../reference/entities#events) for details!**
+
+- **Intercom Models Renamed**  
+   As part of streamlining the models for each manufacturer, you may need to reconfigure your intercom model.
+   Now, you can also see the Koch and Scantron models.
+
+   👉 **Check the [Model Setting availability](../reference/esphome-component#model-setting-availability) for details!**
+
+- **Intercom Settings Updated**  
+   To accommodate compatibility with new models, the settings `ringtone_door_call` and `volume_handset` have been renamed.  
+
+   👉 **Refer to the [Setting Types](../reference/esphome-component#setting-types) for the updated names and additional settings!**
+
+## 2024.11.2
+### ✨ Improvements
+- **Fixed open door command**  
+   Use the short open door command instead of the long one (with serial number) as this seems to cause issues on some setups.
+
 ## 2024.11.1
 ### ✨ Improvements
 - **Fixed dev branch name**  

@@ -23,16 +23,19 @@ The `tc_bus` hub component offers the following configuration options:
 | `on_command`           | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.          | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                         | No       |               |
+| `on_identify_complete` | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.          | No       |               |
+| `on_identify_timeout`  | Defines actions to be triggered when the identification of the indoor station times out.                                                                         | No       |               |
 
 
 ### Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
 
-| Option                 | Description                                                                                    | Required | Default       |
-|------------------------|------------------------------------------------------------------------------------------------|----------|---------------|
-| `serial_number`        | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.  | No       |               |
-| `volume_handset`       | Handset Volume Select to set the handset volume of your indoor station                         | No       |               |
-| `volume_ringtone`      | Ringtone Volume Select to set the ringtone volume of your indoor station                       | No       |               |
+| Option                         | Description                                                                                             | Required | Default       |
+|--------------------------------|---------------------------------------------------------------------------------------------------------|----------|---------------|
+| `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.           | No       |               |
+| `volume_handset_door_call`     | Door Call Handset Volume Select to set the handset volume for door calls of your indoor station.        | No       |               |
+| `volume_handset_internal_call` | Internal Call Handset Volume Select to set the handset volume for internal calls of your indoor station.| No       |               |
+| `volume_ringtone`              | Ringtone Volume Select to set the ringtone volume of your indoor station.                               | No       |               |
 
 
 ### Number Inputs
@@ -46,12 +49,13 @@ The `tc_bus` Number component offers the following configuration options:
 ### Select Inputs
 The `tc_bus` Select component offers the following configuration options:
 
-| Option                 | Description                                                                                    | Required | Default       |
-|------------------------|------------------------------------------------------------------------------------------------|----------|---------------|
-| `model`                | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
-| `ringtone_door_call`       | Door Call Ringtone Select to set the door call ringtone of your indoor station | No       | |
-| `ringtone_floor_call`      | Floor Call Ringtone Select to set the floor call ringtone of your indoor station | No       | |
-| `ringtone_internal_call`   | Internal Call Ringtone Select to set the internal call ringtone of your indoor station | No       | |
+| Option                               | Description                                                                                                    | Required | Default       |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `model`                              | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
+| `ringtone_entrance_door_call`        | Entrance Door Call Ringtone Select to set the entrance door call ringtone of your indoor station.              | No       | |
+| `ringtone_second_entrance_door_call` | Second Entrance Door Call Ringtone Select to set the second entrance door call ringtone of your indoor station.| No       | |
+| `ringtone_floor_call`                | Floor Call Ringtone Select to set the floor call ringtone of your indoor station.                              | No       | |
+| `ringtone_internal_call`             | Internal Call Ringtone Select to set the internal call ringtone of your indoor station.                        | No       | |
 
 
 ### Binary Sensors
@@ -112,6 +116,25 @@ on_read_memory_timeout:
   - logger.log: "Failed to read Memory"
 ```
 
+### Identification of Indoor Station Complete
+The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [ModelData](#model-data) structure, accessible as the `x` variable.
+
+```yaml
+on_identify_complete:
+  - logger.log: "Completed identification!"
+  - lambda: |-
+      std::string hexString = str_upper_case(format_hex(x));
+      ESP_LOGI("tcs_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+### Identification of Indoor Station Timeout
+The `on_identify_timeout` callback of the `tc_bus` hub allows you to detect a failed identification of the indoor station. Most probably when a model is too old doesn't support this process.
+
+```yaml
+on_identify_timeout:
+  - logger.log: "Failed to identify indoor station!"
+```
+
 
 ## Actions
 ### Read Memory
@@ -120,6 +143,18 @@ The `tc_bus.read_memory` action allows you to read the memory of any indoor stat
 ```yaml
 on_...:
   - tc_bus.read_memory:
+      serial_number: 123456
+```
+
+### Identify Indoor Station
+The `tc_bus.identify` action allows you to identify the model of any indoor station using the serial number.
+::: tip Note
+Not all models support this feature. For older indoor stations, you may need to select the model manually.
+:::
+
+```yaml
+on_...:
+  - tc_bus.identify:
       serial_number: 123456
 ```
 
@@ -150,6 +185,8 @@ You can send commands on the bus using the `tc_bus.send` action.
 
 ::: tip Note
 You can either use the `command` field to send a specific command or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
+
+You can explicitly send a 32-bit command by using the optional `is_long` property, which is useful when the command begins with leading zeros.
 :::
 
 #### Example 1: Sending a raw Command
@@ -159,8 +196,16 @@ on_...:
   - tc_bus.send:
       command: 0x1A2B3C4D
 ```
+#### Example 2: Sending a raw Command with fixed size
 
-#### Example 2: Sending a Command via Command Builder
+```yaml
+on_...:
+  - tc_bus.send:
+      command: 0x00000280
+      is_long: True
+```
+
+#### Example 3: Sending a Command via Command Builder
 
 ```yaml
 on_...:
@@ -230,7 +275,7 @@ Be sure to modify the command and event name as needed based on your configurati
 
 ## Example YAML Configuration
 
-Here is an example configuration for the TCS Intercom component in ESPHome:
+Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
@@ -317,13 +362,13 @@ button:
     name: "Read Handset volume"
     on_press:
       -lambda: |-
-          ESP_LOGD("TAG", "Handset volume: %i", id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET));
+          ESP_LOGD("TAG", "Handset volume: %i", id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
 
   - platform: template
     name: "Set Handset volume"
     on_press:
       - tc_bus.update_setting:
-          type: volume_handset
+          type: volume_handset_door_call
           value: 7
 ```
 
@@ -338,10 +383,25 @@ struct CommandData {
     uint8_t address;
     uint32_t serial_number;
     uint32_t payload;
-    uint8_t length;
+    bool is_long;
 };
 ```
 
+## Model Data
+The `ModelData` structure is used internally in the identification process.
+
+```c++
+struct ModelData {
+    Model model = MODEL_NONE;
+    uint32_t firmware_version = 0;
+    uint8_t firmware_major = 0;
+    uint8_t firmware_minor = 0;
+    uint8_t firmware_patch = 0;
+    uint8_t hardware_version = 0; 
+    uint8_t category = 0;
+    uint8_t memory_size = 0; 
+};
+```
 
 ## Command Types
 You can use command types in binary sensors and also when [sending commands](#sending-commands):
@@ -355,6 +415,7 @@ You can use command types in binary sensors and also when [sending commands](#se
 - stop_talking_door_call <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING_DOOR_CALL" />
 - stop_talking <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING" />
 - open_door <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR" />
+- open_door_long <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR_LONG" />
 - light <Badge type="tip" text="COMMAND_TYPE_LIGHT" />
 - door_opened <Badge type="tip" text="COMMAND_TYPE_DOOR_OPENED" />
 - door_closed <Badge type="tip" text="COMMAND_TYPE_DOOR_CLOSED" />
@@ -378,25 +439,76 @@ You can use command types in binary sensors and also when [sending commands](#se
 Here are the available setting types you can use to update the settings of your indoor station:
 
 - ringtone_floor_call <Badge type="tip" text="SETTING_RINGTONE_FLOOR_CALL" />
-- ringtone_door_call <Badge type="tip" text="SETTING_RINGTONE_DOOR_CALL" />
+- ringtone_entrance_door_call <Badge type="tip" text="SETTING_RINGTONE_ENTRANCE_DOOR_CALL" />
+- ringtone_second_entrance_door_call <Badge type="tip" text="SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL" />
 - ringtone_internal_call <Badge type="tip" text="SETTING_RINGTONE_INTERNAL_CALL" />
 - volume_ringtone <Badge type="tip" text="SETTING_VOLUME_RINGTONE" />
-- volume_handset <Badge type="tip" text="SETTING_VOLUME_HANDSET" />
+- volume_handset_door_call <Badge type="tip" text="SETTING_VOLUME_HANDSET_DOOR_CALL" />
+- volume_handset_internal_call <Badge type="tip" text="SETTING_VOLUME_HANDSET_INTERNAL_CALL" />
 
 
 ## Model Setting availability
 Here are the available settings for specific indoor station models:
 
-| Model          | Available settings                                                                                         |
-|----------------|------------------------------------------------------------------------------------------------------------|
-| TCS ISH1030    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| TCS ISH3030    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3230    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISH3340    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3030    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3230    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS ISW3340    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| TCS IVH3222    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`                                      |
-| Koch TC50      | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| Koch TCH50     | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
-| Koch TCH50P    | `ringtone_floor_call`, `ringtone_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset` |
+| Model                        | Available settings                                                                                         |
+|------------------------------|------------------------------------------------------------------------------------------------------------|
+| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`                                      |
+| TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISH3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3030 / Koch TC50 / Scantron Stilux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW3130 / Koch TC50P     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS IVH4222 / Koch VTCH50/2D | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS ISW3330 / Koch TC50 BW   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS ISW5010 / Koch TC60      | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5020                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5030                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5031                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW5033                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS IVW511x / Koch VTC60/2D / Scantron VIVO | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS IVW521x | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call` |
+| TCS ISW6010                  | Verification and implementation required |
+| TCS ISW6031                  | Verification and implementation required |
+| TCS IVW6511                  | Verification and implementation required |
+| TCS ISW7030 / Koch TC70      | Verification and implementation required |
+| TCS IVW7510 / Koch VTC70     | Verification and implementation required |
+| TCS ISH7030 / Koch TCH70     | Verification and implementation required |
+| TCS IVH7510 / Koch VTCH70    | Verification and implementation required |
+| TCS ISWM7000                 | Verification and implementation required |
+| TCS IVWM7000                 | Verification and implementation required |
+| TCS ISW4100 / Koch TC31      | Verification and implementation required |
+| TCS IMM2100 / Koch TCE31     | Verification and implementation required |
+| TCS IVW2210 / Koch Ecoos     | Verification and implementation required |
+| TCS IVW2211 / Koch Ecoos     | Verification and implementation required |
+| TCS IVW2212 / Koch Ecoos / Scantron SLIM60T | Verification and implementation required |
+| TCS VTC42V2                  | Verification and implementation required |
+| TCS TC40V2                   | Verification and implementation required |
+| TCS VTC40                    | Verification and implementation required |
+| TCS TC40                     | Verification and implementation required |
+| TCS TC2000                   | Verification and implementation required |
+| TCS TC20P                    | Verification and implementation required |
+| TCS TC20F                    | Verification and implementation required |
+| TCS ISH3022                  | Verification and implementation required |
+| TCS ISW3022                  | Verification and implementation required |
+| TCS IMM1000 / Koch TCH30     | Verification and implementation required |
+| TCS IMM1100 / Koch TCHE30    | Verification and implementation required |
+| TCS IMM1300 / Koch VTCH30    | Verification and implementation required |
+| TCS IMM1310 / Koch VTCHE30   | Verification and implementation required |
+| TCS IMM1110 / Koch TCHEE30   | Verification and implementation required |
+| TCS IMM1500                  | Verification and implementation required |
+| TCS IVW2220 / Koch Sky       | Verification and implementation required |
+| TCS IVW2221 / Koch Sky R1.00 | Verification and implementation required |
+| TCS IVW3011 / Koch Skyline Plus | Verification and implementation required |
+| TCS IVW3012 / Koch Skyline/Aldup | Verification and implementation required |
+| TCS VMH / Koch VMH           | Verification and implementation required |
+| TCS VML / Koch VML           | Verification and implementation required |
+| TCS VMF / Koch VMF           | Verification and implementation required |
+| Jung TKIS                    | Verification and implementation required |
+| Jung TKISV                   | Verification and implementation required |
+| TCS CAIXXXX / Koch CAIXXXX   | Verification and implementation required |
+| TCS CAI2000 / Koch Carus     | Verification and implementation required |
+| TCS ISW42X0                  | Verification and implementation required |

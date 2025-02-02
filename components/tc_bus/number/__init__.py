@@ -10,11 +10,13 @@ from esphome.const import (
 from .. import CONF_TC_ID, TCBusComponent, tc_bus_ns
 
 SerialNumberNumber = tc_bus_ns.class_("SerialNumberNumber", number.Number, cg.Component)
-VolumeHandsetNumber = tc_bus_ns.class_("VolumeHandsetNumber", number.Number, cg.Component)
+VolumeHandsetDoorCallNumber = tc_bus_ns.class_("VolumeHandsetDoorCallNumber", number.Number, cg.Component)
+VolumeHandsetInternalCallNumber = tc_bus_ns.class_("VolumeHandsetInternalCallNumber", number.Number, cg.Component)
 VolumeRingtoneNumber = tc_bus_ns.class_("VolumeRingtoneNumber", number.Number, cg.Component)
 
 CONF_SERIAL_NUMBER = "serial_number"
-CONF_VOLUME_HANDSET = "volume_handset"
+CONF_VOLUME_HANDSET_DOOR_CALL = "volume_handset_door_call"
+CONF_VOLUME_HANDSET_INTERNAL_CALL = "volume_handset_internal_call"
 CONF_VOLUME_RINGTONE = "volume_ringtone"
 
 CONFIG_SCHEMA = cv.Schema(
@@ -25,8 +27,13 @@ CONFIG_SCHEMA = cv.Schema(
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:numeric"
         ).extend({ cv.Optional(CONF_MODE, default="BOX"): cv.enum(NUMBER_MODES, upper=True), }),
-        cv.Optional(CONF_VOLUME_HANDSET): number.number_schema(
-            VolumeHandsetNumber,
+        cv.Optional(CONF_VOLUME_HANDSET_DOOR_CALL): number.number_schema(
+            VolumeHandsetDoorCallNumber,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:volume-high"
+        ),
+        cv.Optional(CONF_VOLUME_HANDSET_INTERNAL_CALL): number.number_schema(
+            VolumeHandsetInternalCallNumber,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:volume-high"
         ),
@@ -49,12 +56,19 @@ async def to_code(config):
         await cg.register_parented(n, config[CONF_TC_ID])
         cg.add(tc_bus_component.set_serial_number_number(n))
 
-    if volume_handset := config.get(CONF_VOLUME_HANDSET):
+    if volume_handset_door_call := config.get(CONF_VOLUME_HANDSET_DOOR_CALL):
         n = await number.new_number(
-            volume_handset, min_value=0, max_value=7, step=1
+            volume_handset_door_call, min_value=0, max_value=7, step=1
         )
         await cg.register_parented(n, config[CONF_TC_ID])
-        cg.add(tc_bus_component.set_volume_handset_number(n))
+        cg.add(tc_bus_component.set_volume_handset_door_call_number(n))
+
+    if volume_handset_internal_call := config.get(CONF_VOLUME_HANDSET_INTERNAL_CALL):
+        n = await number.new_number(
+            volume_handset_internal_call, min_value=0, max_value=7, step=1
+        )
+        await cg.register_parented(n, config[CONF_TC_ID])
+        cg.add(tc_bus_component.set_volume_handset_internal_call_number(n))
 
     if volume_ringtone := config.get(CONF_VOLUME_RINGTONE):
         n = await number.new_number(

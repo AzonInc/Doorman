@@ -8,11 +8,12 @@ There are several ways to update the firmware:
 - HTTP OTA <Badge type="tip" text="Latest release build, no customization" />
 - Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
-You can connect your Doorman via USB-C and click the button below to install the latest Doorman Nuki Bridge Firmware directly through Web Serial.
+You can connect your Doorman via USB-C and click the button below to install the latest Doorman Nuki Bridge Firmware (Home Assistant) directly through Web Serial.
+To use the MQTT firmware, adopt Doorman into your ESPHome Dashboard and apply the MQTT Example Firmware YAML.
 <esp-web-install-button manifest="../../firmware/release/doorman-nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
-            <a class="btn">Install or Update Firmware</a>
+            <a class="btn">Install or Update Firmware (Home Assistant)</a>
         </div>
     </button>
     <div slot="unsupported">
@@ -30,11 +31,17 @@ You can connect your Doorman via USB-C and click the button below to install the
 </esp-web-install-button>
 
 ## Firmware YAML
-This is the minimal ESPHome configuration YAML file. Be sure to update the API key.
-
-::: details Minimal Nuki Bridge Firmware
+This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
+::: details Minimal Nuki Bridge Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/ha-nuki-bridge.example.yaml-->
+```
+:::
+
+This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure to update the Broker details.
+::: details Minimal Nuki Bridge Firmware (MQTT)
+```yaml
+<!--@include: ../../../../firmware/examples/mqtt-nuki-bridge.example.yaml-->
 ```
 :::
 
@@ -55,3 +62,5 @@ If your lock is already paired with Doorman, press the `FLASH` or `PRG` button o
 :::
 
 <!--@include: ./additions.md-->
+
+<!--@include: ./mqtt.md-->

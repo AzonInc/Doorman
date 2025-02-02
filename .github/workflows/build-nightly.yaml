@@ -13,22 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile Stock (ESP32-S3) Firmware
-        uses: esphome/build-action@v4.0.1
+      - name: Build Doorman Stock for Home Assistant (ESP32-S3) Firmware
+        uses: esphome/build-action@v6.0.0
         with:
-          yaml-file: firmware/doorman-stock.yaml
+          yaml-file: firmware/ha-doorman-stock.yaml
           version: latest
           complete-manifest: true
 
-      - name: Compile Nuki Bridge (ES32-S3) Firmware
-        uses: esphome/build-action@v4.0.1
+      - name: Build Doorman Nuki Bridge for Home Assistant (ESP32-S3) Firmware
+        uses: esphome/build-action@v6.0.0
         with:
-          yaml-file: firmware/doorman-nuki-bridge.yaml
+          yaml-file: firmware/ha-doorman-nuki-bridge.yaml
           version: latest
           complete-manifest: true
 
-      - name: Compile Component Test (ESP8266) Firmware
-        uses: esphome/build-action@v4.0.1
+      - name: Build Component Test (ESP8266) Firmware
+        uses: esphome/build-action@v6.0.0
         with:
           yaml-file: firmware/tc-bus-component-8266.yaml
           version: latest

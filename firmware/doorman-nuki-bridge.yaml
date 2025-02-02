@@ -1,22 +1,3 @@
-dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/nuki-bridge.example.yaml@master
-  import_full_config: false
-
+# This file provides backwards compatibility (< 2025.1.0)
 packages:
-  device_base: !include base.yaml
-  pattern_events: !include addons/pattern-events.yaml
-  ring_to_open: !include addons/ring-to-open.yaml
-  memory_utils: !include addons/intercom-settings.yaml
-  addon_nuki_bridge: !include addons/nuki-bridge.yaml
-  interactive_setup: !include addons/interactive-setup.yaml
-
-esphome:
-  project:
-    name: "AzonInc.Doorman-Nuki-Bridge"
-
-update:
-  - id: !extend update_http_request_stable
-    source: https://doorman.azon.ai/firmware/release/doorman-nuki-bridge/manifest.json
-
-  - id: !extend update_http_request_dev
-    source: https://doorman-dev.surge.sh/firmware/release/doorman-nuki-bridge/manifest.json
+  device_base: !include ha-doorman-nuki-bridge.yaml

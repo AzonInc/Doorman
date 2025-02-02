@@ -3,11 +3,18 @@
 namespace esphome {
 namespace tc_bus {
 
-void VolumeHandsetNumber::control(float value)
+void VolumeHandsetDoorCallNumber::control(float value)
 {
     this->publish_state(value);
-    this->parent_->update_setting(SETTING_VOLUME_HANDSET, value, 0);
+    this->parent_->update_setting(SETTING_VOLUME_HANDSET_DOOR_CALL, value, 0);
 }
+
+void VolumeHandsetInternalCallNumber::control(float value)
+{
+    this->publish_state(value);
+    this->parent_->update_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL, value, 0);
+}
+
 
 }  // namespace tc_bus
 }  // namespace esphome

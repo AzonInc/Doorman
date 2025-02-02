@@ -25,27 +25,27 @@ jobs:
 
       - name: Copy interactive BOM
         run: cp pcb/bom/ibom.html output/
-
-      - name: Download Doorman Stock (ESP32-S3) artifact
+        
+      - name: Download Doorman Stock for Home Assistant (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
           name: firmware-doorman-stock
           path: output/firmware/release
 
-      - name: Download Doorman Nuki Bridge (ESP32-S3) artifact
+      - name: Download Doorman Nuki Bridge for Home Assistant (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
           name: firmware-doorman-nuki-bridge
           path: output/firmware/release
 
       - name: Upload Pages artifact
-        if: github.ref == 'refs/heads/master'
+        if: github.ref_name == 'master'
         uses: actions/upload-pages-artifact@v3
         with:
           path: output
       
       - name: Upload Assets Bundle
-        if: github.ref != 'refs/heads/master'
+        if: startsWith(github.ref_name, 'dev')
         uses: actions/upload-artifact@v4
         with:
           name: asset-bundle

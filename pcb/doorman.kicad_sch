@@ -6,7 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3")
-		(date "2024-10-13")
+		(date "2024-11-29")
 		(rev "1.5")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -8937,7 +8937,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "07e1541a-bf8d-4a97-bdf0-b6d5baf7dd42")
 		(property "Reference" "J7"
 			(at 188.722 81.026 0)
@@ -9181,7 +9181,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC817_SER.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407241028_Nexperia-BC817-25-215_C39828.pdf"
 			(at 157.48 281.28 0)
 			(effects
 				(font
@@ -9191,7 +9191,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "45V 300mW 160@100mA,1V 500mA NPN SOT-23(TO-236) Bipolar Transistors - BJT ROHS"
+		(property "Description" "45V 250mW 160@100mA,1V 500mA NPN SOT-23 Bipolar (BJT) ROHS "
 			(at 140.97 86.36 0)
 			(effects
 				(font
@@ -9209,7 +9209,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "BC817-25"
+		(property "MPN" "BC817-25,215"
 			(at 140.97 86.36 0)
 			(effects
 				(font
@@ -9218,7 +9218,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C5184412"
+		(property "LCSC" "C39828"
 			(at 140.97 86.36 0)
 			(effects
 				(font
@@ -9489,7 +9489,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "2ac1a2d4-2176-4af7-88b4-95cb5edf6fd6")
 		(property "Reference" "J3"
 			(at 200.406 48.768 90)
@@ -12047,7 +12047,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2301061530_DORABO-DB125-2-54-9P-GN-S_C918127.pdf"
 			(at 170.18 139.7 0)
 			(effects
 				(font
@@ -12056,7 +12056,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic screw terminal, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "1x9P -40℃~+105℃ 8A 130V Green 18~26 Direct Insert 2.54mm 0.5~1 1 9 Plugin,P=2.54mm Screw Terminal Blocks ROHS"
 			(at 170.18 139.7 0)
 			(effects
 				(font
@@ -13105,7 +13105,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "993fb52d-8981-4a0c-8ecc-8a3fae334f31")
 		(property "Reference" "J6"
 			(at 166.878 81.026 0)
@@ -13663,7 +13663,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "a2ff12c4-3072-464f-b02b-14fdfd75b0ea")
 		(property "Reference" "J5"
 			(at 23.368 117.602 90)
@@ -15433,7 +15433,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "f3623ce4-341f-4811-b089-a69ea4b87258")
 		(property "Reference" "J4"
 			(at 23.368 112.522 90)

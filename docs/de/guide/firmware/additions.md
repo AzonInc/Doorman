@@ -75,9 +75,9 @@ i2c: // [!code ++] // [!code focus]
 ## Fortgeschrittene Beispiele
 ### Home Assistant
 
-::: details Sending Bus commands
+::: details Bus Commands senden
 Mit Home Assistant kannst du Aktionen nutzen, um Commands über den Bus zu senden.
-Benutze entweder `command` für reine 32 Bit Befehle oder `type`, `address`, `payload` und `serial_number` um Befehle über den Command Builder zu senden.
+Benutze entweder `command` für hexadezimale Befehle oder `type`, `address`, `payload` und `serial_number` um Befehle über den Command Builder zu senden.
 
 > [!INFO]
 > Denk an das führende `0x` beim Senden eines Befehls mit der `command` Eigenschaft. Wenn du es weglässt, musst du den HEX-Befehl zuerst in eine Dezimalzahl umwandeln.
@@ -92,7 +92,7 @@ data:
   serial_number: 0
 ```
 
-32-Bit Befehle via `command`:
+Hexadezimale Befehle via `command`:
 ```yaml
 service: esphome.doorman_s3_send_tc_command_raw
 data:
@@ -159,7 +159,7 @@ Wenn du ein benutzerdefiniertes Klingelmuster erstellen möchtest, kannst du die
 # Türglocken-Muster-Event-Entity erweitern // [!code ++] // [!code focus]
 # Neues apartment_special-Eventtyp hinzufügen // [!code ++] // [!code focus]
 event: // [!code ++] // [!code focus]
-  - id: !extend doorbell_pattern // [!code ++] // [!code focus]
+  - id: !extend apartment_doorbell_pattern // [!code ++] // [!code focus]
     event_types: // [!code ++] // [!code focus]
       - "apartment_special" // [!code ++] // [!code focus]
 
@@ -178,7 +178,7 @@ binary_sensor: // [!code ++] // [!code focus]
         then: // [!code ++] // [!code focus]
           - logger.log: "Besonderes Muster erkannt!" // [!code ++] // [!code focus]
           - event.trigger: // [!code ++] // [!code focus]
-              id: doorbell_pattern // [!code ++] // [!code focus]
+              id: apartment_doorbell_pattern // [!code ++] // [!code focus]
               # Den vorher definierten neuen Eventtyp hier verwenden // [!code ++] // [!code focus]
               event_type: apartment_special // [!code ++] // [!code focus]
 ```

@@ -87,11 +87,17 @@ Controls the [Ring To Open](../guide/automation/ring-to-open) automation.
 ### Ring To Open: Confirmation <Badge type="tip" text="doorman_ring_to_open_confirmation" /> <Badge type="info" text="Disabled by default" />
 Controls the turn-on confirmation for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
+### Ring To Open: Display Status <Badge type="tip" text="doorman_ring_to_open_led_status" /> <Badge type="info" text="Disabled by default" />
+Controls the Status LED for the [Ring To Open](../guide/automation/ring-to-open) automation.
+
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 Controls the built-in relay.
 
 ### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
 Toggles the [Interactive Setup](../guide/getting-started#step-3-interactive-setup) Mode to easily setup your Doorman.
+
+### Experimental Updates <Badge type="tip" text="dev_firmware" />
+Enables experimental updates, allowing you to easily switch between the master and dev branches to check for the latest changes.
 
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki pairing mode.
@@ -129,11 +135,6 @@ Controls the Nuki Smart Lock Auto Unlock Disable setting.
 ### Nuki Single Lock <Badge type="tip" text="nuki_single_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Single Lock setting.
 
-### Nuki Daylight Saving Time <Badge type="tip" text="nuki_dst_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock DST Mode setting.
-
-### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock Automatic Updates setting.
 
 ## Buttons
 
@@ -145,6 +146,12 @@ Opens the second entrance door by sending a `open_door` command with the `addres
 
 ### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Disabled by default" />
 Turns on the light by sending a `light` command on the bus.
+
+### Identify Indoor Station <Badge type="tip" text="identify_indoor_station" /> <Badge type="info" text="Disabled by default" />
+Quickly identifies your indoor station model and saves it.
+::: note
+Not all models are supported as old models might not support this feature.
+:::
 
 ### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Disabled by default" />
 Reads the memory of the intercom phone with the specified serial number.
@@ -172,6 +179,9 @@ If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, t
 ### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Disabled by default" />
 Sets the indoor station serial number for the command builder/parser.
 
+### Entrance Door Station ID <Badge type="tip" text="entrance_door_station_id" /> <Badge type="info" text="Disabled by default" />
+Sets the ID of the entrance outdoor station.
+
 ### Second Door Station ID <Badge type="tip" text="second_door_station_id" /> <Badge type="info" text="Disabled by default" />
 Sets the ID of the second outdoor station.
 
@@ -184,14 +194,14 @@ Setting the delay to the maximum (60 seconds) will result in the automation gene
 ### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone volume.
 
-### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Disabled by default" />
-Sets the intercom phone handset volume.
+### Volume: Handset Door Call <Badge type="tip" text="intercom_volume_handset_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone handset door call volume.
+
+### Volume: Handset Internal Call <Badge type="tip" text="intercom_volume_handset_internal_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone handset internal call volume.
 
 ### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock LED Brightness setting.
-
-### Nuki Timezone: Offset <Badge type="tip" text="nuki_timezone_offset" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock Timezone offset setting (Lock v1).
 
 ### Nuki Security Pin <Badge type="tip" text="nuki_security_pin" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Sets the Nuki Bridge Security Pin to authenticate against the Nuki Smart Lock.
@@ -218,8 +228,14 @@ Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone model. Check the [Supported Models and Settings](esphome-component#model-setting-availability) to see your options.
 
-### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Disabled by default" />
-Sets the intercom phone ringtone for door calls.
+### Ringtone: Entrance Door Call <Badge type="tip" text="intercom_ringtone_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for entrance door calls.
+
+##### Options:
+- Ringtone 1 ... 13
+
+### Ringtone: Second Entrance Door Call <Badge type="tip" text="intercom_ringtone_second_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
+Sets the intercom phone ringtone for second entrance door calls.
 
 ##### Options:
 - Ringtone 1 ... 13
@@ -290,12 +306,6 @@ Controls the Nuki Smart Lock Fob Action 3 setting.
 - Lock n Go
 - Intelligent
 
-### Nuki Timezone <Badge type="tip" text="nuki_timezone" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock Timezone setting.
-
-##### Options:
-Check out the nuki developer documentation.
-
 ### Nuki Advertising Mode <Badge type="tip" text="nuki_advertising_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Advertising Mode setting.
 
@@ -314,21 +324,31 @@ Represents the lock entity for your paired Nuki smart lock.
 
 ## Events
 
-### Doorbell Pattern <Badge type="tip" text="doorbell_pattern" />
-Triggers each time a doorbell pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
+### Entrance Doorbell <Badge type="tip" text="entrance_doorbell_pattern" />
+Triggers each time a doorbell pattern is detected at the entrance. Learn more about pattern events [here](../guide/automation/pattern-events).
 
 ##### Event Types
-- apartment_single
-- apartment_double
-- apartment_triple
-- entrance_single
-- entrance_double
-- entrance_triple
-- second_entrance_single
-- second_entrance_double
-- second_entrance_triple
+- single
+- double
+- triple
 
-### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell_pattern" />
+Triggers each time a doorbell pattern is detected at the second entrance. Learn more about pattern events [here](../guide/automation/pattern-events).
+
+##### Event Types
+- single
+- double
+- triple
+
+### Apartment Doorbell <Badge type="tip" text="apartment_doorbell_pattern" />
+Triggers each time a doorbell pattern is detected at the apartment. Learn more about pattern events [here](../guide/automation/pattern-events).
+
+##### Event Types
+- single
+- double
+- triple
+
+### Phone pick up <Badge type="tip" text="phone_pick_up_pattern" />
 Triggers each time a phone pick up pattern is detected. Learn more about pattern events [here](../guide/automation/pattern-events).
 
 ##### Event Types
@@ -338,11 +358,8 @@ Triggers each time a phone pick up pattern is detected. Learn more about pattern
 
 ## Updates
 
-### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
-Shows if an update on the stable branch is available and offers installation via the HTTP OTA update mechanism.
-
-### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
-Shows if an update on the development branch is available and offers installation via the HTTP OTA update mechanism.
+### Firmware <Badge type="tip" text="update_http_request" />
+Shows if an update is available and offers installation via the HTTP OTA update mechanism.
 
 
 ## Lights

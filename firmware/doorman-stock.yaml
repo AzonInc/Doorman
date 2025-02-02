@@ -1,13 +1,3 @@
-dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/stock.example.yaml@master
-  import_full_config: false
-
+# This file provides backwards compatibility (< 2025.1.0)
 packages:
-  device_base: !include base.yaml
-  pattern_events: !include addons/pattern-events.yaml
-  ring_to_open: !include addons/ring-to-open.yaml
-  memory_utils: !include addons/intercom-settings.yaml
-  interactive_setup: !include addons/interactive-setup.yaml
-
-esp32_improv:
-  authorizer: none
+  device_base: !include ha-doorman-stock.yaml

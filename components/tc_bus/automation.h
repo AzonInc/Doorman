@@ -14,6 +14,7 @@ namespace esphome
             public:
                 TCBusSendAction(TCBusComponent *parent) : parent_(parent) {}
                 TEMPLATABLE_VALUE(uint32_t, command)
+                TEMPLATABLE_VALUE(bool, is_long)
                 TEMPLATABLE_VALUE(CommandType, type)
                 TEMPLATABLE_VALUE(uint8_t, address)
                 TEMPLATABLE_VALUE(uint32_t, payload)
@@ -27,7 +28,14 @@ namespace esphome
                     }
                     else
                     {
-                        this->parent_->send_command(this->command_.value(x...));
+                        if(this->is_long_.value(x...) == false)
+                        {
+                            this->parent_->send_command(this->command_.value(x...));
+                        }
+                        else
+                        {
+                            this->parent_->send_command(this->command_.value(x...), true);
+                        }
                     }
                 }
 
@@ -76,6 +84,18 @@ namespace esphome
                 TCBusComponent *parent_;
         };
 
+        template<typename... Ts> class TCBusIdentifyAction : public Action<Ts...>
+        {
+            public:
+                TCBusIdentifyAction(TCBusComponent *parent) : parent_(parent) {}
+                TEMPLATABLE_VALUE(uint32_t, serial_number)
+
+                void play(Ts... x) { this->parent_->request_version(this->serial_number_.value(x...)); }
+
+            protected:
+                TCBusComponent *parent_;
+        };
+
         class ReceivedCommandTrigger : public Trigger<CommandData> {
             public:
                 explicit ReceivedCommandTrigger(TCBusComponent *parent) {
@@ -94,6 +114,19 @@ namespace esphome
             public:
                 explicit ReadMemoryTimeoutTrigger(TCBusComponent *parent) {
                     parent->add_read_memory_timeout_callback([this]() { this->trigger(); });
+                }
+        };
+
+        class IdentifyTimeoutTrigger : public Trigger<> {
+            public:
+                explicit IdentifyTimeoutTrigger(TCBusComponent *parent) {
+                    parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                }
+        };
+        class IdentifyCompleteTrigger : public Trigger<ModelData> {
+            public:
+                explicit IdentifyCompleteTrigger(TCBusComponent *parent) {
+                    parent->add_identify_complete_callback([this](const ModelData &value) { this->trigger(value); });
                 }
         };
     }  // namespace tc_bus

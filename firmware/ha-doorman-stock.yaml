@@ -1,0 +1,43 @@
+dashboard_import:
+  package_import_url: github://AzonInc/doorman/firmware/examples/ha-stock.example.yaml@master
+  import_full_config: false
+
+packages:
+  device_base: !include base.yaml
+  homeassistant: !include addons/homeassistant.yaml
+  pattern_events: !include addons/pattern-events.yaml
+  ring_to_open: !include addons/ring-to-open.yaml
+  intercom_settings: !include addons/intercom-settings.yaml
+  interactive_setup: !include addons/interactive-setup.yaml
+
+esp32:
+  framework:
+    type: esp-idf
+    version: recommended
+    sdkconfig_options:
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_ESP32S3_INSTRUCTION_CACHE_32KB: "y"
+      CONFIG_ESP_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_ESP_DATA_CACHE_64KB: "y"
+      CONFIG_ESP_DATA_CACHE_LINE_64B: "y"
+      CONFIG_ESP_INSTRUCTION_CACHE_32KB: "y"
+      CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY: "y"
+      CONFIG_BT_ALLOCATION_FROM_SPIRAM_FIRST: "y"
+      CONFIG_BT_BLE_DYNAMIC_ENV_MEMORY: "y"
+      CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
+
+esp32_ble:
+  name: doorman-s3
+
+esp32_improv:
+  authorizer: none
+
+wifi:
+  on_connect:
+    - delay: 5s  # Gives time for improv results to be transmitted
+    - ble.disable:
+
+  on_disconnect:
+    - ble.enable:

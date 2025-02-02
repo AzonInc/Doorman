@@ -1,9 +1,3 @@
-esp32:
-  framework:
-    type: arduino
-    version: 2.0.16
-    platform_version: 6.7.0
-
 external_components:
   - source: github://uriyacovy/ESPHome_nuki_lock
     refresh: 60s
@@ -28,7 +22,24 @@ binary_sensor:
               id: nuki_smart_lock
               pairing_mode: true
 
+number:
+  - platform: template
+    id: nuki_security_pin
+    name: "Nuki Security Pin"
+    icon: "mdi:shield-key"
+    disabled_by_default: true
+    mode: box
+    step: 1
+    min_value: 0
+    max_value: 65535
+    set_action:
+      - nuki_lock.set_security_pin:
+          security_pin: !lambda return x;
+    web_server:
+      sorting_group_id: sorting_group_nuki_bridge_settings
+      sorting_weight: -31
 
+      
 # Nuki Lock Bridge
 lock:
   - platform: nuki_lock
@@ -156,22 +167,6 @@ lock:
         sorting_group_id: sorting_group_nuki_settings
         sorting_weight: -14
 
-    security_pin:
-      id: nuki_security_pin
-      name: "Nuki Security Pin"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_bridge_settings
-        sorting_weight: -31
-
-    timezone_offset:
-      id: nuki_timezone_offset
-      name: "Nuki Timezone: Offset"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: 5
-
     night_mode_enabled:
       id: nuki_night_mode
       name: "Nuki Night Mode"
@@ -228,14 +223,6 @@ lock:
         sorting_group_id: sorting_group_nuki_settings
         sorting_weight: -4
 
-    dst_mode_enabled:
-      id: nuki_dst_mode
-      name: "Nuki Daylight Saving Time"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: -4
-
     auto_unlock_disabled:
       id: nuki_auto_unlock_disabled
       name: "Nuki Auto Unlock: Disable"
@@ -268,14 +255,6 @@ lock:
         sorting_group_id: sorting_group_nuki_settings
         sorting_weight: 3
 
-    timezone:
-      id: nuki_timezone
-      name: "Nuki Timezone"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: 4
-
     advertising_mode:
       id: nuki_advertising_mode
       name: "Nuki Advertising Mode"
@@ -299,14 +278,6 @@ lock:
       web_server:
         sorting_group_id: sorting_group_nuki_bridge_settings
         sorting_weight: 11
-
-    auto_update_enabled:
-      id: nuki_auto_update
-      name: "Nuki Automatic Updates"
-      disabled_by_default: true
-      web_server:
-        sorting_group_id: sorting_group_nuki_settings
-        sorting_weight: 12
 
     on_pairing_mode_on_action:
       - script.execute: update_led

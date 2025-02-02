@@ -31,6 +31,18 @@ namespace esphome
 {
     namespace tc_bus
     {
+        #ifdef TC_DEBUG_TIMING
+        static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
+        #endif
+
+        #if defined(USE_ESP_IDF)
+            #define BIT_SET(var, pos) ((var) |= (1UL << (pos)))
+            #define BIT_READ(var, pos) ((var >> pos) & 0x01)
+        #else
+            #define BIT_SET(var, pos) bitSet((var), (pos))
+            #define BIT_READ(var, pos) bitRead((var), (pos))
+        #endif
+
         #ifdef USE_BINARY_SENSOR
         class TCBusListener
         {
@@ -74,10 +86,15 @@ namespace esphome
         {
             static void gpio_intr(TCBusComponentStore *arg);
 
-            static volatile uint32_t s_last_bit_change;
-            static volatile uint32_t s_cmd;
-            static volatile uint8_t s_cmdLength;
-            static volatile bool s_cmdReady;
+            #ifdef TC_DEBUG_TIMING
+            static volatile uint32_t debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
+            static volatile uint8_t debug_buffer_index;
+            #endif
+            
+            static volatile uint32_t last_bit_change;
+            static volatile uint32_t command;
+            static volatile bool command_is_long;
+            static volatile bool command_is_ready;
 
             ISRInternalGPIOPin rx_pin;
         };
@@ -96,15 +113,15 @@ namespace esphome
             #endif
             #ifdef USE_SELECT
             SUB_SELECT(model)
-            SUB_SELECT(ringtone_door_call)
+            SUB_SELECT(ringtone_entrance_door_call)
+            SUB_SELECT(ringtone_second_entrance_door_call)
             SUB_SELECT(ringtone_floor_call)
             SUB_SELECT(ringtone_internal_call)
-            SUB_SELECT(volume_handset)
-            SUB_SELECT(volume_ringtone)
             #endif
             #ifdef USE_NUMBER
             SUB_NUMBER(serial_number)
-            SUB_NUMBER(volume_handset)
+            SUB_NUMBER(volume_handset_door_call)
+            SUB_NUMBER(volume_handset_internal_call)
             SUB_NUMBER(volume_ringtone)
             #endif
 
@@ -126,17 +143,19 @@ namespace esphome
                 #endif
 
                 void send_command(uint32_t command);
+                void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
                 void set_programming_mode(bool enabled);
-                void read_memory(uint32_t serial_number);
+
+                void request_version(uint32_t serial_number);
+                void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
                 void request_memory_blocks(uint8_t start_address);
-                void write_memory(uint32_t serial_number = 0);
+                bool write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
 
-                uint8_t get_setting(SettingType type);
-                bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0);
-                SettingCellData getSettingCellData(SettingType setting);
+                uint8_t get_setting(SettingType type, Model model = MODEL_NONE);
+                bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0, Model model = MODEL_NONE);
 
-                void publish_command(uint32_t command, bool fire_events);
+                void publish_command(uint32_t command, bool is_long, bool fire_events);
 
                 void publish_settings();
                 void save_settings();
@@ -147,6 +166,10 @@ namespace esphome
                 CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
                 void add_read_memory_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> read_memory_timeout_callback_{};
+                void add_identify_complete_callback(std::function<void(ModelData)> &&callback);
+                CallbackManager<void(ModelData)> identify_complete_callback_{};
+                void add_identify_timeout_callback(std::function<void()> &&callback);
+                CallbackManager<void()> identify_timeout_callback_{};
 
                 bool sending;
 
@@ -171,10 +194,12 @@ namespace esphome
                 std::string hardware_version_str_ = "Generic";
 
                 bool programming_mode_ = false;
+                bool identify_model_ = false;
 
                 bool reading_memory_ = false;
                 uint8_t reading_memory_count_ = 0;
-                uint32_t reading_memory_timer_ = 0;
+                uint8_t reading_memory_max_ = 0;
+                uint32_t reading_memory_serial_number_ = 0;
                 std::vector<uint8_t> memory_buffer_;
 
                 ESPPreferenceObject pref_;

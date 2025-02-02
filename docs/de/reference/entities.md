@@ -87,11 +87,17 @@ Steuert die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
 ### Ring To Open: Confirmation <Badge type="tip" text="doorman_ring_to_open_confirmation" /> <Badge type="info" text="Deaktiviert" />
 Steuert die Einschaltbestätigung für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
 
+### Ring To Open: Display Status <Badge type="tip" text="doorman_ring_to_open_led_status" /> <Badge type="info" text="Deaktiviert" />
+Steuert die Status LED anzeige für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
+
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Deaktiviert" />
 Steuert das eingebaute Relais.
 
 ### Setup Mode <Badge type="tip" text="doorman_setup_mode" />
 Aktiviert oder deaktiviert den Modus für die [interaktive Einrichtung](../guide/getting-started#schritt-3-interaktive-einrichtung).
+
+### Experimental Updates <Badge type="tip" text="dev_firmware" />
+Schaltet experimentelle Updates frei, damit du ganz einfach zwischen dem Master- und Dev-Zweig wechseln und die neuesten Änderungen ausprobieren kannst.
 
 ### Nuki Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Steuert den Nuki Kopplungsmodus.
@@ -129,12 +135,6 @@ Controls the Nuki Smart Lock Auto Unlock Disable setting.
 ### Nuki Single Lock <Badge type="tip" text="nuki_single_lock" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Single Lock setting.
 
-### Nuki Daylight Saving Time <Badge type="tip" text="nuki_dst_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock DST Mode setting.
-
-### Nuki Automatic Updates <Badge type="tip" text="nuki_auto_update" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
-Controls the Nuki Smart Lock Automatic Updates setting.
-
 
 ## Buttons
 
@@ -146,6 +146,12 @@ Controls the Nuki Smart Lock Automatic Updates setting.
 
 ### Turn on the Light <Badge type="tip" text="turn_on_light" /> <Badge type="info" text="Deaktiviert" />
 Schaltet das Licht ein, indem der Befehl `light_button_command` auf dem Bus gesendet wird.
+
+### Identify Indoor Station <Badge type="tip" text="identify_indoor_station" /> <Badge type="info" text="Deaktiviert" />
+Ermittelt das Modell der Innenstation und speichert es.
+::: note Hinweis
+Es werden nicht alle Modelle unterstützt, da ältere Modelle diese Funktion ggfs. nicht unterstützen.
+:::
 
 ### Read Memory <Badge type="tip" text="read_memory" /> <Badge type="info" text="Deaktiviert" />
 Liest den internen speicher deiner Innenstation mit der angegebenen Seriennummer aus.
@@ -174,6 +180,9 @@ Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfigurier
 ### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Deaktiviert" />
 Legt die Seriennummer der Innenstation für den Commandbuilder/parser fest.
 
+### Entrance Door Station ID <Badge type="tip" text="entrance_door_station_id" /> <Badge type="info" text="Deaktiviert" />
+Legt die ID der Außenstelle am Eingang fest.
+
 ### Second Door Station ID <Badge type="tip" text="second_door_station_id" /> <Badge type="info" text="Deaktiviert" />
 Legt die ID der zweiten Außenstelle fest.
 
@@ -187,8 +196,11 @@ Das Einstellen der Verzögerung auf das Maximum (60 Sekunden) führt dazu, dass 
 ### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke der Klingeltöne deiner Innenstation fest.
 
-### Volume: Handset <Badge type="tip" text="intercom_volume_handset" /> <Badge type="info" text="Deaktiviert" />
-Legt die Lautstärke des Hörers deiner Innenstation fest.
+### Volume: Handset Door Call <Badge type="tip" text="intercom_volume_handset_door_call" /> <Badge type="info" text="Deaktiviert" />
+Legt die Lautstärke des Hörers deiner Innenstation bei Türrufen fest.
+
+### Volume: Handset Internal Call <Badge type="tip" text="intercom_volume_handset_internal_call" /> <Badge type="info" text="Deaktiviert" />
+Legt die Lautstärke des Hörers deiner Innenstation bei Internrufen fest.
 
 ### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock LED Brightness setting.
@@ -218,28 +230,34 @@ Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ri
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Deaktiviert" />
 Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](esphome-component#model-setting-availability) heraus.
 
-### Ringtone: Door Call <Badge type="tip" text="intercom_ringtone_door_call" /> <Badge type="info" text="Deaktiviert" />
-Legt den Klingelton für Tür-Rufe deiner Innenstation fest.
+### Ringtone: Entrance Door Call <Badge type="tip" text="intercom_ringtone_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
+Legt den Klingelton für Tür-Rufe (Eingang) deiner Innenstation fest.
 
-##### Options:
+##### Optionen:
+- Ringtone 1 ... 13
+
+### Ringtone: Second Entrance Door Call <Badge type="tip" text="intercom_ringtone_second_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
+Legt den Klingelton für Tür-Rufe (Zweiter Eingang) deiner Innenstation fest.
+
+##### Optionen:
 - Ringtone 1 ... 13
 
 ### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Etagen-Rufe deiner Innenstation fest.
 
-##### Options:
+##### Optionen:
 - Ringtone 1 ... 13
 
 ### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Intern-Rufe deiner Innenstation fest.
 
-##### Options:
+##### Optionen:
 - Ringtone 1 ... 13
 
 ### Nuki Button: Single Press Action <Badge type="tip" text="nuki_single_button_press_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Single Button Press Action setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Intelligent
 - Unlock
@@ -251,7 +269,7 @@ Controls the Nuki Smart Lock Single Button Press Action setting.
 ### Nuki Button: Double Press Action <Badge type="tip" text="nuki_double_button_press_action" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Double Button Press Action setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Intelligent
 - Unlock
@@ -263,7 +281,7 @@ Controls the Nuki Smart Lock Double Button Press Action setting.
 ### Nuki Fob: Action 1 <Badge type="tip" text="nuki_fob_action_1" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Fob Action 1 setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Unlock
 - Lock
@@ -273,7 +291,7 @@ Controls the Nuki Smart Lock Fob Action 1 setting.
 ### Nuki Fob: Action 2 <Badge type="tip" text="nuki_fob_action_2" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Fob Action 2 setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Unlock
 - Lock
@@ -283,23 +301,17 @@ Controls the Nuki Smart Lock Fob Action 2 setting.
 ### Nuki Fob: Action 3 <Badge type="tip" text="nuki_fob_action_3" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
 Controls the Nuki Smart Lock Fob Action 3 setting.
 
-##### Options:
+##### Optionen:
 - No Action
 - Unlock
 - Lock
 - Lock n Go
 - Intelligent
 
-### Nuki Timezone <Badge type="tip" text="nuki_timezone" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki Smart Lock Timezone setting.
-
-##### Options:
-Check out the nuki developer documentation.
-
 ### Nuki Advertising Mode <Badge type="tip" text="nuki_advertising_mode" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Controls the Nuki Smart Lock Advertising Mode setting.
 
-##### Options:
+##### Optionen:
 - Automatic
 - Normal
 - Slow
@@ -314,21 +326,31 @@ Repräsentiert die Schlosseinheit für dein gekoppeltes Nuki Smart Lock.
 
 ## Ereignisse
 
-### Doorbell Pattern <Badge type="tip" text="doorbell_pattern" />
-Wird ausgelöst, wenn ein Klingelmuster erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
+### Entrance Doorbell <Badge type="tip" text="entrance_doorbell_pattern" />
+Wird ausgelöst, wenn ein Klingelmuster an der Eingangstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
-- apartment_single
-- apartment_double
-- apartment_triple
-- entrance_single
-- entrance_double
-- entrance_triple
-- second_entrance_single
-- second_entrance_double
-- second_entrance_triple
+- single
+- double
+- triple
 
-### Phone pick up Pattern <Badge type="tip" text="phone_pick_up_pattern" />
+### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell_pattern" />
+Wird ausgelöst, wenn ein Klingelmuster an der zweiten Eingangstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
+
+##### Ereignistypen
+- single
+- double
+- triple
+
+### Apartment Doorbell <Badge type="tip" text="apartment_doorbell_pattern" />
+Wird ausgelöst, wenn ein Klingelmuster an der Wohnungstür erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
+
+##### Ereignistypen
+- single
+- double
+- triple
+
+### Phone pick up <Badge type="tip" text="phone_pick_up_pattern" />
 Wird ausgelöst, wenn ein Abhebe-Muster des Telefons der Innenstation erkannt wird. Erfahre mehr über Musterereignisse [hier](../guide/automation/pattern-events).
 
 ##### Ereignistypen
@@ -339,11 +361,8 @@ Wird ausgelöst, wenn ein Abhebe-Muster des Telefons der Innenstation erkannt wi
 
 ## Updates
 
-### Firmware <Badge type="info" text="Stable" /> <Badge type="tip" text="update_http_request_stable" />
-Zeigt an, ob ein Update im stabilen Zweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
-
-### Firmware <Badge type="info" text="Development" /> <Badge type="tip" text="update_http_request_dev" />
-Zeigt an, ob ein Update im Entwicklungszweig verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
+### Firmware <Badge type="tip" text="update_http_request" />
+Zeigt an, ob ein Update verfügbar ist, und bietet eine Installation über das HTTP OTA-Updateverfahren an.
 
 
 ## Lichter

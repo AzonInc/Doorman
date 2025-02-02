@@ -1,0 +1,16 @@
+# Helper File: Compile dev firmware
+dashboard_import:
+  package_import_url: github://AzonInc/doorman/firmware/examples/ha-stock.example.dev.yaml@dev
+
+packages:
+  device_base: !include ha-doorman-stock.yaml
+  debug_utilities: !include addons/debug-utilities.yaml
+
+external_components:
+  - source: github://AzonInc/Doorman@dev
+    components: [ tc_bus ]
+    refresh: 60s
+
+switch:
+  - id: !extend dev_firmware
+    restore_mode: RESTORE_DEFAULT_ON

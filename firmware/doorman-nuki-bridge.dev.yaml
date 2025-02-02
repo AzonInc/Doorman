@@ -1,18 +1,3 @@
-# Helper File: Compile dev firmware
-dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/nuki-bridge.example.yaml@dev
-
+# This file provides backwards compatibility (< 2025.1.0)
 packages:
-  device_base: !include doorman-nuki-bridge.yaml
-
-external_components:
-  - source: github://AzonInc/Doorman@dev
-    components: [ tc_bus ]
-    refresh: 60s
-    
-update:
-  - id: !extend update_http_request_stable
-    disabled_by_default: true
-    
-  - id: !extend update_http_request_dev
-    disabled_by_default: false
+  device_base: !include ha-doorman-nuki-bridge.dev.yaml
