@@ -133,6 +133,10 @@ namespace esphome
                 listener->turn_off(&listener->timer_);
             }
             #endif
+
+            #ifdef USE_API
+            register_service(&TCBusComponent::save_settings, "save_settings");
+            #endif
         }
 
         void TCBusComponent::save_settings()
