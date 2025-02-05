@@ -14,6 +14,22 @@
 #include "esphome/components/api/custom_api_device.h"
 #endif
 
+#include "esphome/components/remote_transmitter/remote_transmitter.h"
+#include "esphome/components/remote_receiver/remote_receiver.h"
+
+#ifdef USE_BINARY_SENSOR
+#include "esphome/components/binary_sensor/binary_sensor.h"
+#endif
+#ifdef USE_TEXT_SENSOR
+#include "esphome/components/text_sensor/text_sensor.h"
+#endif
+#ifdef USE_SELECT
+#include "esphome/components/select/select.h"
+#endif
+#ifdef USE_NUMBER
+#include "esphome/components/number/number.h"
+#endif
+
 #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
 #include "soc/efuse_reg.h"
 #include "soc/efuse_periph.h"
@@ -136,6 +152,7 @@ namespace esphome
 
             #ifdef USE_API
             register_service(&TCBusComponent::save_settings, "save_settings");
+            register_service(&TCBusComponent::on_acknowledge, "on_acknowledge", {"type"});
             #endif
         }
 

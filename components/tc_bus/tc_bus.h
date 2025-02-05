@@ -2,6 +2,7 @@
 
 #include "protocol.h"
 
+#include "esphome.h"
 #include "esphome/core/application.h"
 #include "esphome/core/defines.h"
 #include "esphome/core/log.h"
@@ -10,12 +11,12 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/preferences.h"
 
-#include "esphome/components/remote_transmitter/remote_transmitter.h"
-#include "esphome/components/remote_receiver/remote_receiver.h"
-
 #ifdef USE_API
 #include "esphome/components/api/custom_api_device.h"
 #endif
+
+#include "esphome/components/remote_transmitter/remote_transmitter.h"
+#include "esphome/components/remote_receiver/remote_receiver.h"
 
 #ifdef USE_BINARY_SENSOR
 #include "esphome/components/binary_sensor/binary_sensor.h"
@@ -79,11 +80,7 @@ namespace esphome
             uint32_t serial_number;
         };
 
-        #ifdef USE_API
-        class TCBusComponent : public Component, public remote_base::RemoteReceiverListener, public esphome::api::CustomAPIDevice
-        #else
         class TCBusComponent : public Component, public remote_base::RemoteReceiverListener
-        #endif
         {
             #ifdef USE_TEXT_SENSOR
             SUB_TEXT_SENSOR(bus_command)
