@@ -10,6 +10,7 @@
 #include "esphome/core/preferences.h"
 
 #ifdef USE_API
+#include "esphome/core/base_automation.h"
 #include "esphome/components/api/custom_api_device.h"
 #endif
 
@@ -150,8 +151,15 @@ namespace esphome
             #endif
 
             #ifdef USE_API
-            register_service(&TCBusComponent::save_settings, "save_settings");
-            register_service(&TCBusComponent::on_acknowledge, "on_acknowledge", {"type"});
+            
+            auto api_userservicetrigger = new api::UserServiceTrigger<uint8_t>("on_acknowledge", {"type"});
+            api::global_api_server->register_user_service(api_userservicetrigger);
+            auto automation = new Automation<uint8_t>(api_userservicetrigger);
+            auto lambdaaction = new LambdaAction<uint8_t>([=](uint8_t type) -> void {
+                TCBusComponent::on_acknowledge(12);
+            });
+            automation->add_actions({lambdaaction});
+
             #endif
         }
 

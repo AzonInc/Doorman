@@ -11,6 +11,7 @@
 #include "esphome/core/preferences.h"
 
 #ifdef USE_API
+#include "esphome/core/base_automation.h"
 #include "esphome/components/api/custom_api_device.h"
 #endif
 
