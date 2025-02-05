@@ -136,6 +136,8 @@ namespace esphome
 
             #ifdef USE_API
             register_service(&TCBusComponent::save_settings, "save_settings");
+            register_service(&TCBusComponent::on_acknowledge, "on_acknowledge", {"type"});
+            register_service(&TCBusComponent::on_acknowledge, "send_command", {"command"} {"is_long"});
             #endif
         }
 
