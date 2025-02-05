@@ -1,7 +1,6 @@
 #include "protocol.h"
 #include "tc_bus.h"
 
-#include "esphome.h"
 #include "esphome/core/application.h"
 #include "esphome/core/defines.h"
 #include "esphome/core/log.h"
