@@ -152,11 +152,11 @@ namespace esphome
 
             #ifdef USE_API
 
-            auto api_userservicetrigger = new api::UserServiceTrigger<uint8_t>("on_acknowledge", {"type"});
+            auto api_userservicetrigger = new api::UserServiceTrigger<uint32_t>("on_acknowledge", {"type"});
             api::global_api_server->register_user_service(api_userservicetrigger);
-            auto automation = new Automation<uint8_t>(api_userservicetrigger);
-            auto lambdaaction = new LambdaAction<uint8_t>([this](uint8_t type) -> void {
-                TCBusComponent::on_acknowledge(12);
+            auto automation = new Automation<uint32_t>(api_userservicetrigger);
+            auto lambdaaction = new LambdaAction<uint32_t>([this](uint32_t type) -> void {
+                // Something
             });
             automation->add_actions({lambdaaction});
 
