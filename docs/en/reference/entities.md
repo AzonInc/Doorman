@@ -12,6 +12,9 @@ Reports the uptime in seconds.
 ### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
 Reports the battery level of the paired Nuki smart lock.
 
+### Nuki Bluetooth Signal Strength <Badge type="tip" text="nuki_bluetooth_signal_strength" /> <Badge type="info" text="Nuki Bridge only" />
+Reports the bluetooth strength of the paired Nuki smart lock.
+
 
 ## Binary Sensors
 

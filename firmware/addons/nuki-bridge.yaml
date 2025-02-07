@@ -87,6 +87,12 @@ lock:
         sorting_group_id: sorting_group_nuki
         sorting_weight: -27
 
+    bt_signal_strength:
+      id: nuki_bluetooth_signal_strength
+      name: "Nuki Bluetooth Signal Strength"
+      web_server:
+        sorting_group_id: sorting_group_nuki
+
     door_sensor:
       id: nuki_door_sensor
       name: "Nuki Door Sensor"
