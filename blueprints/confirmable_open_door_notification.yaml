@@ -6,7 +6,7 @@ blueprint:
   homeassistant:
     min_version: "2024.6.0"
   domain: automation
-  source_url: https://github.com/AzonInc/Doorman/blob/dev/blueprints/confirmable_open_door_notification.yaml
+  source_url: https://github.com/azoninc/doorman/blob/dev/blueprints/confirmable_open_door_notification.yaml
   input:
     doorbell_section:
       name: "Doorbell Details"

@@ -279,7 +279,7 @@ Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
-  - source: github://AzonInc/Doorman
+  - source: github://azoninc/doorman
     components: [ tc_bus ]
 
 # TC:BUS configuration

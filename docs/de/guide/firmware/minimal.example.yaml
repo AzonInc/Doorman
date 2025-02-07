@@ -5,7 +5,7 @@ substitutions:
 
 # Import Doorman Stock Firmware Config
 packages:
-  AzonInc.Doorman: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
+  AzonInc.Doorman: github://azoninc/doorman/firmware/doorman-stock.yaml@master
 
 esphome:
   name: ${name}

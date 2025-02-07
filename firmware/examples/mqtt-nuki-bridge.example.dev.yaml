@@ -12,7 +12,7 @@ substitutions:
 
 # Import Doorman Nuki Bridge Firmware Config
 packages:
-  AzonInc.Doorman-Nuki-Bridge: github://AzonInc/doorman/firmware/mqtt-doorman-nuki-bridge.dev.yaml@dev
+  AzonInc.Doorman-Nuki-Bridge: github://azoninc/doorman/firmware/mqtt-doorman-nuki-bridge.dev.yaml@dev
 
 wifi:
   ssid: !secret wifi_ssid

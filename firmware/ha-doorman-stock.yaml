@@ -1,5 +1,5 @@
 dashboard_import:
-  package_import_url: github://AzonInc/doorman/firmware/examples/ha-stock.example.yaml@master
+  package_import_url: github://azoninc/doorman/firmware/examples/ha-stock.example.yaml
   import_full_config: true
 
 packages:

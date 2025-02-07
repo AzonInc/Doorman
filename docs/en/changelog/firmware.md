@@ -50,13 +50,13 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **PSRAM Compatibility**  
    Some users, particularly those with Revision 1.4 PCBs, may encounter issues due to the newly added PSRAM component. This is because certain Revision 1.4 boards use the N16R2 variant of the ESP32S3, which requires a different configuration for proper PSRAM booting.
    
-   For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/AzonInc/Doorman/issues).
+   For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/azoninc/doorman/issues).
 
 - **Hexadecimal Command-String Length changed**  
    With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the [Last Bus Command](../reference/entities#last-bus-command) sensor.
 
 - **Separate Event entities**  
-   [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
+   [Skaronator](https://github.com/azoninc/doorman/pull/37) introduced separate event entities for each physical doorbell button.  
    This enhancement enables event tracking on a per-button basis, providing more granular and precise support for doorbell interactions.  
    You will need to adjust your automations if you previously used the Doorbell Pattern Event Entity. Additionally, the event types have been changed.
 
@@ -172,7 +172,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
 ### 📝 Other Updates
 - **Development Builds**  
-   We now use the [tcs_intercom](<https://github.com/AzonInc/ESPHome_tcs_intercom>) development branch for development builds.
+   We now use the [tcs_intercom](<https://github.com/azoninc/esphome_tcs_intercom>) development branch for development builds.
 
 
 ## 2024.8.3

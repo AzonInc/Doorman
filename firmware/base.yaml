@@ -89,7 +89,7 @@ improv_serial:
 
 # Import TC:BUS Component
 external_components:
-  - source: github://AzonInc/Doorman@dev
+  - source: github://azoninc/doorman@dev
     components: [ tc_bus ]
     refresh: 60s
 

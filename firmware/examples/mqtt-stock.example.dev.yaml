@@ -12,8 +12,8 @@ substitutions:
 
 # Import Doorman Stock Firmware Config
 packages:
-  AzonInc.Doorman: github://AzonInc/doorman/firmware/mqtt-doorman-stock.dev.yaml@dev
-  
+  AzonInc.Doorman: github://azoninc/doorman/firmware/mqtt-doorman-stock.dev.yaml@dev
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password

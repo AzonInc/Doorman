@@ -18,7 +18,7 @@ For more details on the manufacturing process, scroll down to the "Manufacturing
 
 ## 🚀 Getting started
 
-Be sure to visit the [Doorman Docs](https://doorman.azon.ai/) for all the information you need. If you have any questions or need further assistance, feel free to reach out on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/AzonInc/Doorman/issues). I'm here to help!
+Be sure to visit the [Doorman Docs](https://doorman.azon.ai/) for all the information you need. If you have any questions or need further assistance, feel free to reach out on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/azoninc/doorman/issues). I'm here to help!
 
 ## 📦 Interested in buying one?
 
@@ -61,7 +61,7 @@ A huge thanks to [PCBX](https://www.pcbx.com/?mtm_campaign=review&mtm_kwd=BD&mtm
 
 If you're looking for a reliable PCB manufacturer for your own project, definitely check out [PCBX](https://www.pcbx.com/?mtm_campaign=review&mtm_kwd=BD&mtm_source=flo). While their production might take a little longer than some others, the unbeatable prices and super-easy part sourcing make it absolutely worth it. They handle everything for you!  
 
-You can find all the necessary files for manufacturing the Doorman-S3 [here](https://github.com/AzonInc/doorman/tree/master/pcb).
+You can find all the necessary files for manufacturing the Doorman-S3 [here](https://github.com/azoninc/doorman/tree/master/pcb).
 
 ## 🙌 Contributing
 If you'd like to contribute to the Doorman project, we welcome your involvement!\

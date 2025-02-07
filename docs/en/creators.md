@@ -3,13 +3,13 @@ import { VPTeamMembers } from 'vitepress/theme'
 
 const members = [
   {
-    avatar: 'https://www.github.com/AzonInc.png',
+    avatar: 'https://www.github.com/azoninc.png',
     name: 'AzonInc',
     title: 'Creator of the Doorman-S3 PCB and ESPHome-based firmware',
     links: [
-      { icon: 'github', link: 'https://github.com/AzonInc' },
+      { icon: 'github', link: 'https://github.com/azoninc' },
     ],
-    sponsor: 'https://github.com/sponsors/AzonInc',
+    sponsor: 'https://github.com/sponsors/azoninc',
   },
   {
     avatar: 'https://www.github.com/peteh.png',
@@ -21,11 +21,11 @@ const members = [
     sponsor: 'https://github.com/sponsors/peteh',
   },
   {
-    avatar: 'https://www.github.com/AStrehlau.png',
+    avatar: 'https://www.github.com/astrehlau.png',
     name: 'AStrehlau',
     title: 'Electronics Engineer',
     links: [
-      { icon: 'github', link: 'https://github.com/AStrehlau' },
+      { icon: 'github', link: 'https://github.com/astrehlau' },
     ]
   },
   {

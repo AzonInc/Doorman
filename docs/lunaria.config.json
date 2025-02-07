@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@lunariajs/core/config.schema.json",
     "repository": {
-      "name": "AzonInc/doorman",
+      "name": "azoninc/doorman",
       "rootDir": "docs",
       "branch": "master",
       "hosting": "github"
