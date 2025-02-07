@@ -14,11 +14,6 @@ substitutions:
 packages:
   AzonInc.Doorman-Nuki-Bridge: github://AzonInc/doorman/firmware/ha-doorman-nuki-bridge.dev.yaml@dev
 
-esphome:
-  name: ${name}
-  name_add_mac_suffix: false
-  friendly_name: ${friendly_name}
-
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password

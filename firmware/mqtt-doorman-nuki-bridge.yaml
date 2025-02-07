@@ -1,6 +1,6 @@
 dashboard_import:
   package_import_url: github://AzonInc/doorman/firmware/examples/mqtt-nuki-bridge.example.yaml@master
-  import_full_config: false
+  import_full_config: true
 
 packages:
   host: !include host/esp32-s3.yaml

@@ -13,12 +13,7 @@ substitutions:
 # Import Doorman Stock Firmware Config
 packages:
   AzonInc.Doorman: github://AzonInc/doorman/firmware/mqtt-doorman-stock.dev.yaml@dev
-
-esphome:
-  name: ${name}
-  name_add_mac_suffix: false
-  friendly_name: ${friendly_name}
-
+  
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
