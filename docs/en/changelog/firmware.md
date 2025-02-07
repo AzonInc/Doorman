@@ -1,6 +1,14 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2025.2.1
+### 📝 Other Updates
+- **Nuki Component**  
+   The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now runs on IDF, removing the need for the Arduino framework.
+
+- **Configuration YAML Files Restructured**  
+   The configuration files have been reorganized to enhance modularity and enable support for additional host platforms in the future.
+
 ## 2025.2.0
 ### 🚀 What's New?
 - **Added a Switch to turn off the Status LED while Ring to Open is active**  

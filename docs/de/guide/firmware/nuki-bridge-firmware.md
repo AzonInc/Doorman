@@ -1,4 +1,4 @@
-# Nuki Bridge Firmware <Badge type="tip" text="Arduino Framework" />
+# Nuki Bridge Firmware <Badge type="tip" text="ESP-IDF Framework" />
 
 Diese Konfiguration übernimmt alle Funktionen der Stock Firmware und fügt eine Nuki Bridge-Komponente über BLE hinzu. Beachte, dass Improv über Bluetooth LE nicht unterstützt wird, da der BLE-Stack von der Nuki Bridge-Komponente verwendet wird.
 
