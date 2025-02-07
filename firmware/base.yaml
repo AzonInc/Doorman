@@ -10,37 +10,22 @@ substitutions:
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
 
-# Board Setup
-esp32:
-  board: esp32-s3-devkitc-1
-  variant: esp32s3
-  flash_size: 8MB
-
 # Essential ESPHome Configuration Options
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
-  
   min_version: "2024.12.0"
-
   project:
     name: "AzonInc.Doorman"
-    version: "2025.2.0"
-
-  platformio_options:
-    board_build.flash_mode: dio
-    build_flags:
-      - -DBOARD_HAS_PSRAM 
-
-# Utilize PSRAM
-psram:
-  mode: octal
-  speed: 80MHz
+    version: "2025.2.1"
 
 # Enable logging
+# Prevent component warning spam
 logger:
   level: ${log_level}
+  logs:
+    component: ERROR
 
 web_server:
   version: 3
@@ -298,7 +283,6 @@ light:
     rgb_order: GRB
     pin: ${rgb_led_pin}
     num_leds: 1
-    rmt_channel: 0
     chipset: ws2812
     gamma_correct: 1
     default_transition_length: 0ms

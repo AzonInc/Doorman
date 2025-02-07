@@ -3,7 +3,7 @@ dashboard_import:
   package_import_url: github://AzonInc/doorman/firmware/examples/mqtt-stock.example.dev.yaml@dev
 
 packages:
-  device_base: !include mqtt-doorman-stock.yaml
+  base: !include mqtt-doorman-stock.yaml
   debug_utilities: !include addons/debug-utilities.yaml
 
 external_components:

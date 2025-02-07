@@ -1,0 +1,9 @@
+# Board Setup
+esp8266:
+  board: esp01_1m
+  framework:
+    type: arduino
+    version: recommended
+
+# Imcompatible with RMT light
+# TODO: implement specific light

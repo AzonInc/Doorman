@@ -3,7 +3,8 @@ dashboard_import:
   import_full_config: false
 
 packages:
-  device_base: !include base.yaml
+  host: !include host/esp32-s3.yaml
+  base: !include base.yaml
   homeassistant: !include addons/homeassistant.yaml
   pattern_events: !include addons/pattern-events.yaml
   ring_to_open: !include addons/ring-to-open.yaml
@@ -14,9 +15,3 @@ packages:
 esphome:
   project:
     name: "AzonInc.Doorman-Nuki-Bridge"
-
-esp32:
-  framework:
-    type: arduino
-    version: 2.0.16
-    platform_version: 6.7.0
