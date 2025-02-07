@@ -35,6 +35,7 @@ on:
 
 jobs:
   prepare:
+    name: Prepare
     runs-on: ubuntu-latest
     outputs:
       files: ${{ steps.files-array.outputs.files }}
@@ -45,7 +46,7 @@ jobs:
           echo ::set-output name=files::$files
 
   build:
-    name: Build ESPHome binary for ${{ matrix.file }}
+    name: Build ${{ matrix.file }}
     needs: [prepare]
     runs-on: ubuntu-latest
     strategy:
