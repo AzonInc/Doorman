@@ -9,6 +9,8 @@ substitutions:
   rgb_led_pin: "GPIO2"
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
+
+  # Update manifest
   update_url_stable: "https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json"
   update_url_dev: "https://doorman-dev.surge.sh/firmware/release/doorman-stock/manifest.json"
 

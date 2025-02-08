@@ -1,5 +1,8 @@
 # Debug Utilities Addon
 
+substitutions:
+  log_level: "DEBUG"
+
 globals:
   - id: search_mode
     type: int
@@ -33,7 +36,7 @@ text_sensor:
 binary_sensor:
   - platform: template
     id: debug_bus_connected
-    name: Bus Connection Status
+    name: "Bus Connection Status"
     icon: "mdi:connection"
     disabled_by_default: true
     lambda: |-
@@ -49,7 +52,7 @@ binary_sensor:
 sensor:
   - platform: adc
     id: debug_bus_voltage
-    name: Bus Voltage
+    name: "Bus Voltage"
     pin: GPIO10
     update_interval: 1s
     attenuation: 12dB
@@ -63,9 +66,9 @@ sensor:
 text:
   - platform: template
     id: debug_send_command
-    mode: text
     name: "Send Command"
     icon: "mdi:send"
+    mode: text
     disabled_by_default: true
     optimistic: true
     set_action: 
