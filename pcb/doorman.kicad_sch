@@ -10366,7 +10366,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2309071524_KNSCHA-189RV0027_C7471889.pdf?_gl=1*11724xm*_ga*ODg2MDE4NzU2LjE3MTA0Mjc1Njk.*_ga_98M84MKSZH*MTcxMjgzNjE4My40Ni4wLjE3MTI4MzYxODQuNTkuMC4w"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_NCC-Nippon-Chemi-Con-EMZS350ARA471MHA0G_C2164331.pdf"
 			(at 127 55.88 0)
 			(effects
 				(font
@@ -10384,7 +10384,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C7471889"
+		(property "LCSC" "C2164331"
 			(at 127 55.88 0)
 			(effects
 				(font
@@ -10393,7 +10393,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "189RV0027"
+		(property "MPN" "EMZS350ARA471MHA0G"
 			(at 127 55.88 0)
 			(effects
 				(font
@@ -10402,7 +10402,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "SMD,D8xL10.5mm"
+		(property "Package" "SMD,D8xL10mm"
 			(at 127 55.88 0)
 			(effects
 				(font

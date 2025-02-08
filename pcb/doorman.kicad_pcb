@@ -1313,7 +1313,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2309071524_KNSCHA-189RV0027_C7471889.pdf?_gl=1*11724xm*_ga*ODg2MDE4NzU2LjE3MTA0Mjc1Njk.*_ga_98M84MKSZH*MTcxMjgzNjE4My40Ni4wLjE3MTI4MzYxODQuNTkuMC4w"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_NCC-Nippon-Chemi-Con-EMZS350ARA471MHA0G_C2164331.pdf"
 			(at 0 0 -90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1337,7 +1337,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C7471889"
+		(property "LCSC" "C2164331"
 			(at 0 0 -90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1350,7 +1350,7 @@
 				)
 			)
 		)
-		(property "MPN" "189RV0027"
+		(property "MPN" "EMZS350ARA471MHA0G"
 			(at 0 0 -90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1363,7 +1363,7 @@
 				)
 			)
 		)
-		(property "Package" "SMD,D8xL10.5mm"
+		(property "Package" "SMD,D8xL10mm"
 			(at 0 0 -90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3437,7 +3437,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2301061530_DORABO-DB125-2-54-9P-GN-S_C918127.pdf"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3449,7 +3449,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic screw terminal, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "1x9P -40℃~+105℃ 8A 130V Green 18~26 Direct Insert 2.54mm 0.5~1 1 9 Plugin,P=2.54mm Screw Terminal Blocks ROHS"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6523,7 +6523,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC817_SER.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407241028_Nexperia-BC817-25-215_C39828.pdf"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6535,7 +6535,7 @@
 				)
 			)
 		)
-		(property "Description" "45V 300mW 160@100mA,1V 500mA NPN SOT-23(TO-236) Bipolar Transistors - BJT ROHS"
+		(property "Description" "45V 250mW 160@100mA,1V 500mA NPN SOT-23 Bipolar (BJT) ROHS "
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6560,7 +6560,7 @@
 				)
 			)
 		)
-		(property "MPN" "BC817-25"
+		(property "MPN" "BC817-25,215"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -6573,7 +6573,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C5184412"
+		(property "LCSC" "C39828"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -11593,7 +11593,7 @@
 		(path "/2ac1a2d4-2176-4af7-88b4-95cb5edf6fd6")
 		(sheetname "Stammblatt")
 		(sheetfile "doorman.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 0 -0.7)
@@ -11768,7 +11768,7 @@
 		(path "/a2ff12c4-3072-464f-b02b-14fdfd75b0ea")
 		(sheetname "Stammblatt")
 		(sheetfile "doorman.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 0 -0.7)
@@ -11943,7 +11943,7 @@
 		(path "/07e1541a-bf8d-4a97-bdf0-b6d5baf7dd42")
 		(sheetname "Stammblatt")
 		(sheetfile "doorman.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 0 -0.7)
@@ -12118,7 +12118,7 @@
 		(path "/f3623ce4-341f-4811-b089-a69ea4b87258")
 		(sheetname "Stammblatt")
 		(sheetfile "doorman.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 0 -0.7)
@@ -13667,7 +13667,7 @@
 		(path "/993fb52d-8981-4a0c-8ecc-8a3fae334f31")
 		(sheetname "Stammblatt")
 		(sheetfile "doorman.kicad_sch")
-		(attr exclude_from_pos_files exclude_from_bom)
+		(attr exclude_from_pos_files exclude_from_bom dnp)
 		(fp_circle
 			(center 0 0)
 			(end 0 -0.7)
