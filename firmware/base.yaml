@@ -9,13 +9,15 @@ substitutions:
   rgb_led_pin: "GPIO2"
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
+  update_url_stable: "https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json"
+  update_url_dev: "https://doorman-dev.surge.sh/firmware/release/doorman-stock/manifest.json"
 
 # Essential ESPHome Configuration Options
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
-  min_version: "2024.12.0"
+  min_version: "2025.2.0"
   project:
     name: "AzonInc.Doorman"
     version: "2025.2.1"
@@ -71,7 +73,7 @@ update:
     id: update_http_request
     icon: "mdi:update"
     name: Firmware
-    source: https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json
+    source: ${update_url_stable}
     disabled_by_default: false
     web_server:
       sorting_group_id: sorting_group_system
@@ -89,7 +91,7 @@ improv_serial:
 
 # Import TC:BUS Component
 external_components:
-  - source: github://azoninc/doorman@dev
+  - source: github://azoninc/doorman
     components: [ tc_bus ]
     refresh: 60s
 
@@ -171,11 +173,11 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       - logger.log: "OTA update source set to dev"
-      - lambda: id(update_http_request).set_source_url("https://doorman-dev.surge.sh/firmware/release/doorman-stock/manifest.json");
+      - lambda: id(update_http_request).set_source_url(to_string("${update_url_dev}"));
       - component.update: update_http_request
     on_turn_off:
       - logger.log: "OTA update source set to master"
-      - lambda: id(update_http_request).set_source_url("https://doorman.azon.ai/firmware/release/doorman-stock/manifest.json");
+      - lambda: id(update_http_request).set_source_url(to_string("${update_url_stable}"));
       - component.update: update_http_request
     disabled_by_default: true
     web_server:
