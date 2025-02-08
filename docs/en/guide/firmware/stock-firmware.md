@@ -9,7 +9,7 @@ There are several ways to update the firmware:
 - Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
 You can connect your Doorman via USB-C and click the button below to install the latest Doorman Stock Firmware (Home Assistant) directly through Web Serial.
-To use the MQTT firmware, adopt Doorman into your ESPHome Dashboard and apply the MQTT Example Firmware YAML.
+To use the MQTT firmware, adopt Doorman into your ESPHome Dashboard and apply the `Minimal Stock Firmware (MQTT)` Example Firmware YAML.
 <esp-web-install-button manifest="../../firmware/release/doorman-stock/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
