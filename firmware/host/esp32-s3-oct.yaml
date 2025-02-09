@@ -4,4 +4,3 @@ packages:
 
 psram:
   mode: octal
-  speed: 80MHz

@@ -5,5 +5,7 @@ esp8266:
     type: arduino
     version: recommended
 
-# Imcompatible with RMT light
+# Incompatible with RMT light
 # TODO: implement specific light
+
+# Incompatible with debug free psram

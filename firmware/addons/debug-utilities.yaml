@@ -63,6 +63,32 @@ sensor:
       sorting_group_id: sorting_group_diagnostic
       sorting_weight: -5
 
+  - platform: debug
+    free:
+      id: debug_heap_free
+      name: "Heap Free"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+    block:
+      id: debug_heap_max_block
+      name: "Heap Max Block"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+    loop_time:
+      id: debug_loop_time
+      name: "Loop Time"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+    psram:
+      id: debug_free_psram
+      name: "Free PSRAM"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+
 text:
   - platform: template
     id: debug_send_command
