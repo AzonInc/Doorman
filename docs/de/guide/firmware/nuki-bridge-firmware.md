@@ -4,12 +4,11 @@ Diese Konfiguration übernimmt alle Funktionen der Stock Firmware und fügt eine
 
 ### Firmware Update
 Es gibt mehrere Möglichkeiten, die Firmware zu aktualisieren:
-- ESPHome OTA <Badge type="warning" text="Erfordert ESPHome-Dashboard" />
+- ESPHome OTA <Badge type="warning" text="Erfordert ESPHome-Dashboard, volle Kontrolle" />
 - HTTP OTA <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 - Web Serial <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 
-Du kannst deinen Doorman über USB-C anschließen und auf den untenstehenden Button klicken, um die neueste Doorman Nuki-Bridge Firmware (Home Assistant) direkt über Web Serial zu installieren.
-Wenn du MQTT ohne Home Assistant nutzen möchtest, kannst du Doorman in dein ESPHome Dashboard aufnehmen und das untenstehende Beispiel `Minimale Nuki-Bridge Firmware (MQTT)` verwenden.
+Schließ deinen Doorman per USB-C an und klick unten auf den Button, um die neueste Doorman Nuki-Bridge Firmware (Home Assistant) direkt über Web Serial zu installieren. Damit kannst du später problemlos Updates aus der Community installieren. 
 <esp-web-install-button manifest="../../../firmware/release/doorman-nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
@@ -29,6 +28,12 @@ Wenn du MQTT ohne Home Assistant nutzen möchtest, kannst du Doorman in dein ESP
         </div>
     </div>
 </esp-web-install-button>
+
+::: warning WARNUNG
+Manche **Updates können Änderungen mit sich bringen, die Sachen kaputtmachen** — check also immer die Changelogs, damit dein System in wichtigen Situationen zuverlässig läuft.
+:::
+
+Um die Firmware vollständig anzupassen und die volle Kontrolle zu übernehmen, kannst du sie in dein ESPHome Dashboard integrieren. Falls du die MQTT-Firmware nutzen möchtest, wende einfach das unten stehende `Minimale Nuki-Bridge Firmware (MQTT)` Beispiel-YAML an.
 
 ## Firmware YAML
 

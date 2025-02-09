@@ -4,12 +4,12 @@ This configuration inherits all features from the Stock Firmware and adds a Nuki
 
 ### Update Firmware
 There are several ways to update the firmware:
-- ESPHome OTA <Badge type="warning" text="Requires ESPHome Dashboard" />
+- ESPHome OTA <Badge type="warning" text="Requires ESPHome Dashboard, full control" />
 - HTTP OTA <Badge type="tip" text="Latest release build, no customization" />
 - Web Serial <Badge type="tip" text="Latest release build, no customization" />
 
-You can connect your Doorman via USB-C and click the button below to install the latest Doorman Nuki Bridge Firmware (Home Assistant) directly through Web Serial.
-To use the MQTT firmware, adopt Doorman into your ESPHome Dashboard and apply the `Minimal Nuki Bridge Firmware (MQTT)` Example Firmware YAML.
+Connect your Doorman via USB-C and click the button below to directly install the latest Doorman Nuki Bridge Firmware (Home Assistant) using Web Serial.
+This allows you to easily apply community-provided updates later.
 <esp-web-install-button manifest="../../firmware/release/doorman-nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
@@ -29,6 +29,12 @@ To use the MQTT firmware, adopt Doorman into your ESPHome Dashboard and apply th
         </div>
     </div>
 </esp-web-install-button>
+
+::: warning
+Be aware that some **updates may introduce breaking changes** — always review the changelogs carefully to ensure your system functions reliably in critical situations.
+:::
+
+To fully customize the firmware and gain complete control, you can adopt it into your ESPHome Dashboard. If you're interested in using the MQTT firmware, simply apply the `Minimal Nuki Bridge Firmware (MQTT)` example YAML below.
 
 ## Firmware YAML
 This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
