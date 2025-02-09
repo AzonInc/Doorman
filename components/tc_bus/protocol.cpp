@@ -569,6 +569,11 @@ namespace esphome
             if (str == "TCS CAIXXXX / Koch CAIXXXX") return MODEL_CAIXXXX;
             if (str == "TCS CAI2000 / Koch Carus") return MODEL_CAI2000;
             if (str == "TCS ISW42X0") return MODEL_ISW42X0;
+            if (str == "TCS IVW9010") return MODEL_IVW9010;
+            if (str == "TCS IVW9011 / Koch VTP10") return MODEL_IVW9011;
+            if (str == "TCS IVW9110") return MODEL_IVW9110;
+            if (str == "TCS IVW9030 / Scantron SLIM50T") return MODEL_IVW9030;
+            if (str == "TCS IVE70") return MODEL_IVE70;
 
             return MODEL_NONE;
         }
@@ -657,6 +662,7 @@ namespace esphome
             else if (model_key == "815") return MODEL_IVW2221;
             else if (model_key == "820") return MODEL_IVW3011;
             else if (model_key == "830") return MODEL_IVW3012;
+
             else if (model_key == "C01") return MODEL_VMH;
             else if (model_key == "C00") return MODEL_VML;
             else if (model_key == "C02") return MODEL_VMF;
@@ -674,6 +680,13 @@ namespace esphome
                 else return MODEL_TC40;
             }
         
+            else if (model_key == "194") return MODEL_IVW9030;
+            else if (model_key == "1E8") return MODEL_IVW9010;
+            else if (model_key == "1EA") return MODEL_IVW9110;
+            else if (model_key == "1E9") return MODEL_IVW9011;
+            else if (model_key == "1B3" || model_key == "1B4" || model_key == "1B5")
+                return MODEL_IVE70;
+                
             return MODEL_NONE;
         }
 
@@ -739,6 +752,11 @@ namespace esphome
                 case MODEL_CAIXXXX: return "TCS CAIXXXX / Koch CAIXXXX";
                 case MODEL_CAI2000: return "TCS CAI2000 / Koch Carus";
                 case MODEL_ISW42X0: return "TCS ISW42X0";
+                case MODEL_IVW9010: return "TCS IVW9010";
+                case MODEL_IVW9011: return "TCS IVW9011 / Koch VTP10";
+                case MODEL_IVW9110: return "TCS IVW9110";
+                case MODEL_IVW9030: return "TCS IVW9030 / Scantron SLIM50T";
+                case MODEL_IVE70: return "TCS IVE70";
                 default: return "None";
             }
         }
@@ -983,6 +1001,15 @@ namespace esphome
                 case MODEL_VMF:
                     modelData.category = 0;
                     modelData.memory_size = 24;
+                    break;
+
+                case MODEL_IVW9010:
+                case MODEL_IVW9011:
+                case MODEL_IVW9110:
+                case MODEL_IVW9030:
+                case MODEL_IVE70:
+                    modelData.category = 0;
+                    modelData.memory_size = 0;
                     break;
 
                 default:

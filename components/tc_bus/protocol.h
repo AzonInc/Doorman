@@ -67,7 +67,12 @@ namespace esphome
             MODEL_TKISV,
             MODEL_CAIXXXX,
             MODEL_CAI2000,
-            MODEL_ISW42X0
+            MODEL_ISW42X0,
+            MODEL_IVW9010,
+            MODEL_IVW9011,
+            MODEL_IVW9110,
+            MODEL_IVW9030,
+            MODEL_IVE70
         };
 
         enum SettingType {
