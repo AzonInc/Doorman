@@ -32,7 +32,8 @@ In some installations, the `a` and `b` wires are twisted, but this is handled by
 - **P:** The +24V line in 3-wire mode or the apartment doorbell button in 2-wire mode
 
 ::: danger
-**DO NOT USE THE +24V `P`-LINE AND USB-C AT THE SAME TIME**
+**AVOID USING THE +24V `P`-LINE AND USB-C PORT AT THE SAME TIME.**\
+**NEVER CONNECT A POWER SOURCE TO THE TC:BUS TERMINALS - DOING SO CAN CAUSE SEVERE DAMAGE.**
 :::
 
 ## Check the Power Supply

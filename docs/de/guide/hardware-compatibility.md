@@ -33,7 +33,9 @@ Berücksichtige dies beim Überprüfen der Spannung auf den Leitungen `a`, `b` u
 - **P:** Entweder die +24V-Leitung im 3-Draht-Modus oder der Klingelknopf der Wohnung im 2-Draht-Modus. Oftmals gibt es trotzdem eine 24V Leitung irgendwo versteckt.
 
 ::: danger VORSICHT
-**NICHT GLEICHZEITIG DIE +24V `P`-LEITUNG UND USB-C VERWENDEN**
+**BENUTZE NICHT DIE +24V `P`-LEITUNG UND DEN USB-C PORT GLEICHZEITIG!**
+
+**SCHLIEßE AUF KEINEN FALL EINE STROMQUELLE AN DIE TC:BUS-TERMINALE AN, SONST KÖNNTE DAS RICHTIG SCHADEN ANRICHTEN!**
 :::
 
 ## Überprüfe die Stromversorgung
