@@ -63,6 +63,24 @@ sensor:
       sorting_group_id: sorting_group_diagnostic
       sorting_weight: -5
 
+  - platform: wifi_signal
+    id: debug_wifi_signal_db
+    update_interval: 60s
+    internal: True
+
+  - platform: copy
+    id: debug_wifi_signal
+    icon: "mdi:wifi"
+    source_id: debug_wifi_signal_db
+    name: "WiFi Signal"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: DIAGNOSTIC
+    device_class: ""
+    web_server:
+      sorting_group_id: sorting_group_diagnostic
+
   - platform: debug
     free:
       id: debug_heap_free
