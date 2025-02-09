@@ -12,7 +12,7 @@ Meldet die Betriebszeit in Sekunden.
 ### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge" />
 Meldet den Akkustand des verbundenen Nuki Smart Locks.
 
-### Nuki Bluetooth Signal Strength <Badge type="tip" text="nuki_bluetooth_signal_strength" /> <Badge type="info" text="Nuki Bridge only" />
+### Nuki Bluetooth Signal Strength <Badge type="tip" text="nuki_bluetooth_signal_strength" /> <Badge type="info" text="Nuki Bridge" />
 Meldet die Bluetooth Signalstärke des verbundenen Nuki Smart Locks.
 
 ## Binäre Sensoren
@@ -91,6 +91,10 @@ Steuert die Einschaltbestätigung für die [Ring To Open](../guide/automation/ri
 
 ### Ring To Open: Display Status <Badge type="tip" text="doorman_ring_to_open_led_status" /> <Badge type="info" text="Deaktiviert" />
 Steuert die Status LED anzeige für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
+
+### Ring To Open: Toggle with function button <Badge type="tip" text="doorman_ring_to_open_use_function_button" /> <Badge type="info" text="Deaktiviert" />
+Legt fest ob die [Ring To Open](../guide/automation/ring-to-open) Automatisierung von der Funktionstaste umgeschaltet wird.
+
 
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Deaktiviert" />
 Steuert das eingebaute Relais.

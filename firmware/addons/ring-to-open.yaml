@@ -65,15 +65,19 @@ binary_sensor:
 
   - id: !extend function_button
     on_press:
-      - switch.toggle: doorman_ring_to_open
-      - delay: 300ms
-      - if: 
+      - if:
           condition:
-            - switch.is_on: doorman_ring_to_open
-            - switch.is_on: doorman_ring_to_open_confirmation
+            - switch.is_on: doorman_ring_to_open_use_function_button
           then:
-            - tc_bus.send:
-                type: floor_call
+            - switch.toggle: doorman_ring_to_open
+            - delay: 300ms
+            - if: 
+                condition:
+                  - switch.is_on: doorman_ring_to_open
+                  - switch.is_on: doorman_ring_to_open_confirmation
+                then:
+                  - tc_bus.send:
+                      type: floor_call
 
 
 number:
@@ -129,6 +133,17 @@ switch:
     name: "Ring To Open: Display Status"
     icon: "mdi:led-on"
     restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_doorman_settings
+
+  - platform: template
+    id: doorman_ring_to_open_use_function_button
+    name: "Ring To Open: Toggle with function button"
+    icon: "mdi:circle-outline"
+    restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     entity_category: CONFIG
     disabled_by_default: true

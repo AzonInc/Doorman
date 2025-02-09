@@ -93,6 +93,9 @@ Controls the turn-on confirmation for the [Ring To Open](../guide/automation/rin
 ### Ring To Open: Display Status <Badge type="tip" text="doorman_ring_to_open_led_status" /> <Badge type="info" text="Disabled by default" />
 Controls the Status LED for the [Ring To Open](../guide/automation/ring-to-open) automation.
 
+### Ring To Open: Toggle with function button <Badge type="tip" text="doorman_ring_to_open_use_function_button" /> <Badge type="info" text="Disabled by default" />
+Defines whether the function button will toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
+
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 Controls the built-in relay.
 
