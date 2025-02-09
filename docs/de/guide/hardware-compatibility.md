@@ -65,15 +65,5 @@ Es tritt ein lautes Piepen auf, wenn jemand spricht.
 
 ## Verifizierte Modelle
 
-::: info Hinweis
-Wenn deine Innenstation hier nicht aufgeführt ist, bedeutet das nicht unbedingt, dass sie nicht kompatibel ist; es heißt nur, dass sie noch nicht getestet wurde.
-:::
-
-- TCS BVS20-SG / Koch BVS20 / Jung TK SV STG 60 REG
-- TCS ISH-3030 / ISH-3130
-- TCS ISW-3030 / ISW-3130
-- TCS HST-1030
-- TCS IMM-1300
-- Jung TK-ISV-LS-914
-- Jung TK-IS-LS-914
-- Jung TK-ASV-ES-114
+Schau dir die [unterstützten Modelle und Einstellungen](../../reference/esphome-component.md#model-setting-availability) an.  
+Modelle mit verfügbaren Einstellungen sind auf jeden Fall kompatibel. Falls dein Modell nicht dabei ist, erstelle bitte ein Issue, um die Kompatibilität zu überprüfen.
