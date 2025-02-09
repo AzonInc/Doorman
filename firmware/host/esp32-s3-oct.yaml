@@ -1,0 +1,7 @@
+# Board Setup
+packages:
+  base: !include esp32-s3.yaml
+
+psram:
+  mode: octal
+  speed: 80MHz

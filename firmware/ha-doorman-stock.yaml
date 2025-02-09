@@ -3,7 +3,7 @@ dashboard_import:
   import_full_config: true
 
 packages:
-  host: !include host/esp32-s3.yaml
+  host: !include host/esp32-s3-oct.yaml
   base: !include base.yaml
   homeassistant: !include addons/homeassistant.yaml
   pattern_events: !include addons/pattern-events.yaml

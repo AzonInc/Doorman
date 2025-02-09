@@ -10,19 +10,24 @@ esp32:
       CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_ESP32S3_INSTRUCTION_CACHE_32KB: "y"
+
       CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY: "y"
+      
+      CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP: "y"
+
       CONFIG_BT_ALLOCATION_FROM_SPIRAM_FIRST: "y"
       CONFIG_BT_BLE_DYNAMIC_ENV_MEMORY: "y"
+
       CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
+      CONFIG_MBEDTLS_SSL_PROTO_TLS1_3: "y"
 
 esphome:
   platformio_options:
     board_build.flash_mode: dio
-    build_flags:
-      - -DBOARD_HAS_PSRAM
 
 psram:
-  mode: octal
+  mode: quad
   speed: 80MHz
 
 esp32_ble:
