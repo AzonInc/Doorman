@@ -30,6 +30,7 @@ logger:
   level: ${log_level}
   logs:
     component: ERROR
+    sensor: WARN  # avoids logging debug sensor updates
 
 web_server:
   version: 3
