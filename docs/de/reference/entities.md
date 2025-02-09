@@ -92,10 +92,6 @@ Steuert die Einschaltbestätigung für die [Ring To Open](../guide/automation/ri
 ### Ring To Open: Display Status <Badge type="tip" text="doorman_ring_to_open_led_status" /> <Badge type="info" text="Deaktiviert" />
 Steuert die Status LED anzeige für die [Ring To Open](../guide/automation/ring-to-open) Automatisierung.
 
-### Ring To Open: Toggle with function button <Badge type="tip" text="doorman_ring_to_open_use_function_button" /> <Badge type="info" text="Deaktiviert" />
-Legt fest ob die [Ring To Open](../guide/automation/ring-to-open) Automatisierung von der Funktionstaste umgeschaltet wird.
-
-
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Deaktiviert" />
 Steuert das eingebaute Relais.
 
@@ -232,6 +228,13 @@ Legt die auslösende Außenstelle für die [Ring To Open](../guide/automation/ri
 - Entrance
 - Second Entrance
 - Any
+
+### Ring To Open: Toggle Trigger <Badge type="tip" text="doorman_ring_to_open_toggle_trigger" /> <Badge type="info" text="Deaktiviert" />
+Legt den auslöser zum umschalten für die [Ring To Open](../guide/automation/ring-to-open) automation fest.
+
+##### Optionen:
+- Manual
+- Function Button
 
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Deaktiviert" />
 Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](esphome-component#model-setting-availability) heraus.

@@ -6,8 +6,8 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Fix Update Process**  
    Firmware updates are now correctly identified and retrieved for each specific firmware variant.
 
-- **Ring to Open Function Button Toggle**  
-   You can now choose whether the `Function Button` will toggle the Ring To Open automation as some models use the button for specific purposes.
+- **Ring to Open Toggle Trigger**  
+   You can now choose which trigger will toggle the Ring To Open automation as some models use the button for specific purposes.
    
 ### 📝 Other Updates
 - **Nuki Component**  
@@ -17,8 +17,8 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    The configuration files have been reorganized to enhance modularity and enable support for additional host platforms in the future.
 
 ### 🚨 Breaking Changes
-- **Ring to Open Function Button Toggle**  
-   The new function button toggle is turned off by default. You'll need to enable it to restore the previous behavior.
+- **Ring to Open Toggle Trigger**  
+   The new option is set to `Manual` by default. You'll need to set it to `Function Button` to restore the previous behavior.
 
 ## 2025.2.0
 ### 🚀 What's New?

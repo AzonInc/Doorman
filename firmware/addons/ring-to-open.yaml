@@ -67,7 +67,7 @@ binary_sensor:
     on_press:
       - if:
           condition:
-            - switch.is_on: doorman_ring_to_open_use_function_button
+            - lambda: !lambda 'return id(doorman_ring_to_open_toggle_trigger).state != "Function Button";'
           then:
             - switch.toggle: doorman_ring_to_open
             - delay: 300ms
@@ -139,18 +139,6 @@ switch:
     web_server:
       sorting_group_id: sorting_group_doorman_settings
 
-  - platform: template
-    id: doorman_ring_to_open_use_function_button
-    name: "Ring To Open: Toggle with function button"
-    icon: "mdi:circle-outline"
-    restore_mode: RESTORE_DEFAULT_OFF
-    optimistic: true
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_doorman_settings
-
-
 select:
   - platform: template
     id: doorman_ring_to_open_timeout_mode
@@ -191,6 +179,20 @@ select:
     web_server:
       sorting_group_id: sorting_group_doorman_settings
 
+  - platform: template
+    id: doorman_ring_to_open_toggle_trigger
+    name: "Ring To Open: Toggle Trigger"
+    icon: "mdi:circle-outline"
+    optimistic: true
+    options:
+      - Manual
+      - Function Button
+    initial_option: Manual
+    restore_value: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_doorman_settings
 
 script:
   - id: ring_to_open_timer

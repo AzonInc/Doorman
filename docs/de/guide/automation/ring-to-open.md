@@ -29,6 +29,6 @@ Du kannst entscheiden welche Außenstelle (Tür) die Automation auslöst.
 Du kannst entscheiden ob die Status LED blinkt während die Automation aktiv ist.
 :::
 
-::: info Toggle with function button
-Du kannst entscheiden ob die Automation von der Funktionstaste umgeschaltet wird.
+::: info Toggle Trigger
+Du kannst entscheiden durch was die Automation umgeschaltet wird.
 :::
