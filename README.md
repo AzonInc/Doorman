@@ -7,53 +7,99 @@
     <br>
 </h1>
 
-This repository provides the source files for the Doorman S3 Intercom Gateway, a device designed to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system.\
-It's also compatible with some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms, which are counterparts of TCS and Koch models.
+**Doorman S3** is a versatile intercom gateway designed to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom system to any home automation platform. It's also compatible with rebranded versions of [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/), and older [Jung](https://www.jung-group.com/) intercom models.
 
-The Doorman S3 isn't limited to these intercoms alone. With its integrated relay, it can simulate button presses to trigger door openers or lights (supporting up to 40V and a maximum of 2.5A).
+But that's not all - the **Doorman S3** is more than just an intercom bridge. With its integrated relay, you can simulate button presses to control door openers or lights, supporting up to **40V** and a maximum of **2.5A**. 
 
-If your intercom isn't a TCS, Koch, Niko, Scantron or Jung model but operates on a 2-wire bus within the 14-24V DC range, you might be able to implement other protocols. Additionally, you can monitor the voltage levels on older intercoms (14-24V), allowing you to trigger specific actions based on the voltage readings.
+Even if your intercom system isn't directly listed, if it operates on a **2-wire bus** in the **14-24V DC range**, you may still be able to implement other protocols. Additionally, you can monitor voltage levels from older intercom systems to trigger actions based on those readings.
 
-For more details on the manufacturing process, scroll down to the "Manufacturing" section.
+For more information on the manufacturing process, head to the **Manufacturing** section further down.
 
-## 🚀 Getting started
+---
 
-Be sure to visit the [Doorman Docs](https://doorman.azon.ai/) for all the information you need. If you have any questions or need further assistance, feel free to reach out on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/azoninc/doorman/issues). I'm here to help!
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>🚀 Getting started</h1>
+    </summary>
+  </ul>
+</div>
 
-## 📦 Interested in buying one?
+Before diving into the installation process, visit the [Doorman Docs](https://doorman.azon.ai/) for comprehensive setup guides. If you have questions, don't hesitate to reach out on [Discord](https://discord.gg/t2d34dvmBf) or [GitHub Issues](https://github.com/azoninc/doorman/issues). I'm here to assist!
 
-Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf) or via [E-Mail](mailto:flo@azon.ai?subject=Doorman).
 
-I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/stock-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
+---
 
-## 🤖 Features
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>📦 Interested in buying one?</h1>
+    </summary>
+  </ul>
+</div>
 
-- Powered by ESP32-S3
-- USB-C port for easy flashing (and because USB-C is cool 😎)
-- Compact design that fits almost anywhere
-- Configurable WS2812B RGB LED to indicate specific events
-- Two additional GPIOs for easy expansion with your own sensors and devices (e.g., I²C)
-- Solid-state relay for switching up to 40V (max. 2.5A), ideal for older intercom systems
-- External Button (G + BTN)
-- Bridge rectifier for bus-wire input to correct polarity
-- TCS bus communication for functions like opening the front door and detecting the doorbell
-- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](https://doorman.azon.ai/guide/firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
+You can get fully assembled **Doorman S3** units with the **[Stock Firmware](firmware/stock-firmware)** pre-installed and ready for immediate integration into **Home Assistant**. 
 
-## ✔️ Compatibility
+For inquiries, feel free to reach out via:
+- [Discord](https://discord.gg/t2d34dvmBf)
+- [E-Mail](mailto:flo@azon.ai?subject=Doorman)
 
-If your TCS or Koch intercom has screw terminals labeled `a`, `b`, and `P` and operates on 24V DC, it's likely compatible with Doorman.\
-For detailed compatibility information, check out the [Compatibility Docs](https://doorman.azon.ai/guide/hardware-compatibility).
+---
 
-## 🚩 Repository Structure
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>🛠️ Built Your Own Hardware?</h1>
+    </summary>
+  </ul>
+</div>
 
-The repository is organized into the following directories:
+Check out the [TC:BUS ESPHome component documentation](https://doorman.azon.ai/reference/esphome-component) for detailed instructions on integrating your DIY hardware with the TC:BUS. Whether you're expanding your **Doorman project** or using it as a starting point for your own system, this resource will guide you through seamless integration.
 
-- `pcb`: Contains KiCad schematic and PCB design files
-- `firmware`: Includes ESPHome configuration files
-- `components`: Includes ESPHome external component files
-- `enclosure`: Provides STL files for the enclosure design
+---
 
-## 🛠️ Manufacturing
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>🤖 Features</h1>
+    </summary>
+  </ul>
+</div>
+
+- **ESP32-S3 Powered** for robust performance
+- **USB-C port** for effortless flashing (because USB-C is just cool 😎)
+- **Compact design** fits into any setup
+- **Configurable WS2812B RGB LED** for event-based visual indicators
+- **Two additional GPIOs** for easy expansion (e.g., I²C sensors)
+- **Solid-state relay** for switching up to 40V (max. 2.5A)—perfect for older intercom systems
+- **External Button** (G + BTN) for manual triggering
+- **Bridge Rectifier** for correcting polarity on bus-wire input
+- **TC:BUS Communication** for door functions and detecting the doorbell
+- **Nuki Bridge functionality** with the [Nuki Bridge Firmware](https://doorman.azon.ai/guide/firmware/nuki-bridge-firmware) (Note: Incompatible with Nuki app but works with **Home Assistant** app)
+
+---
+
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>✔️ Compatibility</h1>
+    </summary>
+  </ul>
+</div>
+
+If your TCS or Koch intercom uses **screw terminals labeled `a`, `b`, and `P`** and operates on **24V DC**, it's most likely compatible with **Doorman**.
+
+For more in-depth compatibility information, refer to the [Compatibility Docs](https://doorman.azon.ai/guide/hardware-compatibility).
+
+---
+
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>🛠️ Manufacturing</h1>
+    </summary>
+  </ul>
+</div>
 
 <img src=".github/images/pcbx_example.png" alt="PCBX Delivery" height="275">
 
@@ -61,16 +107,50 @@ A huge thanks to [PCBX](https://www.pcbx.com/?mtm_campaign=review&mtm_kwd=BD&mtm
 
 If you're looking for a reliable PCB manufacturer for your own project, definitely check out [PCBX](https://www.pcbx.com/?mtm_campaign=review&mtm_kwd=BD&mtm_source=flo). While their production might take a little longer than some others, the unbeatable prices and super-easy part sourcing make it absolutely worth it. They handle everything for you!  
 
-You can find all the necessary files for manufacturing the Doorman-S3 [here](https://github.com/azoninc/doorman/tree/master/pcb).
+You can find all the necessary files for manufacturing the **Doorman-S3** [here](https://github.com/azoninc/doorman/tree/master/pcb).
 
-## 🙌 Contributing
-If you'd like to contribute to the Doorman project, we welcome your involvement!\
-Please feel free to open a Pull Request. Your contributions, whether they are code improvements, bug fixes, or documentation updates, are greatly appreciated.
+---
 
-## 📜 Credits
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>🙌 Contributing</h1>
+    </summary>
+  </ul>
+</div>
 
-Doorman is heavily built on the code and insights from the following projects and individuals.\
-This project would not have been possible without their contributions. ❤️
+Contributions to the **Doorman** project are always welcome! Whether it's code improvements, bug fixes, or documentation updates, your help is greatly appreciated. Please feel free to open a **Pull Request**.
+
+---
+
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>🚩 Repository Structure</h1>
+    </summary>
+  </ul>
+</div>
+
+The repository is organized as follows:
+- **`blueprints`**: Automation Blueprints for Home Assistant
+- **`components`**: External component files for ESPHome
+- **`docs`**: Documentation
+- **`enclosure`**: STL design files for the enclosure
+- **`firmware`**: ESPHome configuration files
+- **`pcb`**: KiCad schematic and PCB design files
+
+---
+
+<div id="toc">
+  <ul style="list-style: none">
+    <summary>
+      <h1>📜 Credits</h1>
+    </summary>
+  </ul>
+</div>
+
+The **Doorman S3** project heavily relies on contributions from several key sources. Without their efforts, this project wouldn't be where it is today. ❤️
+
 
 **[TCSIntercomArduino](https://github.com/atc1441/TCSintercomArduino)**\
 Different Methods to read from and write to the TCS Bus.\
