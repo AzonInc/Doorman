@@ -71,7 +71,7 @@ jobs:
     uses: ./.github/workflows/build-esphome.yml
     needs: prepare-release
     with:
-      files: firmware/configurations/esp32.ha.stock.yaml,firmware/configurations/esp32-s3.ha.stock.yaml
+      files: firmware/configurations/esp32.ha.stock.yaml,firmware/configurations/esp32-s3.ha.stock.yaml,firmware/configurations/esp8266.ha.stock.yaml
       name: AzonInc.Doorman
       esphome_version: latest
       directory_name: esp32.ha.stock
@@ -151,7 +151,7 @@ jobs:
     uses: ./.github/workflows/build-esphome.yml
     needs: prepare-release
     with:
-      files: firmware/configurations/esp32.ha.stock.dev.yaml
+      files: firmware/configurations/esp32.ha.stock.dev.yaml,firmware/configurations/esp32-s3.ha.stock.dev.yaml,firmware/configurations/esp8266.ha.stock.dev.yaml
       name: AzonInc.Doorman
       esphome_version: dev
       directory_name: esp32.ha.stock
