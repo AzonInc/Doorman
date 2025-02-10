@@ -22,6 +22,5 @@ TODOs.md
 *.timestamp-*.mjs
 __pycache__
 .esphome
-/*.yaml
 .esphome/
 /secrets.yaml

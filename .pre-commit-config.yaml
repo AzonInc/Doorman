@@ -1,0 +1,54 @@
+---
+repos:
+  - repo: local
+    hooks:
+      - id: ha-doorman-stock.yaml
+        name: Validate Config - Stock (ha, master)
+        entry: esphome config firmware/ha-doorman-stock.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: ha-doorman-stock.dev.yaml
+        name: Validate Config - Stock (ha, dev)
+        entry: esphome config firmware/ha-doorman-stock.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: mqtt-doorman-stock.yaml
+        name: Validate Config - Stock (mqtt, master)
+        entry: esphome config firmware/mqtt-doorman-stock.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: mqtt-doorman-stock.dev.yaml
+        name: Validate Config - Stock (mqtt, dev)
+        entry: esphome config firmware/mqtt-doorman-stock.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+
+
+      - id: ha-doorman-nuki-bridge.yaml
+        name: Validate Config - Nuki Bridge (ha, master)
+        entry: esphome config firmware/ha-doorman-nuki-bridge.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: ha-doorman-nuki-bridge.dev.yaml
+        name: Validate Config - Nuki Bridge (ha, dev)
+        entry: esphome config firmware/ha-doorman-nuki-bridge.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: mqtt-doorman-nuki-bridge.yaml
+        name: Validate Config - Nuki Bridge (mqtt, master)
+        entry: esphome config firmware/mqtt-doorman-nuki-bridge.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: mqtt-doorman-nuki-bridge.dev.yaml
+        name: Validate Config - Nuki Bridge (mqtt, dev)
+        entry: esphome config firmware/mqtt-doorman-nuki-bridge.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
