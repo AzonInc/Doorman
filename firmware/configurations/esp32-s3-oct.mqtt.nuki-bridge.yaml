@@ -1,0 +1,15 @@
+substitutions:
+  branch: "master"
+  firmware_type: "nuki-bridge"
+  api_variant: "mqtt"
+  host_platform: "esp32-s3-oct"
+
+packages:
+  host: !include ../hosts/esp32-s3-oct.yaml
+  base: !include ../base.yaml
+  mqtt: !include ../components/mqtt.yaml
+  pattern_events: !include ../components/pattern-events.yaml
+  ring_to_open: !include ../components/ring-to-open.yaml
+  intercom_settings: !include ../components/intercom-settings.yaml
+  addon_nuki_bridge: !include ../components/nuki-bridge.yaml
+  interactive_setup: !include ../components/interactive-setup.yaml

@@ -1,0 +1,30 @@
+# Board Setup
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+    version: recommended
+
+esp32_ble:
+  name: ${name}
+
+esp32_improv:
+  authorizer: none
+
+wifi:
+  on_connect:
+    - delay: 5s  # Gives time for improv results to be transmitted
+    - ble.disable:
+
+  on_disconnect:
+    - ble.enable:
+
+tc_bus:
+  rx_pin: 22
+  tx_pin: 23
+
+substitutions:
+  led_pin: "GPIO1"
+  rgb_led_pin: "GPIO2"
+  relay_pin: "GPIO21"
+  external_button_pin: "GPIO20"

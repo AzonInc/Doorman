@@ -85,5 +85,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: firmware-${{ inputs.directory_name }}
+          name: firmware.${{ inputs.directory_name }}
           path: output

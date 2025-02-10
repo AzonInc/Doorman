@@ -1,0 +1,19 @@
+substitutions:
+  branch: "dev"
+  firmware_type: "nuki-bridge"
+  api_variant: "ha"
+  host_platform: "esp32-s3"
+
+packages:
+  host: !include ../hosts/esp32-s3.yaml
+  base: !include ../base.yaml
+  ota_updates: !include ../components/ota-updates.yaml
+  ota_updates_default_dev: !include ../components/ota-updates-default-dev.yaml
+  dashboard_import: !include ../components/dashboard-import.yaml
+  homeassistant: !include ../components/homeassistant.yaml
+  debug_utilities: !include ../components/debug-utilities.yaml
+  pattern_events: !include ../components/pattern-events.yaml
+  ring_to_open: !include ../components/ring-to-open.yaml
+  intercom_settings: !include ../components/intercom-settings.yaml
+  addon_nuki_bridge: !include ../components/nuki-bridge.yaml
+  interactive_setup: !include ../components/interactive-setup.yaml
