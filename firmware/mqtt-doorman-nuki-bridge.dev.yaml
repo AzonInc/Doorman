@@ -1,7 +1,4 @@
 # Helper File: Compile dev firmware
-dashboard_import:
-  package_import_url: github://azoninc/doorman/firmware/examples/mqtt-nuki-bridge.example.dev.yaml@dev
-
 packages:
   base: !include mqtt-doorman-nuki-bridge.yaml
   debug_utilities: !include addons/debug-utilities.yaml
