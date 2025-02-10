@@ -71,7 +71,7 @@ jobs:
     uses: ./.github/workflows/build-esphome.yml
     needs: prepare-release
     with:
-      files: firmware/configurations/esp32.ha.stock.yaml,firmware/configurations/esp32-s3.ha.stock.yaml,firmware/configurations/esp8266.ha.stock.yaml
+      files: firmware/configurations/esp32.ha.stock.yaml
       name: AzonInc.Doorman
       esphome_version: latest
       directory_name: esp32.ha.stock
@@ -101,6 +101,19 @@ jobs:
       name: AzonInc.Doorman
       esphome_version: latest
       directory_name: esp32-s3-oct.ha.stock
+      summary: ${{ needs.prepare-release.outputs.release_summary }}
+      url: ${{ needs.prepare-release.outputs.release_url }}
+
+  build-esp8266-stock-stable-firmware:
+    if: github.ref_name == 'master'
+    name: Build ESP8266 Stock Firmware (Home Assistant, stable)
+    uses: ./.github/workflows/build-esphome.yml
+    needs: prepare-release
+    with:
+      files: firmware/configurations/esp8266.ha.stock.yaml
+      name: AzonInc.Doorman
+      esphome_version: latest
+      directory_name: esp8266.ha.stock
       summary: ${{ needs.prepare-release.outputs.release_summary }}
       url: ${{ needs.prepare-release.outputs.release_url }}
 
@@ -151,7 +164,7 @@ jobs:
     uses: ./.github/workflows/build-esphome.yml
     needs: prepare-release
     with:
-      files: firmware/configurations/esp32.ha.stock.dev.yaml,firmware/configurations/esp32-s3.ha.stock.dev.yaml,firmware/configurations/esp8266.ha.stock.dev.yaml
+      files: firmware/configurations/esp32.ha.stock.dev.yaml
       name: AzonInc.Doorman
       esphome_version: dev
       directory_name: esp32.ha.stock
@@ -181,6 +194,19 @@ jobs:
       name: AzonInc.Doorman
       esphome_version: dev
       directory_name: esp32-s3-oct.ha.stock
+      summary: ${{ needs.prepare-release.outputs.release_summary }}
+      url: ${{ needs.prepare-release.outputs.release_url }}
+
+  build-esp8266-stock-dev-firmware:
+    if: startsWith(github.ref_name, 'dev')
+    name: Build ESP8266 Stock Firmware (Home Assistant, dev)
+    uses: ./.github/workflows/build-esphome.yml
+    needs: prepare-release
+    with:
+      files: firmware/configurations/esp8266.ha.stock.dev.yaml
+      name: AzonInc.Doorman
+      esphome_version: dev
+      directory_name: esp8266.ha.stock
       summary: ${{ needs.prepare-release.outputs.release_summary }}
       url: ${{ needs.prepare-release.outputs.release_url }}
 
@@ -228,13 +254,13 @@ jobs:
     if: github.ref_name == 'master'
     name: Create asset bundle (stable)
     uses: ./.github/workflows/bundle-assets.yml
-    needs: [build-docs, build-esp32-stock-stable-firmware, build-esp32-s3-stock-stable-firmware, build-esp32-s3-oct-stock-stable-firmware, build-esp32-nuki-bridge-stable-firmware, build-esp32-s3-nuki-bridge-stable-firmware, build-esp32-s3-oct-nuki-bridge-stable-firmware]
+    needs: [build-docs, build-esp8266-stock-stable-firmware, build-esp32-stock-stable-firmware, build-esp32-s3-stock-stable-firmware, build-esp32-s3-oct-stock-stable-firmware, build-esp32-nuki-bridge-stable-firmware, build-esp32-s3-nuki-bridge-stable-firmware, build-esp32-s3-oct-nuki-bridge-stable-firmware]
 
   bundle-assets-dev:
     if: startsWith(github.ref_name, 'dev')
     name: Create asset bundle (dev)
     uses: ./.github/workflows/bundle-assets.yml
-    needs: [build-docs, build-esp32-stock-dev-firmware, build-esp32-s3-stock-dev-firmware, build-esp32-s3-oct-stock-dev-firmware, build-esp32-nuki-bridge-dev-firmware, build-esp32-s3-nuki-bridge-dev-firmware, build-esp32-s3-oct-nuki-bridge-dev-firmware]
+    needs: [build-docs, build-esp8266-stock-dev-firmware, build-esp32-stock-dev-firmware, build-esp32-s3-stock-dev-firmware, build-esp32-s3-oct-stock-dev-firmware, build-esp32-nuki-bridge-dev-firmware, build-esp32-s3-nuki-bridge-dev-firmware, build-esp32-s3-oct-nuki-bridge-dev-firmware]
 
 
   # Deployment job

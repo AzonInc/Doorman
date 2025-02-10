@@ -46,6 +46,12 @@ jobs:
           name: firmware.esp32-s3-oct.ha.stock
           path: output/firmware/release
 
+      - name: Download Doorman Stock for Home Assistant (ESP8266) artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.esp8266.ha.stock
+          path: output/firmware/release
+
 
 
       - name: Download Doorman Nuki Bridge for Home Assistant (ESP32) artifact
