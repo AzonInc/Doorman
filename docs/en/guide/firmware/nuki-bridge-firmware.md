@@ -10,7 +10,7 @@ There are several ways to update the firmware:
 
 Connect your Doorman via USB-C and click the button below to directly install the latest Doorman Nuki Bridge Firmware (Home Assistant) using Web Serial.
 This allows you to easily apply community-provided updates later.
-<esp-web-install-button manifest="../../firmware/release/doorman-nuki-bridge/manifest.json">
+<esp-web-install-button manifest="../../firmware/release/esp32-s3-oct.ha.nuki-bridge/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
             <a class="btn">Install or Update Firmware (Home Assistant)</a>
@@ -40,14 +40,14 @@ To fully customize the firmware and gain complete control, you can adopt it into
 This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
 ::: details Minimal Nuki Bridge Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/ha-nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3-oct.ha.nuki-bridge.example.yaml-->
 ```
 :::
 
 This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure to update the Broker details.
 ::: details Minimal Nuki Bridge Firmware (MQTT)
 ```yaml
-<!--@include: ../../../../firmware/examples/mqtt-nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3-oct.mqtt.nuki-bridge.example.yaml-->
 ```
 :::
 
