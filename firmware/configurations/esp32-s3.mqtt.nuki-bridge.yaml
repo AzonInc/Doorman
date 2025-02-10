@@ -6,6 +6,7 @@ substitutions:
 
 packages:
   host: !include ../hosts/esp32-s3.yaml
+  rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
   mqtt: !include ../components/mqtt.yaml
   pattern_events: !include ../components/pattern-events.yaml

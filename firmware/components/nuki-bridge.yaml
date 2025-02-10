@@ -1,13 +1,6 @@
 esphome:
   project:
     name: "AzonInc.Doorman-Nuki-Bridge"
-    
-# Remove incompatible components
-esp32_ble: !remove
-esp32_improv: !remove
-wifi:
-  on_connect: !remove
-  on_disconnect: !remove
 
 # Add External Components
 external_components:

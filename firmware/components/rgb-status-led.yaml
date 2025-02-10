@@ -1,0 +1,35 @@
+light:
+  - platform: esp32_rmt_led_strip
+    id: doorman_rgb_status_led
+    icon: "mdi:led-on"
+    name: RGB Status LED
+    internal: true
+    restore_mode: ALWAYS_OFF
+    rgb_order: GRB
+    pin: ${rgb_led_pin}
+    num_leds: 1
+    chipset: ws2812
+    gamma_correct: 1
+    default_transition_length: 0ms
+    effects:
+      - pulse:
+          name: pulse
+          transition_length: 250ms
+          update_interval: 250ms
+          min_brightness: 0%
+          max_brightness: 40%
+      - pulse:
+          name: slow_pulse
+          transition_length: 1s
+          update_interval: 2s
+          min_brightness: 0%
+          max_brightness: 40%
+      - pulse:
+          name: slow_partymode
+          transition_length: 4s
+          update_interval: 2s
+          min_brightness: 0%
+          max_brightness: 40%
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -8

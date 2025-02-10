@@ -1,18 +1,20 @@
 # Board Setup
 esp8266:
   board: esp01_1m
-  framework:
-    type: arduino
-    version: recommended
 
-# Incompatible with RMT light
-# TODO: implement specific light
+binary_sensor:
+  - id: !extend doorman_boot_button
+    pin:
+      ignore_strapping_warning: !remove
 
-# Incompatible with debug free psram
+# TODO: Proper GPIO selection
+tc_bus:
+  rx_pin: 12
+  tx_pin: 13
 
-# TODO
 substitutions:
-  led_pin: "GPIO1"
-  rgb_led_pin: "GPIO2"
-  relay_pin: "GPIO42"
-  external_button_pin: "GPIO41"
+  led_pin: "GPIO2"
+  rgb_led_pin: "" # use dummy light
+  relay_pin: "GPIO14"
+  external_button_pin: "GPIO15"
+  adc_input_pin: "A0"

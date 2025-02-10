@@ -53,7 +53,7 @@ sensor:
   - platform: adc
     id: debug_bus_voltage
     name: "Bus Voltage"
-    pin: GPIO10
+    pin: ${adc_input_pin}
     update_interval: 1s
     attenuation: 12dB
     entity_category: DIAGNOSTIC
@@ -97,12 +97,6 @@ sensor:
     loop_time:
       id: debug_loop_time
       name: "Loop Time"
-      entity_category: DIAGNOSTIC
-      web_server:
-        sorting_group_id: sorting_group_diagnostic
-    psram:
-      id: debug_free_psram
-      name: "Free PSRAM"
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_diagnostic

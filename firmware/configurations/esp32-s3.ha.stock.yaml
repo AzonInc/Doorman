@@ -6,7 +6,9 @@ substitutions:
 
 packages:
   host: !include ../hosts/esp32-s3.yaml
+  rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
+  bluedroid_ble: !include ../components/bluedroid-ble.yaml
   ota_updates: !include ../components/ota-updates.yaml
   dashboard_import: !include ../components/dashboard-import.yaml
   homeassistant: !include ../components/homeassistant.yaml

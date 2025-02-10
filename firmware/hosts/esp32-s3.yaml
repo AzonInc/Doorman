@@ -26,22 +26,9 @@ psram:
   mode: quad
   speed: 80MHz
 
-esp32_ble:
-  name: ${name}
-
-esp32_improv:
-  authorizer: none
-
-wifi:
-  on_connect:
-    - delay: 5s  # Gives time for improv results to be transmitted
-    - ble.disable:
-
-  on_disconnect:
-    - ble.enable:
-
 substitutions:
   led_pin: "GPIO1"
   rgb_led_pin: "GPIO2"
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
+  adc_input_pin: "GPIO10"

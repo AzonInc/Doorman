@@ -2,7 +2,7 @@ import os
 from itertools import product
 
 # Configuration options
-HOST_ARCHITECTURES = ['esp32-s3', 'esp32-s3-oct', 'esp32']
+HOST_ARCHITECTURES = ['esp32-s3', 'esp32-s3-oct', 'esp32', 'esp8266']
 
 API_VARIANTS = ['ha', 'mqtt']
 FIRMWARES = ['stock', 'nuki-bridge']
@@ -10,15 +10,24 @@ BRANCHES = ['master', 'dev']
 
 def get_packages(host, api_variant, firmware, branch):
     # Define packages in exact order with their conditions
+    is_esp32 = 'esp32' in host.lower()
+    has_psram = host in ['esp32-s3', 'esp32-s3-oct']
+    has_status_led = is_esp32
+
     packages_config = [
         ('host', f'!include ../hosts/{host}.yaml', True),
+        ('rgb_status_led', '!include ../components/rgb-status-led.yaml', has_status_led),
+        ('rgb_status_led', '!include ../components/rgb-status-led.dummy.yaml', not has_status_led),
         ('base', '!include ../base.yaml', True),
+        ('bluedroid_ble', '!include ../components/bluedroid-ble.yaml', is_esp32 and firmware != 'nuki-bridge'),
         ('ota_updates', '!include ../components/ota-updates.yaml', api_variant == 'ha'),
         ('ota_updates_default_dev', '!include ../components/ota-updates-default-dev.yaml', api_variant == 'ha' and branch == 'dev'),
         ('dashboard_import', '!include ../components/dashboard-import.yaml', api_variant == 'ha'),
         ('homeassistant', '!include ../components/homeassistant.yaml', api_variant == 'ha'),
         ('mqtt', '!include ../components/mqtt.yaml', api_variant == 'mqtt'),
         ('debug_utilities', '!include ../components/debug-utilities.yaml', branch == 'dev'),
+        ('debug_utilities_psram', '!include ../components/debug-utilities.psram.yaml', branch == 'dev' and has_psram),
+        ('debug_utilities_non_esp32', '!include ../components/debug-utilities.non-esp32.yaml', not is_esp32),
         ('pattern_events', '!include ../components/pattern-events.yaml', True),
         ('ring_to_open', '!include ../components/ring-to-open.yaml', True),
         ('intercom_settings', '!include ../components/intercom-settings.yaml', True),
