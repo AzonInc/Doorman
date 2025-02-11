@@ -11,9 +11,14 @@ Sofern du selbst ein PCB produzieren lassen hast, musst du zuerst die Firmware f
 ## Verkabelung
 Öffne als Erstes das Gehäuse deiner Innenstation. In den meisten Fällen findest du dort eine Schraubklemme mit den Bezeichnungen `a`, `b`, `E` und `P`.
 
+::: danger VORSICHT
+**SCHLIEßE AUF KEINEN FALL EINE EXTERNE STROMQUELLE AN DIE TC:BUS-TERMINALE AN.  
+DAS KÖNNTE DAS RICHTIG SCHADEN ANRICHTEN!**
+:::
+
 Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman an und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss deines Doorman. Doorman ist wie jedes andere Gerät am Bus und wird **parallel angeschlossen**.
 
-::: warning Hinweis
+::: warning HINWEIS
 Standardmäßig versende ich Revision 1.5 mit einer Jumper-Kappe auf `BUS PWR`. Bitte entferne diese, sofern du Doorman nicht nach dem Schema `2-Draht-Modus über die Innenstation` anschließt.
 :::
 
@@ -87,26 +92,32 @@ befindet er sich bereits im `Setup Mode` für die interaktive Einrichtung.
 Du musst den Modus nicht manuell aktivieren; er wird bei jedem Neustart automatisch gestartet, solange der Einrichtungsprozess nicht abgeschlossen oder abgebrochen wurde.
 :::
 
-1. **Zugriff auf die Einstellungen:**\
-   Öffne die Einstellungen entweder über den internen Webserver deines Doormans oder besuche die [ESPHome Integrationsseite](https://my.home-assistant.io/redirect/integration/?domain=esphome) und wähle das Doorman S3-Gerät aus.
+1. **Zugriff auf die Einstellungen:**
+   Öffne die Einstellungen entweder über die Weboberfläche deines Doormans oder besuche die [ESPHome Integrationsseite](https://my.home-assistant.io/redirect/integration/?domain=esphome) und wähle das Doorman S3-Gerät aus.
 
-2. **Setup-Modus aktivieren:**\
-   Gehe zum Bereich `Konfiguration` und schalte den `Setup Mode` ein, um die interaktive Einrichtung zu beginnen.
+2. **Aktiviere den Setup-Modus:**  
+   Geh zum Bereich `Konfiguration` und schalte den `Setup-Modus` ein, um mit der interaktiven Einrichtung zu beginnen.  
+   Sobald der Setup-Prozess beginnt, wird die RGB-Status-LED grün-türkis pulsieren.
 
-::: warning Bevor du weitermachst 
+::: warning BEVOR DU WEITERMACHST
 Deine Innenstation muss angeschlossen und das Gehäuse verschlossen sein, damit die Einrichtung abgeschlossen werden kann.
 :::
 
-3. **Einrichtung durchführen:**\
-   Die RGB-Status-LED wird grün-türkis pulsieren. Drücke den Klingeltaster vor der Wohnung oder am Eingang.
+3. **Warte, bis du auf die Klingel drückst:**  
+   Wenn du den Klingelknopf an deiner Wohnung oder am Eingang drückst, speichert das System die Seriennummer deiner Innenstation und versucht, das Modell zu erkennen.
 
-4. **Abschluss der Einrichtung:**\
-   Nach dem Drücken des Klingeltasters versucht das System, das Modell deiner Innenstation zu erkennen. Sobald die Modell-Erkennung erfolgreich war oder einen Timeout bekommt, leuchtet die LED für 3 Sekunden grün-türkis. Danach schaltet sich die LED aus, und die Einrichtung ist abgeschlossen.
+   Sobald das Modell erfolgreich erkannt wurde, wird der Speicher deiner Innenstation ausgelesen.  
+   **Hinweis:** Der gesamte Prozess kann **bis zu 30 Sekunden** dauern.
+
+   Wenn das Modell erfolgreich erkannt wurde oder die Zeit abläuft, wird die Einrichtung abgeschlossen.
+
+4. **Einrichtung abgeschlossen:**  
+   Die LED leuchtet 3 Sekunden lang grün-türkis und geht dann aus, der Setup-Modus wird deaktiviert. Die Einrichtung ist abgeschlossen.
 
 Wenn du mehrere Außenstationen hast, wird die Firmware versuchen, die zusätzliche Station automatisch zu erkennen.
 Um die Erkennung der zweiten Türklingel und das Öffnen der zweiten Tür zu ermöglichen, musst du die zweite Türklingel einmal betätigen oder den physischen Entsperrknopf der zweiten Tür mindestens einmal betätigen, damit die Adresse gespeichert wird.
 
-::: tip Mehrere Innenstationen
+::: tip MEHRERE INNENSTATIONEN
 Wenn du mehrere Innenstationen hast, wird's etwas tricky. Du musst dann eine eigene YAML-Konfiguration erstellen, damit alle zusammen funktionieren. Die Standard-Firmware kann nämlich nur mit einer Innenstation umgehen.
 :::
 

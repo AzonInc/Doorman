@@ -10,9 +10,14 @@ Please note that these instructions are based on the pre-flashed Doorman PCB tha
 ## Wiring
 First, open your indoor station enclosure. On most models, you will find a screw terminal labeled with `a`, `b`, `E`, and `P`.
 
+::: danger
+**NEVER CONNECT AN EXTERNAL POWER SOURCE TO THE TC:BUS TERMINALS  
+DOING SO CAN CAUSE SEVERE DAMAGE.**
+:::
+
 Connect the `b` line (Ground) to one of the TC:BUS terminals on your Doorman, and connect the `a` line (24V Bus) to the other TC:BUS terminal on your Doorman. Doorman is just like any other device on the bus, **connected in parallel**.
 
-::: warning Note
+::: warning NOTE
 By default, I ship version 1.5 with a jumper cap on `BUS PWR`. Please remove this if you are not connecting Doorman in the `2-Wire Mode via indoor station` configuration.
 :::
 
@@ -81,26 +86,32 @@ When you first connect your Doorman to Home Assistant, it will be in `Setup Mode
 You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed or canceled.
 :::
 
-1. **Access the Settings:**\
-   Open the settings either through your Doorman’s internal web server or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the Doorman S3 device.
+1. **Access the Settings:**  
+   Open the settings either through your Doorman's Webinterface or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the Doorman S3 device.
 
-2. **Activate Setup Mode:**\
-   Go to the `Configuration` section and enable `Setup Mode` to begin the interactive setup.
+2. **Activate Setup Mode:**  
+   Go to the `Configuration` section and enable `Setup Mode` to begin the interactive setup.  
+   Once the setup process begins, the RGB status LED will pulse green-turquoise.
 
-::: warning Before you proceed
+::: warning BEFORE YOU PROCEED
 The indoor station must be connected, and the enclosure securely closed, to complete the setup process.
 :::
 
-3. **Perform the Setup:**\
-   The RGB status LED will pulse green-turquoise. Press the doorbell button at your apartment or entrance.
+3. **Wait until you ring the doorbell:**  
+    When you press the doorbell button at your apartment or entrance, the system will save your indoor station's serial number and attempt to detect the model.
 
-4. **Complete the Setup:**\
-   After pressing the doorbell button, the system will attempt to detect your indoor station model. Once the model detection either succeeds or times out, the LED will remain green-turquoise for 3 seconds. Then, the LED will turn off, and the setup is complete.
+    Once the model is successfully detected, the system will read the memory of your indoor station.
+    **Note:** This entire process can take **up to 30 seconds**.
+
+    If the model detection is successful or if it times out, the setup will be considered finished.
+
+4. **Setup complete:**  
+   The LED will remain green-turquoise for 3 seconds, then turn off, and the setup mode will be turned off. The setup is complete.
 
 If you have multiple door stations, the firmware will attempt to automatically detect the additional station.
 To enable detection of the second doorbell and the ability to unlock the second door, you need to press the second doorbell or physically push the unlock button for the second door at least once to store its address.
 
-::: tip Multiple Indoor Stations
+::: tip MULTIPLE INDOOR STATIONS
 If you have multiple indoor stations, things become a bit more complex. You'll need to create a custom YAML configuration to integrate all the indoor stations. The default firmware only supports a single indoor station.
 :::
 
