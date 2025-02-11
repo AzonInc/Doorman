@@ -26,6 +26,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Ring to Open Toggle Trigger**  
    The new option is set to `Manual` by default. You'll need to set it to `Function Button` to restore the previous behavior.
 
+- **Minimum ESPHome Version Set**  
+   We’ve bumped the minimum required version to **2025.2.0**.
+
 ## 2025.2.0
 ### 🚀 What's New?
 - **Added a Switch to turn off the Status LED while Ring to Open is active**  
@@ -226,9 +229,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Webserver Enabled**  
    The webserver feature is now enabled for quicker access.
 
-- **Minimum ESPHome Version Set**  
-   We’ve bumped the minimum required version to **2024.8.0**.
-
 ### 🚨 Breaking Changes
 - **Command Reset**  
    Due to the simplified setup process and configurable commands, the substituations are not used anymore. Thus you’ll need to **reconfigure** them using the new input entities.
+   
+- **Minimum ESPHome Version Set**  
+   We’ve bumped the minimum required version to **2024.8.0**.

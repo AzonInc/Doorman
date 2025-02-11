@@ -385,9 +385,11 @@ Du kannst die LED ausschalten, wenn sie störend wirkt. Selbst im ausgeschaltete
 Eine kleine WS2812B RGB-LED auf der Doorman-Platine, die verwendet wird, um bestimmte Ereignisse anzuzeigen. Die LED kann verschiedene Farben und Muster anzeigen, um visuelles Feedback zu unterschiedlichen Zuständen und Aktionen zu geben.
 
 ##### Ereignistypen
-- Warten auf WiFi / AP aktiviert <Badge type="tip" text="Fast orange pulse" />
-- Warten auf Home Assistant-Verbindung <Badge type="tip" text="Slow blue pulse" />
-- Home Assistant verbunden <Badge type="tip" text="Solid blue light (for 3 seconds)" />
-- Ring To Open ist aktiv <Badge type="tip" text="Slow yellow pulse" />
-- Nuki Kopplungsmodus ist aktiv <Badge type="tip" text="Slow purple pulse" />
-- Nuki erfolgreich gekoppelt <Badge type="tip" text="Solid purple light (for 3 seconds)" />
+- Warten auf WiFi / AP aktiviert <Badge type="tip" text="Blinkt schnell orange" />
+- Warten auf Home Assistant-Verbindung <Badge type="tip" text="Pulsiert langsam blau" />
+- Home Assistant verbunden <Badge type="tip" text="Durchgängig blau (für 3 sekunden)" />
+- Setup Mode ist aktiv <Badge type="tip" text="Blinkt schnell grün-türkis" />
+- Setup abgeschlossen <Badge type="tip" text="Durchgängig grün-türkis (für 3 sekunden)" />
+- Ring To Open ist aktiv <Badge type="tip" text="Pulsiert langsam gelb" />
+- Nuki Kopplungsmodus ist aktiv <Badge type="tip" text="Pulsiert langsam lila" />
+- Nuki erfolgreich gekoppelt <Badge type="tip" text="Durchgängig lila (für 3 sekunden)" />
