@@ -17,6 +17,9 @@ jobs:
       - name: Create Fimrware Directory
         run: mkdir -p output/firmware/release/
 
+      - name: Create Temp Directory
+        run: mkdir -p output/firmware/temp/
+
       - name: Download github-pages artifact
         uses: actions/download-artifact@v4
         with:
@@ -72,6 +75,14 @@ jobs:
           name: firmware.esp32-s3-quad.ha.nuki-bridge
           path: output/firmware/release
 
+
+
+      - name: Create Doorman Stock compatibility files
+        run: cp -r output/firmware/release/esp32-s3.ha.stock output/firmware/release/doorman-stock
+
+      - name: Create Doorman Nuki-Bridge compatibility files
+        run: cp -r output/firmware/release/esp32-s3.ha.nuki-bridge output/firmware/release/doorman-nuki-bridge
+  
 
 
       - name: Upload Pages artifact
