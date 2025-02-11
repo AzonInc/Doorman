@@ -1,0 +1,18 @@
+substitutions:
+  branch: "master"
+  firmware_type: "stock"
+  api_variant: "ha"
+  host_platform: "esp8266"
+
+packages:
+  host: !include ../hosts/esp8266.yaml
+  rgb_status_led: !include ../components/rgb-status-led.dummy.yaml
+  base: !include ../base.yaml
+  ota_updates: !include ../components/ota-updates.yaml
+  dashboard_import: !include ../components/dashboard-import.yaml
+  api: !include ../components/homeassistant.yaml
+  debug_utilities_non_esp32: !include ../components/debug-utilities.non-esp32.yaml
+  pattern_events: !include ../components/pattern-events.yaml
+  ring_to_open: !include ../components/ring-to-open.yaml
+  intercom_settings: !include ../components/intercom-settings.yaml
+  interactive_setup: !include ../components/interactive-setup.yaml

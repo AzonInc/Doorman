@@ -73,12 +73,10 @@ def generate_yaml_content(host, api_variant, firmware, branch):
 
 def generate_example_yaml(host, api_variant, firmware, branch):
 
-    filename = (f'{host}.{api_variant}.{firmware}.{branch}.yaml' 
-                   if branch == 'dev' 
-                   else f'{host}.{api_variant}.{firmware}.yaml')
+    filename = f'github://azoninc/doorman/firmware/configurations/{host}.{api_variant}.{firmware}.{branch}.yaml@{branch}'
     
     content = [
-        f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({"Home Assistant" if api_variant == "api" else "MQTT"})',
+        f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({"Home Assistant" if api_variant == "ha" else "MQTT"})',
         f'# Base Board {host.upper()}',
         '',
         '# You can change a few options here.',
@@ -90,16 +88,26 @@ def generate_example_yaml(host, api_variant, firmware, branch):
         '  # rgb_led_pin: "GPIO2"',
         '  # relay_pin: "GPIO42"',
         '  # external_button_pin: "GPIO41"',
+        '  # adc_input_pin: "GPIO10"',
         '',
         '# Import Doorman Firmware Config',
         'packages:',
         f'  AzonInc.Doorman{"-Nuki-Bridge" if firmware == "nuki-bridge" else ""}: ' +
-        f'github://azoninc/doorman/firmware/{filename}@{branch}',
+        f'{filename}',
         '',
         'wifi:',
         '  ssid: !secret wifi_ssid',
         '  password: !secret wifi_password'
     ]
+
+    if api_variant == 'mqtt':
+        content.extend([
+            '',
+            'mqtt:',
+            '  broker: "10.10.0.2"',
+            '  username: ""',
+            '  password: ""'
+        ])
     
     return '\n'.join(content)
 
@@ -118,13 +126,8 @@ def main():
     
     combinations = product(HOST_ARCHITECTURES, API_VARIANTS, FIRMWARES, BRANCHES)
     for host, api_variant, firmware, branch in combinations:
-        filename = (f'{host}.{api_variant}.{firmware}.{branch}.yaml' 
-                   if branch == 'dev' 
-                   else f'{host}.{api_variant}.{firmware}.yaml')
-        
-        example_filename = (f'{host}.{api_variant}.{firmware}.example.{branch}.yaml' 
-                   if branch == 'dev' 
-                   else f'{host}.{api_variant}.{firmware}.example.yaml')
+        filename = f'{host}.{api_variant}.{firmware}.{branch}.yaml'
+        example_filename = f'{host}.{api_variant}.{firmware}.{branch}.example.yaml'
         
         config_content = generate_yaml_content(host, api_variant, firmware, branch)
         example_content = generate_example_yaml(host, api_variant, firmware, branch)

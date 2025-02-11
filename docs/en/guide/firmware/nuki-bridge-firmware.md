@@ -40,14 +40,14 @@ To fully customize the firmware and gain complete control, you can adopt it into
 This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
 ::: details Minimal Nuki Bridge Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/esp32-s3-oct.ha.nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3-oct.ha.nuki-bridge.master.example.yaml-->
 ```
 :::
 
 This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure to update the Broker details.
 ::: details Minimal Nuki Bridge Firmware (MQTT)
 ```yaml
-<!--@include: ../../../../firmware/examples/esp32-s3-oct.mqtt.nuki-bridge.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3-oct.mqtt.nuki-bridge.master.example.yaml-->
 ```
 :::
 

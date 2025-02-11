@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: esp32-s3.ha.stock.yaml
         name: Validate Config - Stock (ha, master)
-        entry: esphome config firmware/configurations/esp32-s3.ha.stock.yaml
+        entry: esphome config firmware/configurations/esp32-s3.ha.stock.master.yaml
         language: system
         pass_filenames: false
         files: ^firmware/
@@ -17,7 +17,7 @@ repos:
 
       - id: esp32-s3.mqtt.stock.yaml
         name: Validate Config - Stock (mqtt, master)
-        entry: esphome config firmware/configurations/esp32-s3.mqtt.stock.yaml
+        entry: esphome config firmware/configurations/esp32-s3.mqtt.stock.master.yaml
         language: system
         pass_filenames: false
         files: ^firmware/
@@ -31,7 +31,7 @@ repos:
 
       - id: esp32-s3.ha.nuki-bridge.yaml
         name: Validate Config - Nuki Bridge (ha, master)
-        entry: esphome config firmware/configurations/esp32-s3.ha.nuki-bridge.yaml
+        entry: esphome config firmware/configurations/esp32-s3.ha.nuki-bridge.master.yaml
         language: system
         pass_filenames: false
         files: ^firmware/
@@ -41,10 +41,10 @@ repos:
         language: system
         pass_filenames: false
         files: ^firmware/
-        
+
       - id: esp32-s3.mqtt.nuki-bridge.yaml
         name: Validate Config - Nuki Bridge (mqtt, master)
-        entry: esphome config firmware/configurations/esp32-s3.mqtt.nuki-bridge.yaml
+        entry: esphome config firmware/configurations/esp32-s3.mqtt.nuki-bridge.master.yaml
         language: system
         pass_filenames: false
         files: ^firmware/

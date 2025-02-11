@@ -40,14 +40,14 @@ To fully customize the firmware and gain complete control, you can adopt it into
 This is the minimal ESPHome configuration YAML file for use with Home Assistant. Be sure to update the API key.
 ::: details Minimal Stock Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/esp32-s3-oct.ha.stock.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3-oct.ha.stock.master.example.yaml-->
 ```
 :::
 
 This is the minimal ESPHome configuration YAML file for use with MQTT. Be sure to update the Broker details.
 ::: details Minimal Stock Firmware (MQTT)
 ```yaml
-<!--@include: ../../../../firmware/examples/esp32-s3-oct.mqtt.stock.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3-oct.mqtt.stock.master.example.yaml-->
 ```
 :::
 
