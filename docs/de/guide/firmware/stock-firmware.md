@@ -9,7 +9,7 @@ Es gibt mehrere Möglichkeiten, die Firmware zu aktualisieren:
 - Web Serial <Badge type="tip" text="Neueste Release-Version, keine Anpassung" />
 
 Schließ deinen Doorman per USB-C an und klick unten auf den Button, um die neueste Doorman Stock Firmware (Home Assistant) direkt über Web Serial zu installieren. Damit kannst du später problemlos Updates aus der Community installieren.
-<esp-web-install-button manifest="../../../firmware/release/esp32-s3-oct.ha.stock/manifest.json">
+<esp-web-install-button manifest="../../../firmware/release/esp32-s3.ha.stock/manifest.json">
     <button slot="activate">
         <div class="custom-layout">
             <a class="btn">Firmware (Home Assistant) installieren oder updaten</a>
@@ -40,14 +40,14 @@ Um die Firmware vollständig anzupassen und die volle Kontrolle zu übernehmen, 
 Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit Home Assistant. Vergiss nicht, den API-Schlüssel zu aktualisieren.
 ::: details Minimale Stock Firmware (Home Assistant)
 ```yaml
-<!--@include: ../../../../firmware/examples/esp32-s3-oct.ha.stock.master.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3.ha.stock.master.example.yaml-->
 ```
 :::
 
 Dies ist die minimale ESPHome-Konfigurations-YAML-Datei für die Verwendung mit MQTT. Vergiss nicht, die MQTT Broker Daten zu aktualisieren.
 ::: details Minimale Stock Firmware (MQTT)
 ```yaml
-<!--@include: ../../../../firmware/examples/esp32-s3-oct.mqtt.stock.master.example.yaml-->
+<!--@include: ../../../../firmware/examples/esp32-s3.mqtt.stock.master.example.yaml-->
 ```
 :::
 

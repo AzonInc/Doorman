@@ -1,13 +1,14 @@
 substitutions:
   branch: "dev"
-  firmware_type: "nuki-bridge"
+  firmware_type: "stock"
   api_variant: "ha"
-  host_platform: "esp32-s3-oct"
+  host_platform: "esp32-s3-quad"
 
 packages:
-  host: !include ../hosts/esp32-s3-oct.yaml
+  host: !include ../hosts/esp32-s3-quad.yaml
   rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
+  bluedroid_ble: !include ../components/bluedroid-ble.yaml
   ota_updates: !include ../components/ota-updates.yaml
   ota_updates_default_dev: !include ../components/ota-updates-default-dev.yaml
   dashboard_import: !include ../components/dashboard-import.yaml
@@ -17,5 +18,4 @@ packages:
   pattern_events: !include ../components/pattern-events.yaml
   ring_to_open: !include ../components/ring-to-open.yaml
   intercom_settings: !include ../components/intercom-settings.yaml
-  addon_nuki_bridge: !include ../components/nuki-bridge.yaml
   interactive_setup: !include ../components/interactive-setup.yaml

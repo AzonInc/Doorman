@@ -23,7 +23,7 @@ esphome:
     board_build.flash_mode: dio
 
 psram:
-  mode: quad
+  mode: octal
   speed: 80MHz
 
 substitutions:

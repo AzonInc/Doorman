@@ -1,5 +1,5 @@
-# Doorman Nuki Bridge Firmware (MQTT)
-# Base Board ESP32-S3-OCT
+# Doorman Stock Firmware (MQTT)
+# Base Board ESP32-S3-QUAD
 
 # You can change a few options here.
 substitutions:
@@ -14,7 +14,7 @@ substitutions:
 
 # Import Doorman Firmware Config
 packages:
-  AzonInc.Doorman-Nuki-Bridge: github://azoninc/doorman/firmware/configurations/esp32-s3-oct.mqtt.nuki-bridge.dev.yaml@dev
+  AzonInc.Doorman: github://azoninc/doorman/firmware/configurations/esp32-s3-quad.mqtt.stock.master.yaml@master
 
 wifi:
   ssid: !secret wifi_ssid

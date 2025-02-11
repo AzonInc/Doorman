@@ -116,24 +116,6 @@ After adding the device, your configuration will look like this:
 > If you need to deeply customize the firmware, you'll need to use the `base.yaml` file from the repository.
 
 ```yaml
-substitutions:
-  name: doorman-s3
-  friendly_name: Doorman S3
-
-packages:
-  AzonInc.Doorman: github://azoninc/doorman/firmware/ha-doorman-stock.yaml@master
-
-esphome:
-  name: ${name}
-  name_add_mac_suffix: false
-  friendly_name: ${friendly_name}
-
-api:
-  encryption:
-    key: ...
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+<!--@include: ./firmware/minimal.example.yaml-->
 ```
 :::

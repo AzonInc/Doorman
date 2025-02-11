@@ -1,5 +1,5 @@
-# Doorman Stock Firmware (MQTT)
-# Base Board ESP32-S3-OCT
+# Doorman Nuki Bridge Firmware (Home Assistant)
+# Base Board ESP32-S3-QUAD
 
 # You can change a few options here.
 substitutions:
@@ -14,13 +14,8 @@ substitutions:
 
 # Import Doorman Firmware Config
 packages:
-  AzonInc.Doorman: github://azoninc/doorman/firmware/configurations/esp32-s3-oct.mqtt.stock.master.yaml@master
+  AzonInc.Doorman-Nuki-Bridge: github://azoninc/doorman/firmware/configurations/esp32-s3-quad.ha.nuki-bridge.master.yaml@master
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-
-mqtt:
-  broker: "10.10.0.2"
-  username: ""
-  password: ""

@@ -1,7 +1,7 @@
 # Can I use Doorman?
-If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom indoor station has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
+If your [TCS](https://www.tcsag.de/), [Koch](https://www.kochag.ch/) or [Scantron](https://scantron.dk/) indoor station has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
 
-Some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) indoor stations, which are counterparts to the TCS and Koch models, may also be compatible.
+Some rebranded [Niko](https://www.niko.eu/) and older [Jung](https://www.jung-group.com/) indoor stations, which are counterparts to the TCS and Koch models, may also be compatible.
 
 :::danger READ - BEFORE YOU ORDER
 Since this product is the result of reverse engineering, there is no guarantee that your indoor station will work without testing it yourself.

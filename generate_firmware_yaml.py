@@ -22,7 +22,7 @@ def get_host_architectures():
 def get_packages(host, api_variant, firmware, branch):
     # Define packages in exact order with their conditions
     is_esp32 = 'esp32' in host.lower()
-    has_psram = host in ['esp32-s2', 'esp32-s3', 'esp32-s3-oct']
+    has_psram = host in ['esp32-s2', 'esp32-s3', 'esp32-s3-quad']
     has_status_led = is_esp32
 
     packages_config = [
