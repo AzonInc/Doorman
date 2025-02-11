@@ -947,7 +947,7 @@ namespace esphome
 
                 return true;
             } else {
-                ESP_LOGV(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
+                ESP_LOGW(TAG, "Can not write because setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
                 return false;
             }
         }
