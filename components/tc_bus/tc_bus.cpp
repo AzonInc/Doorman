@@ -245,7 +245,7 @@ namespace esphome
 
             if(s.command_is_ready) {
                 if(reading_memory_) {
-                    ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
+                    ESP_LOGD(TAG, "Received 4 memory addresses %i to %i: %08X", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4, s.command);
 
                     // Save Data to memory Store
                     memory_buffer_.push_back((s.command >> 24) & 0xFF);
@@ -790,14 +790,14 @@ namespace esphome
 
         void TCBusComponent::request_version(uint32_t serial_number)
         {
-            ESP_LOGD(TAG, "Identifying model of device with serial number: %i...", serial_number);
-
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
                 ESP_LOGW(TAG, "Serial number is not set!");
                 return;
             }
+
+            ESP_LOGD(TAG, "Identifying model of device with serial number: %i...", serial_number);
 
             this->cancel_timeout("wait_for_identification");
 
@@ -820,8 +820,6 @@ namespace esphome
 
         void TCBusComponent::read_memory(uint32_t serial_number, Model model)
         {
-            ESP_LOGD(TAG, "Reading EEPROM of %s (%i)...", model_to_string(model), serial_number);
-
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
@@ -835,6 +833,8 @@ namespace esphome
                 ESP_LOGW(TAG, "Model is not set!");
                 return;
             }
+
+            ESP_LOGD(TAG, "Reading EEPROM of %s (%i)...", model_to_string(model), serial_number);
 
             this->cancel_timeout("wait_for_memory_reading");
             reading_memory_ = false;
@@ -896,8 +896,6 @@ namespace esphome
 
         bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number, Model model)
         {
-            ESP_LOGD(TAG, "Write setting %s (%X) to EEPROM of %s (%i)...", setting_type_to_string(type), new_value, model_to_string(model), serial_number);
-
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return false;
@@ -916,6 +914,8 @@ namespace esphome
                 ESP_LOGW(TAG, "Model is not set!");
                 return false;
             }
+
+            ESP_LOGD(TAG, "Write setting %s (%X) to EEPROM of %s (%i)...", setting_type_to_string(type), new_value, model_to_string(model), serial_number);
 
             uint8_t saved_nibble = 0;
 
@@ -954,8 +954,6 @@ namespace esphome
 
         bool TCBusComponent::write_memory(uint32_t serial_number, Model model)
         {
-            ESP_LOGD(TAG, "Write memory buffer to EEPROM of %s (%i)...", model_to_string(model), serial_number);
-
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return false;
@@ -974,6 +972,8 @@ namespace esphome
                 ESP_LOGW(TAG, "Model is not set!");
                 return false;
             }
+
+            ESP_LOGD(TAG, "Write memory buffer to EEPROM of %s (%i)...", model_to_string(model), serial_number);
 
             // Prepare Transmission
             ESP_LOGD(TAG, "Select device category");
