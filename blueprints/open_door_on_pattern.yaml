@@ -8,7 +8,6 @@ blueprint:
   input:
     doorbell_sensor:
       name: "Doorbell Event"
-      icon: "mdi:doorbell"
       description: "The Doorbell Event Entity which is the trigger"
       selector:
         entity:
@@ -16,7 +15,6 @@ blueprint:
           domain: event
     event_type:
       name: "Doorbell Pattern"
-      icon: "mdi:doorbell"
       description: "The Doorbell Pattern that triggers the action"
       default: "single"
       selector:
@@ -31,7 +29,6 @@ blueprint:
               value: triple
 
     confirm_action:
-      icon: "mdi:gesture-tap-button"
       name: "Action"
       description: "Action to run when the pattern is detected"
       default:
