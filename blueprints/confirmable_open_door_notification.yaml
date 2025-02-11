@@ -13,12 +13,26 @@ blueprint:
       icon: "mdi:doorbell"
       input:
         doorbell_sensor:
-          name: "Doorbell Sensor"
-          description: "The Binary Sensor which is triggered by the doorbell"
+          name: "Doorbell Event"
+          description: "The Doorbell Event Entity which is the trigger"
           selector:
             entity:
               integration: esphome
-              domain: binary_sensor
+              domain: event
+        event_type:
+          name: "Doorbell Pattern"
+          description: "The Doorbell Pattern that triggers the action"
+          default: "single"
+          selector:
+            select:
+              custom_value: true
+              options:
+                - label: Single Press
+                  value: single
+                - label: Double Press
+                  value: double
+                - label: Triple Press
+                  value: triple
     
     notification_details_section:
       name: "Notification Details"
@@ -90,8 +104,13 @@ mode: restart
 trigger:
   platform: state
   entity_id: !input doorbell_sensor
-  from: "off"
-  to: "on"
+  attribute: event_type
+
+condition:
+  - condition: state
+    entity_id: !input doorbell_sensor
+    attribute: event_type
+    state: !input event_type
 
 action:
   - alias: "Set up variables"
