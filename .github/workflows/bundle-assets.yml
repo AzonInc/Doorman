@@ -77,11 +77,12 @@ jobs:
 
 
 
-      - name: Create Doorman Stock compatibility files
-        run: cp -r output/firmware/release/esp32-s3.ha.stock output/firmware/release/doorman-stock
-
-      - name: Create Doorman Nuki-Bridge compatibility files
-        run: cp -r output/firmware/release/esp32-s3.ha.nuki-bridge output/firmware/release/doorman-nuki-bridge
+      - name: Create Doorman Stock backwards compatibility files for updates
+        run: |
+          cp -r output/firmware/release/esp32-s3.ha.stock output/firmware/release/doorman-stock
+          cp -r output/firmware/release/esp32-s3.ha.stock output/firmware/release/ha-doorman-stock
+          cp -r output/firmware/release/esp32-s3.ha.nuki-bridge output/firmware/release/doorman-nuki-bridge
+          cp -r output/firmware/release/esp32-s3.ha.nuki-bridge output/firmware/release/ha-doorman-nuki-bridge
   
 
 
