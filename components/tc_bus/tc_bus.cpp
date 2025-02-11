@@ -310,7 +310,7 @@ namespace esphome
 
                         this->identify_complete_callback_.call(device);
                     } else {
-                        ESP_LOGE(TAG, "Invalid indentification response!");
+                        ESP_LOGE(TAG, "Invalid indentification response! Received: %s", hex_result);
                     }
                 }
                 else {
