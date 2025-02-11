@@ -3,6 +3,12 @@
 substitutions:
   log_level: "DEBUG"
 
+logger:
+  logs:
+    tc_bus: DEBUG
+    component: ERROR # avoids component warning spam
+    sensor: DEBUG
+
 globals:
   - id: search_mode
     type: int
