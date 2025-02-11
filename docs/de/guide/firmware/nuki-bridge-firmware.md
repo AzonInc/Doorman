@@ -104,7 +104,7 @@ Falls du lieber die MQTT-Only-Firmware verwenden möchtest, nutze einfach das pa
 
 ## Nuki Smart Lock koppeln
 
-::: warning
+::: warning WARNUNG
 Wenn dein Smart Lock bereits gekoppelt ist, wird es durch diesen Vorgang entkoppelt!
 :::
 
