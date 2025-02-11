@@ -8,13 +8,19 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
 - **Ring to Open Toggle Trigger**  
    You can now choose which trigger will toggle the Ring To Open automation as some models use the button for specific purposes.
+
+- **Expanded Support for Model Detection**  
+   Now, models without configuration settings are also detected.
    
 ### 📝 Other Updates
 - **Nuki Component**  
    The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now runs on IDF, removing the need for the Arduino framework.
 
 - **Configuration YAML Files Restructured**  
-   The configuration files have been reorganized to enhance modularity and enable support for additional host platforms in the future.
+   The configuration files have been reorganized to enhance modularity and enable support for additional host platforms.
+
+- **Precompiled binaries for ESP32-S3, ESP32 and ESP8266**  
+   The Doorman ESPHome firmware is finally available for these platforms as well.
 
 ### 🚨 Breaking Changes
 - **Ring to Open Toggle Trigger**  
