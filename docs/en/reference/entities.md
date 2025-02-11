@@ -384,8 +384,8 @@ A small WS2812B RGB LED on the Doorman's PCB is used to indicate specific events
 
 ##### Event Types
 - Waiting for WiFi / AP Enabled <Badge type="tip" text="Fast orange pulse" />
-- Waiting for Home Assistant to Connect <Badge type="tip" text="Slow blue pulse" />
-- Home Assistant Connected <Badge type="tip" text="Solid blue light (for 3 seconds)" />
+- Waiting for Home Assistant / MQTT to Connect <Badge type="tip" text="Slow blue pulse" />
+- Home Assistant / MQTT Connected <Badge type="tip" text="Solid blue light (for 3 seconds)" />
 - Setup Mode is Active <Badge type="tip" text="Fast green-turquoise pulse" />
 - Setup Mode completed <Badge type="tip" text="Solid green-turquoise (for 3 seconds)" />
 - Ring To Open is Active <Badge type="tip" text="Slow yellow pulse" />
