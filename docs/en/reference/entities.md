@@ -81,6 +81,9 @@ Reports the last lock action of the Nuki smart lock.
 ### Nuki Last Lock Action Trigger <Badge type="tip" text="nuki_last_lock_action_trigger" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Reports the last log action trigger of the Nuki smart lock.
 
+### Nuki Security Pin Status <Badge type="tip" text="nuki_pin_status" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Reports the nuki component security pin status.
+
 
 ## Switches
 

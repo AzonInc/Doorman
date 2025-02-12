@@ -129,6 +129,14 @@ lock:
         sorting_group_id: sorting_group_nuki
         sorting_weight: -22
 
+    pin_status:
+      id: nuki_pin_status
+      name: "Nuki Security Pin Status"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: -29
+
     auto_unlatch:
       id: nuki_auto_unlatch
       name: "Nuki Auto unlatch"
