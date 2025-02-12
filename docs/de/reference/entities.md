@@ -391,5 +391,5 @@ Eine kleine WS2812B RGB-LED auf der Doorman-Platine, die verwendet wird, um best
 - Setup Mode ist aktiv <Badge type="tip" text="Blinkt schnell grün-türkis" />
 - Setup abgeschlossen <Badge type="tip" text="Durchgängig grün-türkis (für 3 sekunden)" />
 - Ring To Open ist aktiv <Badge type="tip" text="Pulsiert langsam gelb" />
-- Nuki Kopplungsmodus ist aktiv <Badge type="tip" text="Pulsiert langsam lila" />
-- Nuki erfolgreich gekoppelt <Badge type="tip" text="Durchgängig lila (für 3 sekunden)" />
+- Nuki Kopplungsmodus ist aktiv <Badge type="tip" text="Pulsiert langsam lila" /> <Badge type="info" text="Nuki Bridge" />
+- Nuki erfolgreich gekoppelt <Badge type="tip" text="Durchgängig lila (für 3 sekunden)" /> <Badge type="info" text="Nuki Bridge" />
