@@ -1,3 +1,5 @@
+# API: MQTT
+
 esphome:
   on_boot:
     then:

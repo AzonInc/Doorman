@@ -1,0 +1,22 @@
+# API: Custom
+
+esphome:
+  on_boot:
+    then:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+      - wait_until:
+          condition:
+            wifi.connected:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: none
+          red: 100%
+          green: 65%
+          blue: 0%
+      - delay: 3s
+      - script.execute: update_led

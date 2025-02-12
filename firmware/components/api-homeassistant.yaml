@@ -1,4 +1,4 @@
-# Home Assistant Addon
+# API: Home Assistant
 
 esphome:
   on_boot:

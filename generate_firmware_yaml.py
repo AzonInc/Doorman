@@ -38,8 +38,9 @@ def get_packages(host, api_variant, firmware, branch):
         ('ota_updates_default_dev', '!include ../components/ota-updates-default-dev.yaml', api_variant == 'ha' and branch == 'dev'),
         ('dashboard_import', '!include ../components/dashboard-import.yaml', api_variant == 'ha'),
         
-        ('api', '!include ../components/homeassistant.yaml', api_variant == 'ha'),
-        ('api', '!include ../components/mqtt.yaml', api_variant == 'mqtt'),
+        ('api', '!include ../components/api-homeassistant.yaml', api_variant == 'ha'),
+        ('api', '!include ../components/api-mqtt.yaml', api_variant == 'mqtt'),
+        ('api', '!include ../components/api-custom.yaml', api_variant == 'custom'),
 
         ('debug_utilities', '!include ../components/debug-utilities.yaml', branch == 'dev'),
         ('debug_utilities_psram', '!include ../components/debug-utilities.psram.yaml', branch == 'dev' and has_psram),
@@ -115,7 +116,7 @@ def generate_example_yaml(host, api_variant, firmware, branch):
 # Configuration options
 HOST_ARCHITECTURES = get_host_architectures()
 
-API_VARIANTS = ['ha', 'mqtt']
+API_VARIANTS = ['ha', 'mqtt', 'custom']
 FIRMWARES = ['stock', 'nuki-bridge']
 BRANCHES = ['master', 'dev']
 

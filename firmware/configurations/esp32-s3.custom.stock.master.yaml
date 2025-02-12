@@ -1,0 +1,16 @@
+substitutions:
+  branch: "master"
+  firmware_type: "stock"
+  api_variant: "custom"
+  host_platform: "esp32-s3"
+
+packages:
+  host: !include ../hosts/esp32-s3.yaml
+  rgb_status_led: !include ../components/rgb-status-led.yaml
+  base: !include ../base.yaml
+  bluedroid_ble: !include ../components/bluedroid-ble.yaml
+  api: !include ../components/api-custom.yaml
+  pattern_events: !include ../components/pattern-events.yaml
+  ring_to_open: !include ../components/ring-to-open.yaml
+  intercom_settings: !include ../components/intercom-settings.yaml
+  interactive_setup: !include ../components/interactive-setup.yaml

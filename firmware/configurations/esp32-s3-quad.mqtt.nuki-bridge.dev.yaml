@@ -8,7 +8,7 @@ packages:
   host: !include ../hosts/esp32-s3-quad.yaml
   rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
-  api: !include ../components/mqtt.yaml
+  api: !include ../components/api-mqtt.yaml
   debug_utilities: !include ../components/debug-utilities.yaml
   debug_utilities_psram: !include ../components/debug-utilities.psram.yaml
   pattern_events: !include ../components/pattern-events.yaml
