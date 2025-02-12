@@ -478,7 +478,7 @@ namespace esphome
 
             // Save last bit timestamp
             arg->last_bit_change = millis();
-            
+
             // Store bit for potential ACK command
             if (curBit == 0 || curBit == 1) {
                 if (ackBits == 0) {
@@ -806,8 +806,7 @@ namespace esphome
                 // Source: https://github.com/atc1441/TCSintercomArduino
                 this->sending = true;
 
-                uint8_t checksm = 1;
-                bool output_state = false;
+                
 
                 // Start transmission
                 this->tx_pin_->digital_write(true);
@@ -816,18 +815,17 @@ namespace esphome
                 this->tx_pin_->digital_write(false);
                 delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
-                int curBit = 0;
                 uint8_t length = is_long ? 32 : 16;
-
+                uint8_t checksm = 1;
+                
                 for (uint8_t i = length; i > 0; i--) {
-                    curBit = (command >> i - 1) & 0x01;
-                    output_state = !output_state;
-                    this->tx_pin_->digital_write(output_state);
-                    delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    checksm ^= curBit;
+                    bool bit = (command & (1UL << i - 1)) != 0;
+                    checksm ^= bit;
+                    this->tx_pin_->digital_write(i % 2 == 0);
+                    delay(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
 
-                this->tx_pin_->digital_write(!output_state);
+                this->tx_pin_->digital_write(true);
                 delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 this->tx_pin_->digital_write(false);
 
