@@ -100,12 +100,6 @@ sensor:
       entity_category: DIAGNOSTIC
       web_server:
         sorting_group_id: sorting_group_diagnostic
-    loop_time:
-      id: debug_loop_time
-      name: "Loop Time"
-      entity_category: DIAGNOSTIC
-      web_server:
-        sorting_group_id: sorting_group_diagnostic
 
 text:
   - platform: template

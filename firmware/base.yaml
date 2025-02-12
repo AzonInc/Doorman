@@ -137,6 +137,17 @@ text_sensor:
         sorting_group_id: sorting_group_listeners
         sorting_weight: -99
 
+  - platform: template
+    id: doorman_firmware_version
+    name: "Firmware"
+    icon: mdi:new-box
+    lambda: |-
+      return to_string(ESPHOME_PROJECT_VERSION);
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_diagnostic
+      sorting_weight: -20
+
 switch:
   # Preconfigured Relay Switch
   - platform: gpio
