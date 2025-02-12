@@ -736,9 +736,14 @@ namespace esphome
                 if (strcmp(event_, "esphome.none") != 0) {
                     auto capi = new esphome::api::CustomAPIDevice();
                     ESP_LOGD(TAG, "Send event to Home Assistant on %s", event_);
+
+                    // Convert type to lowercase
+                    std::string type_str = command_type_to_string(cmd_data.type);
+                    std::transform(type_str.begin(), type_str.end(), type_str.begin(), ::tolower);
+
                     capi->fire_homeassistant_event(event_, {
                         {"command", cmd_data.command_hex},
-                        {"type", command_type_to_string(cmd_data.type)},
+                        {"type", type_str},
                         {"address", std::to_string(cmd_data.address)},
                         {"payload", std::to_string(cmd_data.payload)},
                         {"serial_number", std::to_string(cmd_data.serial_number)}
@@ -817,7 +822,7 @@ namespace esphome
 
                 uint8_t length = is_long ? 32 : 16;
                 uint8_t checksm = 1;
-                
+
                 for (uint8_t i = length; i > 0; i--) {
                     bool bit = (command & (1UL << i - 1)) != 0;
                     checksm ^= bit;
