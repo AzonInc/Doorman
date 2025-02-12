@@ -104,7 +104,6 @@ mode: restart
 trigger:
   platform: state
   entity_id: !input doorbell_sensor
-  attribute: event_type
 
 condition:
   - condition: state
