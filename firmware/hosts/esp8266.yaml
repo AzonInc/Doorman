@@ -8,11 +8,9 @@ binary_sensor:
       ignore_strapping_warning: !remove
 
 # TODO: Proper GPIO selection
-tc_bus:
-  rx_pin: 12
-  tx_pin: 13
-
 substitutions:
+  rx_pin: "GPIO12"
+  tx_pin: "GPIO13"
   led_pin: "GPIO2"
   rgb_led_pin: "" # use dummy light
   relay_pin: "GPIO14"

@@ -10,6 +10,9 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/preferences.h"
 
+#include "esphome/components/remote_transmitter/remote_transmitter.h"
+#include "esphome/components/remote_receiver/remote_receiver.h"
+
 #ifdef USE_API
 #include "esphome/components/api/custom_api_device.h"
 #endif
@@ -31,10 +34,6 @@ namespace esphome
 {
     namespace tc_bus
     {
-        #ifdef TC_DEBUG_TIMING
-        static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
-        #endif
-
         #ifdef USE_BINARY_SENSOR
         class TCBusListener
         {
@@ -74,30 +73,13 @@ namespace esphome
         };
         #endif
 
-        struct TCBusComponentStore
-        {
-            static void gpio_intr(TCBusComponentStore *arg);
-
-            #ifdef TC_DEBUG_TIMING
-            static volatile uint32_t debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
-            static volatile uint8_t debug_buffer_index;
-            #endif
-            
-            static volatile uint32_t last_bit_change;
-            static volatile uint32_t command;
-            static volatile bool command_is_long;
-            static volatile bool command_is_ready;
-
-            ISRInternalGPIOPin rx_pin;
-        };
-
         struct TCBusSettings
         {
             Model model;
             uint32_t serial_number;
         };
 
-        class TCBusComponent : public Component
+        class TCBusComponent : public Component, public remote_base::RemoteReceiverListener
         {
             #ifdef USE_TEXT_SENSOR
             SUB_TEXT_SENSOR(bus_command)
@@ -118,28 +100,32 @@ namespace esphome
             #endif
 
             public:
-                void set_rx_pin(InternalGPIOPin *pin) { this->rx_pin_ = pin; }
-                void set_tx_pin(InternalGPIOPin *pin) { this->tx_pin_ = pin; }
+                void set_tx(remote_transmitter::RemoteTransmitterComponent *tx) { this->tx_ = tx; }
+                void set_rx(remote_receiver::RemoteReceiverComponent *rx) { this->rx_ = rx; }
 
                 void set_event(const char *event) { this->event_ = event; }
-
                 void set_model(Model model) { this->model_ = model; }
                 void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
 
                 void setup() override;
                 void dump_config() override;
                 void loop() override;
+                bool on_receive(remote_base::RemoteReceiveData data) override;
 
                 #ifdef USE_BINARY_SENSOR
                 void register_listener(TCBusListener *listener);
                 #endif
 
+                void on_command(CommandData cmd_data);
+                void on_acknowledge(uint8_t type);
+
                 void send_command(uint32_t command);
                 void send_command(uint32_t command, bool is_long);
                 void send_command(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
-                void set_programming_mode(bool enabled);
 
+                void set_programming_mode(bool enabled);
                 void request_version(uint32_t serial_number);
+
                 void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
                 void request_memory_blocks(uint8_t start_address);
                 bool write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
@@ -165,21 +151,25 @@ namespace esphome
                 void add_identify_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> identify_timeout_callback_{};
 
-                bool sending;
+                static constexpr uint32_t BIT_0_MIN = 1000;
+                static constexpr uint32_t BIT_0_MAX = 2999;
+                static constexpr uint32_t BIT_1_MIN = 3000;
+                static constexpr uint32_t BIT_1_MAX = 4999;
+                static constexpr uint32_t START_MIN = 5000;
+                static constexpr uint32_t START_MAX = 6999;
 
                 ESPPreferenceObject &get_pref() {
                     return this->pref_;
                 }
 
             protected:
-                InternalGPIOPin *rx_pin_;
-                InternalGPIOPin *tx_pin_;
+                remote_transmitter::RemoteTransmitterComponent *tx_{nullptr};
+                remote_receiver::RemoteReceiverComponent *rx_{nullptr};
+
                 const char* event_;
 
                 Model model_;
                 uint32_t serial_number_;
-
-                TCBusComponentStore store_;
 
                 #ifdef USE_BINARY_SENSOR
                 std::vector<TCBusListener *> listeners_{};
@@ -195,6 +185,8 @@ namespace esphome
                 uint8_t reading_memory_max_ = 0;
                 uint32_t reading_memory_serial_number_ = 0;
                 std::vector<uint8_t> memory_buffer_;
+
+                uint32_t last_sent_command_ = 0;
 
                 ESPPreferenceObject pref_;
         };

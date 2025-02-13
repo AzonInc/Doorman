@@ -17,10 +17,21 @@ external_components:
       type: local
       path: "../components"
 
+remote_receiver:
+  pin:
+    number: GPIO12
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: GPIO13
+    mode: OUTPUT
+  carrier_duty_percent: 100%
+
 tc_bus:
   id: tc_bus_intercom
-  rx_pin: GPIO12
-  tx_pin: GPIO13
   event: "doorman"
   on_command:
     - logger.log: "Command received"

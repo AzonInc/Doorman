@@ -76,8 +76,10 @@ def generate_example_yaml(host, api_variant, firmware, branch):
 
     filename = f'github://azoninc/doorman/firmware/configurations/{host}.{api_variant}.{firmware}.{branch}.yaml@{branch}'
     
+    api_variant_desc = "Home Assistant" if api_variant == "ha" else "MQTT" if api_variant == "mqtt" else "Custom"
+
     content = [
-        f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({"Home Assistant" if api_variant == "ha" else "MQTT"})',
+        f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({api_variant_desc})',
         f'# Base Board {host.upper()}',
         '',
         '# You can change a few options here.',
@@ -118,7 +120,7 @@ HOST_ARCHITECTURES = get_host_architectures()
 
 API_VARIANTS = ['ha', 'mqtt', 'custom']
 FIRMWARES = ['stock', 'nuki-bridge']
-BRANCHES = ['master', 'dev']
+BRANCHES = ['master', 'dev-rmt3']
 
 
 def main():

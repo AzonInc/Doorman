@@ -284,11 +284,23 @@ external_components:
   - source: github://azoninc/doorman
     components: [ tc_bus ]
 
+## RMT component configuration
+remote_receiver:
+  pin:
+    number: GPIO9
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: GPIO8
+    mode: OUTPUT
+  carrier_duty_percent: 100%
+
 # TC:BUS configuration
 tc_bus:
   id: my_tc_bus
-  rx_pin: GPIO9
-  tx_pin: GPIO8
   event: "doorman"
   on_command:
     - logger.log: "Received command from intercom!"

@@ -69,6 +69,20 @@ external_components:
     components: [ tc_bus ]
     refresh: 60s
 
+# Setup RMT components
+remote_receiver:
+  pin:
+    number: ${rx_pin}
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: ${tx_pin}
+    mode: OUTPUT
+  carrier_duty_percent: 100%
+
 # Setup TC:BUS Component
 tc_bus:
   id: tc_bus_intercom

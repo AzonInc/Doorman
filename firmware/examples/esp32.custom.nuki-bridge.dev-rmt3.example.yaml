@@ -1,4 +1,4 @@
-# Doorman Stock Firmware (Custom)
+# Doorman Nuki Bridge Firmware (Custom)
 # Base Board ESP32
 
 # You can change a few options here.
@@ -14,7 +14,7 @@ substitutions:
 
 # Import Doorman Firmware Config
 packages:
-  AzonInc.Doorman: github://azoninc/doorman/firmware/configurations/esp32.custom.stock.master.yaml@master
+  AzonInc.Doorman-Nuki-Bridge: github://azoninc/doorman/firmware/configurations/esp32.custom.nuki-bridge.dev-rmt3.yaml@dev-rmt3
 
 wifi:
   ssid: !secret wifi_ssid
