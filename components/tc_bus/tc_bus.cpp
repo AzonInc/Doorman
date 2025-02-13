@@ -251,18 +251,6 @@ namespace esphome
                 s.command_is_long = false;
                 s.command = 0;
             }
-
-            if(s.ack_is_ready) {
-                on_acknowledge(s.ack_command);
-
-                s.ack_is_ready = false;
-                s.ack_command = 0;
-            }
-        }
-
-        void TCBusComponent::on_acknowledge(uint8_t type)
-        {
-            ESP_LOGI(TAG, "Message acknowledgement: %01X", type);
         }
 
         void TCBusComponent::on_command(CommandData cmd_data)
@@ -395,8 +383,6 @@ namespace esphome
         volatile uint32_t TCBusComponentStore::command = 0;
         volatile bool TCBusComponentStore::command_is_long = false;
         volatile bool TCBusComponentStore::command_is_ready = false;
-        volatile uint32_t TCBusComponentStore::ack_command = 0;
-        volatile bool TCBusComponentStore::ack_is_ready = false;
 
         void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
         {
@@ -409,7 +395,6 @@ namespace esphome
             const uint32_t RESET_MIN = 7000, RESET_MAX = 24000;
 
             static uint32_t usLast = 0;  // Last timestamp in microseconds
-
             
             static uint32_t command = 0;   // Current command being constructed
             static uint8_t curPos = 0;   // Current position in the bit stream
@@ -417,11 +402,6 @@ namespace esphome
             static uint8_t calCRC = 1;   // Calculated CRC (starts at 1)
             static bool cmdIntReady = false; // Command ready flag
             static bool curIsLong = false; // 32 or 16 Bit Command
-
-            static uint8_t ackCommand = 0;
-            static uint8_t ackBits = 0;
-            static uint8_t ackCRC = 0;
-            static uint8_t ackCalCRC = 1;
 
             // Calculate time difference
             uint32_t usNow = micros();
@@ -443,78 +423,14 @@ namespace esphome
             } else if (timeInUS >= START_MIN && timeInUS <= START_MAX) {
                 curBit = 2;
             } else if (timeInUS >= RESET_MIN) {
-                // Reset state for invalid bit and check for ACK
-                if (ackBits == 6) {
-                    if (ackCRC == ackCalCRC) {
-                        arg->ack_command = ackCommand;
-                        arg->ack_is_ready = true;
-                    }
-                    ackBits = 0;
-                    ackCommand = 0;
-                    ackCRC = 0;
-                    ackCalCRC = 1;
-                }
-
                 // Invalid timing, reset the position
-                curPos = 0;
-                return;
-            } else {
-                // Reset state for invalid bit and check for ACK
-                if (ackBits == 6) {
-                    if (ackCRC == ackCalCRC) {
-                        arg->ack_command = ackCommand;
-                        arg->ack_is_ready = true;
-                    }
-                    ackBits = 0;
-                    ackCommand = 0;
-                    ackCRC = 0;
-                    ackCalCRC = 1;
-                }
-
-                // Invalid timing, reset the position
+                curBit = 3;
                 curPos = 0;
                 return;
             }
 
             // Save last bit timestamp
             arg->last_bit_change = millis();
-
-            // Store bit for potential ACK command
-            if (curBit == 0 || curBit == 1) {
-                if (ackBits == 0) {
-                    // Length bit
-                    ackBits++;
-                } else if (ackBits >= 1 && ackBits <= 4) {
-                    // 4 data bits
-
-                    if (curBit) {
-                        // Store bits from MSB to LSB
-                        ackCommand |= (1 << (4 - ackBits));
-                    }
-                    ackCalCRC ^= curBit;
-                    ackBits++;
-                } else if (ackBits == 5) {
-                    // CRC bit
-                    ackCRC = curBit;
-                    ackBits++;
-                }
-            } else if (curBit == 2) {
-                // Start bit - check and reset ACK tracking
-
-                // Check if we have a complete ACK
-                if (ackBits == 6) { 
-                    if (ackCRC == ackCalCRC) {
-                        arg->ack_command = ackCommand;
-                        arg->ack_is_ready = true;
-                    }
-                }
-
-                // Reset ACK tracking on new command
-                ackBits = 0;
-                ackCommand = 0;
-                ackCRC = 0;
-                ackCalCRC = 1;
-            }
 
             if (curPos == 0) {
                 // First bit after reset: expect start signal (bit 2)
@@ -581,10 +497,6 @@ namespace esphome
             } else {
                 // Undefined bit, reset the position
                 curPos = 0;
-                ackBits = 0;
-                ackCommand = 0;
-                ackCRC = 0;
-                ackCalCRC = 1;
             }
 
             // If the command is ready, validate CRC and save the command
@@ -614,11 +526,6 @@ namespace esphome
                 }
 
                 // Reset state
-                ackBits = 0;
-                ackCommand = 0;
-                ackCRC = 0;
-                ackCalCRC = 1;
-
                 command = 0;
                 curPos = 0;
             }
