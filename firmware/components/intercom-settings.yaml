@@ -28,6 +28,7 @@ tc_bus:
         condition:
           - lambda: return x.model != MODEL_NONE;
         then:
+          - delay: 2s
           - tc_bus.read_memory:
 
   on_identify_timeout:

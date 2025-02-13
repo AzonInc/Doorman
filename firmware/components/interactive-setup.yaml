@@ -58,7 +58,7 @@ tc_bus:
               id: entrance_door_station_id
               value: !lambda "return x.address;"
           # Start Identification
-          - delay: 200ms
+          - delay: 2s
           - logger.log: "Setup: Step 2 - Identify Indoor Station"
           - tc_bus.identify:
 
