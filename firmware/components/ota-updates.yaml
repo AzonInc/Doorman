@@ -1,3 +1,5 @@
+# OTA Updates Addon
+
 substitutions:
   update_url_stable: "https://doorman.azon.ai/firmware/release/${host_platform}.${api_variant}.${firmware_type}/manifest.json"
   update_url_dev: "https://doorman-dev.surge.sh/firmware/release/${host_platform}.${api_variant}.${firmware_type}/manifest.json"

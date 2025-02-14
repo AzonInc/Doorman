@@ -1,3 +1,5 @@
+# RMT Light Status LED Addon
+
 light:
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led

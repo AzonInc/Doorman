@@ -51,7 +51,7 @@ sensor:
     id: debug_bus_voltage
     name: "Bus Voltage"
     pin: ${adc_input_pin}
-    update_interval: 1s
+    update_interval: 5s
     attenuation: 12dB
     entity_category: DIAGNOSTIC
     disabled_by_default: true

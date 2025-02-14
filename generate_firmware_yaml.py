@@ -35,12 +35,12 @@ def get_packages(host, api_variant, firmware, branch):
         ('bluedroid_ble', '!include ../components/bluedroid-ble.yaml', is_esp32 and firmware != 'nuki-bridge'),
         
         ('ota_updates', '!include ../components/ota-updates.yaml', api_variant == 'ha'),
-        ('ota_updates_default_dev', '!include ../components/ota-updates-default-dev.yaml', api_variant == 'ha' and branch == 'dev-rmt3'),
+        ('ota_updates_default_dev', '!include ../components/ota-updates.dev.yaml', api_variant == 'ha' and branch == 'dev-rmt3'),
         ('dashboard_import', '!include ../components/dashboard-import.yaml', api_variant == 'ha'),
         
-        ('api', '!include ../components/api-homeassistant.yaml', api_variant == 'ha'),
-        ('api', '!include ../components/api-mqtt.yaml', api_variant == 'mqtt'),
-        ('api', '!include ../components/api-custom.yaml', api_variant == 'custom'),
+        ('api', '!include ../components/api.homeassistant.yaml', api_variant == 'ha'),
+        ('api', '!include ../components/api.mqtt.yaml', api_variant == 'mqtt'),
+        ('api', '!include ../components/api.custom.yaml', api_variant == 'custom'),
 
         ('debug_utilities', '!include ../components/debug-utilities.yaml', branch == 'dev-rmt3'),
         ('debug_utilities_arduino', '!include ../components/debug-utilities.arduino.yaml', not is_esp32),

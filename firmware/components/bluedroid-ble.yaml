@@ -1,3 +1,5 @@
+# BLE Addon
+
 esp32_ble:
   name: ${name}
   
