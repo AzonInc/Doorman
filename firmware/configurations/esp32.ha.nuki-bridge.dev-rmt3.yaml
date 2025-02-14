@@ -8,8 +8,8 @@ packages:
   host: !include ../hosts/esp32.yaml
   rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
-  ota_updates: !include ../components/ota-updates.yaml
-  ota_updates_default_dev: !include ../components/ota-updates.dev.yaml
+  ota_update: !include ../components/ota-update.yaml
+  ota_update_default_dev: !include ../components/ota-update.dev.yaml
   dashboard_import: !include ../components/dashboard-import.yaml
   api: !include ../components/api.homeassistant.yaml
   debug_utilities: !include ../components/debug-utilities.yaml

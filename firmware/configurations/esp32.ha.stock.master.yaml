@@ -9,7 +9,7 @@ packages:
   rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
   bluedroid_ble: !include ../components/bluedroid-ble.yaml
-  ota_updates: !include ../components/ota-updates.yaml
+  ota_update: !include ../components/ota-update.yaml
   dashboard_import: !include ../components/dashboard-import.yaml
   api: !include ../components/api.homeassistant.yaml
   pattern_events: !include ../components/pattern-events.yaml
