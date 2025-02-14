@@ -82,6 +82,7 @@ remote_transmitter:
     number: ${tx_pin}
     mode: OUTPUT
   carrier_duty_percent: 100%
+  eot_level: false
 
 # Setup TC:BUS Component
 tc_bus:

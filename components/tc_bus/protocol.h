@@ -88,6 +88,7 @@ namespace esphome
 
         enum CommandType {
             COMMAND_TYPE_UNKNOWN,
+            COMMAND_TYPE_ACK,
             COMMAND_TYPE_SEARCH_DOORMAN_DEVICES,
             COMMAND_TYPE_FOUND_DOORMAN_DEVICE,
             COMMAND_TYPE_DOOR_CALL,

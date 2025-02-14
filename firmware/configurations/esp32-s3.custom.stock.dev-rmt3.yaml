@@ -10,6 +10,9 @@ packages:
   base: !include ../base.yaml
   bluedroid_ble: !include ../components/bluedroid-ble.yaml
   api: !include ../components/api-custom.yaml
+  debug_utilities: !include ../components/debug-utilities.yaml
+  debug_component: !include ../components/debug-component.yaml
+  debug_component_psram: !include ../components/debug-component.psram.yaml
   pattern_events: !include ../components/pattern-events.yaml
   ring_to_open: !include ../components/ring-to-open.yaml
   intercom_settings: !include ../components/intercom-settings.yaml

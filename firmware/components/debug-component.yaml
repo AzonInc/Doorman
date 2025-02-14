@@ -1,0 +1,28 @@
+# Debug Component Addon
+
+debug:
+  update_interval: 5s
+
+text_sensor:
+  - platform: debug
+    reset_reason:
+      name: "Reset Reason"
+      id: debug_restart_reason
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+
+sensor:
+  - platform: debug
+    free:
+      id: debug_heap_free
+      name: "Heap Free"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic
+    block:
+      id: debug_heap_max_block
+      name: "Heap Max Block"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostic

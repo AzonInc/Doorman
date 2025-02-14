@@ -17,6 +17,16 @@ namespace esphome
 
             switch (type)
             {
+                case COMMAND_TYPE_ACK:
+
+                    if(payload < 1 || payload > 15) {
+                        payload = 1;
+                    }
+                    data.payload = payload;
+                    data.is_long = false;
+                    data.command |= (data.payload & 0xF); // 1
+                    break;
+
                 case COMMAND_TYPE_DOOR_CALL:
                     data.serial_number = serial_number;
                     data.address = address;
@@ -217,8 +227,16 @@ namespace esphome
 
             data.command_hex = str_upper_case(format_hex(command));
 
-            if (is_long)
-            {
+            if (command <= 0xF) {
+                // Handle 4-bit acknowledge commands
+
+                data.command_hex = data.command_hex.substr(7);
+                data.type = COMMAND_TYPE_ACK;
+                data.payload = command & 0xF;
+
+            } else if (is_long) {
+                // Handle 32-bit commands
+
                 data.serial_number = (command >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
 
                 switch ((command >> 28) & 0xF)
@@ -320,6 +338,8 @@ namespace esphome
             }
             else
             {
+                // Handle 16 bit commands
+
                 data.command_hex = data.command_hex.substr(4);
 
                 // For 16-bit commands, work on the lower 16 bits
@@ -492,6 +512,7 @@ namespace esphome
             if (str == "SELECT_MEMORY_PAGE") return COMMAND_TYPE_SELECT_MEMORY_PAGE;
             if (str == "WRITE_MEMORY") return COMMAND_TYPE_WRITE_MEMORY;
             if (str == "REQUEST_VERSION") return COMMAND_TYPE_REQUEST_VERSION;
+            if (str == "ACK") return COMMAND_TYPE_ACK;
 
             return COMMAND_TYPE_UNKNOWN;
         }
@@ -529,6 +550,7 @@ namespace esphome
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
                 case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
                 case COMMAND_TYPE_REQUEST_VERSION: return "REQUEST_VERSION";
+                case COMMAND_TYPE_ACK: return "ACK";
                 default: return "UNKNOWN";
             }
         }

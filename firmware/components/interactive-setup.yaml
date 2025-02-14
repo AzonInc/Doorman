@@ -9,7 +9,7 @@ switch:
     entity_category: CONFIG
     optimistic: true
     on_turn_on:
-      - logger.log: "Setup: Step 1 - Waiting for Door/Floor Call"
+      - logger.log: "Setup Step 1: Waiting for door or floor call."
       - script.execute: update_led
     on_turn_off:
       - script.execute: update_led
@@ -34,15 +34,6 @@ tc_bus:
           - script.execute: complete_setup
 
   on_command:
-    # If no second door station id is set, wait for one
-    - if:
-        condition:
-          - lambda: return id(second_door_station_id).state == 63 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_id).state;
-        then:
-          - number.set:
-              id: second_door_station_id
-              value: !lambda "return x.address;"
-
     # Setup mode: Wait for Floor or Door Call
     - if:
         condition:
@@ -53,14 +44,27 @@ tc_bus:
           - number.set:
               id: serial_number
               value: !lambda "return x.serial_number;"
+
           # Save Entrance Door Station address
           - number.set:
               id: entrance_door_station_id
               value: !lambda "return x.address;"
+
+          - logger.log: "Waiting for ringtone to finish before proceeding."
+          - delay: 3s
+
           # Start Identification
-          - delay: 2s
-          - logger.log: "Setup: Step 2 - Identify Indoor Station"
+          - logger.log: "Setup Step 2: Identifying Indoor Station."
           - tc_bus.identify:
+
+    # If no second door station id is set, wait for one
+    - if:
+        condition:
+          - lambda: return id(second_door_station_id).state == 63 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_id).state;
+        then:
+          - number.set:
+              id: second_door_station_id
+              value: !lambda "return x.address;"
 
 script:
   - id: complete_setup
@@ -78,7 +82,7 @@ script:
       
       - script.execute: update_led
 
-      - logger.log: "Setup: Complete"
+      - logger.log: "Setup completed."
 
   - id: !extend update_led
     then:

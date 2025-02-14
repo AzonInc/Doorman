@@ -19,8 +19,8 @@ The `tc_bus` hub component offers the following configuration options:
 | Option                    | Description                                                                                                                                   | Required | Default       |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
-| `rx_pin`                  | GPIO pin for receiving data from the TC:BUS intercom.                                                                                            | No       | `9`           |
-| `tx_pin`                  | GPIO pin for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
+| `receiver_id`             | ID of remote_receiver for receiving data from the TC:BUS intercom.                                                                            | No       | The configured remote_receiver |
+| `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
 | `event`                   | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
 | `on_command`              | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
@@ -281,7 +281,7 @@ Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
-  - source: github://azoninc/doorman
+  - source: github://azoninc/doorman@master
     components: [ tc_bus ]
 
 ## RMT component configuration

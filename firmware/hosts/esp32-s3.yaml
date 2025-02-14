@@ -26,6 +26,14 @@ psram:
   mode: octal
   speed: 80MHz
 
+remote_receiver:
+  rmt_symbols: 192
+  use_dma: true
+
+remote_transmitter:
+  use_dma: true
+  rmt_symbols: 48
+
 substitutions:
   rx_pin: "GPIO9"
   tx_pin: "GPIO8"

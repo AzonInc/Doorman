@@ -16,3 +16,4 @@ packages:
   ring_to_open: !include ../components/ring-to-open.yaml
   intercom_settings: !include ../components/intercom-settings.yaml
   interactive_setup: !include ../components/interactive-setup.yaml
+  arduino_removals: !include ../components/arduino.yaml
