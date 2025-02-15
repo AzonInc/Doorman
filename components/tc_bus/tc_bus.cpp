@@ -209,7 +209,7 @@ namespace esphome
                     this->cancel_timeout("wait_for_identification_category_1");
 
                     send_command(COMMAND_TYPE_RESET);
-                    
+
                     ModelData device;
                     device.category = 0;
                     device.memory_size = 0;
@@ -362,7 +362,7 @@ namespace esphome
             }
 
             // Sent or received - no response to identification and read memory process
-            if(!received || (received && !this-identify_model_ && !this->reading_memory_)) {
+            if(!received || (received && !this->identify_model_ && !this->reading_memory_)) {
                 // Update Door Readiness Status
                 if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
                     bool door_readiness_state = cmd_data.payload == 1;
