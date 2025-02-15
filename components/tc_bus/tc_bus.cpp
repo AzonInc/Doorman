@@ -196,6 +196,8 @@ namespace esphome
                         this->cancel_timeout("wait_for_memory_reading");
                         reading_memory_ = false;
 
+                        send_command(COMMAND_TYPE_RESET);
+
                         this->publish_settings();
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     } else {
@@ -206,6 +208,8 @@ namespace esphome
                     this->cancel_timeout("wait_for_identification_category_0");
                     this->cancel_timeout("wait_for_identification_category_1");
 
+                    send_command(COMMAND_TYPE_RESET);
+                    
                     ModelData device;
                     device.category = 0;
                     device.memory_size = 0;
@@ -771,6 +775,9 @@ namespace esphome
                     // Failed
                     this->identify_model_ = false;
                     this->identify_timeout_callback_.call();
+
+                    send_command(COMMAND_TYPE_RESET);
+
                     ESP_LOGE(TAG, "Identification response not received in time. The device model may not support identification.");
                 });
             });
@@ -816,6 +823,8 @@ namespace esphome
                 reading_memory_serial_number_ = 0;
                 reading_memory_count_ = 0;
                 reading_memory_max_ = 0;
+
+                send_command(COMMAND_TYPE_RESET);
 
                 this->read_memory_timeout_callback_.call();
                 ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!");
