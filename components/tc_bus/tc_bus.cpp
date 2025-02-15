@@ -358,8 +358,8 @@ namespace esphome
                 }
             }
 
-            // No response data
-            if(!this-identify_model_ && !this->reading_memory_) {
+            // Sent or received - no response to identification and read memory process
+            if(!received || (!this-identify_model_ && !this->reading_memory_)) {
                 // Update Door Readiness Status
                 if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
                     bool door_readiness_state = cmd_data.payload == 1;
