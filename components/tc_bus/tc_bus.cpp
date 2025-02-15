@@ -201,8 +201,7 @@ namespace esphome
                     } else {
                         read_memory_block();
                     }
-                }
-                else if(identify_model_) {
+                } else if(identify_model_) {
                     identify_model_ = false;
                     this->cancel_timeout("wait_for_identification_category_0");
                     this->cancel_timeout("wait_for_identification_category_1");
@@ -211,42 +210,50 @@ namespace esphome
                     device.category = 0;
                     device.memory_size = 0;
 
-                    // FW Version
-                    device.firmware_version = std::stoi(cmd_data.command_hex.substr(5, 3));
-                    device.firmware_major = std::stoi(cmd_data.command_hex.substr(5, 1), nullptr, 16);
-                    device.firmware_minor = std::stoi(cmd_data.command_hex.substr(6, 1), nullptr, 16);
-                    device.firmware_patch = std::stoi(cmd_data.command_hex.substr(7, 1), nullptr, 16);
-
-                    // HW Version
-                    device.hardware_version = std::stoi(cmd_data.command_hex.substr(0, 1));
-                    device.model = identifier_string_to_model(cmd_data.command_hex.substr(1, 3), device.hardware_version, device.firmware_version);
-                    const char* hw_model = model_to_string(device.model);
-
                     if(cmd_data.command_hex.substr(4, 1) == "D") {
-                        ESP_LOGD(TAG, "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i",
-                            hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch);
+                        // New models
 
-                        // Update Model
-                        if(device.model != MODEL_NONE && device.model != this->model_) {
-                            this->model_ = device.model;
-                            #ifdef USE_SELECT
-                            if (this->model_select_ != nullptr) {
-                                this->model_select_->publish_state(hw_model);
-                            }
-                            #endif
-                            this->save_settings();
-                        }
+                        // FW Version
+                        device.firmware_version = std::stoi(cmd_data.command_hex.substr(5, 3));
+                        device.firmware_major = std::stoi(cmd_data.command_hex.substr(5, 1), nullptr, 16);
+                        device.firmware_minor = std::stoi(cmd_data.command_hex.substr(6, 1), nullptr, 16);
+                        device.firmware_patch = std::stoi(cmd_data.command_hex.substr(7, 1), nullptr, 16);
 
-                        this->identify_complete_callback_.call(device);
+                        // HW Version
+                        device.hardware_version = std::stoi(cmd_data.command_hex.substr(0, 1));
+                        device.model = identifier_string_to_model(cmd_data.command_hex.substr(1, 3), device.hardware_version, device.firmware_version);
                     } else {
-                        // TODO: Verify output
-                        ESP_LOGE(TAG, "Invalid identification response! Data received: %s | Firmware: %i.%i.%i",
-                            cmd_data.command_hex.c_str(), device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch);
-                        
-                        if(cmd_data.command == 0x08000048) {
-                            ESP_LOGW(TAG, "Might be %s", model_to_string(MODEL_ISH1030));
+                        // Old models
+                        if(cmd_data.command == 0x08000040) {
+                            // TTC-XX
+                            device.model = MODEL_ISH1030;
+                        } else if(cmd_data.command == 0x08000048) {
+                            // ISH1030
+                            device.model = MODEL_ISH1030;
                         }
                     }
+
+                    const char* hw_model = model_to_string(device.model);
+
+                    if(device.model != MODEL_NONE) {
+                        ESP_LOGD(TAG, "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i",
+                            hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch);
+                    } else {
+                        ESP_LOGE(TAG, "Unable to identify Hardware! Unknown model. Data received: %s", cmd_data.command_hex.c_str());
+                    }
+
+                    // Update Model
+                    if(device.model != MODEL_NONE && device.model != this->model_) {
+                        this->model_ = device.model;
+                        #ifdef USE_SELECT
+                        if (this->model_select_ != nullptr) {
+                            this->model_select_->publish_state(hw_model);
+                        }
+                        #endif
+                        this->save_settings();
+                    }
+
+                    this->identify_complete_callback_.call(device);
                 } else {
                     if(cmd_data.type == COMMAND_TYPE_ACK) {
                         ESP_LOGD(TAG, "Received Acknowledge - Type: %i", cmd_data.payload);
