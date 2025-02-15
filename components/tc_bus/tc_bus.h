@@ -167,7 +167,7 @@ namespace esphome
                 void add_identify_complete_callback(std::function<void(ModelData)> &&callback);
                 CallbackManager<void(ModelData)> identify_complete_callback_{};
                 void add_identify_unknown_callback(std::function<void()> &&callback);
-                CallbackManager<void(ModelData)> identify_unknown_callback_{};
+                CallbackManager<void()> identify_unknown_callback_{};
                 void add_identify_timeout_callback(std::function<void()> &&callback);
                 CallbackManager<void()> identify_timeout_callback_{};
 
