@@ -176,7 +176,7 @@ namespace esphome
         void TCBusComponent::received_command(CommandData cmd_data, bool received)
         {
             if(received) {
-                // Incoming command
+                // From receiver
 
                 if(reading_memory_) {
                     ESP_LOGD(TAG, "Received 4 memory blocks from %i to %i | Data: 0x%08X", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4, cmd_data.command);
@@ -233,34 +233,33 @@ namespace esphome
                         }
                     }
 
-                    const char* hw_model = model_to_string(device.model);
-
                     if(device.model != MODEL_NONE) {
                         ESP_LOGD(TAG, "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i",
-                            hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch);
-                    } else {
-                        ESP_LOGE(TAG, "Unable to identify Hardware! Unknown model. Data received: %s", cmd_data.command_hex.c_str());
-                    }
+                            model_to_string(device.model),
+                            device.hardware_version,
+                            device.firmware_major,
+                            device.firmware_minor,
+                            device.firmware_patch);
 
-                    // Update Model
-                    if(device.model != MODEL_NONE && device.model != this->model_) {
-                        this->model_ = device.model;
-                        #ifdef USE_SELECT
-                        if (this->model_select_ != nullptr) {
-                            this->model_select_->publish_state(hw_model);
+                        // Update Model
+                        if(device.model != this->model_) {
+                            this->model_ = device.model;
+                            #ifdef USE_SELECT
+                            if (this->model_select_ != nullptr) {
+                                this->model_select_->publish_state(model_to_string(device.model));
+                            }
+                            #endif
+                            this->save_settings();
                         }
-                        #endif
-                        this->save_settings();
-                    }
 
-                    if(device.model != MODEL_NONE) {
                         this->identify_complete_callback_.call(device);
                     } else {
+                        ESP_LOGE(TAG, "Unable to identify Hardware! Unknown model. Data received: %s", cmd_data.command_hex.c_str());
                         this->identify_unknown_callback_.call();
                     }
                 } else {
                     if(cmd_data.type == COMMAND_TYPE_ACK) {
-                        ESP_LOGD(TAG, "Received Acknowledge - Type: %i", cmd_data.payload);
+                        ESP_LOGD(TAG, "Received Acknowledge - Type: %01X", cmd_data.payload);
                     } else {
                         ESP_LOGD(TAG, "Received Command - Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i-bit | Raw Data: 0x%08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
                     }
@@ -348,18 +347,18 @@ namespace esphome
                     }
                     #endif
                 }
-
             } else {
-                // Outgoing command
+                // From transmitter
+
                 if(cmd_data.type == COMMAND_TYPE_ACK) {
-                    ESP_LOGD(TAG, "Sending Acknowledge - Type: %i", cmd_data.payload);
+                    ESP_LOGD(TAG, "Sending Acknowledge - Type: %01X", cmd_data.payload);
                 } else {
                     ESP_LOGD(TAG, "Sending Command - Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i-bit | Raw Data: 0x%08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
                 }
             }
 
             // Sent or received - no response to identification and read memory process
-            if(!received || (!this-identify_model_ && !this->reading_memory_)) {
+            if(!received || (received && !this-identify_model_ && !this->reading_memory_)) {
                 // Update Door Readiness Status
                 if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
                     bool door_readiness_state = cmd_data.payload == 1;

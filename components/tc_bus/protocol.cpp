@@ -209,6 +209,7 @@ namespace esphome
                     break;
             }
 
+            // Generate command HEX
             data.command_hex = str_upper_case(format_hex(data.command));
             if(!data.is_long) {
                 if (data.type == COMMAND_TYPE_ACK) {
@@ -230,12 +231,9 @@ namespace esphome
             data.payload = 0;
             data.is_long = is_long;
 
-            data.command_hex = str_upper_case(format_hex(command));
-
             if (command <= 0xF) {
                 // Handle 4-bit acknowledge commands
 
-                data.command_hex = data.command_hex.substr(7);
                 data.type = COMMAND_TYPE_ACK;
                 data.payload = command & 0xF;
 
@@ -336,8 +334,6 @@ namespace esphome
             } else {
                 // Handle 16 bit commands
 
-                data.command_hex = data.command_hex.substr(4);
-
                 // For 16-bit commands, work on the lower 16 bits
                 uint8_t first = (command >> 12) & 0xF;
                 uint8_t second = (command >> 8) & 0xF;
@@ -417,6 +413,16 @@ namespace esphome
                             data.address = (command & 0xFF) / 4;
                             break;
                     }
+                }
+            }
+
+            // Generate command HEX
+            data.command_hex = str_upper_case(format_hex(data.command));
+            if(!data.is_long) {
+                if (data.type == COMMAND_TYPE_ACK) {
+                    data.command_hex = data.command_hex.substr(7);
+                } else {
+                    data.command_hex = data.command_hex.substr(4);
                 }
             }
 
