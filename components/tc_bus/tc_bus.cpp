@@ -253,7 +253,11 @@ namespace esphome
                         this->save_settings();
                     }
 
-                    this->identify_complete_callback_.call(device);
+                    if(device.model != MODEL_NONE) {
+                        this->identify_complete_callback_.call(device);
+                    } else {
+                        this->identify_unknown_callback_.call();
+                    }
                 } else {
                     if(cmd_data.type == COMMAND_TYPE_ACK) {
                         ESP_LOGD(TAG, "Received Acknowledge - Type: %i", cmd_data.payload);
@@ -720,6 +724,11 @@ namespace esphome
         void TCBusComponent::add_identify_complete_callback(std::function<void(ModelData)> &&callback)
         {
             this->identify_complete_callback_.add(std::move(callback));
+        }
+
+        void TCBusComponent::add_identify_unknown_callback(std::function<void()> &&callback)
+        {
+            this->identify_unknown_callback_.add(std::move(callback));
         }
 
         void TCBusComponent::add_identify_timeout_callback(std::function<void()> &&callback)

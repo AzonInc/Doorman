@@ -26,6 +26,16 @@ tc_bus:
         then:
           - script.execute: complete_setup
 
+  on_identify_unknown:
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+        then:
+          - logger.log:
+              format: "Unknown model detected! Please open an issue and provide your logs in order to implement support for this model."
+              level: WARN
+          - script.execute: complete_setup
+
   on_identify_timeout:
     - if:
         condition:

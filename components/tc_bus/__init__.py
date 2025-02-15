@@ -37,6 +37,7 @@ SettingData = tc_bus_ns.struct(f"SettingData")
 ModelData = tc_bus_ns.struct(f"ModelData")
 
 IdentifyCompleteTrigger = tc_bus_ns.class_("IdentifyCompleteTrigger", automation.Trigger.template())
+IdentifyUnknownTrigger = tc_bus_ns.class_("IdentifyUnknownTrigger", automation.Trigger.template())
 IdentifyTimeoutTrigger = tc_bus_ns.class_("IdentifyTimeoutTrigger", automation.Trigger.template())
 ReadMemoryCompleteTrigger = tc_bus_ns.class_("ReadMemoryCompleteTrigger", automation.Trigger.template())
 ReadMemoryTimeoutTrigger = tc_bus_ns.class_("ReadMemoryTimeoutTrigger", automation.Trigger.template())
@@ -191,6 +192,7 @@ CONF_ON_COMMAND = "on_command"
 CONF_ON_READ_MEMORY_COMPLETE = "on_read_memory_complete"
 CONF_ON_READ_MEMORY_TIMEOUT = "on_read_memory_timeout"
 CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
+CONF_ON_IDENTIFY_UNKNOWN = "on_identify_unknown"
 CONF_ON_IDENTIFY_TIMEOUT = "on_identify_timeout"
 
 CONF_PROGRAMMING_MODE = "programming_mode"
@@ -226,6 +228,11 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_ON_IDENTIFY_COMPLETE): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyCompleteTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_IDENTIFY_UNKNOWN): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyUnknownTrigger),
             }
         ),
         cv.Optional(CONF_ON_IDENTIFY_TIMEOUT): automation.validate_automation(
@@ -269,6 +276,10 @@ async def to_code(config):
     for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [(ModelData, "x")], conf)
+
+    for conf in config.get(CONF_ON_IDENTIFY_UNKNOWN, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
 
     for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)

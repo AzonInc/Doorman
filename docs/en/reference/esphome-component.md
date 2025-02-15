@@ -26,6 +26,7 @@ The `tc_bus` hub component offers the following configuration options:
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | No       |               |
 | `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | No       |               |
+| `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                                      | No       |               |
 | `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | No       |               |
 
 
@@ -127,6 +128,14 @@ on_identify_complete:
   - lambda: |-
       std::string hexString = str_upper_case(format_hex(x));
       ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+### Identification of Indoor Station Complete (Unknown Model)
+The `on_identify_unknown` callback of the `tc_bus` hub allows you to detect a unknown model identification of the indoor station. Most probably when a model is too old and doesn't support this process or is not implemented yet.
+
+```yaml
+on_identify_unknown:
+  - logger.log: "Failed to identify indoor station - unknown model!"
 ```
 
 ### Identification of Indoor Station Timeout
