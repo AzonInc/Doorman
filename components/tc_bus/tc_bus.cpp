@@ -377,11 +377,7 @@ namespace esphome
 
                     uint8_t mac[6];
                     get_mac_address_raw(mac);
-
-                    uint32_t mac_addr = 0;
-                    mac_addr |= (mac[3] << 16);
-                    mac_addr |= (mac[4] << 8);
-                    mac_addr |= (mac[5] << 0);
+                    uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
 
                     send_command(COMMAND_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
                 } else if (cmd_data.type == COMMAND_TYPE_FOUND_DOORMAN_DEVICE) {
@@ -390,7 +386,8 @@ namespace esphome
                     mac[1] = (cmd_data.payload >> 8) & 0xFF;
                     mac[2] = cmd_data.payload & 0xFF;
 
-                    ESP_LOGD(TAG, "Discovered Doorman with MAC: %02X:%02X:%02X", mac[0], mac[1], mac[2]);
+                    ESP_LOGD(TAG, "Discovered Doorman with MAC: %02X:%02X:%02X",
+                             mac[0], mac[1], mac[2]);
                 }
 
                 #ifdef USE_TEXT_SENSOR
