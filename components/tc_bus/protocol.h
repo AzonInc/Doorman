@@ -48,6 +48,7 @@ namespace esphome
             MODEL_ISH3230,
             MODEL_ISH3030,
             MODEL_ISH1030,
+            MODEL_TTCXX,
             MODEL_IMM1000,
             MODEL_IMM1100,
             MODEL_IMM1300,

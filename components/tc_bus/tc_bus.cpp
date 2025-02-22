@@ -247,7 +247,7 @@ namespace esphome
                         if (cmd_data.command == 0x08000040)
                         {
                             // TTC-XX
-                            device.model = MODEL_ISH1030;
+                            device.model = MODEL_TTCXX;
                         }
                         else if (cmd_data.command == 0x08000048)
                         {
@@ -894,7 +894,7 @@ namespace esphome
             send_command(COMMAND_TYPE_REQUEST_VERSION, 0, 0, serial_number, 400);
 
             this->set_timeout("wait_for_identification_category_0", 1000, [this, serial_number]()
-                              {
+            {
                 // Didn't receive identify result of category 0
                 // Second try with category 1
                 ESP_LOGD(TAG, "Identifying device model (Category %i) using serial number: %i...", 1, serial_number);
@@ -907,7 +907,8 @@ namespace esphome
                     this->identify_model_ = false;
                     this->identify_timeout_callback_.call();
                     ESP_LOGE(TAG, "Identification response not received in time. The device model may not support identification.");
-                }); });
+                });
+            });
         }
 
         void TCBusComponent::read_memory(uint32_t serial_number, Model model)
@@ -951,7 +952,7 @@ namespace esphome
             reading_memory_max_ = (model_data.memory_size / 4);
 
             this->set_timeout("wait_for_memory_reading", reading_memory_max_ * 600, [this]()
-                              {
+            {
                 memory_buffer_.clear();
                 reading_memory_ = false;
                 reading_memory_serial_number_ = 0;
@@ -959,7 +960,8 @@ namespace esphome
                 reading_memory_max_ = 0;
 
                 this->read_memory_timeout_callback_.call();
-                ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!"); });
+                ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!");
+            });
 
             read_memory_block();
         }
