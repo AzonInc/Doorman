@@ -213,6 +213,9 @@ namespace esphome
                     {
                         read_memory_block();
                     }
+
+                    // Do not proceed
+                    return;
                 }
                 else if (identify_model_)
                 {
@@ -282,6 +285,9 @@ namespace esphome
                         ESP_LOGE(TAG, "Unable to identify Hardware! Unknown model. Data received: %s", cmd_data.command_hex.c_str());
                         this->identify_unknown_callback_.call();
                     }
+
+                    // Do not proceed
+                    return;
                 }
                 else
                 {
@@ -405,57 +411,56 @@ namespace esphome
                     ESP_LOGD(TAG, "Sending Command - Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i-bit | Raw Data: 0x%08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
                 }
             }
+            
 
             // Sent or received - no response to identification and read memory process
-            if (!received || (received && !this->identify_model_ && !this->reading_memory_))
+            
+            // Update Door Readiness Status
+            if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
             {
-                // Update Door Readiness Status
-                if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
-                {
-                    bool door_readiness_state = cmd_data.payload == 1;
-                    ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
-                }
-                else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS)
-                {
-                    ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
-                }
-                else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE)
-                {
-                    ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
-                    this->programming_mode_ = cmd_data.payload == 1;
-                }
-                else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES)
-                {
-                    ESP_LOGD(TAG, "Responding to Doorman search request.");
+                bool door_readiness_state = cmd_data.payload == 1;
+                ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
+            }
+            else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS)
+            {
+                ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
+            }
+            else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE)
+            {
+                ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
+                this->programming_mode_ = cmd_data.payload == 1;
+            }
+            else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES)
+            {
+                ESP_LOGD(TAG, "Responding to Doorman search request.");
 
-                    uint8_t mac[6];
-                    get_mac_address_raw(mac);
-                    uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
+                uint8_t mac[6];
+                get_mac_address_raw(mac);
+                uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
 
-                    send_command(COMMAND_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
-                }
-                else if (cmd_data.type == COMMAND_TYPE_FOUND_DOORMAN_DEVICE)
-                {
-                    uint8_t mac[3];
-                    mac[0] = (cmd_data.payload >> 16) & 0xFF;
-                    mac[1] = (cmd_data.payload >> 8) & 0xFF;
-                    mac[2] = cmd_data.payload & 0xFF;
+                send_command(COMMAND_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
+            }
+            else if (cmd_data.type == COMMAND_TYPE_FOUND_DOORMAN_DEVICE)
+            {
+                uint8_t mac[3];
+                mac[0] = (cmd_data.payload >> 16) & 0xFF;
+                mac[1] = (cmd_data.payload >> 8) & 0xFF;
+                mac[2] = cmd_data.payload & 0xFF;
 
-                    ESP_LOGD(TAG, "Discovered Doorman with MAC: %02X:%02X:%02X",
-                             mac[0], mac[1], mac[2]);
-                }
+                ESP_LOGD(TAG, "Discovered Doorman with MAC: %02X:%02X:%02X",
+                            mac[0], mac[1], mac[2]);
+            }
 
 #ifdef USE_TEXT_SENSOR
-                if (cmd_data.type != COMMAND_TYPE_ACK)
+            if (cmd_data.type != COMMAND_TYPE_ACK)
+            {
+                // Publish Command to Last Bus Command Sensor
+                if (this->bus_command_text_sensor_ != nullptr)
                 {
-                    // Publish Command to Last Bus Command Sensor
-                    if (this->bus_command_text_sensor_ != nullptr)
-                    {
-                        this->bus_command_text_sensor_->publish_state(cmd_data.command_hex);
-                    }
+                    this->bus_command_text_sensor_->publish_state(cmd_data.command_hex);
                 }
-#endif
             }
+#endif
         }
 
         bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
