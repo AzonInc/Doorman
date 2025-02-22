@@ -39,35 +39,38 @@ namespace esphome
         static const char *const TAG = "tc_bus";
 
         uint32_t global_tc_bus_id = 1911044085ULL;
-        TCBusComponent *global_tc_bus = nullptr;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+        TCBusComponent *global_tc_bus = nullptr; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
         void TCBusComponent::setup()
         {
             ESP_LOGCONFIG(TAG, "Setting up TC:BUS Intercom...");
 
             this->pref_ = global_preferences->make_preference<TCBusSettings>(global_tc_bus_id);
-            
+
             TCBusSettings recovered;
 
-            if (!this->pref_.load(&recovered)) {
+            if (!this->pref_.load(&recovered))
+            {
                 recovered = {MODEL_NONE, 0};
             }
 
             this->model_ = recovered.model;
             this->serial_number_ = recovered.serial_number;
 
-            #ifdef USE_SELECT
-            if (this->model_select_ != nullptr) {
+#ifdef USE_SELECT
+            if (this->model_select_ != nullptr)
+            {
                 this->model_select_->publish_state(model_to_string(this->model_));
             }
-            #endif
-            #ifdef USE_NUMBER
-            if (this->serial_number_number_ != nullptr) {
+#endif
+#ifdef USE_NUMBER
+            if (this->serial_number_number_ != nullptr)
+            {
                 this->serial_number_number_->publish_state(this->serial_number_);
             }
-            #endif
-            
-            #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
+#endif
+
+#if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
             ESP_LOGD(TAG, "Checking for Doorman hardware");
 
             // Doorman Hardware Revision
@@ -78,30 +81,27 @@ namespace esphome
             ver[1] = value >> 8;
             ver[2] = value >> 16;
 
-            if(ver[0] > 0) {
+            if (ver[0] > 0)
+            {
                 ESP_LOGI(TAG, "Doorman hardware detected: Revision %i.%i.%i.", ver[0], ver[1], ver[2]);
                 this->hardware_version_str_ = "Doorman-S3 " + std::to_string(ver[0]) + "." + std::to_string(ver[1]) + "." + std::to_string(ver[2]);
             }
-            #endif
+#endif
 
-            #ifdef USE_TEXT_SENSOR
-            if (this->hardware_version_text_sensor_ != nullptr) {
+#ifdef USE_TEXT_SENSOR
+            if (this->hardware_version_text_sensor_ != nullptr)
+            {
                 this->hardware_version_text_sensor_->publish_state(this->hardware_version_str_);
             }
-            #endif
+#endif
 
-            // Reset Sensors
-            #ifdef USE_TEXT_SENSOR
-            if (this->bus_command_text_sensor_ != nullptr) {
-                this->bus_command_text_sensor_->publish_state("");
-            }
-            #endif
-
-            #ifdef USE_BINARY_SENSOR
-            for (auto &listener : listeners_) {
+#ifdef USE_BINARY_SENSOR
+            // Reset Bunary Sensor Listeners
+            for (auto &listener : listeners_)
+            {
                 listener->turn_off(&listener->timer_);
             }
-            #endif
+#endif
 
             // Register remote receiver listener
             this->rx_->register_listener(this);
@@ -109,12 +109,12 @@ namespace esphome
 
         void TCBusComponent::save_settings()
         {
-            TCBusSettings settings {
+            TCBusSettings settings{
                 this->model_,
-                this->serial_number_
-            };
+                this->serial_number_};
 
-            if (!this->pref_.save(&settings)) {
+            if (!this->pref_.save(&settings))
+            {
                 ESP_LOGW(TAG, "Failed to save settings to flash memory.");
             }
         }
@@ -123,50 +123,58 @@ namespace esphome
         {
             ESP_LOGCONFIG(TAG, "TC:BUS:");
 
-            if (strcmp(this->event_, "esphome.none") != 0) {
+            if (strcmp(this->event_, "esphome.none") != 0)
+            {
                 ESP_LOGCONFIG(TAG, "  Event: %s", this->event_);
-            } else {
+            }
+            else
+            {
                 ESP_LOGCONFIG(TAG, "  Event: Disabled");
             }
 
             ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
 
-            #ifdef USE_TEXT_SENSOR
+#ifdef USE_TEXT_SENSOR
             ESP_LOGCONFIG(TAG, "Text Sensors:");
             LOG_TEXT_SENSOR("  ", "Last Bus Command", this->bus_command_text_sensor_);
             LOG_TEXT_SENSOR("  ", "Hardware Version", this->hardware_version_text_sensor_);
-            #endif
+#endif
         }
 
         void TCBusComponent::loop()
         {
-            #ifdef USE_BINARY_SENSOR
+#ifdef USE_BINARY_SENSOR
             // Turn off binary sensor after ... milliseconds
             uint32_t now_millis = millis();
-            for (auto &listener : listeners_) { 
-                if (listener->timer_ && now_millis > listener->timer_) {
+            for (auto &listener : listeners_)
+            {
+                if (listener->timer_ && now_millis > listener->timer_)
+                {
                     listener->turn_off(&listener->timer_);
                 }
             }
-            #endif
+#endif
 
             // Process command queue
             this->process_command_queue();
         }
 
-        void TCBusComponent::process_command_queue() {
+        void TCBusComponent::process_command_queue()
+        {
             uint32_t currentTime = millis();
 
-            if (!this->command_queue_.empty()) {
+            if (!this->command_queue_.empty())
+            {
                 TCBusCommandQueueItem queue_item = this->command_queue_.front();
-        
-                if (currentTime - this->last_command_time_ >= queue_item.wait_duration) {
+
+                if (currentTime - this->last_command_time_ >= queue_item.wait_duration)
+                {
                     // Send command
                     this->transmit_command(queue_item.command_data);
 
                     // Remove command from the queue
                     this->command_queue_.pop();
-        
+
                     // Update the time of the last command
                     this->last_command_time_ = currentTime;
                 }
@@ -175,10 +183,11 @@ namespace esphome
 
         void TCBusComponent::received_command(CommandData cmd_data, bool received)
         {
-            if(received) {
+            if (received)
+            {
                 // From receiver
-
-                if(reading_memory_) {
+                if (reading_memory_)
+                {
                     ESP_LOGD(TAG, "Received 4 memory blocks from %i to %i | Data: 0x%08X", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4, cmd_data.command);
 
                     // Save Data to memory Store
@@ -191,17 +200,22 @@ namespace esphome
                     reading_memory_count_++;
 
                     // Memory reading complete
-                    if(reading_memory_count_ == reading_memory_max_) {
+                    if (reading_memory_count_ == reading_memory_max_)
+                    {
                         // Turn off
                         this->cancel_timeout("wait_for_memory_reading");
                         reading_memory_ = false;
 
                         this->publish_settings();
                         this->read_memory_complete_callback_.call(memory_buffer_);
-                    } else {
+                    }
+                    else
+                    {
                         read_memory_block();
                     }
-                } else if(identify_model_) {
+                }
+                else if (identify_model_)
+                {
                     identify_model_ = false;
                     this->cancel_timeout("wait_for_identification_category_0");
                     this->cancel_timeout("wait_for_identification_category_1");
@@ -210,7 +224,8 @@ namespace esphome
                     device.category = 0;
                     device.memory_size = 0;
 
-                    if(cmd_data.command_hex.substr(4, 1) == "D") {
+                    if (cmd_data.command_hex.substr(4, 1) == "D")
+                    {
                         // New models
 
                         // FW Version
@@ -222,80 +237,102 @@ namespace esphome
                         // HW Version
                         device.hardware_version = std::stoi(cmd_data.command_hex.substr(0, 1));
                         device.model = identifier_string_to_model(cmd_data.command_hex.substr(1, 3), device.hardware_version, device.firmware_version);
-                    } else {
+                    }
+                    else
+                    {
                         // Old models
-                        if(cmd_data.command == 0x08000040) {
+                        if (cmd_data.command == 0x08000040)
+                        {
                             // TTC-XX
                             device.model = MODEL_ISH1030;
-                        } else if(cmd_data.command == 0x08000048) {
+                        }
+                        else if (cmd_data.command == 0x08000048)
+                        {
                             // ISH1030
                             device.model = MODEL_ISH1030;
                         }
                     }
 
-                    if(device.model != MODEL_NONE) {
+                    if (device.model != MODEL_NONE)
+                    {
                         ESP_LOGD(TAG, "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i",
-                            model_to_string(device.model),
-                            device.hardware_version,
-                            device.firmware_major,
-                            device.firmware_minor,
-                            device.firmware_patch);
+                                 model_to_string(device.model),
+                                 device.hardware_version,
+                                 device.firmware_major,
+                                 device.firmware_minor,
+                                 device.firmware_patch);
 
                         // Update Model
-                        if(device.model != this->model_) {
+                        if (device.model != this->model_)
+                        {
                             this->model_ = device.model;
-                            #ifdef USE_SELECT
-                            if (this->model_select_ != nullptr) {
+#ifdef USE_SELECT
+                            if (this->model_select_ != nullptr)
+                            {
                                 this->model_select_->publish_state(model_to_string(device.model));
                             }
-                            #endif
+#endif
                             this->save_settings();
                         }
 
                         this->identify_complete_callback_.call(device);
-                    } else {
+                    }
+                    else
+                    {
                         ESP_LOGE(TAG, "Unable to identify Hardware! Unknown model. Data received: %s", cmd_data.command_hex.c_str());
                         this->identify_unknown_callback_.call();
                     }
-                } else {
-                    if(cmd_data.type == COMMAND_TYPE_ACK) {
+                }
+                else
+                {
+                    if (cmd_data.type == COMMAND_TYPE_ACK)
+                    {
                         ESP_LOGD(TAG, "Received Acknowledge - Type: %01X", cmd_data.payload);
-                    } else {
+                    }
+                    else
+                    {
                         ESP_LOGD(TAG, "Received Command - Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i-bit | Raw Data: 0x%08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
                     }
 
                     // Fire Callback
                     this->received_command_callback_.call(cmd_data);
 
-                    #ifdef USE_BINARY_SENSOR
+#ifdef USE_BINARY_SENSOR
                     // Fire Binary Sensors
-                    for (auto &listener : listeners_) {
+                    for (auto &listener : listeners_)
+                    {
                         // Listener Command lambda or command property when not available
                         uint32_t listener_command = listener->command_.has_value() ? listener->command_.value() : 0;
-                        if (listener->command_lambda_.has_value()) {
+                        if (listener->command_lambda_.has_value())
+                        {
                             auto optional_value = (*listener->command_lambda_)();
-                            if (optional_value.has_value()) {
+                            if (optional_value.has_value())
+                            {
                                 listener_command = optional_value.value();
                             }
                         }
 
                         // Listener Serial Number or TCS Serial Number when empty
                         uint32_t listener_serial_number = listener->serial_number_.has_value() ? listener->serial_number_.value() : this->serial_number_;
-                        
+
                         // Listener Address lambda or address property when not available
                         uint8_t listener_address = listener->address_.has_value() ? listener->address_.value() : 0;
-                        if (listener->address_lambda_.has_value()) {
+                        if (listener->address_lambda_.has_value())
+                        {
                             auto optional_value = (*listener->address_lambda_)();
-                            if (optional_value.has_value()) {
+                            if (optional_value.has_value())
+                            {
                                 listener_address = optional_value.value();
                             }
                         }
 
                         // Listener payload lambda or payload property when not available
                         uint32_t listener_payload = listener->payload_.has_value() ? listener->payload_.value() : 0;
-                        if (listener->payload_lambda_.has_value()) {
+                        if (listener->payload_lambda_.has_value())
+                        {
                             auto optional_value = (*listener->payload_lambda_)();
-                            if (optional_value.has_value()) {
+                            if (optional_value.has_value())
+                            {
                                 listener_payload = optional_value.value();
                             }
                         }
@@ -306,30 +343,40 @@ namespace esphome
                         bool allow_publish = false;
 
                         // Check if listener matches the command
-                        if (listener_command != 0) {
-                            if (cmd_data.command == listener_command) {
+                        if (listener_command != 0)
+                        {
+                            if (cmd_data.command == listener_command)
+                            {
                                 allow_publish = true;
                             }
-                        } else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255)) {
-                            if (listener_serial_number != 0) {
-                                if (cmd_data.serial_number == listener_serial_number || listener_serial_number == 255) {
+                        }
+                        else if (cmd_data.type == listener_type && (cmd_data.address == listener_address || listener_address == 255) && (cmd_data.payload == listener_payload || listener_payload == 255))
+                        {
+                            if (listener_serial_number != 0)
+                            {
+                                if (cmd_data.serial_number == listener_serial_number || listener_serial_number == 255)
+                                {
                                     allow_publish = true;
                                 }
-                            } else {
-                                allow_publish = true;  // Accept any serial number
+                            }
+                            else
+                            {
+                                allow_publish = true; // Accept any serial number
                             }
                         }
 
                         // Trigger listener binary sensor if match found
-                        if (allow_publish) {
+                        if (allow_publish)
+                        {
                             listener->turn_on(&listener->timer_, listener->auto_off_);
                         }
                     }
-                    #endif
+#endif
 
-                    #ifdef USE_API
+#ifdef USE_API
                     // Fire Home Assistant Event if event name is specified
-                    if (strcmp(event_, "esphome.none") != 0 && cmd_data.type != COMMAND_TYPE_ACK) {
+                    if (strcmp(event_, "esphome.none") != 0 && cmd_data.type != COMMAND_TYPE_ACK)
+                    {
                         auto capi = new esphome::api::CustomAPIDevice();
                         ESP_LOGV(TAG, "Send event to Home Assistant on %s", event_);
 
@@ -337,38 +384,48 @@ namespace esphome
                         std::string type_str = command_type_to_string(cmd_data.type);
                         std::transform(type_str.begin(), type_str.end(), type_str.begin(), ::tolower);
 
-                        capi->fire_homeassistant_event(event_, {
-                            {"command", cmd_data.command_hex},
-                            {"type", type_str},
-                            {"address", std::to_string(cmd_data.address)},
-                            {"payload", std::to_string(cmd_data.payload)},
-                            {"serial_number", std::to_string(cmd_data.serial_number)}
-                        });
+                        capi->fire_homeassistant_event(event_, {{"command", cmd_data.command_hex},
+                                                                {"type", type_str},
+                                                                {"address", std::to_string(cmd_data.address)},
+                                                                {"payload", std::to_string(cmd_data.payload)},
+                                                                {"serial_number", std::to_string(cmd_data.serial_number)}});
                     }
-                    #endif
+#endif
                 }
-            } else {
+            }
+            else
+            {
                 // From transmitter
-
-                if(cmd_data.type == COMMAND_TYPE_ACK) {
+                if (cmd_data.type == COMMAND_TYPE_ACK)
+                {
                     ESP_LOGD(TAG, "Sending Acknowledge - Type: %01X", cmd_data.payload);
-                } else {
+                }
+                else
+                {
                     ESP_LOGD(TAG, "Sending Command - Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i-bit | Raw Data: 0x%08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
                 }
             }
 
             // Sent or received - no response to identification and read memory process
-            if(!received || (received && !this->identify_model_ && !this->reading_memory_)) {
+            if (!received || (received && !this->identify_model_ && !this->reading_memory_))
+            {
                 // Update Door Readiness Status
-                if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
+                if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
+                {
                     bool door_readiness_state = cmd_data.payload == 1;
                     ESP_LOGD(TAG, "Door readiness: %s", YESNO(door_readiness_state));
-                } else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS) {
+                }
+                else if (cmd_data.type == COMMAND_TYPE_END_OF_DOOR_READINESS)
+                {
                     ESP_LOGD(TAG, "Door readiness: %s", YESNO(false));
-                } else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE) {
+                }
+                else if (cmd_data.type == COMMAND_TYPE_PROGRAMMING_MODE)
+                {
                     ESP_LOGD(TAG, "Programming Mode: %s", YESNO(cmd_data.payload == 1));
                     this->programming_mode_ = cmd_data.payload == 1;
-                } else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES) {
+                }
+                else if (cmd_data.type == COMMAND_TYPE_SEARCH_DOORMAN_DEVICES)
+                {
                     ESP_LOGD(TAG, "Responding to Doorman search request.");
 
                     uint8_t mac[6];
@@ -376,7 +433,9 @@ namespace esphome
                     uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
 
                     send_command(COMMAND_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
-                } else if (cmd_data.type == COMMAND_TYPE_FOUND_DOORMAN_DEVICE) {
+                }
+                else if (cmd_data.type == COMMAND_TYPE_FOUND_DOORMAN_DEVICE)
+                {
                     uint8_t mac[3];
                     mac[0] = (cmd_data.payload >> 16) & 0xFF;
                     mac[1] = (cmd_data.payload >> 8) & 0xFF;
@@ -386,14 +445,16 @@ namespace esphome
                              mac[0], mac[1], mac[2]);
                 }
 
-                #ifdef USE_TEXT_SENSOR
-                if(cmd_data.type != COMMAND_TYPE_ACK) {
+#ifdef USE_TEXT_SENSOR
+                if (cmd_data.type != COMMAND_TYPE_ACK)
+                {
                     // Publish Command to Last Bus Command Sensor
-                    if (this->bus_command_text_sensor_ != nullptr) {
+                    if (this->bus_command_text_sensor_ != nullptr)
+                    {
                         this->bus_command_text_sensor_->publish_state(cmd_data.command_hex);
                     }
                 }
-                #endif
+#endif
             }
         }
 
@@ -415,25 +476,35 @@ namespace esphome
             uint8_t ack_cal_crc = 1;
 
             // Process each pulse duration in the received data
-            for (auto raw_pulse_duration : data.get_raw_data()) {
+            for (auto raw_pulse_duration : data.get_raw_data())
+            {
                 uint32_t pulse_duration = std::abs(raw_pulse_duration);
                 uint8_t pulse_type = 4;
 
                 // Determine the type of pulse based on its duration
-                if (pulse_duration >= BIT_0_MIN && pulse_duration <= BIT_0_MAX) {
+                if (pulse_duration >= BIT_0_MIN && pulse_duration <= BIT_0_MAX)
+                {
                     pulse_type = 0;
                     ESP_LOGV(TAG, "Command Bit (%i), %i", 0, cmd_pos);
-                } else if (pulse_duration >= BIT_1_MIN && pulse_duration <= BIT_1_MAX) {
+                }
+                else if (pulse_duration >= BIT_1_MIN && pulse_duration <= BIT_1_MAX)
+                {
                     pulse_type = 1;
                     ESP_LOGV(TAG, "Command Bit (%i), %i", 1, cmd_pos);
-                } else if (pulse_duration >= START_MIN && pulse_duration <= START_MAX) {
+                }
+                else if (pulse_duration >= START_MIN && pulse_duration <= START_MAX)
+                {
                     pulse_type = 2;
                     ESP_LOGV(TAG, "Begin (%i)", pulse_duration, cmd_pos);
-                } else {
+                }
+                else
+                {
                     // If the pulse duration does not match any known type, reset the state
                     // Check for ACK
-                    if (ack_pos == 6) {
-                        if (ack_crc == ack_cal_crc && !reading_memory_ && !identify_model_) {
+                    if (ack_pos == 6)
+                    {
+                        if (ack_crc == ack_cal_crc && !reading_memory_ && !identify_model_)
+                        {
                             CommandData cmd_data = parseCommand(ack_command, false);
                             received_command(cmd_data);
                         }
@@ -451,22 +522,33 @@ namespace esphome
                 }
 
                 // Process acknowledgment bits
-                if (pulse_type == 0 || pulse_type == 1) {
-                    if (ack_pos == 0) {
+                if (pulse_type == 0 || pulse_type == 1)
+                {
+                    if (ack_pos == 0)
+                    {
                         ack_pos++;
-                    } else if (ack_pos >= 1 && ack_pos <= 4) {
-                        if (pulse_type) {
-                            ack_command |= (1 << (4 - ack_pos));  
+                    }
+                    else if (ack_pos >= 1 && ack_pos <= 4)
+                    {
+                        if (pulse_type)
+                        {
+                            ack_command |= (1 << (4 - ack_pos));
                         }
                         ack_cal_crc ^= pulse_type;
                         ack_pos++;
-                    } else if (ack_pos == 5) {
+                    }
+                    else if (ack_pos == 5)
+                    {
                         ack_crc = pulse_type;
                         ack_pos++;
                     }
-                } else if (pulse_type == 2) {
-                    if (ack_pos == 6) { 
-                        if (ack_crc == ack_cal_crc && !reading_memory_ && !identify_model_) {
+                }
+                else if (pulse_type == 2)
+                {
+                    if (ack_pos == 6)
+                    {
+                        if (ack_crc == ack_cal_crc && !reading_memory_ && !identify_model_)
+                        {
                             CommandData cmd_data = parseCommand(ack_command, false);
                             received_command(cmd_data);
                         }
@@ -479,89 +561,123 @@ namespace esphome
                 }
 
                 // Process command bits
-                if (cmd_pos == 0) {
-                    if (pulse_type == 2) {
+                if (cmd_pos == 0)
+                {
+                    if (pulse_type == 2)
+                    {
                         cmd_pos++;
                         command = 0;
                         cmd_crc = 0;
                         cmd_cal_crc = 1;
                         is_long = false;
                     }
-                } else if (pulse_type == 0 || pulse_type == 1) {
-                    if (cmd_pos == 1) {
+                }
+                else if (pulse_type == 0 || pulse_type == 1)
+                {
+                    if (cmd_pos == 1)
+                    {
                         is_long = pulse_type;
                         cmd_pos++;
-                    } else if (cmd_pos >= 2 && cmd_pos <= 17) {
-                        if (pulse_type) {
+                    }
+                    else if (cmd_pos >= 2 && cmd_pos <= 17)
+                    {
+                        if (pulse_type)
+                        {
                             command |= (1 << ((is_long ? 33 : 17) - cmd_pos));
                         }
                         cmd_cal_crc ^= pulse_type;
                         cmd_pos++;
-                    } else if (cmd_pos == 18) {
-                        if (is_long) {
-                            if (pulse_type) {
+                    }
+                    else if (cmd_pos == 18)
+                    {
+                        if (is_long)
+                        {
+                            if (pulse_type)
+                            {
                                 command |= (1 << (33 - cmd_pos));
                             }
                             cmd_cal_crc ^= pulse_type;
                             cmd_pos++;
-                        } else {
+                        }
+                        else
+                        {
                             cmd_crc = pulse_type;
                             command_ready = true;
                         }
-                    } else if (cmd_pos >= 19 && cmd_pos <= 33) {
-                        if (pulse_type) {
+                    }
+                    else if (cmd_pos >= 19 && cmd_pos <= 33)
+                    {
+                        if (pulse_type)
+                        {
                             command |= (1 << (33 - cmd_pos));
                         }
                         cmd_cal_crc ^= pulse_type;
                         cmd_pos++;
-                    } else if (cmd_pos == 34) {
+                    }
+                    else if (cmd_pos == 34)
+                    {
                         cmd_crc = pulse_type;
                         command_ready = true;
                     }
-                } else if (pulse_type == 2) {  // Another START signal
+                }
+                else if (pulse_type == 2)
+                { // Another START signal
                     // Only reset if we're not in the middle of a valid command
-                    if (!command_ready) {
-                        cmd_pos = 1;  // Set to 1 since we're starting a new command
+                    if (!command_ready)
+                    {
+                        cmd_pos = 1; // Set to 1 since we're starting a new command
                         command = 0;
                         cmd_crc = 0;
                         cmd_cal_crc = 1;
                         is_long = false;
                     }
-                } else {
+                }
+                else
+                {
                     cmd_pos = 0;
                     command = 0;
                     cmd_crc = 0;
                     cmd_cal_crc = 1;
                     is_long = false;
-                    
+
                     ack_pos = 0;
                     ack_command = 0;
                     ack_crc = 0;
                     ack_cal_crc = 1;
                 }
-    
+
                 // If the command is ready, process it
-                if (command_ready) {
+                if (command_ready)
+                {
                     command_ready = false;
-    
-                    if (cmd_crc == cmd_cal_crc) {
-                        if(this->last_sent_command_ == -1) {
+
+                    if (cmd_crc == cmd_cal_crc)
+                    {
+                        if (this->last_sent_command_ == -1)
+                        {
                             ESP_LOGV(TAG, "Received data %X, previously sent: NOTHING", command);
-                        } else {
+                        }
+                        else
+                        {
                             ESP_LOGV(TAG, "Received data %X, previously sent: %08X", command, this->last_sent_command_);
                         }
 
-                        if(this->last_sent_command_ == -1 || (this->last_sent_command_ != -1 && static_cast<int32_t>(command) != this->last_sent_command_)) {
+                        if (this->last_sent_command_ == -1 || (this->last_sent_command_ != -1 && static_cast<int32_t>(command) != this->last_sent_command_))
+                        {
                             CommandData cmd_data = parseCommand(command, is_long);
                             received_command(cmd_data);
-                        } else {
+                        }
+                        else
+                        {
                             ESP_LOGD(TAG, "Received command 0x%08X, but ignoring it as it matches the last sent command.", command);
                         }
                         this->last_sent_command_ = -1;
-                    } else {
+                    }
+                    else
+                    {
                         ESP_LOGW(TAG, "CRC mismatch! Received: %d | Expected: %d", cmd_crc, cmd_cal_crc);
                     }
-    
+
                     ack_pos = 0;
                     ack_command = 0;
                     ack_crc = 0;
@@ -585,40 +701,47 @@ namespace esphome
             ESP_LOGD(TAG, "Floor Call Ringtone: %i", get_setting(SETTING_RINGTONE_FLOOR_CALL));
             ESP_LOGD(TAG, "Internal Call Ringtone: %i", get_setting(SETTING_RINGTONE_INTERNAL_CALL));
 
-            #ifdef USE_SELECT
-            if (this->ringtone_entrance_door_call_select_) {
+#ifdef USE_SELECT
+            if (this->ringtone_entrance_door_call_select_)
+            {
                 this->ringtone_entrance_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL)));
             }
-            if (this->ringtone_second_entrance_door_call_select_) {
+            if (this->ringtone_second_entrance_door_call_select_)
+            {
                 this->ringtone_second_entrance_door_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL)));
             }
-            if (this->ringtone_floor_call_select_) {
+            if (this->ringtone_floor_call_select_)
+            {
                 this->ringtone_floor_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_FLOOR_CALL)));
             }
-            if (this->ringtone_internal_call_select_) {
+            if (this->ringtone_internal_call_select_)
+            {
                 this->ringtone_internal_call_select_->publish_state(int_to_ringtone(get_setting(SETTING_RINGTONE_INTERNAL_CALL)));
             }
-            #endif
+#endif
 
-            #ifdef USE_NUMBER
-            if (this->volume_handset_door_call_number_) {
+#ifdef USE_NUMBER
+            if (this->volume_handset_door_call_number_)
+            {
                 this->volume_handset_door_call_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
             }
-            if (this->volume_handset_internal_call_number_) {
+            if (this->volume_handset_internal_call_number_)
+            {
                 this->volume_handset_internal_call_number_->publish_state(get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
             }
-            if (this->volume_ringtone_number_) {
+            if (this->volume_ringtone_number_)
+            {
                 this->volume_ringtone_number_->publish_state(get_setting(SETTING_VOLUME_RINGTONE));
             }
-            #endif
+#endif
         }
 
-        #ifdef USE_BINARY_SENSOR
+#ifdef USE_BINARY_SENSOR
         void TCBusComponent::register_listener(TCBusListener *listener)
         {
-            this->listeners_.push_back(listener); 
+            this->listeners_.push_back(listener);
         }
-        #endif
+#endif
 
         void TCBusComponent::send_command(uint32_t command, uint32_t wait_duration)
         {
@@ -644,12 +767,14 @@ namespace esphome
 
         void TCBusComponent::send_command(CommandData cmd_data, uint32_t wait_duration)
         {
-            if(cmd_data.serial_number == 0 && this->serial_number_ != 0) {
+            if (cmd_data.serial_number == 0 && this->serial_number_ != 0)
+            {
                 cmd_data.serial_number = this->serial_number_;
                 ESP_LOGV(TAG, "Serial number is not specified. Using saved serial number: %i", cmd_data.serial_number);
             }
 
-            if(cmd_data.command == 0) {
+            if (cmd_data.command == 0)
+            {
                 ESP_LOGW(TAG, "Sending commands of type %s is not yet supported.", command_type_to_string(cmd_data.type));
             }
 
@@ -673,31 +798,35 @@ namespace esphome
 
             // Calculate length based on command type
             uint8_t length = cmd_data.type == COMMAND_TYPE_ACK ? 4 : (cmd_data.is_long ? 32 : 16);
-            
+
             // Track checksum
             uint8_t checksm = 1;
 
             // Process all bits
-            for (int i = length - 1; i >= 0; i--) {
+            for (int i = length - 1; i >= 0; i--)
+            {
                 // Extract single bit
                 bool bit = (cmd_data.command & (1UL << i)) != 0;
-                
+
                 // Update checksum
                 checksm ^= bit;
 
                 // Send bit as mark/space sequence
-                if(i % 2 == 0) {
+                if (i % 2 == 0)
+                {
                     dst->space(bit ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
                     ESP_LOGV(TAG, "space bit %i - %i", bit, bit ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
-                } else {
+                }
+                else
+                {
                     dst->mark(bit ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
                     ESP_LOGV(TAG, "mark bit %i - %i", bit, bit ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
                 }
             }
-            
+
             dst->mark(checksm ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
             ESP_LOGV(TAG, "mark chksm %i", checksm ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
-            
+
             call.perform();
             ESP_LOGV(TAG, "perform");
         }
@@ -706,7 +835,7 @@ namespace esphome
         {
             this->received_command_callback_.add(std::move(callback));
         }
-        
+
         void TCBusComponent::add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback)
         {
             this->read_memory_complete_callback_.add(std::move(callback));
@@ -739,10 +868,13 @@ namespace esphome
 
         void TCBusComponent::request_version(uint32_t serial_number)
         {
-            if(serial_number == 0 && this->serial_number_ != 0) {
+            if (serial_number == 0 && this->serial_number_ != 0)
+            {
                 serial_number = this->serial_number_;
                 ESP_LOGV(TAG, "Serial number is not specified. Using saved serial number: %i", serial_number);
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Device model cannot be identified without a serial number!");
                 return;
             }
@@ -756,7 +888,8 @@ namespace esphome
             send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, 0, 0, 400); // class 0
             send_command(COMMAND_TYPE_REQUEST_VERSION, 0, 0, serial_number, 400);
 
-            this->set_timeout("wait_for_identification_category_0", 1000, [this, serial_number]() {
+            this->set_timeout("wait_for_identification_category_0", 1000, [this, serial_number]()
+                              {
                 // Didn't receive identify result of category 0
                 // Second try with category 1
                 ESP_LOGD(TAG, "Identifying device model (Category %i) using serial number: %i...", 1, serial_number);
@@ -769,24 +902,29 @@ namespace esphome
                     this->identify_model_ = false;
                     this->identify_timeout_callback_.call();
                     ESP_LOGE(TAG, "Identification response not received in time. The device model may not support identification.");
-                });
-            });
+                }); });
         }
 
         void TCBusComponent::read_memory(uint32_t serial_number, Model model)
         {
-            if(serial_number == 0 && this->serial_number_ != 0) {
+            if (serial_number == 0 && this->serial_number_ != 0)
+            {
                 serial_number = this->serial_number_;
                 ESP_LOGV(TAG, "Serial number is not specified. Using saved serial number: %i", serial_number);
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Unable to read device memory without a serial number!");
                 return;
             }
 
-            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+            if (model == MODEL_NONE && this->model_ != MODEL_NONE)
+            {
                 model = this->model_;
                 ESP_LOGV(TAG, "Model is not specified (NONE). Using saved model: %s.", model_to_string(model));
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Unable to read device memory without a model!");
                 return;
             }
@@ -807,7 +945,8 @@ namespace esphome
             reading_memory_count_ = 0;
             reading_memory_max_ = (model_data.memory_size / 4);
 
-            this->set_timeout("wait_for_memory_reading", reading_memory_max_ * 600, [this]() {
+            this->set_timeout("wait_for_memory_reading", reading_memory_max_ * 600, [this]()
+                              {
                 memory_buffer_.clear();
                 reading_memory_ = false;
                 reading_memory_serial_number_ = 0;
@@ -815,9 +954,8 @@ namespace esphome
                 reading_memory_max_ = 0;
 
                 this->read_memory_timeout_callback_.call();
-                ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!");
-            });
-                
+                ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!"); });
+
             read_memory_block();
         }
 
@@ -829,37 +967,48 @@ namespace esphome
 
         bool TCBusComponent::supports_setting(SettingType type, Model model)
         {
-            if(memory_buffer_.size() == 0) {
+            if (memory_buffer_.size() == 0)
+            {
                 return false;
             }
 
-            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+            if (model == MODEL_NONE && this->model_ != MODEL_NONE)
+            {
                 model = this->model_;
                 ESP_LOGV(TAG, "Model is not specified (NONE). Using saved model: %s.", model_to_string(model));
-            } else {
+            }
+            else
+            {
                 return false;
             }
 
             // Get Setting Cell Data by Model
             SettingCellData cellData = getSettingCellData(type, model);
 
-            if(cellData.index != 0) {
+            if (cellData.index != 0)
+            {
                 return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
 
         uint8_t TCBusComponent::get_setting(SettingType type, Model model)
         {
-            if(memory_buffer_.size() == 0) {
+            if (memory_buffer_.size() == 0)
+            {
                 return 0;
             }
 
-            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+            if (model == MODEL_NONE && this->model_ != MODEL_NONE)
+            {
                 model = this->model_;
                 ESP_LOGV(TAG, "Model is not specified (NONE). Using saved model: %s.", model_to_string(model));
-            } else {
+            }
+            else
+            {
                 ESP_LOGV(TAG, "Model is not specified (NONE). Returning 0.");
                 return 0;
             }
@@ -867,9 +1016,12 @@ namespace esphome
             // Get Setting Cell Data by Model
             SettingCellData cellData = getSettingCellData(type, model);
 
-            if(cellData.index != 0) {
+            if (cellData.index != 0)
+            {
                 return cellData.left_nibble ? ((memory_buffer_[cellData.index] >> 4) & 0xF) : (memory_buffer_[cellData.index] & 0xF);
-            } else {
+            }
+            else
+            {
                 ESP_LOGV(TAG, "The setting '%s' is not available for model '%s'.", setting_type_to_string(type), model_to_string(model));
                 return 0;
             }
@@ -877,30 +1029,38 @@ namespace esphome
 
         bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number, Model model)
         {
-            if(memory_buffer_.size() == 0) {
+            if (memory_buffer_.size() == 0)
+            {
                 ESP_LOGE(TAG, "Memory buffer is empty. Please read memory before proceeding!");
                 return false;
             }
 
-            if(serial_number == 0 && this->serial_number_ != 0) {
+            if (serial_number == 0 && this->serial_number_ != 0)
+            {
                 serial_number = this->serial_number_;
                 ESP_LOGV(TAG, "Serial number is not specified. Using saved serial number: %i", serial_number);
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Unable to update device setting without a serial number!");
                 return false;
             }
 
-            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+            if (model == MODEL_NONE && this->model_ != MODEL_NONE)
+            {
                 model = this->model_;
                 ESP_LOGV(TAG, "Model is not specified (NONE). Using saved model: %s.", model_to_string(model));
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Unable to update device setting without a model!");
                 return false;
             }
 
             // Get Setting Cell Data by Model
             SettingCellData cellData = getSettingCellData(type, model);
-            if(cellData.index == 0) {
+            if (cellData.index == 0)
+            {
                 ESP_LOGE(TAG, "Cannot write because setting %s is not available for model %s!", setting_type_to_string(type), model_to_string(model));
                 return false;
             }
@@ -930,23 +1090,30 @@ namespace esphome
 
         bool TCBusComponent::write_memory(uint32_t serial_number, Model model)
         {
-            if(memory_buffer_.size() == 0) {
+            if (memory_buffer_.size() == 0)
+            {
                 ESP_LOGE(TAG, "Memory buffer is empty! Please read memory first before proceeding.");
                 return false;
             }
 
-            if(serial_number == 0 && this->serial_number_ != 0) {
+            if (serial_number == 0 && this->serial_number_ != 0)
+            {
                 serial_number = this->serial_number_;
                 ESP_LOGV(TAG, "Serial number is not specified. Using saved serial number: %i", serial_number);
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Unable to write memory without a serial number!");
                 return false;
             }
 
-            if(model == MODEL_NONE && this->model_ != MODEL_NONE) {
+            if (model == MODEL_NONE && this->model_ != MODEL_NONE)
+            {
                 model = this->model_;
                 ESP_LOGV(TAG, "Model is not specified (NONE). Using saved model: %s.", model_to_string(model));
-            } else {
+            }
+            else
+            {
                 ESP_LOGE(TAG, "Unable to write memory without a model!");
                 return false;
             }
@@ -954,15 +1121,16 @@ namespace esphome
             ESP_LOGD(TAG, "Write memory buffer to EEPROM of %s (%i)...", model_to_string(model), serial_number);
 
             // Prepare Transmission
-            //ESP_LOGD(TAG, "Select device category");
+            // ESP_LOGD(TAG, "Select device category");
             ModelData model_data = getModelData(model);
             send_command(COMMAND_TYPE_SELECT_DEVICE_GROUP, 0, model_data.category);
 
-            //ESP_LOGD(TAG, "Select memory page %i of serial number %i", 0, serial_number);
+            // ESP_LOGD(TAG, "Select memory page %i of serial number %i", 0, serial_number);
             send_command(COMMAND_TYPE_SELECT_MEMORY_PAGE, 0, 0, serial_number);
 
             // Transmit Memory
-            for (size_t address = 0; address < memory_buffer_.size(); address += 2) {
+            for (size_t address = 0; address < memory_buffer_.size(); address += 2)
+            {
                 uint16_t new_value = (memory_buffer_[address] << 8) | memory_buffer_[address + 1];
                 send_command(COMMAND_TYPE_WRITE_MEMORY, address, new_value);
             }
@@ -973,5 +1141,5 @@ namespace esphome
             return true;
         }
 
-    }  // namespace tc_bus
-}  // namespace esphome
+    } // namespace tc_bus
+} // namespace esphome
