@@ -6,7 +6,7 @@ substitutions:
 logger:
   logs:
     tc_bus: DEBUG
-    component: ERROR # avoids component warning spam
+  #  component: ERROR # avoids component warning spam
     sensor: DEBUG
 
 remote_receiver:
