@@ -24,6 +24,7 @@ logger:
 
 web_server:
   version: 3
+  id: doorman_webserver
   sorting_groups:
     - id: sorting_group_controls
       name: "Controls"
@@ -66,7 +67,7 @@ improv_serial:
 # Import TC:BUS Component
 external_components:
   - source: github://azoninc/doorman@${branch}
-    components: [ tc_bus ]
+    components: [ tc_bus, web_server ]
     refresh: 60s
 
 # Setup RMT components

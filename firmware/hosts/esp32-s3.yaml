@@ -28,11 +28,11 @@ psram:
 
 remote_receiver:
   rmt_symbols: 192
-  use_dma: true
+  #use_dma: true
 
 remote_transmitter:
-  use_dma: true
   rmt_symbols: 48
+  #use_dma: true
 
 substitutions:
   rx_pin: "GPIO9"

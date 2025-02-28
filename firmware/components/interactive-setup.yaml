@@ -11,8 +11,12 @@ switch:
     on_turn_on:
       - logger.log: "Setup Step 1: Waiting for door or floor call."
       - script.execute: update_led
+      - lambda: |-
+          id(doorman_webserver)->events_.send("{\"step\": \"wait_for_ring\"}", "setup_mode");
     on_turn_off:
       - script.execute: update_led
+      - lambda: |-
+          id(doorman_webserver)->events_.send("{\"step\": \"stop\"}", "setup_mode");
     web_server:
       sorting_group_id: sorting_group_system
       sorting_weight: -19
@@ -24,6 +28,10 @@ tc_bus:
         condition:
           - switch.is_on: doorman_setup_mode
         then:
+          - lambda: |-
+              id(doorman_webserver)->events_.send("{\"step\": \"identify_complete\"}", "setup_mode");
+          - lambda: |-
+              id(doorman_webserver)->events_.send("{\"step\": \"read_memory\"}", "setup_mode");
           - script.execute: complete_setup
 
   on_identify_unknown:
@@ -34,6 +42,9 @@ tc_bus:
           - logger.log:
               format: "Unknown model detected! Please open an issue and provide your logs in order to implement support for this model."
               level: WARN
+          - lambda: |-
+              id(doorman_webserver)->events_.send("{\"step\": \"identify_unknown\"}", "setup_mode");
+              id(doorman_webserver)->events_.send("{\"step\": \"read_memory_skipped\"}", "setup_mode");
           - script.execute: complete_setup
 
   on_identify_timeout:
@@ -41,7 +52,18 @@ tc_bus:
         condition:
           - switch.is_on: doorman_setup_mode
         then:
+          - lambda: |-
+              id(doorman_webserver)->events_.send("{\"step\": \"identify_timeout\"}", "setup_mode");
+              id(doorman_webserver)->events_.send("{\"step\": \"read_memory_skipped\"}", "setup_mode");
           - script.execute: complete_setup
+
+  on_read_memory_complete:
+    - lambda: |-
+        id(doorman_webserver)->events_.send("{\"step\": \"read_memory_complete\"}", "setup_mode");
+
+  on_read_memory_timeout:
+    - lambda: |-
+        id(doorman_webserver)->events_.send("{\"step\": \"read_memory_timeout\"}", "setup_mode");
 
   on_command:
     # Setup mode: Wait for Floor or Door Call
@@ -60,11 +82,16 @@ tc_bus:
               id: entrance_door_station_id
               value: !lambda "return x.address;"
 
+          - lambda: |-
+              id(doorman_webserver)->events_.send("{\"step\": \"saved_serial_number\"}", "setup_mode");
+
           - logger.log: "Waiting for ringtone to finish before proceeding."
           - delay: 3s
 
           # Start Identification
           - logger.log: "Setup Step 2: Identifying Indoor Station."
+          - lambda: |-
+              id(doorman_webserver)->events_.send("{\"step\": \"identify\"}", "setup_mode");
           - tc_bus.identify:
 
     # If no second door station id is set, wait for one
@@ -80,6 +107,8 @@ script:
   - id: complete_setup
     then:
       - switch.turn_off: doorman_setup_mode
+      - lambda: |-
+          id(doorman_webserver)->events_.send("{\"step\": \"complete\"}", "setup_mode");
 
       - light.turn_on:
           id: doorman_rgb_status_led

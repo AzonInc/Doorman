@@ -26,12 +26,8 @@ tc_bus:
         format: "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i"
         args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
         level: INFO
-    - if:
-        condition:
-          - lambda: return x.model != MODEL_NONE;
-        then:
-          - delay: 2s
-          - tc_bus.read_memory:
+    - delay: 2s
+    - tc_bus.read_memory:
 
   on_identify_timeout:
     - logger.log:
