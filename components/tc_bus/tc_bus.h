@@ -87,13 +87,12 @@ namespace esphome
             uint32_t serial_number;
         };
 
+        class TCBusComponent : public Component
+                             , public remote_base::RemoteReceiverListener
 #ifdef USE_API
-        class TCBusComponent : public Component, public remote_base::RemoteReceiverListener, public CustomAPIDevice
+                             , public CustomAPIDevice
+#endif
         {
-#else
-        class TCBusComponent : public Component, public remote_base::RemoteReceiverListener
-        {
-#endif 
 #ifdef USE_TEXT_SENSOR
             SUB_TEXT_SENSOR(bus_command)
             SUB_TEXT_SENSOR(hardware_version)
