@@ -6,7 +6,7 @@
 namespace esphome {
 namespace tc_bus {
 
-class RingtoneFloorCallSelect : public select::Select, public Parented<TCBusComponent> {
+class RingtoneFloorCallSelect final : public select::Select, public Parented<TCBusComponent> {
  public:
   RingtoneFloorCallSelect() = default;
 

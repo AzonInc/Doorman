@@ -91,28 +91,28 @@ namespace esphome
             public Component,
             public remote_base::RemoteReceiverListener
 #ifdef USE_API
-            , public CustomAPIDevice
+          , public api::CustomAPIDevice
 #endif
         {
-
-        public:
 #ifdef USE_TEXT_SENSOR
-            SUB_TEXT_SENSOR(bus_command)
-            SUB_TEXT_SENSOR(hardware_version)
+            SUB_TEXT_SENSOR(bus_command);
+            SUB_TEXT_SENSOR(hardware_version);
 #endif
 #ifdef USE_SELECT
-            SUB_SELECT(model)
-            SUB_SELECT(ringtone_entrance_door_call)
-            SUB_SELECT(ringtone_second_entrance_door_call)
-            SUB_SELECT(ringtone_floor_call)
-            SUB_SELECT(ringtone_internal_call)
+            SUB_SELECT(model);
+            SUB_SELECT(ringtone_entrance_door_call);
+            SUB_SELECT(ringtone_second_entrance_door_call);
+            SUB_SELECT(ringtone_floor_call);
+            SUB_SELECT(ringtone_internal_call);
 #endif
 #ifdef USE_NUMBER
-            SUB_NUMBER(serial_number)
-            SUB_NUMBER(volume_handset_door_call)
-            SUB_NUMBER(volume_handset_internal_call)
-            SUB_NUMBER(volume_ringtone)
+            SUB_NUMBER(serial_number);
+            SUB_NUMBER(volume_handset_door_call);
+            SUB_NUMBER(volume_handset_internal_call);
+            SUB_NUMBER(volume_ringtone);
 #endif
+
+        public:
             void set_tx(remote_transmitter::RemoteTransmitterComponent *tx) { this->tx_ = tx; }
             void set_rx(remote_receiver::RemoteReceiverComponent *rx) { this->rx_ = rx; }
 
