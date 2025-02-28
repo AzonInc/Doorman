@@ -87,12 +87,15 @@ namespace esphome
             uint32_t serial_number;
         };
 
-        class TCBusComponent : public Component
-                             , public remote_base::RemoteReceiverListener
+        class TCBusComponent :
+            public Component,
+            public remote_base::RemoteReceiverListener
 #ifdef USE_API
-                             , public CustomAPIDevice
+            , public CustomAPIDevice
 #endif
         {
+
+        public:
 #ifdef USE_TEXT_SENSOR
             SUB_TEXT_SENSOR(bus_command)
             SUB_TEXT_SENSOR(hardware_version)
@@ -110,8 +113,6 @@ namespace esphome
             SUB_NUMBER(volume_handset_internal_call)
             SUB_NUMBER(volume_ringtone)
 #endif
-
-        public:
             void set_tx(remote_transmitter::RemoteTransmitterComponent *tx) { this->tx_ = tx; }
             void set_rx(remote_receiver::RemoteReceiverComponent *rx) { this->rx_ = rx; }
 
