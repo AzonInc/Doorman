@@ -11,7 +11,6 @@ packages:
   ota_updates: !include ../components/ota-updates.yaml
   dashboard_import: !include ../components/dashboard-import.yaml
   api: !include ../components/api-homeassistant.yaml
-  debug_utilities_non_esp32: !include ../components/debug-utilities.non-esp32.yaml
   pattern_events: !include ../components/pattern-events.yaml
   ring_to_open: !include ../components/ring-to-open.yaml
   intercom_settings: !include ../components/intercom-settings.yaml
