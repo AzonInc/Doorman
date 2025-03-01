@@ -44,7 +44,7 @@ def get_packages(host, api_variant, firmware, branch):
 
         ('debug_utilities', '!include ../components/debug-utilities.yaml', branch == 'dev'),
         ('debug_utilities_psram', '!include ../components/debug-utilities.psram.yaml', branch == 'dev' and has_psram),
-        ('debug_utilities_non_esp32', '!include ../components/debug-utilities.non-esp32.yaml', not is_esp32),
+        ('debug_utilities_non_esp32', '!include ../components/debug-utilities.non-esp32.yaml', branch == 'dev' and not is_esp32),
 
         ('pattern_events', '!include ../components/pattern-events.yaml', True),
         ('ring_to_open', '!include ../components/ring-to-open.yaml', True),
