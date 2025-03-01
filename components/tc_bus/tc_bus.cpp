@@ -244,87 +244,88 @@ namespace esphome
             auto &s = this->store_;
 
             if(s.command_is_ready) {
-                if(reading_memory_) {
-                    ESP_LOGD(TAG, "Received 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
-
-                    // Save Data to memory Store
-                    memory_buffer_.push_back((s.command >> 24) & 0xFF);
-                    memory_buffer_.push_back((s.command >> 16) & 0xFF);
-                    memory_buffer_.push_back((s.command >> 8) & 0xFF);
-                    memory_buffer_.push_back(s.command & 0xFF);
-
-                    // Next 4 Data Blocks
-                    reading_memory_count_++;
-
-                    // Memory reading complete
-                    if(reading_memory_count_ == reading_memory_max_) {
-                        // Turn off
-                        this->cancel_timeout("wait_for_memory_reading");
-                        reading_memory_ = false;
-
-                        this->publish_settings();
-                        this->read_memory_complete_callback_.call(memory_buffer_);
-                    } else {
-                        delay(20);
-
-                        // Request Data Blocks
-                        ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
-                        send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
-                    }
-                }
-                else if(identify_model_) {
-                    std::string hex_result = str_upper_case(format_hex(s.command));
-                    if(hex_result.substr(4, 1) == "D") {
-                        identify_model_ = false;
-                        this->cancel_timeout("wait_for_identification");
-
-                        ModelData device;
-
-                        device.category = 0;
-                        device.memory_size = 0;
-
-                        // FW Version
-                        device.firmware_version = std::stoi(hex_result.substr(5, 3));
-                        device.firmware_major = std::stoi(hex_result.substr(5, 1), nullptr, 16);
-                        device.firmware_minor = std::stoi(hex_result.substr(6, 1), nullptr, 16);
-                        device.firmware_patch = std::stoi(hex_result.substr(7, 1), nullptr, 16);
-
-                        // HW Version
-                        device.hardware_version = std::stoi(hex_result.substr(0, 1));
-                        device.model = identifier_string_to_model(hex_result.substr(1, 3), device.hardware_version, device.firmware_version);
-                        const char* hw_model = model_to_string(device.model);
-
-                        ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
-                            hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
-
-                        // Update Model
-                        if(device.model != MODEL_NONE && device.model != this->model_) {
-                            this->model_ = device.model;
-                            #ifdef USE_SELECT
-                            if (this->model_select_ != nullptr) {
-                                this->model_select_->publish_state(hw_model);
-                            }
-                            #endif
-                            this->save_settings();
-                        }
-
-                        this->identify_complete_callback_.call(device);
-                    } else {
-                        ESP_LOGE(TAG, "Invalid indentification response!");
-                    }
-                }
-                else {
-                    if(s.command_is_long) {
-                        ESP_LOGD(TAG, "Received 32-Bit command %08X", s.command);
-                    } else {
-                        ESP_LOGD(TAG, "Received 16-Bit command %04X", s.command);
-                    }
-                    this->publish_command(s.command, s.command_is_long, true);
-                }
+                CommandData cmd_data = parseCommand(s.command, s.command_is_long);
+                on_command(cmd_data);
 
                 s.command_is_ready = false;
                 s.command_is_long = false;
                 s.command = 0;
+            }
+        }
+
+        void TCBusComponent::on_command(CommandData cmd_data)
+        {
+            if(reading_memory_) {
+                ESP_LOGD(TAG, "Received 4 memory addresses %i to %i: %08X", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4, cmd_data.command);
+
+                // Save Data to memory Store
+                memory_buffer_.push_back((cmd_data.command >> 24) & 0xFF);
+                memory_buffer_.push_back((cmd_data.command >> 16) & 0xFF);
+                memory_buffer_.push_back((cmd_data.command >> 8) & 0xFF);
+                memory_buffer_.push_back(cmd_data.command & 0xFF);
+
+                // Next 4 Data Blocks
+                reading_memory_count_++;
+
+                // Memory reading complete
+                if(reading_memory_count_ == reading_memory_max_) {
+                    // Turn off
+                    this->cancel_timeout("wait_for_memory_reading");
+                    reading_memory_ = false;
+
+                    this->publish_settings();
+                    this->read_memory_complete_callback_.call(memory_buffer_);
+                } else {
+                    delay(20);
+
+                    // Request Data Blocks
+                    ESP_LOGD(TAG, "Read 4 memory addresses %i to %i", (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4);
+                    send_command(COMMAND_TYPE_READ_MEMORY_BLOCK, reading_memory_count_);
+                }
+            }
+            else if(identify_model_) {
+                if(cmd_data.command_hex.substr(4, 1) == "D") {
+                    identify_model_ = false;
+                    this->cancel_timeout("wait_for_identification");
+
+                    ModelData device;
+
+                    device.category = 0;
+                    device.memory_size = 0;
+
+                    // FW Version
+                    device.firmware_version = std::stoi(cmd_data.command_hex.substr(5, 3));
+                    device.firmware_major = std::stoi(cmd_data.command_hex.substr(5, 1), nullptr, 16);
+                    device.firmware_minor = std::stoi(cmd_data.command_hex.substr(6, 1), nullptr, 16);
+                    device.firmware_patch = std::stoi(cmd_data.command_hex.substr(7, 1), nullptr, 16);
+
+                    // HW Version
+                    device.hardware_version = std::stoi(cmd_data.command_hex.substr(0, 1));
+                    device.model = identifier_string_to_model(cmd_data.command_hex.substr(1, 3), device.hardware_version, device.firmware_version);
+                    const char* hw_model = model_to_string(device.model);
+
+                    ESP_LOGD(TAG, "Identified Hardware: %s (version %i), Firmware: %i.%i.%i - %i",
+                        hw_model, device.hardware_version, device.firmware_major, device.firmware_minor, device.firmware_patch, device.firmware_version);
+
+                    // Update Model
+                    if(device.model != MODEL_NONE && device.model != this->model_) {
+                        this->model_ = device.model;
+                        #ifdef USE_SELECT
+                        if (this->model_select_ != nullptr) {
+                            this->model_select_->publish_state(hw_model);
+                        }
+                        #endif
+                        this->save_settings();
+                    }
+
+                    this->identify_complete_callback_.call(device);
+                } else {
+                    ESP_LOGE(TAG, "Invalid indentification response! Received: %s", cmd_data.command_hex.c_str());
+                }
+            }
+            else {
+                ESP_LOGD(TAG, "Received Command Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
+                this->publish_command(cmd_data, true);
             }
         }
 
@@ -393,13 +394,14 @@ namespace esphome
             const uint32_t START_MIN = 5000, START_MAX = 6999;
             const uint32_t RESET_MIN = 7000, RESET_MAX = 24000;
 
-            static uint32_t curCMD = 0;   // Current command being constructed
             static uint32_t usLast = 0;  // Last timestamp in microseconds
+            
+            static uint32_t command = 0;   // Current command being constructed
+            static uint8_t curPos = 0;   // Current position in the bit stream
             static uint8_t curCRC = 0;   // CRC received in the data
             static uint8_t calCRC = 1;   // Calculated CRC (starts at 1)
-            static uint8_t curPos = 0;   // Current position in the bit stream
-            static bool curIsLong = false; // 32 or 16 Bit Command
             static bool cmdIntReady = false; // Command ready flag
+            static bool curIsLong = false; // 32 or 16 Bit Command
 
             // Calculate time difference
             uint32_t usNow = micros();
@@ -421,11 +423,8 @@ namespace esphome
             } else if (timeInUS >= START_MIN && timeInUS <= START_MAX) {
                 curBit = 2;
             } else if (timeInUS >= RESET_MIN) {
-                // Reset if a reset signal is detected
-                curPos = 0;
-                return;
-            } else {
                 // Invalid timing, reset the position
+                curBit = 3;
                 curPos = 0;
                 return;
             }
@@ -447,7 +446,7 @@ namespace esphome
                     #endif
                 }
 
-                curCMD = 0;
+                command = 0;
                 curCRC = 0;
                 calCRC = 1;
                 curIsLong = false;
@@ -461,7 +460,7 @@ namespace esphome
                     // Bits 2-17: Command data (low 16 bits)
                     if (curBit)
                     {
-                        BIT_SET(curCMD, (curIsLong ? 33 : 17) - curPos);
+                        command |= (1 << ((curIsLong ? 33 : 17) - curPos));
                     }
 
                     calCRC ^= curBit; // Update CRC
@@ -472,7 +471,7 @@ namespace esphome
                     {
                         if (curBit)
                         {
-                            BIT_SET(curCMD, 33 - curPos);
+                            command |= (1 << (33 - curPos));
                         }
                         calCRC ^= curBit; // Update CRC
                         curPos++;
@@ -486,7 +485,7 @@ namespace esphome
                     // Bits 19-33: Remaining bits for 32-bit command
                     if (curBit)
                     {
-                        BIT_SET(curCMD, 33 - curPos);
+                        command |= (1 << (33 - curPos));
                     }
                     calCRC ^= curBit; // Update CRC
                     curPos++;
@@ -506,7 +505,7 @@ namespace esphome
 
                 if (curCRC == calCRC) {
                     arg->command_is_long = curIsLong ? true : false;
-                    arg->command = curCMD; // Save the decoded command
+                    arg->command = command; // Save the decoded command
                     arg->command_is_ready = true; // Indicate that a command is ready
 
                     #ifdef TC_DEBUG_TIMING
@@ -527,19 +526,15 @@ namespace esphome
                 }
 
                 // Reset state
-                curCMD = 0;
+                command = 0;
                 curPos = 0;
             }
         }
 
-        void TCBusComponent::publish_command(uint32_t command, bool is_long, bool received)
+        void TCBusComponent::publish_command(CommandData cmd_data, bool received)
         {
             // Get current TCS Serial Number
             uint32_t tcs_serial = this->serial_number_;
-
-            // Parse Command
-            CommandData cmd_data = parseCommand(command, is_long);
-            ESP_LOGD(TAG, "[Parsed] Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (is_long ? 32 : 16));
 
             // Update Door Readiness Status
             if (cmd_data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
@@ -648,9 +643,14 @@ namespace esphome
                 if (strcmp(event_, "esphome.none") != 0) {
                     auto capi = new esphome::api::CustomAPIDevice();
                     ESP_LOGD(TAG, "Send event to Home Assistant on %s", event_);
+
+                    // Convert type to lowercase
+                    std::string type_str = command_type_to_string(cmd_data.type);
+                    std::transform(type_str.begin(), type_str.end(), type_str.begin(), ::tolower);
+
                     capi->fire_homeassistant_event(event_, {
                         {"command", cmd_data.command_hex},
-                        {"type", command_type_to_string(cmd_data.type)},
+                        {"type", type_str},
                         {"address", std::to_string(cmd_data.address)},
                         {"payload", std::to_string(cmd_data.payload)},
                         {"serial_number", std::to_string(cmd_data.serial_number)}
@@ -689,11 +689,8 @@ namespace esphome
 
         void TCBusComponent::send_command(uint32_t command, bool is_long)
         {
-            if(is_long) {
-                ESP_LOGD(TAG, "Sending 32-bit command %08X", command);
-            } else {
-                ESP_LOGD(TAG, "Sending 16-bit command %04X", command);
-            }
+            CommandData cmd_data = parseCommand(command, is_long);
+            ESP_LOGD(TAG, "Sending Command Type: %s, Address: %i, Payload: %X, Serial: %i, Length: %i-bit, Raw: %08X", command_type_to_string(cmd_data.type), cmd_data.address, cmd_data.payload, cmd_data.serial_number, (cmd_data.is_long ? 32 : 16), cmd_data.command);
 
             if (this->sending) {
                 ESP_LOGD(TAG, "Sending of command %08X cancelled, another sending is in progress", command);
@@ -721,8 +718,7 @@ namespace esphome
                 // Source: https://github.com/atc1441/TCSintercomArduino
                 this->sending = true;
 
-                uint8_t checksm = 1;
-                bool output_state = false;
+                
 
                 // Start transmission
                 this->tx_pin_->digital_write(true);
@@ -731,19 +727,17 @@ namespace esphome
                 this->tx_pin_->digital_write(false);
                 delay(is_long ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
 
-                int curBit = 0;
                 uint8_t length = is_long ? 32 : 16;
+                uint8_t checksm = 1;
 
                 for (uint8_t i = length; i > 0; i--) {
-                    curBit = BIT_READ(command, i - 1);
-
-                    output_state = !output_state;
-                    this->tx_pin_->digital_write(output_state);
-                    delay(curBit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
-                    checksm ^= curBit;
+                    bool bit = (command & (1UL << i - 1)) != 0;
+                    checksm ^= bit;
+                    this->tx_pin_->digital_write(i % 2 == 0);
+                    delay(bit ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 }
 
-                this->tx_pin_->digital_write(!output_state);
+                this->tx_pin_->digital_write(true);
                 delay(checksm ? TCS_ONE_BIT_MS : TCS_ZERO_BIT_MS);
                 this->tx_pin_->digital_write(false);
 
@@ -754,7 +748,7 @@ namespace esphome
                 this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
                 // Publish received Command on Sensors, Events, etc.
-                this->publish_command(command, is_long, false);
+                this->publish_command(cmd_data, false);
             }
         }
 
@@ -790,14 +784,14 @@ namespace esphome
 
         void TCBusComponent::request_version(uint32_t serial_number)
         {
-            ESP_LOGD(TAG, "Identifying model of device with serial number: %i...", serial_number);
-
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
                 ESP_LOGW(TAG, "Serial number is not set!");
                 return;
             }
+
+            ESP_LOGD(TAG, "Identifying model of device with serial number: %i...", serial_number);
 
             this->cancel_timeout("wait_for_identification");
 
@@ -820,8 +814,6 @@ namespace esphome
 
         void TCBusComponent::read_memory(uint32_t serial_number, Model model)
         {
-            ESP_LOGD(TAG, "Reading EEPROM of %s (%i)...", model_to_string(model), serial_number);
-
             if(serial_number == 0 && this->serial_number_ != 0) {
                 serial_number = this->serial_number_;
             } else {
@@ -835,6 +827,8 @@ namespace esphome
                 ESP_LOGW(TAG, "Model is not set!");
                 return;
             }
+
+            ESP_LOGD(TAG, "Reading EEPROM of %s (%i)...", model_to_string(model), serial_number);
 
             this->cancel_timeout("wait_for_memory_reading");
             reading_memory_ = false;
@@ -896,8 +890,6 @@ namespace esphome
 
         bool TCBusComponent::update_setting(SettingType type, uint8_t new_value, uint32_t serial_number, Model model)
         {
-            ESP_LOGD(TAG, "Write setting %s (%X) to EEPROM of %s (%i)...", setting_type_to_string(type), new_value, model_to_string(model), serial_number);
-
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return false;
@@ -916,6 +908,8 @@ namespace esphome
                 ESP_LOGW(TAG, "Model is not set!");
                 return false;
             }
+
+            ESP_LOGD(TAG, "Write setting %s (%X) to EEPROM of %s (%i)...", setting_type_to_string(type), new_value, model_to_string(model), serial_number);
 
             uint8_t saved_nibble = 0;
 
@@ -947,15 +941,13 @@ namespace esphome
 
                 return true;
             } else {
-                ESP_LOGV(TAG, "The setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
+                ESP_LOGW(TAG, "Can not write because setting %s is not available for model %s", setting_type_to_string(type), model_to_string(model));
                 return false;
             }
         }
 
         bool TCBusComponent::write_memory(uint32_t serial_number, Model model)
         {
-            ESP_LOGD(TAG, "Write memory buffer to EEPROM of %s (%i)...", model_to_string(model), serial_number);
-
             if(memory_buffer_.size() == 0) {
                 ESP_LOGW(TAG, "Memory buffer is empty! Please read memory first!");
                 return false;
@@ -974,6 +966,8 @@ namespace esphome
                 ESP_LOGW(TAG, "Model is not set!");
                 return false;
             }
+
+            ESP_LOGD(TAG, "Write memory buffer to EEPROM of %s (%i)...", model_to_string(model), serial_number);
 
             // Prepare Transmission
             ESP_LOGD(TAG, "Select device category");

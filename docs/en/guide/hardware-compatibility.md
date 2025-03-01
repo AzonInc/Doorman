@@ -1,7 +1,7 @@
 # Can I use Doorman?
-If your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom indoor station has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
+If your [TCS](https://www.tcsag.de/), [Koch](https://www.kochag.ch/) or [Scantron](https://scantron.dk/) indoor station has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
 
-Some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) indoor stations, which are counterparts to the TCS and Koch models, may also be compatible.
+Some rebranded [Niko](https://www.niko.eu/) and older [Jung](https://www.jung-group.com/) indoor stations, which are counterparts to the TCS and Koch models, may also be compatible.
 
 :::danger READ - BEFORE YOU ORDER
 Since this product is the result of reverse engineering, there is no guarantee that your indoor station will work without testing it yourself.
@@ -32,7 +32,8 @@ In some installations, the `a` and `b` wires are twisted, but this is handled by
 - **P:** The +24V line in 3-wire mode or the apartment doorbell button in 2-wire mode
 
 ::: danger
-**DO NOT USE THE +24V `P`-LINE AND USB-C AT THE SAME TIME**
+**AVOID USING THE +24V `P`-LINE AND USB-C PORT AT THE SAME TIME.**\
+**NEVER CONNECT A POWER SOURCE TO THE TC:BUS TERMINALS - DOING SO CAN CAUSE SEVERE DAMAGE.**
 :::
 
 ## Check the Power Supply
@@ -67,16 +68,5 @@ A loud beeping noise occurs whenever someone is talking.
 
 ## Verified Hardware
 
-::: info Note
-If your indoor station isn't listed here, it doesn't necessarily mean it's incompatible; it simply means it hasn't been tested yet.
-:::
-
-- TCS BVS20-SG / Koch BVS20 / Jung TK SV STG 60 REG
-- TCS ISH-3030 / ISH-3130
-- TCS ISW-3030 / ISW-3130
-- TCS HST-1030
-- TCS IMM-1300
-- TCS IVW511x-0145
-- Jung TK-ISV-LS-914
-- Jung TK-IS-LS-914
-- Jung TK-ASV-ES-114
+Check out the [supported models and settings](../reference/esphome-component.md#model-setting-availability).  
+Models with available settings are guaranteed to be compatible. If your model isn't listed, please open an issue to verify its compatibility.

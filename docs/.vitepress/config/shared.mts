@@ -182,11 +182,11 @@ export const shared = defineConfig({
     },
 
     editLink: {
-        pattern: 'https://github.com/AzonInc/Doorman/edit/master/docs/:path',
+        pattern: 'https://github.com/azoninc/doorman/edit/master/docs/:path',
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/AzonInc/Doorman' },
+      { icon: 'github', link: 'https://github.com/azoninc/doorman' },
       { icon: 'discord', link: 'https://discord.gg/t2d34dvmBf' }
     ],
 

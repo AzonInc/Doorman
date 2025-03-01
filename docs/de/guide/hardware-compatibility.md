@@ -1,8 +1,8 @@
 # Kann ich Doorman benutzen?
 
-Wenn deine [TCS](https://www.tcsag.de/) oder [Koch](https://www.kochag.ch/) Gegensprechanlagen Innenstation die Anschlussklemmen `a`, `b` und `P` hat und mit 24V DC betrieben wird, ist sie wahrscheinlich kompatibel.
+Wenn deine [TCS](https://www.tcsag.de/), [Koch](https://www.kochag.ch/) oder [Scantron](https://scantron.dk/) Innenstation die Anschlussklemmen `a`, `b` und `P` hat und mit 24V DC betrieben wird, ist sie wahrscheinlich kompatibel.
 
-Einige umgelabelte [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) und ältere [Jung](https://www.jung-group.com/) Innenstationen, die den TCS- und Koch-Modellen entsprechen, könnten ebenfalls passen.
+Einige umgelabelte [Niko](https://www.niko.eu/) und ältere [Jung](https://www.jung-group.com/) Innenstationen, die den TCS- und Koch-Modellen entsprechen, könnten ebenfalls passen.
 
 :::danger WICHTIG - BEVOR DU BESTELLST
 Da dieses Produkt durch Reverse Engineering entwickelt wurde, gibt es keine Garantie, dass deine Sprechanlage ohne Tests funktioniert.
@@ -33,7 +33,9 @@ Berücksichtige dies beim Überprüfen der Spannung auf den Leitungen `a`, `b` u
 - **P:** Entweder die +24V-Leitung im 3-Draht-Modus oder der Klingelknopf der Wohnung im 2-Draht-Modus. Oftmals gibt es trotzdem eine 24V Leitung irgendwo versteckt.
 
 ::: danger VORSICHT
-**NICHT GLEICHZEITIG DIE +24V `P`-LEITUNG UND USB-C VERWENDEN**
+**BENUTZE NICHT DIE +24V `P`-LEITUNG UND DEN USB-C PORT GLEICHZEITIG!**
+
+**SCHLIEßE AUF KEINEN FALL EINE STROMQUELLE AN DIE TC:BUS-TERMINALE AN, SONST KÖNNTE DAS RICHTIG SCHADEN ANRICHTEN!**
 :::
 
 ## Überprüfe die Stromversorgung
@@ -65,15 +67,5 @@ Es tritt ein lautes Piepen auf, wenn jemand spricht.
 
 ## Verifizierte Modelle
 
-::: info Hinweis
-Wenn deine Innenstation hier nicht aufgeführt ist, bedeutet das nicht unbedingt, dass sie nicht kompatibel ist; es heißt nur, dass sie noch nicht getestet wurde.
-:::
-
-- TCS BVS20-SG / Koch BVS20 / Jung TK SV STG 60 REG
-- TCS ISH-3030 / ISH-3130
-- TCS ISW-3030 / ISW-3130
-- TCS HST-1030
-- TCS IMM-1300
-- Jung TK-ISV-LS-914
-- Jung TK-IS-LS-914
-- Jung TK-ASV-ES-114
+Schau dir die [unterstützten Modelle und Einstellungen](../../reference/esphome-component.md#model-setting-availability) an.  
+Modelle mit verfügbaren Einstellungen sind auf jeden Fall kompatibel. Falls dein Modell nicht dabei ist, erstelle bitte ein Issue, um die Kompatibilität zu überprüfen.

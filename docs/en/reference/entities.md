@@ -12,6 +12,9 @@ Reports the uptime in seconds.
 ### Nuki Battery Level <Badge type="tip" text="nuki_battery_level" /> <Badge type="info" text="Nuki Bridge only" />
 Reports the battery level of the paired Nuki smart lock.
 
+### Nuki Bluetooth Signal Strength <Badge type="tip" text="nuki_bluetooth_signal_strength" /> <Badge type="info" text="Nuki Bridge only" />
+Reports the bluetooth strength of the paired Nuki smart lock.
+
 
 ## Binary Sensors
 
@@ -77,6 +80,9 @@ Reports the last lock action of the Nuki smart lock.
 
 ### Nuki Last Lock Action Trigger <Badge type="tip" text="nuki_last_lock_action_trigger" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
 Reports the last log action trigger of the Nuki smart lock.
+
+### Nuki Security Pin Status <Badge type="tip" text="nuki_pin_status" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
+Reports the nuki component security pin status.
 
 
 ## Switches
@@ -224,6 +230,13 @@ Sets the triggering door for the [Ring To Open](../guide/automation/ring-to-open
 - Entrance
 - Second Entrance
 - Any
+
+### Ring To Open: Toggle Trigger <Badge type="tip" text="doorman_ring_to_open_toggle_trigger" /> <Badge type="info" text="Disabled by default" />
+Defines the trigger to toggle the [Ring To Open](../guide/automation/ring-to-open) automation.
+
+##### Options:
+- Manual
+- Function Button
 
 ### Intercom Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone model. Check the [Supported Models and Settings](esphome-component#model-setting-availability) to see your options.
@@ -374,8 +387,10 @@ A small WS2812B RGB LED on the Doorman's PCB is used to indicate specific events
 
 ##### Event Types
 - Waiting for WiFi / AP Enabled <Badge type="tip" text="Fast orange pulse" />
-- Waiting for Home Assistant to Connect <Badge type="tip" text="Slow blue pulse" />
-- Home Assistant Connected <Badge type="tip" text="Solid blue light (for 3 seconds)" />
+- Waiting for Home Assistant / MQTT to Connect <Badge type="tip" text="Slow blue pulse" />
+- Home Assistant / MQTT Connected <Badge type="tip" text="Solid blue light (for 3 seconds)" />
+- Setup Mode is Active <Badge type="tip" text="Fast green-turquoise pulse" />
+- Setup Mode completed <Badge type="tip" text="Solid green-turquoise (for 3 seconds)" />
 - Ring To Open is Active <Badge type="tip" text="Slow yellow pulse" />
 - Nuki Pairing Mode is Active <Badge type="tip" text="Slow purple pulse" /> <Badge type="info" text="Nuki Bridge only" />
 - Nuki Paired Successfully <Badge type="tip" text="Solid purple light (for 3 seconds)" /> <Badge type="info" text="Nuki Bridge only" />

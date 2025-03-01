@@ -1,0 +1,21 @@
+substitutions:
+  branch: "dev"
+  firmware_type: "nuki-bridge"
+  api_variant: "ha"
+  host_platform: "esp8266"
+
+packages:
+  host: !include ../hosts/esp8266.yaml
+  rgb_status_led: !include ../components/rgb-status-led.dummy.yaml
+  base: !include ../base.yaml
+  ota_updates: !include ../components/ota-updates.yaml
+  ota_updates_default_dev: !include ../components/ota-updates-default-dev.yaml
+  dashboard_import: !include ../components/dashboard-import.yaml
+  api: !include ../components/api-homeassistant.yaml
+  debug_utilities: !include ../components/debug-utilities.yaml
+  debug_utilities_non_esp32: !include ../components/debug-utilities.non-esp32.yaml
+  pattern_events: !include ../components/pattern-events.yaml
+  ring_to_open: !include ../components/ring-to-open.yaml
+  intercom_settings: !include ../components/intercom-settings.yaml
+  addon_nuki_bridge: !include ../components/nuki-bridge.yaml
+  interactive_setup: !include ../components/interactive-setup.yaml

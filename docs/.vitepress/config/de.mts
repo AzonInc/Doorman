@@ -78,7 +78,7 @@ function nav(): DefaultTheme.NavItem[] {
         {
           text: pkg.version,
           items: [
-            { text: 'Issues', link: 'https://github.com/AzonInc/Doorman/issues' },
+            { text: 'Issues', link: 'https://github.com/azoninc/doorman/issues' },
             {
               text: 'Changelog',
               link: '/changelog/firmware',

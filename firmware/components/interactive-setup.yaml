@@ -1,0 +1,94 @@
+# Interactive Setup Addon
+
+switch:
+  - platform: template
+    name: Setup Mode
+    icon: mdi:cog
+    id: doorman_setup_mode
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: CONFIG
+    optimistic: true
+    on_turn_on:
+      - logger.log: "Setup: Step 1 - Waiting for Door/Floor Call"
+      - script.execute: update_led
+    on_turn_off:
+      - script.execute: update_led
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -19
+
+# Extend TC:BUS Component
+tc_bus:
+  on_identify_complete:
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+        then:
+          - script.execute: complete_setup
+
+  on_identify_timeout:
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+        then:
+          - script.execute: complete_setup
+
+  on_command:
+    # If no second door station id is set, wait for one
+    - if:
+        condition:
+          - lambda: return id(second_door_station_id).state == 63 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_id).state;
+        then:
+          - number.set:
+              id: second_door_station_id
+              value: !lambda "return x.address;"
+
+    # Setup mode: Wait for Floor or Door Call
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+          - lambda: "return x.type == COMMAND_TYPE_FLOOR_CALL || x.type == COMMAND_TYPE_DOOR_CALL;"
+        then:
+          # Save Serial Number
+          - number.set:
+              id: serial_number
+              value: !lambda "return x.serial_number;"
+          # Save Entrance Door Station address
+          - number.set:
+              id: entrance_door_station_id
+              value: !lambda "return x.address;"
+          # Start Identification
+          - delay: 2s
+          - logger.log: "Setup: Step 2 - Identify Indoor Station"
+          - tc_bus.identify:
+
+script:
+  - id: complete_setup
+    then:
+      - switch.turn_off: doorman_setup_mode
+
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 0%
+          green: 100%
+          blue: 10%
+          effect: none
+
+      - delay: 3s
+      
+      - script.execute: update_led
+
+      - logger.log: "Setup: Complete"
+
+  - id: !extend update_led
+    then:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                red: 0%
+                green: 100%
+                blue: 10%
+                effect: pulse

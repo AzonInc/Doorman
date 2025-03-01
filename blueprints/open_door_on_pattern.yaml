@@ -1,0 +1,57 @@
+blueprint:
+  name: Open Door on Pattern
+  author: "AzonInc"
+  homeassistant:
+    min_version: "2024.6.0"
+  domain: automation
+  source_url: https://github.com/azoninc/doorman/blob/dev/blueprints/open_door_on_pattern.yaml
+  input:
+    doorbell_sensor:
+      name: "Doorbell Event"
+      description: "The Doorbell Event Entity which is the trigger"
+      selector:
+        entity:
+          integration: esphome
+          domain: event
+    event_type:
+      name: "Doorbell Pattern"
+      description: "The Doorbell Pattern that triggers the action"
+      default: "single"
+      selector:
+        select:
+          custom_value: true
+          options:
+            - label: Single Press
+              value: single
+            - label: Double Press
+              value: double
+            - label: Triple Press
+              value: triple
+
+    confirm_action:
+      name: "Action"
+      description: "Action to run when the pattern is detected"
+      default:
+        - service: esphome.doorman_s3_send_tc_command
+          data:
+            type: "open_door"
+            address: "0"
+            payload: "0"
+            serial_number: "0"
+      selector:
+        action:
+
+mode: restart
+
+trigger:
+  platform: state
+  entity_id: !input doorbell_sensor
+
+condition:
+  - condition: state
+    entity_id: !input doorbell_sensor
+    attribute: event_type
+    state: !input event_type
+
+action:
+  - sequence: !input confirm_action

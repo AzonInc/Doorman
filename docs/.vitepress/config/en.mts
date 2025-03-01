@@ -26,7 +26,7 @@ export const en = defineConfig({
     },
 
     editLink: {
-        pattern: 'https://github.com/AzonInc/Doorman/edit/master/docs/:path'
+        pattern: 'https://github.com/azoninc/doorman/edit/master/docs/:path'
     },
 
     footer: {
@@ -51,7 +51,7 @@ function nav(): DefaultTheme.NavItem[] {
         {
           text: pkg.version,
           items: [
-            { text: 'Issues', link: 'https://github.com/AzonInc/Doorman/issues' },
+            { text: 'Issues', link: 'https://github.com/azoninc/doorman/issues' },
             {
               text: 'Changelog',
               link: '/changelog/firmware',

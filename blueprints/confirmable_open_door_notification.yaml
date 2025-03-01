@@ -6,19 +6,33 @@ blueprint:
   homeassistant:
     min_version: "2024.6.0"
   domain: automation
-  source_url: https://github.com/AzonInc/Doorman/blob/dev/blueprints/confirmable_open_door_notification.yaml
+  source_url: https://github.com/azoninc/doorman/blob/dev/blueprints/confirmable_open_door_notification.yaml
   input:
     doorbell_section:
       name: "Doorbell Details"
       icon: "mdi:doorbell"
       input:
         doorbell_sensor:
-          name: "Doorbell Sensor"
-          description: "The Binary Sensor which is triggered by the doorbell"
+          name: "Doorbell Event"
+          description: "The Doorbell Event Entity which is the trigger"
           selector:
             entity:
               integration: esphome
-              domain: binary_sensor
+              domain: event
+        event_type:
+          name: "Doorbell Pattern"
+          description: "The Doorbell Pattern that triggers the action"
+          default: "single"
+          selector:
+            select:
+              custom_value: true
+              options:
+                - label: Single Press
+                  value: single
+                - label: Double Press
+                  value: double
+                - label: Triple Press
+                  value: triple
     
     notification_details_section:
       name: "Notification Details"
@@ -90,8 +104,12 @@ mode: restart
 trigger:
   platform: state
   entity_id: !input doorbell_sensor
-  from: "off"
-  to: "on"
+
+condition:
+  - condition: state
+    entity_id: !input doorbell_sensor
+    attribute: event_type
+    state: !input event_type
 
 action:
   - alias: "Set up variables"

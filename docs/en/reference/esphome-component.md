@@ -1,8 +1,10 @@
 # TC:BUS ESPHome Component
 
-The TC:BUS Component for ESPHome allows you to interface with a [TCS:Bus](https://www.tcsag.de/) or [Koch TC:Bus](https://kochag.ch/) intercom system, providing automation, monitoring, and interaction capabilities within the [ESPHome](https://esphome.io/) ecosystem. This component can trigger automations based on specific commands received from the intercom system.
+The TC:BUS Component for ESPHome allows you to interface with a [TCS:Bus](https://www.tcsag.de/) or [Koch TC:Bus](https://kochag.ch/) intercom system, providing automation, monitoring, and interaction capabilities within the [ESPHome](https://esphome.io/) ecosystem.
+This component can trigger automations based on specific commands received from the intercom system.
 
-It also supports sending commands to the intercom and receiving various status updates (e.g., bus commands and door readiness). Additionally, actions can be set up to respond to specific commands from the intercom system.
+It also supports sending commands to the intercom and receiving various status updates (e.g., bus commands and door readiness).
+Additionally, actions can be set up to respond to specific commands from the intercom system.
 
 ::: tip Note
 This component requires hardware like the Doorman-S3 or a [DIY solution](https://github.com/peteh/doorman) in order to communicate on the bus.
@@ -14,32 +16,32 @@ This component requires hardware like the Doorman-S3 or a [DIY solution](https:/
 ### TC:BUS Hub
 The `tc_bus` hub component offers the following configuration options:
 
-| Option                 | Description                                                                                                                                   | Required | Default       |
-|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| `id`                   | Unique ID for the component.                                                                                                                  | Yes      |               |
-| `rx_pin`               | GPIO pin for receiving data from the TCS intercom.                                                                                            | No       | `9`           |
-| `tx_pin`               | GPIO pin for transmitting data to the TCS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
-| `event`                | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
-| `on_command`           | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
-| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.          | No       |               |
-| `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                         | No       |               |
-| `on_identify_complete` | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.          | No       |               |
-| `on_identify_timeout`  | Defines actions to be triggered when the identification of the indoor station times out.                                                                         | No       |               |
+| Option                    | Description                                                                                                                                   | Required | Default       |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
+| `rx_pin`                  | GPIO pin for receiving data from the TC:BUS intercom.                                                                                            | No       | `9`           |
+| `tx_pin`                  | GPIO pin for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
+| `event`                   | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
+| `on_command`              | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
+| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
+| `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | No       |               |
+| `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | No       |               |
+| `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | No       |               |
+
+
+### Number Inputs
+The `tc_bus` Number Input component offers the following configuration options:
+
+| Option                         | Description                                                                                                   | Required | Default       |
+|--------------------------------|---------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.                 | No       |               |
+| `volume_handset_door_call`     | Door Call Handset Volume Number Input to set the handset volume for door calls of your indoor station.        | No       |               |
+| `volume_handset_internal_call` | Internal Call Handset Volume Number Input to set the handset volume for internal calls of your indoor station.| No       |               |
+| `volume_ringtone`              | Ringtone Volume Number Input to set the ringtone volume of your indoor station.                               | No       |               |
 
 
 ### Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
-
-| Option                         | Description                                                                                             | Required | Default       |
-|--------------------------------|---------------------------------------------------------------------------------------------------------|----------|---------------|
-| `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.           | No       |               |
-| `volume_handset_door_call`     | Door Call Handset Volume Select to set the handset volume for door calls of your indoor station.        | No       |               |
-| `volume_handset_internal_call` | Internal Call Handset Volume Select to set the handset volume for internal calls of your indoor station.| No       |               |
-| `volume_ringtone`              | Ringtone Volume Select to set the ringtone volume of your indoor station.                               | No       |               |
-
-
-### Number Inputs
-The `tc_bus` Number component offers the following configuration options:
 
 | Option                 | Description                                                | Required | Default       |
 |------------------------|------------------------------------------------------------|----------|---------------|
@@ -68,7 +70,7 @@ The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It 
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
-| `command`        | A specific 32-bit hexadecimal command that triggers the binary sensor when received from the TCS intercom.| Yes       | `0`           |
+| `command`        | A specific 32-bit hexadecimal command that triggers the binary sensor when received from the TC:BUS intercom.| Yes       | `0`           |
 | `command_lambda` | Lambda expression used to dynamically generate the command that will trigger the binary sensor, instead of using a fixed command. Cannot be used with `command`.  | No       |               |
 | `type`           | Command type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `command`.  | Yes       | `unknown`     |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
@@ -105,7 +107,7 @@ on_read_memory_complete:
   - logger.log: "Completed memory reading!"
   - lambda: |-
       std::string hexString = str_upper_case(format_hex(x));
-      ESP_LOGI("tcs_bus", "Memory Dump: %s", hexString.c_str());
+      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
 ```
 
 ### Read Memory Timeout
@@ -124,7 +126,7 @@ on_identify_complete:
   - logger.log: "Completed identification!"
   - lambda: |-
       std::string hexString = str_upper_case(format_hex(x));
-      ESP_LOGI("tcs_bus", "Memory Dump: %s", hexString.c_str());
+      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
 ```
 
 ### Identification of Indoor Station Timeout
@@ -279,7 +281,7 @@ Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
-  - source: github://AzonInc/Doorman
+  - source: github://azoninc/doorman
     components: [ tc_bus ]
 
 # TC:BUS configuration
@@ -448,7 +450,7 @@ Here are the available setting types you can use to update the settings of your 
 
 
 ## Model Setting availability
-Here are the available settings for specific indoor station models:
+Below are the available settings for specific indoor station models:
 
 | Model                        | Available settings                                                                                         |
 |------------------------------|------------------------------------------------------------------------------------------------------------|
@@ -512,3 +514,8 @@ Here are the available settings for specific indoor station models:
 | TCS CAIXXXX / Koch CAIXXXX   | Verification and implementation required |
 | TCS CAI2000 / Koch Carus     | Verification and implementation required |
 | TCS ISW42X0                  | Verification and implementation required |
+| TCS IVW9010 | None |
+| TCS IVW9011 / Koch VTP10 | None |
+| TCS IVW9110 | None |
+| TCS IVW9030 / Scantron SLIM50T | None |
+| TCS IVE70   | None |

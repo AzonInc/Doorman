@@ -5,12 +5,7 @@ substitutions:
 
 # Import Doorman Stock Firmware Config
 packages:
-  AzonInc.Doorman: github://AzonInc/doorman/firmware/doorman-stock.yaml@master
-
-esphome:
-  name: ${name}
-  name_add_mac_suffix: false
-  friendly_name: ${friendly_name}
+  AzonInc.Doorman: github://azoninc/doorman/firmware/configurations/esp32-s3.ha.stock.master.yaml@master
 
 wifi:
   ssid: !secret wifi_ssid

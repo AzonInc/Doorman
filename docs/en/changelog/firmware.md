@@ -1,6 +1,37 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2025.3.0
+### ✨ Improvements
+- **Fix Update Process**  
+   Firmware updates are now correctly identified and retrieved for each specific firmware variant.
+
+- **Ring to Open Toggle Trigger**  
+   You can now choose which trigger will toggle the Ring To Open automation as some models use the button for specific purposes.
+
+- **Expanded Support for Model Detection**  
+   Now, models without configuration settings are also detected.
+   
+- **Setup mode delays**  
+   By introducing some delay, we allow the ringtone to finish on setup mode.
+
+### 📝 Other Updates
+- **Nuki Component**  
+   The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now runs on IDF, removing the need for the Arduino framework.
+
+- **Configuration YAML Files Restructured**  
+   The configuration files have been reorganized to enhance modularity and enable support for additional host platforms.
+
+- **Precompiled binaries for ESP32-S3, ESP32 and ESP8266**  
+   The Doorman ESPHome firmware is finally available for these platforms as well.
+
+### 🚨 Breaking Changes
+- **Ring to Open Toggle Trigger**  
+   The new option is set to `Manual` by default. You'll need to set it to `Function Button` to restore the previous behavior.
+
+- **Minimum ESPHome Version Set**  
+   We’ve bumped the minimum required version to **2025.2.0**.
+
 ## 2025.2.0
 ### 🚀 What's New?
 - **Added a Switch to turn off the Status LED while Ring to Open is active**  
@@ -42,13 +73,13 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **PSRAM Compatibility**  
    Some users, particularly those with Revision 1.4 PCBs, may encounter issues due to the newly added PSRAM component. This is because certain Revision 1.4 boards use the N16R2 variant of the ESP32S3, which requires a different configuration for proper PSRAM booting.
    
-   For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/AzonInc/Doorman/issues).
+   For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/azoninc/doorman/issues).
 
 - **Hexadecimal Command-String Length changed**  
    With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the [Last Bus Command](../reference/entities#last-bus-command) sensor.
 
 - **Separate Event entities**  
-   [Skaronator](https://github.com/AzonInc/Doorman/pull/37) introduced separate event entities for each physical doorbell button.  
+   [Skaronator](https://github.com/azoninc/doorman/pull/37) introduced separate event entities for each physical doorbell button.  
    This enhancement enables event tracking on a per-button basis, providing more granular and precise support for doorbell interactions.  
    You will need to adjust your automations if you previously used the Doorbell Pattern Event Entity. Additionally, the event types have been changed.
 
@@ -164,7 +195,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
 ### 📝 Other Updates
 - **Development Builds**  
-   We now use the [tcs_intercom](<https://github.com/AzonInc/ESPHome_tcs_intercom>) development branch for development builds.
+   We now use the [tcs_intercom](<https://github.com/azoninc/esphome_tcs_intercom>) development branch for development builds.
 
 
 ## 2024.8.3
@@ -201,9 +232,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Webserver Enabled**  
    The webserver feature is now enabled for quicker access.
 
-- **Minimum ESPHome Version Set**  
-   We’ve bumped the minimum required version to **2024.8.0**.
-
 ### 🚨 Breaking Changes
 - **Command Reset**  
    Due to the simplified setup process and configurable commands, the substituations are not used anymore. Thus you’ll need to **reconfigure** them using the new input entities.
+   
+- **Minimum ESPHome Version Set**  
+   We’ve bumped the minimum required version to **2024.8.0**.

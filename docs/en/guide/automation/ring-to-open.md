@@ -25,3 +25,11 @@ You can choose to disable the Ring To Open automation after 5 to 60 minutes, aft
 ::: info Door Station
 You can choose which door station will trigger the automation.
 :::
+
+::: info Display Status
+You can choose whether the status LED blinks while the automation is active.  
+:::
+
+::: info Toggle Trigger
+You can decide which trigger will toggle the automation.  
+:::

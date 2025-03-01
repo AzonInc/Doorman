@@ -4,7 +4,7 @@ If you're experiencing issues with your Doorman, help is available through sever
 
 - The below troubleshooting guide covers many common issues
 - The [Discord server](https://discord.gg/t2d34dvmBf) is a great place to get assistance from me and the community
-- The [GitHub issues](https://github.com/AzonInc/Doorman/issues) may contain solutions to problems you're encountering
+- The [GitHub issues](https://github.com/azoninc/doorman/issues) may contain solutions to problems you're encountering
 
 Please note that support is provided on a best-effort basis. While I will assist as much as possible, please understand that I may not be able to help immediately or with every situation, as this is not my full-time job. Thank you for your understanding.
 

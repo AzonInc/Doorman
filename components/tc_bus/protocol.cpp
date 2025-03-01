@@ -13,82 +13,94 @@ namespace esphome
             CommandData data{};
             data.command = 0;
             data.type = type;
-            data.address = address;
-            data.payload = payload;
-            data.serial_number = serial_number;
             data.is_long = true;
 
             switch (type)
             {
                 case COMMAND_TYPE_DOOR_CALL:
+                    data.serial_number = serial_number;
+                    data.address = address;
                     data.command |= (0 << 28);  // 0
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (1 << 7);  // 8
-                    data.command |= (address & 0x3F); // 0
+                    data.command |= (data.address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_INTERNAL_CALL:
+                    data.serial_number = serial_number;
+                    data.address = address;
                     data.command |= (0 << 28);  // 0
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                     data.command &= ~(1 << 7);  // 0
-                    data.command |= (address & 0x3F); // 0
+                    data.command |= (data.address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_FLOOR_CALL:
+                    data.serial_number = serial_number;
                     data.command |= (1 << 28);  // 1
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= 0x41; // 41
                     break;
 
                 case COMMAND_TYPE_START_TALKING_DOOR_CALL:
+                    data.serial_number = serial_number;
+                    data.address = address;
                     data.command |= (3 << 28); // 3
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (1 << 7);  // 8
-                    data.command |= (address & 0x3F); // 0
+                    data.command |= (data.address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_START_TALKING:
+                    data.serial_number = serial_number;
+                    data.address = address;
                     data.command |= (3 << 28); // 3
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                     data.command &= ~(1 << 7); // 0
-                    data.command |= (address & 0x3F); // 0
+                    data.command |= (data.address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_STOP_TALKING_DOOR_CALL:
+                    data.address = address;
                     data.is_long = false;
                     data.command |= (3 << 12); // 3
                     data.command |= (1 << 7);  // 08
-                    data.command |= (address & 0x3F); // 0
+                    data.command |= (data.address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_STOP_TALKING:
+                    data.address = address;
                     data.is_long = false;
                     data.command |= (3 << 12); // 3
                     data.command &= ~(1 << 7); // 00
-                    data.command |= (address & 0x3F); // 0
+                    data.command |= (data.address & 0x3F); // 0
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR:
+                    data.address = address;
                     data.is_long = false;
                     data.command |= (1 << 12); // 1
                     data.command |= (1 << 8); // 1
-                    data.command |= (address & 0x3F); // 00
+                    data.command |= (data.address & 0x3F); // 00
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR_LONG:
                     if(serial_number == 0)
                     {
+                        data.address = address;
                         data.is_long = false;
                         data.command |= (1 << 12); // 1
                         data.command |= (1 << 8); // 1
-                        data.command |= (address & 0x3F); // 00
+                        data.command |= (data.address & 0x3F); // 00
                     }
                     else
                     {
+                        data.serial_number = serial_number;
+                        data.address = address;
                         data.command |= (1 << 28);  // 1
-                        data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                        data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                         data.command |= (1 << 7);  // 8
-                        data.command |= (address & 0x3F); // 0
+                        data.command |= (data.address & 0x3F); // 0 
                     }
                     break;
 
@@ -99,14 +111,17 @@ namespace esphome
                     break;
 
                 case COMMAND_TYPE_CONTROL_FUNCTION:
+                    data.serial_number = serial_number;
+                    data.payload = payload;
                     data.command |= (6 << 28); // 6
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command |= (payload & 0xFF); // 08
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= (data.payload & 0xFF); // 08
                     break;
 
                 case COMMAND_TYPE_REQUEST_VERSION:
+                    data.serial_number = serial_number;
                     data.command |= (5 << 28); // 5
-                    data.command |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
                     data.command |= (0xC0 & 0xFF); // C0
                     break;
 
@@ -122,22 +137,25 @@ namespace esphome
                     break;
 
                 case COMMAND_TYPE_FOUND_DOORMAN_DEVICE:
+                    data.payload = payload;
                     data.command |= (0x7F << 24); // 7F
-                    data.command |= payload & 0xFFFFFF; // MAC address
+                    data.command |= data.payload & 0xFFFFFF; // MAC address
                     break;
 
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP:
+                    data.payload = payload;
                     data.is_long = false;
                     data.command |= (5 << 12); // 5
                     data.command |= (8 << 8);  // 80
-                    data.command |= (payload & 0xFF); // 0
+                    data.command |= (data.payload & 0xFF); // 0
                     break;
 
                 case COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET:
+                    data.payload = payload;
                     data.is_long = false;
                     data.command |= (5 << 12); // 5
                     data.command |= (9 << 8);  // 90
-                    data.command |= (payload & 0xFF); // 0
+                    data.command |= (data.payload & 0xFF); // 0
                     break;
 
                 case COMMAND_TYPE_SEARCH_DEVICES:
@@ -147,14 +165,16 @@ namespace esphome
                     break;
 
                 case COMMAND_TYPE_PROGRAMMING_MODE:
+                    data.payload = payload;
                     data.is_long = false;
                     data.command |= (5 << 12); // 5
                     data.command |= (0 << 8);  // 0
                     data.command |= (4 << 4);  // 4
-                    data.command |= (payload & 0xF); // 0 / 1
+                    data.command |= (data.payload & 0xF); // 0 / 1
                     break;
 
                 case COMMAND_TYPE_READ_MEMORY_BLOCK:
+                    data.address = address;
                     data.is_long = false;
                     data.command |= (8 << 12); // 8
                     data.command |= (4 << 8);  // 4
@@ -162,17 +182,21 @@ namespace esphome
                     break;
 
                 case COMMAND_TYPE_WRITE_MEMORY:
+                    data.address = address;
+                    data.payload = payload;
                     data.command |= (8 << 28); // 8
                     data.command |= (2 << 24); // 2
-                    data.command |= (address & 0xFF) << 16; // start address
-                    data.command |= payload & 0xFFFF; // ABCD payload
+                    data.command |= (data.address & 0xFF) << 16; // start address
+                    data.command |= data.payload & 0xFFFF; // ABCD payload
                     break;
 
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE:
+                    data.serial_number = serial_number;
+                    data.address = address;
                     data.command |= (8 << 28); // 8
                     data.command |= (1 << 24); // 1
-                    data.command |= (address & 0xF) << 20; // page
-                    data.command |= serial_number & 0xFFFFF;
+                    data.command |= (data.address & 0xF) << 20; // page
+                    data.command |= data.serial_number & 0xFFFFF;
                     break;
 
                 default:
@@ -569,6 +593,11 @@ namespace esphome
             if (str == "TCS CAIXXXX / Koch CAIXXXX") return MODEL_CAIXXXX;
             if (str == "TCS CAI2000 / Koch Carus") return MODEL_CAI2000;
             if (str == "TCS ISW42X0") return MODEL_ISW42X0;
+            if (str == "TCS IVW9010") return MODEL_IVW9010;
+            if (str == "TCS IVW9011 / Koch VTP10") return MODEL_IVW9011;
+            if (str == "TCS IVW9110") return MODEL_IVW9110;
+            if (str == "TCS IVW9030 / Scantron SLIM50T") return MODEL_IVW9030;
+            if (str == "TCS IVE70") return MODEL_IVE70;
 
             return MODEL_NONE;
         }
@@ -657,6 +686,7 @@ namespace esphome
             else if (model_key == "815") return MODEL_IVW2221;
             else if (model_key == "820") return MODEL_IVW3011;
             else if (model_key == "830") return MODEL_IVW3012;
+
             else if (model_key == "C01") return MODEL_VMH;
             else if (model_key == "C00") return MODEL_VML;
             else if (model_key == "C02") return MODEL_VMF;
@@ -674,6 +704,13 @@ namespace esphome
                 else return MODEL_TC40;
             }
         
+            else if (model_key == "194") return MODEL_IVW9030;
+            else if (model_key == "1E8") return MODEL_IVW9010;
+            else if (model_key == "1EA") return MODEL_IVW9110;
+            else if (model_key == "1E9") return MODEL_IVW9011;
+            else if (model_key == "1B3" || model_key == "1B4" || model_key == "1B5")
+                return MODEL_IVE70;
+
             return MODEL_NONE;
         }
 
@@ -739,6 +776,11 @@ namespace esphome
                 case MODEL_CAIXXXX: return "TCS CAIXXXX / Koch CAIXXXX";
                 case MODEL_CAI2000: return "TCS CAI2000 / Koch Carus";
                 case MODEL_ISW42X0: return "TCS ISW42X0";
+                case MODEL_IVW9010: return "TCS IVW9010";
+                case MODEL_IVW9011: return "TCS IVW9011 / Koch VTP10";
+                case MODEL_IVW9110: return "TCS IVW9110";
+                case MODEL_IVW9030: return "TCS IVW9030 / Scantron SLIM50T";
+                case MODEL_IVE70: return "TCS IVE70";
                 default: return "None";
             }
         }
@@ -983,6 +1025,15 @@ namespace esphome
                 case MODEL_VMF:
                     modelData.category = 0;
                     modelData.memory_size = 24;
+                    break;
+
+                case MODEL_IVW9010:
+                case MODEL_IVW9011:
+                case MODEL_IVW9110:
+                case MODEL_IVW9030:
+                case MODEL_IVE70:
+                    modelData.category = 0;
+                    modelData.memory_size = 0;
                     break;
 
                 default:

@@ -35,14 +35,6 @@ namespace esphome
         static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
         #endif
 
-        #if defined(USE_ESP_IDF)
-            #define BIT_SET(var, pos) ((var) |= (1UL << (pos)))
-            #define BIT_READ(var, pos) ((var >> pos) & 0x01)
-        #else
-            #define BIT_SET(var, pos) bitSet((var), (pos))
-            #define BIT_READ(var, pos) bitRead((var), (pos))
-        #endif
-
         #ifdef USE_BINARY_SENSOR
         class TCBusListener
         {
@@ -155,7 +147,9 @@ namespace esphome
                 uint8_t get_setting(SettingType type, Model model = MODEL_NONE);
                 bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0, Model model = MODEL_NONE);
 
-                void publish_command(uint32_t command, bool is_long, bool fire_events);
+                void on_command(CommandData cmd_data);
+
+                void publish_command(CommandData cmd_data, bool fire_events);
 
                 void publish_settings();
                 void save_settings();

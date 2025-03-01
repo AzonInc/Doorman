@@ -19,7 +19,7 @@ hero:
 
     - theme: alt
       text: GitHub
-      link: https://github.com/AzonInc/Doorman
+      link: https://github.com/azoninc/doorman
 
 features:
   - icon: 🚀

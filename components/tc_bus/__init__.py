@@ -143,7 +143,12 @@ CONF_MODELS = [
     "Jung TKISV",
     "TCS CAIXXXX / Koch CAIXXXX",
     "TCS CAI2000 / Koch Carus",
-    "TCS ISW42X0"
+    "TCS ISW42X0",
+    "TCS IVW9010",
+    "TCS IVW9011 / Koch VTP10",
+    "TCS IVW9110",
+    "TCS IVW9030 / Scantron SLIM50T",
+    "TCS IVE70"
 ]
 
 CONF_RINGTONES = [

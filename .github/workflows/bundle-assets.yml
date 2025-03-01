@@ -17,6 +17,9 @@ jobs:
       - name: Create Fimrware Directory
         run: mkdir -p output/firmware/release/
 
+      - name: Create Temp Directory
+        run: mkdir -p output/firmware/temp/
+
       - name: Download github-pages artifact
         uses: actions/download-artifact@v4
         with:
@@ -26,17 +29,62 @@ jobs:
       - name: Copy interactive BOM
         run: cp pcb/bom/ibom.html output/
         
+
+
+      - name: Download Doorman Stock for Home Assistant (ESP32) artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.esp32.ha.stock
+          path: output/firmware/release
+
       - name: Download Doorman Stock for Home Assistant (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
-          name: firmware-doorman-stock
+          name: firmware.esp32-s3.ha.stock
+          path: output/firmware/release
+
+      - name: Download Doorman Stock for Home Assistant (ESP32-S3-Quad) artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.esp32-s3-quad.ha.stock
+          path: output/firmware/release
+
+      - name: Download Doorman Stock for Home Assistant (ESP8266) artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.esp8266.ha.stock
+          path: output/firmware/release
+
+
+
+      - name: Download Doorman Nuki Bridge for Home Assistant (ESP32) artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.esp32.ha.nuki-bridge
           path: output/firmware/release
 
       - name: Download Doorman Nuki Bridge for Home Assistant (ESP32-S3) artifact
         uses: actions/download-artifact@v4
         with:
-          name: firmware-doorman-nuki-bridge
+          name: firmware.esp32-s3.ha.nuki-bridge
           path: output/firmware/release
+
+      - name: Download Doorman Nuki Bridge for Home Assistant (ESP32-S3-Quad) artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware.esp32-s3-quad.ha.nuki-bridge
+          path: output/firmware/release
+
+
+
+      - name: Create Doorman Stock backwards compatibility files for updates
+        run: |
+          cp -r output/firmware/release/esp32-s3.ha.stock output/firmware/release/doorman-stock
+          cp -r output/firmware/release/esp32-s3.ha.stock output/firmware/release/ha-doorman-stock
+          cp -r output/firmware/release/esp32-s3.ha.nuki-bridge output/firmware/release/doorman-nuki-bridge
+          cp -r output/firmware/release/esp32-s3.ha.nuki-bridge output/firmware/release/ha-doorman-nuki-bridge
+  
+
 
       - name: Upload Pages artifact
         if: github.ref_name == 'master'

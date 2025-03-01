@@ -24,3 +24,11 @@ Du kannst die Ring To Open-Automation nach 5 bis 60 Minuten, nach einem einzigen
 ::: info Door Station
 Du kannst entscheiden welche Außenstelle (Tür) die Automation auslöst.
 :::
+
+::: info Display Status
+Du kannst entscheiden ob die Status LED blinkt während die Automation aktiv ist.
+:::
+
+::: info Toggle Trigger
+Du kannst entscheiden durch was die Automation umgeschaltet wird.
+:::

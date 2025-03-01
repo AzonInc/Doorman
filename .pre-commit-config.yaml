@@ -1,0 +1,56 @@
+---
+repos:
+  - repo: local
+    hooks:
+      - id: esp32-s3.ha.stock.yaml
+        name: Validate Config - Stock (ha, master)
+        entry: esphome config firmware/configurations/esp32-s3.ha.stock.master.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: esp32-s3.ha.stock.dev.yaml
+        name: Validate Config - Stock (ha, dev)
+        entry: esphome config firmware/configurations/esp32-s3.ha.stock.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+
+      - id: esp32-s3.mqtt.stock.yaml
+        name: Validate Config - Stock (mqtt, master)
+        entry: esphome config firmware/configurations/esp32-s3.mqtt.stock.master.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: esp32-s3.mqtt.stock.dev.yaml
+        name: Validate Config - Stock (mqtt, dev)
+        entry: esphome config firmware/configurations/esp32-s3.mqtt.stock.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+
+
+      - id: esp32-s3.ha.nuki-bridge.yaml
+        name: Validate Config - Nuki Bridge (ha, master)
+        entry: esphome config firmware/configurations/esp32-s3.ha.nuki-bridge.master.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: esp32-s3.ha.nuki-bridge.dev.yaml
+        name: Validate Config - Nuki Bridge (ha, dev)
+        entry: esphome config firmware/configurations/esp32-s3.ha.nuki-bridge.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+
+      - id: esp32-s3.mqtt.nuki-bridge.yaml
+        name: Validate Config - Nuki Bridge (mqtt, master)
+        entry: esphome config firmware/configurations/esp32-s3.mqtt.nuki-bridge.master.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
+      - id: esp32-s3.mqtt.nuki-bridge.dev.yaml
+        name: Validate Config - Nuki Bridge (mqtt, dev)
+        entry: esphome config firmware/configurations/esp32-s3.mqtt.nuki-bridge.dev.yaml
+        language: system
+        pass_filenames: false
+        files: ^firmware/
