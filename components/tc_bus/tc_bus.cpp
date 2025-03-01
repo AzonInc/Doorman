@@ -383,14 +383,13 @@ namespace esphome
                     // Fire Home Assistant Event if event name is specified
                     if (strcmp(event_, "esphome.none") != 0 && cmd_data.type != COMMAND_TYPE_ACK)
                     {
-                        auto capi = new esphome::api::CustomAPIDevice();
                         ESP_LOGV(TAG, "Send event to Home Assistant on %s", event_);
 
                         // Convert type to lowercase
                         std::string type_str = command_type_to_string(cmd_data.type);
                         std::transform(type_str.begin(), type_str.end(), type_str.begin(), ::tolower);
 
-                        capi->fire_homeassistant_event(event_, {{"command", cmd_data.command_hex},
+                        this->fire_homeassistant_event(event_, {{"command", cmd_data.command_hex},
                                                                 {"type", type_str},
                                                                 {"address", std::to_string(cmd_data.address)},
                                                                 {"payload", std::to_string(cmd_data.payload)},
