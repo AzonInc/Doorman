@@ -17,6 +17,15 @@ namespace esphome
 
             switch (type)
             {
+                case COMMAND_TYPE_ACK:
+                    if(payload < 1 || payload > 15) {
+                        payload = 1;
+                    }
+                    data.payload = payload;
+                    data.is_long = false;
+                    data.command |= (data.payload & 0xF); // 1
+                    break;
+
                 case COMMAND_TYPE_DOOR_CALL:
                     data.serial_number = serial_number;
                     data.address = address;
@@ -85,16 +94,13 @@ namespace esphome
                     break;
 
                 case COMMAND_TYPE_OPEN_DOOR_LONG:
-                    if(serial_number == 0)
-                    {
+                    if(serial_number == 0) {
                         data.address = address;
                         data.is_long = false;
                         data.command |= (1 << 12); // 1
                         data.command |= (1 << 8); // 1
                         data.command |= (data.address & 0x3F); // 00
-                    }
-                    else
-                    {
+                    } else {
                         data.serial_number = serial_number;
                         data.address = address;
                         data.command |= (1 << 28);  // 1
@@ -203,6 +209,16 @@ namespace esphome
                     break;
             }
 
+            // Generate command HEX
+            data.command_hex = str_upper_case(format_hex(data.command));
+            if(!data.is_long) {
+                if (data.type == COMMAND_TYPE_ACK) {
+                    data.command_hex = data.command_hex.substr(7);
+                } else {
+                    data.command_hex = data.command_hex.substr(4);
+                }
+            }
+
             return data;
         }
 
@@ -215,26 +231,27 @@ namespace esphome
             data.payload = 0;
             data.is_long = is_long;
 
-            data.command_hex = str_upper_case(format_hex(command));
+            if (command <= 0xF) {
+                // Handle 4-bit acknowledge commands
 
-            if (is_long)
-            {
+                data.type = COMMAND_TYPE_ACK;
+                data.payload = command & 0xF;
+
+            } else if (is_long) {
+                // Handle 32-bit commands
+
                 data.serial_number = (command >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
 
-                switch ((command >> 28) & 0xF)
-                {
+                switch ((command >> 28) & 0xF) {
                     case 0:
                         data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CALL : COMMAND_TYPE_INTERNAL_CALL;
                         data.address = command & 0x3F;
                         break;
 
                     case 1:
-                        if ((command & 0xFF) == 0x41)
-                        {
+                        if ((command & 0xFF) == 0x41) {
                             data.type = COMMAND_TYPE_FLOOR_CALL;
-                        }
-                        else if (command & (1 << 7))
-                        {
+                        } else if (command & (1 << 7)) {
                             data.type = COMMAND_TYPE_OPEN_DOOR;
                             data.address = command & 0x3F;
                         }
@@ -245,8 +262,7 @@ namespace esphome
                         data.address = command & 0x3F;
 
                         // Door Readiness
-                        if(data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
-                        {
+                        if(data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL) {
                             data.payload = (command & (1 << 8)) != 0;
                         }
                         break;
@@ -290,8 +306,7 @@ namespace esphome
                         break;
 
                     case 7:
-                        if(((command >> 24) & 0xFF) == 0x7F)
-                        {
+                        if(((command >> 24) & 0xFF) == 0x7F) {
                             data.type = COMMAND_TYPE_FOUND_DOORMAN_DEVICE;
                             data.payload = command & 0xFFFFFF; // MAC Address
                             data.serial_number = 0;
@@ -299,8 +314,7 @@ namespace esphome
                         break;
 
                     case 8:
-                        switch ((command >> 24) & 0xF)
-                        {
+                        switch ((command >> 24) & 0xF) {
                             case 1:
                             case 9:
                                 data.type = COMMAND_TYPE_SELECT_MEMORY_PAGE;
@@ -317,32 +331,23 @@ namespace esphome
                         }
                         break;
                 }
-            }
-            else
-            {
-                data.command_hex = data.command_hex.substr(4);
+            } else {
+                // Handle 16 bit commands
 
                 // For 16-bit commands, work on the lower 16 bits
                 uint8_t first = (command >> 12) & 0xF;
                 uint8_t second = (command >> 8) & 0xF;
 
-                if (first == 1)
-                {
-                    if (second == 1)
-                    {
+                if (first == 1) {
+                    if (second == 1) {
                         data.type = COMMAND_TYPE_OPEN_DOOR;
                         data.address = command & 0x3F;
-                    }
-                    else if (second == 2)
-                    {
+                    } else if (second == 2) {
                         data.type = COMMAND_TYPE_LIGHT;
                         data.address = 0;
                     }
-                }
-                else if (first == 2)
-                {
-                    switch (second)
-                    {
+                } else if (first == 2) {
+                    switch (second) {
                         case 1:
                             data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CLOSED : COMMAND_TYPE_DOOR_OPENED;
                             break;
@@ -358,19 +363,13 @@ namespace esphome
                     }
 
                     data.address = command & 0x3F;
-                }
-                else if (first == 3)
-                {
+                } else if (first == 3) {
                     data.type = (command & (1 << 7)) ? COMMAND_TYPE_STOP_TALKING_DOOR_CALL : COMMAND_TYPE_STOP_TALKING;
                     data.address = command & 0x3F;
-                }
-                else if (first == 5)
-                {
-                    switch(second)
-                    {
+                } else if (first == 5) {
+                    switch(second) {
                         case 0:
-                            switch((command >> 4) & 0xF)
-                            {
+                            switch((command >> 4) & 0xF) {
                                 case 4:
                                     data.type = COMMAND_TYPE_PROGRAMMING_MODE;
                                     data.payload = command & 0xF;
@@ -398,18 +397,12 @@ namespace esphome
                             data.payload = command & 0xF;
                             break;
                     }
-                }
-                else if (first == 7)
-                {
-                    if(command == 0x7FFF)
-                    {
+                } else if (first == 7) {
+                    if(command == 0x7FFF) {
                         data.type = COMMAND_TYPE_SEARCH_DOORMAN_DEVICES;
                     }
-                }
-                else if (first == 8)
-                {
-                    switch(second)
-                    {
+                } else if (first == 8) {
+                    switch(second) {
                         case 1:
                             data.type = COMMAND_TYPE_SELECT_MEMORY_PAGE;
                             data.address = (command & 0xFF);
@@ -420,6 +413,16 @@ namespace esphome
                             data.address = (command & 0xFF) / 4;
                             break;
                     }
+                }
+            }
+
+            // Generate command HEX
+            data.command_hex = str_upper_case(format_hex(data.command));
+            if(!data.is_long) {
+                if (data.type == COMMAND_TYPE_ACK) {
+                    data.command_hex = data.command_hex.substr(7);
+                } else {
+                    data.command_hex = data.command_hex.substr(4);
                 }
             }
 
@@ -445,8 +448,7 @@ namespace esphome
 
         const char* setting_type_to_string(SettingType type)
         {
-            switch (type)
-            {
+            switch (type) {
                 case SETTING_RINGTONE_FLOOR_CALL: return "RINGTONE_FLOOR_CALL";
                 case SETTING_RINGTONE_ENTRANCE_DOOR_CALL: return "RINGTONE_ENTRANCE_DOOR_CALL";
                 case SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL: return "RINGTONE_SECOND_ENTRANCE_DOOR_CALL";
@@ -492,14 +494,14 @@ namespace esphome
             if (str == "SELECT_MEMORY_PAGE") return COMMAND_TYPE_SELECT_MEMORY_PAGE;
             if (str == "WRITE_MEMORY") return COMMAND_TYPE_WRITE_MEMORY;
             if (str == "REQUEST_VERSION") return COMMAND_TYPE_REQUEST_VERSION;
+            if (str == "ACK") return COMMAND_TYPE_ACK;
 
             return COMMAND_TYPE_UNKNOWN;
         }
 
         const char* command_type_to_string(CommandType type)
         {
-            switch (type)
-            {
+            switch (type) {
                 case COMMAND_TYPE_SEARCH_DOORMAN_DEVICES: return "SEARCH_DOORMAN_DEVICES";
                 case COMMAND_TYPE_FOUND_DOORMAN_DEVICE: return "FOUND_DOORMAN_DEVICE";
                 case COMMAND_TYPE_DOOR_CALL: return "DOOR_CALL";
@@ -529,6 +531,7 @@ namespace esphome
                 case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
                 case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
                 case COMMAND_TYPE_REQUEST_VERSION: return "REQUEST_VERSION";
+                case COMMAND_TYPE_ACK: return "ACK";
                 default: return "UNKNOWN";
             }
         }
@@ -573,6 +576,7 @@ namespace esphome
             if (str == "TCS ISH3230 / Koch TCH50 GFA") return MODEL_ISH3230;
             if (str == "TCS ISH3030 / Koch TCH50 / Scantron Lux2") return MODEL_ISH3030;
             if (str == "TCS ISH1030 / Koch TTS25") return MODEL_ISH1030;
+            if (str == "TCS TTC-XX") return MODEL_TTCXX;
             if (str == "TCS IMM1000 / Koch TCH30") return MODEL_IMM1000;
             if (str == "TCS IMM1100 / Koch TCHE30") return MODEL_IMM1100;
             if (str == "TCS IMM1300 / Koch VTCH30") return MODEL_IMM1300;
@@ -716,8 +720,7 @@ namespace esphome
 
         const char* model_to_string(Model model)
         {
-            switch (model)
-            {
+            switch (model) {
                 case MODEL_ISW3030: return "TCS ISW3030 / Koch TC50 / Scantron Stilux";
                 case MODEL_ISW3130: return "TCS ISW3130 / Koch TC50P";
                 case MODEL_ISW3230: return "TCS ISW3230 / Koch TC50 GFA";
@@ -756,6 +759,7 @@ namespace esphome
                 case MODEL_ISH3230: return "TCS ISH3230 / Koch TCH50 GFA";
                 case MODEL_ISH3030: return "TCS ISH3030 / Koch TCH50 / Scantron Lux2";
                 case MODEL_ISH1030: return "TCS ISH1030 / Koch TTS25";
+                case MODEL_TTCXX: return "TCS TTC-XX";
                 case MODEL_IMM1000: return "TCS IMM1000 / Koch TCH30";
                 case MODEL_IMM1100: return "TCS IMM1100 / Koch TCHE30";
                 case MODEL_IMM1300: return "TCS IMM1300 / Koch VTCH30";
@@ -982,6 +986,10 @@ namespace esphome
                     modelData.category = 0;
                     modelData.memory_size = 16;
                     break;
+                case MODEL_TTCXX:
+                    modelData.category = 0;
+                    modelData.memory_size = 16;
+                    break;
                 case MODEL_IMM1000: /* TCH30 */
                     modelData.category = 0;
                     modelData.memory_size = 32;
@@ -1056,8 +1064,7 @@ namespace esphome
                 case MODEL_ISW3130:
                 case MODEL_ISW3330:
                 case MODEL_IVH4222:
-                    switch (setting)
-                    {
+                    switch (setting) {
                         case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
                             data.index = 3;
                             data.left_nibble = true;
@@ -1088,9 +1095,9 @@ namespace esphome
                     break;
 
                 case MODEL_ISH1030:
+                case MODEL_TTCXX:
                 case MODEL_IVH3222:
-                    switch (setting)
-                    {
+                    switch (setting) {
                         case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
                             data.index = 3;
                             data.left_nibble = true;
@@ -1113,8 +1120,7 @@ namespace esphome
                 case MODEL_IVW511X:
                 case MODEL_IVW521X:
                     // TASTA Video
-                    switch (setting)
-                    {
+                    switch (setting) {
                         case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
                             data.index = 3;
                             data.left_nibble = true;
@@ -1163,8 +1169,7 @@ namespace esphome
                 case MODEL_ISW5031:
                 case MODEL_ISW5033:
                     // TASTA Audio
-                    switch (setting)
-                    {
+                    switch (setting) {
                         case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
                             data.index = 3;
                             data.left_nibble = true;
@@ -1211,8 +1216,7 @@ namespace esphome
                 case MODEL_IVW2211:
                 case MODEL_IVW2212:
                     // ECOOS
-                    switch (setting)
-                    {
+                    switch (setting) {
                         /*case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
                             data.index = 3;
                             data.left_nibble = true;
@@ -1262,8 +1266,7 @@ namespace esphome
 
         std::string int_to_ringtone(uint8_t ringtone)
         {
-            if(ringtone > 12)
-            {
+            if(ringtone > 12) {
                 ringtone = 0;
             }
 

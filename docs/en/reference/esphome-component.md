@@ -19,13 +19,14 @@ The `tc_bus` hub component offers the following configuration options:
 | Option                    | Description                                                                                                                                   | Required | Default       |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
-| `rx_pin`                  | GPIO pin for receiving data from the TC:BUS intercom.                                                                                            | No       | `9`           |
-| `tx_pin`                  | GPIO pin for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
+| `receiver_id`             | ID of remote_receiver for receiving data from the TC:BUS intercom.                                                                            | No       | The configured remote_receiver |
+| `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
 | `event`                   | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
 | `on_command`              | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | No       |               |
 | `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | No       |               |
+| `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                                      | No       |               |
 | `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | No       |               |
 
 
@@ -127,6 +128,14 @@ on_identify_complete:
   - lambda: |-
       std::string hexString = str_upper_case(format_hex(x));
       ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+### Identification of Indoor Station Complete (Unknown Model)
+The `on_identify_unknown` callback of the `tc_bus` hub allows you to detect a unknown model identification of the indoor station. Most probably when a model is too old and doesn't support this process or is not implemented yet.
+
+```yaml
+on_identify_unknown:
+  - logger.log: "Failed to identify indoor station - unknown model!"
 ```
 
 ### Identification of Indoor Station Timeout
@@ -281,14 +290,26 @@ Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
-  - source: github://azoninc/doorman
+  - source: github://azoninc/doorman@master
     components: [ tc_bus ]
+
+## RMT component configuration
+remote_receiver:
+  pin:
+    number: GPIO9
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: GPIO8
+    mode: OUTPUT
+  carrier_duty_percent: 100%
 
 # TC:BUS configuration
 tc_bus:
   id: my_tc_bus
-  rx_pin: GPIO9
-  tx_pin: GPIO8
   event: "doorman"
   on_command:
     - logger.log: "Received command from intercom!"
@@ -454,7 +475,8 @@ Below are the available settings for specific indoor station models:
 
 | Model                        | Available settings                                                                                         |
 |------------------------------|------------------------------------------------------------------------------------------------------------|
-| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`                                      |
+| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS TTC-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
 | TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
 | TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
 | TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |

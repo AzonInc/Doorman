@@ -1,3 +1,5 @@
+# ESP8266 Dummy Light Status LED Addon
+
 light:
   - platform: rgb
     id: doorman_rgb_status_led

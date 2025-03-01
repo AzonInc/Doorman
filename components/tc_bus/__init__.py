@@ -1,9 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome import pins, automation
-from esphome.const import CONF_ID, ENTITY_CATEGORY_DIAGNOSTIC, ENTITY_CATEGORY_CONFIG, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE
+from esphome.components import remote_transmitter, remote_receiver
+from esphome import automation
+from esphome.const import CONF_ID, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE
 
 CODEOWNERS = ["@azoninc"]
+
+DEPENDENCIES = ["remote_transmitter", "remote_receiver"]
+MULTI_CONF = False
 
 tc_bus_ns = cg.esphome_ns.namespace("tc_bus")
 TCBusComponent = tc_bus_ns.class_("TCBusComponent", cg.Component)
@@ -33,6 +37,7 @@ SettingData = tc_bus_ns.struct(f"SettingData")
 ModelData = tc_bus_ns.struct(f"ModelData")
 
 IdentifyCompleteTrigger = tc_bus_ns.class_("IdentifyCompleteTrigger", automation.Trigger.template())
+IdentifyUnknownTrigger = tc_bus_ns.class_("IdentifyUnknownTrigger", automation.Trigger.template())
 IdentifyTimeoutTrigger = tc_bus_ns.class_("IdentifyTimeoutTrigger", automation.Trigger.template())
 ReadMemoryCompleteTrigger = tc_bus_ns.class_("ReadMemoryCompleteTrigger", automation.Trigger.template())
 ReadMemoryTimeoutTrigger = tc_bus_ns.class_("ReadMemoryTimeoutTrigger", automation.Trigger.template())
@@ -53,6 +58,7 @@ SETTING_TYPES = {
 COMMAND_TYPE = tc_bus_ns.enum("CommandType")
 COMMAND_TYPES = {
     "unknown": COMMAND_TYPE.COMMAND_TYPE_UNKNOWN,
+    "ack": COMMAND_TYPE.COMMAND_TYPE_ACK,
     "search_doorman_devices": COMMAND_TYPE.COMMAND_TYPE_SEARCH_DOORMAN_DEVICES,
     "found_doorman_device": COMMAND_TYPE.COMMAND_TYPE_FOUND_DOORMAN_DEVICE,
     "door_call": COMMAND_TYPE.COMMAND_TYPE_DOOR_CALL,
@@ -124,6 +130,7 @@ CONF_MODELS = [
     "TCS ISH3230 / Koch TCH50 GFA",
     "TCS ISH3030 / Koch TCH50 / Scantron Lux2",
     "TCS ISH1030 / Koch TTS25",
+    "TCS TTC-XX",
     "TCS IMM1000 / Koch TCH30",
     "TCS IMM1100 / Koch TCHE30",
     "TCS IMM1300 / Koch VTCH30",
@@ -169,8 +176,9 @@ CONF_RINGTONES = [
 
 CONF_TC_ID = "tc_bus"
 
-CONF_RX_PIN = "rx_pin"
-CONF_TX_PIN = "tx_pin"
+CONF_TRANSMITTER_ID = "transmitter_id"
+CONF_RECEIVER_ID = "receiver_id"
+
 CONF_EVENT = "event"
 
 CONF_SERIAL_NUMBER = "serial_number"
@@ -185,11 +193,10 @@ CONF_ON_COMMAND = "on_command"
 CONF_ON_READ_MEMORY_COMPLETE = "on_read_memory_complete"
 CONF_ON_READ_MEMORY_TIMEOUT = "on_read_memory_timeout"
 CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
+CONF_ON_IDENTIFY_UNKNOWN = "on_identify_unknown"
 CONF_ON_IDENTIFY_TIMEOUT = "on_identify_timeout"
 
 CONF_PROGRAMMING_MODE = "programming_mode"
-
-MULTI_CONF = False
 
 def validate_config(config):
     return config
@@ -197,8 +204,12 @@ def validate_config(config):
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(TCBusComponent),
-        cv.Optional(CONF_RX_PIN, default=9): pins.internal_gpio_input_pin_schema,
-        cv.Optional(CONF_TX_PIN, default=8): pins.internal_gpio_output_pin_schema,
+        cv.GenerateID(CONF_TRANSMITTER_ID): cv.use_id(
+            remote_transmitter.RemoteTransmitterComponent
+        ),
+        cv.GenerateID(CONF_RECEIVER_ID): cv.use_id(
+            remote_receiver.RemoteReceiverComponent
+        ),
         cv.Optional(CONF_EVENT, default="tc"): cv.string,
         cv.Optional(CONF_ON_COMMAND): automation.validate_automation(
             {
@@ -220,6 +231,11 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyCompleteTrigger),
             }
         ),
+        cv.Optional(CONF_ON_IDENTIFY_UNKNOWN): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyUnknownTrigger),
+            }
+        ),
         cv.Optional(CONF_ON_IDENTIFY_TIMEOUT): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyTimeoutTrigger),
@@ -238,11 +254,11 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 
-    rx_pin = await cg.gpio_pin_expression(config[CONF_RX_PIN])
-    cg.add(var.set_rx_pin(rx_pin))
+    transmitter = await cg.get_variable(config[CONF_TRANSMITTER_ID])
+    cg.add(var.set_tx(transmitter))
 
-    pin = await cg.gpio_pin_expression(config[CONF_TX_PIN])
-    cg.add(var.set_tx_pin(pin))
+    receiver = await cg.get_variable(config[CONF_RECEIVER_ID])
+    cg.add(var.set_rx(receiver))
 
     cg.add(var.set_event("esphome." + config[CONF_EVENT]))
 
@@ -261,6 +277,10 @@ async def to_code(config):
     for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [(ModelData, "x")], conf)
+
+    for conf in config.get(CONF_ON_IDENTIFY_UNKNOWN, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
 
     for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)

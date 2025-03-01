@@ -6,7 +6,7 @@
 namespace esphome {
 namespace tc_bus {
 
-class VolumeRingtoneNumber : public number::Number, public Parented<TCBusComponent> {
+class VolumeRingtoneNumber final : public number::Number, public Parented<TCBusComponent> {
  public:
   VolumeRingtoneNumber() = default;
 

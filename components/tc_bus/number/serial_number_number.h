@@ -6,7 +6,7 @@
 namespace esphome {
 namespace tc_bus {
 
-class SerialNumberNumber : public number::Number, public Parented<TCBusComponent> {
+class SerialNumberNumber final : public number::Number, public Parented<TCBusComponent> {
  public:
   SerialNumberNumber() = default;
 

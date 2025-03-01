@@ -123,6 +123,12 @@ namespace esphome
                     parent->add_identify_timeout_callback([this]() { this->trigger(); });
                 }
         };
+        class IdentifyUnknownTrigger : public Trigger<> {
+            public:
+                explicit IdentifyUnknownTrigger(TCBusComponent *parent) {
+                    parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                }
+        };
         class IdentifyCompleteTrigger : public Trigger<ModelData> {
             public:
                 explicit IdentifyCompleteTrigger(TCBusComponent *parent) {

@@ -1,3 +1,5 @@
+# Debug Component Addon for PSRAM modules
+
 sensor:
   - platform: debug
     psram:

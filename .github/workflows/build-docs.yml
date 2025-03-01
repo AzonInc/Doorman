@@ -55,6 +55,7 @@ jobs:
           sed -i "s/master/${BRANCH_NAME}/g" */guide/enclosure/3d-printing.md
           sed -i "s/@master/@${BRANCH_NAME}/g" */reference/schematics.md
           sed -i "s/master.yaml@master/dev.yaml@${BRANCH_NAME}/g" */guide/firmware/minimal.example.yaml
+          sed -i "s/@master/@${BRANCH_NAME}/g" */reference/esphome-component.md
 
       - name: Install dependencies
         working-directory: docs

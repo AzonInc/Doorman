@@ -34,23 +34,27 @@ def get_packages(host, api_variant, firmware, branch):
         ('base', '!include ../base.yaml', True),
         ('bluedroid_ble', '!include ../components/bluedroid-ble.yaml', is_esp32 and firmware != 'nuki-bridge'),
         
-        ('ota_updates', '!include ../components/ota-updates.yaml', api_variant == 'ha'),
-        ('ota_updates_default_dev', '!include ../components/ota-updates-default-dev.yaml', api_variant == 'ha' and branch == 'dev'),
+        ('ota_update', '!include ../components/ota-update.yaml', api_variant == 'ha'),
+        ('ota_update_default_dev', '!include ../components/ota-update.dev.yaml', api_variant == 'ha' and branch == 'dev'),
         ('dashboard_import', '!include ../components/dashboard-import.yaml', api_variant == 'ha'),
         
-        ('api', '!include ../components/api-homeassistant.yaml', api_variant == 'ha'),
-        ('api', '!include ../components/api-mqtt.yaml', api_variant == 'mqtt'),
-        ('api', '!include ../components/api-custom.yaml', api_variant == 'custom'),
+        ('api', '!include ../components/api.homeassistant.yaml', api_variant == 'ha'),
+        ('api', '!include ../components/api.mqtt.yaml', api_variant == 'mqtt'),
+        ('api', '!include ../components/api.custom.yaml', api_variant == 'custom'),
 
         ('debug_utilities', '!include ../components/debug-utilities.yaml', branch == 'dev'),
-        ('debug_utilities_psram', '!include ../components/debug-utilities.psram.yaml', branch == 'dev' and has_psram),
-        ('debug_utilities_non_esp32', '!include ../components/debug-utilities.non-esp32.yaml', branch == 'dev' and not is_esp32),
+        ('debug_utilities_arduino', '!include ../components/debug-utilities.arduino.yaml', branch == 'dev' and not is_esp32),
+
+        ('debug_component', '!include ../components/debug-component.yaml', branch == 'dev'),
+        ('debug_component_psram', '!include ../components/debug-component.psram.yaml', branch == 'dev' and has_psram),
 
         ('pattern_events', '!include ../components/pattern-events.yaml', True),
         ('ring_to_open', '!include ../components/ring-to-open.yaml', True),
         ('intercom_settings', '!include ../components/intercom-settings.yaml', True),
         ('addon_nuki_bridge', '!include ../components/nuki-bridge.yaml', firmware == 'nuki-bridge'),
         ('interactive_setup', '!include ../components/interactive-setup.yaml', True),
+        
+        ('arduino_removals', '!include ../components/arduino.yaml', not is_esp32),
     ]
     
     return [(name, path) for name, path, condition in packages_config if condition]
@@ -76,8 +80,10 @@ def generate_example_yaml(host, api_variant, firmware, branch):
 
     filename = f'github://azoninc/doorman/firmware/configurations/{host}.{api_variant}.{firmware}.{branch}.yaml@{branch}'
     
+    api_variant_desc = "Home Assistant" if api_variant == "ha" else "MQTT" if api_variant == "mqtt" else "Custom"
+
     content = [
-        f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({"Home Assistant" if api_variant == "ha" else "MQTT"})',
+        f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({api_variant_desc})',
         f'# Base Board {host.upper()}',
         '',
         '# You can change a few options here.',
@@ -125,7 +131,13 @@ def main():
     os.makedirs('firmware/configurations', exist_ok=True)
     os.makedirs('firmware/examples', exist_ok=True)
     
-    combinations = product(HOST_ARCHITECTURES, API_VARIANTS, FIRMWARES, BRANCHES)
+    # Filter out invalid combinations before generating files
+    combinations = [
+        (host, api_variant, firmware, branch)
+        for host, api_variant, firmware, branch in product(HOST_ARCHITECTURES, API_VARIANTS, FIRMWARES, BRANCHES)
+        if not (firmware == 'nuki-bridge' and 'esp8266' in host.lower())
+    ]
+
     for host, api_variant, firmware, branch in combinations:
         filename = f'{host}.{api_variant}.{firmware}.{branch}.yaml'
         example_filename = f'{host}.{api_variant}.{firmware}.{branch}.example.yaml'

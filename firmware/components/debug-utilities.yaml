@@ -6,9 +6,12 @@ substitutions:
 logger:
   logs:
     tc_bus: DEBUG
-    component: ERROR # avoids component warning spam
+  #  component: ERROR # avoids component warning spam
     sensor: DEBUG
 
+remote_receiver:
+  dump: raw
+  
 globals:
   - id: search_mode
     type: int
@@ -26,18 +29,6 @@ globals:
   - id: is1_list
     type: std::vector<int>
     initial_value: ''
-
-debug:
-  update_interval: 5s
-
-text_sensor:
-  - platform: debug
-    reset_reason:
-      name: "Reset Reason"
-      id: debug_restart_reason
-      entity_category: DIAGNOSTIC
-      web_server:
-        sorting_group_id: sorting_group_diagnostic
 
 binary_sensor:
   - platform: template
@@ -60,7 +51,7 @@ sensor:
     id: debug_bus_voltage
     name: "Bus Voltage"
     pin: ${adc_input_pin}
-    update_interval: 1s
+    update_interval: 5s
     attenuation: 12dB
     entity_category: DIAGNOSTIC
     disabled_by_default: true
@@ -86,20 +77,6 @@ sensor:
     device_class: ""
     web_server:
       sorting_group_id: sorting_group_diagnostic
-
-  - platform: debug
-    free:
-      id: debug_heap_free
-      name: "Heap Free"
-      entity_category: DIAGNOSTIC
-      web_server:
-        sorting_group_id: sorting_group_diagnostic
-    block:
-      id: debug_heap_max_block
-      name: "Heap Max Block"
-      entity_category: DIAGNOSTIC
-      web_server:
-        sorting_group_id: sorting_group_diagnostic
 
 text:
   - platform: template

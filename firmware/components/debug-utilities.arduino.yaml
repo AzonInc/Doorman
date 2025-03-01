@@ -1,3 +1,5 @@
+# Debug Utilities Addon: Arduino excludes
+
 sensor:
   - id: !extend debug_bus_voltage
     attenuation: !remove

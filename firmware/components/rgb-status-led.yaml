@@ -1,3 +1,5 @@
+# RMT Light Status LED Addon
+
 light:
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led
@@ -9,6 +11,8 @@ light:
     pin: ${rgb_led_pin}
     num_leds: 1
     chipset: ws2812
+    #use_psram: false
+    rmt_symbols: 144
     gamma_correct: 1
     default_transition_length: 0ms
     effects:

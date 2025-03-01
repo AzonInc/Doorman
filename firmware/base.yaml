@@ -18,12 +18,13 @@ esphome:
 # Prevent component warning spam
 logger:
   level: ${log_level}
-  logs:
-    component: ERROR # avoids component warning spam
-    sensor: WARN  # avoids logging debug sensor updates
+  #logs:
+  #  component: ERROR # avoids component warning spam
+  #  sensor: WARN  # avoids logging debug sensor updates
 
 web_server:
   version: 3
+  id: doorman_webserver
   sorting_groups:
     - id: sorting_group_controls
       name: "Controls"
@@ -66,8 +67,23 @@ improv_serial:
 # Import TC:BUS Component
 external_components:
   - source: github://azoninc/doorman@${branch}
-    components: [ tc_bus ]
+    components: [ tc_bus, web_server ]
     refresh: 60s
+
+# Setup RMT components
+remote_receiver:
+  pin:
+    number: ${rx_pin}
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: ${tx_pin}
+    mode: OUTPUT
+  carrier_duty_percent: 100%
+  eot_level: false
 
 # Setup TC:BUS Component
 tc_bus:

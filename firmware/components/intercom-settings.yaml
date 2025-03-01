@@ -12,27 +12,27 @@ esphome:
 # Extend TC:BUS Component
 tc_bus:
   on_read_memory_complete:
-    - logger.log: "Completed memory reading!"
     - lambda: |-
         std::string hexString = str_upper_case(format_hex(x));
-        ESP_LOGI("tcs_bus", "Memory Dump: %s", hexString.c_str());
+        ESP_LOGI("tcs_bus", "Memory reading completed. Data: %s", hexString.c_str());
 
   on_read_memory_timeout:
-    - logger.log: "Failed to read Memory"
+    - logger.log:
+        format: "Memory reading timed out! No memory block received in time."
+        level: ERROR
 
   on_identify_complete:
     - logger.log:
-        format: "Identified Hardware: %s (version %i), Firmware: %i.%i.%i"
+        format: "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i"
         args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
-    - if:
-        condition:
-          - lambda: return x.model != MODEL_NONE;
-        then:
-          - delay: 2s
-          - tc_bus.read_memory:
+        level: INFO
+    - delay: 2s
+    - tc_bus.read_memory:
 
   on_identify_timeout:
-    - logger.log: "Unable to identify the Indoor Station, please select manually."
+    - logger.log:
+        format: "Failed to identify the Indoor Station. Please select it manually."
+        level: ERROR
 
 select:
   - platform: tc_bus

@@ -6,7 +6,7 @@
 namespace esphome {
 namespace tc_bus {
 
-class RingtoneEntranceDoorCallSelect : public select::Select, public Parented<TCBusComponent> {
+class RingtoneEntranceDoorCallSelect final : public select::Select, public Parented<TCBusComponent> {
  public:
   RingtoneEntranceDoorCallSelect() = default;
 
@@ -14,7 +14,7 @@ class RingtoneEntranceDoorCallSelect : public select::Select, public Parented<TC
   void control(const std::string &value) override;
 };
 
-class RingtoneSecondEntranceDoorCallSelect : public select::Select, public Parented<TCBusComponent> {
+class RingtoneSecondEntranceDoorCallSelect final : public select::Select, public Parented<TCBusComponent> {
  public:
   RingtoneSecondEntranceDoorCallSelect() = default;
 
