@@ -12,6 +12,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Extended Model Detection Support**  
    Detection capabilities now include additional older models.
 
+- **Command Queue**  
+   Outgoing commands are now queued to prevent data loss.
+
 ### 📝 Other Updates
 - **More Readable Log Messages**  
    Log messages have been refined for improved clarity and readability.

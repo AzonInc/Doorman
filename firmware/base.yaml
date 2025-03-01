@@ -9,7 +9,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
-  min_version: "2025.3.0"
+  min_version: "2025.2.0"
   project:
     name: "AzonInc.Doorman"
     version: "2025.4.0"
@@ -24,7 +24,6 @@ logger:
 
 web_server:
   version: 3
-  id: doorman_webserver
   sorting_groups:
     - id: sorting_group_controls
       name: "Controls"
@@ -67,7 +66,7 @@ improv_serial:
 # Import TC:BUS Component
 external_components:
   - source: github://azoninc/doorman@${branch}
-    components: [ tc_bus, web_server ]
+    components: [ tc_bus ]
     refresh: 60s
 
 # Setup RMT components
