@@ -11,7 +11,7 @@ light:
     pin: ${rgb_led_pin}
     num_leds: 1
     chipset: ws2812
-    #use_psram: false
+    use_psram: false
     rmt_symbols: 144
     gamma_correct: 1
     default_transition_length: 0ms
