@@ -1,7 +1,7 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2025.2.1
+## 2025.3.0
 ### ✨ Improvements
 - **Fix Update Process**  
    Firmware updates are now correctly identified and retrieved for each specific firmware variant.
@@ -12,6 +12,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Expanded Support for Model Detection**  
    Now, models without configuration settings are also detected.
    
+- **Setup mode delays**  
+   By introducing some delay, we allow the ringtone to finish on setup mode.
+
 ### 📝 Other Updates
 - **Nuki Component**  
    The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now runs on IDF, removing the need for the Arduino framework.

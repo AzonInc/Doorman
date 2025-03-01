@@ -1,6 +1,12 @@
 # PCB Revision History & Changelog
 Welcome to the complete history of all PCB updates! This page highlights the new features, improvements, and changes made in each revision.
 
+## 1.6.0
+- Ground plane around power supply section
+- Low impedance voltage divider
+- Power supply redesign
+- Add filter capacitors
+
 ## 1.5.0
 - Power supply redesign based on the reference design
 - New method to power the Doorman-S3 via TC:BUS using a jumper cap
