@@ -1,6 +1,26 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2025.4.0
+### ✨ Improvements
+- **Enhanced Reliability with Remote Peripheral**  
+   Data reading is now based on RMT, providing more reliability compared to the previous interrupt-based method.
+
+- **Support for Acknowledgment Messages**  
+   Acknowledgment messages, previously unaccounted for, have now been implemented after further investigation.
+
+- **Extended Model Detection Support**  
+   Detection capabilities now include additional older models.
+
+### 📝 Other Updates
+- **More Readable Log Messages**  
+   Log messages have been refined for improved clarity and readability.
+
+### 🚨 Breaking Changes
+- **RMT Updates**  
+   The `TC:BUS` component no longer supports the `rx_pin` and `tx_pin` options.  
+   Instead, `remote_receiver` and `remote_transmitter` components must now be defined.
+
 ## 2025.3.0
 ### ✨ Improvements
 - **Fix Update Process**  

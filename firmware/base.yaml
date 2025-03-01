@@ -12,7 +12,7 @@ esphome:
   min_version: "2025.2.0"
   project:
     name: "AzonInc.Doorman"
-    version: "2025.3.0"
+    version: "2025.4.0"
 
 # Enable logging
 # Prevent component warning spam
