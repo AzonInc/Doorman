@@ -9,7 +9,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
-  min_version: "2025.2.0"
+  min_version: "2025.3.0"
   project:
     name: "AzonInc.Doorman"
     version: "2025.4.0"

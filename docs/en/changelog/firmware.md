@@ -21,6 +21,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    The `TC:BUS` component no longer supports the `rx_pin` and `tx_pin` options.  
    Instead, `remote_receiver` and `remote_transmitter` components must now be defined.
 
+- **Minimum ESPHome Version Set**  
+   We’ve bumped the minimum required version to **2025.3.0**.
+
 ## 2025.3.0
 ### ✨ Improvements
 - **Fix Update Process**  
