@@ -9,7 +9,7 @@ packages:
   rgb_status_led: !include ../components/rgb-status-led.yaml
   base: !include ../base.yaml
   bluedroid_ble: !include ../components/bluedroid-ble.yaml
-  api: !include ../components/api-custom.yaml
+  api: !include ../components/api.custom.yaml
   pattern_events: !include ../components/pattern-events.yaml
   ring_to_open: !include ../components/ring-to-open.yaml
   intercom_settings: !include ../components/intercom-settings.yaml
