@@ -320,7 +320,7 @@ namespace esphome
 
                     this->identify_complete_callback_.call(device);
                 } else {
-                    ESP_LOGE(TAG, "Invalid indentification response! Received: %s", cmd_data.command_hex.c_str());
+                    ESP_LOGE(TAG, "Invalid identification response! Received: %s", cmd_data.command_hex.c_str());
                 }
             }
             else {
