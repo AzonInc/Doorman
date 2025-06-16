@@ -38,7 +38,7 @@ select:
   - platform: tc_bus
     model:
       id: intercom_model
-      name: "Intercom Model"
+      name: "Indoor Station Model"
       icon: "mdi:doorbell-video"
       entity_category: CONFIG
       disabled_by_default: true
