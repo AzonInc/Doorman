@@ -63,6 +63,7 @@ namespace esphome
 
             void set_telegram_type(TelegramType type) { this->type_ = type; }
 
+            void set_serial_number_lambda(std::function<optional<uint32_t>()> &&f) { this->serial_number_lambda_ = f; }
             void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
 
             void set_auto_off(uint16_t auto_off) { this->auto_off_ = auto_off; }
@@ -74,6 +75,8 @@ namespace esphome
             uint16_t auto_off_;
 
             optional<uint32_t> serial_number_;
+            optional<std::function<optional<uint32_t>()>> serial_number_lambda_;
+
             optional<TelegramType> type_;
 
             optional<uint32_t> telegram_;
@@ -92,13 +95,6 @@ namespace esphome
                 virtual bool on_receive(TelegramData data, bool received) = 0;
         };
 
-        struct TCBusSettings
-        {
-            Model model;
-            uint32_t serial_number;
-            bool force_long_door_opener;
-        };
-
         class TCBusComponent :
             public Component,
             public remote_base::RemoteReceiverListener
@@ -110,32 +106,12 @@ namespace esphome
             SUB_TEXT_SENSOR(bus_telegram);
             SUB_TEXT_SENSOR(hardware_version);
 #endif
-#ifdef USE_SELECT
-            SUB_SELECT(model);
-            SUB_SELECT(ringtone_entrance_door_call);
-            SUB_SELECT(ringtone_second_entrance_door_call);
-            SUB_SELECT(ringtone_floor_call);
-            SUB_SELECT(ringtone_internal_call);
-#endif
-#ifdef USE_NUMBER
-            SUB_NUMBER(serial_number);
-            SUB_NUMBER(volume_handset_door_call);
-            SUB_NUMBER(volume_handset_internal_call);
-            SUB_NUMBER(volume_ringtone);
-#endif
-#ifdef USE_SWITCH
-            SUB_SWITCH(force_long_door_opener);
-#endif
 
         public:
             void set_tx(remote_transmitter::RemoteTransmitterComponent *tx) { this->tx_ = tx; }
             void set_rx(remote_receiver::RemoteReceiverComponent *rx) { this->rx_ = rx; }
 
             void set_event(const char *event) { this->event_ = event; }
-            void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
-            void set_force_long_door_opener(bool force_long_door_opener) { this->force_long_door_opener_ = force_long_door_opener; }
-
-            void set_model(Model model);
 
             void setup() override;
             void dump_config() override;
@@ -175,15 +151,6 @@ namespace esphome
             void transmit_telegram(TelegramData telegram_data);
             void received_telegram(TelegramData telegram_data, bool received = true);
 
-            // Memory reading
-            void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
-            void read_memory_block();
-            bool write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
-
-            bool supports_setting(SettingType type, Model model = MODEL_NONE);
-            uint8_t get_setting(SettingType type, Model model = MODEL_NONE);
-            bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0, Model model = MODEL_NONE);
-
             void publish_settings();
             void save_settings();
 
@@ -193,39 +160,9 @@ namespace esphome
                 this->received_telegram_callback_.add(std::move(callback));
             }
 
-            void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback)
-            {
-                this->read_memory_complete_callback_.add(std::move(callback));
-            }
-
-            void add_read_memory_timeout_callback(std::function<void()> &&callback)
-            {
-                this->read_memory_timeout_callback_.add(std::move(callback));
-            }
-
-            void add_identify_complete_callback(std::function<void(ModelData)> &&callback)
-            {
-                this->identify_complete_callback_.add(std::move(callback));
-            }
-
-            void add_identify_unknown_callback(std::function<void()> &&callback)
-            {
-                this->identify_unknown_callback_.add(std::move(callback));
-            }
-
-            void add_identify_timeout_callback(std::function<void()> &&callback)
-            {
-                this->identify_timeout_callback_.add(std::move(callback));
-            }
-
             // Misc
             void set_programming_mode(bool enabled);
-            void request_version(uint32_t serial_number, uint8_t device_group);
-
-            ESPPreferenceObject &get_pref()
-            {
-                return this->pref_;
-            }
+            uint8_t selected_device_group_ = 2;
 
         protected:
             // Telegram handling
@@ -242,38 +179,15 @@ namespace esphome
             std::vector<TCBusListener *> listeners_{};
 #endif
 
-            // Indoor station data
-            Model model_;
-            uint32_t serial_number_;
-            bool force_long_door_opener_;
-
             // Automation Actions
             CallbackManager<void(TelegramData)> received_telegram_callback_{};
-            CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
-            CallbackManager<void()> read_memory_timeout_callback_{};
-            CallbackManager<void(ModelData)> identify_complete_callback_{};
-            CallbackManager<void()> identify_unknown_callback_{};
-            CallbackManager<void()> identify_timeout_callback_{};
-
-            // Memory reading
-            std::vector<uint8_t> memory_buffer_;
-            bool read_memory_flow_ = false;
-            bool wait_for_memory_block_telegram_ = false;
-            uint8_t reading_memory_count_ = 0;
-            uint8_t reading_memory_max_ = 0;
-            uint32_t reading_memory_serial_number_ = 0;
-
-            // Identification
-            bool identify_model_flow_ = false;
-            bool wait_for_identification_telegram_ = false;
 
             // Misc
             const char *event_;
             std::string hardware_version_str_ = "Generic";
             bool programming_mode_ = false;
-            uint8_t selected_device_group_ = 2;
 
-            ESPPreferenceObject pref_;
+            bool wait_for_data_telegram_ = false;
         };
 
         static TCBusComponent *global_tc_bus = nullptr; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)

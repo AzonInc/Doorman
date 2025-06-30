@@ -1,22 +1,21 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
-from esphome.const import CONF_ID, CONF_ICON, CONF_TYPE
-from .. import tc_bus_ns, TCBusComponent, CONF_TC_ID, TELEGRAM_TYPES
+from esphome.const import CONF_ID, CONF_ICON
+from .. import tc_bus_ns, TCBusComponent, CONF_TC_BUS_ID, TELEGRAM_TYPES
 
-TelegramListenerBinarySensor = tc_bus_ns.class_("TelegramListenerBinarySensor", binary_sensor.BinarySensor, cg.Component)
-
-CONF_ADDRESS = "address"
-CONF_ADDRESS_LAMBDA = "address_lambda"
-
-CONF_PAYLOAD = "payload"
-CONF_PAYLOAD_LAMBDA = "payload_lambda"
+BusTelegramListenerBinarySensor = tc_bus_ns.class_("BusTelegramListenerBinarySensor", binary_sensor.BinarySensor, cg.Component)
 
 CONF_TELEGRAM = "telegram"
 CONF_TELEGRAM_LAMBDA = "telegram_lambda"
-CONF_TELEGRAM_LAMBDA_LEGACY = "lambda"
 
+CONF_TYPE = "type"
+CONF_ADDRESS = "address"
+CONF_ADDRESS_LAMBDA = "address_lambda"
+CONF_PAYLOAD = "payload"
+CONF_PAYLOAD_LAMBDA = "payload_lambda"
 CONF_SERIAL_NUMBER = "serial_number"
+CONF_SERIAL_NUMBER_LAMBDA = "serial_number_lambda"
 
 CONF_NAME = "name"
 CONF_AUTO_OFF = "auto_off"
@@ -27,7 +26,7 @@ def validate(config):
     config = config.copy()
 
     has_telegram_option = any(
-        key in config for key in [CONF_TELEGRAM, CONF_TELEGRAM_LAMBDA, CONF_TELEGRAM_LAMBDA_LEGACY]
+        key in config for key in [CONF_TELEGRAM, CONF_TELEGRAM_LAMBDA]
     )
 
     has_type_option = CONF_TYPE in config
@@ -40,45 +39,50 @@ def validate(config):
         key in config for key in [CONF_PAYLOAD, CONF_PAYLOAD_LAMBDA]
     )
 
-    has_serial_number_option = CONF_SERIAL_NUMBER in config
+    has_serial_number_option = any(
+        key in config for key in [CONF_SERIAL_NUMBER, CONF_SERIAL_NUMBER_LAMBDA]
+    )
 
     if not (has_telegram_option or has_type_option):
-        raise cv.Invalid("You need to set either TELEGRAM/TELEGRAM_LAMBDA/TELEGRAM_LAMBDA_LEGACY or TYPE.")
+        raise cv.Invalid("You need to set either TELEGRAM/TELEGRAM_LAMBDA or TYPE.")
 
     if has_telegram_option:
         if has_type_option or has_address_option or has_payload_option or has_serial_number_option:
-            raise cv.Invalid("You can either set TELEGRAM/TELEGRAM_LAMBDA/TELEGRAM_LAMBDA_LEGACY or TYPE and ADDRESS/ADDRESS_LAMBDA, PAYLOAD/PAYLOAD_LAMBDA and SERIAL_NUMBER.")
+            raise cv.Invalid("You can either set TELEGRAM/TELEGRAM_LAMBDA or TYPE and ADDRESS/ADDRESS_LAMBDA, PAYLOAD/PAYLOAD_LAMBDA and SERIAL_NUMBER.")
     else:
         if not has_type_option:
             raise cv.Invalid("You need to set TYPE.")
 
-    if CONF_TELEGRAM in config and (CONF_TELEGRAM_LAMBDA in config or CONF_TELEGRAM_LAMBDA_LEGACY in config):
-        raise cv.Invalid("You can either set TELEGRAM or TELEGRAM_LAMBDA/TELEGRAM_LAMBDA_LEGACY, not both.")
-    
+    if CONF_TELEGRAM in config and CONF_TELEGRAM_LAMBDA in config:
+        raise cv.Invalid("You can either set TELEGRAM or TELEGRAM_LAMBDA, not both.")
+
     if CONF_ADDRESS in config and CONF_ADDRESS_LAMBDA in config:
         raise cv.Invalid("You can either set ADDRESS or ADDRESS_LAMBDA, not both.")
-    
+
     if CONF_PAYLOAD in config and CONF_PAYLOAD_LAMBDA in config:
         raise cv.Invalid("You can either set PAYLOAD or PAYLOAD_LAMBDA, not both.")
+
+    if CONF_SERIAL_NUMBER in config and CONF_SERIAL_NUMBER_LAMBDA in config:
+        raise cv.Invalid("You can either set SERIAL_NUMBER or SERIAL_NUMBER_LAMBDA, not both.")
 
     return config
 
 CONFIG_SCHEMA = cv.All(
-    binary_sensor.binary_sensor_schema(TelegramListenerBinarySensor).extend(
+    binary_sensor.binary_sensor_schema(BusTelegramListenerBinarySensor).extend(
         {
-            cv.GenerateID(): cv.declare_id(TelegramListenerBinarySensor),
-            cv.GenerateID(CONF_TC_ID): cv.use_id(TCBusComponent),
+            cv.GenerateID(): cv.declare_id(BusTelegramListenerBinarySensor),
+            cv.GenerateID(CONF_TC_BUS_ID): cv.use_id(TCBusComponent),
 
             cv.Optional(CONF_TELEGRAM): cv.hex_uint32_t,
             cv.Optional(CONF_TELEGRAM_LAMBDA): cv.returning_lambda,
-            cv.Optional(CONF_TELEGRAM_LAMBDA_LEGACY): cv.returning_lambda,
-            
+
             cv.Optional(CONF_TYPE): cv.enum(TELEGRAM_TYPES, upper=False),
             cv.Optional(CONF_ADDRESS): cv.hex_uint8_t,
             cv.Optional(CONF_ADDRESS_LAMBDA): cv.returning_lambda,
             cv.Optional(CONF_PAYLOAD): cv.hex_uint32_t,
             cv.Optional(CONF_PAYLOAD_LAMBDA): cv.returning_lambda,
             cv.Optional(CONF_SERIAL_NUMBER): cv.hex_uint32_t,
+            cv.Optional(CONF_SERIAL_NUMBER_LAMBDA): cv.returning_lambda,
 
             cv.Optional(CONF_ICON, default="mdi:doorbell"): cv.icon,
             cv.Optional(CONF_NAME, default="Doorbell"): cv.string,
@@ -97,25 +101,20 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await binary_sensor.register_binary_sensor(var, config)
 
+    if CONF_TELEGRAM in config:
+        cg.add(var.set_telegram(config[CONF_TELEGRAM]))
+
     if CONF_TELEGRAM_LAMBDA in config:
         telegram_template_ = await cg.process_lambda(
             config[CONF_TELEGRAM_LAMBDA], [], return_type=cg.optional.template(cg.uint32)
         )
         cg.add(var.set_telegram_lambda(telegram_template_))
-    elif CONF_TELEGRAM_LAMBDA_LEGACY in config:
-        telegram_template_ = await cg.process_lambda(
-            config[CONF_TELEGRAM_LAMBDA_LEGACY], [], return_type=cg.optional.template(cg.uint32)
-        )
-        cg.add(var.set_telegram_lambda(telegram_template_))
-
-    if CONF_TELEGRAM in config:
-        cg.add(var.set_telegram(config[CONF_TELEGRAM]))
 
     if CONF_TYPE in config:
         cg.add(var.set_telegram_type(config[CONF_TYPE]))
 
     if CONF_ADDRESS in config:
-            cg.add(var.set_address(config[CONF_ADDRESS]))
+        cg.add(var.set_address(config[CONF_ADDRESS]))
 
     if CONF_ADDRESS_LAMBDA in config:
         address_template_ = await cg.process_lambda(
@@ -134,8 +133,14 @@ async def to_code(config):
 
     if CONF_SERIAL_NUMBER in config:
         cg.add(var.set_serial_number(config[CONF_SERIAL_NUMBER]))
-        
+
+    if CONF_SERIAL_NUMBER_LAMBDA in config:
+        serial_number_template_ = await cg.process_lambda(
+            config[CONF_SERIAL_NUMBER_LAMBDA], [], return_type=cg.optional.template(cg.uint32)
+        )
+        cg.add(var.set_serial_number_lambda(serial_number_template_))
+
     cg.add(var.set_auto_off(config[CONF_AUTO_OFF]))
 
-    tc_bus = await cg.get_variable(config[CONF_TC_ID])
+    tc_bus = await cg.get_variable(config[CONF_TC_BUS_ID])
     cg.add(tc_bus.register_listener(var))

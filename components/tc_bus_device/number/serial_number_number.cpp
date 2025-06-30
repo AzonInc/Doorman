@@ -1,3 +1,4 @@
+#include "../util.h"
 #include "serial_number_number.h"
 
 namespace esphome {

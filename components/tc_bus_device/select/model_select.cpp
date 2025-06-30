@@ -1,4 +1,4 @@
-#include "../protocol.h"
+#include "../util.h"
 #include "model_select.h"
 
 namespace esphome {

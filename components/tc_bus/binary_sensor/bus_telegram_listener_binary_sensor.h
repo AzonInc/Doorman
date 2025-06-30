@@ -7,7 +7,7 @@ namespace esphome
 {
     namespace tc_bus
     {
-        class TelegramListenerBinarySensor final : public binary_sensor::BinarySensor, public TCBusListener
+        class BusTelegramListenerBinarySensor final : public binary_sensor::BinarySensor, public TCBusListener
         {
             public:
                 void turn_on(uint32_t *timer, uint16_t auto_off) override;

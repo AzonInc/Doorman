@@ -1,12 +1,12 @@
 #pragma once
 
 #include "esphome/components/select/select.h"
-#include "../tc_bus.h"
+#include "../tc_bus_device.h"
 
 namespace esphome {
 namespace tc_bus {
 
-class RingtoneFloorCallSelect final : public select::Select, public Parented<TCBusComponent> {
+class RingtoneFloorCallSelect final : public select::Select, public Parented<TCBusDeviceComponent> {
  public:
   RingtoneFloorCallSelect() = default;
 

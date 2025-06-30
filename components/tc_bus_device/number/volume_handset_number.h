@@ -1,12 +1,12 @@
 #pragma once
 
 #include "esphome/components/number/number.h"
-#include "../tc_bus.h"
+#include "../tc_bus_device.h"
 
 namespace esphome {
 namespace tc_bus {
 
-class VolumeHandsetDoorCallNumber final : public number::Number, public Parented<TCBusComponent> {
+class VolumeHandsetDoorCallNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
  public:
   VolumeHandsetDoorCallNumber() = default;
 
@@ -15,7 +15,7 @@ class VolumeHandsetDoorCallNumber final : public number::Number, public Parented
 };
 
 
-class VolumeHandsetInternalCallNumber final : public number::Number, public Parented<TCBusComponent> {
+class VolumeHandsetInternalCallNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
   public:
    VolumeHandsetInternalCallNumber() = default;
  

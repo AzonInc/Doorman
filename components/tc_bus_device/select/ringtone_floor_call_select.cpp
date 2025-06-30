@@ -1,4 +1,4 @@
-#include "../protocol.h"
+#include "../util.h"
 #include "ringtone_floor_call_select.h"
 
 namespace esphome {
@@ -8,7 +8,7 @@ void RingtoneFloorCallSelect::control(const std::string &value)
 {
     this->publish_state(value);
     uint8_t ringtone = ringtone_to_int(value);
-    this->parent_->update_setting(SETTING_RINGTONE_FLOOR_CALL, ringtone, 0);
+    this->parent_->update_setting(SETTING_RINGTONE_FLOOR_CALL, ringtone);
 }
 
 }  // namespace tc_bus

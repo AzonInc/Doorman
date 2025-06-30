@@ -32,8 +32,6 @@ namespace esphome
 {
     namespace tc_bus
     {
-        static const char *const TAG = "tc_bus_device";
-
 #ifdef USE_BINARY_SENSOR
         class TCBusDeviceListener
         {
@@ -100,6 +98,11 @@ namespace esphome
 #endif
 
         public:
+            const char* TAG = "tc_bus_device";
+
+            void set_internal_id(const std::string &internal_id) { this->internal_id_.assign(internal_id); }
+
+            void set_device_group(DeviceGroup device_group) { this->device_group_ = device_group; }
             void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
             void set_force_long_door_opener(bool force_long_door_opener) { this->force_long_door_opener_ = force_long_door_opener; }
 
@@ -118,17 +121,17 @@ namespace esphome
 
             void send_telegram(uint32_t telegram, uint32_t wait_duration = 200);
             void send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 200);
-            void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 200);
+            void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t wait_duration = 200);
             void send_telegram(TelegramData telegram_data, uint32_t wait_duration = 200);
 
             // Memory reading
-            void read_memory(uint32_t serial_number, Model model = MODEL_NONE);
+            void read_memory();
             void read_memory_block();
-            bool write_memory(uint32_t serial_number = 0, Model model = MODEL_NONE);
+            bool write_memory();
 
-            bool supports_setting(SettingType type, Model model = MODEL_NONE);
-            uint8_t get_setting(SettingType type, Model model = MODEL_NONE);
-            bool update_setting(SettingType type, uint8_t new_value, uint32_t serial_number = 0, Model model = MODEL_NONE);
+            bool supports_setting(SettingType type);
+            uint8_t get_setting(SettingType type);
+            bool update_setting(SettingType type, uint8_t new_value);
 
             void publish_settings();
             void save_settings();
@@ -165,7 +168,7 @@ namespace esphome
             }
 
             // Misc
-            void request_version(uint32_t serial_number, uint8_t device_group);
+            void request_version();
 
             ESPPreferenceObject &get_pref()
             {
@@ -175,13 +178,17 @@ namespace esphome
         protected:
             TCBusComponent *tc_bus_{nullptr};
 
+            std::string internal_id_;
+
 #ifdef USE_BINARY_SENSOR
             std::vector<TCBusDeviceListener *> listeners_{};
 #endif
 
             // Indoor station data
             Model model_;
+            ModelData model_data_;
             uint32_t serial_number_;
+            DeviceGroup device_group_;
             bool force_long_door_opener_;
 
             // Automation Actions
@@ -195,17 +202,13 @@ namespace esphome
             // Memory reading
             std::vector<uint8_t> memory_buffer_;
             bool read_memory_flow_ = false;
-            bool wait_for_memory_block_telegram_ = false;
             uint8_t reading_memory_count_ = 0;
             uint8_t reading_memory_max_ = 0;
-            uint32_t reading_memory_serial_number_ = 0;
 
             // Identification
             bool identify_model_flow_ = false;
-            bool wait_for_identification_telegram_ = false;
 
-            // Misc
-            uint8_t selected_device_group_ = 2;
+            const char *id_ = "";
 
             ESPPreferenceObject pref_;
         };

@@ -6,6 +6,11 @@ namespace esphome
 {
     namespace tc_bus
     {
+        enum DeviceGroup {
+            DEVICE_GROUP_INDOOR_STATION = 1,
+            DEVICE_GROUP_OUTDOOR_STATION = 2
+        };
+
         enum Model {
             MODEL_NONE,
             MODEL_ISW3030,

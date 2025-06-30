@@ -1,12 +1,12 @@
 #pragma once
 
 #include "esphome/components/number/number.h"
-#include "../tc_bus.h"
+#include "../tc_bus_device.h"
 
 namespace esphome {
 namespace tc_bus {
 
-class SerialNumberNumber final : public number::Number, public Parented<TCBusComponent> {
+class SerialNumberNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
  public:
   SerialNumberNumber() = default;
 
