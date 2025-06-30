@@ -56,6 +56,8 @@ DEVICE_GROUP = tc_bus_ns.enum("DeviceGroup")
 DEVICE_GROUPS = {
     "indoor_station": DEVICE_GROUP.DEVICE_GROUP_INDOOR_STATION,
     "outdoor_station": DEVICE_GROUP.DEVICE_GROUP_OUTDOOR_STATION,
+    "controller": DEVICE_GROUP.DEVICE_GROUP_CONTROLLER,
+    "extension": DEVICE_GROUP.DEVICE_GROUP_EXTENSION,
 }
 
 CONF_IS_MODELS = [
@@ -154,17 +156,13 @@ CONF_RINGTONES = [
     "Ringtone 13"
 ]
 
-CONF_TC_BUS_DEVICE_ID = "tc_bus_device"
+CONF_TC_BUS_DEVICE_ID = "device_id"
 
-CONF_DEVICE_GROUP = "device_group"
 CONF_TELEGRAM = "telegram"
 CONF_IS_LONG = "is_long"
 CONF_ADDRESS = "address"
-CONF_ADDRESS_LAMBDA = "address_lambda"
 CONF_PAYLOAD = "payload"
-CONF_PAYLOAD_LAMBDA = "payload_lambda"
 
-CONF_ON_TELEGRAM = "on_telegram"
 CONF_ON_READ_MEMORY_COMPLETE = "on_read_memory_complete"
 CONF_ON_READ_MEMORY_TIMEOUT = "on_read_memory_timeout"
 CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
@@ -178,12 +176,7 @@ CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID() : cv.declare_id(TCBusDeviceComponent),
         cv.GenerateID(CONF_TC_BUS_ID): cv.use_id(TCBusComponent),
-        cv.Optional(CONF_DEVICE_GROUP, default="indoor_station"): cv.enum(DEVICE_GROUPS, upper=False),
-        cv.Optional(CONF_ON_TELEGRAM): automation.validate_automation(
-            {
-                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReceivedDeviceTelegramTrigger),
-            }
-        ),
+        cv.Optional(CONF_TYPE, default="indoor_station"): cv.enum(DEVICE_GROUPS, upper=False),
         cv.Optional(CONF_ON_READ_MEMORY_COMPLETE): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryCompleteTrigger),
@@ -226,12 +219,8 @@ async def to_code(config):
 
     cg.add(var.set_internal_id(str(config[CONF_ID])))
 
-    if CONF_DEVICE_GROUP in config:
-        cg.add(var.set_device_group(config[CONF_DEVICE_GROUP]))
-
-    for conf in config.get(CONF_ON_TELEGRAM, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+    if CONF_TYPE in config:
+        cg.add(var.set_device_group(config[CONF_TYPE]))
 
     for conf in config.get(CONF_ON_READ_MEMORY_COMPLETE, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
@@ -266,9 +255,7 @@ def validate(config):
 TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
     cv.Schema(
     {
-        cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
-        cv.Optional(CONF_TELEGRAM): cv.templatable(cv.hex_uint32_t),
-        cv.Optional(CONF_IS_LONG): cv.templatable(cv.boolean),
+        cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent),
         cv.Optional(CONF_TYPE): cv.templatable(cv.enum(TELEGRAM_TYPES, upper=False)),
         cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_PAYLOAD, default="0"): cv.templatable(cv.hex_uint32_t)
@@ -282,16 +269,8 @@ TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
     TC_BUS_DEVICE_SEND_SCHEMA
 )
 async def tc_bus_device_send_to_code(config, action_id, template_args, args):
-    parent = await cg.get_variable(config[CONF_TC_BUS_DEVICE_ID])
+    parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
-
-    if CONF_TELEGRAM in config:
-        telegram_template_ = await cg.templatable(config[CONF_TELEGRAM], args, cg.uint32)
-        cg.add(var.set_telegram(telegram_template_))
-
-    if CONF_IS_LONG in config:
-        is_long_template_ = await cg.templatable(config[CONF_IS_LONG], args, cg.bool_)
-        cg.add(var.set_is_long(is_long_template_))
 
     if CONF_TYPE in config:
         type_template_ = await cg.templatable(config[CONF_TYPE], args, TELEGRAM_TYPE)
@@ -312,7 +291,7 @@ async def tc_bus_device_send_to_code(config, action_id, template_args, args):
 TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA = cv.All(
     cv.Schema(
     {
-        cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
+        cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent),
         cv.Required(CONF_TYPE): cv.templatable(cv.enum(SETTING_TYPES, upper=False)),
         cv.Required(CONF_VALUE): cv.templatable(cv.hex_uint8_t)
     })
@@ -324,7 +303,7 @@ TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA = cv.All(
     TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA
 )
 async def tc_bus_device_update_setting_to_code(config, action_id, template_args, args):
-    parent = await cg.get_variable(config[CONF_TC_BUS_DEVICE_ID])
+    parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
 
     if CONF_TYPE in config:
@@ -344,12 +323,12 @@ async def tc_bus_device_update_setting_to_code(config, action_id, template_args,
     TCBusDeviceReadMemoryAction,
     automation.maybe_simple_id(
         {
-            cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent)
+            cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent)
         }
     ),
 )
 async def tc_bus_device_read_memory_to_code(config, action_id, template_args, args):
-    parent = await cg.get_variable(config[CONF_TC_BUS_DEVICE_ID])
+    parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
     
     return var
@@ -361,12 +340,12 @@ async def tc_bus_device_read_memory_to_code(config, action_id, template_args, ar
     TCBusDeviceIdentifyAction,
     automation.maybe_simple_id(
         {
-            cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent)
+            cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent)
         }
     ),
 )
 async def tc_bus_device_request_version_to_code(config, action_id, template_args, args):
-    parent = await cg.get_variable(config[CONF_TC_BUS_DEVICE_ID])
+    parent = await cg.get_variable(config[CONF_ID])
     var = cg.new_Pvariable(action_id, template_args, parent)
     
     return var

@@ -17,9 +17,6 @@ CONF_ADDRESS_LAMBDA = "address_lambda"
 CONF_PAYLOAD = "payload"
 CONF_PAYLOAD_LAMBDA = "payload_lambda"
 
-CONF_TELEGRAM = "telegram"
-CONF_TELEGRAM_LAMBDA = "telegram_lambda"
-
 CONF_NAME = "name"
 CONF_AUTO_OFF = "auto_off"
 
@@ -28,36 +25,9 @@ DEPENDENCIES = ["tc_bus"]
 def validate(config):
     config = config.copy()
 
-    has_telegram_option = any(
-        key in config for key in [CONF_TELEGRAM, CONF_TELEGRAM_LAMBDA]
-    )
-
-    has_type_option = CONF_TYPE in config
-
-    has_address_option = any(
-        key in config for key in [CONF_ADDRESS, CONF_ADDRESS_LAMBDA]
-    )
-
-    has_payload_option = any(
-        key in config for key in [CONF_PAYLOAD, CONF_PAYLOAD_LAMBDA]
-    )
-
-    if not (has_telegram_option or has_type_option):
-        raise cv.Invalid("You need to set either TELEGRAM/TELEGRAM_LAMBDA or TYPE.")
-
-    if has_telegram_option:
-        if has_type_option or has_address_option or has_payload_option:
-            raise cv.Invalid("You can either set TELEGRAM/TELEGRAM_LAMBDA or TYPE and ADDRESS/ADDRESS_LAMBDAnd PAYLOAD/PAYLOAD_LAMBDA.")
-    else:
-        if not has_type_option:
-            raise cv.Invalid("You need to set TYPE.")
-
-    if CONF_TELEGRAM in config and CONF_TELEGRAM_LAMBDA in config:
-        raise cv.Invalid("You can either set TELEGRAM or TELEGRAM_LAMBDA, not both.")
-    
     if CONF_ADDRESS in config and CONF_ADDRESS_LAMBDA in config:
         raise cv.Invalid("You can either set ADDRESS or ADDRESS_LAMBDA, not both.")
-    
+
     if CONF_PAYLOAD in config and CONF_PAYLOAD_LAMBDA in config:
         raise cv.Invalid("You can either set PAYLOAD or PAYLOAD_LAMBDA, not both.")
 
@@ -69,10 +39,7 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(DeviceTelegramListenerBinarySensor),
             cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
 
-            cv.Optional(CONF_TELEGRAM): cv.hex_uint32_t,
-            cv.Optional(CONF_TELEGRAM_LAMBDA): cv.returning_lambda,
-            
-            cv.Optional(CONF_TYPE): cv.enum(TELEGRAM_TYPES, upper=False),
+            cv.Required(CONF_TYPE): cv.enum(TELEGRAM_TYPES, upper=False),
             cv.Optional(CONF_ADDRESS): cv.hex_uint8_t,
             cv.Optional(CONF_ADDRESS_LAMBDA): cv.returning_lambda,
             cv.Optional(CONF_PAYLOAD): cv.hex_uint32_t,
@@ -94,15 +61,6 @@ async def new_binary_sensor(config, *args):
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await binary_sensor.register_binary_sensor(var, config)
-
-    if CONF_TELEGRAM in config:
-        cg.add(var.set_telegram(config[CONF_TELEGRAM]))
-
-    if CONF_TELEGRAM_LAMBDA in config:
-        telegram_template_ = await cg.process_lambda(
-            config[CONF_TELEGRAM_LAMBDA], [], return_type=cg.optional.template(cg.uint32)
-        )
-        cg.add(var.set_telegram_lambda(telegram_template_))
 
     if CONF_TYPE in config:
         cg.add(var.set_telegram_type(config[CONF_TYPE]))

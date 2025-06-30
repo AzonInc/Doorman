@@ -6,13 +6,8 @@ namespace tc_bus {
 
 void ModelSelect::control(const std::string &value)
 {
-    // Moved to set_model
-    // this->publish_state(value);
-
     Model model = string_to_model(value);
     this->parent_->set_model(model);
-    this->parent_->save_settings();
-    this->parent_->publish_settings();
 }
 
 }  // namespace tc_bus

@@ -340,9 +340,9 @@ namespace esphome
 
             switch (model)
             {
-                // Category 1
+                // Group 1
                 case MODEL_ISW3030: /* TC50 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -351,7 +351,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3130: /* TC50P */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -360,7 +360,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3230: /* TC50 GFA */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 40;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -369,7 +369,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3330: /* TC50 BW */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -378,7 +378,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3340:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 128;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -387,7 +387,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW5010: /* TC60 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -398,7 +398,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5020:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -409,7 +409,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5030:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -420,7 +420,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5031:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -431,7 +431,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5033:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -442,7 +442,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_IVW511X: /* VTC60 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 48;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -453,7 +453,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_IVW521X: /* VTC60/2D */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 48;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -464,51 +464,51 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW6031:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_ISW7030: /* TC70 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IVW7510: /* VTC70 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 48;
                     break;
                 case MODEL_ISH7030: /* TCH70 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IVH7510: /* VTCH70 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 48;
                     break;
                 case MODEL_ISW6010:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IVW6511:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 48;
                     break;
                 case MODEL_ISWM7000:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IVWM7000:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 48;
                     break;
                 case MODEL_ISW4100: /* TC31 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IMM2100: /* TCE31 */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IVW2210: /* Ecoos */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -519,7 +519,7 @@ namespace esphome
                     //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_IVW2211: /* Ecoos */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -530,7 +530,7 @@ namespace esphome
                     //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_IVW2212: /* Ecoos */
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -541,7 +541,7 @@ namespace esphome
                     //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_VTC42V2:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -551,7 +551,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_TC40V2:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -561,7 +561,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_VTC40:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 40;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -571,7 +571,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_TC40:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 40;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -581,65 +581,65 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_TC2000:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 16;
                     break;
                 case MODEL_TC20P:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 16;
                     break;
                 case MODEL_TC20F:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 16;
                     break;
                 case MODEL_IVW2220:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_IVW2221:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_IVW3011:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_IVW3012:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_TKIS:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_TKISV:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_CAI2000:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 64;
                     break;
                 case MODEL_CAIXXXX:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_ISW42X0:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 40;
                     break;
 
-                // Category 0
+                // Group 0
                 case MODEL_ISH3022: /* TCH50P */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_ISH3130: /* TCH50P */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 40;
                     break;
                 case MODEL_ISH3230: /* TCH50 GFA */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 40;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -648,7 +648,7 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISH3030: /* TCH50 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -657,59 +657,59 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISH1030: /* TTS25 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 16;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                     modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                     break;
                 case MODEL_TTCXX:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 16;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                     modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                     break;
                 case MODEL_TTSXX:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 16;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                     modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                     break;
                 case MODEL_IMM1000: /* TCH30 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IMM1100: /* TCHE30 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IMM1300: /* VTCH30 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IMM1500:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IMM1310: /* VTCHE30 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IMM1110: /* TCHEE30 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     break;
                 case MODEL_IVH3222: /* VTCH50 */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                     modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                     break;
                 case MODEL_IVH4222: /* VTCH50/2D */
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 32;
                     modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                     modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
@@ -718,15 +718,15 @@ namespace esphome
                     modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_VMH:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 24;
                     break;
                 case MODEL_VML:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 24;
                     break;
                 case MODEL_VMF:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 24;
                     break;
 
@@ -735,7 +735,7 @@ namespace esphome
                 case MODEL_IVW9110:
                 case MODEL_IVW9030:
                 case MODEL_IVE70:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 0;
                     break;
 
@@ -744,28 +744,28 @@ namespace esphome
                 case CONTROLLER_MODEL_NBV3210:
                 case CONTROLLER_MODEL_VBVS30:
                 case CONTROLLER_MODEL_NBV2600:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 0;
                     break;
 
                 // Debug Models
                 case MODEL_DEBUG_CONTROLLER:
-                    modelData.category = 4;
+                    modelData.device_group = 4;
                     modelData.memory_size = 128;
                     break;
 
                 case MODEL_DEBUG_AS:
-                    modelData.category = 2;
+                    modelData.device_group = 2;
                     modelData.memory_size = 128;
                     break;
 
                 case MODEL_DEBUG_IS0:
-                    modelData.category = 0;
+                    modelData.device_group = 0;
                     modelData.memory_size = 128;
                     break;
 
                 case MODEL_DEBUG_IS1:
-                    modelData.category = 1;
+                    modelData.device_group = 1;
                     modelData.memory_size = 128;
                     break;
 

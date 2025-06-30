@@ -18,29 +18,13 @@ namespace esphome
         {
             public:
                 TCBusDeviceSendAction(TCBusDeviceComponent *parent) : parent_(parent) {}
-                TEMPLATABLE_VALUE(uint32_t, telegram)
-                TEMPLATABLE_VALUE(bool, is_long)
                 TEMPLATABLE_VALUE(TelegramType, type)
                 TEMPLATABLE_VALUE(uint8_t, address)
                 TEMPLATABLE_VALUE(uint32_t, payload)
 
                 void play(Ts... x)
                 {
-                    if(this->telegram_.value(x...) == 0)
-                    {
-                        this->parent_->send_telegram(this->type_.value(x...), this->address_.value(x...), this->payload_.value(x...));
-                    }
-                    else
-                    {
-                        if(this->is_long_.value(x...) == false)
-                        {
-                            this->parent_->send_telegram(this->telegram_.value(x...));
-                        }
-                        else
-                        {
-                            this->parent_->send_telegram(this->telegram_.value(x...), true);
-                        }
-                    }
+                    this->parent_->send_telegram(this->type_.value(x...), this->address_.value(x...), this->payload_.value(x...));
                 }
 
             protected:
@@ -86,13 +70,6 @@ namespace esphome
         };
 
         // Callbacks
-        class ReceivedDeviceTelegramTrigger : public Trigger<TelegramData> {
-            public:
-                explicit ReceivedDeviceTelegramTrigger(TCBusDeviceComponent *parent) {
-                    parent->add_received_telegram_callback([this](const TelegramData &value) { this->trigger(value); });
-                }
-        };
-
         class ReadMemoryCompleteTrigger : public Trigger<std::vector<uint8_t>> {
             public:
                 explicit ReadMemoryCompleteTrigger(TCBusDeviceComponent *parent) {

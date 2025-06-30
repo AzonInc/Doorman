@@ -120,10 +120,6 @@ namespace esphome
 
             void register_remote_listener(TCBusRemoteListener*listener) { this->remote_listeners_.push_back(listener); }
 
-#ifdef USE_BINARY_SENSOR
-            void register_listener(TCBusListener *listener);
-#endif
-
             // Telegram handling
             static constexpr uint32_t BUS_CMD_START_MS = 5985;
             static constexpr uint32_t BUS_ACK_START_MS = 6200;
@@ -151,10 +147,12 @@ namespace esphome
             void transmit_telegram(TelegramData telegram_data);
             void received_telegram(TelegramData telegram_data, bool received = true);
 
-            void publish_settings();
-            void save_settings();
+            // Telegram binary listeners
+            #ifdef USE_BINARY_SENSOR
+            void register_listener(TCBusListener *listener);
+            #endif
 
-            // Automation Actions
+            // Automation Callbacks
             void add_received_telegram_callback(std::function<void(TelegramData)> &&callback)
             {
                 this->received_telegram_callback_.add(std::move(callback));
@@ -169,24 +167,24 @@ namespace esphome
             remote_transmitter::RemoteTransmitterComponent *tx_{nullptr};
             remote_receiver::RemoteReceiverComponent *rx_{nullptr};
 
+            std::vector<TCBusRemoteListener *> remote_listeners_;
+            
             std::queue<TCBusTelegramQueueItem> telegram_queue_;
             uint32_t last_telegram_time_ = 0;
             int32_t last_sent_telegram_ = -1;
 
-            std::vector<TCBusRemoteListener *> remote_listeners_;
-
-#ifdef USE_BINARY_SENSOR
+            // Telegram binary listeners
+            #ifdef USE_BINARY_SENSOR
             std::vector<TCBusListener *> listeners_{};
-#endif
+            #endif
 
-            // Automation Actions
+            // Automation Callbacks
             CallbackManager<void(TelegramData)> received_telegram_callback_{};
 
             // Misc
             const char *event_;
             std::string hardware_version_str_ = "Generic";
             bool programming_mode_ = false;
-
             bool wait_for_data_telegram_ = false;
         };
 

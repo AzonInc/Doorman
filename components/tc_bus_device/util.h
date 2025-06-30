@@ -8,7 +8,9 @@ namespace esphome
     {
         enum DeviceGroup {
             DEVICE_GROUP_INDOOR_STATION = 1,
-            DEVICE_GROUP_OUTDOOR_STATION = 2
+            DEVICE_GROUP_OUTDOOR_STATION = 2,
+            DEVICE_GROUP_CONTROLLER = 4,
+            DEVICE_GROUP_EXTENSION = 6
         };
 
         enum Model {
@@ -126,7 +128,7 @@ namespace esphome
             uint8_t firmware_minor = 0;
             uint8_t firmware_patch = 0;
             uint8_t hardware_version = 0; 
-            uint8_t category = 0;
+            uint8_t device_group = 0;
             uint8_t memory_size = 0;
             uint32_t capabilities = 0;
         };

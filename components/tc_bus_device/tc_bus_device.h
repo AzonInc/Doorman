@@ -101,47 +101,49 @@ namespace esphome
             const char* TAG = "tc_bus_device";
 
             void set_internal_id(const std::string &internal_id) { this->internal_id_.assign(internal_id); }
-
+            void set_tc_bus_component(TCBusComponent *bus) { this->tc_bus_ = bus; }
             void set_device_group(DeviceGroup device_group) { this->device_group_ = device_group; }
             void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
             void set_force_long_door_opener(bool force_long_door_opener) { this->force_long_door_opener_ = force_long_door_opener; }
-
-            void set_model(Model model);
+            
+            void set_model(Model model, bool save = true);
 
             void setup() override;
             void dump_config() override;
             void loop() override;
 
+            // Telegram handling
             bool on_receive(TelegramData telegram_data, bool received) override;
-            void set_tc_bus_component(TCBusComponent *bus) { this->tc_bus_ = bus; }
-
-#ifdef USE_BINARY_SENSOR
-            void register_listener(TCBusDeviceListener *listener);
-#endif
-
-            void send_telegram(uint32_t telegram, uint32_t wait_duration = 200);
-            void send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 200);
             void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t wait_duration = 200);
-            void send_telegram(TelegramData telegram_data, uint32_t wait_duration = 200);
+
+            // Telegram binary listeners
+            #ifdef USE_BINARY_SENSOR
+            void register_listener(TCBusDeviceListener *listener);
+            #endif
 
             // Memory reading
             void read_memory();
             void read_memory_block();
             bool write_memory();
 
+            // Bus Device Settings
             bool supports_setting(SettingType type);
             uint8_t get_setting(SettingType type);
             bool update_setting(SettingType type, uint8_t new_value);
-
             void publish_settings();
-            void save_settings();
 
-            // Automation Actions
-            void add_received_telegram_callback(std::function<void(TelegramData)> &&callback)
+            // Identification
+            void request_version();
+
+            // Preferences
+            void save_preferences();
+
+            ESPPreferenceObject &get_pref()
             {
-                this->received_telegram_callback_.add(std::move(callback));
+                return this->pref_;
             }
 
+            // Automation Callbacks
             void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback)
             {
                 this->read_memory_complete_callback_.add(std::move(callback));
@@ -166,23 +168,12 @@ namespace esphome
             {
                 this->identify_timeout_callback_.add(std::move(callback));
             }
-
-            // Misc
-            void request_version();
-
-            ESPPreferenceObject &get_pref()
-            {
-                return this->pref_;
-            }
             
         protected:
-            TCBusComponent *tc_bus_{nullptr};
-
-            std::string internal_id_;
-
-#ifdef USE_BINARY_SENSOR
+            // Telegram binary listeners
+            #ifdef USE_BINARY_SENSOR
             std::vector<TCBusDeviceListener *> listeners_{};
-#endif
+            #endif
 
             // Indoor station data
             Model model_;
@@ -191,26 +182,28 @@ namespace esphome
             DeviceGroup device_group_;
             bool force_long_door_opener_;
 
-            // Automation Actions
-            CallbackManager<void(TelegramData)> received_telegram_callback_{};
-            CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
-            CallbackManager<void()> read_memory_timeout_callback_{};
-            CallbackManager<void(ModelData)> identify_complete_callback_{};
-            CallbackManager<void()> identify_unknown_callback_{};
-            CallbackManager<void()> identify_timeout_callback_{};
-
             // Memory reading
-            std::vector<uint8_t> memory_buffer_;
             bool read_memory_flow_ = false;
+            std::vector<uint8_t> memory_buffer_;
             uint8_t reading_memory_count_ = 0;
             uint8_t reading_memory_max_ = 0;
 
             // Identification
             bool identify_model_flow_ = false;
 
-            const char *id_ = "";
-
+            // Preferences
             ESPPreferenceObject pref_;
+
+            // Automation Callbacks
+            CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
+            CallbackManager<void()> read_memory_timeout_callback_{};
+            CallbackManager<void(ModelData)> identify_complete_callback_{};
+            CallbackManager<void()> identify_unknown_callback_{};
+            CallbackManager<void()> identify_timeout_callback_{};
+
+            // Misc
+            std::string internal_id_;
+            TCBusComponent *tc_bus_{nullptr};
         };
 
     } // namespace tc_bus
