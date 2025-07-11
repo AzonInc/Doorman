@@ -32,6 +32,9 @@
 #ifdef USE_SWITCH
 #include "esphome/components/switch/switch.h"
 #endif
+#ifdef USE_LOCK
+#include "esphome/components/lock/lock.h"
+#endif
 
 #include <queue>
 
@@ -51,42 +54,64 @@ namespace esphome
 #ifdef USE_BINARY_SENSOR
         class TCBusListener
         {
-        public:
-            void set_telegram_lambda(std::function<optional<uint32_t>()> &&f) { this->telegram_lambda_ = f; }
-            void set_telegram(uint32_t telegram) { this->telegram_ = telegram; }
+            public:
+                void set_telegram_lambda(std::function<optional<uint32_t>()> &&f) { this->telegram_lambda_ = f; }
+                void set_telegram(uint32_t telegram) { this->telegram_ = telegram; }
 
-            void set_address_lambda(std::function<optional<uint8_t>()> &&f) { this->address_lambda_ = f; }
-            void set_address(uint8_t address) { this->address_ = address; }
+                void set_address_lambda(std::function<optional<uint8_t>()> &&f) { this->address_lambda_ = f; }
+                void set_address(uint8_t address) { this->address_ = address; }
 
-            void set_payload_lambda(std::function<optional<uint32_t>()> &&f) { this->payload_lambda_ = f; }
-            void set_payload(uint32_t payload) { this->payload_ = payload; }
+                void set_payload_lambda(std::function<optional<uint32_t>()> &&f) { this->payload_lambda_ = f; }
+                void set_payload(uint32_t payload) { this->payload_ = payload; }
 
-            void set_telegram_type(TelegramType type) { this->type_ = type; }
+                void set_telegram_type(TelegramType type) { this->type_ = type; }
 
-            void set_serial_number_lambda(std::function<optional<uint32_t>()> &&f) { this->serial_number_lambda_ = f; }
-            void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
+                void set_serial_number_lambda(std::function<optional<uint32_t>()> &&f) { this->serial_number_lambda_ = f; }
+                void set_serial_number(uint32_t serial_number) { this->serial_number_ = serial_number; }
 
-            void set_auto_off(uint16_t auto_off) { this->auto_off_ = auto_off; }
+                void set_auto_off(uint16_t auto_off) { this->auto_off_ = auto_off; }
 
-            virtual void turn_on(uint32_t *timer, uint16_t auto_off) {};
-            virtual void turn_off(uint32_t *timer) {};
+                virtual void turn_on(uint32_t *timer, uint16_t auto_off) {};
+                virtual void turn_off(uint32_t *timer) {};
 
-            uint32_t timer_;
-            uint16_t auto_off_;
+                uint32_t timer_;
+                uint16_t auto_off_;
 
-            optional<uint32_t> serial_number_;
-            optional<std::function<optional<uint32_t>()>> serial_number_lambda_;
+                optional<uint32_t> serial_number_;
+                optional<std::function<optional<uint32_t>()>> serial_number_lambda_;
 
-            optional<TelegramType> type_;
+                optional<TelegramType> type_;
 
-            optional<uint32_t> telegram_;
-            optional<std::function<optional<uint32_t>()>> telegram_lambda_;
+                optional<uint32_t> telegram_;
+                optional<std::function<optional<uint32_t>()>> telegram_lambda_;
 
-            optional<uint8_t> address_;
-            optional<std::function<optional<uint8_t>()>> address_lambda_;
+                optional<uint8_t> address_;
+                optional<std::function<optional<uint8_t>()>> address_lambda_;
 
-            optional<uint32_t> payload_;
-            optional<std::function<optional<uint32_t>()>> payload_lambda_;
+                optional<uint32_t> payload_;
+                optional<std::function<optional<uint32_t>()>> payload_lambda_;
+        };
+#endif
+
+
+#ifdef USE_LOCK
+        class TCBusLockListener
+        {
+            public:
+                void set_address_lambda(std::function<optional<uint8_t>()> &&f) { this->address_lambda_ = f; }
+                void set_address(uint8_t address) { this->address_ = address; }
+                void set_auto_lock(uint16_t auto_lock) { this->auto_lock_ = auto_lock; }
+
+                virtual void control(const lock::LockCall& call) {};
+
+                virtual void unlock(uint32_t *timer, uint16_t auto_lock) {};
+                virtual void lock(uint32_t *timer) {};
+
+                uint32_t timer_;
+                uint16_t auto_lock_;
+
+                optional<uint8_t> address_;
+                optional<std::function<optional<uint8_t>()>> address_lambda_;
         };
 #endif
 
@@ -94,8 +119,8 @@ namespace esphome
             public:
                 virtual bool on_receive(TelegramData data, bool received) = 0;
         };
-
-        class TCBusComponent :
+        
+        class TCBusComponent:
             public Component,
             public remote_base::RemoteReceiverListener
 #ifdef USE_API
@@ -152,6 +177,11 @@ namespace esphome
             void register_listener(TCBusListener *listener);
             #endif
 
+            // Telegram lock listeners
+            #ifdef USE_LOCK
+            void register_lock_listener(TCBusLockListener *listener);
+            #endif
+
             // Automation Callbacks
             void add_received_telegram_callback(std::function<void(TelegramData)> &&callback)
             {
@@ -168,7 +198,7 @@ namespace esphome
             remote_receiver::RemoteReceiverComponent *rx_{nullptr};
 
             std::vector<TCBusRemoteListener *> remote_listeners_;
-            
+
             std::queue<TCBusTelegramQueueItem> telegram_queue_;
             uint32_t last_telegram_time_ = 0;
             int32_t last_sent_telegram_ = -1;
@@ -176,6 +206,11 @@ namespace esphome
             // Telegram binary listeners
             #ifdef USE_BINARY_SENSOR
             std::vector<TCBusListener *> listeners_{};
+            #endif
+
+            // Telegram lock listeners
+            #ifdef USE_LOCK
+            std::vector<TCBusLockListener *> lock_listeners_{};
             #endif
 
             // Automation Callbacks

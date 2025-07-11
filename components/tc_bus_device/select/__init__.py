@@ -1,10 +1,12 @@
 import esphome.codegen as cg
 from esphome.components import select
 import esphome.config_validation as cv
+from esphome.const import CONF_ID, CONF_TYPE
+from esphome.core import CORE
 from esphome.const import (
     ENTITY_CATEGORY_CONFIG,
 )
-from .. import CONF_TC_BUS_DEVICE_ID, CONF_IS_MODELS, CONF_RINGTONES, TCBusDeviceComponent, tc_bus_ns
+from .. import CONF_TC_BUS_DEVICE, CONF_TC_BUS_DEVICE_ID, CONF_MODEL_IS, CONF_MODEL_AS, CONF_MODEL_CTRL, CONF_MODEL_EXT, CONF_RINGTONES, TCBusDeviceComponent, tc_bus_ns
 
 ModelSelect = tc_bus_ns.class_("ModelSelect", select.Select, cg.Component)
 RingtoneEntranceDoorCallSelect = tc_bus_ns.class_("RingtoneEntranceDoorCallSelect", select.Select, cg.Component)
@@ -53,10 +55,27 @@ CONFIG_SCHEMA = cv.Schema(
 async def to_code(config):
     tc_bus_device_component = await cg.get_variable(config[CONF_TC_BUS_DEVICE_ID])
 
+    # Get device group from config entry
+    device_group = ""
+    tc_bus_devices = CORE.config.get(CONF_TC_BUS_DEVICE)
+    if tc_bus_devices is not None:
+        for tc_bus_device in tc_bus_devices:
+            if tc_bus_device.get(CONF_ID) == config[CONF_TC_BUS_DEVICE_ID]:
+                device_group = tc_bus_device.get(CONF_TYPE, "")
+
+    # Map device group models
+    group_to_options = {
+        "indoor_station": CONF_MODEL_IS,
+        "outdoor_station": CONF_MODEL_AS,
+        "controller": CONF_MODEL_CTRL,
+        "extension": CONF_MODEL_EXT,
+    }
+    model_options = ["None"] + group_to_options.get(device_group, [])
+
     if model := config.get(CONF_MODEL):
         sel = await select.new_select(
             model,
-            options=[CONF_IS_MODELS],
+            options=model_options,
         )
         await cg.register_parented(sel, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_model_select(sel))

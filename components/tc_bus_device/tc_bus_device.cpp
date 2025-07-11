@@ -140,15 +140,15 @@ namespace esphome
         void TCBusDeviceComponent::loop()
         {
             #ifdef USE_BINARY_SENSOR
-                // Turn off binary sensor after ... milliseconds
-                uint32_t now_millis = millis();
-                for (auto &listener : listeners_)
+            // Turn off binary sensor after ... milliseconds
+            uint32_t now_millis = millis();
+            for (auto &listener : listeners_)
+            {
+                if (listener->timer_ && now_millis > listener->timer_)
                 {
-                    if (listener->timer_ && now_millis > listener->timer_)
-                    {
-                        listener->turn_off(&listener->timer_);
-                    }
+                    listener->turn_off(&listener->timer_);
                 }
+            }
             #endif
         }
 
@@ -184,6 +184,9 @@ namespace esphome
                         ESP_LOGD(TAG, "Reset read_memory_flow_");
                         read_memory_flow_ = false;
 
+                        ESP_LOGD(TAG, "Reset running_flow_");
+                        running_flow_ = false;
+
                         this->publish_settings();
                         this->read_memory_complete_callback_.call(memory_buffer_);
                     }
@@ -201,6 +204,9 @@ namespace esphome
 
                     ESP_LOGD(TAG, "Reset identify_model_flow_");
                     identify_model_flow_ = false;
+
+                    ESP_LOGD(TAG, "Reset running_flow_");
+                    running_flow_ = false;
 
                     this->cancel_timeout("wait_for_identification_group_0");
                     this->cancel_timeout("wait_for_identification_group_1");
@@ -233,18 +239,18 @@ namespace esphome
                             {
                                 // TTC-XX
                                 case 0x08000040:
-                                    device.model = MODEL_TTCXX;
+                                    device.model = MODEL_IS_TTCXX;
                                     break;
 
                                 // TTS-XX
                                 case 0x02010040:
-                                    device.model = MODEL_TTSXX;
+                                    device.model = MODEL_IS_TTSXX;
                                     break;
 
                                 // ISH 1030
                                 case 0x08000048:
                                 case 0x08080048:
-                                    device.model = MODEL_ISH1030;
+                                    device.model = MODEL_IS_ISH1030;
                                     break;
 
                                 default:
@@ -257,7 +263,7 @@ namespace esphome
                             switch(telegram_data.raw)
                             {
                                 case 0x877F5804:
-                                    device.model = CONTROLLER_MODEL_BVS20;
+                                    device.model = MODEL_CTRL_BVS20;
                                     break;
 
                                 default:
@@ -444,14 +450,21 @@ namespace esphome
 
         void TCBusDeviceComponent::request_version()
         {
+            if(running_flow_ || this->identify_model_flow_)
+            {
+                ESP_LOGE(TAG, "Another flow is already running");
+                return;
+            }
+
             if(this->serial_number_ == 0)
             {
                 ESP_LOGE(TAG, "Device model cannot be identified without a serial number!");
                 return;
             }
 
-            this->cancel_timeout("wait_for_identification_group_0");
-            this->cancel_timeout("wait_for_identification_group_1");
+            ESP_LOGD(TAG, "Set running_flow_");
+            running_flow_ = true;
+
             this->cancel_timeout("wait_for_identification_other");
 
             ESP_LOGD(TAG, "Set identify_model_flow_");
@@ -474,12 +487,15 @@ namespace esphome
                     send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1, 400); // group 1
                     send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0, 400);
 
-                    this->set_timeout("wait_for_identification_group_1", 1000, [this]() {
+                    this->set_timeout("wait_for_identification_group_1", 1000, [this]()
+                    {
                         // Didn't receive identify result of group 1
                         // Failed
-                        this->identify_model_flow_ = false;
-                        ESP_LOGD(TAG, "Reset wait_for_identification_telegram_");
                         ESP_LOGD(TAG, "Reset identify_model_flow_");
+                        this->identify_model_flow_ = false;
+
+                        ESP_LOGD(TAG, "Reset running_flow_");
+                        running_flow_ = false;
 
                         this->identify_timeout_callback_.call();
                         ESP_LOGE(TAG, "Identification response not received in time. The device model may not support identification.");
@@ -497,7 +513,12 @@ namespace esphome
 
                 this->set_timeout("wait_for_identification_other", 1000, [this]() {
                     // Failed
+                    ESP_LOGD(TAG, "Reset identify_model_flow_");
                     this->identify_model_flow_ = false;
+
+                    ESP_LOGD(TAG, "Reset running_flow_");
+                    running_flow_ = false;
+
                     ESP_LOGE(TAG, "Identification response not received in time. The device model may not support identification.");
                 });
             }
@@ -505,9 +526,11 @@ namespace esphome
 
         void TCBusDeviceComponent::read_memory()
         {
-            this->cancel_timeout("wait_for_memory_reading");
-            ESP_LOGD(TAG, "Reset read_memory_flow_");
-            read_memory_flow_ = false;
+            if(running_flow_ || this->read_memory_flow_)
+            {
+                ESP_LOGE(TAG, "Another flow is already running");
+                return;
+            }
 
             if (this->serial_number_ == 0)
             {
@@ -533,23 +556,31 @@ namespace esphome
                 ESP_LOGD(TAG, "Reading EEPROM for model %s (Serial: %i)...", model_to_string(this->model_), this->serial_number_);
             }
 
+            ESP_LOGD(TAG, "Set running_flow_");
+            running_flow_ = true;
+
             send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
             send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
 
             memory_buffer_.clear();
   
             ESP_LOGD(TAG, "Set read_memory_flow_");
-            read_memory_flow_ = true;
+            this->read_memory_flow_ = true;
+
             reading_memory_count_ = 0;
             reading_memory_max_ = (this->model_data_.memory_size / 4);
 
             this->set_timeout("wait_for_memory_reading", reading_memory_max_ * 600, [this]()
             {
                 memory_buffer_.clear();
-                ESP_LOGD(TAG, "Reset read_memory_flow_");
-                read_memory_flow_ = false;
                 reading_memory_count_ = 0;
                 reading_memory_max_ = 0;
+
+                ESP_LOGD(TAG, "Reset read_memory_flow_");
+                this->read_memory_flow_ = false;
+
+                ESP_LOGD(TAG, "Reset running_flow_");
+                running_flow_ = false;
 
                 this->read_memory_timeout_callback_.call();
                 ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!");

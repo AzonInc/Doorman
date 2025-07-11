@@ -60,8 +60,7 @@ DEVICE_GROUPS = {
     "extension": DEVICE_GROUP.DEVICE_GROUP_EXTENSION,
 }
 
-CONF_IS_MODELS = [
-    "None",
+CONF_MODEL_IS = [
     "TCS ISW3030 / Koch TC50 / Scantron Stilux",
     "TCS ISW3130 / Koch TC50P",
     "TCS ISW3230 / Koch TC50 GFA",
@@ -127,17 +126,26 @@ CONF_IS_MODELS = [
     "TCS IVW9110",
     "TCS IVW9030 / Scantron SLIM50T",
     "TCS IVE70",
+    "DEBUG IS0",
+    "DEBUG IS1",
+]
 
+CONF_MODEL_AS = [
+    "DEBUG AS",
+]
+
+CONF_MODEL_CTRL = [
     "TCS BVS20",
     "TCS BVS30",
     "TCS NBV3210",
     "TCS VBVS30",
     "TCS NBV2600",
-
-    "DEBUG AS",
-    "DEBUG IS0",
-    "DEBUG IS1",
     "DEBUG CONTROLLER",
+]
+
+CONF_MODEL_EXT = [
+    "TCS TRE2",
+    "DEBUG EXTENSION",
 ]
 
 CONF_RINGTONES = [
@@ -156,7 +164,8 @@ CONF_RINGTONES = [
     "Ringtone 13"
 ]
 
-CONF_TC_BUS_DEVICE_ID = "device_id"
+CONF_TC_BUS_DEVICE = "tc_bus_device"
+CONF_TC_BUS_DEVICE_ID = "tc_bus_device_id"
 
 CONF_TELEGRAM = "telegram"
 CONF_IS_LONG = "is_long"
@@ -244,12 +253,7 @@ async def to_code(config):
 
 
 
-def validate(config):
-    config = config.copy()
-
-    if CONF_TELEGRAM in config and CONF_TYPE in config:
-        raise cv.Invalid("You can either set TELEGRAM or TYPE, ADDRESS and PAYLOAD.")
-
+def validate_send(config):
     return config
 
 TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
@@ -260,7 +264,7 @@ TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
         cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_PAYLOAD, default="0"): cv.templatable(cv.hex_uint32_t)
     }),
-    validate
+    validate_send
 )
 
 @automation.register_action(

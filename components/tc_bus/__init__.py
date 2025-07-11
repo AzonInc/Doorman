@@ -60,7 +60,7 @@ TELEGRAM_TYPES = {
     "request_version": TELEGRAM_TYPE.TELEGRAM_TYPE_REQUEST_VERSION
 }
 
-CONF_TC_BUS_ID = "tc_bus"
+CONF_TC_BUS_ID = "tc_bus_id"
 
 CONF_TRANSMITTER_ID = "transmitter_id"
 CONF_RECEIVER_ID = "receiver_id"

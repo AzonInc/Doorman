@@ -32,6 +32,8 @@ namespace esphome
 {
     namespace tc_bus
     {
+        static bool running_flow_ = false;
+
 #ifdef USE_BINARY_SENSOR
         class TCBusDeviceListener
         {

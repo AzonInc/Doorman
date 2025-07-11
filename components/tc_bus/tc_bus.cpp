@@ -66,10 +66,18 @@ namespace esphome
             #endif
 
             #ifdef USE_BINARY_SENSOR
-                // Reset Bunary Sensor Listeners
+                // Reset Binary Sensor Listeners
                 for (auto &listener : listeners_)
                 {
                     listener->turn_off(&listener->timer_);
+                }
+            #endif
+
+            #ifdef USE_LOCK
+                // Reset Lock Listeners
+                for (auto &listener : lock_listeners_)
+                {
+                    listener->lock(&listener->timer_);
                 }
             #endif
 
@@ -101,14 +109,26 @@ namespace esphome
 
         void TCBusComponent::loop()
         {
+            uint32_t now_millis = millis();
+
             #ifdef USE_BINARY_SENSOR
                 // Turn off binary sensor after ... milliseconds
-                uint32_t now_millis = millis();
                 for (auto &listener : listeners_)
                 {
                     if (listener->timer_ && now_millis > listener->timer_)
                     {
                         listener->turn_off(&listener->timer_);
+                    }
+                }
+            #endif
+
+            #ifdef USE_LOCK
+                // Lock after ... milliseconds
+                for (auto &listener : lock_listeners_)
+                {
+                    if (listener->timer_ && now_millis > listener->timer_)
+                    {
+                        listener->lock(&listener->timer_);
                     }
                 }
             #endif
@@ -344,6 +364,31 @@ namespace esphome
                 ESP_LOGD(TAG, "Discovered Doorman with MAC: %02X:%02X:%02X",
                             mac[0], mac[1], mac[2]);
             }
+
+            #ifdef USE_LOCK
+            if (telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
+            {
+                // Update Locks
+                for (auto &listener : lock_listeners_)
+                {
+                    // Listener Address lambda or address property when not available
+                    uint8_t listener_address = listener->address_.has_value() ? listener->address_.value() : 0;
+                    if (listener->address_lambda_.has_value())
+                    {
+                        auto optional_value = (*listener->address_lambda_)();
+                        if (optional_value.has_value())
+                        {
+                            listener_address = optional_value.value();
+                        }
+                    }
+
+                    if(telegram_data.address == listener_address || listener_address == 255)
+                    {
+                        listener->unlock(&listener->timer_, listener->auto_lock_);
+                    }
+                }
+            }
+            #endif
 
             #ifdef USE_TEXT_SENSOR
                 if (telegram_data.type != TELEGRAM_TYPE_ACK)
@@ -601,6 +646,13 @@ namespace esphome
             void TCBusComponent::register_listener(TCBusListener *listener)
             {
                 this->listeners_.push_back(listener);
+            }
+        #endif
+
+        #ifdef USE_LOCK
+            void TCBusComponent::register_lock_listener(TCBusLockListener *listener)
+            {
+                this->lock_listeners_.push_back(listener);
             }
         #endif
 

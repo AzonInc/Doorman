@@ -43,7 +43,7 @@ tc_bus_device:
     on_read_memory_complete:
       - lambda: |-
           std::string hexString = str_upper_case(format_hex(x));
-          ESP_LOGI("tcs_bus", "Memory reading completed. Data: %s", hexString.c_str());
+          ESP_LOGI("tc_bus", "Memory reading completed. Data: %s", hexString.c_str());
     
     on_read_memory_timeout:
       - logger.log:
@@ -64,11 +64,12 @@ tc_bus_device:
           format: "Failed to identify the Indoor Station. Please select it manually."
           level: ERROR
 
+  - id: my_indoor_station2
+    type: indoor_station
 
 
 text_sensor:
   - platform: tc_bus
-    tc_bus: my_tc_bus
     hardware_version:
       name: "Hardware"
     bus_telegram:
@@ -76,35 +77,64 @@ text_sensor:
 
 number:
   - platform: tc_bus_device
-    device_id: my_indoor_station
+    tc_bus_device_id: my_indoor_station
     serial_number:
-      name: "Serial Number"
+      name: "IS1: Serial Number"
     volume_ringtone:
-      name: "Volume: Ringtone"
+      name: "IS1: Volume: Ringtone"
     volume_handset_door_call:
-      name: "Volume: Handset Door Call"
+      name: "IS1: Volume: Handset Door Call"
     volume_handset_internal_call:
-      name: "Volume: Handset Internal Call"
+      name: "IS1: Volume: Handset Internal Call"
+
+  - platform: tc_bus_device
+    tc_bus_device_id: my_indoor_station2
+    serial_number:
+      name: "IS2: Serial Number"
+    volume_ringtone:
+      name: "IS2: Volume: Ringtone"
+    volume_handset_door_call:
+      name: "IS2: Volume: Handset Door Call"
+    volume_handset_internal_call:
+      name: "IS2: Volume: Handset Internal Call"
 
 select:
   - platform: tc_bus_device
-    device_id: my_indoor_station
+    tc_bus_device_id: my_indoor_station
     model:
-      name: "Indoor Station Model"
+      name: "IS1: Model"
     ringtone_entrance_door_call:
-      name: "Ringtone: Entrance Door Call"
+      name: "IS1: Ringtone: Entrance Door Call"
     ringtone_second_entrance_door_call:
-      name: "Ringtone: Second Entrance Door Call"
+      name: "IS1: Ringtone: Second Entrance Door Call"
     ringtone_floor_call:
-      name: "Ringtone: Floor Call"
+      name: "IS1: Ringtone: Floor Call"
     ringtone_internal_call:
-      name: "Ringtone: Internal Call"
+      name: "IS1: Ringtone: Internal Call"
+
+  - platform: tc_bus_device
+    tc_bus_device_id: my_indoor_station2
+    model:
+      name: "IS1: Model"
+    ringtone_entrance_door_call:
+      name: "IS1: Ringtone: Entrance Door Call"
+    ringtone_second_entrance_door_call:
+      name: "IS1: Ringtone: Second Entrance Door Call"
+    ringtone_floor_call:
+      name: "IS1: Ringtone: Floor Call"
+    ringtone_internal_call:
+      name: "IS1: Ringtone: Internal Call"
 
 switch:
   - platform: tc_bus_device
-    device_id: my_indoor_station
+    tc_bus_device_id: my_indoor_station
     force_long_door_opener:
-      name: "Enforce long Door Opener Telegram"
+      name: "IS1: Enforce long Door Opener Telegram"
+
+  - platform: tc_bus_device
+    tc_bus_device_id: my_indoor_station2
+    force_long_door_opener:
+      name: "IS2: Enforce long Door Opener Telegram"
 
 button:
   - platform: template
@@ -112,27 +142,62 @@ button:
     name: "Open Entrance Door"
     icon: mdi:door
     on_press:
-      - tc_bus_device.send:
-          id: my_indoor_station
+      - tc_bus.send:
           type: open_door
           address: 0
 
 binary_sensor:
   - platform: tc_bus_device
-    device_id: my_indoor_station
-    id: entrance_doorbell
-    name: "Entrance Doorbell"
+    tc_bus_device_id: my_indoor_station
+    name: "IS1: Entrance Doorbell"
+    type: door_call
+    auto_off: 0.2s
+
+  - platform: tc_bus_device
+    tc_bus_device_id: my_indoor_station2
+    name: "IS2: Entrance Doorbell"
     type: door_call
     auto_off: 0.2s
 
   - platform: template
-    name: "Read Memory"
+    name: "IS1: Read Memory"
     on_press:
       - tc_bus_device.read_memory:
           id: my_indoor_station
 
   - platform: template
-    name: "Identify Indoor Station"
+    name: "IS2: Read Memory"
+    on_press:
+      - tc_bus_device.read_memory:
+          id: my_indoor_station2
+
+  - platform: template
+    name: "IS1: Identify Indoor Station"
     on_press:
       - tc_bus_device.identify:
           id: my_indoor_station
+
+  - platform: template
+    name: "IS2: Identify Indoor Station"
+    on_press:
+      - tc_bus_device.identify:
+          id: my_indoor_station2
+
+lock:
+  - platform: tc_bus
+    id: entrance_door_lock
+    name: "Entrance Door"
+    auto_lock: 5s
+    address: 0
+    before_unlock_action:
+      - logger.log: "Before Unlock Action Triggered"
+    after_unlock_action:
+      - logger.log: "After Unlock Action Triggered"
+    lock_action:
+      - logger.log: "Lock Action Triggered"
+
+  - platform: tc_bus
+    id: second_entrance_door_lock
+    name: "Second Entrance Door"
+    auto_lock: 5s
+    address: 2

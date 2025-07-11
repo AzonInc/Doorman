@@ -14,7 +14,7 @@ This component requires hardware like the Doorman-S3 or a [DIY solution](https:/
 ## Configuration Options
 
 ### TC:BUS Hub
-The `tc_bus` hub component offers the following configuration options:
+The `tc_bus` hub serves as the central component enabling bus communication. It provides the following configuration options:
 
 | Option                    | Description                                                                                                                                   | Required | Default       |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
@@ -23,54 +23,19 @@ The `tc_bus` hub component offers the following configuration options:
 | `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
 | `event`                   | Event name to be generated in Home Assistant when a bus telegram is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
 | `on_telegram`              | Defines actions to be triggered when a telegram is received from the intercom. Returns a `TelegramData` struct as the `x` variable.          | No       |               |
-| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
-| `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | No       |               |
-| `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | No       |               |
-| `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                                      | No       |               |
-| `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | No       |               |
 
 
-### Number Inputs
-The `tc_bus` Number Input component offers the following configuration options:
-
-| Option                         | Description                                                                                                   | Required | Default       |
-|--------------------------------|---------------------------------------------------------------------------------------------------------------|----------|---------------|
-| `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.                 | No       |               |
-| `volume_handset_door_call`     | Door Call Handset Volume Number Input to set the handset volume for door calls of your indoor station.        | No       |               |
-| `volume_handset_internal_call` | Internal Call Handset Volume Number Input to set the handset volume for internal calls of your indoor station.| No       |               |
-| `volume_ringtone`              | Ringtone Volume Number Input to set the ringtone volume of your indoor station.                               | No       |               |
-
-
-### Text Sensors
+#### Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
 
 | Option                 | Description                                                | Required | Default       |
 |------------------------|------------------------------------------------------------|----------|---------------|
-| `bus_telegram`          | Text Sensor to display the last received bus telegram.      | No       |               |
+| `bus_telegram`         | Text Sensor to display the last received bus telegram.     | No       |               |
 | `hardware_version`     | Text Sensor to display the Doorman-S3 hardware version.    | No       |               |
 
-### Select Inputs
-The `tc_bus` Select component offers the following configuration options:
+#### Binary Sensors
 
-| Option                               | Description                                                                                                    | Required | Default       |
-|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
-| `model`                              | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
-| `ringtone_entrance_door_call`        | Entrance Door Call Ringtone Select to set the entrance door call ringtone of your indoor station.              | No       | |
-| `ringtone_second_entrance_door_call` | Second Entrance Door Call Ringtone Select to set the second entrance door call ringtone of your indoor station.| No       | |
-| `ringtone_floor_call`                | Floor Call Ringtone Select to set the floor call ringtone of your indoor station.                              | No       | |
-| `ringtone_internal_call`             | Internal Call Ringtone Select to set the internal call ringtone of your indoor station.                        | No       | |
-
-### Switches
-The `tc_bus` Switch component offers the following configuration options:
-
-| Option                               | Description                                                                                                    | Required | Default       |
-|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
-| `force_long_door_opener`             | This enforces execution of the long door opener telegram and mandates inclusion of a serial number in the short door opener telegram. | No       | |
-
-
-### Binary Sensors
-
-The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or a lambda expression.
+The `tc_bus` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or a lambda expression.
 
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
@@ -80,20 +45,21 @@ The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It 
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
 | `telegram`        | A specific 32-bit hexadecimal telegram that triggers the binary sensor when received from the TC:BUS intercom.| Yes       | `0`           |
 | `telegram_lambda` | Lambda expression used to dynamically generate the telegram that will trigger the binary sensor, instead of using a fixed telegram. Cannot be used with `telegram`.  | No       |               |
-| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `telegram`.  | Yes       | `unknown`     |
+| `type`           | Telegram type that will trigger the binary sensor, used alongside `address`, `payload` and `serial_number`. Cannot be used with `telegram`.  | Yes       | `unknown`     |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
 | `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
 | `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
 | `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.              | No       |               |
 | `serial_number`  | Specific intercom serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | No       | `unknown`     |
+| `serial_number_lambda`  | Lambda expression to evaluate whether the binary sensor should trigger based on the serial number. | No       | `unknown`     |
 
 ::: info
-You can use **either** `telegram`/`telegram_lambda` **or** a combination of `type`, `address`/`address_lambda`, `payload`/`payload_lambda`, and `serial_number`, but **not both** simultaneously.\
+You can use **either** `telegram`/`telegram_lambda` **or** a combination of `type`, `address`/`address_lambda`, `payload`/`payload_lambda`, and `serial_number`/`serial_number_lambda`, but **not both** simultaneously.\
 This ensures the binary sensor triggers either through a specific telegram or a combination of parameters, preventing conflicts.
 :::
 
+#### Callbacks
 
-## Callbacks
 ### Received Telegram
 The `on_telegram` callback of the `tc_bus` hub allows you to utilize the [TelegramData](#telegram-data) struct, accessible as the `x` variable.
 
@@ -107,88 +73,9 @@ on_telegram:
       }
 ```
 
-### Read Memory Complete
-The `on_read_memory_complete` callback of the `tc_bus` hub allows you to work with the memory buffer, accessible as the `x` variable.
+#### Actions
 
-```yaml
-on_read_memory_complete:
-  - logger.log: "Completed memory reading!"
-  - lambda: |-
-      std::string hexString = str_upper_case(format_hex(x));
-      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
-```
-
-### Read Memory Timeout
-The `on_read_memory_timeout` callback of the `tc_bus` hub allows you to detect a failed memory reading. Most probably when a model doesn't support the related telegrams.
-
-```yaml
-on_read_memory_timeout:
-  - logger.log: "Failed to read Memory"
-```
-
-### Identification of Indoor Station Complete
-The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [ModelData](#model-data) struct, accessible as the `x` variable.
-
-```yaml
-on_identify_complete:
-  - logger.log: "Completed identification!"
-  - lambda: |-
-      std::string hexString = str_upper_case(format_hex(x));
-      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
-```
-
-### Identification of Indoor Station Complete (Unknown Model)
-The `on_identify_unknown` callback of the `tc_bus` hub allows you to detect a unknown model identification of the indoor station. Most probably when a model is too old and doesn't support this process or is not implemented yet.
-
-```yaml
-on_identify_unknown:
-  - logger.log: "Failed to identify indoor station - unknown model!"
-```
-
-### Identification of Indoor Station Timeout
-The `on_identify_timeout` callback of the `tc_bus` hub allows you to detect a failed identification of the indoor station. Most probably when a model is too old doesn't support this process.
-
-```yaml
-on_identify_timeout:
-  - logger.log: "Failed to identify indoor station!"
-```
-
-
-## Actions
-### Read Memory
-The `tc_bus.read_memory` action allows you to read the memory of any indoor station using the serial number.
-
-```yaml
-on_...:
-  - tc_bus.read_memory:
-      serial_number: 123456
-```
-
-### Identify devices on the Bus
-The `tc_bus.identify` action allows you to automatically detect the model of a device on the bus using its serial number.
-
-::: tip Note
-Automatic identification is not supported by all devices. Currently, only indoor stations are fully supported in the identification process. However, you will still receive a response with the device's identification data, even for unsupported models.
-:::
-
-By default, if `device_group` is not specified, the action will attempt to identify a device in group 0 first, then group 1 if no match is found.
-
-```yaml
-on_...:
-  - tc_bus.identify:
-      serial_number: 123456
-```
-
-To target a specific type of device, you can explicitly set the `device_group`:
-
-```yaml
-on_...:
-  - tc_bus.identify:
-      serial_number: 123456
-      device_group: 3
-```
-
-### Set Programming Mode
+##### Set Programming Mode
 The `tc_bus.set_programming_mode` action allows you to enable or disable the programming mode of the control unit.
 
 ```yaml
@@ -197,19 +84,7 @@ on_...:
       programming_mode: true
 ```
 
-### Update Setting
-The `tc_bus.update_setting` action allows you to change the supported settings of any indoor station.
-Take a look at the [supported models and settings](#model-setting-availability).
-
-```yaml
-on_...:
-  - tc_bus.update_setting:
-      type: volume_ringtone
-      value: 7
-      serial_number: 123456
-```
-
-### Sending Telegrams
+##### Sending Telegrams
 
 You can send telegrams on the bus using the `tc_bus.send` action.
 
@@ -244,6 +119,165 @@ on_...:
       address: 0
       payload: 0
       serial_number: 123456
+```
+
+### TC:BUS Device
+The `tc_bus_device` component offers the following configuration options:
+
+| Option                    | Description                                                                                                                                   | Required | Default       |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
+| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
+| `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | No       |               |
+| `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | No       |               |
+| `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                                      | No       |               |
+| `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | No       |               |
+
+
+#### Number Inputs
+The `tc_bus_device` Number Input component offers the following configuration options:
+
+| Option                         | Description                                                                                                   | Required | Default       |
+|--------------------------------|---------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.                 | No       |               |
+| `volume_handset_door_call`     | Door Call Handset Volume Number Input to set the handset volume for door calls of your indoor station.        | No       |               |
+| `volume_handset_internal_call` | Internal Call Handset Volume Number Input to set the handset volume for internal calls of your indoor station.| No       |               |
+| `volume_ringtone`              | Ringtone Volume Number Input to set the ringtone volume of your indoor station.                               | No       |               |
+
+
+#### Select Inputs
+The `tc_bus_device` Select component offers the following configuration options:
+
+| Option                               | Description                                                                                                    | Required | Default       |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `model`                              | Model Select to set the model of your indoor station (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
+| `ringtone_entrance_door_call`        | Entrance Door Call Ringtone Select to set the entrance door call ringtone of your indoor station.              | No       | |
+| `ringtone_second_entrance_door_call` | Second Entrance Door Call Ringtone Select to set the second entrance door call ringtone of your indoor station.| No       | |
+| `ringtone_floor_call`                | Floor Call Ringtone Select to set the floor call ringtone of your indoor station.                              | No       | |
+| `ringtone_internal_call`             | Internal Call Ringtone Select to set the internal call ringtone of your indoor station.                        | No       | |
+
+
+#### Switches
+The `tc_bus_device` Switch component offers the following configuration options:
+
+| Option                               | Description                                                                                                    | Required | Default       |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `force_long_door_opener`             | This enforces execution of the long door opener telegram and mandates inclusion of a serial number in the short door opener telegram. | No       | |
+
+
+#### Binary Sensors
+
+The `tc_bus_device` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or a lambda expression.
+
+| Option           | Description                                                                                              | Required | Default       |
+|------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
+| `id`             | Unique ID for the binary sensor component.                                                               | Yes      |               |
+| `tc_bus_device_id`      | ID of the related `tc_bus_device` instance.                                                               | Yes      |               |
+| `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
+| `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
+| `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
+| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `payload`.  | Yes       | `unknown`     |
+| `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
+| `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
+| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
+| `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.              | No       |               |
+
+
+#### Callbacks
+
+##### Read Memory Complete
+The `on_read_memory_complete` callback of the `tc_bus_device` component allows you to work with the memory buffer, accessible as the `x` variable.
+
+```yaml
+on_read_memory_complete:
+  - logger.log: "Completed memory reading!"
+  - lambda: |-
+      std::string hexString = str_upper_case(format_hex(x));
+      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+##### Read Memory Timeout
+The `on_read_memory_timeout` callback of the `tc_bus_device` component allows you to detect a failed memory reading. Most probably when a model doesn't support the related telegrams.
+
+```yaml
+on_read_memory_timeout:
+  - logger.log: "Failed to read Memory"
+```
+
+##### Identification of Indoor Station Complete
+The `on_identify_complete` callback of the `tc_bus_device` component allows you to utilize the [ModelData](#model-data) struct, accessible as the `x` variable.
+
+```yaml
+on_identify_complete:
+  - logger.log: "Completed identification!"
+  - lambda: |-
+      std::string hexString = str_upper_case(format_hex(x));
+      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+##### Identification of Indoor Station Complete (Unknown Model)
+The `on_identify_unknown` callback of the `tc_bus_device` component allows you to detect a unknown model identification of the indoor station. Most probably when a model is too old and doesn't support this process or is not implemented yet.
+
+```yaml
+on_identify_unknown:
+  - logger.log: "Failed to identify indoor station - unknown model!"
+```
+
+##### Identification of Indoor Station Timeout
+The `on_identify_timeout` callback of the `tc_bus_device` component allows you to detect a failed identification of the indoor station. Most probably when a model is too old doesn't support this process.
+
+```yaml
+on_identify_timeout:
+  - logger.log: "Failed to identify indoor station!"
+```
+
+
+#### Actions
+##### Read Memory
+The `tc_bus_device.read_memory` action allows you to read the memory of any supported device on the bus.
+
+```yaml
+on_...:
+  - tc_bus_device.read_memory:
+      id: my_tc_bus_device
+```
+
+##### Identify devices
+The `tc_bus_device.identify` action allows you to automatically detect the model of a supported device on the bus.
+
+::: tip Note
+Automatic identification is not supported by all devices. Currently, only indoor stations are fully supported in the identification process. However, you will still receive a response with the device's identification data, even for unsupported models. Feel free to open an Issue with the identification response data in order to implement it.
+:::
+
+```yaml
+on_...:
+  - tc_bus_device.identify:
+      id: my_tc_bus_device
+```
+
+##### Update Settings
+The `tc_bus_device.update_setting` action allows you to change the supported settings of any supported device on the bus.
+Take a look at the [supported models and settings](#model-setting-availability).
+
+```yaml
+on_...:
+  - tc_bus_device.update_setting:
+      id: my_tc_bus_device
+      type: volume_ringtone
+      value: 7
+```
+
+##### Sending Telegrams
+
+You can send device related telegrams on the bus using the `tc_bus_device.send` action.
+
+```yaml
+on_...:
+  - tc_bus_device.send:
+      id: my_tc_bus_device
+      type: open_door
+      address: 0
+      payload: 0
 ```
 
 ## Event Handling
@@ -319,15 +353,71 @@ tc_bus:
   on_telegram:
     - logger.log: "Received telegram from intercom!"
 
-number:
-  - platform: tc_bus
-    serial_number:
-      name: "Serial Number"
+tc_bus_device:
+  - id: my_tc_bus_device
+    type: indoor_station
+    on_read_memory_complete:
+      - lambda: |-
+          std::string hexString = str_upper_case(format_hex(x));
+          ESP_LOGI("tc_bus", "Memory reading completed. Data: %s", hexString.c_str());
+    on_read_memory_timeout:
+      - logger.log:
+          format: "Memory reading timed out! No memory block received in time."
+          level: ERROR
+    on_identify_complete:
+      - logger.log:
+          format: "Identified Hardware: %s (v%i) | Firmware: %i.%i.%i"
+          args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
+          level: INFO
+    on_identify_unknown:
+      - logger.log: "Setup: Unable to identify the Indoor Station, unknown model."
+    on_identify_timeout:
+      - logger.log:
+          format: "Failed to identify the Indoor Station. Please select it manually."
+          level: ERROR
 
 text_sensor:
   - platform: tc_bus
+    tc_bus: my_tc_bus
+    hardware_version:
+      name: "Hardware"
     bus_telegram:
       name: "Last Bus Telegram"
+
+number:
+  - platform: tc_bus_device
+    tc_bus_device_id: my_tc_bus_device
+    serial_number:
+      name: "Serial Number"
+    volume_ringtone:
+      name: "Volume: Ringtone"
+    volume_handset_door_call:
+      name: "Volume: Handset Door Call"
+    volume_handset_internal_call:
+      name: "Volume: Handset Internal Call"
+
+select:
+  - platform: tc_bus_device
+    tc_bus_device_id: my_tc_bus_device
+    model:
+      name: "Model"
+    ringtone_entrance_door_call:
+      name: "Ringtone: Entrance Door Call"
+    ringtone_second_entrance_door_call:
+      name: "Ringtone: Second Entrance Door Call"
+    ringtone_floor_call:
+      name: "Ringtone: Floor Call"
+    ringtone_internal_call:
+      name: "Ringtone: Internal Call"
+
+switch:
+  - platform: tc_bus_device
+    tc_bus_device_id: my_tc_bus_device
+    force_long_door_opener:
+      name: "Enforce long Door Opener Telegram"
+
+
+
 
 # Binary sensor for doorbell press
 binary_sensor:
@@ -339,7 +429,7 @@ binary_sensor:
     auto_off: 2s
 
   - platform: tc_bus
-    id: doorbell_sensor_new
+    id: doorbell_sensor_parser
     name: "Outdoor Station Doorbell (parser)"
     icon: "mdi:doorbell"
     type: door_call
@@ -351,6 +441,12 @@ binary_sensor:
     icon: "mdi:doorbell"
     type: door_call
     serial_number: 123456
+
+  - platform: tc_bus_device
+    id: doorbell_sensor_new_other_device
+    name: "Outdoor Station Doorbell of other serial number (parser)"
+    icon: "mdi:doorbell"
+    type: door_call
 
   - platform: tc_bus
     id: door_opener_sensor
@@ -380,22 +476,29 @@ button:
 ## Advanced Configuration
 
 ### Accessing intercom settings
-If you need to access the supported settings in the memory buffer you can use the `get_setting` method of the `tc_bus` hub.
+If you need to access the supported settings in the memory buffer you can use the `get_setting` and `update_setting` methods of the `tc_bus_device` instance.
 Take a look at the [setting types](#setting-types).
 
 Example (read and write setting):
 ```yaml
 button:
   - platform: template
-    name: "Read Handset volume"
+    name: "Read Handset volume via lambda"
     on_press:
-      -lambda: |-
-          ESP_LOGD("TAG", "Handset volume: %i", id(tc_bus_intercom)->get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+      - lambda: |-
+          ESP_LOGD("TAG", "Handset volume: %i", id(my_tc_bus_device)->get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
 
   - platform: template
-    name: "Set Handset volume"
+    name: "Set Handset volume via lambda"
     on_press:
-      - tc_bus.update_setting:
+      - lambda: |-
+          id(my_tc_bus_device)->update_setting(SETTING_VOLUME_HANDSET_DOOR_CALL, 7);
+
+  - platform: template
+    name: "Set Handset volume via action"
+    on_press:
+      - tc_bus_device.update_setting:
+          id: my_tc_bus_device
           type: volume_handset_door_call
           value: 7
 ```

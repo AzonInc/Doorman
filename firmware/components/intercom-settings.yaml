@@ -14,7 +14,7 @@ tc_bus:
   on_read_memory_complete:
     - lambda: |-
         std::string hexString = str_upper_case(format_hex(x));
-        ESP_LOGI("tcs_bus", "Memory reading completed. Data: %s", hexString.c_str());
+        ESP_LOGI("tc_bus", "Memory reading completed. Data: %s", hexString.c_str());
 
   on_read_memory_timeout:
     - logger.log:
