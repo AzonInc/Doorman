@@ -38,11 +38,11 @@ ON
 ## Spezielle Topics
 Es gibt spezielle Topics, die erweiterte Befehle ermöglichen.
 
-### Senden eines Telegrams (Hexadezimal)
-Hier ist ein Beispiel um hexadezimale Telegrams (uint32) an den Bus zu senden:
+### Senden eines Bus Telegramms (Hexadezimal)
+Hier ist ein Beispiel um hexadezimale Telegramme (uint32) an den Bus zu senden:
 ::: code-group
 ``` [Topic]
-doorman-s3/send_raw_telegram
+doorman-s3/send_tc_raw_telegram
 ```
 ```json [Payload]
 {
@@ -57,11 +57,11 @@ doorman-s3/send_raw_telegram
 ```
 :::
 
-### Senden eines Telegrams (Telegram Builder)
-Hier ist ein Beispiel um Telegrams via Telegram Builder an den Bus zu senden:
+### Senden eines Bus Telegramms (Telegram Builder)
+Hier ist ein Beispiel um Telegramme via Telegram Builder an den Bus zu senden:
 ::: code-group
 ``` [Topic]
-doorman-s3/send_telegram
+doorman-s3/send_tc_telegram
 ```
 ```json [Payload]
 {
@@ -69,6 +69,21 @@ doorman-s3/send_telegram
     "address": 0,
     "payload": 0,
     "serial_number": 123456
+}
+```
+:::
+
+### Senden eines Innenstation Telegramms (Telegram Builder)
+Hier ist ein Beispiel um Innenstation Telegramme via Telegram Builder an den Bus zu senden:
+::: code-group
+``` [Topic]
+doorman-s3/send_tc_is_telegram
+```
+```json [Payload]
+{
+    "type": "open_door",
+    "address": 0,
+    "payload": 0
 }
 ```
 :::

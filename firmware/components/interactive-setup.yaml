@@ -18,31 +18,33 @@ switch:
       sorting_weight: 100
 
 # Extend TC:BUS Component
+tc_bus_device:
+  - id: !extend tc_bus_indoor_station
+    on_identify_complete:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - script.execute: complete_setup
+
+    on_identify_unknown:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - logger.log:
+                format: "Unknown model detected! Please open an issue and provide your logs in order to implement support for this model."
+                level: WARN
+            - script.execute: complete_setup
+
+    on_identify_timeout:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - script.execute: complete_setup
+
 tc_bus:
-  on_identify_complete:
-    - if:
-        condition:
-          - switch.is_on: doorman_setup_mode
-        then:
-          - script.execute: complete_setup
-
-  on_identify_unknown:
-    - if:
-        condition:
-          - switch.is_on: doorman_setup_mode
-        then:
-          - logger.log:
-              format: "Unknown model detected! Please open an issue and provide your logs in order to implement support for this model."
-              level: WARN
-          - script.execute: complete_setup
-
-  on_identify_timeout:
-    - if:
-        condition:
-          - switch.is_on: doorman_setup_mode
-        then:
-          - script.execute: complete_setup
-
   on_telegram:
     # Setup mode: Wait for Floor or Door Call
     - if:
@@ -52,7 +54,7 @@ tc_bus:
         then:
           # Save Serial Number
           - number.set:
-              id: serial_number
+              id: indoor_station_serial_number
               value: !lambda "return x.serial_number;"
 
           # Save Entrance Door Station address
@@ -65,7 +67,8 @@ tc_bus:
 
           # Start Identification
           - logger.log: "Setup Step 2: Identifying Indoor Station."
-          - tc_bus.identify:
+          - tc_bus_device.identify:
+              id: tc_bus_indoor_station
 
     # If no second door station id is set, wait for one
     - if:

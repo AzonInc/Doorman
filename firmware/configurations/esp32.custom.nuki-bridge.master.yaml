@@ -16,6 +16,6 @@ packages:
   pattern_events: !include ../components/pattern-events.yaml
   ring_to_open: !include ../components/ring-to-open.yaml
   ring_to_open_nuki: !include ../components/ring-to-open-nuki.yaml
-  intercom_settings: !include ../components/intercom-settings.yaml
+  indoor_station_settings: !include ../components/indoor-station-settings.yaml
   addon_nuki_bridge: !include ../components/nuki-bridge.yaml
   interactive_setup: !include ../components/interactive-setup.yaml

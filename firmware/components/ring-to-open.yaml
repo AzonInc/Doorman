@@ -112,7 +112,8 @@ binary_sensor:
                   - switch.is_on: rto_central
                   - switch.is_on: rto_confirmation
                 then:
-                  - tc_bus.send:
+                  - tc_bus_device.send:
+                      id: tc_bus_indoor_station
                       type: floor_call
 
             # Reset to prevent address conflict
@@ -135,7 +136,8 @@ binary_sensor:
                   - switch.is_on: rto_central
                   - switch.is_on: rto_confirmation
                 then:
-                  - tc_bus.send:
+                  - tc_bus_device.send:
+                      id: tc_bus_indoor_station
                       type: floor_call
 
             # Reset to prevent address conflict
@@ -733,9 +735,7 @@ script:
       - if:
           condition:
             - lambda: |-
-                return id(rto_entrance_door).state || 
-                       id(rto_second_entrance_door).state || 
-                       id(rto_apartment_door).state;
+                return id(rto_entrance_door).state || id(rto_second_entrance_door).state || id(rto_apartment_door).state;
             - switch.is_on: rto_led_status
           then:
             # TODO: improve status by using multiple colors / effects

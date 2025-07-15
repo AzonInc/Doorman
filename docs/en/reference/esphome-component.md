@@ -15,10 +15,10 @@ The `tc_bus` hub serves as the central component enabling bus communication. It 
 | Option                    | Description                                                                                                                                   | Required | Default       |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
-| `receiver_id`             | ID of remote_receiver for receiving data from the TC:BUS intercom.                                                                            | No       | The configured remote_receiver |
-| `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
+| `receiver_id`             | ID of remote_receiver for receiving data from the TC:BUS.                                                                            | No       | The configured remote_receiver |
+| `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
 | `event`                   | Event name to be generated in Home Assistant when a bus telegram is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
-| `on_telegram`              | Defines actions to be triggered when a telegram is received from the intercom. Returns a `TelegramData` struct as the `x` variable.          | No       |               |
+| `on_telegram`             | Defines actions to be triggered when a telegram is received from the TC:BUS. Returns a `TelegramData` struct as the `x` variable.          | No       |               |
 
 ### Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
@@ -37,14 +37,14 @@ The `tc_bus` Binary Sensor detects binary states such as doorbell presses. It ca
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
-| `telegram`        | A specific 32-bit hexadecimal telegram that triggers the binary sensor when received from the TC:BUS intercom.| Yes       | `0`           |
+| `telegram`        | A specific 32-bit hexadecimal telegram that triggers the binary sensor when received from the TC:BUS.| Yes       | `0`           |
 | `telegram_lambda` | Lambda expression used to dynamically generate the telegram that will trigger the binary sensor, instead of using a fixed telegram. Cannot be used with `telegram`.  | No       |               |
 | `type`           | Telegram type that will trigger the binary sensor, used alongside `address`, `payload` and `serial_number`. Cannot be used with `telegram`.  | Yes       | `unknown`     |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
 | `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
 | `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
 | `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.              | No       |               |
-| `serial_number`  | Specific intercom serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | No       | `unknown`     |
+| `serial_number`  | Specific device serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | No       | `unknown`     |
 | `serial_number_lambda`  | Lambda expression to evaluate whether the binary sensor should trigger based on the serial number. | No       | `unknown`     |
 
 ::: info
@@ -176,15 +176,15 @@ The `tc_bus_device` Binary Sensor detects binary states such as doorbell presses
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`             | Unique ID for the binary sensor component.                                                               | Yes      |               |
-| `tc_bus_device_id`      | ID of the related `tc_bus_device` instance.                                                               | Yes      |               |
+| `tc_bus_device_id`| ID of the related `tc_bus_device` instance.                                                             | Yes      |               |
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
-| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `payload`.  | Yes       | `unknown`     |
+| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `payload`.               | Yes       | `unknown`     |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
-| `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
-| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
-| `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.              | No       |               |
+| `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.             | No       |               |
+| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.                                  | No       | `0`           |
+| `payload_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the payload.             | No       |               |
 
 
 ### Callbacks
@@ -241,7 +241,7 @@ The `tc_bus_device.read_memory` action allows you to read the memory of any supp
 ```yaml
 on_...:
   - tc_bus_device.read_memory:
-      id: my_tc_bus_device
+      id: my_tc_bus_indoor_station_device
 ```
 
 #### Identify devices
@@ -254,7 +254,7 @@ Automatic identification is not supported by all devices. Currently, only indoor
 ```yaml
 on_...:
   - tc_bus_device.identify:
-      id: my_tc_bus_device
+      id: my_tc_bus_indoor_station_device
 ```
 
 #### Update Settings
@@ -264,7 +264,7 @@ Take a look at the [supported models and settings](#model-setting-availability).
 ```yaml
 on_...:
   - tc_bus_device.update_setting:
-      id: my_tc_bus_device
+      id: my_tc_bus_indoor_station_device
       type: volume_ringtone
       value: 7
 ```
@@ -276,7 +276,7 @@ You can send device related telegrams on the bus using the `tc_bus_device.send` 
 ```yaml
 on_...:
   - tc_bus_device.send:
-      id: my_tc_bus_device
+      id: my_tc_bus_indoor_station_device
       type: open_door
       address: 0
       payload: 0
@@ -353,10 +353,25 @@ tc_bus:
   id: my_tc_bus
   event: "doorman"
   on_telegram:
-    - logger.log: "Received telegram from intercom!"
+    - logger.log: "Received telegram from bus!"
 
+# Outdoor Stations - Doors
+lock:
+  - platform: tc_bus
+    id: entrance_door_lock
+    name: "Entrance Door"
+    auto_lock: 5s
+    address: 0
+    before_unlock_action:
+      - logger.log: "Before Unlock Action Triggered"
+    after_unlock_action:
+      - logger.log: "After Unlock Action Triggered"
+    lock_action:
+      - logger.log: "Lock Action Triggered"
+
+# TC:BUS devices
 tc_bus_device:
-  - id: my_tc_bus_device
+  - id: my_tc_bus_indoor_station_device
     type: indoor_station
     on_read_memory_complete:
       - lambda: |-
@@ -388,7 +403,7 @@ text_sensor:
 
 number:
   - platform: tc_bus_device
-    tc_bus_device_id: my_tc_bus_device
+    tc_bus_device_id: my_tc_bus_indoor_station_device
     serial_number:
       name: "Serial Number"
     volume_ringtone:
@@ -400,7 +415,7 @@ number:
 
 select:
   - platform: tc_bus_device
-    tc_bus_device_id: my_tc_bus_device
+    tc_bus_device_id: my_tc_bus_indoor_station_device
     model:
       name: "Model"
     ringtone_entrance_door_call:
@@ -414,7 +429,7 @@ select:
 
 switch:
   - platform: tc_bus_device
-    tc_bus_device_id: my_tc_bus_device
+    tc_bus_device_id: my_tc_bus_indoor_station_device
     force_long_door_opener:
       name: "Enforce long Door Opener Telegram"
 
@@ -477,7 +492,7 @@ button:
 
 ## Advanced Configuration
 
-### Accessing intercom settings
+### Accessing device settings
 If you need to access the supported settings in the memory buffer you can use the `get_setting` and `update_setting` methods of the `tc_bus_device` instance.
 Take a look at the [setting types](#setting-types).
 
@@ -488,19 +503,19 @@ button:
     name: "Read Handset volume via lambda"
     on_press:
       - lambda: |-
-          ESP_LOGD("TAG", "Handset volume: %i", id(my_tc_bus_device)->get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+          ESP_LOGD("TAG", "Handset volume: %i", id(my_tc_bus_indoor_station_device)->get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
 
   - platform: template
     name: "Set Handset volume via lambda"
     on_press:
       - lambda: |-
-          id(my_tc_bus_device)->update_setting(SETTING_VOLUME_HANDSET_DOOR_CALL, 7);
+          id(my_tc_bus_indoor_station_device)->update_setting(SETTING_VOLUME_HANDSET_DOOR_CALL, 7);
 
   - platform: template
     name: "Set Handset volume via action"
     on_press:
       - tc_bus_device.update_setting:
-          id: my_tc_bus_device
+          id: my_tc_bus_indoor_station_device
           type: volume_handset_door_call
           value: 7
 ```
@@ -530,13 +545,16 @@ The `ModelData` struct is used internally in the identification process.
 ```c++
 struct ModelData {
     Model model = MODEL_NONE;
+
     uint32_t firmware_version = 0;
     uint8_t firmware_major = 0;
     uint8_t firmware_minor = 0;
     uint8_t firmware_patch = 0;
     uint8_t hardware_version = 0; 
-    uint8_t category = 0;
-    uint8_t memory_size = 0; 
+    
+    uint8_t device_group = 0;
+    uint8_t memory_size = 0;
+    uint32_t capabilities = 0;
 };
 ```
 

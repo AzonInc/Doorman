@@ -223,7 +223,7 @@ Wenn du WiFi über das Captive Portal, Improv Serial oder Improv BLE konfigurier
 
 ## Eingabe für Zahlenwert
 
-### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Deaktiviert" />
+### Serial Number <Badge type="tip" text="indoor_station_serial_number" /> <Badge type="info" text="Deaktiviert" />
 Legt die Seriennummer der Innenstation für den Telegrambuilder/parser fest.
 
 ### Entrance Door Station ID <Badge type="tip" text="entrance_door_station_id" /> <Badge type="info" text="Deaktiviert" />
@@ -232,13 +232,13 @@ Legt die ID der Außenstelle am Eingang fest.
 ### Second Entrance Door Station ID <Badge type="tip" text="second_entrance_door_station_id" /> <Badge type="info" text="Deaktiviert" />
 Legt die ID der zweiten Außenstelle fest.
 
-### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Deaktiviert" />
+### Volume: Ringtone <Badge type="tip" text="indoor_station_volume_ringtone" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke der Klingeltöne deiner Innenstation fest.
 
-### Volume: Handset Door Call <Badge type="tip" text="intercom_volume_handset_door_call" /> <Badge type="info" text="Deaktiviert" />
+### Volume: Handset Door Call <Badge type="tip" text="indoor_station_volume_handset_door_call" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke des Hörers deiner Innenstation bei Türrufen fest.
 
-### Volume: Handset Internal Call <Badge type="tip" text="intercom_volume_handset_internal_call" /> <Badge type="info" text="Deaktiviert" />
+### Volume: Handset Internal Call <Badge type="tip" text="indoor_station_volume_handset_internal_call" /> <Badge type="info" text="Deaktiviert" />
 Legt die Lautstärke des Hörers deiner Innenstation bei Internrufen fest.
 
 ### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge" /> <Badge type="info" text="Deaktiviert" />
@@ -374,28 +374,28 @@ Legt den Auslöser zum umschalten für die [Ring To Open](../guide/features/ring
 - **Function Button**
 - **External Button**
 
-### Indoor Station Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Deaktiviert" />
+### Indoor Station Model <Badge type="tip" text="indoor_station_model" /> <Badge type="info" text="Deaktiviert" />
 Legt das Modell deiner Innenstation fest. Finde mehr über die [unterstützten Modelle und Einstellungen](esphome-component#model-setting-availability) heraus.
 
-### Ringtone: Entrance Door Call <Badge type="tip" text="intercom_ringtone_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
+### Ringtone: Entrance Door Call <Badge type="tip" text="indoor_station_ringtone_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Tür-Rufe (Eingang) deiner Innenstation fest.
 
 ##### Optionen:
 - **Ringtone 1 ... 13**
 
-### Ringtone: Second Entrance Door Call <Badge type="tip" text="intercom_ringtone_second_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
+### Ringtone: Second Entrance Door Call <Badge type="tip" text="indoor_station_ringtone_second_entrance_door_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Tür-Rufe (Zweiter Eingang) deiner Innenstation fest.
 
 ##### Optionen:
 - **Ringtone 1 ... 13**
 
-### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Deaktiviert" />
+### Ringtone: Floor Call <Badge type="tip" text="indoor_station_ringtone_floor_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Etagen-Rufe deiner Innenstation fest.
 
 ##### Optionen:
 - **Ringtone 1 ... 13**
 
-### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Deaktiviert" />
+### Ringtone: Internal Call <Badge type="tip" text="indoor_station_ringtone_internal_call" /> <Badge type="info" text="Deaktiviert" />
 Legt den Klingelton für Intern-Rufe deiner Innenstation fest.
 
 ##### Optionen:

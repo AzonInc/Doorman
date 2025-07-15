@@ -59,7 +59,7 @@ def get_packages(host, api_variant, firmware, branch):
         ('ring_to_open', '!include ../components/ring-to-open.yaml', True),
         ('ring_to_open_homekit', '!include ../components/ring-to-open.homekit.yaml', api_variant == 'homekit'),
         ('ring_to_open_nuki', '!include ../components/ring-to-open-nuki.yaml', firmware == 'nuki-bridge'),
-        ('intercom_settings', '!include ../components/intercom-settings.yaml', True),
+        ('indoor_station_settings', '!include ../components/indoor-station-settings.yaml', True),
         ('addon_nuki_bridge', '!include ../components/nuki-bridge.yaml', firmware == 'nuki-bridge'),
         ('interactive_setup', '!include ../components/interactive-setup.yaml', True),
     ]

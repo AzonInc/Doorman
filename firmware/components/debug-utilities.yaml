@@ -57,6 +57,7 @@ select:
       then:
         - lambda: |-
             id(esphome_logger).set_log_level("tc_bus", i);
+            id(esphome_logger).set_log_level("tc_bus_device", i);
     web_server:
       sorting_group_id: sorting_group_debug_tools
       sorting_weight: -5

@@ -222,7 +222,7 @@ If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, t
 
 ## Numbers
 
-### Serial Number <Badge type="tip" text="serial_number" /> <Badge type="info" text="Disabled by default" />
+### Serial Number <Badge type="tip" text="indoor_station_serial_number" /> <Badge type="info" text="Disabled by default" />
 Sets the indoor station serial number for the telegram builder/parser.
 
 ### Entrance Door Station ID <Badge type="tip" text="entrance_door_station_id" /> <Badge type="info" text="Disabled by default" />
@@ -231,13 +231,13 @@ Sets the ID of the entrance outdoor station.
 ### Second Entrance Door Station ID <Badge type="tip" text="second_entrance_door_station_id" /> <Badge type="info" text="Disabled by default" />
 Sets the ID of the second outdoor station.
 
-### Volume: Ringtone <Badge type="tip" text="intercom_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
+### Volume: Ringtone <Badge type="tip" text="indoor_station_volume_ringtone" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone volume.
 
-### Volume: Handset Door Call <Badge type="tip" text="intercom_volume_handset_door_call" /> <Badge type="info" text="Disabled by default" />
+### Volume: Handset Door Call <Badge type="tip" text="indoor_station_volume_handset_door_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone handset door call volume.
 
-### Volume: Handset Internal Call <Badge type="tip" text="intercom_volume_handset_internal_call" /> <Badge type="info" text="Disabled by default" />
+### Volume: Handset Internal Call <Badge type="tip" text="indoor_station_volume_handset_internal_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone handset internal call volume.
 
 ### Nuki LED: Brightness <Badge type="tip" text="nuki_led_brightness" /> <Badge type="info" text="Nuki Bridge only" /> <Badge type="info" text="Disabled by default" />
@@ -376,28 +376,28 @@ Defines the trigger to toggle the [Ring To Open](../guide/features/ring-to-open)
 - **Function Button**
 - **External Button**
 
-### Indoor Station Model <Badge type="tip" text="intercom_model" /> <Badge type="info" text="Disabled by default" />
+### Indoor Station Model <Badge type="tip" text="indoor_station_model" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom indoor station model. Check the [Supported Models and Settings](esphome-component#model-setting-availability) to see your options.
 
-### Ringtone: Entrance Door Call <Badge type="tip" text="intercom_ringtone_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
+### Ringtone: Entrance Door Call <Badge type="tip" text="indoor_station_ringtone_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for entrance door calls.
 
 ##### Options:
 - ****Ringtone 1 ... 13****
 
-### Ringtone: Second Entrance Door Call <Badge type="tip" text="intercom_ringtone_second_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
+### Ringtone: Second Entrance Door Call <Badge type="tip" text="indoor_station_ringtone_second_entrance_door_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for second entrance door calls.
 
 ##### Options:
 - **Ringtone 1 ... 13**
 
-### Ringtone: Floor Call <Badge type="tip" text="intercom_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
+### Ringtone: Floor Call <Badge type="tip" text="indoor_station_ringtone_floor_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for floor calls.
 
 ##### Options:
 - **Ringtone 1 ... 13**
 
-### Ringtone: Internal Call <Badge type="tip" text="intercom_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
+### Ringtone: Internal Call <Badge type="tip" text="indoor_station_ringtone_internal_call" /> <Badge type="info" text="Disabled by default" />
 Sets the intercom phone ringtone for internal calls.
 
 ##### Options:
