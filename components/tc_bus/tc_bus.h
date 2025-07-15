@@ -129,7 +129,6 @@ namespace esphome
         {
 #ifdef USE_TEXT_SENSOR
             SUB_TEXT_SENSOR(bus_telegram);
-            SUB_TEXT_SENSOR(hardware_version);
 #endif
 
         public:
@@ -218,7 +217,6 @@ namespace esphome
 
             // Misc
             const char *event_;
-            std::string hardware_version_str_ = "Generic";
             bool programming_mode_ = false;
             bool wait_for_data_telegram_ = false;
         };

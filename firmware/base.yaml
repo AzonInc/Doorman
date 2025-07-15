@@ -253,18 +253,18 @@ text:
       sorting_group_id: sorting_group_settings_advanced
       sorting_weight: -69
 
-
 text_sensor:
+  - platform: doorman_hardware
+    id: doorman_hardware_version
+    name: "Doorman Hardware"
+    icon: "mdi:router-wireless"
+    disabled_by_default: true
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_information
+      sorting_weight: -20
+
   - platform: tc_bus
-    hardware_version:
-      id: doorman_hardware_version
-      name: "Doorman Hardware"
-      icon: "mdi:router-wireless"
-      disabled_by_default: true
-      entity_category: DIAGNOSTIC
-      web_server:
-        sorting_group_id: sorting_group_information
-        sorting_weight: -20
     bus_telegram:
       id: last_bus_telegram
       name: "Last Bus Telegram"

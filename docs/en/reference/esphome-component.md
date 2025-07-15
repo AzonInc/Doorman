@@ -26,7 +26,6 @@ The `tc_bus` Text Sensor component offers the following configuration options:
 | Option                 | Description                                                | Required | Default       |
 |------------------------|------------------------------------------------------------|----------|---------------|
 | `bus_telegram`         | Text Sensor to display the last received bus telegram.     | No       |               |
-| `hardware_version`     | Text Sensor to display the Doorman-S3 hardware version.    | No       |               |
 
 ### Binary Sensors
 The `tc_bus` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or a lambda expression.
@@ -396,8 +395,6 @@ tc_bus_device:
 text_sensor:
   - platform: tc_bus
     tc_bus: my_tc_bus
-    hardware_version:
-      name: "Hardware"
     bus_telegram:
       name: "Last Bus Telegram"
 

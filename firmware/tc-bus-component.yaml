@@ -70,8 +70,6 @@ tc_bus_device:
 
 text_sensor:
   - platform: tc_bus
-    hardware_version:
-      name: "Hardware"
     bus_telegram:
       name: "Last Bus Telegram"
 

@@ -40,31 +40,6 @@ namespace esphome
         {
             ESP_LOGCONFIG(TAG, "Running setup");
 
-            #if defined(USE_ESP_IDF) || (defined(USE_ARDUINO) && defined(ESP32))
-                ESP_LOGD(TAG, "Checking for Doorman hardware");
-
-                // Doorman Hardware Revision
-                uint8_t ver[3];
-                uint32_t value;
-                esp_efuse_read_block(EFUSE_BLK3, &value, 0, 24);
-                ver[0] = value >> 0;
-                ver[1] = value >> 8;
-                ver[2] = value >> 16;
-
-                if (ver[0] > 0)
-                {
-                    ESP_LOGI(TAG, "Doorman hardware detected: Revision %i.%i.%i.", ver[0], ver[1], ver[2]);
-                    this->hardware_version_str_ = "Doorman-S3 " + std::to_string(ver[0]) + "." + std::to_string(ver[1]) + "." + std::to_string(ver[2]);
-                }
-            #endif
-
-            #ifdef USE_TEXT_SENSOR
-                if (this->hardware_version_text_sensor_ != nullptr)
-                {
-                    this->hardware_version_text_sensor_->publish_state(this->hardware_version_str_);
-                }
-            #endif
-
             #ifdef USE_BINARY_SENSOR
                 // Reset Binary Sensor Listeners
                 for (auto &listener : listeners_)
@@ -98,12 +73,9 @@ namespace esphome
                 ESP_LOGCONFIG(TAG, "  Event: Disabled");
             }
 
-            ESP_LOGCONFIG(TAG, "  Hardware: %s", this->hardware_version_str_.c_str());
-
             #ifdef USE_TEXT_SENSOR
                 ESP_LOGCONFIG(TAG, "Text Sensors:");
                 LOG_TEXT_SENSOR("  ", "Last Bus Telegram", this->bus_telegram_text_sensor_);
-                LOG_TEXT_SENSOR("  ", "Hardware Version", this->hardware_version_text_sensor_);
             #endif
         }
 
