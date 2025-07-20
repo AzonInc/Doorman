@@ -3,6 +3,11 @@
 substitutions:
   log_level: "VERBOSE"
 
+esphome:
+  devices:
+    - id: tc_bus_debug
+      name: "TC:BUS Debug Tools"
+
 logger:
   initial_level: DEBUG
 
@@ -39,7 +44,8 @@ globals:
 select:
   - platform: template
     id: esphome_logger_level_tc_bus
-    name: "TC:BUS Log Level"
+    device_id: tc_bus_debug
+    name: "Component Log Level"
     icon: "mdi:math-log"
     optimistic: true
     options:
@@ -66,9 +72,9 @@ select:
 binary_sensor:
   - platform: template
     id: debug_bus_connected
-    name: "Bus Connection Status"
+    device_id: tc_bus_debug
+    name: "Connection Status"
     icon: "mdi:connection"
-    disabled_by_default: true
     lambda: |-
       if (id(debug_bus_voltage).state >= 2.8) {
         return true;
@@ -79,20 +85,16 @@ binary_sensor:
     web_server:
       sorting_group_id: sorting_group_debug_tools
 
-  - id: !extend doorman_boot_button
-    internal: false
-    
-
 sensor:
   - platform: adc
     id: debug_bus_voltage
-    name: "Bus Voltage"
+    device_id: tc_bus_debug
+    name: "Voltage"
+    icon: "mdi:current-dc"
     pin: ${adc_input_pin}
     update_interval: 5s
     attenuation: 12dB
     entity_category: DIAGNOSTIC
-    disabled_by_default: true
-    icon: "mdi:current-dc"
     web_server:
       sorting_group_id: sorting_group_debug_tools
       sorting_weight: -5
@@ -100,10 +102,10 @@ sensor:
 text:
   - platform: template
     id: debug_send_telegram
+    device_id: tc_bus_debug
     name: "Send Telegram"
     icon: "mdi:send"
     mode: text
-    disabled_by_default: true
     optimistic: true
     set_action: 
       then: 
@@ -115,16 +117,16 @@ text:
             if(std::string(x.c_str()) != "") {
               number = std::stoul(x.c_str(), nullptr, 16);
             }
-            id(tc_bus_intercom)->send_telegram(number);
+            id(tc_bus_id)->send_telegram(number);
     web_server:
       sorting_group_id: sorting_group_debug_tools
 
 button:
   - platform: template
     id: debug_restart_control_unit
+    device_id: tc_bus_debug
     name: "System Restart"
     icon: mdi:restart
-    disabled_by_default: true
     on_press:
       - tc_bus.send:
           type: reset
@@ -133,9 +135,9 @@ button:
 
   - platform: template
     id: debug_system_discovery
+    device_id: tc_bus_debug
     name: "System Discovery"
     icon: "mdi:home-search"
-    disabled_by_default: true
     on_press: 
       - logger.log: Start system discovery...
 

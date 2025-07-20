@@ -3,9 +3,9 @@
 ota:
   - platform: esphome
     id: ota_esphome
-    
+
   - platform: web_server
-    îd: ota_webserver
+    id: ota_webserver
 
 button:
   - platform: safe_mode

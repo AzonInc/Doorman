@@ -98,6 +98,10 @@ namespace esphome
 #ifdef USE_SWITCH
             SUB_SWITCH(force_long_door_opener);
 #endif
+#ifdef USE_BUTTON
+            SUB_BUTTON(read_memory);
+            SUB_BUTTON(identify_device);
+#endif
 
         public:
             const char* TAG = "tc_bus_device";

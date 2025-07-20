@@ -262,6 +262,7 @@ switch:
   # Global Setting
   - platform: template
     id: rto_central
+    device_id: tc_bus_is
     name: "Ring To Open"
     icon: "mdi:checkbox-marked-circle-auto-outline"
     restore_mode: RESTORE_DEFAULT_OFF
@@ -317,6 +318,7 @@ switch:
   # Setting for each Door - Entrance Door
   - platform: template
     id: rto_entrance_door
+    device_id: tc_bus_is
     name: "RTO: Entrance Door"
     icon: "mdi:checkbox-marked-circle-auto-outline"
     restore_mode: RESTORE_DEFAULT_OFF
@@ -337,6 +339,7 @@ switch:
   # Setting for each Door - Second Entrance Door
   - platform: template
     id: rto_second_entrance_door
+    device_id: tc_bus_is
     name: "RTO: Second Entrance Door"
     icon: "mdi:checkbox-marked-circle-auto-outline"
     restore_mode: RESTORE_DEFAULT_OFF
@@ -357,10 +360,11 @@ switch:
   # Setting for each Door - Apartment Door
   - platform: template
     id: rto_apartment_door
+    device_id: tc_bus_is
     name: "RTO: Apartment Door"
+    icon: "mdi:checkbox-marked-circle-auto-outline"
     disabled_by_default: true
     internal: true
-    icon: "mdi:checkbox-marked-circle-auto-outline"
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     turn_on_action:
@@ -378,6 +382,7 @@ switch:
   # Global Setting for all Doors
   - platform: template
     id: rto_confirmation
+    device_id: tc_bus_is
     name: "RTO: Confirmation"
     icon: "mdi:bell-check"
     restore_mode: RESTORE_DEFAULT_OFF
@@ -391,6 +396,7 @@ switch:
   # Global Setting for all Doors
   - platform: template
     id: rto_led_status
+    device_id: tc_bus_is
     name: "RTO: Display Status"
     icon: "mdi:led-on"
     restore_mode: RESTORE_DEFAULT_ON
@@ -404,6 +410,7 @@ switch:
 select:
   - platform: template
     id: rto_central_doors
+    device_id: tc_bus_is
     name: "RTO: Central Toggle - Door Selection"
     icon: "mdi:door"
     optimistic: true
@@ -416,14 +423,15 @@ select:
     initial_option: "Entrance"
     restore_value: true
     entity_category: CONFIG
+    disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_rto_settings
       sorting_weight: -89
 
   - platform: template
-    name: "RTO: Entrance Door - Delay"
     id: rto_entrance_door_delay
-    disabled_by_default: true
+    device_id: tc_bus_is
+    name: "RTO: Entrance Door - Delay"
     icon: "mdi:clock-end"
     optimistic: true
     options:
@@ -446,10 +454,11 @@ select:
       sorting_weight: -78
 
   - platform: template
-    name: "RTO: Second Entrance Door - Delay"
     id: rto_second_entrance_door_delay
-    disabled_by_default: true
+    device_id: tc_bus_is
+    name: "RTO: Second Entrance Door - Delay"
     icon: "mdi:clock-end"
+    disabled_by_default: true
     optimistic: true
     options:
       - "0 seconds"
@@ -471,11 +480,12 @@ select:
       sorting_weight: -68
 
   - platform: template
-    name: "RTO: Apartment Door - Delay"
     id: rto_apartment_door_delay
+    device_id: tc_bus_is
+    name: "RTO: Apartment Door - Delay"
+    icon: "mdi:clock-end"
     internal: true
     disabled_by_default: true
-    icon: "mdi:clock-end"
     optimistic: true
     options:
       - "0 seconds"
@@ -499,6 +509,7 @@ select:
   # Setting for each Door - Entrance Door
   - platform: template
     id: rto_entrance_door_timeout_mode
+    device_id: tc_bus_is
     name: "RTO: Entrance Door - Timeout"
     icon: "mdi:clock-fast"
     optimistic: true
@@ -527,6 +538,7 @@ select:
   # Setting for each Door - Second Entrance Door
   - platform: template
     id: rto_second_entrance_door_timeout_mode
+    device_id: tc_bus_is
     name: "RTO: Second Entrance Door - Timeout"
     icon: "mdi:clock-fast"
     disabled_by_default: true
@@ -556,9 +568,11 @@ select:
   # Setting for each Door - Apartment Door
   - platform: template
     id: rto_apartment_door_timeout_mode
-    internal: true
+    device_id: tc_bus_is
     name: "RTO: Apartment Door - Timeout"
     icon: "mdi:clock-fast"
+    internal: true
+    disabled_by_default: true
     optimistic: true
     options:
       - "Never"
@@ -585,9 +599,9 @@ select:
   # Setting for each Door - Entrance Door
   - platform: template
     id: rto_entrance_door_pattern_condition
+    device_id: tc_bus_is
     name: "RTO: Entrance Door - Pattern"
     icon: "mdi:gesture-tap-button"
-    disabled_by_default: true
     optimistic: true
     options:
       - "single"
@@ -604,6 +618,7 @@ select:
   # Setting for each Door - Second Entrance Door
   - platform: template
     id: rto_second_entrance_door_pattern_condition
+    device_id: tc_bus_is
     name: "RTO: Second Entrance Door - Pattern"
     icon: "mdi:gesture-tap-button"
     disabled_by_default: true
@@ -623,9 +638,10 @@ select:
   # Setting for each Door - Apartment Door
   - platform: template
     id: rto_apartment_door_pattern_condition
+    device_id: tc_bus_is
     name: "RTO: Apartment Door - Pattern"
-    internal: true
     icon: "mdi:gesture-tap-button"
+    internal: true
     disabled_by_default: true
     optimistic: true
     options:
@@ -643,6 +659,7 @@ select:
   # Global Setting
   - platform: template
     id: rto_toggle_trigger
+    device_id: tc_bus_is
     name: "RTO: Central Toggle - Trigger"
     icon: "mdi:circle-outline"
     optimistic: true

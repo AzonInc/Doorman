@@ -75,7 +75,7 @@ namespace esphome
 
             #ifdef USE_TEXT_SENSOR
                 ESP_LOGCONFIG(TAG, "Text Sensors:");
-                LOG_TEXT_SENSOR("  ", "Last Bus Telegram", this->bus_telegram_text_sensor_);
+                LOG_TEXT_SENSOR("  ", "Last Telegram", this->bus_telegram_text_sensor_);
             #endif
         }
 

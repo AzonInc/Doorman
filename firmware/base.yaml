@@ -9,42 +9,25 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
-  min_version: "2025.5.0"
+  min_version: "2025.7.2"
   project:
     name: "AzonInc.Doorman"
-    version: "2025.6.0"
+    version: "2025.7.0"
   on_boot:
     priority: 600
     then:
-      - lock.template.publish:
-          id: entrance_door
-          state: LOCKED
-      - lock.template.publish:
-          id: second_entrance_door
-          state: LOCKED
-
-      # Always turn off relay on boot if used as door opener
+      # Always turn off relay on boot if not used standalone
       - if:
           condition:
-            - lambda: return id(door_opener_mode).state == "Internal Relay";
+            - lambda: return id(relay_mode).state != "Standalone";
           then:
             - switch.turn_off: doorman_relay
 
-      # Temporary Workaround for ESPHome >= 2025.3.0
-      # Prevents WebServer Crash
-      - event.trigger:
-          id: entrance_doorbell_pattern
-          event_type: "default"
-      - event.trigger:
-          id: second_entrance_doorbell_pattern
-          event_type: "default"
-      - event.trigger:
-          id: apartment_doorbell_pattern
-          event_type: "default"
-      - event.trigger:
-          id: phone_pick_up_pattern
-          event_type: "default"
-
+  devices:
+    - id: tc_bus_general
+      name: "TC:BUS"
+    - id: tc_bus_is
+      name: "TC:BUS Indoor Station"
 
 # Enable logging
 # Prevent component warning spam
@@ -144,7 +127,7 @@ remote_transmitter:
 
 # Setup TC:BUS Component
 tc_bus:
-  id: tc_bus_intercom
+  id: tc_bus_id
   event: "doorman"
   on_telegram:
     - if:
@@ -161,8 +144,8 @@ number:
   - platform: template
     id: doorman_rgb_status_led_brightness
     name: "Status LED: Brightness"
-    mode : slider
     icon: "mdi:brightness-7"
+    mode : slider
     restore_value: true
     initial_value: '100'
     max_value: 100
@@ -179,18 +162,20 @@ number:
     tc_bus_device_id: tc_bus_indoor_station
     serial_number:
       id: indoor_station_serial_number
+      device_id: tc_bus_is
       name: "Serial Number"
       icon: "mdi:numeric"
-      disabled_by_default: true
+      #disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_indoor_station_settings
         sorting_weight: -100
 
   - platform: template
-    id: entrance_door_station_id
-    name: "Entrance Door Station ID"
-    mode: box
+    id: entrance_door_station_address
+    device_id: tc_bus_general
+    name: "Entrance Station Address"
     icon: "mdi:counter"
+    mode: box
     restore_value: true
     initial_value: '0'
     max_value: 63
@@ -204,10 +189,11 @@ number:
       sorting_weight: -99
 
   - platform: template
-    id: second_entrance_door_station_id
-    name: "Second Entrance Door Station ID"
-    mode: box
+    id: second_entrance_door_station_address
+    device_id: tc_bus_general
+    name: "Second Entrance Station Address"
     icon: "mdi:counter"
+    mode: box
     restore_value: true
     initial_value: '63'
     max_value: 63
@@ -223,6 +209,7 @@ number:
 text:
   - platform: template
     id: entrance_door_before_open_cmds
+    device_id: tc_bus_general
     name: "Entrance Door Pre-Open-Telegrams"
     icon: "mdi:link-lock"
     optimistic: true
@@ -239,6 +226,7 @@ text:
 
   - platform: template
     id: second_entrance_door_before_open_cmds
+    device_id: tc_bus_general
     name: "Second Entrance Door Pre-Open-Telegrams"
     icon: "mdi:link-lock"
     optimistic: true
@@ -267,7 +255,8 @@ text_sensor:
   - platform: tc_bus
     bus_telegram:
       id: last_bus_telegram
-      name: "Last Bus Telegram"
+      device_id: tc_bus_general
+      name: "Last Telegram"
       web_server:
         sorting_group_id: sorting_group_listeners
         sorting_weight: -99
@@ -300,6 +289,7 @@ switch:
     tc_bus_device_id: tc_bus_indoor_station
     force_long_door_opener:
       id: use_32_open_door_protocol
+      device_id: tc_bus_is
       name: "Use 32-Bit Door Protocol"
       icon: mdi:flash-alert
       entity_category: CONFIG
@@ -309,11 +299,11 @@ switch:
         sorting_weight: -50
 
   - platform: gpio
-    name: Relay
-    icon: mdi:electric-switch
     id: doorman_relay
+    name: "Relay"
+    icon: mdi:electric-switch
     restore_mode: RESTORE_DEFAULT_OFF
-    disabled_by_default: true
+    #disabled_by_default: true
     pin: ${relay_pin}
     web_server:
       sorting_group_id: sorting_group_controls
@@ -324,6 +314,7 @@ switch:
     name: "Status LED: Show Bus Activity"
     icon: "mdi:swap-vertical"
     restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: CONFIG
     disabled_by_default: true
     optimistic: true
     web_server:
@@ -335,10 +326,10 @@ button:
   # System Actions
   - platform: restart
     id: doorman_restart
-    entity_category: CONFIG
     name: Restart
     icon: mdi:restart
-    disabled_by_default: true
+    entity_category: CONFIG
+    #disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_system
       sorting_weight: -2
@@ -382,6 +373,7 @@ light:
 
   - platform: binary
     id: hallway_light
+    device_id: tc_bus_general
     name: "Hallway Light"
     icon: mdi:lightbulb-on
     output: hallway_light_output
@@ -392,8 +384,8 @@ light:
 
 sensor:
   - platform: uptime
-    name: Uptime
     id: doorman_uptime
+    name: Uptime
     disabled_by_default: true
     entity_category: DIAGNOSTIC
     web_server:
@@ -407,9 +399,9 @@ sensor:
 
   - platform: copy
     id: doorman_wifi_signal
+    name: "WiFi Signal"
     icon: "mdi:wifi"
     source_id: doorman_wifi_signal_db
-    name: "WiFi Signal"
     filters:
       - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
     unit_of_measurement: "%"
@@ -422,6 +414,7 @@ sensor:
 
 binary_sensor:
   - platform: gpio
+    id: doorman_boot_button
     pin:
       number: GPIO0
       inverted: true
@@ -430,35 +423,76 @@ binary_sensor:
         pullup: true
       ignore_strapping_warning: true
     internal: true
-    id: doorman_boot_button
-    name: "Flash Button"
-    icon: "mdi:gesture-tap"
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_listeners
-      sorting_weight: 100
+    on_multi_click:
+      # Single press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at least 1.8s
+        then:
+          - event.trigger:
+              id: doorman_boot_button_event
+              event_type: single_press
+      # Double press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at most 1s
+          - ON for at most 0.5s
+          - OFF for at least 1.7s
+        then:
+          - event.trigger:
+              id: doorman_boot_button_event
+              event_type: double_press
+      # Long press
+      - timing:
+          - ON for at least 5s
+        then:
+          - event.trigger:
+              id: doorman_boot_button_event
+              event_type: long_press
 
   - platform: gpio
     id: doorman_external_button
-    name: "External Button"
-    icon: "mdi:gesture-tap"
-    disabled_by_default: true
     pin:
       number: ${external_button_pin}
       mode:
         pullup: true
         input: true
       inverted: true
-    web_server:
-      sorting_group_id: sorting_group_listeners
-      sorting_weight: 99
+    internal: true
+    on_multi_click:
+      # Single press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at least 1.8s
+        then:
+          - event.trigger:
+              id: doorman_external_button_event
+              event_type: single_press
+      # Double press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at most 1s
+          - ON for at most 0.5s
+          - OFF for at least 1.7s
+        then:
+          - event.trigger:
+              id: doorman_external_button_event
+              event_type: double_press
+      # Long press
+      - timing:
+          - ON for at least 5s
+        then:
+          - event.trigger:
+              id: doorman_external_button_event
+              event_type: long_press
 
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: entrance_doorbell
+    device_id: tc_bus_is
     name: "Entrance Doorbell"
     type: door_call
-    address_lambda: !lambda "return id(entrance_door_station_id).state;"
+    address_lambda: !lambda "return id(entrance_door_station_address).state;"
     auto_off: 0.2s
     disabled_by_default: true
     web_server:
@@ -468,9 +502,10 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: second_entrance_doorbell
+    device_id: tc_bus_is
     name: "Second Entrance Doorbell"
     type: door_call
-    address_lambda: !lambda "return id(second_entrance_door_station_id).state;"
+    address_lambda: !lambda "return id(second_entrance_door_station_address).state;"
     auto_off: 0.2s
     disabled_by_default: true
     web_server:
@@ -480,6 +515,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: apartment_doorbell
+    device_id: tc_bus_is
     name: "Apartment Doorbell"
     type: floor_call
     auto_off: 0.2s
@@ -491,6 +527,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: pick_up_phone_door_call
+    device_id: tc_bus_is
     name: "Pick up phone (door call)"
     icon: "mdi:phone-check"
     type: start_talking_door_call
@@ -504,6 +541,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: hang_up_phone_door_call
+    device_id: tc_bus_is
     name: "Hang up phone (door call)"
     icon: "mdi:phone-remove"
     type: stop_talking_door_call
@@ -517,6 +555,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: pick_up_phone
+    device_id: tc_bus_is
     name: "Pick up phone"
     icon: "mdi:phone-check"
     type: start_talking
@@ -530,6 +569,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: hang_up_phone
+    device_id: tc_bus_is
     name: "Hang up phone"
     icon: "mdi:phone-remove"
     type: stop_talking
@@ -543,6 +583,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: function_button
+    device_id: tc_bus_is
     name: "Function Button"
     icon: "mdi:circle-outline"
     auto_off: 0.2s
@@ -556,6 +597,7 @@ binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
     id: light_button
+    device_id: tc_bus_is
     name: "Light Button"
     icon: "mdi:white-balance-sunny"
     type: light
@@ -565,134 +607,85 @@ binary_sensor:
       sorting_group_id: sorting_group_listeners
       sorting_weight: -7
 
-  - platform: tc_bus_device
-    tc_bus_device_id: tc_bus_indoor_station
-    id: open_entrance_door_button
-    internal: true
-    type: open_door
-    address_lambda: !lambda "return id(entrance_door_station_id).state;"
-    serial_number: 255
-    auto_off: 5s
-    on_press:
-      - lock.template.publish:
-          id: entrance_door
-          state: UNLOCKED
-    on_release:
-      - lock.template.publish:
-          id: entrance_door
-          state: LOCKED
-
-  - platform: tc_bus_device
-    tc_bus_device_id: tc_bus_indoor_station
-    id: open_second_entrance_door_button
-    internal: true
-    type: open_door
-    address_lambda: !lambda "return id(second_entrance_door_station_id).state;"
-    serial_number: 255
-    auto_off: 5s
-    on_press:
-      - lock.template.publish:
-          id: second_entrance_door
-          state: UNLOCKED
-    on_release:
-      - lock.template.publish:
-          id: second_entrance_door
-          state: LOCKED
-
 lock:
-  - platform: template
+  - platform: tc_bus
     id: entrance_door
+    device_id: tc_bus_general
     name: "Entrance Door"
     icon: mdi:door
-    lock_action:
-      - lock.template.publish:
-          id: entrance_door
-          state: LOCKED
-    unlock_action:
-      - lock.template.publish:
-          id: entrance_door
-          state: UNLOCKED
-
+    auto_lock: 5s
+    address_lambda: !lambda "return id(entrance_door_station_address).state;"
+    before_unlock_action:
       - if:
           condition:
-            - lambda: return id(door_opener_mode).state == "Bus Telegram";
+            - lambda: return id(relay_mode).state == "Standalone";
           then:
             - script.execute:
                 id: send_telegram_chain
                 telegram_list: !lambda "return id(entrance_door_before_open_cmds).state;"
-            - tc_bus_device.send:
-                id: tc_bus_indoor_station
-                type: open_door
-                address: !lambda "return id(entrance_door_station_id).state;"
-          else:
-            - switch.turn_on: doorman_relay
-
-      - delay: 5s
-
+    after_unlock_action:
+      # Turn on internal relay
       - if:
           condition:
-            - lambda: return id(door_opener_mode).state == "Internal Relay";
+            - lambda: return id(relay_mode).state == "Any Door Opener" || id(relay_mode).state == "Entrance Door Opener";
+          then:
+            - switch.turn_on: doorman_relay
+    lock_action:
+      # Turn off internal relay
+      - if:
+          condition:
+            - lambda: return id(relay_mode).state == "Any Door Opener" || id(relay_mode).state == "Entrance Door Opener";
           then:
             - switch.turn_off: doorman_relay
-
-      - lock.template.publish:
-          id: entrance_door
-          state: LOCKED
     web_server:
       sorting_group_id: sorting_group_controls
       sorting_weight: 1
 
-  - platform: template
+  - platform: tc_bus
     id: second_entrance_door
+    device_id: tc_bus_general
     name: "Second Entrance Door"
     icon: mdi:door
-    disabled_by_default: true
-    lock_action:
-      - lock.template.publish:
-          id: second_entrance_door
-          state: LOCKED
-    unlock_action:
-      - lock.template.publish:
-          id: second_entrance_door
-          state: UNLOCKED
-
+    auto_lock: 5s
+    address_lambda: !lambda "return id(second_entrance_door_station_address).state;"
+    before_unlock_action:
       - if:
           condition:
-            - lambda: return id(door_opener_mode).state == "Bus Telegram";
+            - lambda: return id(relay_mode).state == "Standalone";
           then:
             - script.execute:
                 id: send_telegram_chain
                 telegram_list: !lambda "return id(second_entrance_door_before_open_cmds).state;"
-            - tc_bus_device.send:
-                id: tc_bus_indoor_station
-                type: open_door
-                address: !lambda "return id(second_entrance_door_station_id).state;"
-
-      - delay: 5s
-
+    after_unlock_action:
+      # Turn on internal relay
       - if:
           condition:
-            - lambda: return id(door_opener_mode).state == "Internal Relay";
+            - lambda: return id(relay_mode).state == "Any Door Opener" || id(relay_mode).state == "Second Entrance Door Opener";
+          then:
+            - switch.turn_on: doorman_relay
+    lock_action:
+      # Turn off internal relay
+      - if:
+          condition:
+            - lambda: return id(relay_mode).state == "Any Door Opener" || id(relay_mode).state == "Second Entrance Door Opener";
           then:
             - switch.turn_off: doorman_relay
-
-      - lock.template.publish:
-          id: second_entrance_door
-          state: LOCKED
     web_server:
       sorting_group_id: sorting_group_controls
       sorting_weight: 2
 
 select:
   - platform: template
-    id: door_opener_mode
-    name: "Door Opener Mode"
-    icon: "mdi:door"
+    id: relay_mode
+    name: "Relay Mode"
+    icon: "mdi:progress-star-four-points"
     optimistic: true
     options:
-      - "Bus Telegram"
-      - "Internal Relay"
-    initial_option: "Bus Telegram"
+      - "Standalone"
+      - "Entrance Door Opener"
+      - "Second Entrance Door Opener"
+      - "Any Door Opener"
+    initial_option: "Standalone"
     restore_value: true
     entity_category: CONFIG
     web_server:
@@ -702,6 +695,7 @@ select:
 event:
   - platform: template
     id: entrance_doorbell_pattern
+    device_id: tc_bus_is
     name: "Entrance Doorbell"
     icon: "mdi:doorbell"
     device_class: DOORBELL
@@ -713,6 +707,7 @@ event:
 
   - platform: template
     id: second_entrance_doorbell_pattern
+    device_id: tc_bus_is
     name: "Second Entrance Doorbell"
     icon: "mdi:doorbell"
     device_class: DOORBELL
@@ -724,6 +719,7 @@ event:
 
   - platform: template
     id: apartment_doorbell_pattern
+    device_id: tc_bus_is
     name: "Apartment Doorbell"
     icon: "mdi:doorbell"
     device_class: DOORBELL
@@ -735,6 +731,7 @@ event:
 
   - platform: template
     id: phone_pick_up_pattern
+    device_id: tc_bus_is
     name: "Phone pick up"
     icon: "mdi:phone-incoming-outgoing"
     event_types:
@@ -742,6 +739,34 @@ event:
     web_server:
       sorting_group_id: sorting_group_listeners
       sorting_weight: -20
+
+  - platform: template
+    id: doorman_boot_button_event
+    name: "Flash Button"
+    icon: "mdi:gesture-tap"
+    device_class: BUTTON
+    disabled_by_default: true
+    event_types:
+      - "single_press"
+      - "double_press"
+      - "long_press"
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: 100
+
+  - platform: template
+    id: doorman_external_button_event
+    name: "External Button"
+    icon: "mdi:gesture-tap"
+    device_class: BUTTON
+    event_types:
+      - "single_press"
+      - "double_press"
+      - "long_press"
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_listeners
+      sorting_weight: 99
 
 script:
   - id: blink_status_led
@@ -777,9 +802,9 @@ script:
                   // Check if entire string was converted and no errors occurred
                   if (endptr == str + token.size() && errno == 0) {
                       if (token.length() == 8) {
-                          id(tc_bus_intercom)->send_telegram(number, true);
+                          id(tc_bus_id)->send_telegram(number, true);
                       } else {
-                          id(tc_bus_intercom)->send_telegram(number);
+                          id(tc_bus_id)->send_telegram(number);
                       }
                   }
               }
@@ -799,9 +824,9 @@ script:
               unsigned long number = std::strtoul(str, &endptr, 16);
               if (endptr == str + token.size() && errno == 0) {
                   if (token.length() == 8) {
-                      id(tc_bus_intercom)->send_telegram(number, true);
+                      id(tc_bus_id)->send_telegram(number, true);
                   } else {
-                      id(tc_bus_intercom)->send_telegram(number);
+                      id(tc_bus_id)->send_telegram(number);
                   }
               }
           }

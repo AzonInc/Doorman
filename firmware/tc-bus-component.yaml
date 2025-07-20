@@ -71,7 +71,7 @@ tc_bus_device:
 text_sensor:
   - platform: tc_bus
     bus_telegram:
-      name: "Last Bus Telegram"
+      name: "Last Telegram"
 
 number:
   - platform: tc_bus_device
@@ -135,6 +135,20 @@ switch:
       name: "IS2: Enforce long Door Opener Telegram"
 
 button:
+  - platform: tc_bus_device
+    tc_bus_device_id: my_indoor_station
+    identify_device:
+      name: "IS1: Identify Indoor Station"
+    read_memory:
+      name: "IS1: Read Memory"
+
+  - platform: tc_bus_device
+    tc_bus_device_id: my_indoor_station2
+    identify_device:
+      name: "IS2: Identify Indoor Station"
+    read_memory:
+      name: "IS2: Read Memory"
+
   - platform: template
     id: open_entrance_door
     name: "Open Entrance Door"

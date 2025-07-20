@@ -2,9 +2,10 @@
 
 switch:
   - platform: template
+    id: doorman_setup_mode
+    device_id: tc_bus_is
     name: Setup Mode
     icon: mdi:account-cog
-    id: doorman_setup_mode
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
     optimistic: true
@@ -59,7 +60,7 @@ tc_bus:
 
           # Save Entrance Door Station address
           - number.set:
-              id: entrance_door_station_id
+              id: entrance_door_station_address
               value: !lambda "return x.address;"
 
           # Waiting for ringtone to finish before proceeding
@@ -73,10 +74,10 @@ tc_bus:
     # If no second door station id is set, wait for one
     - if:
         condition:
-          - lambda: return id(second_entrance_door_station_id).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_id).state;
+          - lambda: return id(second_entrance_door_station_address).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_address).state;
         then:
           - number.set:
-              id: second_entrance_door_station_id
+              id: second_entrance_door_station_address
               value: !lambda "return x.address;"
 
 script:

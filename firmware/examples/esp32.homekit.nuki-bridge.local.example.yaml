@@ -3,8 +3,8 @@
 
 # You can change a few options here.
 substitutions:
-  name: "doorman-s3"
-  friendly_name: "Doorman S3"
+  name: "doorman-s3-local-dev"
+  friendly_name: "Doorman S3 (Development)"
   # log_level: "ERROR"
   # led_pin: "GPIO1"
   # rgb_led_pin: "GPIO2"

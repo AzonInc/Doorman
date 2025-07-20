@@ -457,6 +457,7 @@ binary_sensor:
     serial_number: 123456
 
   - platform: tc_bus_device
+    tc_bus_device_id: my_tc_bus_indoor_station_device
     id: doorbell_sensor_new_other_device
     name: "Outdoor Station Doorbell of other serial number (parser)"
     icon: "mdi:doorbell"
