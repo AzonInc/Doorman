@@ -104,6 +104,7 @@ mode: restart
 trigger:
   platform: state
   entity_id: !input doorbell_sensor
+  not_from: unavailable
 
 condition:
   - condition: state
