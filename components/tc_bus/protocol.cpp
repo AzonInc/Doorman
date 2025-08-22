@@ -8,418 +8,590 @@ namespace esphome
 {
     namespace tc_bus
     {
-        CommandData buildCommand(CommandType type, uint8_t address, uint32_t payload, uint32_t serial_number)
+        TelegramData buildTelegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number)
         {
-            CommandData data{};
-            data.command = 0;
+            TelegramData data{};
+            data.raw = 0;
             data.type = type;
             data.is_long = true;
+            data.is_response = false;
 
             switch (type)
             {
-                case COMMAND_TYPE_DOOR_CALL:
+                case TELEGRAM_TYPE_DATA:
+                    data.is_long = true;
+                    data.is_response = true;
+                    data.is_data = true;
+                    data.raw = payload;
+                    data.payload = payload;
+                    data.serial_number = 0;
+                    data.address = 0;
+                    break;
+
+                case TELEGRAM_TYPE_ACK:
+                    if(payload < 1 || payload > 15)
+                    {
+                        payload = 1;
+                    }
+                    data.payload = payload;
+
+                    data.is_long = false;
+                    data.is_response = true;
+                    data.raw |= (payload & 0xF); // 1
+                    break;
+
+                case TELEGRAM_TYPE_DOOR_CALL:
+                case TELEGRAM_TYPE_INTERNAL_CALL:
                     data.serial_number = serial_number;
                     data.address = address;
-                    data.command |= (0 << 28);  // 0
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command |= (1 << 7);  // 8
-                    data.command |= (data.address & 0x3F); // 0
+
+                    data.raw |= (0 << 28);  // 0
+                    data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+
+                    // Call type
+                    if (type == TELEGRAM_TYPE_INTERNAL_CALL)
+                    {
+                        data.raw |= (1 << 6); // 8
+                    }
+                    else
+                    {
+                        data.raw &= ~(1 << 6); // 0
+                    }
+
+                    // Flags
+                    //data.raw |= (1 << 7);
+
+                    data.raw |= (address & 0x3F); // 0
                     break;
 
-                case COMMAND_TYPE_INTERNAL_CALL:
+                case TELEGRAM_TYPE_FLOOR_CALL:
+                    data.serial_number = serial_number;
+
+                    data.raw |= (1 << 28);  // 1
+                    data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.raw |= 0x41; // 41
+                    break;
+
+                case TELEGRAM_TYPE_START_TALKING_DOOR_CALL:
+                case TELEGRAM_TYPE_START_TALKING:
                     data.serial_number = serial_number;
                     data.address = address;
-                    data.command |= (0 << 28);  // 0
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command &= ~(1 << 7);  // 0
-                    data.command |= (data.address & 0x3F); // 0
+                    data.payload = payload;
+
+                    data.raw |= (3 << 28); // 3
+                    data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+
+                    // Call type
+                    if (type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL) {
+                        data.raw &= ~(1 << 6); // AS
+
+                        // Flags: Door readiness
+                        if(payload > 0)
+                        {
+                            data.raw |= (1 << 7); // door readiness active
+                        }
+                        else
+                        {
+                            data.raw &= ~(1 << 7); // door readiness inactive
+                        }
+                    } else {
+                        data.raw |= (1 << 6); // IA
+
+                        // Flags: Talk Mode
+                        if(payload > 0)
+                        {
+                            data.raw |= (1 << 7); // full duplex
+                        }
+                        else
+                        {
+                            data.raw &= ~(1 << 7); // half duplex
+                        }
+                    }
+
+                    data.raw |= (address & 0x3F); // 0
                     break;
 
-                case COMMAND_TYPE_FLOOR_CALL:
-                    data.serial_number = serial_number;
-                    data.command |= (1 << 28);  // 1
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command |= 0x41; // 41
-                    break;
-
-                case COMMAND_TYPE_START_TALKING_DOOR_CALL:
-                    data.serial_number = serial_number;
-                    data.address = address;
-                    data.command |= (3 << 28); // 3
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command |= (1 << 7);  // 8
-                    data.command |= (data.address & 0x3F); // 0
-                    break;
-
-                case COMMAND_TYPE_START_TALKING:
-                    data.serial_number = serial_number;
-                    data.address = address;
-                    data.command |= (3 << 28); // 3
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command &= ~(1 << 7); // 0
-                    data.command |= (data.address & 0x3F); // 0
-                    break;
-
-                case COMMAND_TYPE_STOP_TALKING_DOOR_CALL:
+                case TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL:
+                case TELEGRAM_TYPE_STOP_TALKING:
                     data.address = address;
                     data.is_long = false;
-                    data.command |= (3 << 12); // 3
-                    data.command |= (1 << 7);  // 08
-                    data.command |= (data.address & 0x3F); // 0
+
+                    data.raw |= (3 << 12); // 3
+
+                    // Flags
+                    if (type == TELEGRAM_TYPE_STOP_TALKING)
+                    {
+                        data.raw |= (1 << 6);  // IA
+                    }
+                    else
+                    {
+                        data.raw &= ~(1 << 6); // AS
+                    }
+                    //data.payload |= (1 << 7);
+
+                    data.raw |= (address & 0x3F); // 0
                     break;
 
-                case COMMAND_TYPE_STOP_TALKING:
+                case TELEGRAM_TYPE_OPEN_DOOR:
                     data.address = address;
+                    data.payload = payload;
                     data.is_long = false;
-                    data.command |= (3 << 12); // 3
-                    data.command &= ~(1 << 7); // 00
-                    data.command |= (data.address & 0x3F); // 0
+
+                    data.raw |= (1 << 12); // 1
+                    data.raw |= (1 << 8); // 1
+
+                    // Flags
+                    if(payload > 0)
+                    {
+                        data.raw |= (1 << 7); // door readiness active
+                    }
+                    else
+                    {
+                        data.raw &= ~(1 << 7); // door readiness inactive
+                    }
+                    //data.raw |= (1 << 6);
+
+                    data.raw |= (address & 0x3F); // 0
                     break;
 
-                case COMMAND_TYPE_OPEN_DOOR:
-                    data.address = address;
-                    data.is_long = false;
-                    data.command |= (1 << 12); // 1
-                    data.command |= (1 << 8); // 1
-                    data.command |= (data.address & 0x3F); // 00
-                    break;
-
-                case COMMAND_TYPE_OPEN_DOOR_LONG:
+                case TELEGRAM_TYPE_OPEN_DOOR_LONG:
                     if(serial_number == 0)
                     {
+                        // Convert to short door opener telegram
+                        data.type = TELEGRAM_TYPE_OPEN_DOOR;
                         data.address = address;
+                        data.payload = payload;
                         data.is_long = false;
-                        data.command |= (1 << 12); // 1
-                        data.command |= (1 << 8); // 1
-                        data.command |= (data.address & 0x3F); // 00
+
+                        data.raw |= (1 << 12); // 1
+                        data.raw |= (1 << 8); // 1
+
+                        // Flags
+                        if(payload > 0)
+                        {
+                            data.raw |= (1 << 7); // door readiness active
+                        }
+                        else
+                        {
+                            data.raw &= ~(1 << 7); // door readiness inactive
+                        }
+                        //data.raw |= (1 << 6);
+
+                        data.raw |= (address & 0x3F); // 0
                     }
                     else
                     {
                         data.serial_number = serial_number;
                         data.address = address;
-                        data.command |= (1 << 28);  // 1
-                        data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                        data.command |= (1 << 7);  // 8
-                        data.command |= (data.address & 0x3F); // 0 
+                        data.payload = payload;
+
+                        data.raw |= (1 << 28);  // 1
+                        data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                        
+                        data.raw |= (1 << 7);
+
+                        // Flags
+                        if(payload > 0)
+                        {
+                            data.raw |= (1 << 6); // door readiness active
+                        }
+                        else
+                        {
+                            data.raw &= ~(1 << 6); // door readiness inactive
+                        }
+
+                        data.raw |= (address & 0x3F); // 0
                     }
                     break;
 
-                case COMMAND_TYPE_LIGHT:
+                case TELEGRAM_TYPE_LIGHT:
                     data.is_long = false;
-                    data.command |= (1 << 12); // 1
-                    data.command |= (2 << 8);  // 2
+
+                    data.raw |= (1 << 12); // 1
+                    data.raw |= (2 << 8);  // 2
                     break;
 
-                case COMMAND_TYPE_CONTROL_FUNCTION:
+                case TELEGRAM_TYPE_CONTROL_FUNCTION:
                     data.serial_number = serial_number;
                     data.payload = payload;
-                    data.command |= (6 << 28); // 6
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command |= (data.payload & 0xFF); // 08
+
+                    data.raw |= (6 << 28); // 6
+                    data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.raw |= (payload & 0xFF); // 08
                     break;
 
-                case COMMAND_TYPE_REQUEST_VERSION:
+                case TELEGRAM_TYPE_REQUEST_VERSION:
                     data.serial_number = serial_number;
-                    data.command |= (5 << 28); // 5
-                    data.command |= ((data.serial_number & 0xFFFFF) << 8); // C30BA
-                    data.command |= (0xC0 & 0xFF); // C0
+
+                    data.raw |= (5 << 28); // 5
+                    data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                    data.raw |= (0xC0 & 0xFF); // C0
                     break;
 
-                case COMMAND_TYPE_RESET:
+                case TELEGRAM_TYPE_RESET:
                     data.is_long = false;
-                    data.command |= (5 << 12); // 5
-                    data.command |= (1 << 8);  // 100
+
+                    data.raw |= (5 << 12); // 5
+                    data.raw |= (1 << 8);  // 100
                     break;
 
-                case COMMAND_TYPE_SEARCH_DOORMAN_DEVICES:
-                    data.is_long = false;    
-                    data.command = 0x7FFF;
+                case TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES:
+                    data.is_long = false;  
+
+                    data.raw = 0x7FFF;
                     break;
 
-                case COMMAND_TYPE_FOUND_DOORMAN_DEVICE:
+                case TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE:
                     data.payload = payload;
-                    data.command |= (0x7F << 24); // 7F
-                    data.command |= data.payload & 0xFFFFFF; // MAC address
+
+                    data.raw |= (0x7F << 24); // 7F
+                    data.raw |= payload & 0xFFFFFF; // MAC address
                     break;
 
-                case COMMAND_TYPE_SELECT_DEVICE_GROUP:
-                    data.payload = payload;
-                    data.is_long = false;
-                    data.command |= (5 << 12); // 5
-                    data.command |= (8 << 8);  // 80
-                    data.command |= (data.payload & 0xFF); // 0
-                    break;
-
-                case COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET:
+                case TELEGRAM_TYPE_SELECT_DEVICE_GROUP:
                     data.payload = payload;
                     data.is_long = false;
-                    data.command |= (5 << 12); // 5
-                    data.command |= (9 << 8);  // 90
-                    data.command |= (data.payload & 0xFF); // 0
+
+                    data.raw |= (5 << 12); // 5
+                    data.raw |= (8 << 8);  // 80
+                    data.raw |= (payload & 0xFF); // 0
                     break;
 
-                case COMMAND_TYPE_SEARCH_DEVICES:
-                    data.is_long = false;
-                    data.command |= (5 << 12); // 5
-                    data.command |= (2 << 8);  // 20
-                    break;
-
-                case COMMAND_TYPE_PROGRAMMING_MODE:
+                case TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET:
                     data.payload = payload;
                     data.is_long = false;
-                    data.command |= (5 << 12); // 5
-                    data.command |= (0 << 8);  // 0
-                    data.command |= (4 << 4);  // 4
-                    data.command |= (data.payload & 0xF); // 0 / 1
+
+                    data.raw |= (5 << 12); // 5
+                    data.raw |= (9 << 8);  // 90
+                    data.raw |= (payload & 0xFF); // 0
                     break;
 
-                case COMMAND_TYPE_READ_MEMORY_BLOCK:
+                case TELEGRAM_TYPE_SEARCH_DEVICES:
+                    data.is_long = false;
+
+                    data.raw |= (5 << 12); // 5
+                    data.raw |= (2 << 8);  // 20
+                    break;
+
+                case TELEGRAM_TYPE_PROGRAMMING_MODE:
+                    data.payload = payload;
+                    data.is_long = false;
+
+                    data.raw |= (5 << 12); // 5
+                    data.raw |= (0 << 8);  // 0
+                    data.raw |= (4 << 4);  // 4
+                    data.raw |= (payload & 0xF); // 0 / 1
+                    break;
+
+                case TELEGRAM_TYPE_READ_MEMORY_BLOCK:
                     data.address = address;
                     data.is_long = false;
-                    data.command |= (8 << 12); // 8
-                    data.command |= (4 << 8);  // 4
-                    data.command |= ((data.address * 4) & 0xFF); // 00
+
+                    data.raw |= (8 << 12); // 8
+                    data.raw |= (4 << 8);  // 4
+                    data.raw |= ((address * 4) & 0xFF); // 00
                     break;
 
-                case COMMAND_TYPE_WRITE_MEMORY:
+                case TELEGRAM_TYPE_WRITE_MEMORY:
                     data.address = address;
                     data.payload = payload;
-                    data.command |= (8 << 28); // 8
-                    data.command |= (2 << 24); // 2
-                    data.command |= (data.address & 0xFF) << 16; // start address
-                    data.command |= data.payload & 0xFFFF; // ABCD payload
+
+                    data.raw |= (8 << 28); // 8
+                    data.raw |= (2 << 24); // 2
+                    data.raw |= (address & 0xFF) << 16; // start address
+                    data.raw |= payload & 0xFFFF; // ABCD payload
                     break;
 
-                case COMMAND_TYPE_SELECT_MEMORY_PAGE:
+                case TELEGRAM_TYPE_SELECT_MEMORY_PAGE:
                     data.serial_number = serial_number;
                     data.address = address;
-                    data.command |= (8 << 28); // 8
-                    data.command |= (1 << 24); // 1
-                    data.command |= (data.address & 0xF) << 20; // page
-                    data.command |= data.serial_number & 0xFFFFF;
+
+                    data.raw |= (8 << 28); // 8
+                    data.raw |= (1 << 24); // 1
+                    data.raw |= (address & 0xF) << 20; // page
+                    data.raw |= serial_number & 0xFFFFF;
                     break;
 
                 default:
                     break;
             }
 
+            // Generate telegram HEX
+            data.hex = str_upper_case(format_hex(data.raw));
+            if(!data.is_long)
+            {
+                if (data.type == TELEGRAM_TYPE_ACK)
+                {
+                    data.hex = data.hex.substr(7);
+                }
+                else
+                {
+                    data.hex = data.hex.substr(4);
+                }
+            }
+
             return data;
         }
 
-        CommandData parseCommand(uint32_t command, bool is_long)
+        TelegramData parseTelegram(uint32_t raw, bool is_long, bool is_response, bool is_data)
         {
-            CommandData data{};
-            data.command = command;
-            data.type = COMMAND_TYPE_UNKNOWN;
+            TelegramData data{};
+            data.raw = raw;
+            data.type = TELEGRAM_TYPE_UNKNOWN;
             data.address = 0;
             data.payload = 0;
             data.is_long = is_long;
+            data.is_response = is_response;
 
-            data.command_hex = str_upper_case(format_hex(command));
-
-            if (is_long)
+            if(is_data)
             {
-                data.serial_number = (command >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
-
-                switch ((command >> 28) & 0xF)
-                {
-                    case 0:
-                        data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CALL : COMMAND_TYPE_INTERNAL_CALL;
-                        data.address = command & 0x3F;
-                        break;
-
-                    case 1:
-                        if ((command & 0xFF) == 0x41)
-                        {
-                            data.type = COMMAND_TYPE_FLOOR_CALL;
-                        }
-                        else if (command & (1 << 7))
-                        {
-                            data.type = COMMAND_TYPE_OPEN_DOOR;
-                            data.address = command & 0x3F;
-                        }
-                        break;
-
-                    case 3:
-                        data.type = (command & (1 << 7)) ? COMMAND_TYPE_START_TALKING_DOOR_CALL : COMMAND_TYPE_START_TALKING;
-                        data.address = command & 0x3F;
-
-                        // Door Readiness
-                        if(data.type == COMMAND_TYPE_START_TALKING_DOOR_CALL)
-                        {
-                            data.payload = (command & (1 << 8)) != 0;
-                        }
-                        break;
-
-                    case 5:
-                        switch ((command >> 4) & 0xF)
-                        {
-                            case 1:
-                                data.type = COMMAND_TYPE_FOUND_DEVICE;
-                                data.address = command & 0xF;
-                                break;
-                            
-                            case 4:
-                                data.type = COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM;
-                                data.address = command & 0xF;
-                                break;
-
-                            case 8:
-                                // Device test
-                                // Not implemented
-                                break;
-
-                            case 0xC:
-                                data.type = COMMAND_TYPE_REQUEST_VERSION;
-
-                                // request type and version
-                                // request versions of subdevices
-                                // Not implemented
-                                // 5 12345 C0
-                                break;
-
-                            default:
-                                // Not implemented
-                                break;
-                        }
-                        break;
-
-                    case 6:
-                        data.type = COMMAND_TYPE_CONTROL_FUNCTION;
-                        data.payload = (command & 0xFF); // Function number
-                        break;
-
-                    case 7:
-                        if(((command >> 24) & 0xFF) == 0x7F)
-                        {
-                            data.type = COMMAND_TYPE_FOUND_DOORMAN_DEVICE;
-                            data.payload = command & 0xFFFFFF; // MAC Address
-                            data.serial_number = 0;
-                        }
-                        break;
-
-                    case 8:
-                        switch ((command >> 24) & 0xF)
-                        {
-                            case 1:
-                            case 9:
-                                data.type = COMMAND_TYPE_SELECT_MEMORY_PAGE;
-                                data.address = (command >> 20) & 0xF;
-                                data.serial_number = command & 0xFFFFF;
-                                break;
-
-                            case 2:
-                                data.type = COMMAND_TYPE_WRITE_MEMORY;
-                                data.address = (command >> 16) & 0xFF;
-                                data.payload = command & 0xFFFF;
-                                data.serial_number = 0;
-                                break;
-                        }
-                        break;
-                }
+                data.type = TELEGRAM_TYPE_DATA;
+                data.is_long = true;
+                data.payload = raw;
+                data.serial_number = 0;
+                data.address = 0;
             }
             else
             {
-                data.command_hex = data.command_hex.substr(4);
-
-                // For 16-bit commands, work on the lower 16 bits
-                uint8_t first = (command >> 12) & 0xF;
-                uint8_t second = (command >> 8) & 0xF;
-
-                if (first == 1)
+                if (raw <= 0xF)
                 {
-                    if (second == 1)
-                    {
-                        data.type = COMMAND_TYPE_OPEN_DOOR;
-                        data.address = command & 0x3F;
-                    }
-                    else if (second == 2)
-                    {
-                        data.type = COMMAND_TYPE_LIGHT;
-                        data.address = 0;
-                    }
+                    // Handle 4-bit acknowledge telegrams
+                    data.type = TELEGRAM_TYPE_ACK;
+                    data.payload = raw & 0xF;
                 }
-                else if (first == 2)
+                else if (is_long)
                 {
-                    switch (second)
-                    {
-                        case 1:
-                            data.type = (command & (1 << 7)) ? COMMAND_TYPE_DOOR_CLOSED : COMMAND_TYPE_DOOR_OPENED;
-                            break;
-                        case 2:
-                            data.type = COMMAND_TYPE_END_OF_RINGTONE;
-                            break;
-                        case 4:
-                            data.type = COMMAND_TYPE_END_OF_DOOR_READINESS;
-                            break;
-                        case 8:
-                            data.type = COMMAND_TYPE_INITIALIZE_DOOR_STATION;
-                            break;
-                    }
-
-                    data.address = command & 0x3F;
-                }
-                else if (first == 3)
-                {
-                    data.type = (command & (1 << 7)) ? COMMAND_TYPE_STOP_TALKING_DOOR_CALL : COMMAND_TYPE_STOP_TALKING;
-                    data.address = command & 0x3F;
-                }
-                else if (first == 5)
-                {
-                    switch(second)
+                    // Handle 32-bit telegrams
+    
+                    data.serial_number = (raw >> 8) & 0xFFFFF; // Serial (from bits 8 to 23)
+    
+                    switch ((raw >> 28) & 0xF)
                     {
                         case 0:
-                            switch((command >> 4) & 0xF)
+                            data.type = (raw & (1 << 6)) != 0 ? TELEGRAM_TYPE_INTERNAL_CALL : TELEGRAM_TYPE_DOOR_CALL;
+                            data.address = raw & 0x3F;
+    
+                            // data.payload = raw & (1 << 7);
+                            break;
+    
+                        case 1:
+                            if ((raw & 0xFF) == 0x41)
                             {
+                                data.type = TELEGRAM_TYPE_FLOOR_CALL;
+                            }
+                            else if (raw & (1 << 7))
+                            {
+                                data.type = TELEGRAM_TYPE_OPEN_DOOR;
+                                data.address = raw & 0x3F;
+    
+                                // Door readiness
+                                data.payload = (raw & (1 << 6)) != 0;
+                            }
+                            break;
+    
+                        case 3:
+                            data.type = (raw & (1 << 6)) != 0 ? TELEGRAM_TYPE_START_TALKING : TELEGRAM_TYPE_START_TALKING_DOOR_CALL;
+                            data.address = raw & 0x3F;
+    
+                            // Flags
+                            if(data.type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL)
+                            {
+                                data.payload = (raw & (1 << 7)) != 0; // Door Readiness
+                            }
+                            else if(data.type == TELEGRAM_TYPE_START_TALKING)
+                            {
+                                data.payload = (raw & (1 << 7)) != 0; // half duplex / full duplex
+                            }
+                            break;
+    
+                        case 5:
+                            switch ((raw >> 4) & 0xF)
+                            {
+                                case 1:
+                                    data.type = TELEGRAM_TYPE_FOUND_DEVICE;
+                                    data.address = raw & 0xF;
+                                    break;
+                                
                                 case 4:
-                                    data.type = COMMAND_TYPE_PROGRAMMING_MODE;
-                                    data.payload = command & 0xF;
+                                    data.type = TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM;
+                                    data.address = raw & 0xF;
+                                    break;
+    
+                                case 8:
+                                    // Device test
+                                    // Not implemented
+                                    break;
+    
+                                case 0xC:
+                                    data.type = TELEGRAM_TYPE_REQUEST_VERSION;
+    
+                                    // request type and version
+                                    // request versions of subdevices
+                                    // Not implemented
+                                    // 5 12345 C0
+                                    break;
+    
+                                default:
+                                    // Not implemented
                                     break;
                             }
                             break;
-
-                        case 1:
-                            data.type = COMMAND_TYPE_RESET;
-                            data.address = command & 0xF;
+    
+                        case 6:
+                            data.type = TELEGRAM_TYPE_CONTROL_FUNCTION;
+                            data.payload = (raw & 0xFF); // Function number
                             break;
-
-                        case 2:
-                            data.type = COMMAND_TYPE_SEARCH_DEVICES;
-                            data.payload = command & 0xF;
+    
+                        case 7:
+                            if(((raw >> 24) & 0xFF) == 0x7F)
+                            {
+                                data.type = TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE;
+                                data.payload = raw & 0xFFFFFF; // MAC Address
+                                data.serial_number = 0;
+                            }
                             break;
-
+    
                         case 8:
-                            data.type = COMMAND_TYPE_SELECT_DEVICE_GROUP;
-                            data.payload = command & 0xF;
-                            break;
-
-                        case 9:
-                            data.type = COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET;
-                            data.payload = command & 0xF;
+                            switch ((raw >> 24) & 0xF)
+                            {
+                                case 1:
+                                case 9:
+                                    data.type = TELEGRAM_TYPE_SELECT_MEMORY_PAGE;
+                                    data.address = (raw >> 20) & 0xF;
+                                    data.serial_number = raw & 0xFFFFF;
+                                    break;
+    
+                                case 2:
+                                    data.type = TELEGRAM_TYPE_WRITE_MEMORY;
+                                    data.address = (raw >> 16) & 0xFF;
+                                    data.payload = raw & 0xFFFF;
+                                    data.serial_number = 0;
+                                    break;
+                            }
                             break;
                     }
                 }
-                else if (first == 7)
+                else
                 {
-                    if(command == 0x7FFF)
+                    // Handle 16 bit telegrams
+    
+                    // For 16-bit telegrams, work on the lower 16 bits
+                    uint8_t first = (raw >> 12) & 0xF;
+                    uint8_t second = (raw >> 8) & 0xF;
+    
+                    if (first == 1)
                     {
-                        data.type = COMMAND_TYPE_SEARCH_DOORMAN_DEVICES;
+                        if (second == 1)
+                        {
+                            data.type = TELEGRAM_TYPE_OPEN_DOOR;
+                            data.address = raw & 0x3F;
+    
+                            // Door readiness
+                            data.payload = (raw & (1 << 6)) != 0;
+    
+                        }
+                        else if (second == 2)
+                        {
+                            data.type = TELEGRAM_TYPE_LIGHT;
+                            data.address = 0;
+                        }
+                    }
+                    else if (first == 2)
+                    {
+                        switch (second)
+                        {
+                            case 1:
+                                data.type = (raw & (1 << 7)) ? TELEGRAM_TYPE_DOOR_CLOSED : TELEGRAM_TYPE_DOOR_OPENED;
+                                break;
+                            case 2:
+                                data.type = TELEGRAM_TYPE_END_OF_RINGTONE;
+                                break;
+                            case 4:
+                                data.type = TELEGRAM_TYPE_END_OF_DOOR_READINESS;
+                                break;
+                            case 8:
+                                data.type = TELEGRAM_TYPE_INITIALIZE_DOOR_STATION;
+                                break;
+                        }
+    
+                        data.address = raw & 0x3F;
+                    }
+                    else if (first == 3)
+                    {
+                        data.type = (raw & (1 << 6)) ? TELEGRAM_TYPE_STOP_TALKING : TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL;
+                        data.address = raw & 0x3F;
+                    }
+                    else if (first == 5)
+                    {
+                        switch(second)
+                        {
+                            case 0:
+                                switch((raw >> 4) & 0xF)
+                                {
+                                    case 4:
+                                        data.type = TELEGRAM_TYPE_PROGRAMMING_MODE;
+                                        data.payload = raw & 0xF;
+                                        break;
+                                }
+                                break;
+    
+                            case 1:
+                                data.type = TELEGRAM_TYPE_RESET;
+                                data.address = raw & 0xF;
+                                break;
+    
+                            case 2:
+                                data.type = TELEGRAM_TYPE_SEARCH_DEVICES;
+                                data.payload = raw & 0xF;
+                                break;
+    
+                            case 8:
+                                data.type = TELEGRAM_TYPE_SELECT_DEVICE_GROUP;
+                                data.payload = raw & 0xF;
+                                break;
+    
+                            case 9:
+                                data.type = TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET;
+                                data.payload = raw & 0xF;
+                                break;
+                        }
+                    }
+                    else if (first == 7)
+                    {
+                        if(raw == 0x7FFF)
+                        {
+                            data.type = TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES;
+                        }
+                    }
+                    else if (first == 8)
+                    {
+                        switch(second)
+                        {
+                            case 1:
+                                data.type = TELEGRAM_TYPE_SELECT_MEMORY_PAGE;
+                                data.address = (raw & 0xFF);
+                                break;
+    
+                            case 4:
+                                data.type = TELEGRAM_TYPE_READ_MEMORY_BLOCK;
+                                data.address = (raw & 0xFF) / 4;
+                                break;
+                        }
                     }
                 }
-                else if (first == 8)
-                {
-                    switch(second)
-                    {
-                        case 1:
-                            data.type = COMMAND_TYPE_SELECT_MEMORY_PAGE;
-                            data.address = (command & 0xFF);
-                            break;
+            }
 
-                        case 4:
-                            data.type = COMMAND_TYPE_READ_MEMORY_BLOCK;
-                            data.address = (command & 0xFF) / 4;
-                            break;
-                    }
+            // Generate telegram HEX
+            data.hex = str_upper_case(format_hex(data.raw));
+            if(!data.is_long)
+            {
+                if (data.type == TELEGRAM_TYPE_ACK)
+                {
+                    data.hex = data.hex.substr(7);
+                }
+                else
+                {
+                    data.hex = data.hex.substr(4);
                 }
             }
 
@@ -459,76 +631,80 @@ namespace esphome
         }
 
 
-        CommandType string_to_command_type(std::string str)
+        TelegramType string_to_telegram_type(std::string str)
         {
             std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
-            if (str == "SEARCH_DOORMAN_DEVICES") return COMMAND_TYPE_SEARCH_DOORMAN_DEVICES;
-            if (str == "FOUND_DOORMAN_DEVICE") return COMMAND_TYPE_FOUND_DOORMAN_DEVICE;
-            if (str == "DOOR_CALL") return COMMAND_TYPE_DOOR_CALL;
-            if (str == "FLOOR_CALL") return COMMAND_TYPE_FLOOR_CALL;
-            if (str == "INTERNAL_CALL") return COMMAND_TYPE_INTERNAL_CALL;
-            if (str == "CONTROL_FUNCTION") return COMMAND_TYPE_CONTROL_FUNCTION;
-            if (str == "START_TALKING_DOOR_CALL") return COMMAND_TYPE_START_TALKING_DOOR_CALL;
-            if (str == "START_TALKING") return COMMAND_TYPE_START_TALKING;
-            if (str == "STOP_TALKING_DOOR_CALL") return COMMAND_TYPE_STOP_TALKING_DOOR_CALL;
-            if (str == "STOP_TALKING") return COMMAND_TYPE_STOP_TALKING;
-            if (str == "OPEN_DOOR") return COMMAND_TYPE_OPEN_DOOR;
-            if (str == "OPEN_DOOR_LONG") return COMMAND_TYPE_OPEN_DOOR_LONG;
-            if (str == "LIGHT") return COMMAND_TYPE_LIGHT;
-            if (str == "DOOR_OPENED") return COMMAND_TYPE_DOOR_OPENED;
-            if (str == "DOOR_CLOSED") return COMMAND_TYPE_DOOR_CLOSED;
-            if (str == "END_OF_RINGTONE") return COMMAND_TYPE_END_OF_RINGTONE;
-            if (str == "END_OF_DOOR_READINESS") return COMMAND_TYPE_END_OF_DOOR_READINESS;
-            if (str == "INITIALIZE_DOOR_STATION") return COMMAND_TYPE_INITIALIZE_DOOR_STATION;
-            if (str == "RESET") return COMMAND_TYPE_RESET;
-            if (str == "SELECT_DEVICE_GROUP") return COMMAND_TYPE_SELECT_DEVICE_GROUP;
-            if (str == "SELECT_DEVICE_GROUP_RESET") return COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET;
-            if (str == "SEARCH_DEVICES") return COMMAND_TYPE_SEARCH_DEVICES;
-            if (str == "FOUND_DEVICE") return COMMAND_TYPE_FOUND_DEVICE;
-            if (str == "FOUND_DEVICE_SUBSYSTEM") return COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM;
-            if (str == "PROGRAMMING_MODE") return COMMAND_TYPE_PROGRAMMING_MODE;
-            if (str == "READ_MEMORY_BLOCK") return COMMAND_TYPE_READ_MEMORY_BLOCK;
-            if (str == "SELECT_MEMORY_PAGE") return COMMAND_TYPE_SELECT_MEMORY_PAGE;
-            if (str == "WRITE_MEMORY") return COMMAND_TYPE_WRITE_MEMORY;
-            if (str == "REQUEST_VERSION") return COMMAND_TYPE_REQUEST_VERSION;
+            if (str == "SEARCH_DOORMAN_DEVICES") return TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES;
+            if (str == "FOUND_DOORMAN_DEVICE") return TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE;
+            if (str == "DOOR_CALL") return TELEGRAM_TYPE_DOOR_CALL;
+            if (str == "FLOOR_CALL") return TELEGRAM_TYPE_FLOOR_CALL;
+            if (str == "INTERNAL_CALL") return TELEGRAM_TYPE_INTERNAL_CALL;
+            if (str == "CONTROL_FUNCTION") return TELEGRAM_TYPE_CONTROL_FUNCTION;
+            if (str == "START_TALKING_DOOR_CALL") return TELEGRAM_TYPE_START_TALKING_DOOR_CALL;
+            if (str == "START_TALKING") return TELEGRAM_TYPE_START_TALKING;
+            if (str == "STOP_TALKING_DOOR_CALL") return TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL;
+            if (str == "STOP_TALKING") return TELEGRAM_TYPE_STOP_TALKING;
+            if (str == "OPEN_DOOR") return TELEGRAM_TYPE_OPEN_DOOR;
+            if (str == "OPEN_DOOR_LONG") return TELEGRAM_TYPE_OPEN_DOOR_LONG;
+            if (str == "LIGHT") return TELEGRAM_TYPE_LIGHT;
+            if (str == "DOOR_OPENED") return TELEGRAM_TYPE_DOOR_OPENED;
+            if (str == "DOOR_CLOSED") return TELEGRAM_TYPE_DOOR_CLOSED;
+            if (str == "END_OF_RINGTONE") return TELEGRAM_TYPE_END_OF_RINGTONE;
+            if (str == "END_OF_DOOR_READINESS") return TELEGRAM_TYPE_END_OF_DOOR_READINESS;
+            if (str == "INITIALIZE_DOOR_STATION") return TELEGRAM_TYPE_INITIALIZE_DOOR_STATION;
+            if (str == "RESET") return TELEGRAM_TYPE_RESET;
+            if (str == "SELECT_DEVICE_GROUP") return TELEGRAM_TYPE_SELECT_DEVICE_GROUP;
+            if (str == "SELECT_DEVICE_GROUP_RESET") return TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET;
+            if (str == "SEARCH_DEVICES") return TELEGRAM_TYPE_SEARCH_DEVICES;
+            if (str == "FOUND_DEVICE") return TELEGRAM_TYPE_FOUND_DEVICE;
+            if (str == "FOUND_DEVICE_SUBSYSTEM") return TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM;
+            if (str == "PROGRAMMING_MODE") return TELEGRAM_TYPE_PROGRAMMING_MODE;
+            if (str == "READ_MEMORY_BLOCK") return TELEGRAM_TYPE_READ_MEMORY_BLOCK;
+            if (str == "SELECT_MEMORY_PAGE") return TELEGRAM_TYPE_SELECT_MEMORY_PAGE;
+            if (str == "WRITE_MEMORY") return TELEGRAM_TYPE_WRITE_MEMORY;
+            if (str == "REQUEST_VERSION") return TELEGRAM_TYPE_REQUEST_VERSION;
+            if (str == "ACK") return TELEGRAM_TYPE_ACK;
+            if (str == "DATA") return TELEGRAM_TYPE_DATA;
 
-            return COMMAND_TYPE_UNKNOWN;
+            return TELEGRAM_TYPE_UNKNOWN;
         }
 
-        const char* command_type_to_string(CommandType type)
+        const char* telegram_type_to_string(TelegramType type)
         {
             switch (type)
             {
-                case COMMAND_TYPE_SEARCH_DOORMAN_DEVICES: return "SEARCH_DOORMAN_DEVICES";
-                case COMMAND_TYPE_FOUND_DOORMAN_DEVICE: return "FOUND_DOORMAN_DEVICE";
-                case COMMAND_TYPE_DOOR_CALL: return "DOOR_CALL";
-                case COMMAND_TYPE_FLOOR_CALL: return "FLOOR_CALL";
-                case COMMAND_TYPE_INTERNAL_CALL: return "INTERNAL_CALL";
-                case COMMAND_TYPE_CONTROL_FUNCTION: return "CONTROL_FUNCTION";
-                case COMMAND_TYPE_START_TALKING_DOOR_CALL: return "START_TALKING_DOOR_CALL";
-                case COMMAND_TYPE_START_TALKING: return "START_TALKING";
-                case COMMAND_TYPE_STOP_TALKING_DOOR_CALL: return "STOP_TALKING_DOOR_CALL";
-                case COMMAND_TYPE_STOP_TALKING: return "STOP_TALKING";
-                case COMMAND_TYPE_OPEN_DOOR: return "OPEN_DOOR";
-                case COMMAND_TYPE_OPEN_DOOR_LONG: return "OPEN_DOOR_LONG";
-                case COMMAND_TYPE_LIGHT: return "LIGHT";
-                case COMMAND_TYPE_DOOR_OPENED: return "DOOR_OPENED";
-                case COMMAND_TYPE_DOOR_CLOSED: return "DOOR_CLOSED";
-                case COMMAND_TYPE_END_OF_RINGTONE: return "END_OF_RINGTONE";
-                case COMMAND_TYPE_END_OF_DOOR_READINESS: return "END_OF_DOOR_READINESS";
-                case COMMAND_TYPE_INITIALIZE_DOOR_STATION: return "INITIALIZE_DOOR_STATION";
-                case COMMAND_TYPE_RESET: return "RESET";
-                case COMMAND_TYPE_SELECT_DEVICE_GROUP: return "SELECT_DEVICE_GROUP";
-                case COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET: return "SELECT_DEVICE_GROUP_RESET";
-                case COMMAND_TYPE_SEARCH_DEVICES: return "SEARCH_DEVICES";
-                case COMMAND_TYPE_FOUND_DEVICE: return "FOUND_DEVICE";
-                case COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM: return "FOUND_DEVICE_SUBSYSTEM";
-                case COMMAND_TYPE_PROGRAMMING_MODE: return "PROGRAMMING_MODE";
-                case COMMAND_TYPE_READ_MEMORY_BLOCK: return "READ_MEMORY_BLOCK";
-                case COMMAND_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
-                case COMMAND_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
-                case COMMAND_TYPE_REQUEST_VERSION: return "REQUEST_VERSION";
+                case TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES: return "SEARCH_DOORMAN_DEVICES";
+                case TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE: return "FOUND_DOORMAN_DEVICE";
+                case TELEGRAM_TYPE_DOOR_CALL: return "DOOR_CALL";
+                case TELEGRAM_TYPE_FLOOR_CALL: return "FLOOR_CALL";
+                case TELEGRAM_TYPE_INTERNAL_CALL: return "INTERNAL_CALL";
+                case TELEGRAM_TYPE_CONTROL_FUNCTION: return "CONTROL_FUNCTION";
+                case TELEGRAM_TYPE_START_TALKING_DOOR_CALL: return "START_TALKING_DOOR_CALL";
+                case TELEGRAM_TYPE_START_TALKING: return "START_TALKING";
+                case TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL: return "STOP_TALKING_DOOR_CALL";
+                case TELEGRAM_TYPE_STOP_TALKING: return "STOP_TALKING";
+                case TELEGRAM_TYPE_OPEN_DOOR: return "OPEN_DOOR";
+                case TELEGRAM_TYPE_OPEN_DOOR_LONG: return "OPEN_DOOR_LONG";
+                case TELEGRAM_TYPE_LIGHT: return "LIGHT";
+                case TELEGRAM_TYPE_DOOR_OPENED: return "DOOR_OPENED";
+                case TELEGRAM_TYPE_DOOR_CLOSED: return "DOOR_CLOSED";
+                case TELEGRAM_TYPE_END_OF_RINGTONE: return "END_OF_RINGTONE";
+                case TELEGRAM_TYPE_END_OF_DOOR_READINESS: return "END_OF_DOOR_READINESS";
+                case TELEGRAM_TYPE_INITIALIZE_DOOR_STATION: return "INITIALIZE_DOOR_STATION";
+                case TELEGRAM_TYPE_RESET: return "RESET";
+                case TELEGRAM_TYPE_SELECT_DEVICE_GROUP: return "SELECT_DEVICE_GROUP";
+                case TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET: return "SELECT_DEVICE_GROUP_RESET";
+                case TELEGRAM_TYPE_SEARCH_DEVICES: return "SEARCH_DEVICES";
+                case TELEGRAM_TYPE_FOUND_DEVICE: return "FOUND_DEVICE";
+                case TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM: return "FOUND_DEVICE_SUBSYSTEM";
+                case TELEGRAM_TYPE_PROGRAMMING_MODE: return "PROGRAMMING_MODE";
+                case TELEGRAM_TYPE_READ_MEMORY_BLOCK: return "READ_MEMORY_BLOCK";
+                case TELEGRAM_TYPE_SELECT_MEMORY_PAGE: return "SELECT_MEMORY_PAGE";
+                case TELEGRAM_TYPE_WRITE_MEMORY: return "WRITE_MEMORY";
+                case TELEGRAM_TYPE_REQUEST_VERSION: return "REQUEST_VERSION";
+                case TELEGRAM_TYPE_ACK: return "ACK";
+                case TELEGRAM_TYPE_DATA: return "DATA";
                 default: return "UNKNOWN";
             }
         }
@@ -573,6 +749,8 @@ namespace esphome
             if (str == "TCS ISH3230 / Koch TCH50 GFA") return MODEL_ISH3230;
             if (str == "TCS ISH3030 / Koch TCH50 / Scantron Lux2") return MODEL_ISH3030;
             if (str == "TCS ISH1030 / Koch TTS25") return MODEL_ISH1030;
+            if (str == "TCS TTC-XX") return MODEL_TTCXX;
+            if (str == "TCS TTS-XX") return MODEL_TTSXX;
             if (str == "TCS IMM1000 / Koch TCH30") return MODEL_IMM1000;
             if (str == "TCS IMM1100 / Koch TCHE30") return MODEL_IMM1100;
             if (str == "TCS IMM1300 / Koch VTCH30") return MODEL_IMM1300;
@@ -599,117 +777,143 @@ namespace esphome
             if (str == "TCS IVW9030 / Scantron SLIM50T") return MODEL_IVW9030;
             if (str == "TCS IVE70") return MODEL_IVE70;
 
+            if (str == "TCS BVS20") return CONTROLLER_MODEL_BVS20;
+            if (str == "TCS BVS30") return CONTROLLER_MODEL_BVS30;
+            if (str == "TCS NBV3210") return CONTROLLER_MODEL_NBV3210;
+            if (str == "TCS VBVS30") return CONTROLLER_MODEL_VBVS30;
+            if (str == "TCS NBV2600") return CONTROLLER_MODEL_NBV2600;
+
+            if (str == "DEBUG IS0") return MODEL_DEBUG_IS0;
+            if (str == "DEBUG IS1") return MODEL_DEBUG_IS1;
+            if (str == "DEBUG AS") return MODEL_DEBUG_AS;
+            if (str == "DEBUG CONTROLLER") return MODEL_DEBUG_CONTROLLER;
+
             return MODEL_NONE;
         }
 
-        Model identifier_string_to_model(const std::string& model_key, const uint8_t& hw_version, const uint32_t& fw_version)
+        Model identifier_string_to_model(const uint8_t& device_group, const std::string& model_key, const uint8_t& hw_version, const uint32_t& fw_version)
         {
-            if (model_key == "000") return MODEL_ISH3030;
-            else if (model_key == "010") return MODEL_ISW3030;
-            else if (model_key == "001") return MODEL_ISH3230;
-            else if (model_key == "011") return MODEL_ISW3230;
-            else if (model_key == "003") return MODEL_ISH3130;
-            else if (model_key == "013") return MODEL_ISW3130;
-            else if (model_key == "015") return MODEL_ISW3330;
-            else if (model_key == "002") return MODEL_ISH3022;
-            else if (model_key == "017") return MODEL_ISW3340;
-            else if (model_key == "800") return MODEL_IVH3222;
-            else if (model_key == "900") return MODEL_IVH4222;
-            else if (model_key == "B00") return MODEL_IMM1000;
-            else if (model_key == "200") return MODEL_ISW4100;
-            else if (model_key == "201") return MODEL_IMM2100;
-            else if (model_key == "020" || model_key == "021" || model_key == "022" || model_key == "023" ||
-                    model_key == "024" || model_key == "025" || model_key == "026" || model_key == "027")
-                return MODEL_ISW5010;
+            if(device_group == 0 || device_group == 1)
+            {
+                if (model_key == "000") return MODEL_ISH3030;
+                else if (model_key == "010") return MODEL_ISW3030;
+                else if (model_key == "001") return MODEL_ISH3230;
+                else if (model_key == "011") return MODEL_ISW3230;
+                else if (model_key == "003") return MODEL_ISH3130;
+                else if (model_key == "013") return MODEL_ISW3130;
+                else if (model_key == "015") return MODEL_ISW3330;
+                else if (model_key == "002") return MODEL_ISH3022;
+                else if (model_key == "017") return MODEL_ISW3340;
+                else if (model_key == "800") return MODEL_IVH3222;
+                else if (model_key == "900") return MODEL_IVH4222;
+                else if (model_key == "B00") return MODEL_IMM1000;
+                else if (model_key == "200") return MODEL_ISW4100;
+                else if (model_key == "201") return MODEL_IMM2100;
+                else if (model_key == "020" || model_key == "021" || model_key == "022" || model_key == "023" ||
+                        model_key == "024" || model_key == "025" || model_key == "026" || model_key == "027")
+                    return MODEL_ISW5010;
 
-            else if (model_key == "030" || model_key == "031" || model_key == "032")
-                return MODEL_IVW511X;
+                else if (model_key == "030" || model_key == "031" || model_key == "032")
+                    return MODEL_IVW511X;
 
-            else if (model_key == "03A" || model_key == "03B" || model_key == "03C" || model_key == "03D" || model_key == "03F")
-                return MODEL_IVW521X;
+                else if (model_key == "03A" || model_key == "03B" || model_key == "03C" || model_key == "03D" || model_key == "03F")
+                    return MODEL_IVW521X;
 
-            else if (model_key == "028" || model_key == "02B" || model_key == "02F")
-                return MODEL_ISW5020;
+                else if (model_key == "028" || model_key == "02B" || model_key == "02F")
+                    return MODEL_ISW5020;
 
-            else if (model_key == "068" || model_key == "06F")
-                return MODEL_ISW5030;
+                else if (model_key == "068" || model_key == "06F")
+                    return MODEL_ISW5030;
 
-            else if (model_key == "068" || model_key == "06F")
-                return MODEL_ISW5031;
+                else if (model_key == "068" || model_key == "06F")
+                    return MODEL_ISW5031;
 
-            else if (model_key == "060") return MODEL_ISW5033;
+                else if (model_key == "060") return MODEL_ISW5033;
 
-            else if (model_key == "070" || model_key == "071" || model_key == "072" || model_key == "073" ||
-                    model_key == "074" || model_key == "075" || model_key == "076" || model_key == "077")
-                return MODEL_ISW6031;
+                else if (model_key == "070" || model_key == "071" || model_key == "072" || model_key == "073" ||
+                        model_key == "074" || model_key == "075" || model_key == "076" || model_key == "077")
+                    return MODEL_ISW6031;
 
-            else if (model_key == "080" || model_key == "081" || model_key == "082" || model_key == "083" ||
-                    model_key == "084" || model_key == "085" || model_key == "086" || model_key == "087")
-                return MODEL_ISW7030;
+                else if (model_key == "080" || model_key == "081" || model_key == "082" || model_key == "083" ||
+                        model_key == "084" || model_key == "085" || model_key == "086" || model_key == "087")
+                    return MODEL_ISW7030;
 
-            else if (model_key == "088" || model_key == "089" || model_key == "08A" || model_key == "08B" ||
-                    model_key == "08C" || model_key == "08D" || model_key == "08E" || model_key == "08F")
-                return MODEL_IVW7510;
+                else if (model_key == "088" || model_key == "089" || model_key == "08A" || model_key == "08B" ||
+                        model_key == "08C" || model_key == "08D" || model_key == "08E" || model_key == "08F")
+                    return MODEL_IVW7510;
 
-            else if (model_key == "180" || model_key == "181" || model_key == "182" || model_key == "183" ||
-                    model_key == "184" || model_key == "185" || model_key == "186" || model_key == "187")
-                return MODEL_ISH7030;
+                else if (model_key == "180" || model_key == "181" || model_key == "182" || model_key == "183" ||
+                        model_key == "184" || model_key == "185" || model_key == "186" || model_key == "187")
+                    return MODEL_ISH7030;
 
-            else if (model_key == "188" || model_key == "189" || model_key == "18A" || model_key == "18B" ||
-                    model_key == "18C" || model_key == "18D" || model_key == "18E" || model_key == "18F")
-                return MODEL_IVH7510;
+                else if (model_key == "188" || model_key == "189" || model_key == "18A" || model_key == "18B" ||
+                        model_key == "18C" || model_key == "18D" || model_key == "18E" || model_key == "18F")
+                    return MODEL_IVH7510;
 
-            else if (model_key == "078" || model_key == "079" || model_key == "07A" || model_key == "07B" ||
-                    model_key == "07C" || model_key == "07D" || model_key == "07E" || model_key == "07F")
-                return MODEL_ISW6010;
+                else if (model_key == "078" || model_key == "079" || model_key == "07A" || model_key == "07B" ||
+                        model_key == "07C" || model_key == "07D" || model_key == "07E" || model_key == "07F")
+                    return MODEL_ISW6010;
 
-            else if (model_key == "058" || model_key == "059" || model_key == "05A" || model_key == "05B" ||
-                    model_key == "05C" || model_key == "05D" || model_key == "05E" || model_key == "05F")
-                return MODEL_IVW6511;
+                else if (model_key == "058" || model_key == "059" || model_key == "05A" || model_key == "05B" ||
+                        model_key == "05C" || model_key == "05D" || model_key == "05E" || model_key == "05F")
+                    return MODEL_IVW6511;
 
-            else if (model_key == "C70" || model_key == "C71" || model_key == "C72" || model_key == "C73" ||
-                    model_key == "C74" || model_key == "C75" || model_key == "C76" || model_key == "C77")
-                return MODEL_ISW7030;
+                else if (model_key == "C70" || model_key == "C71" || model_key == "C72" || model_key == "C73" ||
+                        model_key == "C74" || model_key == "C75" || model_key == "C76" || model_key == "C77")
+                    return MODEL_ISW7030;
 
-            else if (model_key == "C90" || model_key == "C91" || model_key == "C92" || model_key == "C93" ||
-                    model_key == "C94" || model_key == "C95" || model_key == "C96" || model_key == "C97")
-                return MODEL_ISWM7000;
+                else if (model_key == "C90" || model_key == "C91" || model_key == "C92" || model_key == "C93" ||
+                        model_key == "C94" || model_key == "C95" || model_key == "C96" || model_key == "C97")
+                    return MODEL_ISWM7000;
 
-            else if (model_key == "C80" || model_key == "C81" || model_key == "C82" || model_key == "C83" ||
-                    model_key == "C84" || model_key == "C85" || model_key == "C86" || model_key == "C87")
-                return MODEL_IVWM7000;
+                else if (model_key == "C80" || model_key == "C81" || model_key == "C82" || model_key == "C83" ||
+                        model_key == "C84" || model_key == "C85" || model_key == "C86" || model_key == "C87")
+                    return MODEL_IVWM7000;
 
-            else if (model_key == "800" || model_key == "805") return MODEL_IVW2210;
-            else if (model_key == "807") return MODEL_IVW2211;
-            else if (model_key == "80C") return MODEL_IVW2212;
-            else if (model_key == "810") return MODEL_IVW2220;
-            else if (model_key == "815") return MODEL_IVW2221;
-            else if (model_key == "820") return MODEL_IVW3011;
-            else if (model_key == "830") return MODEL_IVW3012;
+                else if (model_key == "800" || model_key == "805") return MODEL_IVW2210;
+                else if (model_key == "807") return MODEL_IVW2211;
+                else if (model_key == "80C") return MODEL_IVW2212;
+                else if (model_key == "810") return MODEL_IVW2220;
+                else if (model_key == "815") return MODEL_IVW2221;
+                else if (model_key == "820") return MODEL_IVW3011;
+                else if (model_key == "830") return MODEL_IVW3012;
 
-            else if (model_key == "C01") return MODEL_VMH;
-            else if (model_key == "C00") return MODEL_VML;
-            else if (model_key == "C02") return MODEL_VMF;
-            else if (model_key == "400") return MODEL_ISW42X0;
-            else if (model_key == "410") return MODEL_TKIS;
-            else if (model_key == "420") return MODEL_TKISV;
-            else if (model_key == "208") return MODEL_CAIXXXX;
-            else if (model_key == "809") return MODEL_CAI2000;
-            else if (model_key == "280") {
-                if(fw_version >= 512) return MODEL_VTC42V2;
-                else return MODEL_VTC40;
+                else if (model_key == "C01") return MODEL_VMH;
+                else if (model_key == "C00") return MODEL_VML;
+                else if (model_key == "C02") return MODEL_VMF;
+                else if (model_key == "400") return MODEL_ISW42X0;
+                else if (model_key == "410") return MODEL_TKIS;
+                else if (model_key == "420") return MODEL_TKISV;
+                else if (model_key == "208") return MODEL_CAIXXXX;
+                else if (model_key == "809") return MODEL_CAI2000;
+                else if (model_key == "280") {
+                    if(fw_version >= 512) return MODEL_VTC42V2;
+                    else return MODEL_VTC40;
+                }
+                else if (model_key == "281") {
+                    if(fw_version >= 512) return MODEL_TC40V2;
+                    else return MODEL_TC40;
+                }
+            
+                else if (model_key == "194") return MODEL_IVW9030;
+                else if (model_key == "1E8") return MODEL_IVW9010;
+                else if (model_key == "1EA") return MODEL_IVW9110;
+                else if (model_key == "1E9") return MODEL_IVW9011;
+                else if (model_key == "1B3" || model_key == "1B4" || model_key == "1B5")
+                    return MODEL_IVE70;
             }
-            else if (model_key == "281") {
-                if(fw_version >= 512) return MODEL_TC40V2;
-                else return MODEL_TC40;
+            else if(device_group == 4)
+            {
+                if (model_key == "008") return CONTROLLER_MODEL_BVS30;
+                else if (model_key == "010") return CONTROLLER_MODEL_NBV3210;
+                else if (model_key == "009") return CONTROLLER_MODEL_VBVS30;
+                else if (model_key == "D2D") return CONTROLLER_MODEL_NBV2600;
             }
-        
-            else if (model_key == "194") return MODEL_IVW9030;
-            else if (model_key == "1E8") return MODEL_IVW9010;
-            else if (model_key == "1EA") return MODEL_IVW9110;
-            else if (model_key == "1E9") return MODEL_IVW9011;
-            else if (model_key == "1B3" || model_key == "1B4" || model_key == "1B5")
-                return MODEL_IVE70;
+            else
+            {
+                // Other device groups
+                // Not implemented
+            }
 
             return MODEL_NONE;
         }
@@ -756,6 +960,8 @@ namespace esphome
                 case MODEL_ISH3230: return "TCS ISH3230 / Koch TCH50 GFA";
                 case MODEL_ISH3030: return "TCS ISH3030 / Koch TCH50 / Scantron Lux2";
                 case MODEL_ISH1030: return "TCS ISH1030 / Koch TTS25";
+                case MODEL_TTCXX: return "TCS TTC-XX";
+                case MODEL_TTSXX: return "TCS TTS-XX";
                 case MODEL_IMM1000: return "TCS IMM1000 / Koch TCH30";
                 case MODEL_IMM1100: return "TCS IMM1100 / Koch TCHE30";
                 case MODEL_IMM1300: return "TCS IMM1300 / Koch VTCH30";
@@ -781,64 +987,152 @@ namespace esphome
                 case MODEL_IVW9110: return "TCS IVW9110";
                 case MODEL_IVW9030: return "TCS IVW9030 / Scantron SLIM50T";
                 case MODEL_IVE70: return "TCS IVE70";
+
+                case CONTROLLER_MODEL_BVS20: return "TCS BVS20";
+                case CONTROLLER_MODEL_BVS30: return "TCS BVS30";
+                case CONTROLLER_MODEL_NBV3210: return "TCS NBV3210";
+                case CONTROLLER_MODEL_VBVS30: return "TCS VBVS30";
+                case CONTROLLER_MODEL_NBV2600: return "TCS NBV2600";
+
+                case MODEL_DEBUG_IS0: return "DEBUG IS0";
+                case MODEL_DEBUG_IS1: return "DEBUG IS1";
+                case MODEL_DEBUG_AS: return "DEBUG AS";
+                case MODEL_DEBUG_CONTROLLER: return "DEBUG CONTROLLER";
+
                 default: return "None";
             }
         }
 
         ModelData getModelData(Model model)
         {
-            ModelData modelData;
+            ModelData modelData{};
             modelData.model = model;
+            modelData.capabilities = 0;
 
-            switch (model) {
+            switch (model)
+            {
                 // Category 1
                 case MODEL_ISW3030: /* TC50 */
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3130: /* TC50P */
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3230: /* TC50 GFA */
                     modelData.category = 1;
                     modelData.memory_size = 40;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3330: /* TC50 BW */
                     modelData.category = 1;
                     modelData.memory_size = 64;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW3340:
                     modelData.category = 1;
                     modelData.memory_size = 128;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISW5010: /* TC60 */
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5020:
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5030:
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5031:
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW5033:
                     modelData.category = 1;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_IVW511X: /* VTC60 */
                     modelData.category = 1;
                     modelData.memory_size = 48;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_IVW521X: /* VTC60/2D */
                     modelData.category = 1;
                     modelData.memory_size = 48;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                     break;
                 case MODEL_ISW6031:
                     modelData.category = 1;
@@ -887,30 +1181,75 @@ namespace esphome
                 case MODEL_IVW2210: /* Ecoos */
                     modelData.category = 1;
                     modelData.memory_size = 64;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    // Supported? Not documented
+                    //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_IVW2211: /* Ecoos */
                     modelData.category = 1;
                     modelData.memory_size = 64;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    // Supported? Not documented
+                    //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_IVW2212: /* Ecoos */
                     modelData.category = 1;
                     modelData.memory_size = 64;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    // Supported? Not documented
+                    //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_VTC42V2:
                     modelData.category = 1;
                     modelData.memory_size = 64;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_TC40V2:
                     modelData.category = 1;
                     modelData.memory_size = 64;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_VTC40:
                     modelData.category = 1;
                     modelData.memory_size = 40;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_TC40:
                     modelData.category = 1;
                     modelData.memory_size = 40;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_TC2000:
                     modelData.category = 1;
@@ -973,14 +1312,41 @@ namespace esphome
                 case MODEL_ISH3230: /* TCH50 GFA */
                     modelData.category = 0;
                     modelData.memory_size = 40;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISH3030: /* TCH50 */
                     modelData.category = 0;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_ISH1030: /* TTS25 */
                     modelData.category = 0;
                     modelData.memory_size = 16;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    break;
+                case MODEL_TTCXX:
+                    modelData.category = 0;
+                    modelData.memory_size = 16;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    break;
+                case MODEL_TTSXX:
+                    modelData.category = 0;
+                    modelData.memory_size = 16;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                     break;
                 case MODEL_IMM1000: /* TCH30 */
                     modelData.category = 0;
@@ -1009,10 +1375,18 @@ namespace esphome
                 case MODEL_IVH3222: /* VTCH50 */
                     modelData.category = 0;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                     break;
                 case MODEL_IVH4222: /* VTCH50/2D */
                     modelData.category = 0;
                     modelData.memory_size = 32;
+                    modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
+                    modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                    modelData.capabilities |= CAP_VOLUME_RINGTONE;
+                    modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                     break;
                 case MODEL_VMH:
                     modelData.category = 0;
@@ -1036,6 +1410,36 @@ namespace esphome
                     modelData.memory_size = 0;
                     break;
 
+                case CONTROLLER_MODEL_BVS20:
+                case CONTROLLER_MODEL_BVS30:
+                case CONTROLLER_MODEL_NBV3210:
+                case CONTROLLER_MODEL_VBVS30:
+                case CONTROLLER_MODEL_NBV2600:
+                    modelData.category = 0;
+                    modelData.memory_size = 0;
+                    break;
+
+                // Debug Models
+                case MODEL_DEBUG_CONTROLLER:
+                    modelData.category = 4;
+                    modelData.memory_size = 128;
+                    break;
+
+                case MODEL_DEBUG_AS:
+                    modelData.category = 2;
+                    modelData.memory_size = 128;
+                    break;
+
+                case MODEL_DEBUG_IS0:
+                    modelData.category = 0;
+                    modelData.memory_size = 128;
+                    break;
+
+                case MODEL_DEBUG_IS1:
+                    modelData.category = 1;
+                    modelData.memory_size = 128;
+                    break;
+
                 default:
                     break;
             }
@@ -1045,198 +1449,44 @@ namespace esphome
 
         SettingCellData getSettingCellData(SettingType setting, Model model)
         {
-            SettingCellData data;
+            SettingCellData data{};
+            ModelData model_data = getModelData(model);
 
-            switch (model) {
-                case MODEL_ISH3030:
-                case MODEL_ISH3230:
-                case MODEL_ISW3030:
-                case MODEL_ISW3230:
-                case MODEL_ISW3340:
-                case MODEL_ISW3130:
-                case MODEL_ISW3330:
-                case MODEL_IVH4222:
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;
-
-                        case SETTING_VOLUME_HANDSET_DOOR_CALL:
-                            data.index = 21;
-                            data.left_nibble = false;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_ISH1030:
-                case MODEL_IVH3222:
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_IVW511X:
-                case MODEL_IVW521X:
-                    // TASTA Video
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL:
-                            data.index = 12;
-                            data.left_nibble = true;
-                            break;
-
-                        // Values: 0,2,4,6
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_DOOR_CALL:
-                            data.index = 21;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_INTERNAL_CALL:
-                            data.index = 21;
-                            data.left_nibble = true;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_ISW5010:
-                case MODEL_ISW5020:
-                case MODEL_ISW5030:
-                case MODEL_ISW5031:
-                case MODEL_ISW5033:
-                    // TASTA Audio
-                    switch (setting)
-                    {
-                        case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL:
-                            data.index = 12;
-                            data.left_nibble = true;
-                            break;
-
-                        // Values: 0,2,4,6
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_DOOR_CALL:
-                            data.index = 21;
-                            data.left_nibble = false;
-                            break;
-
-                        // Values: 0,2,4,7
-                        case SETTING_VOLUME_HANDSET_INTERNAL_CALL:
-                            data.index = 21;
-                            data.left_nibble = true;
-                            break;
-
-                        default: break;
-                    }
-                    break;
-
-                case MODEL_IVW2210:
-                case MODEL_IVW2211:
-                case MODEL_IVW2212:
-                    // ECOOS
-                    switch (setting)
-                    {
-                        /*case SETTING_RINGTONE_ENTRANCE_DOOR_CALL:
-                            data.index = 3;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_INTERNAL_CALL:
-                            data.index = 6;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_RINGTONE_FLOOR_CALL:
-                            data.index = 9;
-                            data.left_nibble = true;
-                            break;
-
-                        case SETTING_VOLUME_RINGTONE:
-                            data.index = 20;
-                            data.left_nibble = false;
-                            break;*/
-
-                        default: break;
-                    }
-                    break;
-                default: break;
+            // Only set data if model supports the capability
+            if (setting == SETTING_RINGTONE_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_ENTRANCE_DOOR_CALL))
+            {
+                data.index = 3;
+                data.left_nibble = true;
+            }
+            else if (setting == SETTING_RINGTONE_INTERNAL_CALL && (model_data.capabilities & CAP_RINGTONE_INTERNAL_CALL))
+            {
+                data.index = 6;
+                data.left_nibble = true;
+            }
+            else if (setting == SETTING_RINGTONE_FLOOR_CALL && (model_data.capabilities & CAP_RINGTONE_FLOOR_CALL))
+            {
+                data.index = 9;
+                data.left_nibble = true;
+            }
+            else if (setting == SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL))
+            {
+                data.index = 12;
+                data.left_nibble = true;
+            }
+            else if (setting == SETTING_VOLUME_RINGTONE && (model_data.capabilities & CAP_VOLUME_RINGTONE))
+            {
+                data.index = 20;
+                data.left_nibble = false;
+            }
+            else if (setting == SETTING_VOLUME_HANDSET_DOOR_CALL && (model_data.capabilities & CAP_VOLUME_HANDSET_DOOR_CALL))
+            {
+                data.index = 21;
+                data.left_nibble = false;
+            }
+            else if (setting == SETTING_VOLUME_HANDSET_INTERNAL_CALL && (model_data.capabilities & CAP_VOLUME_HANDSET_INTERNAL_CALL))
+            {
+                data.index = 21;
+                data.left_nibble = true;
             }
 
             return data;

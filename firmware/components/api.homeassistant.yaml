@@ -1,0 +1,55 @@
+# API: Home Assistant
+
+esphome:
+  on_boot:
+    then:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+      - wait_until:
+          condition:
+            wifi.connected:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: slow_pulse
+          red: 0%
+          green: 22%
+          blue: 100%
+      - wait_until:
+          condition:
+            api.connected:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: none
+          red: 0%
+          green: 22%
+          blue: 100%
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100.0;
+      - delay: 3s
+      - script.execute: update_led
+
+api:
+  actions:
+    - action: send_tc_telegram_raw
+      variables:
+        telegram: int
+      then:
+        - tc_bus.send:
+            telegram: !lambda 'return telegram;'
+
+    - action: send_tc_telegram
+      variables:
+        type: string
+        address: int
+        payload: int
+        serial_number: int
+      then:
+        - tc_bus.send:
+            type: !lambda 'return string_to_telegram_type(type);'
+            address: !lambda 'return address;'
+            payload: !lambda 'return payload;'
+            serial_number: !lambda 'return serial_number;'

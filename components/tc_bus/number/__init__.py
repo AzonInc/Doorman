@@ -3,7 +3,6 @@ from esphome.components import number
 from esphome.components.number import NUMBER_MODES
 import esphome.config_validation as cv
 from esphome.const import (
-    CONF_ID,
     ENTITY_CATEGORY_CONFIG,
     CONF_MODE,
 )

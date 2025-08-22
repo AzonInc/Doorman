@@ -1,0 +1,115 @@
+# RMT Light Status LED - Effects Addon
+
+light:
+  - id: !extend doorman_rgb_status_led
+    effects:
+      - lambda:
+          name: pulse
+          update_interval: 250ms
+          lambda: |-
+            static uint32_t transition_on_length_ = 250;
+            static uint32_t transition_off_length_ = 250;
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).turn_on();
+
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100.0) : 0;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(on_ ? transition_on_length_ : transition_off_length_);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: slow_pulse
+          update_interval: 2s
+          lambda: |-
+            static uint32_t transition_on_length_ = 2500;
+            static uint32_t transition_off_length_ = 2500;
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).turn_on();
+
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100.0) : 0;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(on_ ? transition_on_length_ : transition_off_length_);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: slow_partymode
+          update_interval: 2s
+          lambda: |-
+            static uint32_t transition_on_length_ = 4000;
+            static uint32_t transition_off_length_ = 4000;
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).turn_on();
+
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100.0) : 0;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(on_ ? transition_on_length_ : transition_off_length_);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: error_api
+          update_interval: 1s
+          lambda: |-
+            static bool state = false;
+
+            auto call = id(doorman_rgb_status_led).turn_on();
+
+            // Transition of 1000ms = 1s
+            call.set_transition_length(1000);
+
+            // Red / Blue
+            if (state == 0) {
+              call.set_rgb(1.0, 0, 0);
+            } else {
+              call.set_rgb(0, 0.22, 1.0);
+            }
+
+            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state / 100.0);
+
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+            state = !state;
+
+      #- pulse:
+      #    name: pulse
+      #    transition_length: 250ms
+      #    update_interval: 250ms
+      #    min_brightness: 0%
+      #    max_brightness: 40%
+
+      #- pulse:
+      #    name: slow_pulse
+      #    transition_length: 1s
+      #    update_interval: 2s
+      #    min_brightness: 0%
+      #    max_brightness: 40%
+      
+      #- pulse:
+      #    name: slow_partymode
+      #    transition_length: 4s
+      #    update_interval: 2s
+      #    min_brightness: 0%
+      #    max_brightness: 40%

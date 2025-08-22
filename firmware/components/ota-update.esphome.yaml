@@ -1,0 +1,15 @@
+# OTA Updates Addon -  ESPHome
+
+ota:
+  - platform: esphome
+    id: ota_esphome
+
+button:
+  - platform: safe_mode
+    id: doorman_safe_mode
+    name: Safe mode
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: -1

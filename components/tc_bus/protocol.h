@@ -48,6 +48,8 @@ namespace esphome
             MODEL_ISH3230,
             MODEL_ISH3030,
             MODEL_ISH1030,
+            MODEL_TTCXX,
+            MODEL_TTSXX,
             MODEL_IMM1000,
             MODEL_IMM1100,
             MODEL_IMM1300,
@@ -72,7 +74,18 @@ namespace esphome
             MODEL_IVW9011,
             MODEL_IVW9110,
             MODEL_IVW9030,
-            MODEL_IVE70
+            MODEL_IVE70,
+
+            CONTROLLER_MODEL_BVS20,
+            CONTROLLER_MODEL_BVS30,
+            CONTROLLER_MODEL_NBV3210,
+            CONTROLLER_MODEL_VBVS30,
+            CONTROLLER_MODEL_NBV2600,
+
+            MODEL_DEBUG_IS0,
+            MODEL_DEBUG_IS1,
+            MODEL_DEBUG_AS,
+            MODEL_DEBUG_CONTROLLER
         };
 
         enum SettingType {
@@ -86,52 +99,68 @@ namespace esphome
             SETTING_VOLUME_HANDSET_INTERNAL_CALL
         };
 
-        enum CommandType {
-            COMMAND_TYPE_UNKNOWN,
-            COMMAND_TYPE_SEARCH_DOORMAN_DEVICES,
-            COMMAND_TYPE_FOUND_DOORMAN_DEVICE,
-            COMMAND_TYPE_DOOR_CALL,
-            COMMAND_TYPE_FLOOR_CALL,
-            COMMAND_TYPE_INTERNAL_CALL,
-            COMMAND_TYPE_CONTROL_FUNCTION,
-            COMMAND_TYPE_START_TALKING_DOOR_CALL,
-            COMMAND_TYPE_START_TALKING,
-            COMMAND_TYPE_STOP_TALKING_DOOR_CALL,
-            COMMAND_TYPE_STOP_TALKING,
-            COMMAND_TYPE_OPEN_DOOR,
-            COMMAND_TYPE_OPEN_DOOR_LONG,
-            COMMAND_TYPE_LIGHT,
-            COMMAND_TYPE_DOOR_OPENED,
-            COMMAND_TYPE_DOOR_CLOSED,
-            COMMAND_TYPE_END_OF_RINGTONE,
-            COMMAND_TYPE_END_OF_DOOR_READINESS,
-            COMMAND_TYPE_INITIALIZE_DOOR_STATION,
-            COMMAND_TYPE_RESET,
-            COMMAND_TYPE_SELECT_DEVICE_GROUP,
-            COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET,
-            COMMAND_TYPE_SEARCH_DEVICES,
-            COMMAND_TYPE_FOUND_DEVICE,
-            COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM,
-            COMMAND_TYPE_PROGRAMMING_MODE,
-            COMMAND_TYPE_READ_MEMORY_BLOCK,
-            COMMAND_TYPE_SELECT_MEMORY_PAGE,
-            COMMAND_TYPE_WRITE_MEMORY,
-            COMMAND_TYPE_REQUEST_VERSION
+        enum TelegramType {
+            TELEGRAM_TYPE_UNKNOWN,
+            TELEGRAM_TYPE_ACK,
+            TELEGRAM_TYPE_DATA,
+            TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES,
+            TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE,
+            TELEGRAM_TYPE_DOOR_CALL,
+            TELEGRAM_TYPE_FLOOR_CALL,
+            TELEGRAM_TYPE_INTERNAL_CALL,
+            TELEGRAM_TYPE_CONTROL_FUNCTION,
+            TELEGRAM_TYPE_START_TALKING_DOOR_CALL,
+            TELEGRAM_TYPE_START_TALKING,
+            TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL,
+            TELEGRAM_TYPE_STOP_TALKING,
+            TELEGRAM_TYPE_OPEN_DOOR,
+            TELEGRAM_TYPE_OPEN_DOOR_LONG,
+            TELEGRAM_TYPE_LIGHT,
+            TELEGRAM_TYPE_DOOR_OPENED,
+            TELEGRAM_TYPE_DOOR_CLOSED,
+            TELEGRAM_TYPE_END_OF_RINGTONE,
+            TELEGRAM_TYPE_END_OF_DOOR_READINESS,
+            TELEGRAM_TYPE_INITIALIZE_DOOR_STATION,
+            TELEGRAM_TYPE_RESET,
+            TELEGRAM_TYPE_SELECT_DEVICE_GROUP,
+            TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET,
+            TELEGRAM_TYPE_SEARCH_DEVICES,
+            TELEGRAM_TYPE_FOUND_DEVICE,
+            TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM,
+            TELEGRAM_TYPE_PROGRAMMING_MODE,
+            TELEGRAM_TYPE_READ_MEMORY_BLOCK,
+            TELEGRAM_TYPE_SELECT_MEMORY_PAGE,
+            TELEGRAM_TYPE_WRITE_MEMORY,
+            TELEGRAM_TYPE_REQUEST_VERSION
         };
         
-        struct CommandData {
-            uint32_t command;
-            std::string command_hex;
-            CommandType type;
+        struct TelegramData {
+            uint32_t raw;
+            std::string hex;
+
+            TelegramType type;
             uint8_t address;
             uint32_t serial_number;
             uint32_t payload;
+            
             bool is_long;
+            bool is_response;
+            bool is_data;
         };
 
         struct SettingCellData {
             uint8_t index = 0;
             bool left_nibble = false;
+        };
+
+        enum ModelCapabilities {
+            CAP_RINGTONE_ENTRANCE_DOOR_CALL = (1 << 0),
+            CAP_RINGTONE_INTERNAL_CALL = (1 << 1),
+            CAP_RINGTONE_FLOOR_CALL = (1 << 2),
+            CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL = (1 << 3),
+            CAP_VOLUME_RINGTONE = (1 << 4),
+            CAP_VOLUME_HANDSET_DOOR_CALL = (1 << 5),
+            CAP_VOLUME_HANDSET_INTERNAL_CALL = (1 << 6)
         };
 
         struct ModelData {
@@ -143,13 +172,14 @@ namespace esphome
             uint8_t hardware_version = 0; 
             uint8_t category = 0;
             uint8_t memory_size = 0;
+            uint32_t capabilities = 0;
         };
 
-        CommandData buildCommand(CommandType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
-        CommandData parseCommand(uint32_t command, bool is_long = true);
+        TelegramData buildTelegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
+        TelegramData parseTelegram(uint32_t telegram, bool is_long = true, bool is_response = false, bool is_data = false);
 
-        const char* command_type_to_string(CommandType type);
-        CommandType string_to_command_type(std::string str);
+        const char* telegram_type_to_string(TelegramType type);
+        TelegramType string_to_telegram_type(std::string str);
 
         const char* setting_type_to_string(SettingType type);
         SettingType string_to_setting_type(std::string str);
@@ -159,7 +189,7 @@ namespace esphome
 
         const char* model_to_string(Model model = MODEL_NONE);
         Model string_to_model(const std::string& str);
-        Model identifier_string_to_model(const std::string& model_key, const uint8_t& hw_version = 0, const uint32_t& fw_version = 0);
+        Model identifier_string_to_model(const uint8_t& device_group, const std::string& model_key, const uint8_t& hw_version = 0, const uint32_t& fw_version = 0);
 
         uint8_t ringtone_to_int(const std::string& str);
         std::string int_to_ringtone(uint8_t ringtone);

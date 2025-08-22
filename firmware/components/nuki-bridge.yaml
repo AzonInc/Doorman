@@ -1,3 +1,5 @@
+# Nuki Bridge Addon
+
 esphome:
   project:
     name: "AzonInc.Doorman-Nuki-Bridge"
@@ -19,12 +21,12 @@ binary_sensor:
                 binary_sensor.is_on: nuki_paired
               then:
                 - nuki_lock.unpair:
-                    id: nuki_smart_lock
+                    id: apartment_door
                 - lambda: |
                     ESP_LOGI("pairing", "Pairing Mode: TODO");
             
           - nuki_lock.set_pairing_mode: 
-              id: nuki_smart_lock
+              id: apartment_door
               pairing_mode: true
 
 number:
@@ -48,12 +50,12 @@ number:
 # Nuki Lock Bridge
 lock:
   - platform: nuki_lock
-    name: Nuki Lock
-    id: nuki_smart_lock
-    icon: "mdi:lock"
+    name: Apartment Door
+    id: apartment_door
+    icon: "mdi:door"
     web_server:
-      sorting_group_id: sorting_group_nuki
-      sorting_weight: -100
+      sorting_group_id: sorting_group_controls
+      sorting_weight: 3
 
     # Optional:
     is_connected: 
@@ -311,7 +313,8 @@ lock:
           green: 0%
           blue: 100%
           effect: none
-          brightness: 60%
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100.0;
       - delay: 3s
       - script.execute: update_led
 

@@ -33,6 +33,8 @@ blueprint:
                   value: double
                 - label: Triple Press
                   value: triple
+                - label: Quadruple Press
+                  value: quadruple
     
     notification_details_section:
       name: "Notification Details"
@@ -83,12 +85,9 @@ blueprint:
           name: "Confirmation Action"
           description: "Action to run when notification is confirmed"
           default:
-            - service: esphome.doorman_s3_send_tc_command
-              data:
-                type: "open_door"
-                address: "0"
-                payload: "0"
-                serial_number: "0"
+            - action: lock.unlock
+              target:
+                entity_id: lock.doorman_s3_entrance_door
           selector:
             action:
         dismiss_action:

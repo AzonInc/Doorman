@@ -89,7 +89,7 @@ function nav(): DefaultTheme.NavItem[] {
               items: [
                 {
                   text: !pkg.version.includes('dev') ? 'Wechsle zur Entwicklungs Version' : 'Wechsle zu aktuellen Version',
-                  link: !pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh/' : 'https://doorman.azon.ai/',
+                  link: !pkg.version.includes('dev') ? 'https://dev.doorman.azon.ai/' : 'https://doorman.azon.ai/',
                   target: '_self'
                 }
               ]
@@ -110,24 +110,34 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Firmware',
+      text: 'Features',
       items: [
-        { text: 'Stock Firmware', link: 'stock-firmware', base: '/de/guide/firmware/' },
-        { text: 'Nuki-Bridge Firmware', link: 'nuki-bridge-firmware', base: '/de/guide/firmware/' },
-        {
-          text: 'Entitäten',
-          link: 'entities',
-          base: '/de/reference/',
-        },
-        { text: 'Custom Firmware', link: 'custom-firmware', base: '/de/guide/firmware/' }
+        { text: 'Ring To Open', link: 'ring-to-open', base: '/guide/features/' },
+        { text: 'Innenstation Einstellungen', link: 'intercom-settings', base: '/guide/features/' },
+        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/guide/features/' },
       ]
     },
     {
-      text: 'Automationen',
+      text: 'Firmware',
       items: [
-        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/de/guide/automation/' },
-        { text: 'Ring To Open', link: 'ring-to-open', base: '/de/guide/automation/' },
-        { text: 'Blueprints', link: 'blueprints', base: '/de/guide/automation/' }
+        { text: 'Installation und Updates', link: 'installation', base: '/de/guide/firmware/' },
+        {
+          text: 'Smart Home Integrationen',
+          collapsed: true,
+          items: [
+            { text: 'Home Assistant', link: 'home-assistant', base: '/de/guide/firmware/' },
+            { text: 'MQTT', link: 'mqtt', base: '/de/guide/firmware/' },
+            { text: 'HomeKit', link: 'homekit', base: '/de/guide/firmware/' },
+          ]
+        },
+        {
+          text: 'Erweiterungen',
+          collapsed: true,
+          items: [
+            { text: 'Nuki Bridge', link: 'nuki-bridge', base: '/de/guide/firmware/' },
+          ]
+        },
+        { text: 'Anpassungen', link: 'customization', base: '/de/guide/firmware/' }
       ]
     },
     {
@@ -151,12 +161,17 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
 function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Referenz',
+      text: 'Hardware',
       items: [
-        { text: 'Entitäten', link: 'entities' },
-        { text: 'GPIO Pinbelegung', link: 'gpio' },
         { text: 'Schaltpläne', link: 'schematics' },
         { text: 'Spezifikationen', link: 'specifications' },
+        { text: 'GPIO Pinbelegung', link: 'gpio' },
+      ]
+    },
+    {
+      text: 'Firmware',
+      items: [
+        { text: 'Entitäten', link: 'entities' },
         { text: 'ESPHome Komponente', link: 'esphome-component' }
       ]
     }

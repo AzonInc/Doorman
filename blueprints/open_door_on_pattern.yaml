@@ -27,17 +27,16 @@ blueprint:
               value: double
             - label: Triple Press
               value: triple
+            - label: Quadruple Press
+              value: quadruple
 
     confirm_action:
       name: "Action"
       description: "Action to run when the pattern is detected"
       default:
-        - service: esphome.doorman_s3_send_tc_command
-          data:
-            type: "open_door"
-            address: "0"
-            payload: "0"
-            serial_number: "0"
+        - action: lock.unlock
+          target:
+            entity_id: lock.doorman_s3_entrance_door
       selector:
         action:
 

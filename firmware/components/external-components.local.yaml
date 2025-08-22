@@ -1,0 +1,7 @@
+# Local external components Addon
+# For local development purposes only
+
+external_components:
+  - source:
+      type: local
+      path: "../../components"

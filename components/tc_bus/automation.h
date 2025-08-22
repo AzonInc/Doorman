@@ -13,28 +13,28 @@ namespace esphome
         {
             public:
                 TCBusSendAction(TCBusComponent *parent) : parent_(parent) {}
-                TEMPLATABLE_VALUE(uint32_t, command)
+                TEMPLATABLE_VALUE(uint32_t, telegram)
                 TEMPLATABLE_VALUE(bool, is_long)
-                TEMPLATABLE_VALUE(CommandType, type)
+                TEMPLATABLE_VALUE(TelegramType, type)
                 TEMPLATABLE_VALUE(uint8_t, address)
                 TEMPLATABLE_VALUE(uint32_t, payload)
                 TEMPLATABLE_VALUE(uint32_t, serial_number)
 
                 void play(Ts... x)
                 {
-                    if(this->command_.value(x...) == 0)
+                    if(this->telegram_.value(x...) == 0)
                     {
-                        this->parent_->send_command(this->type_.value(x...), this->address_.value(x...), this->payload_.value(x...), this->serial_number_.value(x...));
+                        this->parent_->send_telegram(this->type_.value(x...), this->address_.value(x...), this->payload_.value(x...), this->serial_number_.value(x...));
                     }
                     else
                     {
                         if(this->is_long_.value(x...) == false)
                         {
-                            this->parent_->send_command(this->command_.value(x...));
+                            this->parent_->send_telegram(this->telegram_.value(x...));
                         }
                         else
                         {
-                            this->parent_->send_command(this->command_.value(x...), true);
+                            this->parent_->send_telegram(this->telegram_.value(x...), true);
                         }
                     }
                 }
@@ -89,17 +89,18 @@ namespace esphome
             public:
                 TCBusIdentifyAction(TCBusComponent *parent) : parent_(parent) {}
                 TEMPLATABLE_VALUE(uint32_t, serial_number)
+                TEMPLATABLE_VALUE(uint8_t, device_group)
 
-                void play(Ts... x) { this->parent_->request_version(this->serial_number_.value(x...)); }
+                void play(Ts... x) { this->parent_->request_version(this->serial_number_.value(x...), this->device_group_.value(x...)); }
 
             protected:
                 TCBusComponent *parent_;
         };
 
-        class ReceivedCommandTrigger : public Trigger<CommandData> {
+        class ReceivedTelegramTrigger : public Trigger<TelegramData> {
             public:
-                explicit ReceivedCommandTrigger(TCBusComponent *parent) {
-                    parent->add_received_command_callback([this](const CommandData &value) { this->trigger(value); });
+                explicit ReceivedTelegramTrigger(TCBusComponent *parent) {
+                    parent->add_received_telegram_callback([this](const TelegramData &value) { this->trigger(value); });
                 }
         };
 
@@ -120,6 +121,12 @@ namespace esphome
         class IdentifyTimeoutTrigger : public Trigger<> {
             public:
                 explicit IdentifyTimeoutTrigger(TCBusComponent *parent) {
+                    parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                }
+        };
+        class IdentifyUnknownTrigger : public Trigger<> {
+            public:
+                explicit IdentifyUnknownTrigger(TCBusComponent *parent) {
                     parent->add_identify_timeout_callback([this]() { this->trigger(); });
                 }
         };

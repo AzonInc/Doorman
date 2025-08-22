@@ -22,19 +22,35 @@ hero:
       link: https://github.com/azoninc/doorman
 
 features:
-  - icon: 🚀
+  - icon:
+      src: /icons/fluent-emoji-rocket.png
+      wrap: true
+      height: 28px
+      width: 28px
     title: Leistungsfähig
     details: Angetrieben vom ESP32-S3 mit Dual-Core-CPU, integriertem PSRAM und Bluetooth, vereint er beeindruckende Leistung mit vielseitiger Einsatzfähigkeit.
 
-  - icon: 🤏​
+  - icon:
+      src: /icons/fluent-emoji-pinching-hand.png
+      wrap: true
+      height: 28px
+      width: 28px
     title: Kompakt
     details: Dank seines durchdachten Designs findet er fast überall Platz und ist somit ideal für eine Vielzahl von Installationsszenarien geeignet.
 
-  - icon: ✨​
+  - icon:
+      src: /icons/fluent-emoji-sparkles.png
+      wrap: true
+      height: 28px
+      width: 28px
     title: Erweiterbar
     details: Zwei zusätzliche GPIOs und ein externer Button ermöglichen eine flexible und einfache Erweiterung mit eigenen Sensoren und Geräten, z. B. über I²C.
 
-  - icon: 🎉​
+  - icon:
+      src: /icons/fluent-emoji-party-popper.png
+      wrap: true
+      height: 28px
+      width: 28px
     title: Kompatibel
     details: Das Solid-State-Relais ermöglicht das Schalten von bis zu 40V (max. 2,5A) und ist somit ideal für die Integration in ältere Gegensprechanlagen geeignet.
 ---

@@ -3,19 +3,19 @@
 switch:
   - platform: template
     name: Setup Mode
-    icon: mdi:cog
+    icon: mdi:account-cog
     id: doorman_setup_mode
     restore_mode: RESTORE_DEFAULT_ON
     entity_category: CONFIG
     optimistic: true
     on_turn_on:
-      - logger.log: "Setup: Step 1 - Waiting for Door/Floor Call"
+      - logger.log: "Setup Step 1: Waiting for door or floor call."
       - script.execute: update_led
     on_turn_off:
       - script.execute: update_led
     web_server:
-      sorting_group_id: sorting_group_system
-      sorting_weight: -19
+      sorting_group_id: sorting_group_settings
+      sorting_weight: 100
 
 # Extend TC:BUS Component
 tc_bus:
@@ -26,6 +26,16 @@ tc_bus:
         then:
           - script.execute: complete_setup
 
+  on_identify_unknown:
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+        then:
+          - logger.log:
+              format: "Unknown model detected! Please open an issue and provide your logs in order to implement support for this model."
+              level: WARN
+          - script.execute: complete_setup
+
   on_identify_timeout:
     - if:
         condition:
@@ -33,34 +43,38 @@ tc_bus:
         then:
           - script.execute: complete_setup
 
-  on_command:
-    # If no second door station id is set, wait for one
-    - if:
-        condition:
-          - lambda: return id(second_door_station_id).state == 63 && (x.type == COMMAND_TYPE_DOOR_CALL || x.type == COMMAND_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_id).state;
-        then:
-          - number.set:
-              id: second_door_station_id
-              value: !lambda "return x.address;"
-
+  on_telegram:
     # Setup mode: Wait for Floor or Door Call
     - if:
         condition:
           - switch.is_on: doorman_setup_mode
-          - lambda: "return x.type == COMMAND_TYPE_FLOOR_CALL || x.type == COMMAND_TYPE_DOOR_CALL;"
+          - lambda: "return x.type == TELEGRAM_TYPE_FLOOR_CALL || x.type == TELEGRAM_TYPE_DOOR_CALL;"
         then:
           # Save Serial Number
           - number.set:
               id: serial_number
               value: !lambda "return x.serial_number;"
+
           # Save Entrance Door Station address
           - number.set:
               id: entrance_door_station_id
               value: !lambda "return x.address;"
+
+          # Waiting for ringtone to finish before proceeding
+          - delay: 3s
+
           # Start Identification
-          - delay: 2s
-          - logger.log: "Setup: Step 2 - Identify Indoor Station"
+          - logger.log: "Setup Step 2: Identifying Indoor Station."
           - tc_bus.identify:
+
+    # If no second door station id is set, wait for one
+    - if:
+        condition:
+          - lambda: return id(second_entrance_door_station_id).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_id).state;
+        then:
+          - number.set:
+              id: second_entrance_door_station_id
+              value: !lambda "return x.address;"
 
 script:
   - id: complete_setup
@@ -73,12 +87,14 @@ script:
           green: 100%
           blue: 10%
           effect: none
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100.0;
 
       - delay: 3s
       
       - script.execute: update_led
 
-      - logger.log: "Setup: Complete"
+      - logger.log: "Setup completed."
 
   - id: !extend update_led
     then:

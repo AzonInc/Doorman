@@ -29,10 +29,14 @@ Just received your Doorman? Jump to the [Quickstart](getting-started) guide.
 - External Button (G + BTN)
 - Bridge rectifier for bus-wire input to correct polarity
 - TC:BUS communication for functions like opening the front door and detecting the doorbell
-- Can be used as a Nuki Bridge with the [Nuki Bridge Firmware](firmware/nuki-bridge-firmware). Note that this firmware is incompatible with the Nuki app, but it works with the Home Assistant app.
+- Can be used as a Nuki Bridge with the [Nuki Bridge Addon](firmware/nuki-bridge).
 
 ## Interested in Buying One?
 
-Feel free to contact me on [Discord](https://discord.gg/t2d34dvmBf) or via [E-Mail](mailto:flo@azon.ai?subject=Doorman).
+If you're interested in a Doorman-S3 unit, simply use the button below to send an inquiry.  
 
-I offer fully assembled and tested Doorman-S3 units with the [Stock Firmware](firmware/stock-firmware) pre-installed, ready for direct integration and adoption into Home Assistant.
+You can also reach out on [Discord](https://discord.gg/t2d34dvmBf) or via [E-Mail](mailto:flo@azon.ai?subject=Doorman) if you have any questions and prefer direct contact first.
+
+<div class="custom-layout">
+    <a class="btn" href="../order">Send Inquiry</a>
+</div>

@@ -62,7 +62,7 @@ function nav(): DefaultTheme.NavItem[] {
               items: [
                 {
                   text: !pkg.version.includes('dev') ? 'Switch to development' : 'Switch to current',
-                  link: !pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh/' : 'https://doorman.azon.ai/',
+                  link: !pkg.version.includes('dev') ? 'https://dev.doorman.azon.ai/' : 'https://doorman.azon.ai/',
                   target: '_self'
                 }
               ]
@@ -83,24 +83,34 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Firmware',
+      text: 'Features',
       items: [
-        { text: 'Stock Firmware', link: 'stock-firmware', base: '/guide/firmware/' },
-        { text: 'Nuki Bridge Firmware', link: 'nuki-bridge-firmware', base: '/guide/firmware/' },
-        {
-          text: 'Entities',
-          link: 'entities',
-          base: '/reference/',
-        },
-        { text: 'Custom Firmware', link: 'custom-firmware', base: '/guide/firmware/' }
+        { text: 'Ring To Open', link: 'ring-to-open', base: '/guide/features/' },
+        { text: 'Indoor Station Settings', link: 'intercom-settings', base: '/guide/features/' },
+        { text: 'Pattern Events', link: 'pattern-events', base: '/guide/features/' },
       ]
     },
     {
-      text: 'Automations',
+      text: 'Firmware',
       items: [
-        { text: 'Pattern Events', link: 'pattern-events', base: '/guide/automation/' },
-        { text: 'Ring To Open', link: 'ring-to-open', base: '/guide/automation/' },
-        { text: 'Blueprints', link: 'blueprints', base: '/guide/automation/' }
+        { text: 'Install or Update', link: 'installation', base: '/guide/firmware/' },
+        {
+          text: 'Smart Home Integrations',
+          collapsed: true,
+          items: [
+            { text: 'Home Assistant', link: 'home-assistant', base: '/guide/firmware/' },
+            { text: 'MQTT', link: 'mqtt', base: '/guide/firmware/' },
+            { text: 'HomeKit', link: 'homekit', base: '/guide/firmware/' },
+          ]
+        },
+        {
+          text: 'Addons',
+          collapsed: true,
+          items: [
+            { text: 'Nuki Bridge', link: 'nuki-bridge', base: '/guide/firmware/' },
+          ]
+        },
+        { text: 'Customization', link: 'customization', base: '/guide/firmware/' },
       ]
     },
     {
@@ -124,12 +134,17 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
 function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Reference',
+      text: 'Hardware',
       items: [
-        { text: 'Entities', link: 'entities' },
-        { text: 'GPIO Pinout', link: 'gpio' },
         { text: 'Schematics', link: 'schematics' },
         { text: 'Specifications', link: 'specifications' },
+        { text: 'GPIO Pinout', link: 'gpio' },
+      ]
+    },
+    {
+      text: 'Firmware',
+      items: [
+        { text: 'Entities', link: 'entities' },
         { text: 'ESPHome Component', link: 'esphome-component' }
       ]
     }

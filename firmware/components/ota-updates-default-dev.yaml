@@ -1,3 +1,0 @@
-switch:
-  - id: !extend dev_firmware
-    restore_mode: RESTORE_DEFAULT_ON

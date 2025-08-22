@@ -1,0 +1,8 @@
+# Ring To Open Addon - HomeKit
+
+homekit:
+  switch:
+    - id: rto_central
+    # Not enought IRAM to use more entities
+    #- id: rto_entrance_door
+    #- id: rto_second_entrance_door

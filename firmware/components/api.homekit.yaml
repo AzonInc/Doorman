@@ -1,0 +1,138 @@
+# API: HomeKit
+   
+esphome:
+  on_boot:
+    then:
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+      - wait_until:
+          condition:
+            wifi.connected:
+      - delay: 2s
+      - script.execute: homekit_connect
+
+script:
+  - id: homekit_connect
+    mode: restart
+    then:
+      # Check if is already paired with HomeKit
+      - if:
+          condition:
+             - homekit.paired:
+          then:
+            # Regular blue pulse while connecting
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                effect: slow_pulse
+                red: 0%
+                green: 22%
+                blue: 100%
+          else:
+            # Red/Blue pulse because homekit is not paired
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                effect: error_api
+            - logger.log: "Wait for HomeKit pairing..."
+            - wait_until:
+                condition:
+                  homekit.paired:
+
+      - logger.log: "Wait for HomeKit connection..."
+
+      - wait_until:
+          condition:
+            homekit.connected:
+
+      - logger.log: "HomeKit connected!"
+
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: none
+          red: 0%
+          green: 22%
+          blue: 100%
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100.0;
+
+      - delay: 3s
+
+      - script.execute: update_led
+
+esp32:
+  framework:
+    sdkconfig_options:
+      CONFIG_MBEDTLS_HKDF_C: "y"
+      CONFIG_LWIP_MAX_SOCKETS: "16"
+
+web_server:
+  sorting_groups:
+    - id: sorting_group_homekit
+      name: "HomeKit Configuration"
+      sorting_weight: -2
+
+# Maybe this is the reason for some issues with ESPHome > 2025.5.0
+# https://github.com/esphome/esphome/pull/8946
+
+homekit_bridge:
+  name: "Doorman"
+  manufacturer: "AzonInc"
+  model: "Doorman-S3"
+  setup_code: '291-21-998'
+  setup_id: DMS3
+  task_stack_size: 3072
+  on_pairing_started:
+    - logger.log: "HomeKit pairing started"
+  on_pairing_aborted:
+    - logger.log: "HomeKit pairing aborted"
+  on_pairing_timeout:
+    - logger.log: "HomeKit pairing timed out"
+  on_pairing_completed:
+    - logger.log:
+        format: "HomeKit paired successfully with: %s"
+        args: [ 'x.c_str()' ]
+        level: INFO
+  on_controller_connected:
+    - logger.log:
+        format: "HomeKit controller %s connected!"
+        args: [ 'x.c_str()' ]
+        level: INFO
+  on_controller_disconnected:
+    - logger.log:
+        format: "HomeKit controller %s disconnected!"
+        args: [ 'x.c_str()' ]
+        level: INFO
+
+button:
+  - platform: homekit_bridge
+    factory_reset:
+      id: homekit_reset_pairing
+      name: "Reset HomeKit Pairing"
+      icon: "mdi:link-off"
+      web_server:
+        sorting_group_id: sorting_group_homekit
+        sorting_weight: 4
+
+homekit:
+  doorbell:
+    - id: entrance_doorbell_pattern
+      lock_id: entrance_door
+      light_id: hallway_light
+      on_identify:
+        - tc_bus.send:
+            type: floor_call
+
+    - id: second_entrance_doorbell_pattern
+      lock_id: second_entrance_door
+      light_id: hallway_light
+      on_identify:
+        - tc_bus.send:
+            type: floor_call
+
+    - id: apartment_doorbell_pattern
+      on_identify:
+        - tc_bus.send:
+            type: floor_call

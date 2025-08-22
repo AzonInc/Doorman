@@ -66,7 +66,7 @@ jobs:
           TIMESTAMP=$(date +%d%H%M)
           sed -i '/^  project:/,/^  platformio_options:/s/^    version: .*/    version: "'"$VERSION"'-dev.'"$TIMESTAMP"'"/' firmware/base.yaml
 
-      - uses: esphome/build-action@v6.0.0
+      - uses: esphome/build-action@v7.0.0
         id: esphome-build
         with:
           yaml-file: ${{ matrix.file }}

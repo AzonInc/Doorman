@@ -1,0 +1,111 @@
+# Component Test
+esphome:
+  name: test-tc-bus
+  friendly_name: TC BUS Component Test
+
+esp8266:
+  board: esp01_1m
+
+wifi:
+  ssid: "My Network"
+  password: "My Password"
+
+api:
+
+external_components:
+  - source:
+      type: local
+      path: "../components"
+
+remote_receiver:
+  pin:
+    number: GPIO12
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: GPIO13
+    mode: OUTPUT
+  carrier_duty_percent: 100%
+
+tc_bus:
+  id: tc_bus_intercom
+  event: "doorman"
+  on_telegram:
+    - logger.log: "Telegram received"
+  on_read_memory_complete:
+    - logger.log: "Completed memory reading!"
+    - lambda: |-
+        std::string hexString = str_upper_case(format_hex(x));
+        ESP_LOGD("tcs_bus", "Memory Dump: %s", hexString.c_str());
+  on_read_memory_timeout:
+    - logger.log: "Failed to read Memory"
+  on_identify_complete:
+    - logger.log:
+        format: "Setup: Identified Hardware: %s (version %i), Firmware: %i.%i.%i"
+        args: [ 'model_to_string(x.model)', 'x.hardware_version', 'x.firmware_major', 'x.firmware_minor', 'x.firmware_patch' ]
+  on_identify_timeout:
+    - logger.log: "Setup: Unable to identify the Indoor Station, please select manually."
+
+text_sensor:
+  - platform: tc_bus
+    hardware_version:
+      name: "Hardware"
+    bus_telegram:
+      name: "Last Bus Telegram"
+
+number:
+  - platform: tc_bus
+    serial_number:
+      name: "Serial Number"
+    volume_ringtone:
+      name: "Volume: Ringtone"
+    volume_handset_door_call:
+      name: "Volume: Handset Door Call"
+    volume_handset_internal_call:
+      name: "Volume: Handset Internal Call"
+
+select:
+  - platform: tc_bus
+    model:
+      name: "Indoor Station Model"
+    ringtone_entrance_door_call:
+      name: "Ringtone: Entrance Door Call"
+    ringtone_second_entrance_door_call:
+      name: "Ringtone: Second Entrance Door Call"
+    ringtone_floor_call:
+      name: "Ringtone: Floor Call"
+    ringtone_internal_call:
+      name: "Ringtone: Internal Call"
+
+switch:
+  - platform: tc_bus
+    force_long_door_opener:
+      name: "Enforce long Door Opener Telegram"
+
+button:
+  - platform: template
+    id: open_entrance_door
+    name: "Open Entrance Door"
+    icon: mdi:door
+    on_press:
+      - tc_bus.send:
+          type: open_door
+          address: 0
+
+binary_sensor:
+  - platform: tc_bus
+    id: entrance_doorbell
+    name: "Entrance Doorbell"
+    type: door_call
+    auto_off: 0.2s
+  - platform: template
+    name: "Read Memory"
+    on_press:
+      - tc_bus.read_memory:
+  - platform: template
+    name: "Identify Indoor Station"
+    on_press:
+      - tc_bus.identify:

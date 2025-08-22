@@ -29,10 +29,10 @@ Du hast gerade deinen Doorman erhalten? Geh direkt zur [Quickstart](getting-star
 - Externer Button (G + BTN)
 - Brückengleichrichter zur Korrektur der Bus-Leitung-Polarität
 - TC:BUS-Kommunikation für Funktionen wie das Öffnen der Haustür und das Erkennen der Klingel
-- Kann als Nuki Bridge mit der [Nuki Bridge Firmware](firmware/nuki-bridge-firmware) verwendet werden. Beachte, dass diese Firmware nicht mit der Nuki App kompatibel ist, aber mit der Home Assistant App funktioniert.
+- Kann als Nuki Bridge mit dem [Nuki Bridge Addon](firmware/nuki-bridge) verwendet werden.
 
 ## Möchtest du auch einen?
 
 Wenn du Fragen hast, kannst du mich gerne auf [Discord](https://discord.gg/t2d34dvmBf) oder per [E-Mail](mailto:flo@azon.ai?subject=Doorman) erreichen.
 
-Ich habe auch vollständig gelötete und getestete Doorman-S3 im Angebot, die schon mit der [Stock Firmware](firmware/stock-firmware) geflasht sind. Diese können direkt in Home Assistant integriert werden.
+Ich habe auch vollständig gelötete und getestete Doorman-S3 im Angebot, die schon mit der [Doorman Firmware](firmware/installation) geflasht sind. Diese können direkt in Home Assistant integriert werden.

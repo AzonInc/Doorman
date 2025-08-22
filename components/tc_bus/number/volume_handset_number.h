@@ -6,7 +6,7 @@
 namespace esphome {
 namespace tc_bus {
 
-class VolumeHandsetDoorCallNumber : public number::Number, public Parented<TCBusComponent> {
+class VolumeHandsetDoorCallNumber final : public number::Number, public Parented<TCBusComponent> {
  public:
   VolumeHandsetDoorCallNumber() = default;
 
@@ -15,7 +15,7 @@ class VolumeHandsetDoorCallNumber : public number::Number, public Parented<TCBus
 };
 
 
-class VolumeHandsetInternalCallNumber : public number::Number, public Parented<TCBusComponent> {
+class VolumeHandsetInternalCallNumber final : public number::Number, public Parented<TCBusComponent> {
   public:
    VolumeHandsetInternalCallNumber() = default;
  

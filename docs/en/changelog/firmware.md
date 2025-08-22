@@ -1,7 +1,113 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2025.3.0
+## 2025.6.0 <Badge type="warning" text="Next" />
+### 🚨 IMPORTANT
+Please carefully review the breaking changes listed below before updating!  
+This release **will impact your current setup** and **requires** you to go through the **setup process again**.
+
+### 🚀 What's New?
+- **Expanded Support for Model-Specific Settings**  
+   Settings compatibility has been added for TCS TASTA / Koch TC60 (`IVW5xxx`, `ISW5xxx`) and Ecoos (`IVW22xx`) models.
+
+- **Added Support for Acknowledgment Messages**  
+   Acknowledgment messages are now properly handled, following additional investigation into previously unsupported cases.
+
+- **Streamlined Door Control with Unified Lock Entities**  
+  The `Open Door` buttons have been replaced by new, standardized lock entities.  
+  You can now use the `lock.unlock` action in Home Assistant for seamless door control.  
+  This change simplifies dashboard integration and delivers a more consistent, intuitive experience.
+
+- **Use Light Entity instead of Button for Hallway Light**  
+  The `Turn on the light` button has been replaced by the `Hallway Light` light entity.  
+  You can now use the `light.turn_on` action in Home Assistant to turn on the hallway light. This change simplifies dashboard integration and delivers a more consistent, intuitive experience.
+
+- **Extended Ring to Open to Apartment Doorbells**  
+   [Ring To Open](https://doorman.azon.ai/guide/features/ring-to-open) now also works with your apartment doorbell when paired with a Nuki Smart Lock — making access even more convenient and seamless.
+
+- **MQTT Integration**  
+  The configuration assistant now allows you to select the [MQTT integration](https://doorman.azon.ai/guide/firmware/mqtt).  
+  After flashing, just enter your broker credentials via the built-in web interface.
+
+- **HomeKit Integration**  
+  To enable native control through Apple's Home app and Siri, you can now choose the [HomeKit integration](https://doorman.azon.ai/guide/firmware/homekit) in the configuration assistant.
+
+- **Pre-Open Telegrams**  
+   In some setups, it’s necessary to send one or more preparatory telegrams to select the correct door. This feature allows you to define and send a sequence of telegrams before the `open_door` telegram is executed.
+
+- **Door Opener Mode**  
+   It is now possible to activate the integrated relay instead of sending a BUS telegram to open the entrance door.  
+   This can be configured using the `Door Opener Mode` setting and is especially useful for older analog systems.
+
+- **Show Bus Activity via Status LED**  
+   Added a new switch that, when enabled, makes the status LED blink briefly to indicate bus activity. Helpful for debugging and verifying communication with the door system. Disabled by default.
+
+### ✨ Improvements
+- **Refined Configuration for Ring to Open**  
+   The configuration options have been separated per door, giving you greater flexibility to customize the [Ring To Open](https://doorman.azon.ai/guide/features/ring-to-open) behavior according to your specific requirements.
+
+   Additionally, the Delay settings are now presented as dropdown menus, making it more intuitive to use the random delay feature—which was previously hidden behind the 60-second setting.
+
+- **Smarter Ring to Open with Pattern Recognition**  
+  The door now opens only when a configured doorbell ring pattern is detected, offering more precise control over access.
+
+- **Quadruple Doorbell Pattern**  
+  A new quadruple-press pattern has been added, with slightly refined timing to improve reliability and avoid overlap with other patterns.
+
+- **Extended Model Detection Support**  
+   Detection capabilities now include additional older models like the `TTC-xx` and `TTS-xx`.
+
+- **Enhanced Reliability with Remote Peripheral**  
+   Data reading is now based on RMT, providing more reliability compared to the previous interrupt-based method.
+
+- **Telegram Queue**  
+   Outgoing telegrams are now queued to prevent data loss.
+
+- **Install Update Button**  
+   A new button lets you install the latest available Doorman firmware version directly from the web interface.
+
+- **Wi-Fi Signal Sensor**  
+   The default firmware now includes a Wi-Fi signal strength sensor, which was previously only available in the developer version.
+
+### 📝 Other Updates
+- **Firmware Configuration Assistant**  
+   The new assistant makes flashing the firmware easier than ever — not much technical experience required.
+
+- **Telegram Binary Sensors Disabled by Default**  
+   Since event entities offer the most convenient way to work with the doorbell, binary sensors are now disabled by default when adding Doorman to Home Assistant. You can still enable them manually at any time if needed.
+
+- **Enhanced Captive Portal UX**  
+   Building upon the ESPHome foundation, Doorman now features a custom-branded captive portal, offering a more consistent UX for Wi-Fi configuration.
+
+- **More Readable Log Messages**  
+   Log messages have been refined for improved clarity and readability.
+
+### 🚨 Breaking Changes
+- **Renamed `command` to `telegram`**
+  The `command` terminology has been replaced with `telegram`. If you're using the `tc_bus.send` action, you must update your configuration accordingly.  
+  Additionally, the `CommandData` class has been renamed to `TelegramData`.  
+  For full migration details, please refer to the updated ESPHome component documentation.
+
+- **Transition to RMT Components**  
+   The `TC:BUS` component no longer supports the `rx_pin` and `tx_pin` options.  
+   Instead, you must now define the `remote_receiver` and `remote_transmitter` components when using your own custom config.
+
+- **Removed Open Door and Light Buttons**  
+  The `Turn on the light` and `Open Door` buttons have been removed in favor of more efficient control methods.
+
+- **Renamed Ring to Open Entities**  
+  The [Ring To Open](https://doorman.azon.ai/guide/features/ring-to-open) entities are now labeled as `RTO: Door Name – Setting` to reflect the updated configuration structure, improving clarity and consistency.
+
+- **Renamed Intercom Model Entity**  
+  The `Intercom Model` setting has been renamed to `Indoor Station Model` for more consistency with the documentation and to better reflect its purpose.
+
+- **Renamed Nuki Lock**  
+  The `Nuki Lock` entity has been renamed to `Apartment Door` for better alignment with the naming convention used for other doors.
+
+- **Minimum ESPHome Version Set**  
+   The minimum required version has been updated to **2025.5.0**.
+
+## 2025.3.0 <Badge type="tip" text="Stable" />
 ### ✨ Improvements
 - **Fix Update Process**  
    Firmware updates are now correctly identified and retrieved for each specific firmware variant.
@@ -22,8 +128,8 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **Configuration YAML Files Restructured**  
    The configuration files have been reorganized to enhance modularity and enable support for additional host platforms.
 
-- **Precompiled binaries for ESP32-S3, ESP32 and ESP8266**  
-   The Doorman ESPHome firmware is finally available for these platforms as well.
+- **Precompiled binaries for ESP32-S3, ESP32**  
+   The Doorman ESPHome firmware is available for these platforms.
 
 ### 🚨 Breaking Changes
 - **Ring to Open Toggle Trigger**  
@@ -47,8 +153,8 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    Implemented settings compatibility for TCS TASTA (Koch TC60) IVW5xxx and ISW5xxx models.
 
 ### ✨ Improvements
-- **Fix Parser Command Length**  
-   Previously, the command length was not properly parsed, which occasionally led to 32-bit commands being misinterpreted. This issue has now been resolved.
+- **Fix Parser Telegram Length**  
+   Previously, the telegram length was not properly parsed, which occasionally led to 32-bit telegrams being misinterpreted. This issue has now been resolved.
    
 - **Configure Entrance Outdoor Station ID**  
    It is now feasible to replace the entrance outdoor station in the exceptional instances where non-default addresses are utilized. The setup mode will also set the entrance outdoor station address.
@@ -75,31 +181,31 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    
    For assistance, please contact me via [Discord](https://discord.gg/t2d34dvmBf) or open an issue on [GitHub](https://github.com/azoninc/doorman/issues).
 
-- **Hexadecimal Command-String Length changed**  
-   With the command parser now fixed, the hexadecimal string representation has been updated to correctly display the [Last Bus Command](../reference/entities#last-bus-command) sensor.
+- **Hexadecimal Telegram-String Length changed**  
+   With the telegram parser now fixed, the hexadecimal string representation has been updated to correctly display the [Last Bus Telegram](https://doorman.azon.ai/reference/entities#last-bus-telegram) sensor.
 
 - **Separate Event entities**  
    [Skaronator](https://github.com/azoninc/doorman/pull/37) introduced separate event entities for each physical doorbell button.  
    This enhancement enables event tracking on a per-button basis, providing more granular and precise support for doorbell interactions.  
    You will need to adjust your automations if you previously used the Doorbell Pattern Event Entity. Additionally, the event types have been changed.
 
-   👉 **Check the [Entities](../reference/entities#events) for details!**
+   👉 **Check the [Entities](https://doorman.azon.ai/reference/entities#events) for details!**
 
 - **Intercom Models Renamed**  
    As part of streamlining the models for each manufacturer, you may need to reconfigure your intercom model.
    Now, you can also see the Koch and Scantron models.
 
-   👉 **Check the [Model Setting availability](../reference/esphome-component#model-setting-availability) for details!**
+   👉 **Check the [Model Setting availability](https://doorman.azon.ai/reference/esphome-component#model-setting-availability) for details!**
 
 - **Intercom Settings Updated**  
    To accommodate compatibility with new models, the settings `ringtone_door_call` and `volume_handset` have been renamed.  
 
-   👉 **Refer to the [Setting Types](../reference/esphome-component#setting-types) for the updated names and additional settings!**
+   👉 **Refer to the [Setting Types](https://doorman.azon.ai/reference/esphome-component#setting-types) for the updated names and additional settings!**
 
 ## 2024.11.2
 ### ✨ Improvements
-- **Fixed open door command**  
-   Use the short open door command instead of the long one (with serial number) as this seems to cause issues on some setups.
+- **Fixed open door telegram**  
+   Use the short open door telegram instead of the long one (with serial number) as this seems to cause issues on some setups.
 
 ## 2024.11.1
 ### ✨ Improvements
@@ -114,9 +220,9 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 ### 🚀 What's New?
 - **TC:BUS Protocol Support**  
    Unleash more power with the **new protocol support**!
-   You can now use intuitive command types with parameters like `address`, `payload`, and `serial_number`.  
+   You can now use intuitive telegram types with parameters like `address`, `payload`, and `serial_number`.  
 
-   👉 **Explore the [Supported Commands](../reference/esphome-component#command-types)**
+   👉 **Explore the [Supported Telegrams](https://doorman.azon.ai/reference/esphome-component#telegram-types)**
 
 - **Interactive Setup Enhancements**  
    The system now **remembers** your indoor station's serial number and automatically detects any additional outdoor stations during setup.
@@ -127,7 +233,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 - **New Memory Management Tools**  
    You can now **customize ringtones** and **adjust volumes** of indoor stations.  
 
-   👉 **Check the [Supported Models and Settings](../reference/esphome-component#model-setting-availability)**
+   👉 **Check the [Supported Models and Settings](https://doorman.azon.ai/reference/esphome-component#model-setting-availability)**
 
 - **Programming Mode Actions**  
    Just **toggle the control unit’s programming mode** using ESPHome for instant actions.
@@ -137,54 +243,54 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
 
 ### ✨ Improvements
 - **Better Entity Grouping**  
-   Navigate with ease! **Entities** are now more logically grouped on the webserver for effortless control and access.
+   Navigate with ease! **Entities** are now more logically grouped on the web interface for effortless control and access.
 
 - **Simplified ESPHome Configuration**  
    We’ve made the ESPHome config files **more modular**! Configurations are now split into separate add-ons for smoother management.
 
 - **Doorman Discovery**  
-   We've introduced a new custom protocol that enables seamless discovery of other devices running this firmware for troubleshooting, as well as those utilizing the [custom Doorman firmware](../guide/firmware/custom-firmware) .
+   We've introduced a new custom protocol that enables seamless discovery of other devices running this firmware for troubleshooting, as well as those utilizing the [custom Doorman firmware](https://doorman.azon.ai/guide/firmware/custom-firmware) .
 
 ### 📝 Other Updates
 - **Component Name Change**  
-   The `tcs_intercom` component has been renamed to **`tc_bus`** and merged into this repository. All documentation is now centralized [here](../reference/esphome-component).
+   The `tcs_intercom` component has been renamed to **`tc_bus`** and merged into this repository. All documentation is now centralized [here](https://doorman.azon.ai/reference/esphome-component).
 
 ### 🚨 Breaking Changes
 - **Re-setup Required!**  
-   The new protocol means you’ll need to **reconfigure** your system. Old stored commands won't work anymore. Simply **press the apartment or entrance doorbell** to start the setup again.  
+   The new protocol means you’ll need to **reconfigure** your system. Old stored telegrams won't work anymore. Simply **press the apartment or entrance doorbell** to start the setup again.  
 
-   👉 **Check the [setup guide](../guide/getting-started#step-3-interactive-setup) for details!**
+   👉 **Check the [setup guide](https://doorman.azon.ai/guide/getting-started#interactive-setup) for details!**
 
 - **New Service Names**  
    We’ve made changes to the Home Assistant service names to make them easier to understand and use:
    - **Old Format**:
      ```yaml
-     service: esphome.doorman_s3_send_tcs_command
+     service: esphome.doorman_s3_send_tcs_telegram
      data:
-       command: 0x1C30BA41
+       telegram: 0x1C30BA41
      ```
    - **New Format**:
      ```yaml
-     service: esphome.doorman_s3_send_tc_command_raw
+     service: esphome.doorman_s3_send_tc_telegram_raw
      data:
-       command: 0x1C30BA41
+       telegram: 0x1C30BA41
      ```
    - **New User-Friendly Option**:
      ```yaml
-     service: esphome.doorman_s3_send_tc_command
+     service: esphome.doorman_s3_send_tc_telegram
      data:
-       type: floor_call  # Command type (e.g., 'floor_call', 'door_open')
+       type: floor_call  # Telegram type (e.g., 'floor_call', 'door_open')
        address: 0        # Address, for example the Outdoor Station
        payload: 0        # Data payload
        serial_number: 0  # Indoor Station serial number
      ```
-     **Why it’s awesome**: It’s now **more readable** and lets you **easily specify** command types!
+     **Why it’s awesome**: It’s now **more readable** and lets you **easily specify** telegram types!
 
 
 ## 2024.8.5
 ### 🚀 What's New?
 - **Enhanced Interactive Setup**  
-   Setup is even easier! **Automatically capture and store bus commands** during first-time setup if no previous commands are detected.
+   Setup is even easier! **Automatically capture and store bus telegrams** during first-time setup if no previous telegrams are detected.
 
 ### ✨ Improvements
 - **Dashboard Import Fix**  
@@ -204,7 +310,7 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    Initial setup is now a breeze with options like **Access Point**, **Improv Serial**, or **Improv BLE**.
 
 - **Runtime Configuration**  
-   Easily configure **bus commands** and settings on the fly!
+   Easily configure **bus telegrams** and settings on the fly!
 
 - **New Event Entities**  
    New entities for doorbell and handset patterns (like **entrance or apartment doorbell**, and **lift handset**).
@@ -233,8 +339,8 @@ Welcome to the latest updates! Here's a breakdown of all the **new features**, *
    The webserver feature is now enabled for quicker access.
 
 ### 🚨 Breaking Changes
-- **Command Reset**  
-   Due to the simplified setup process and configurable commands, the substituations are not used anymore. Thus you’ll need to **reconfigure** them using the new input entities.
+- **Telegram Reset**  
+   Due to the simplified setup process and configurable telegrams, the substituations are not used anymore. Thus you’ll need to **reconfigure** them using the new input entities.
    
 - **Minimum ESPHome Version Set**  
    We’ve bumped the minimum required version to **2024.8.0**.

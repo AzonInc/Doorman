@@ -11,14 +11,30 @@
         "lunaria:open": "open-cli .vitepress/dist/_translations/index.html"
     },
     "devDependencies": {
+        "@iconify-json/bi": "^1.2.4",
+        "@iconify-json/cbi": "^1.2.14",
+        "@iconify-json/emojione-v1": "^1.2.1",
+        "@iconify-json/famicons": "^1.2.0",
+        "@iconify-json/fluent": "^1.2.23",
+        "@iconify-json/fluent-emoji": "^1.2.3",
+        "@iconify-json/ic": "^1.2.2",
+        "@iconify-json/line-md": "^1.2.8",
         "@iconify-json/logos": "^1.1.44",
+        "@iconify-json/material-symbols": "^1.2.25",
         "@iconify-json/mdi": "^1.1.68",
+        "@iconify-json/noto": "^1.2.3",
+        "@iconify-json/ph": "^1.2.2",
+        "@iconify-json/streamline": "^1.2.5",
+        "@iconify-json/tabler": "^1.2.19",
+        "@iconify-json/twemoji": "^1.2.2",
         "@lunariajs/core": "^0.1.1",
+        "@mdi/font": "^7.4.47",
         "@types/three": "^0.167.2",
         "markdown-it-mathjax3": "^4.3.2",
         "open-cli": "^8.0.0",
         "unocss": "^0.62.3",
         "unplugin": "^1.12.2",
+        "unplugin-icons": "^22.1.0",
         "unplugin-vue-components": "^0.27.4",
         "vite-svg-loader": "^5.1.0",
         "vitepress": "^1.6.3"
@@ -29,7 +45,14 @@
     "dependencies": {
         "@tresjs/cientos": "^4.0.0",
         "@tresjs/core": "^4.2.7",
+        "axios": "^1.9.0",
+        "esp-web-tools": "^10.1.1",
+        "improv-wifi-sdk": "^1.4.0",
+        "improv-wifi-serial-sdk": "^2.5.0",
         "three": "^0.167.1",
-        "tweakpane": "^4.0.4"
+        "tweakpane": "^4.0.4",
+        "vitepress-plugin-group-icons": "^1.5.2",
+        "vitepress-plugin-image-viewer": "^1.1.6",
+        "vitepress-plugin-tabs": "^0.7.1"
     }
 }

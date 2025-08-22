@@ -1,10 +1,10 @@
 # TC:BUS ESPHome Component
 
 The TC:BUS Component for ESPHome allows you to interface with a [TCS:Bus](https://www.tcsag.de/) or [Koch TC:Bus](https://kochag.ch/) intercom system, providing automation, monitoring, and interaction capabilities within the [ESPHome](https://esphome.io/) ecosystem.
-This component can trigger automations based on specific commands received from the intercom system.
+This component can trigger automations based on specific telegrams received from the intercom system.
 
-It also supports sending commands to the intercom and receiving various status updates (e.g., bus commands and door readiness).
-Additionally, actions can be set up to respond to specific commands from the intercom system.
+It also supports sending telegrams to the intercom and receiving various status updates (e.g., bus telegrams and door readiness).
+Additionally, actions can be set up to respond to specific telegrams from the intercom system.
 
 ::: tip Note
 This component requires hardware like the Doorman-S3 or a [DIY solution](https://github.com/peteh/doorman) in order to communicate on the bus.
@@ -19,13 +19,14 @@ The `tc_bus` hub component offers the following configuration options:
 | Option                    | Description                                                                                                                                   | Required | Default       |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
-| `rx_pin`                  | GPIO pin for receiving data from the TC:BUS intercom.                                                                                            | No       | `9`           |
-| `tx_pin`                  | GPIO pin for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                                    | No       | `8`           |
-| `event`                   | Event name to be generated in Home Assistant when a bus command is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
-| `on_command`              | Defines actions to be triggered when a command is received from the intercom. Returns a `CommandData` structure as the `x` variable.          | No       |               |
+| `receiver_id`             | ID of remote_receiver for receiving data from the TC:BUS intercom.                                                                            | No       | The configured remote_receiver |
+| `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS intercom. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
+| `event`                   | Event name to be generated in Home Assistant when a bus telegram is received. For example, if set to `tc`, the event will be `esphome.tc`. Set to `none` to disable event generation. | No       | `tc`         |
+| `on_telegram`              | Defines actions to be triggered when a telegram is received from the intercom. Returns a `TelegramData` struct as the `x` variable.          | No       |               |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | No       |               |
 | `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | No       |               |
 | `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | No       |               |
+| `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                                      | No       |               |
 | `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | No       |               |
 
 
@@ -45,7 +46,7 @@ The `tc_bus` Text Sensor component offers the following configuration options:
 
 | Option                 | Description                                                | Required | Default       |
 |------------------------|------------------------------------------------------------|----------|---------------|
-| `bus_command`          | Text Sensor to display the last received bus command.      | No       |               |
+| `bus_telegram`          | Text Sensor to display the last received bus telegram.      | No       |               |
 | `hardware_version`     | Text Sensor to display the Doorman-S3 hardware version.    | No       |               |
 
 ### Select Inputs
@@ -59,10 +60,17 @@ The `tc_bus` Select component offers the following configuration options:
 | `ringtone_floor_call`                | Floor Call Ringtone Select to set the floor call ringtone of your indoor station.                              | No       | |
 | `ringtone_internal_call`             | Internal Call Ringtone Select to set the internal call ringtone of your indoor station.                        | No       | |
 
+### Switches
+The `tc_bus` Switch component offers the following configuration options:
+
+| Option                               | Description                                                                                                    | Required | Default       |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `force_long_door_opener`             | This enforces execution of the long door opener telegram and mandates inclusion of a serial number in the short door opener telegram. | No       | |
+
 
 ### Binary Sensors
 
-The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It can be configured to trigger based on a predefined command or a lambda expression.
+The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or a lambda expression.
 
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
@@ -70,9 +78,9 @@ The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It 
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
-| `command`        | A specific 32-bit hexadecimal command that triggers the binary sensor when received from the TC:BUS intercom.| Yes       | `0`           |
-| `command_lambda` | Lambda expression used to dynamically generate the command that will trigger the binary sensor, instead of using a fixed command. Cannot be used with `command`.  | No       |               |
-| `type`           | Command type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `command`.  | Yes       | `unknown`     |
+| `telegram`        | A specific 32-bit hexadecimal telegram that triggers the binary sensor when received from the TC:BUS intercom.| Yes       | `0`           |
+| `telegram_lambda` | Lambda expression used to dynamically generate the telegram that will trigger the binary sensor, instead of using a fixed telegram. Cannot be used with `telegram`.  | No       |               |
+| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `serial_number`. Cannot be used with `telegram`.  | Yes       | `unknown`     |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
 | `address_lambda` | Lambda expression to evaluate whether the binary sensor should trigger based on the address.              | No       |               |
 | `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
@@ -80,21 +88,21 @@ The **TC:BUS Binary Sensor** detects binary states such as doorbell presses. It 
 | `serial_number`  | Specific intercom serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | No       | `unknown`     |
 
 ::: info
-You can use **either** `command`/`command_lambda` **or** a combination of `type`, `address`/`address_lambda`, `payload`/`payload_lambda`, and `serial_number`, but **not both** simultaneously.\
-This ensures the binary sensor triggers either through a specific command or a combination of parameters, preventing conflicts.
+You can use **either** `telegram`/`telegram_lambda` **or** a combination of `type`, `address`/`address_lambda`, `payload`/`payload_lambda`, and `serial_number`, but **not both** simultaneously.\
+This ensures the binary sensor triggers either through a specific telegram or a combination of parameters, preventing conflicts.
 :::
 
 
 ## Callbacks
-### Received Command
-The `on_command` callback of the `tc_bus` hub allows you to utilize the [CommandData](#command-data) structure, accessible as the `x` variable.
+### Received Telegram
+The `on_telegram` callback of the `tc_bus` hub allows you to utilize the [TelegramData](#telegram-data) struct, accessible as the `x` variable.
 
 ```yaml
-on_command:
+on_telegram:
   - lambda: |-
-      ESP_LOGD("TAG", "Received Command Type: %s", command_type_to_string(x.type));
+      ESP_LOGD("TAG", "Received Telegram Type: %s", telegram_type_to_string(x.type));
 
-      if (x.type == COMMAND_TYPE_OPEN_DOOR) {
+      if (x.type == TELEGRAM_TYPE_OPEN_DOOR) {
         ESP_LOGD("TAG", "Opened Door of outdoor station %i", x.address);
       }
 ```
@@ -111,7 +119,7 @@ on_read_memory_complete:
 ```
 
 ### Read Memory Timeout
-The `on_read_memory_timeout` callback of the `tc_bus` hub allows you to detect a failed memory reading. Most probably when a model doesn't support the related commands.
+The `on_read_memory_timeout` callback of the `tc_bus` hub allows you to detect a failed memory reading. Most probably when a model doesn't support the related telegrams.
 
 ```yaml
 on_read_memory_timeout:
@@ -119,7 +127,7 @@ on_read_memory_timeout:
 ```
 
 ### Identification of Indoor Station Complete
-The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [ModelData](#model-data) structure, accessible as the `x` variable.
+The `on_identify_complete` callback of the `tc_bus` hub allows you to utilize the [ModelData](#model-data) struct, accessible as the `x` variable.
 
 ```yaml
 on_identify_complete:
@@ -127,6 +135,14 @@ on_identify_complete:
   - lambda: |-
       std::string hexString = str_upper_case(format_hex(x));
       ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
+```
+
+### Identification of Indoor Station Complete (Unknown Model)
+The `on_identify_unknown` callback of the `tc_bus` hub allows you to detect a unknown model identification of the indoor station. Most probably when a model is too old and doesn't support this process or is not implemented yet.
+
+```yaml
+on_identify_unknown:
+  - logger.log: "Failed to identify indoor station - unknown model!"
 ```
 
 ### Identification of Indoor Station Timeout
@@ -148,16 +164,28 @@ on_...:
       serial_number: 123456
 ```
 
-### Identify Indoor Station
-The `tc_bus.identify` action allows you to identify the model of any indoor station using the serial number.
+### Identify devices on the Bus
+The `tc_bus.identify` action allows you to automatically detect the model of a device on the bus using its serial number.
+
 ::: tip Note
-Not all models support this feature. For older indoor stations, you may need to select the model manually.
+Automatic identification is not supported by all devices. Currently, only indoor stations are fully supported in the identification process. However, you will still receive a response with the device's identification data, even for unsupported models.
 :::
+
+By default, if `device_group` is not specified, the action will attempt to identify a device in group 0 first, then group 1 if no match is found.
 
 ```yaml
 on_...:
   - tc_bus.identify:
       serial_number: 123456
+```
+
+To target a specific type of device, you can explicitly set the `device_group`:
+
+```yaml
+on_...:
+  - tc_bus.identify:
+      serial_number: 123456
+      device_group: 3
 ```
 
 ### Set Programming Mode
@@ -181,33 +209,33 @@ on_...:
       serial_number: 123456
 ```
 
-### Sending Commands
+### Sending Telegrams
 
-You can send commands on the bus using the `tc_bus.send` action.
+You can send telegrams on the bus using the `tc_bus.send` action.
 
 ::: tip Note
-You can either use the `command` field to send a specific command or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
+You can either use the `telegram` field to send a specific telegram or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
 
-You can explicitly send a 32-bit command by using the optional `is_long` property, which is useful when the command begins with leading zeros.
+You can explicitly send a 32-bit telegram by using the optional `is_long` property, which is useful when the telegram begins with leading zeros.
 :::
 
-#### Example 1: Sending a raw Command
+#### Example 1: Sending a raw Telegram
 
 ```yaml
 on_...:
   - tc_bus.send:
-      command: 0x1A2B3C4D
+      telegram: 0x1A2B3C4D
 ```
-#### Example 2: Sending a raw Command with fixed size
+#### Example 2: Sending a raw Telegram with fixed size
 
 ```yaml
 on_...:
   - tc_bus.send:
-      command: 0x00000280
+      telegram: 0x00000280
       is_long: True
 ```
 
-#### Example 3: Sending a Command via Command Builder
+#### Example 3: Sending a Telegram via Telegram Builder
 
 ```yaml
 on_...:
@@ -218,30 +246,16 @@ on_...:
       serial_number: 123456
 ```
 
-#### Example 3: Sending Multiple Commands
-
-For some configurations, you may need to send multiple commands consecutively. In these cases, you must insert at least a 100ms delay between the commands.
-
-```yaml
-on_...:
-  - tc_bus.send:
-      command: 0x1100
-  - delay: 100ms
-  - tc_bus.send:
-      command: 0x2100
-```
-
-
 ## Event Handling
-If the `event` parameter is set (and not `none`), an event is generated each time a command is received. You can monitor these events in Home Assistant on the [developer tools](https://my.home-assistant.io/redirect/developer_events/) page.
+If the `event` parameter is set (and not `none`), an event is generated each time a telegram is received. You can monitor these events in Home Assistant on the [developer tools](https://my.home-assistant.io/redirect/developer_events/) page.
 
-Each time a command is received, an event like the following is generated:
+Each time a telegram is received, an event like the following is generated:
 
 ```yaml
 event_type: esphome.doorman
 data:
   device_id: xxxxxxxxxxxxxxxxxxxxxxxxx
-  command: "0x00002400"
+  telegram: "0x00002400"
   type: "end_of_door_readiness"
   address: "0"
   payload: "0"
@@ -260,7 +274,7 @@ To trigger a Home Assistant automation based on this event, you can use an `even
 platform: event
 event_type: esphome.doorman
 event_data:
-  command: "0x00002480"
+  telegram: "0x00002480"
 ```
 
 ```yaml
@@ -272,7 +286,7 @@ event_data:
   serial_number: "0"
 ```
 
-Be sure to modify the command and event name as needed based on your configuration.
+Be sure to modify the telegram and event name as needed based on your configuration.
 
 
 ## Example YAML Configuration
@@ -281,17 +295,29 @@ Here is an example configuration for the TC:BUS component in ESPHome:
 
 ```yaml
 external_components:
-  - source: github://azoninc/doorman
+  - source: github://azoninc/doorman@master
     components: [ tc_bus ]
+
+## RMT configuration
+remote_receiver:
+  pin:
+    number: GPIO9
+    mode: INPUT
+  filter: 1500us
+  idle: 7000us
+
+remote_transmitter:
+  pin:
+    number: GPIO8
+    mode: OUTPUT
+  carrier_duty_percent: 100%
 
 # TC:BUS configuration
 tc_bus:
   id: my_tc_bus
-  rx_pin: GPIO9
-  tx_pin: GPIO8
   event: "doorman"
-  on_command:
-    - logger.log: "Received command from intercom!"
+  on_telegram:
+    - logger.log: "Received telegram from intercom!"
 
 number:
   - platform: tc_bus
@@ -300,8 +326,8 @@ number:
 
 text_sensor:
   - platform: tc_bus
-    bus_command:
-      name: "Last Bus Command"
+    bus_telegram:
+      name: "Last Bus Telegram"
 
 # Binary sensor for doorbell press
 binary_sensor:
@@ -309,7 +335,7 @@ binary_sensor:
     id: doorbell_sensor_raw
     name: "Outdoor Station Doorbell (raw)"
     icon: "mdi:doorbell"
-    command: 0x0C30BA80
+    telegram: 0x0C30BA80
     auto_off: 2s
 
   - platform: tc_bus
@@ -334,13 +360,13 @@ binary_sensor:
     address: 0
     serial_number: 255 # 255 is used to catch all
 
-# Sending commands
+# Sending telegrams
 button:
   - platform: template
     name: "Open Door (raw)"
     on_press:
       - tc_bus.send:
-          command: 0x1100
+          telegram: 0x1100
 
   - platform: template
     name: "Open Door (builder)"
@@ -374,23 +400,27 @@ button:
           value: 7
 ```
 
-## Command Data
-The `CommandData` structure is used internally and can also be used in the `on_command`.
+## Telegram Data
+The `TelegramData` struct is used internally and can also be used in the `on_telegram`.
 
 ```c++
-struct CommandData {
-    uint32_t command;
-    std::string command_hex;
-    CommandType type;
+struct TelegramData {
+    uint32_t raw;
+    std::string hex;
+
+    TelegramType type;
     uint8_t address;
     uint32_t serial_number;
     uint32_t payload;
+    
     bool is_long;
+    bool is_response;
+    bool is_data;
 };
 ```
 
 ## Model Data
-The `ModelData` structure is used internally in the identification process.
+The `ModelData` struct is used internally in the identification process.
 
 ```c++
 struct ModelData {
@@ -405,36 +435,36 @@ struct ModelData {
 };
 ```
 
-## Command Types
-You can use command types in binary sensors and also when [sending commands](#sending-commands):
+## Telegram Types
+You can use telegram types in binary sensors and also when [sending telegrams](#sending-telegrams):
 
-- door_call <Badge type="tip" text="COMMAND_TYPE_DOOR_CALL" />
-- floor_call <Badge type="tip" text="COMMAND_TYPE_FLOOR_CALL" />
-- internal_call <Badge type="tip" text="COMMAND_TYPE_INTERNAL_CALL" />
-- control_function <Badge type="tip" text="COMMAND_TYPE_CONTROL_FUNCTION" />
-- start_talking_door_call <Badge type="tip" text="COMMAND_TYPE_START_TALKING_DOOR_CALL" />
-- start_talking <Badge type="tip" text="COMMAND_TYPE_START_TALKING" />
-- stop_talking_door_call <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING_DOOR_CALL" />
-- stop_talking <Badge type="tip" text="COMMAND_TYPE_STOP_TALKING" />
-- open_door <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR" />
-- open_door_long <Badge type="tip" text="COMMAND_TYPE_OPEN_DOOR_LONG" />
-- light <Badge type="tip" text="COMMAND_TYPE_LIGHT" />
-- door_opened <Badge type="tip" text="COMMAND_TYPE_DOOR_OPENED" />
-- door_closed <Badge type="tip" text="COMMAND_TYPE_DOOR_CLOSED" />
-- end_of_ringtone <Badge type="tip" text="COMMAND_TYPE_END_OF_RINGTONE" />
-- end_of_door_readiness <Badge type="tip" text="COMMAND_TYPE_END_OF_DOOR_READINESS" />
-- initialize_door_station <Badge type="tip" text="COMMAND_TYPE_INITIALIZE_DOOR_STATION" />
-- reset <Badge type="tip" text="COMMAND_TYPE_RESET" />
-- select_device_group <Badge type="tip" text="COMMAND_TYPE_SELECT_DEVICE_GROUP" />
-- select_device_group_reset <Badge type="tip" text="COMMAND_TYPE_SELECT_DEVICE_GROUP_RESET" />
-- search_devices <Badge type="tip" text="COMMAND_TYPE_SEARCH_DEVICES" />
-- found_device <Badge type="tip" text="COMMAND_TYPE_FOUND_DEVICE" />
-- found_device_subsystem <Badge type="tip" text="COMMAND_TYPE_FOUND_DEVICE_SUBSYSTEM" />
-- programming_mode <Badge type="tip" text="COMMAND_TYPE_PROGRAMMING_MODE" />
-- read_memory_block <Badge type="tip" text="COMMAND_TYPE_READ_MEMORY_BLOCK" />
-- select_memory_page <Badge type="tip" text="COMMAND_TYPE_SELECT_MEMORY_PAGE" />
-- write_memory <Badge type="tip" text="COMMAND_TYPE_WRITE_MEMORY" />
-- request_version <Badge type="tip" text="COMMAND_TYPE_REQUEST_VERSION" />
+- door_call <Badge type="tip" text="TELEGRAM_TYPE_DOOR_CALL" />
+- floor_call <Badge type="tip" text="TELEGRAM_TYPE_FLOOR_CALL" />
+- internal_call <Badge type="tip" text="TELEGRAM_TYPE_INTERNAL_CALL" />
+- control_function <Badge type="tip" text="TELEGRAM_TYPE_CONTROL_FUNCTION" />
+- start_talking_door_call <Badge type="tip" text="TELEGRAM_TYPE_START_TALKING_DOOR_CALL" />
+- start_talking <Badge type="tip" text="TELEGRAM_TYPE_START_TALKING" />
+- stop_talking_door_call <Badge type="tip" text="TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL" />
+- stop_talking <Badge type="tip" text="TELEGRAM_TYPE_STOP_TALKING" />
+- open_door <Badge type="tip" text="TELEGRAM_TYPE_OPEN_DOOR" />
+- open_door_long <Badge type="tip" text="TELEGRAM_TYPE_OPEN_DOOR_LONG" />
+- light <Badge type="tip" text="TELEGRAM_TYPE_LIGHT" />
+- door_opened <Badge type="tip" text="TELEGRAM_TYPE_DOOR_OPENED" />
+- door_closed <Badge type="tip" text="TELEGRAM_TYPE_DOOR_CLOSED" />
+- end_of_ringtone <Badge type="tip" text="TELEGRAM_TYPE_END_OF_RINGTONE" />
+- end_of_door_readiness <Badge type="tip" text="TELEGRAM_TYPE_END_OF_DOOR_READINESS" />
+- initialize_door_station <Badge type="tip" text="TELEGRAM_TYPE_INITIALIZE_DOOR_STATION" />
+- reset <Badge type="tip" text="TELEGRAM_TYPE_RESET" />
+- select_device_group <Badge type="tip" text="TELEGRAM_TYPE_SELECT_DEVICE_GROUP" />
+- select_device_group_reset <Badge type="tip" text="TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET" />
+- search_devices <Badge type="tip" text="TELEGRAM_TYPE_SEARCH_DEVICES" />
+- found_device <Badge type="tip" text="TELEGRAM_TYPE_FOUND_DEVICE" />
+- found_device_subsystem <Badge type="tip" text="TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM" />
+- programming_mode <Badge type="tip" text="TELEGRAM_TYPE_PROGRAMMING_MODE" />
+- read_memory_block <Badge type="tip" text="TELEGRAM_TYPE_READ_MEMORY_BLOCK" />
+- select_memory_page <Badge type="tip" text="TELEGRAM_TYPE_SELECT_MEMORY_PAGE" />
+- write_memory <Badge type="tip" text="TELEGRAM_TYPE_WRITE_MEMORY" />
+- request_version <Badge type="tip" text="TELEGRAM_TYPE_REQUEST_VERSION" />
 
 
 ## Setting Types
@@ -449,12 +479,18 @@ Here are the available setting types you can use to update the settings of your 
 - volume_handset_internal_call <Badge type="tip" text="SETTING_VOLUME_HANDSET_INTERNAL_CALL" />
 
 
-## Model Setting availability
-Below are the available settings for specific indoor station models:
+## Model Setting Availability
+In general, **all listed models** are supported.
+However, some support configuration directly via Doorman, while others still require verification.
+
+### Indoor Stations
+Below is a list of available settings for specific indoor station models:
 
 | Model                        | Available settings                                                                                         |
 |------------------------------|------------------------------------------------------------------------------------------------------------|
-| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`                                      |
+| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS TTC-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
+| TCS TTS-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
 | TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
 | TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
 | TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
@@ -484,13 +520,13 @@ Below are the available settings for specific indoor station models:
 | TCS IVWM7000                 | Verification and implementation required |
 | TCS ISW4100 / Koch TC31      | Verification and implementation required |
 | TCS IMM2100 / Koch TCE31     | Verification and implementation required |
-| TCS IVW2210 / Koch Ecoos     | Verification and implementation required |
-| TCS IVW2211 / Koch Ecoos     | Verification and implementation required |
-| TCS IVW2212 / Koch Ecoos / Scantron SLIM60T | Verification and implementation required |
-| TCS VTC42V2                  | Verification and implementation required |
-| TCS TC40V2                   | Verification and implementation required |
-| TCS VTC40                    | Verification and implementation required |
-| TCS TC40                     | Verification and implementation required |
+| TCS IVW2210 / Koch Ecoos     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone` |
+| TCS IVW2211 / Koch Ecoos     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone` |
+| TCS IVW2212 / Koch Ecoos / Scantron SLIM60T | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone` |
+| TCS VTC42V2                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS TC40V2                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS VTC40                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
+| TCS TC40                     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `volume_handset_door_call` |
 | TCS TC2000                   | Verification and implementation required |
 | TCS TC20P                    | Verification and implementation required |
 | TCS TC20F                    | Verification and implementation required |
@@ -514,8 +550,20 @@ Below are the available settings for specific indoor station models:
 | TCS CAIXXXX / Koch CAIXXXX   | Verification and implementation required |
 | TCS CAI2000 / Koch Carus     | Verification and implementation required |
 | TCS ISW42X0                  | Verification and implementation required |
+| TKI01-SG/2                   | Verification and implementation required, hardware testing required |
 | TCS IVW9010 | None |
 | TCS IVW9011 / Koch VTP10 | None |
 | TCS IVW9110 | None |
 | TCS IVW9030 / Scantron SLIM50T | None |
 | TCS IVE70   | None |
+
+### Controller
+Below is a list of available settings for specific controller models:
+
+| Model                        | Available settings                                                                                         |
+|------------------------------|------------------------------------------------------------------------------------------------------------|
+| TCS BVS20                    | None |
+| TCS BVS30                    | None |
+| TCS VBVS30                   | None |
+| TCS NBV3210                  | None |
+| TCS NBV2600                  | None |

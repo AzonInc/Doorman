@@ -1,14 +1,3 @@
-
-
-export default defineConfig({
-  head: [
-    // og:site_name, og:type, og:image:width, og:image:height, twitter:card go here
-  ],
-  
-  // …
-});
-
-
 import { createRequire } from 'module'
 import { defineConfig } from 'vitepress'
 import { search as deSearch } from './de.mts'
@@ -41,7 +30,7 @@ export const shared = defineConfig({
   ],
 
   sitemap: {
-    hostname: pkg.version.includes('dev') ? 'https://doorman-dev.surge.sh' : 'https://doorman.azon.ai',
+    hostname: pkg.version.includes('dev') ? 'https://dev.doorman.azon.ai' : 'https://doorman.azon.ai',
     transformItems(items) {
       return items.filter((item) => !item.url.includes('migration'))
     }
@@ -55,14 +44,6 @@ export const shared = defineConfig({
     ['meta', { property: 'og:site_name', content: 'Doorman' }],
     ['meta', { property: 'og:image', content: 'https://doorman.azon.ai/doorman-og.jpg' }],
     ['meta', { property: 'og:url', content: 'https://doorman.azon.ai/' }],
-    [
-      'script',
-      {
-        async: '',
-        type: 'module',
-        src: 'https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module'
-      }
-    ],
     [
       'script',
       {

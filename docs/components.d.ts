@@ -7,6 +7,23 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Contact: typeof import('./.vitepress/theme/components/Contact.vue')['default']
+    ContactForm: typeof import('./.vitepress/theme/components/ContactForm.vue')['default']
+    ContactModal: typeof import('./.vitepress/theme/components/ContactModal.vue')['default']
+    ContactOld: typeof import('./.vitepress/theme/components/ContactOld.vue')['default']
+    copy: typeof import('./.vitepress/theme/components/Contact copy.vue')['default']
+    IconEmojioneV1FlagForGermany: typeof import('~icons/emojione-v1/flag-for-germany')['default']
+    IconEmojioneV1FlagForSwitzerland: typeof import('~icons/emojione-v1/flag-for-switzerland')['default']
+    IconFluentEmojiRocket: typeof import('~icons/fluent-emoji/rocket')['default']
+    IconFluentEmojiSparkles: typeof import('~icons/fluent-emoji/sparkles')['default']
+    IconIcRoundOtherHouses: typeof import('~icons/ic/round-other-houses')['default']
+    IconLineMdUploadingLoop: typeof import('~icons/line-md/uploading-loop')['default']
+    IconMdiPackageVariantPlus: typeof import('~icons/mdi/package-variant-plus')['default']
+    IconNotoPackage: typeof import('~icons/noto/package')['default']
+    IconPhCpuBold: typeof import('~icons/ph/cpu-bold')['default']
+    IconTwemojiFlagEuropeanUnion: typeof import('~icons/twemoji/flag-european-union')['default']
+    IconTwemojiFlagGermany: typeof import('~icons/twemoji/flag-germany')['default']
+    IconTwemojiPackage: typeof import('~icons/twemoji/package')['default']
     ModelViewer: typeof import('./.vitepress/theme/components/ModelViewer.vue')['default']
     STLLoader: typeof import('./.vitepress/theme/components/STLLoader.vue')['default']
   }

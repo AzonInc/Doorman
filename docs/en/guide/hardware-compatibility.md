@@ -64,7 +64,8 @@ A loud beeping noise occurs whenever someone is talking.
 
 ![ttc1-b-1-module](./images/incompatible-ttc1-b-1.png){width=300px}
 
-
+## Multiple Indoor Stations
+If you have multiple indoor stations, things become a bit more complex. You'll need to create a custom YAML configuration to integrate all the indoor stations. The default firmware only supports a single indoor station.
 
 ## Verified Hardware
 

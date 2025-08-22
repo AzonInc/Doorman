@@ -1,7 +1,7 @@
 # PCB Revision History & Changelog
 Welcome to the complete history of all PCB updates! This page highlights the new features, improvements, and changes made in each revision.
 
-## 1.6.0 <Badge type="warning" text="Next" />
+## 1.6.0 <Badge type="warning" text="Next - Fail" />
 - Extend ground plane around power supply section
 - Low impedance voltage divider
 - Power supply redesign

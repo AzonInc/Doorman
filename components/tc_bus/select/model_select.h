@@ -6,7 +6,7 @@
 namespace esphome {
 namespace tc_bus {
 
-class ModelSelect : public select::Select, public Parented<TCBusComponent> {
+class ModelSelect final : public select::Select, public Parented<TCBusComponent> {
  public:
   ModelSelect() = default;
 

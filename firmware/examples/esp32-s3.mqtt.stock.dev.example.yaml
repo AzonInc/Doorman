@@ -19,8 +19,3 @@ packages:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-
-mqtt:
-  broker: "10.10.0.2"
-  username: ""
-  password: ""

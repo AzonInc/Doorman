@@ -1,0 +1,261 @@
+#pragma once
+#include <esphome/core/defines.h>
+#ifdef USE_CLIMATE
+#include <esphome/core/application.h>
+#include <esphome/components/climate/climate_mode.h>
+#include <hap.h>
+#include <hap_apple_servs.h>
+#include <hap_apple_chars.h>
+#include "esphome/components/homekit_bridge/const.h"
+#include "esphome/components/homekit_bridge/util.h"
+#include "automation.h"
+
+namespace esphome
+{
+  namespace homekit
+  {
+    class ClimateEntity
+    {
+      static std::unordered_map<hap_acc_t*, ClimateEntity*> acc_instance_map;
+
+    private:
+      static constexpr const char* TAG = "homekit.climate";
+      climate::Climate* entityPtr;
+
+      void on_entity_update(climate::Climate& obj) {
+        ESP_LOGI(TAG, "%s Mode: %d Action: %d CTemp: %.2f TTemp: %.2f CHum: %.2f THum: %.2f", obj.get_name().c_str(), obj.mode, obj.action, obj.current_temperature, obj.target_temperature, obj.current_humidity, obj.target_humidity);
+        hap_acc_t* acc = hap_acc_get_by_aid(hap_get_unique_aid(std::to_string(obj.get_object_id_hash()).c_str()));
+        if (acc) {
+          hap_serv_t* hs = hap_acc_get_serv_by_uuid(acc, HAP_SERV_UUID_THERMOSTAT);
+          hap_char_t* current_mode = hap_serv_get_char_by_uuid(hs, HAP_CHAR_UUID_CURRENT_HEATING_COOLING_STATE);
+          hap_char_t* target_mode = hap_serv_get_char_by_uuid(hs, HAP_CHAR_UUID_TARGET_HEATING_COOLING_STATE);
+          hap_char_t* current_temp = hap_serv_get_char_by_uuid(hs, HAP_CHAR_UUID_CURRENT_TEMPERATURE);
+          hap_char_t* current_humidity = hap_serv_get_char_by_uuid(hs, HAP_CHAR_UUID_CURRENT_RELATIVE_HUMIDITY);
+          hap_char_t* target_temp = hap_serv_get_char_by_uuid(hs, HAP_CHAR_UUID_TARGET_TEMPERATURE);
+          hap_char_t* target_humidity = hap_serv_get_char_by_uuid(hs, HAP_CHAR_UUID_TARGET_RELATIVE_HUMIDITY);
+          hap_val_t state;
+          state.i = obj.action;
+          hap_char_update_val(current_mode, &state);
+          state.i = obj.mode;
+          hap_char_update_val(target_mode, &state);
+          state.f = obj.current_temperature;
+          hap_char_update_val(current_temp, &state);
+          state.f = obj.target_temperature;
+          hap_char_update_val(target_temp, &state);
+          state.f = obj.target_humidity;
+          hap_char_update_val(target_humidity, &state);
+          state.f = obj.current_humidity;
+          hap_char_update_val(current_humidity, &state);
+        }
+        return;
+      }
+
+      static int climate_read(hap_char_t* hc, hap_status_t* status_code, void* serv_priv, void* read_priv) {
+        std::string key((char*)serv_priv);
+        ESP_LOGI(TAG, "Write called for Accessory %s", (char*)serv_priv);
+        climate::Climate* obj = App.get_climate_by_key(static_cast<uint32_t>(std::stoul(key)));
+        int i, ret = HAP_SUCCESS;
+        const char* type = hap_char_get_type_uuid(hc);
+        if (!strcmp(type, HAP_CHAR_UUID_CURRENT_HEATING_COOLING_STATE)) {
+          hap_val_t state;
+          switch (obj->action)
+          {
+            case climate::CLIMATE_ACTION_OFF:
+              state.i = 0;
+              hap_char_update_val(hc, &state);
+              break;
+            case climate::CLIMATE_ACTION_HEATING:
+              state.i = 1;
+              hap_char_update_val(hc, &state);
+              break;
+            case climate::CLIMATE_ACTION_COOLING:
+              state.i = 2;
+              hap_char_update_val(hc, &state);
+              break;
+            default:
+              state.i = 0;
+              hap_char_update_val(hc, &state);
+              break;
+          }
+        } else if (!strcmp(type, HAP_CHAR_UUID_CURRENT_TEMPERATURE)) {
+            hap_val_t state;
+            state.f = obj->current_temperature;
+            hap_char_update_val(hc, &state);
+        } else if (!strcmp(type, HAP_CHAR_UUID_CURRENT_RELATIVE_HUMIDITY)) {
+            hap_val_t state;
+            state.f = obj->current_humidity;
+            hap_char_update_val(hc, &state);
+        }
+        return ret;
+      }
+
+      static int climate_write(hap_write_data_t write_data[], int count, void* serv_priv, void* write_priv) {
+        std::string key((char*)serv_priv);
+        ESP_LOGI(TAG, "Write called for Accessory %s", (char*)serv_priv);
+        climate::Climate* obj = App.get_climate_by_key(static_cast<uint32_t>(std::stoul(key)));
+        int i, ret = HAP_SUCCESS;
+        hap_write_data_t* write;
+        for (i = 0; i < count; i++) {
+          write = &write_data[i];
+          const char* type = hap_char_get_type_uuid(write->hc);
+          if (!strcmp(type, HAP_CHAR_UUID_TARGET_HEATING_COOLING_STATE)) {
+            switch (write->val.i)
+            {
+              case 0:
+                obj->make_call().set_mode(climate::ClimateMode::CLIMATE_MODE_OFF).perform();
+                break;
+              case 1:
+                obj->make_call().set_mode(climate::ClimateMode::CLIMATE_MODE_HEAT).perform();
+                break;
+              case 2:
+                obj->make_call().set_mode(climate::ClimateMode::CLIMATE_MODE_COOL).perform();
+                break;
+              case 3:
+                obj->make_call().set_mode(climate::ClimateMode::CLIMATE_MODE_AUTO).perform();
+                break;
+              default:
+                break;
+            }
+          }
+          else if (!strcmp(type, HAP_CHAR_UUID_TARGET_TEMPERATURE)) {
+            obj->make_call().set_target_temperature(write->val.f).perform();
+          }
+          else if (!strcmp(type, HAP_CHAR_UUID_TARGET_RELATIVE_HUMIDITY)) {
+            obj->make_call().set_target_humidity(write->val.f).perform();
+          }
+        }
+        return ret;
+      }
+      
+      static int acc_identify(hap_acc_t* ha) {
+        auto it = acc_instance_map.find(ha);
+        if (it != acc_instance_map.end()) {
+            it->second->on_identify();
+        }
+        return HAP_SUCCESS;
+      }
+
+      void on_identify() {
+        ESP_LOGD(TAG, "Accessory identified");
+        for (auto* trig : triggers_identify_) {
+          if (trig) trig->trigger();
+        }
+      }
+
+      std::vector<HKIdentifyTrigger *> triggers_identify_;
+
+    public:
+      ClimateEntity(climate::Climate* entityPtr) : entityPtr(entityPtr) {}
+
+      climate::Climate* getEntity() {
+        return entityPtr;
+      }
+
+      void register_on_identify_trigger(HKIdentifyTrigger* trig) {
+          triggers_identify_.push_back(trig);
+      }
+
+      void setup(climate::Climate* entityPtr, TemperatureUnits units = CELSIUS) {
+        ESP_LOGCONFIG(TAG, "Setting up climate '%s'", entityPtr->get_name().c_str());
+
+        hap_acc_cfg_t acc_cfg = {
+          .name = strdup_psram(entityPtr->get_name().c_str()),
+          .model = (char*)"ESPHome Climate",
+          .manufacturer = (char*)"ESPHome",
+          .serial_num = strdup_psram(std::to_string(entityPtr->get_object_id_hash()).c_str()),
+          .fw_rev = (char*)"1.0.0",
+          .hw_rev = NULL,
+          .pv = (char*)"1.1.0",
+          .cid = HAP_CID_BRIDGE,
+          .identify_routine = acc_identify,
+        };
+
+        uint8_t current_mode = 0;
+        uint8_t target_mode = 0;
+
+        climate::ClimateAction climateAction = entityPtr->action;
+        switch (climateAction) {
+          case climate::ClimateAction::CLIMATE_ACTION_OFF:
+            current_mode = 0;
+            break;
+
+          case climate::ClimateAction::CLIMATE_ACTION_HEATING:
+            current_mode = 1;
+            break;
+
+          case climate::ClimateAction::CLIMATE_ACTION_COOLING:
+            current_mode = 2;
+            break;
+
+          default:
+            current_mode = 0;
+            break;
+        }
+
+        climate::ClimateMode climateMode = entityPtr->mode;
+        switch (climateMode) {
+          case climate::ClimateMode::CLIMATE_MODE_OFF:
+            target_mode = 0;
+            break;
+
+          case climate::ClimateMode::CLIMATE_MODE_HEAT:
+            target_mode = 1;
+            break;
+
+          case climate::ClimateMode::CLIMATE_MODE_COOL:
+            target_mode = 2;
+            break;
+
+          case climate::ClimateMode::CLIMATE_MODE_AUTO:
+            target_mode = 3;
+            break;
+
+          default:
+            break;
+        }
+
+        ESP_LOGI(TAG, "CTemp: %.2f TTemp: %.2f CHum: %.2f THum: %.2f", entityPtr->current_temperature, entityPtr->target_temperature, entityPtr->current_humidity, entityPtr->target_humidity);
+        
+        hap_serv_t* service = hap_serv_thermostat_create(current_mode, target_mode, entityPtr->current_temperature, entityPtr->target_temperature, units);
+
+        climate::ClimateTraits climateTraits = entityPtr->get_traits();
+
+        if (climateTraits.get_supports_current_humidity()) {
+          hap_serv_add_char(service, hap_char_current_relative_humidity_create(entityPtr->current_humidity));
+        }
+
+        if (climateTraits.get_supports_target_humidity()) {
+          hap_serv_add_char(service, hap_char_target_relative_humidity_create(entityPtr->target_humidity));
+        }
+
+        // hap_serv_t* service_fan = hap_serv_fan_v2_create(!entityPtr->fan_mode ? 1 : 0);
+        // hap_char_swing_mode_create();
+        // hap_serv_link_serv()
+
+        if (service) {
+          /* Create accessory object */
+          hap_acc_t* accessory = hap_acc_create(&acc_cfg);
+          acc_instance_map[accessory] = this;
+
+          ESP_LOGI(TAG, "ID HASH: %lu", entityPtr->get_object_id_hash());
+          hap_serv_set_priv(service, strdup_psram(std::to_string(entityPtr->get_object_id_hash()).c_str()));
+
+          /* Set the write callback for the service */
+          hap_serv_set_write_cb(service, climate_write);
+          hap_serv_set_read_cb(service, climate_read);
+
+          /* Add the Lock Service to the Accessory Object */
+          hap_acc_add_serv(accessory, service);
+
+          /* Add the Accessory to the HomeKit Database */
+          hap_add_bridged_accessory(accessory, hap_get_unique_aid(std::to_string(entityPtr->get_object_id_hash()).c_str()));
+
+          ESP_LOGI(TAG, "Climate '%s' linked to HomeKit", entityPtr->get_name().c_str());
+        }
+      }
+    };
+
+    inline std::unordered_map<hap_acc_t*, ClimateEntity*> ClimateEntity::acc_instance_map;
+  }
+}
+#endif

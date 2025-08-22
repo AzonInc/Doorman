@@ -1,3 +1,0 @@
-# This file provides backwards compatibility (< 2025.1.0)
-packages:
-  base: !include ./configurations/esp32-s3.ha.stock.master.yaml

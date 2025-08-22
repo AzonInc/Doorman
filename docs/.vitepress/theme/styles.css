@@ -1,0 +1,233 @@
+:root:where(:lang(fa)) {
+    --vp-font-family-base:
+      'Vazirmatn', 'Inter', ui-sans-serif, system-ui, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+  
+:root {
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: -webkit-linear-gradient(
+      120deg,
+      #bd34fe 30%,
+      #41d1ff
+    );
+    --vp-home-hero-image-background-image: linear-gradient(
+      -45deg,
+      #bd34fe 50%,
+      #47caff 50%
+    );
+    --vp-home-hero-image-filter: blur(44px);
+}
+  
+@media (min-width: 640px) {
+    :root {
+      --vp-home-hero-image-filter: blur(56px);
+    }
+}
+  
+@media (min-width: 960px) {
+    :root {
+      --vp-home-hero-image-filter: blur(68px);
+    }
+}
+
+.VPHero .VPImage {
+    filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
+    padding: 18px;
+}
+
+
+
+
+.custom-layout .btn {
+    border-color: var(--vp-button-brand-border);
+    color: var(--vp-button-brand-text);
+    background-color: var(--vp-button-brand-bg);
+    border-radius: 20px;
+    padding: 0 20px;
+    line-height: 38px;
+    font-size: 14px;
+    display: inline-block;
+    border: 1px solid transparent;
+    text-align: center;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: color .25s, border-color .25s, background-color .25s;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.custom-layout .btn:hover {
+    border-color: var(--vp-button-brand-hover-border);
+    color: var(--vp-button-brand-hover-text);
+    background-color: var(--vp-button-brand-hover-bg);
+}
+
+.custom-layout .btn:active {
+    border-color: var(--vp-button-brand-active-border);
+    color: var(--vp-button-brand-active-text);
+    background-color: var(--vp-button-brand-active-bg);
+}
+
+/* ESP Web Tools */
+:root {
+    --md-dialog-container-shape-start-start: 8px;
+    --md-dialog-container-shape-start-end: 8px;
+    --md-dialog-container-shape-end-end: 8px;
+    --md-dialog-container-shape-end-start: 8px;
+}
+
+
+
+
+.firmware_title_row
+{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+}
+
+.firmware_title_row svg
+{
+    display: inline;
+    height: 16px;
+}
+
+.firmware_option_row
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    gap: 20px;
+}
+
+.firmware_option_row .firmware_option
+{
+    flex: 1 1 calc(33.333% - 13.34px); /* 3 pro Zeile mit gap von 20px */
+    min-width: 210px;
+    max-width: calc(33.333% - 13.34px);
+}
+
+.firmware_option_row.half .firmware_option
+{
+    flex: 1 1 calc(50% - 13.34px); /* 3 pro Zeile mit gap von 20px */
+    min-width: 210px;
+    max-width: calc(50% - 13.34px);
+}
+
+@media (max-width: 900px) {
+    .firmware_option_row .firmware_option, .firmware_option_row.half .firmware_option {
+        flex: 1 1 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 600px) {
+    .firmware_option_row .firmware_option, .firmware_option_row.half .firmware_option {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+.firmware_option_row .firmware_option input
+{
+    position: absolute;
+    opacity: 0;
+}
+
+.firmware_option_row .firmware_option:hover input:not([disabled]) ~ .checkmark
+{
+    box-shadow: 0px 0px 0px 2px var(--vp-button-brand-bg) inset;
+    color: var(--vp-c-text-1);
+}
+
+.firmware_option_row .firmware_option input:checked ~ .checkmark
+{
+    font-weight: 500;
+    box-shadow: inset 0px 0px 0px 2px var(--vp-button-brand-bg);
+    color: var(--vp-c-text-1);
+}
+
+.firmware_option_row .firmware_option input[disabled] ~ .checkmark
+{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.firmware_option_row .firmware_option input:not([disabled]) ~ .checkmark
+{
+    cursor: pointer;
+}
+
+.firmware_option_row .firmware_option .checkmark
+{
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 12px;
+    height: 100%;
+    background-color: var(--vp-c-bg-soft);
+    transition: box-shadow 0.25s, color 0.25s;
+    color: var(--vp-c-text-2);
+    min-width: 210px;
+}
+
+.firmware_option_row .firmware_option .checkmark .icon
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background-color: var(--vp-c-default-soft);
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    transition: background-color 0.25s;
+    padding: 10px;
+}
+
+.firmware_option_row .firmware_option .checkmark .image
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    background-color: var(--vp-c-default-soft);
+    width: 100%;
+    height: 150px;
+    font-size: 24px;
+    transition: background-color 0.25s;
+    padding: 10px;
+}
+
+.firmware_option_row .firmware_option .checkmark .image img
+{
+    width: auto;
+    height: auto;
+
+    max-width:230px;
+    max-height:150px;
+    filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.firmware_option_row .firmware_option .checkmark .title
+{
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.firmware_option_row .firmware_option .checkmark .details
+{
+    flex-grow: 1;
+    padding-top: 8px;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--vp-c-text-2);
+}
