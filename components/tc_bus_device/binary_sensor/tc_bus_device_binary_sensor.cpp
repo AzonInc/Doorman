@@ -1,4 +1,4 @@
-#include "device_telegram_listener_binary_sensor.h"
+#include "tc_bus_device_binary_sensor.h"
 
 namespace esphome
 {
