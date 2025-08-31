@@ -19,7 +19,7 @@ Reports the nuki component security pin status.
 ## Switches
 
 ### Pairing Mode <Badge type="tip" text="nuki_pairing_mode" /> <Badge type="info" text="Disabled by default" />
-Controls the Nuki pairing mode.
+Controls the virtual Nuki Bridge pairing mode.
 
 ## Buttons
 

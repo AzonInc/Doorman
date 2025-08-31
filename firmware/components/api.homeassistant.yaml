@@ -33,6 +33,8 @@ esphome:
       - script.execute: update_led
 
 api:
+  batch_delay: 0ms
+  homeassistant_services: true
   actions:
     - action: send_tc_telegram_raw
       variables:

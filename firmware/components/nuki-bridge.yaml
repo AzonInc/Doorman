@@ -11,7 +11,7 @@ esphome:
       
 # Add External Components
 external_components:
-  - source: github://uriyacovy/ESPHome_nuki_lock@esp-idf
+  - source: github://uriyacovy/ESPHome_nuki_lock@fix-api-services
     refresh: 60s
 
 # Pairing Mode
@@ -101,7 +101,7 @@ lock:
     bt_signal_strength:
       id: nuki_bluetooth_signal_strength
       device_id: nuki_smart_lock
-      name: "Bluetooth Signal Strength"
+      name: "Bluetooth Signal"
       web_server:
         sorting_group_id: sorting_group_nuki
 

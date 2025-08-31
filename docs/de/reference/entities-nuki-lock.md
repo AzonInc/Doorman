@@ -6,7 +6,7 @@ On this page, you can view all the entities related to the Nuki Lock.
 ### Battery Level <Badge type="tip" text="nuki_battery_level" />
 Reports the battery level of the paired Nuki smart lock.
 
-### Bluetooth Signal Strength <Badge type="tip" text="nuki_bluetooth_signal_strength" />
+### Bluetooth Signal <Badge type="tip" text="nuki_bluetooth_signal_strength" />
 Reports the bluetooth strength of the paired Nuki smart lock.
 
 

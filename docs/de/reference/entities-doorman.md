@@ -110,5 +110,5 @@ A small WS2812B RGB LED on the Doorman's PCB is used to indicate specific events
 - **Setup Mode is Active** <Badge type="tip" text="Fast green-turquoise pulse" />
 - **Setup Mode completed** <Badge type="tip" text="Solid green-turquoise (for 3 seconds)" />
 - **Ring To Open is Active** <Badge type="tip" text="Slow yellow pulse" />
-- **Nuki Pairing Mode is Active** <Badge type="tip" text="Slow purple pulse" /> <Badge type="info" text="Nuki Bridge only" />
-- **Nuki Paired Successfully** <Badge type="tip" text="Solid purple light (for 3 seconds)" /> <Badge type="info" text="Nuki Bridge only" />
+- **Nuki Bridge Pairing Mode is Active** <Badge type="tip" text="Slow purple pulse" /> <Badge type="info" text="Nuki Bridge only" />
+- **Nuki Bridge Paired Successfully** <Badge type="tip" text="Solid purple light (for 3 seconds)" /> <Badge type="info" text="Nuki Bridge only" />

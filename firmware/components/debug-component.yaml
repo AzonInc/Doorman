@@ -29,7 +29,7 @@ sensor:
         sorting_group_id: sorting_group_debug_tools
     block:
       id: debug_heap_max_block
-      device_id: tc_bus_debug
+      device_id: doorman_debug
       name: "Heap Max Block"
       entity_category: DIAGNOSTIC
       web_server:
