@@ -56,14 +56,14 @@ The `tc_bus` Lock can be configured to trigger based on a predefined outdoor sta
 
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
-| `id`             | Unique ID for the binary sensor component.                                                               | Yes      |               |
-| `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:door`    |
-| `name`           | Name of the binary sensor.                                                                               | No       | `Entrance Door`|
-| `auto_lock`      | Time period after which the lock automatically locks again.                                              | No       | `5s`          |
-| `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
+| `id`             | Unique ID for the lock component.                                                                        | Yes      |               |
+| `icon`           | Icon to represent the lock in the UI.                                                                    | No       | `mdi:door`    |
+| `name`           | Name of the lock.                                                                                        | No       | `Entrance Door` |
+| `auto_lock`      | Time period after which the lock resets the virtual state to `locked`.                                   | No       | `5s`          |
+| `address`        | 8-bit address that serves as a condition to trigger the lock. If you set it to `255`, it will catch all addresses. | No       | `0`           |
 | `address_lambda` | Lambda expression to evaluate whether the lock should trigger based on the address.                      | No       |               |
-| `before_unlock_action`| Defines actions to be triggered before the `open_door` telegram is sent.                            | No       |               |
-| `after_unlock_action`| Defines actions to be triggered after the `open_door` telegram is sent.                              | No       |               |
+| `before_unlock_action` | Defines actions to be triggered before the `open_door` telegram is sent.                           | No       |               |
+| `after_unlock_action` | Defines actions to be triggered after the `open_door` telegram is sent.                             | No       |               |
 | `lock_action`    | Defines actions to be triggered when the lock state is changed back to locked.                           | No       |               |
 
 
@@ -143,6 +143,7 @@ The `tc_bus_device` Number Input component offers the following configuration op
 
 | Option                         | Description                                                                                                   | Required | Default       |
 |--------------------------------|---------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `tc_bus_device_id` | ID of the related `tc_bus_device` instance.                                                             | Yes      |               |
 | `serial_number`                | Indoor Station Serial Number Input to set the serial number of the predefined indoor station.                 | No       |               |
 | `volume_handset_door_call`     | Door Call Handset Volume Number Input to set the handset volume for door calls of your indoor station.        | No       |               |
 | `volume_handset_internal_call` | Internal Call Handset Volume Number Input to set the handset volume for internal calls of your indoor station.| No       |               |
@@ -154,6 +155,7 @@ The `tc_bus_device` Select component offers the following configuration options:
 
 | Option                               | Description                                                                                                    | Required | Default       |
 |--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `tc_bus_device_id` | ID of the related `tc_bus_device` instance.                                                             | Yes      |               |
 | `model`                              | Model Select to set the model of your device (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No       | `None`        |
 | `ringtone_entrance_door_call`        | Entrance Door Call Ringtone Select to set the entrance door call ringtone of your indoor station.              | No       | |
 | `ringtone_second_entrance_door_call` | Second Entrance Door Call Ringtone Select to set the second entrance door call ringtone of your indoor station.| No       | |
@@ -166,6 +168,7 @@ The `tc_bus_device` Switch component offers the following configuration options:
 
 | Option                               | Description                                                                                                    | Required | Default       |
 |--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `tc_bus_device_id` | ID of the related `tc_bus_device` instance.                                                             | Yes      |               |
 | `force_long_door_opener`             | This enforces execution of the long door opener telegram and mandates inclusion of a serial number in the short door opener telegram. | No       | |
 
 
@@ -175,7 +178,7 @@ The `tc_bus_device` Binary Sensor detects binary states such as doorbell presses
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`             | Unique ID for the binary sensor component.                                                               | Yes      |               |
-| `tc_bus_device_id`| ID of the related `tc_bus_device` instance.                                                             | Yes      |               |
+| `tc_bus_device_id` | ID of the related `tc_bus_device` instance.                                                            | Yes      |               |
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
@@ -394,7 +397,7 @@ tc_bus_device:
 
 text_sensor:
   - platform: tc_bus
-    tc_bus: my_tc_bus
+    tc_bus_id: my_tc_bus
     bus_telegram:
       name: "Last Bus Telegram"
 
