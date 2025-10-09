@@ -1,6 +1,8 @@
 import DefaultTheme from "vitepress/theme";
 import Layout from './Layout.vue'
 
+import ContactModal from './components/ContactModal.vue'
+
 import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client'
 import 'virtual:group-icons.css'
 
@@ -12,6 +14,8 @@ export default {
     // injects the slots
     Layout: Layout,
     enhanceApp({ app }) {
+        app.component('ContactModal', ContactModal)
+
         enhanceAppWithTabs(app);
 
         if (typeof window !== 'undefined')

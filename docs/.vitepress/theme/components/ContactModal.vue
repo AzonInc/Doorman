@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { DefaultTheme } from 'vitepress/theme'
 import { VPButton } from 'vitepress/theme'
 
 const props = defineProps<{
@@ -20,7 +19,7 @@ const props = defineProps<{
           </div>
           <div class="modal-footer">
             <slot name="footer">
-                <VPButton text="Close" @click="$emit('close')"  />
+                <VPButton text="Close" @click="$emit('close')" />
             </slot>
           </div>
         </div>

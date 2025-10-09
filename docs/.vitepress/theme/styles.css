@@ -36,6 +36,11 @@
     padding: 18px;
 }
 
+.VPButton[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transition: opacity 0.2s;
+}
 
 
 

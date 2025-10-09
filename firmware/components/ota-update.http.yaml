@@ -53,12 +53,12 @@ switch:
     on_turn_on:
       - logger.log: "OTA update source set to dev"
       - lambda: |-
-          id(update_http_request).set_source_url(to_string("${update_url_dev}"));
+          id(update_http_request).set_source_url(std::string("${update_url_dev}"));
       - component.update: update_http_request
     on_turn_off:
       - logger.log: "OTA update source set to master"
       - lambda: |-
-          id(update_http_request).set_source_url(to_string("${update_url_stable}"));
+          id(update_http_request).set_source_url(std::string("${update_url_stable}"));
       - component.update: update_http_request
     disabled_by_default: true
     web_server:

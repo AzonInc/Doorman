@@ -59,7 +59,7 @@ def get_packages(host, api_variant, firmware, branch):
         ('ring_to_open', '!include ../components/ring-to-open.yaml', True),
         ('ring_to_open_homekit', '!include ../components/ring-to-open.homekit.yaml', api_variant == 'homekit'),
         ('ring_to_open_nuki', '!include ../components/ring-to-open-nuki.yaml', firmware == 'nuki-bridge'),
-        ('intercom_settings', '!include ../components/intercom-settings.yaml', True),
+        ('indoor_station_settings', '!include ../components/indoor-station-settings.yaml', True),
         ('addon_nuki_bridge', '!include ../components/nuki-bridge.yaml', firmware == 'nuki-bridge'),
         ('interactive_setup', '!include ../components/interactive-setup.yaml', True),
     ]
@@ -99,14 +99,21 @@ def generate_example_yaml(host, api_variant, firmware, branch):
     else:
         api_variant_desc = "Custom"
     
+    if branch == "local":
+        device_name = "doorman-s3-local-dev"
+        device_friendly_name = "Doorman S3 (Development)"
+    else:
+        device_name = "doorman-s3"
+        device_friendly_name = "Doorman S3"
+
     content = [
         f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Stock"} Firmware ({api_variant_desc})',
         f'# Base Board {host.upper()}',
         '',
         '# You can change a few options here.',
         'substitutions:',
-        '  name: "doorman-s3"',
-        '  friendly_name: "Doorman S3"',
+        f'  name: "{device_name}"',
+        f'  friendly_name: "{device_friendly_name}"',
         '  # log_level: "ERROR"',
         '  # led_pin: "GPIO1"',
         '  # rgb_led_pin: "GPIO2"',

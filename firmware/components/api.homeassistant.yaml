@@ -33,6 +33,9 @@ esphome:
       - script.execute: update_led
 
 api:
+  batch_delay: 0ms
+  custom_services: true
+  homeassistant_services: true
   actions:
     - action: send_tc_telegram_raw
       variables:
@@ -53,3 +56,15 @@ api:
             address: !lambda 'return address;'
             payload: !lambda 'return payload;'
             serial_number: !lambda 'return serial_number;'
+
+    - action: send_tc_is_telegram
+      variables:
+        type: string
+        address: int
+        payload: int
+      then:
+        - tc_bus_device.send:
+            id: tc_bus_indoor_station
+            type: !lambda 'return string_to_telegram_type(type);'
+            address: !lambda 'return address;'
+            payload: !lambda 'return payload;'

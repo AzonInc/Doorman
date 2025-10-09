@@ -49,6 +49,11 @@ function nav(): DefaultTheme.NavItem[] {
           activeMatch: '/reference/'
         },
         {
+          text: 'Order Doorman',
+          link: '/order',
+          activeMatch: '/order',
+        },
+        {
           text: pkg.version,
           items: [
             { text: 'Issues', link: 'https://github.com/azoninc/doorman/issues' },
@@ -142,10 +147,21 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Firmware',
+      text: 'ESPHome',
       items: [
-        { text: 'Entities', link: 'entities' },
-        { text: 'ESPHome Component', link: 'esphome-component' }
+        { text: 'TC:BUS Component', link: 'esphome-component' }
+      ]
+    },
+    {
+      text: 'Entities',
+      link: 'entities',
+      items: [
+        { text: 'Doorman', link: 'entities-doorman' },
+        { text: 'TC:BUS', link: 'entities-tc-bus' },
+        { text: 'MQTT Integration', link: 'entities-mqtt' },
+        { text: 'HomeKit Integration', link: 'entities-homekit' },
+        { text: 'Nuki Bridge', link: 'entities-nuki-bridge' },
+        { text: 'Nuki Lock', link: 'entities-nuki-lock' },
       ]
     }
   ];

@@ -61,7 +61,7 @@ namespace esphome
         }
 
         bool HomeKitBridgeComponent::is_paired() {
-            return is_accessory_paired();
+            return hap_get_paired_controller_count() > 0;
         }
 
         bool HomeKitBridgeComponent::is_connected() {

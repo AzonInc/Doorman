@@ -162,6 +162,26 @@ mqtt:
                 serial_number = x["serial_number"];
               return serial_number;
 
+    - topic: doorman-s3/send_tc_is_telegram
+      then:
+        - tc_bus_device.send:
+            id: tc_bus_indoor_station
+            type: !lambda |-
+              TelegramType telegramType = TELEGRAM_TYPE_UNKNOWN;
+              if (x.containsKey("type"))
+                telegramType = string_to_telegram_type(x["type"]);
+              return telegramType;
+            address: !lambda |-
+              int address = 0;
+              if (x.containsKey("address"))
+                address = x["address"];
+              return address;
+            payload: !lambda |-
+              int payload = 0;
+              if (x.containsKey("payload"))
+                payload = x["payload"];
+              return payload;
+
 
 script:
   - id: mqtt_connect

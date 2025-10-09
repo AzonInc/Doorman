@@ -14,13 +14,20 @@ Remember to include the leading `0x` when calling the action with the `telegram`
 :::
 
 ::: code-group
-```yaml [Telegram Builder]
+```yaml [Bus Telegram Builder]
 service: esphome.doorman_s3_send_tc_telegram
 data:
   type: open_door
   address: 0
   payload: 0
   serial_number: 123456
+```
+```yaml [Indoor Station Telegram Builder]
+service: esphome.doorman_s3_send_tc_is_telegram
+data:
+  type: open_door
+  address: 0
+  payload: 0
 ```
 ```yaml [HEX Telegrams]
 service: esphome.doorman_s3_send_tc_telegram_raw

@@ -1,7 +1,7 @@
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2025.6.0 <Badge type="warning" text="Next" />
+## 2025.9.0 <Badge type="warning" text="Next" />
 ### 🚨 IMPORTANT
 Please carefully review the breaking changes listed below before updating!  
 This release **will impact your current setup** and **requires** you to go through the **setup process again**.
@@ -35,12 +35,15 @@ This release **will impact your current setup** and **requires** you to go throu
 - **Pre-Open Telegrams**  
    In some setups, it’s necessary to send one or more preparatory telegrams to select the correct door. This feature allows you to define and send a sequence of telegrams before the `open_door` telegram is executed.
 
-- **Door Opener Mode**  
-   It is now possible to activate the integrated relay instead of sending a BUS telegram to open the entrance door.  
-   This can be configured using the `Door Opener Mode` setting and is especially useful for older analog systems.
+- **Relay Mode**  
+   It is now possible to activate the integrated relay when opening the entrance doors.  
+   This can be configured using the `Relay Mode` setting.
 
 - **Show Bus Activity via Status LED**  
    Added a new switch that, when enabled, makes the status LED blink briefly to indicate bus activity. Helpful for debugging and verifying communication with the door system. Disabled by default.
+
+- **Subdevices**  
+   By using sub-devices, entities can now be grouped and organized more logically in Home Assistant.
 
 ### ✨ Improvements
 - **Refined Configuration for Ring to Open**  
@@ -68,6 +71,9 @@ This release **will impact your current setup** and **requires** you to go throu
 
 - **Wi-Fi Signal Sensor**  
    The default firmware now includes a Wi-Fi signal strength sensor, which was previously only available in the developer version.
+
+- **Component split**
+  The `tc_bus` ESPHome component has been refactored into three separate components: `tc_bus`, `tc_bus_device`, and `doorman_hardware`. This change improves maintainability and adds flexibility when working with multiple TC:BUS devices.
 
 ### 📝 Other Updates
 - **Firmware Configuration Assistant**  

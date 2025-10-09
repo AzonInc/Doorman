@@ -38,11 +38,11 @@ ON
 ## Special Topics
 Certain special topics allow for advanced telegrams.
 
-### Send a Telegram (Hexadecimal)
+### Send a Bus Telegram (Hexadecimal)
 Here's an example of how to send a hexadecimal telegram (uint32) to the bus:
 ::: code-group
 ``` [Topic]
-doorman-s3/send_raw_telegram
+doorman-s3/send_tc_raw_telegram
 ```
 ```json [Payload]
 {
@@ -57,11 +57,11 @@ doorman-s3/send_raw_telegram
 ```
 :::
 
-### Send a Telegram (Telegram Builder)
+### Send a Bus Telegram (Telegram Builder)
 Here's an example of how to use the telegram builder to send a telegram to the bus:
 ::: code-group
 ``` [Topic]
-doorman-s3/send_telegram
+doorman-s3/send_tc_telegram
 ```
 ```json [Payload]
 {
@@ -69,6 +69,21 @@ doorman-s3/send_telegram
     "address": 0,
     "payload": 0,
     "serial_number": 123456
+}
+```
+:::
+
+### Send a Indoor Station Telegram (Telegram Builder)
+Here's an example of how to use the telegram builder to send a telegram to the bus:
+::: code-group
+``` [Topic]
+doorman-s3/send_tc_is_telegram
+```
+```json [Payload]
+{
+    "type": "open_door",
+    "address": 0,
+    "payload": 0,
 }
 ```
 :::

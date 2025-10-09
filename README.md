@@ -38,7 +38,7 @@ Before diving into the installation process, visit the [Doorman Docs](https://do
   </ul>
 </div>
 
-You can get fully assembled **Doorman S3** units with the **[Doorman Firmware](firmware/installation)** pre-installed and ready for immediate integration into **Home Assistant**. 
+You can get fully assembled **Doorman S3** units with the **[Doorman Firmware](https://doorman.azon.ai/guide/firmware/installation)** pre-installed and ready for immediate integration into **Home Assistant**. 
 
 For inquiries, please use [this page](https://dev.doorman.azon.ai/order).
 
@@ -73,7 +73,7 @@ Check out the [TC:BUS ESPHome component documentation](https://doorman.azon.ai/r
 - **External Button** (G + BTN) for manual triggering
 - **Bridge Rectifier** for correcting polarity on bus-wire input
 - **TC:BUS Communication** for door functions and detecting the doorbell
-- **Nuki Bridge functionality** with the [Nuki Bridge Addon](https://doorman.azon.ai/guide/firmware/nuki-bridge-addon)
+- **Nuki Bridge functionality** with the [Nuki Bridge Addon](https://doorman.azon.ai/guide/firmware/nuki-bridge)
 
 ---
 

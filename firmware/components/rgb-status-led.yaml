@@ -3,8 +3,8 @@
 light:
   - platform: esp32_rmt_led_strip
     id: doorman_rgb_status_led
-    icon: "mdi:led-on"
     name: RGB Status LED
+    icon: "mdi:led-on"
     internal: true
     restore_mode: ALWAYS_OFF
     rgb_order: GRB

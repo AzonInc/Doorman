@@ -1,99 +1,102 @@
 {
     "version": "2.0.0",
-    "tasks": [{
-        "label": "ESPHome: Compile & Upload - ESP32-S3 HA Stock",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.ha.stock.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
+    "tasks": [
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 HA Stock",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.ha.stock.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 HA Nuki-Bridge",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.ha.nuki-bridge.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 MQTT Stock",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.mqtt.stock.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 MQTT Nuki-Bridge",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.mqtt.nuki-bridge.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 HomeKit Stock",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.homekit.stock.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 HomeKit Nuki-Bridge",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.homekit.nuki-bridge.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 Custom Stock",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.ha.custom.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
+        },
+        {
+            "label": "ESPHome: Compile & Upload - ESP32-S3 Custom Nuki-Bridge",
+            "command": "esphome",
+            "args": [
+                "run",
+                "esp32-s3.custom.nuki-bridge.local.example.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/examples/"
+            }
         }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 HA Nuki-Bridge",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.ha.nuki-bridge.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 MQTT Stock",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.mqtt.stock.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 MQTT Nuki-Bridge",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.mqtt.nuki-bridge.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 HomeKit Stock",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.homekit.stock.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 HomeKit Nuki-Bridge",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.homekit.nuki-bridge.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 Custom Stock",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.ha.custom.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    },
-    {
-        "label": "ESPHome: Compile & Upload - ESP32-S3 Custom Nuki-Bridge",
-        "command": "esphome",
-        "args": [
-            "run",
-            "esp32-s3.custom.nuki-bridge.local.example.yaml"
-        ],
-        "type": "shell",
-        "options": {
-            "cwd": "./firmware/examples/"
-        }
-    }]
+    ]
 }

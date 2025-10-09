@@ -34,10 +34,16 @@ namespace esphome
         hap_char_t* on_char = hap_serv_get_first_char(hs);
         if (!on_char) return;
 
-        ESP_LOGD(TAG, "HAP CURRENT VALUE: %.2f", hap_char_get_val(on_char)->f);
+        ESP_LOGD(TAG, "HAP CURRENT VALUE - f:%.2f u:%lu", hap_char_get_val(on_char)->f, hap_char_get_val(on_char)->u);
 
         hap_val_t state;
-        state.f = v;
+
+        if (ceilf(v) == v) {
+          state.u = v;
+        } else {
+          state.f = v;
+        }
+
         hap_char_update_val(on_char, &state);
       }
 
@@ -46,7 +52,14 @@ namespace esphome
           sensor::Sensor* entityPtr = (sensor::Sensor*)serv_priv;
           ESP_LOGD(TAG, "Read called for Accessory %s (%s)", std::to_string(entityPtr->get_object_id_hash()).c_str(), entityPtr->get_name().c_str());
           hap_val_t sensorValue;
-          sensorValue.f = entityPtr->get_state();
+
+          float v = entityPtr->get_state();
+          if (ceilf(v) == v) {
+            sensorValue.u = v;
+          } else {
+            sensorValue.f = v;
+          }
+
           hap_char_update_val(hc, &sensorValue);
           return HAP_SUCCESS;
         }
@@ -100,10 +113,10 @@ namespace esphome
           service = hap_serv_air_quality_sensor_create(entityPtr->state);
         }
         else if (device_class == "carbon_dioxide") {
-          service = hap_serv_carbon_dioxide_sensor_create(entityPtr->state);
+          service = hap_serv_carbon_dioxide_sensor_create(false);
         }
         else if (device_class == "carbon_monoxide") {
-          service = hap_serv_carbon_monoxide_sensor_create(entityPtr->state);
+          service = hap_serv_carbon_monoxide_sensor_create(false);
         }
         else if (device_class == "pm10") {
           service = hap_serv_create(HAP_SERV_UUID_AIR_QUALITY_SENSOR);

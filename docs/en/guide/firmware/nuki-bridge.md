@@ -11,7 +11,7 @@ While the official Nuki app allows you to control the smart lock, it does not su
 If your Smart Lock is already paired, this process will unpair it!
 :::
 
-Depending on the PCB revision, either press the `FLASH`- or `PRG`-button on the Doorman-S3 PCB for 5 seconds until the status LED starts flashing purple, or enable the Nuki Pairing Mode switch in Home Assistant / ESPHome Webinterface. Then, press the button on your Smart Lock for 5 seconds until the light ring turns on.
+Depending on the PCB revision, either press the `FLASH`- or `PRG`-button on the Doorman-S3 PCB for 5 seconds until the status LED starts flashing purple, or enable the Nuki Bridge Pairing Mode switch in Home Assistant / ESPHome Webinterface. Then, press the button on your Smart Lock for 5 seconds until the light ring turns on.
 
 After a successful pairing, the status LED will remain steadily on for 3 seconds.
 
