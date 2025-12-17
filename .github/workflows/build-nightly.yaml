@@ -14,21 +14,21 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Doorman Stock for Home Assistant (ESP32-S3) Firmware
-        uses: esphome/build-action@v6.0.0
+        uses: esphome/build-action@v7
         with:
           yaml-file: firmware/ha-doorman-stock.yaml
           version: latest
           complete-manifest: true
 
       - name: Build Doorman Nuki Bridge for Home Assistant (ESP32-S3) Firmware
-        uses: esphome/build-action@v6.0.0
+        uses: esphome/build-action@v7
         with:
           yaml-file: firmware/ha-doorman-nuki-bridge.yaml
           version: latest
           complete-manifest: true
 
       - name: Build Component Test (ESP8266) Firmware
-        uses: esphome/build-action@v6.0.0
+        uses: esphome/build-action@v7
         with:
           yaml-file: firmware/tc-bus-component-8266.yaml
           version: latest
