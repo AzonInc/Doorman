@@ -12566,7 +12566,7 @@
 	(footprint "Package_DFN_QFN:QFN-28-1EP_4x4mm_P0.45mm_EP2.6x2.6mm"
 		(layer "B.Cu")
 		(uuid "8f275e04-3ac5-47d0-b66a-57ccaf6baf16")
-		(at 149.53 93.52 180)
+		(at 144.95 97.8 180)
 		(descr "QFN, 28 Pin (http://www.everest-semi.com/pdf/ES8388%20DS.pdf), generated with kicad-footprint-generator ipc_noLead_generator.py")
 		(tags "QFN NoLead")
 		(property "Reference" "U4"

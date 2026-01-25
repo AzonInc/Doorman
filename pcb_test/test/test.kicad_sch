@@ -1504,6 +1504,12 @@
 		(uuid "14b94bdc-1d04-4b94-8dde-d208faf278a3")
 	)
 	(junction
+		(at 120.65 102.87)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "25cf4f9b-cc84-46ba-bf72-6fcf9f5d68f3")
+	)
+	(junction
 		(at 69.85 87.63)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1695,6 +1701,16 @@
 	)
 	(wire
 		(pts
+			(xy 120.65 102.87) (xy 120.65 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6fb80b2c-23ac-4958-9cda-a1e7bc93705e")
+	)
+	(wire
+		(pts
 			(xy 69.85 86.36) (xy 69.85 87.63)
 		)
 		(stroke
@@ -1712,6 +1728,16 @@
 			(type default)
 		)
 		(uuid "80b8306c-89a3-480b-9538-861f1c0c509e")
+	)
+	(wire
+		(pts
+			(xy 120.65 102.87) (xy 127 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "80c30230-7e3f-4d92-bc7e-dd7bd865cab4")
 	)
 	(wire
 		(pts
@@ -1742,6 +1768,16 @@
 			(type default)
 		)
 		(uuid "8a9ed74d-978a-47b7-8a2f-f547ce7d07b1")
+	)
+	(wire
+		(pts
+			(xy 120.65 119.38) (xy 120.65 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8af9024c-e830-488e-9245-98cdbbb4015b")
 	)
 	(wire
 		(pts
@@ -1895,7 +1931,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 102.87) (xy 127 102.87)
+			(xy 86.36 102.87) (xy 120.65 102.87)
 		)
 		(stroke
 			(width 0)
@@ -2792,6 +2828,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 120.65 119.38 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f43d85e-7268-4a64-be56-a06972abb48b")
+		(property "Reference" "#PWR01"
+			(at 120.65 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 122.682 123.444 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 120.65 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 120.65 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 120.65 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "39ee3aa7-e208-4ebd-9ddb-4486f2db21bf")
+		)
+		(instances
+			(project "test"
+				(path "/4a6824fc-4e09-4227-a791-1eeca3a5516c"
+					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
 		(at 58.42 93.98 0)
@@ -3131,6 +3233,75 @@
 			(project "test"
 				(path "/4a6824fc-4e09-4227-a791-1eeca3a5516c"
 					(reference "#PWR053")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 120.65 113.03 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b37060d3-1911-4fcb-b000-6a1c399e46d1")
+		(property "Reference" "C1"
+			(at 116.078 112.014 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TBD"
+			(at 116.078 114.554 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm"
+			(at 120.65 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 120.65 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor, small symbol"
+			(at 120.65 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "28819837-827b-4ee4-92f3-cada7d6bcce3")
+		)
+		(pin "2"
+			(uuid "754dc08b-6b18-46fb-9c3a-1c8084179568")
+		)
+		(instances
+			(project "test"
+				(path "/4a6824fc-4e09-4227-a791-1eeca3a5516c"
+					(reference "C1")
 					(unit 1)
 				)
 			)

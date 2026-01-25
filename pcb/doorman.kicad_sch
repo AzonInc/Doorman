@@ -11301,8 +11301,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
-			(at 325.12 104.648 0)
+		(property "Value" "33"
+			(at 324.104 105.41 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12288,8 +12288,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "R"
-			(at 331.47 102.108 0)
+		(property "Value" "33"
+			(at 330.454 102.87 90)
 			(effects
 				(font
 					(size 1 1)
