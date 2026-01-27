@@ -1,0 +1,102 @@
+(footprint "mouse-bite-3mm-slot"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "mouse-bite-3mm-slot"
+		(at 0 -2.5 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "04180138-e0dc-4639-9dab-3f34dd80e8bf")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.2)
+			)
+		)
+	)
+	(property "Value" "VAL**"
+		(at 0 2.5 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "0a2397ec-937c-44a4-a0be-a6a8be924087")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.2)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "bc1c8b80-c412-4875-a38c-f03cec8881d1")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b199faad-4bfc-4ebc-8493-99b743e746e8")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "bcce6a9b-f1f7-4e2e-b5a2-cb3c0849078c")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr through_hole)
+	(pad "" np_thru_hole circle
+		(at -1.512 1.5)
+		(size 0.5 0.5)
+		(drill 0.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "8e749238-6e50-462e-a56f-305c15b7ec4b")
+	)
+	(pad "" np_thru_hole circle
+		(at -0.762 1.5)
+		(size 0.5 0.5)
+		(drill 0.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "58ff7f30-f61c-4e07-9fed-05b833fdd16f")
+	)
+	(pad "" np_thru_hole circle
+		(at 0 1.5)
+		(size 0.5 0.5)
+		(drill 0.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "f9637b56-cb44-46ef-9a76-80fa305d85e0")
+	)
+	(pad "" np_thru_hole circle
+		(at 0.75 1.5)
+		(size 0.5 0.5)
+		(drill 0.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "8c568855-c210-40e8-ba51-789265e50818")
+	)
+	(pad "" np_thru_hole circle
+		(at 1.524 1.5)
+		(size 0.5 0.5)
+		(drill 0.5)
+		(layers "*.Cu" "*.Mask")
+		(uuid "fa92d8b1-ba4d-41c1-9e28-44bb1d2885df")
+	)
+)

@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-01-26")
+		(date "2026-01-27")
 		(rev "1.7")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -7517,9 +7517,9 @@
 		)
 		(uuid "d28c1875-de39-4b1c-8f24-8b79bd285235")
 	)
-	(text "BC817 shorts the bus to ground for a few ms"
+	(text "Transmitting Data"
 		(exclude_from_sim no)
-		(at 110.236 80.264 0)
+		(at 121.92 96.266 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7539,7 +7539,18 @@
 		)
 		(uuid "e25c82ed-ee13-4d7a-aba2-a9c786cd3728")
 	)
-	(text "BUS COMMUNICATION"
+	(text "Receiving Data (inverted signal)"
+		(exclude_from_sim no)
+		(at 178.054 80.772 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "ef6f9f87-38cb-4588-b33a-28a52f38432e")
+	)
+	(text "TC:BUS COMMUNICATION"
 		(exclude_from_sim no)
 		(at 109.728 77.724 0)
 		(effects
@@ -7575,19 +7586,19 @@
 		(uuid "428c1046-4f1d-4fca-80e9-af42faf21929")
 	)
 	(junction
-		(at 154.94 113.03)
+		(at 144.78 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4775dc9d-e180-4a56-a656-655580b584b6")
 	)
 	(junction
-		(at 144.78 104.14)
+		(at 134.62 104.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4d5d175d-48aa-4c6b-ab38-3970014ade78")
 	)
 	(junction
-		(at 154.94 125.73)
+		(at 144.78 125.73)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "57d49a3f-4a3d-4dfc-8c9d-a10fac9574ca")
@@ -7635,7 +7646,7 @@
 		(uuid "d4431c4b-5d8d-42c7-a48f-7c50c4be475f")
 	)
 	(junction
-		(at 157.48 113.03)
+		(at 147.32 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d6d28c5b-59c7-4e52-81d0-4ebef750c4d8")
@@ -7647,7 +7658,7 @@
 		(uuid "e52236ce-7096-420c-a7a8-ada36c22be61")
 	)
 	(junction
-		(at 157.48 125.73)
+		(at 147.32 125.73)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e8250231-7002-43ab-a2f8-09d49bbf77c3")
@@ -7677,6 +7688,12 @@
 		(uuid "f66bf959-b17e-4814-9bd6-51c7e3af6bce")
 	)
 	(junction
+		(at 194.31 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f7803c2e-4d08-41ae-bf73-a4403fdcfec2")
+	)
+	(junction
 		(at 179.07 116.84)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7702,7 +7719,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 104.14) (xy 134.62 104.14)
+			(xy 123.19 104.14) (xy 124.46 104.14)
 		)
 		(stroke
 			(width 0)
@@ -7732,7 +7749,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 97.79) (xy 157.48 99.06)
+			(xy 147.32 97.79) (xy 147.32 99.06)
 		)
 		(stroke
 			(width 0)
@@ -7772,7 +7789,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 113.03) (xy 157.48 115.57)
+			(xy 147.32 113.03) (xy 147.32 115.57)
 		)
 		(stroke
 			(width 0)
@@ -7952,7 +7969,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 88.9) (xy 157.48 90.17)
+			(xy 147.32 88.9) (xy 147.32 90.17)
 		)
 		(stroke
 			(width 0)
@@ -7992,7 +8009,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 113.03) (xy 154.94 113.03)
+			(xy 147.32 113.03) (xy 144.78 113.03)
 		)
 		(stroke
 			(width 0)
@@ -8092,7 +8109,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 104.14) (xy 144.78 104.14)
+			(xy 132.08 104.14) (xy 134.62 104.14)
 		)
 		(stroke
 			(width 0)
@@ -8232,6 +8249,16 @@
 	)
 	(wire
 		(pts
+			(xy 194.31 111.76) (xy 194.31 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6663fbd1-5f48-4269-a61b-54d077a08cd1")
+	)
+	(wire
+		(pts
 			(xy 46.99 34.29) (xy 46.99 44.45)
 		)
 		(stroke
@@ -8282,7 +8309,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 123.19) (xy 154.94 125.73)
+			(xy 144.78 123.19) (xy 144.78 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8322,7 +8349,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 109.22) (xy 194.31 116.84)
+			(xy 194.31 109.22) (xy 194.31 111.76)
 		)
 		(stroke
 			(width 0)
@@ -8342,7 +8369,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 127) (xy 157.48 125.73)
+			(xy 147.32 127) (xy 147.32 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8372,7 +8399,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 125.73) (xy 144.78 118.11)
+			(xy 134.62 125.73) (xy 134.62 118.11)
 		)
 		(stroke
 			(width 0)
@@ -8412,7 +8439,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 125.73) (xy 144.78 125.73)
+			(xy 144.78 125.73) (xy 134.62 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8452,7 +8479,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 109.22) (xy 157.48 113.03)
+			(xy 147.32 109.22) (xy 147.32 113.03)
 		)
 		(stroke
 			(width 0)
@@ -8542,6 +8569,16 @@
 	)
 	(wire
 		(pts
+			(xy 194.31 111.76) (xy 196.85 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "997d1ba3-8545-42dc-8a26-cca03d0c174d")
+	)
+	(wire
+		(pts
 			(xy 26.67 69.85) (xy 26.67 68.58)
 		)
 		(stroke
@@ -8602,7 +8639,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 113.03) (xy 152.4 113.03)
+			(xy 144.78 113.03) (xy 142.24 113.03)
 		)
 		(stroke
 			(width 0)
@@ -8622,7 +8659,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 125.73) (xy 154.94 125.73)
+			(xy 147.32 125.73) (xy 144.78 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8642,7 +8679,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 104.14) (xy 144.78 104.14)
+			(xy 139.7 104.14) (xy 134.62 104.14)
 		)
 		(stroke
 			(width 0)
@@ -8792,7 +8829,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 123.19) (xy 157.48 125.73)
+			(xy 147.32 123.19) (xy 147.32 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8922,7 +8959,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 113.03) (xy 154.94 115.57)
+			(xy 144.78 113.03) (xy 144.78 115.57)
 		)
 		(stroke
 			(width 0)
@@ -8962,7 +8999,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 104.14) (xy 144.78 107.95)
+			(xy 134.62 104.14) (xy 134.62 107.95)
 		)
 		(stroke
 			(width 0)
@@ -9406,28 +9443,6 @@
 			)
 		)
 	)
-	(global_label "I2S_DAT_IN"
-		(shape input)
-		(at 38.1 101.6 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "254e673d-79e8-4953-b4f4-90f9c2344043")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.4948 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "IO17"
 		(shape input)
 		(at 52.07 111.76 180)
@@ -9604,28 +9619,6 @@
 			)
 		)
 	)
-	(global_label "I2S_SCLK"
-		(shape input)
-		(at 38.1 96.52 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "4a2dcc1c-731d-4412-bd54-f24c602a47ac")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.4948 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "BUS_WIRE1"
 		(shape input)
 		(at 255.27 187.96 0)
@@ -9644,28 +9637,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "I2S_MCLK"
-		(shape input)
-		(at 38.1 99.06 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "508c04d9-6e3b-485d-a6eb-935f6e108eb4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 27.4948 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
@@ -9727,6 +9698,28 @@
 		(uuid "6507f9ed-297c-4b3a-bda4-cd121e56c2bc")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 201.7099 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BUS_CONN"
+		(shape input)
+		(at 196.85 111.76 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7113d7b8-816e-446b-b458-dd1625be3e4a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 209.8743 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9870,7 +9863,7 @@
 	)
 	(global_label "BUS_TX"
 		(shape input)
-		(at 133.35 104.14 180)
+		(at 123.19 104.14 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9880,7 +9873,7 @@
 		)
 		(uuid "9208e4da-e49a-4d09-b29e-fe0d352e9aa4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 123.4101 104.14 0)
+			(at 113.2501 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9903,6 +9896,28 @@
 		(uuid "96ade989-6491-4c94-bd4f-d1a9771f60a9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 40.8601 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BUS_CONN"
+		(shape input)
+		(at 52.07 93.98 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a0e67da7-935c-45e4-ad70-7ff62b6f6b04")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 39.0457 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11019,7 +11034,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC817")
-		(at 154.94 104.14 0)
+		(at 144.78 104.14 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11027,7 +11042,7 @@
 		(dnp no)
 		(uuid "0e06fc20-93cc-4a47-b904-7d4c45bbe639")
 		(property "Reference" "Q2"
-			(at 161.036 103.886 0)
+			(at 150.876 103.886 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11035,7 +11050,7 @@
 			)
 		)
 		(property "Value" "BC817"
-			(at 162.052 105.41 0)
+			(at 151.892 105.41 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11043,7 +11058,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 160.02 106.045 0)
+			(at 149.86 106.045 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11054,7 +11069,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC818-D.pdf"
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11064,7 +11079,7 @@
 			)
 		)
 		(property "Description" "1 NPN 100MHz 100nA 250 300mW 45V 500mA 5V 700mV NPN SOT-23 Bipolar (BJT) ROHS"
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11073,7 +11088,7 @@
 			)
 		)
 		(property "Package" "SOT-23"
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11082,7 +11097,7 @@
 			)
 		)
 		(property "MPN" "BC817-40"
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11091,7 +11106,7 @@
 			)
 		)
 		(property "LCSC" "C609806"
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11100,7 +11115,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11109,7 +11124,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11118,7 +11133,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11127,7 +11142,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 154.94 104.14 0)
+			(at 144.78 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11156,7 +11171,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 157.48 127 0)
+		(at 147.32 127 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11165,7 +11180,7 @@
 		(dnp no)
 		(uuid "124f8607-77bc-46bf-babb-1193bcc6ba6d")
 		(property "Reference" "#PWR039"
-			(at 157.48 133.35 0)
+			(at 147.32 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11174,7 +11189,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 157.48 131.064 0)
+			(at 147.32 131.064 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11182,7 +11197,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 157.48 127 0)
+			(at 147.32 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11191,7 +11206,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 127 0)
+			(at 147.32 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11200,7 +11215,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 157.48 127 0)
+			(at 147.32 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11555,7 +11570,7 @@
 	)
 	(symbol
 		(lib_id "power:+24V")
-		(at 157.48 88.9 0)
+		(at 147.32 88.9 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11564,7 +11579,7 @@
 		(dnp no)
 		(uuid "27a9a912-682c-49af-b46f-682a31e6b5f8")
 		(property "Reference" "#PWR038"
-			(at 157.48 92.71 0)
+			(at 147.32 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11573,7 +11588,7 @@
 			)
 		)
 		(property "Value" "+24V Bus"
-			(at 157.48 84.836 0)
+			(at 147.32 84.836 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11581,7 +11596,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 157.48 88.9 0)
+			(at 147.32 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11590,7 +11605,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 88.9 0)
+			(at 147.32 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11599,7 +11614,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+24V Bus\""
-			(at 157.48 88.9 0)
+			(at 147.32 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11721,7 +11736,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 154.94 119.38 0)
+		(at 144.78 119.38 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11730,7 +11745,7 @@
 		(dnp no)
 		(uuid "2b685efb-e4e5-4c6e-a853-e9b5463c5f14")
 		(property "Reference" "R8"
-			(at 152.4 119.38 0)
+			(at 142.24 119.38 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11738,7 +11753,7 @@
 			)
 		)
 		(property "Value" "1.2"
-			(at 154.94 119.38 90)
+			(at 144.78 119.38 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11746,7 +11761,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 156.718 119.38 90)
+			(at 146.558 119.38 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11755,7 +11770,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 154.94 119.38 0)
+			(at 144.78 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11764,7 +11779,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
-			(at 154.94 119.38 0)
+			(at 144.78 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11773,7 +11788,7 @@
 			)
 		)
 		(property "LCSC" "C2933356"
-			(at 154.94 119.38 0)
+			(at 144.78 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11782,7 +11797,7 @@
 			)
 		)
 		(property "MPN" "FRC0805F1R20TS"
-			(at 154.94 119.38 0)
+			(at 144.78 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11791,7 +11806,7 @@
 			)
 		)
 		(property "Package" "0805"
-			(at 154.94 119.38 90)
+			(at 144.78 119.38 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12686,7 +12701,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
-		(at 147.32 113.03 0)
+		(at 137.16 113.03 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12695,7 +12710,7 @@
 		(dnp no)
 		(uuid "4971c67f-9a89-4399-9b63-2343bad26623")
 		(property "Reference" "Q1"
-			(at 142.24 111.7599 0)
+			(at 132.08 111.7599 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12704,7 +12719,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 142.24 113.538 0)
+			(at 132.08 113.538 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -12713,7 +12728,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 142.24 110.49 0)
+			(at 132.08 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12722,7 +12737,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
-			(at 147.32 113.03 0)
+			(at 137.16 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12731,7 +12746,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
-			(at 147.32 113.03 0)
+			(at 137.16 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12740,7 +12755,7 @@
 			)
 		)
 		(property "MPN" "BC847BPN,115 "
-			(at 147.32 113.03 0)
+			(at 137.16 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12749,7 +12764,7 @@
 			)
 		)
 		(property "LCSC" "C8655"
-			(at 147.32 113.03 0)
+			(at 137.16 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12758,7 +12773,7 @@
 			)
 		)
 		(property "Package" "SOT-363"
-			(at 147.32 113.03 0)
+			(at 137.16 113.03 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14905,7 +14920,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 138.43 104.14 90)
+		(at 128.27 104.14 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14914,7 +14929,7 @@
 		(dnp no)
 		(uuid "85fbd99d-af2a-49e8-b5af-5c66c8965858")
 		(property "Reference" "R2"
-			(at 139.7 106.172 90)
+			(at 129.54 106.172 90)
 			(effects
 				(font
 					(size 1 1)
@@ -14923,7 +14938,7 @@
 			)
 		)
 		(property "Value" "2.2K"
-			(at 138.43 104.14 90)
+			(at 128.27 104.14 90)
 			(effects
 				(font
 					(size 1 1)
@@ -14931,7 +14946,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 138.43 102.362 90)
+			(at 128.27 102.362 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14940,7 +14955,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2206010216_UNI-ROYAL-Uniroyal-Elec-0402WGF1001TCE_C11702.pdf"
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14949,7 +14964,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 2.2kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14958,7 +14973,7 @@
 			)
 		)
 		(property "LCSC" "C25879"
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14967,7 +14982,7 @@
 			)
 		)
 		(property "MPN" "0402WGF2201TCE"
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14976,7 +14991,7 @@
 			)
 		)
 		(property "Package" "0402"
-			(at 138.43 104.14 90)
+			(at 128.27 104.14 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14985,7 +15000,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14994,7 +15009,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15003,7 +15018,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15012,7 +15027,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 138.43 104.14 0)
+			(at 128.27 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17663,7 +17678,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 157.48 119.38 0)
+		(at 147.32 119.38 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -17672,7 +17687,7 @@
 		(dnp no)
 		(uuid "e59ea2c5-c3fc-4bc0-9460-b87010415d18")
 		(property "Reference" "R11"
-			(at 160.528 119.38 0)
+			(at 150.368 119.38 0)
 			(effects
 				(font
 					(size 1 1)
@@ -17680,7 +17695,7 @@
 			)
 		)
 		(property "Value" "1.2"
-			(at 157.48 119.38 90)
+			(at 147.32 119.38 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17688,7 +17703,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 159.258 119.38 90)
+			(at 149.098 119.38 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17697,7 +17712,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 157.48 119.38 0)
+			(at 147.32 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17706,7 +17721,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
-			(at 157.48 119.38 0)
+			(at 147.32 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17715,7 +17730,7 @@
 			)
 		)
 		(property "LCSC" "C2933356"
-			(at 157.48 119.38 0)
+			(at 147.32 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17724,7 +17739,7 @@
 			)
 		)
 		(property "MPN" "FRC0805F1R20TS"
-			(at 157.48 119.38 0)
+			(at 147.32 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17733,7 +17748,7 @@
 			)
 		)
 		(property "Package" "0805"
-			(at 157.48 119.38 90)
+			(at 147.32 119.38 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18257,7 +18272,7 @@
 	)
 	(symbol
 		(lib_id "Diode:BZV55C6V2")
-		(at 157.48 93.98 90)
+		(at 147.32 93.98 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -18266,7 +18281,7 @@
 		(dnp no)
 		(uuid "f5bb780f-c8c1-4967-b01d-8b9b15aa4959")
 		(property "Reference" "D7"
-			(at 154.94 93.472 90)
+			(at 144.78 93.472 90)
 			(effects
 				(font
 					(size 1 1)
@@ -18275,7 +18290,7 @@
 			)
 		)
 		(property "Value" "6.2V"
-			(at 154.94 94.996 90)
+			(at 144.78 94.996 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -18284,7 +18299,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_MELF"
-			(at 161.925 93.98 0)
+			(at 151.765 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18293,7 +18308,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 93.98 0)
+			(at 147.32 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18302,7 +18317,7 @@
 			)
 		)
 		(property "Description" "10uA@3V 1W 2Ω 6.2V 700Ω LL-41 Zener Diodes ROHS"
-			(at 157.48 93.98 0)
+			(at 147.32 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18311,7 +18326,7 @@
 			)
 		)
 		(property "LCSC" "C5359931"
-			(at 157.48 93.98 90)
+			(at 147.32 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18320,7 +18335,7 @@
 			)
 		)
 		(property "MPN" "ZM4735A"
-			(at 157.48 93.98 90)
+			(at 147.32 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18329,7 +18344,7 @@
 			)
 		)
 		(property "Package" "LL-41"
-			(at 157.48 93.98 90)
+			(at 147.32 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
