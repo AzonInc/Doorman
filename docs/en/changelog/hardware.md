@@ -5,10 +5,14 @@ description: Explore the complete history of Doorman PCB revisions, including ne
 # PCB Revision History & Changelog
 Welcome to the complete history of all PCB updates! This page highlights the new features, improvements, and changes made in each revision.
 
-## 1.6.1 <Badge type="warning" text="PoC" />
+## 1.7 <Badge type="warning" text="PoC" />
+- Remove optional audio component footprints
+- New TC:BUS circuit for RX and TX
+
+## 1.6.1 <Badge type="tip" text="Current" />
 - Add some optional component footprints for audio PoC
 
-## 1.6.0 <Badge type="tip" text="Current" />
+## 1.6.0
 - Replace Terminal Pin 5 with 3.3V
 - Replace Terminal Pin 6 with GPIO40
 - Replace Terminal Pin 7 with GPIO41
