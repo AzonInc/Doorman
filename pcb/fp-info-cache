@@ -1,4 +1,4 @@
-26875137258728711
+26876906855976634
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60346,6 +60346,13 @@ LED-SMD_4P-L2.0-W1.8_CY-0807
 0
 4
 4
+Doorman
+LED-SMD_6P-L2.0-W2.0_XL-2020RGBC
+
+
+0
+6
+6
 Doorman
 MOLEX_87832-1420
 
