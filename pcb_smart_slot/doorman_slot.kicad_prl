@@ -1,7 +1,7 @@
 {
   "board": {
-    "active_layer": 4,
-    "active_layer_preset": "",
+    "active_layer": 0,
+    "active_layer_preset": "All Layers",
     "auto_track_width": true,
     "hidden_netclasses": [],
     "hidden_nets": [],
@@ -53,13 +53,12 @@
     "zone_display_mode": 0
   },
   "git": {
-    "repo_password": "",
     "repo_type": "",
     "repo_username": "",
     "ssh_key": ""
   },
   "meta": {
-    "filename": "doorman.kicad_prl",
+    "filename": "doorman_slot.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
@@ -92,18 +91,18 @@
       11
     ],
     "col_widths": [
-      163,
-      148,
-      91,
+      149,
+      137,
+      90,
+      70,
+      90,
+      98,
+      90,
       73,
-      91,
-      100,
-      91,
-      76,
-      91,
-      91,
-      91,
-      91
+      90,
+      90,
+      90,
+      90
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

@@ -10511,6 +10511,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "A8"
 			(uuid "1cfcb048-ac4c-4c1a-a3fe-244bb952c558")
 		)
@@ -10923,6 +10941,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 194.31 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 194.31 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4a00a059-00a7-417a-bc74-b103bb88ccac")
 		)
@@ -11008,6 +11044,24 @@
 			)
 		)
 		(property "Package" "SOT-363"
+			(at 191.77 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 191.77 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 191.77 104.14 0)
 			(effects
 				(font
@@ -11123,6 +11177,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 162.56 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 162.56 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 162.56 52.07 0)
 			(effects
 				(font
@@ -11268,6 +11340,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 144.78 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 144.78 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 144.78 104.14 0)
 			(effects
 				(font
@@ -11539,7 +11629,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 147kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 186.69 116.84 0)
 			(effects
 				(font
@@ -11548,7 +11638,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C22878"
+		(property "LCSC" "C25804"
 			(at 186.69 116.84 0)
 			(effects
 				(font
@@ -11557,7 +11647,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF1473T5E"
+		(property "MPN" "0603WAF1002T5E"
 			(at 186.69 116.84 0)
 			(effects
 				(font
@@ -11604,6 +11694,24 @@
 		)
 		(property "Price" ""
 			(at 186.69 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 186.69 116.84 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 186.69 116.84 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11847,6 +11955,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 199.39 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 199.39 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b16a667a-a7bf-44d5-8b5e-e28bbf58ad01")
 		)
@@ -11903,7 +12029,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±400ppm/℃ ±5% 0805 Chip Resistor - Surface Mount ROHS"
 			(at 144.78 119.38 0)
 			(effects
 				(font
@@ -11912,7 +12038,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2933356"
+		(property "LCSC" "C5140149"
 			(at 144.78 119.38 0)
 			(effects
 				(font
@@ -11921,7 +12047,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "FRC0805F1R20TS"
+		(property "MPN" "SCR0805J1R2"
 			(at 144.78 119.38 0)
 			(effects
 				(font
@@ -11932,6 +12058,24 @@
 		)
 		(property "Package" "0805"
 			(at 144.78 119.38 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 144.78 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 144.78 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12035,6 +12179,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 247.65 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 247.65 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 247.65 35.56 0)
 			(effects
 				(font
@@ -12152,6 +12314,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "0213142e-edac-4b0d-89c8-535152549a15")
 		)
@@ -12241,6 +12421,24 @@
 			)
 		)
 		(property "Package" "SMD"
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 67.31 88.9 0)
 			(effects
 				(font
@@ -12674,6 +12872,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "16c1fd31-6459-4795-902a-734ce834ae58")
 		)
@@ -12834,6 +13050,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 137.16 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 137.16 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "5a7d6741-9e3b-44a5-b9d6-6fff70fe9613")
 		)
@@ -12971,7 +13205,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 147kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 179.07 110.49 0)
 			(effects
 				(font
@@ -12980,7 +13214,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C22878"
+		(property "LCSC" "C25804"
 			(at 179.07 110.49 0)
 			(effects
 				(font
@@ -12989,7 +13223,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF1473T5E"
+		(property "MPN" "0603WAF1002T5E"
 			(at 179.07 110.49 0)
 			(effects
 				(font
@@ -13035,6 +13269,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 179.07 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 179.07 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 179.07 110.49 0)
 			(effects
 				(font
@@ -13140,6 +13392,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 127 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 127 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 127 55.88 0)
 			(effects
 				(font
@@ -13410,6 +13680,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 33.02 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 33.02 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e64475ad-d170-4adf-a90a-0933c5a7e4f6")
 		)
@@ -13548,6 +13836,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 176.53 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 176.53 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5d398b08-a7d5-4a59-af2f-f16fa36b520f")
 		)
@@ -13643,6 +13949,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 146.05 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 146.05 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 146.05 154.94 0)
 			(effects
 				(font
@@ -13849,6 +14173,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 46.99 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 46.99 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -13951,6 +14293,24 @@
 		)
 		(property "Price" ""
 			(at 185.42 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 185.42 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 185.42 49.53 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14160,6 +14520,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 264.16 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 264.16 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b50e4863-a523-4ce6-a624-1c30677180e8")
 		)
@@ -14356,6 +14734,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 33.02 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 33.02 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "25ea83d7-14e4-4d7a-ac9d-7a9505f19f16")
 		)
@@ -14534,6 +14930,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "a5aea6de-ed68-429f-b809-5bfa782eea52")
 		)
@@ -14648,6 +15062,24 @@
 			)
 		)
 		(property "Package" "SMD,P=2mm"
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 247.65 180.34 0)
 			(effects
 				(font
@@ -15088,6 +15520,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 128.27 104.14 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 128.27 104.14 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a1482566-f967-4a5a-8acc-fd36fce79eb6")
 		)
@@ -15185,6 +15635,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 199.39 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 199.39 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 199.39 57.15 0)
 			(effects
 				(font
@@ -15520,6 +15988,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 114.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 114.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6595ce14-7793-48c8-8988-1416ff6de45a")
 		)
@@ -15650,6 +16136,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 139.7 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 139.7 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "48931e88-20d5-49a5-94bf-627def4334ca")
 		)
@@ -15746,6 +16250,24 @@
 		)
 		(property "Price" ""
 			(at 236.22 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 236.22 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 236.22 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15939,6 +16461,24 @@
 		)
 		(property "Price" ""
 			(at 127 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 127 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 127 44.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16539,6 +17079,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 139.7 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 139.7 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "06d74a52-71dd-4da2-a937-3f7d136d15b9")
 		)
@@ -16662,6 +17220,24 @@
 		)
 		(property "Price" ""
 			(at 114.3 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 114.3 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 114.3 44.45 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16928,7 +17504,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "100mW Thick Film Resistors 75V ±100ppm/℃ ±1% 1MΩ 0603  Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 47kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -16937,7 +17513,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C22935"
+		(property "LCSC" "C25819"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -16946,7 +17522,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF1004T5E"
+		(property "MPN" "0603WAF4702T5E"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -16965,6 +17541,24 @@
 			)
 		)
 		(property "Price" ""
+			(at 179.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 179.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -17096,6 +17690,24 @@
 		)
 		(property "Price" ""
 			(at 138.43 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 138.43 154.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 138.43 154.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17301,6 +17913,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 34.29 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 34.29 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "22c0b198-a1bd-4c59-acbf-d6f002bdd3ad")
 		)
@@ -17411,6 +18041,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "da3b212e-c3d1-46de-a83e-042f22168766")
 		)
@@ -17513,6 +18161,24 @@
 		)
 		(property "Price" ""
 			(at 88.9 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 88.9 63.5 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17773,7 +18439,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±400ppm/℃ ±5% 0805 Chip Resistor - Surface Mount ROHS"
 			(at 147.32 119.38 0)
 			(effects
 				(font
@@ -17782,7 +18448,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2933356"
+		(property "LCSC" "C5140149"
 			(at 147.32 119.38 0)
 			(effects
 				(font
@@ -17791,7 +18457,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "FRC0805F1R20TS"
+		(property "MPN" "SCR0805J1R2"
 			(at 147.32 119.38 0)
 			(effects
 				(font
@@ -17802,6 +18468,24 @@
 		)
 		(property "Package" "0805"
 			(at 147.32 119.38 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 147.32 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 147.32 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18045,6 +18729,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 194.31 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 194.31 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9ff7f50c-6a7a-4bd1-bb7a-36e2c35b6a87")
 		)
@@ -18242,6 +18944,24 @@
 				(hide yes)
 			)
 		)
+		(property "Manufacturer_Name" ""
+			(at 80.01 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 80.01 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "ce1012f0-5e9f-4f98-b2fd-4f977fe1f0dc")
 		)
@@ -18331,6 +19051,24 @@
 			)
 		)
 		(property "Package" "LL-41"
+			(at 147.32 93.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 147.32 93.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 147.32 93.98 90)
 			(effects
 				(font
@@ -18529,7 +19267,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "-30℃~+70℃ 0.5mA 0.65mm 1.5kHz 120° 150mcd、150mcd、400mcd 2000V 2mm 2mm 3.5V~5.5V G:525nm、R:625nm、B:470nm R:620nm~625nm、G:525nm~530nm、B:470nm~475nm Top-mount Translucent Frosted Lens 2020 RGB LEDs(Built-in IC) ROHS"
 			(at 187.96 153.67 0)
 			(effects
 				(font
@@ -18540,6 +19278,51 @@
 		)
 		(property "LCSC Part" "C5349956"
 			(at 187.96 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C5349956"
+			(at 187.96 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "XL-2020RGBC-SK6812B"
+			(at 187.96 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 187.96 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 187.96 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "2020"
+			(at 187.96 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18647,6 +19430,24 @@
 			)
 		)
 		(property "Package" "Plugin,P=1.27mm"
+			(at 114.3 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 114.3 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
 			(at 114.3 27.94 0)
 			(effects
 				(font

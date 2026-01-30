@@ -76,9 +76,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 1.0,
-          "width": 2.58
+          "drill": 0.2,
+          "height": 1.05,
+          "width": 1.05
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -508,7 +508,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "doorman.kicad_pro",
+    "filename": "doorman_audio_extension.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -643,7 +643,7 @@
       "plot": "manufacturing/",
       "pos_files": "manufacturing/",
       "specctra_dsn": "",
-      "step": "doorman.step",
+      "step": "doorman_audio_extension.step",
       "svg": "",
       "vrml": ""
     },
