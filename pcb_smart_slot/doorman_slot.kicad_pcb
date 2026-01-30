@@ -8,7 +8,8 @@
 	)
 	(paper "A4")
 	(title_block
-		(date "2026-01-12")
+		(title "Doorman Smart Slot")
+		(date "2026-01-31")
 		(rev "1.0")
 	)
 	(layers
