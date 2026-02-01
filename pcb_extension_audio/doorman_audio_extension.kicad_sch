@@ -2656,6 +2656,17 @@
 		)
 		(uuid "6ecf1707-081a-49c6-99f5-9d93103032d9")
 	)
+	(text "CONNECTORS"
+		(exclude_from_sim no)
+		(at 195.834 108.966 0)
+		(effects
+			(font
+				(size 3 3)
+			)
+			(justify left bottom)
+		)
+		(uuid "8ac1b19d-6e5c-45a6-915f-b41d3b6c13cb")
+	)
 	(text "LINE OUT"
 		(exclude_from_sim no)
 		(at 166.116 82.804 0)
@@ -2675,17 +2686,6 @@
 			)
 		)
 		(uuid "aef38f91-f2ee-42cf-8587-0031927a9728")
-	)
-	(text "Extension Board Connector"
-		(exclude_from_sim no)
-		(at 220.218 107.696 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d28c1875-de39-4b1c-8f24-8b79bd285235")
 	)
 	(text "POWER FLAGS"
 		(exclude_from_sim no)
@@ -3974,28 +3974,6 @@
 			)
 		)
 	)
-	(global_label "AUDIO_IN_R2"
-		(shape input)
-		(at 215.9 154.94 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "09a5aaeb-e5f7-43be-9a4f-6b6edb6cee6e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 230.8596 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "AUDIO_OUT_R1"
 		(shape input)
 		(at 146.05 82.55 0)
@@ -4194,6 +4172,28 @@
 			)
 		)
 	)
+	(global_label "AUDIO_IN_R2"
+		(shape input)
+		(at 215.9 149.86 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4b40d222-5063-4e74-a694-9523133e13f4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 230.8596 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "AUDIO_OUT_L1"
 		(shape input)
 		(at 146.05 80.01 0)
@@ -4350,7 +4350,7 @@
 	)
 	(global_label "AUDIO_IN_R1"
 		(shape input)
-		(at 215.9 149.86 0)
+		(at 215.9 154.94 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4358,9 +4358,9 @@
 			)
 			(justify left)
 		)
-		(uuid "7cec91c7-6055-4c66-90b9-efef482089e9")
+		(uuid "74dd9d9f-2fc8-4837-bd6f-a286cd448ecb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 230.8596 149.86 0)
+			(at 230.8596 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8275,7 +8275,7 @@
 				)
 			)
 		)
-		(property "Value" "Conn_02x07_Odd_Even"
+		(property "Value" "Extension Board Connector"
 			(at 232.41 113.03 0)
 			(effects
 				(font

@@ -1,0 +1,99 @@
+{
+    "export_path": "",
+    "hide_outside_reference_value": 2,
+    "use_frame": true,
+    "tight": 0,
+    "auto_tab": 0,
+    "spacing": 1.8,
+    "max_tab_spacing": 10.0,
+    "cut_method": "vc_unsafe",
+    "mb_diameter": 0.6,
+    "mb_spacing": 0.9,
+    "mb_offset": 0.0,
+    "tab_width": 3.6,
+    "vc_layer": "Edge.Cuts",
+    "merge_vcuts": true,
+    "merge_vcuts_threshold": 0.4,
+    "frame_width": 70.0,
+    "frame_height": 70.0,
+    "frame_top": 10,
+    "frame_bottom": 10,
+    "frame_left": 0,
+    "frame_right": 0,
+    "mill_fillets": 1.0,
+    "export_mill_fillets": false,
+    "netRenamePattern": "B{n}-{orig}",
+    "refRenamePattern": "B{n}-{orig}",
+    "frame_tooling_holes": 2,
+    "frame_tooling_horizontal_offset": 3.5,
+    "frame_tooling_vertical_offset": 3.5,
+    "frame_tooling_diameter": 1.152,
+    "frame_tooling_solder_mask_opening_diameter": 1.3,
+    "fiducials": 2,
+    "fiducials_clearance": 3.35,
+    "fiducials_diameter": 1.0,
+    "fiducials_solder_mask_opening_diameter": 2.0,
+    "pcb": [
+        {
+            "file": "C:\\Users\\Florian\\Desktop\\Doorman\\pcb_extension_audio\\doorman_audio_extension.kicad_pcb",
+            "x": 40429998.0,
+            "y": 54038524.0,
+            "margin_left": 0,
+            "margin_right": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "rotate": -1350,
+            "options": {},
+            "flags": [],
+            "tabs": [
+                {
+                    "x": 2208074.1730103916,
+                    "y": 14418302.853517903,
+                    "width": 10.0,
+                    "closest": true,
+                    "direction": 0.0
+                },
+                {
+                    "x": 16256517.079584777,
+                    "y": 531336.3021914819,
+                    "width": 10.0,
+                    "closest": true,
+                    "direction": 0.0
+                }
+            ],
+            "bom": "",
+            "cpl": ""
+        },
+        {
+            "file": "C:\\Users\\Florian\\Desktop\\Doorman\\pcb\\doorman.kicad_pcb",
+            "x": 0.0,
+            "y": 54199970.0,
+            "margin_left": 0,
+            "margin_right": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "rotate": -270,
+            "options": {},
+            "flags": [],
+            "tabs": [
+                {
+                    "x": 35683256.46138515,
+                    "y": 19444446.571499743,
+                    "width": 15.0,
+                    "closest": true,
+                    "direction": 0.0
+                },
+                {
+                    "x": 665817.4977578521,
+                    "y": 18467864.6083707,
+                    "width": 10.0,
+                    "closest": true,
+                    "direction": 0.0
+                }
+            ],
+            "bom": "",
+            "cpl": ""
+        }
+    ],
+    "hole": []
+}

@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 25,
+    "active_layer": 19,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -50,17 +50,16 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "00000000_00000000_00000000_02000000",
+    "visible_layers": "00000000_00000000_0fffffff_ffffffff",
     "zone_display_mode": 0
   },
   "git": {
-    "repo_password": "",
     "repo_type": "",
     "repo_username": "",
     "ssh_key": ""
   },
   "meta": {
-    "filename": "doorman.kicad_prl",
+    "filename": "Doorman-S3-Panel.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
@@ -93,10 +92,10 @@
       11
     ],
     "col_widths": [
-      163,
-      148,
+      162,
+      147,
       91,
-      73,
+      72,
       91,
       100,
       91,
