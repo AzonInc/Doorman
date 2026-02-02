@@ -11539,7 +11539,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10K"
+		(property "Value" "39K"
 			(at 194.31 118.11 90)
 			(effects
 				(font
@@ -11565,7 +11565,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 194.31 118.11 0)
 			(effects
 				(font
@@ -11574,7 +11574,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25804"
+		(property "LCSC" "C23153"
 			(at 194.31 118.11 0)
 			(effects
 				(font
@@ -11583,7 +11583,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF1002T5E"
+		(property "MPN" "0603WAF3902T5E"
 			(at 194.31 118.11 0)
 			(effects
 				(font
@@ -17414,7 +17414,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47K"
+		(property "Value" "39K"
 			(at 179.07 93.98 90)
 			(effects
 				(font
@@ -17440,7 +17440,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 47kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -17449,7 +17449,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25819"
+		(property "LCSC" "C23153"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -17458,7 +17458,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF4702T5E"
+		(property "MPN" "0603WAF3902T5E"
 			(at 179.07 93.98 0)
 			(effects
 				(font
