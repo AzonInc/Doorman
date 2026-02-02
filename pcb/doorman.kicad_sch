@@ -7565,7 +7565,7 @@
 	)
 	(text "Receiving Data (inverted signal)"
 		(exclude_from_sim no)
-		(at 178.054 80.772 0)
+		(at 174.752 80.772 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7652,6 +7652,12 @@
 		(uuid "709e2520-3b44-4d05-b8fe-cc3003ff26e8")
 	)
 	(junction
+		(at 194.31 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "71fddaad-1da7-434c-a6b8-9a989a901161")
+	)
+	(junction
 		(at 180.34 49.53)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -7662,12 +7668,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bcc31aa2-fc58-45bb-8b4f-d5329566af6c")
-	)
-	(junction
-		(at 194.31 116.84)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c3a4206d-8520-4ea5-9ead-ff7a03fa8c1f")
 	)
 	(junction
 		(at 46.99 34.29)
@@ -7716,18 +7716,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f66bf959-b17e-4814-9bd6-51c7e3af6bce")
-	)
-	(junction
-		(at 194.31 111.76)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f7803c2e-4d08-41ae-bf73-a4403fdcfec2")
-	)
-	(junction
-		(at 179.07 116.84)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "fa54ae65-dd03-49e5-b082-d55364a24fcd")
 	)
 	(junction
 		(at 127 52.07)
@@ -7922,16 +7910,6 @@
 			(type default)
 		)
 		(uuid "152ba2f0-a785-4d2c-8b9a-ac2138367731")
-	)
-	(wire
-		(pts
-			(xy 179.07 114.3) (xy 179.07 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "15d4099c-2af3-4a9e-8df1-4d005c25497e")
 	)
 	(wire
 		(pts
@@ -8135,17 +8113,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 125.73) (xy 194.31 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "451e917e-f51e-453b-a04d-15af359a50a4")
-	)
-	(wire
-		(pts
-			(xy 179.07 116.84) (xy 179.07 127)
+			(xy 179.07 121.92) (xy 179.07 127)
 		)
 		(stroke
 			(width 0)
@@ -8235,6 +8203,16 @@
 	)
 	(wire
 		(pts
+			(xy 190.5 111.76) (xy 194.31 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "529e47f6-948c-4166-a36c-17fa9b750326")
+	)
+	(wire
+		(pts
 			(xy 259.08 85.09) (xy 257.81 85.09)
 		)
 		(stroke
@@ -8285,7 +8263,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 116.84) (xy 196.85 116.84)
+			(xy 194.31 111.76) (xy 196.85 111.76)
 		)
 		(stroke
 			(width 0)
@@ -8362,16 +8340,6 @@
 			(type default)
 		)
 		(uuid "656785e6-05a7-4e21-8b1d-32c9d34de20a")
-	)
-	(wire
-		(pts
-			(xy 194.31 111.76) (xy 194.31 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6663fbd1-5f48-4269-a61b-54d077a08cd1")
 	)
 	(wire
 		(pts
@@ -8565,6 +8533,16 @@
 	)
 	(wire
 		(pts
+			(xy 194.31 127) (xy 194.31 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7cf3592b-9c7c-4eeb-bfcb-41dbac99bdbe")
+	)
+	(wire
+		(pts
 			(xy 144.78 125.73) (xy 134.62 125.73)
 		)
 		(stroke
@@ -8655,16 +8633,6 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 116.84) (xy 182.88 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "93ff9ca3-12fa-4a78-99d4-36369e074735")
-	)
-	(wire
-		(pts
 			(xy 82.55 63.5) (xy 88.9 63.5)
 		)
 		(stroke
@@ -8682,16 +8650,6 @@
 			(type dash)
 		)
 		(uuid "98634dfd-b1a3-4e92-b2da-d16dbd7fd190")
-	)
-	(wire
-		(pts
-			(xy 194.31 111.76) (xy 196.85 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "997d1ba3-8545-42dc-8a26-cca03d0c174d")
 	)
 	(wire
 		(pts
@@ -8825,7 +8783,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 104.14) (xy 179.07 106.68)
+			(xy 179.07 104.14) (xy 179.07 114.3)
 		)
 		(stroke
 			(width 0)
@@ -9022,16 +8980,6 @@
 			(type default)
 		)
 		(uuid "cca9b379-ad4e-4942-9763-e3293a051252")
-	)
-	(wire
-		(pts
-			(xy 190.5 116.84) (xy 194.31 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ccf28499-ca82-4774-be64-88f1cbfcdc48")
 	)
 	(wire
 		(pts
@@ -9292,6 +9240,16 @@
 			(type default)
 		)
 		(uuid "f75c8ed2-9911-4b0c-8a6c-45b97a9dcbca")
+	)
+	(wire
+		(pts
+			(xy 194.31 111.76) (xy 194.31 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f81a5533-6e23-4780-b370-453607f7d061")
 	)
 	(polyline
 		(pts
@@ -9615,7 +9573,7 @@
 	)
 	(global_label "BUS_RX"
 		(shape input)
-		(at 196.85 116.84 0)
+		(at 196.85 111.76 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9625,12 +9583,34 @@
 		)
 		(uuid "2ffaa3e3-1e33-4c0f-8922-df59c1739342")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 207.0923 116.84 0)
+			(at 207.0923 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BUS_RX"
+		(shape input)
+		(at 52.07 93.98 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "322d1879-ffa7-4bfa-93c2-a41b719526b2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.8277 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -9811,28 +9791,6 @@
 			)
 		)
 	)
-	(global_label "BUS_CONN"
-		(shape input)
-		(at 196.85 111.76 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "7113d7b8-816e-446b-b458-dd1625be3e4a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 209.8743 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "BUS_TX"
 		(shape output)
 		(at 52.07 88.9 180)
@@ -10000,28 +9958,6 @@
 		(uuid "96ade989-6491-4c94-bd4f-d1a9771f60a9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 40.8601 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "BUS_CONN"
-		(shape input)
-		(at 52.07 93.98 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "a0e67da7-935c-45e4-ad70-7ff62b6f6b04")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 39.0457 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10855,7 +10791,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 194.31 125.73 180)
+		(at 190.5 111.76 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -10863,7 +10799,7 @@
 		(dnp yes)
 		(uuid "07e1541a-bf8d-4a97-bdf0-b6d5baf7dd42")
 		(property "Reference" "J7"
-			(at 197.612 128.27 0)
+			(at 187.96 115.062 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10871,7 +10807,7 @@
 			)
 		)
 		(property "Value" "BUS RX Test Pad"
-			(at 201.93 129.794 0)
+			(at 186.436 119.38 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -10879,7 +10815,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 189.23 125.73 0)
+			(at 190.5 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10888,7 +10824,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 189.23 125.73 0)
+			(at 190.5 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10897,7 +10833,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10906,7 +10842,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10915,7 +10851,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10924,7 +10860,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10933,7 +10869,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10942,7 +10878,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10951,7 +10887,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 194.31 125.73 0)
+			(at 190.5 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11586,8 +11522,8 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 186.69 116.84 270)
-		(mirror x)
+		(at 194.31 118.11 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11595,7 +11531,7 @@
 		(dnp no)
 		(uuid "202bac98-08a4-486c-b757-faa9b0444cd1")
 		(property "Reference" "R12"
-			(at 185.166 119.126 90)
+			(at 198.628 118.364 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11604,7 +11540,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 186.69 116.84 90)
+			(at 194.31 118.11 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11612,7 +11548,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 186.69 118.618 90)
+			(at 196.088 118.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11621,7 +11557,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11630,7 +11566,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11639,7 +11575,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11648,7 +11584,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11657,7 +11593,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11666,7 +11602,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11675,7 +11611,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11684,7 +11620,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11693,7 +11629,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 186.69 116.84 0)
+			(at 194.31 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11702,7 +11638,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 186.69 116.84 90)
+			(at 194.31 118.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11711,7 +11647,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 186.69 116.84 90)
+			(at 194.31 118.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13162,7 +13098,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 179.07 110.49 0)
+		(at 179.07 118.11 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13171,7 +13107,7 @@
 		(dnp no)
 		(uuid "4e82eefb-2966-44b0-a36f-8b5d1db9bc5d")
 		(property "Reference" "R6"
-			(at 182.372 110.49 0)
+			(at 182.372 118.11 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13180,7 +13116,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 179.07 110.49 90)
+			(at 179.07 118.11 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13188,7 +13124,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 180.848 110.49 90)
+			(at 180.848 118.11 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13197,7 +13133,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13206,7 +13142,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13215,7 +13151,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13224,7 +13160,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13233,7 +13169,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13242,7 +13178,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13251,7 +13187,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13260,7 +13196,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13269,7 +13205,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13278,7 +13214,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13287,7 +13223,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 179.07 110.49 0)
+			(at 179.07 118.11 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17947,6 +17883,72 @@
 			(project "pcb"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "SW2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_1")
+		(lib_id "power:GND")
+		(at 194.31 127 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d58c1fd7-fe8f-44d8-b71b-250b6414ef55")
+		(property "Reference" "#PWR029"
+			(at 194.31 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 194.31 131.064 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 194.31 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 194.31 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 194.31 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "60bae391-8634-4b02-b045-0c3e5acf752a")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
