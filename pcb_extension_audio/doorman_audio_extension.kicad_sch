@@ -4722,7 +4722,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "0054674e-5e7d-4617-b026-b0746a5c925e")
 		(property "Reference" "R2"
 			(at 148.59 78.994 90)
@@ -5274,7 +5274,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "0bcb42bf-3d41-46b7-b0bd-e3c50adbc676")
 		(property "Reference" "C3"
 			(at 141.224 69.088 90)
@@ -5451,7 +5451,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "0bd76b6b-0f74-4799-ab70-e3c72ff73151")
 		(property "Reference" "C5"
 			(at 136.398 66.548 90)
@@ -6138,7 +6138,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "3405c8de-ecd8-4cb0-817a-b9aabfdb6eca")
 		(property "Reference" "R1"
 			(at 148.59 76.454 90)
@@ -8784,7 +8784,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF"
+		(property "Value" "10uF"
 			(at 250.19 67.818 90)
 			(effects
 				(font
@@ -8811,7 +8811,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1uF 50V X7R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "10uF 50V X7R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 251.46 71.12 0)
 			(effects
 				(font
@@ -8820,7 +8820,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1848"
+		(property "LCSC" "C89632"
 			(at 251.46 71.12 0)
 			(effects
 				(font
@@ -8829,7 +8829,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL31B105KBHNNNE"
+		(property "MPN" "CL31B106KBHNNNE"
 			(at 251.46 71.12 0)
 			(effects
 				(font
@@ -9843,7 +9843,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF"
+		(property "Value" "10uF"
 			(at 250.19 36.068 90)
 			(effects
 				(font
@@ -9870,7 +9870,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1uF 50V X7R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "10uF 50V X7R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 251.46 39.37 0)
 			(effects
 				(font
@@ -9879,7 +9879,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C1848"
+		(property "LCSC" "C89632"
 			(at 251.46 39.37 0)
 			(effects
 				(font
@@ -9888,7 +9888,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL31B105KBHNNNE"
+		(property "MPN" "CL31B106KBHNNNE"
 			(at 251.46 39.37 0)
 			(effects
 				(font
@@ -10758,7 +10758,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "bd9a4d19-1961-4bb7-8ccf-974ce1bf6271")
 		(property "Reference" "C13"
 			(at 134.62 81.534 90)
@@ -10935,7 +10935,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "bfc1f139-5020-4c04-a6cb-aed9fff335b3")
 		(property "Reference" "C7"
 			(at 138.938 79.248 90)
@@ -11112,7 +11112,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "cb50dac3-1766-46c9-a82f-16283f91bbfe")
 		(property "Reference" "C6"
 			(at 133.858 76.708 90)
@@ -11600,7 +11600,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "e35120ec-d710-425a-87cc-fe8c3172c210")
 		(property "Reference" "C4"
 			(at 141.224 63.754 90)
@@ -11844,7 +11844,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "eb9337c2-7d0c-495f-9f47-f4bf55b7cffb")
 		(property "Reference" "R3"
 			(at 148.59 81.534 90)
