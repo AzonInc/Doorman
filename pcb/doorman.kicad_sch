@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-01-27")
-		(rev "1.7")
+		(date "2026-02-04")
+		(rev "2.0")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
 	(lib_symbols
