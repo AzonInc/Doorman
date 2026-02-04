@@ -42,3 +42,23 @@ The Doorman S3 uses certain GPIO pins for specific functions and provides additi
 | GPIO40 | Free I/O |
 | GPIO41 | External Button |
 | GPIO42 | Relay for Analog Door Opener or Light |
+
+## Revision 2.0
+| GPIO | Purpose |
+| :----- | :-----|
+| GPIO01 | Red Status LED |
+| GPIO02 | SK6812B RGB Status LED |
+| GPIO07 | Free I/O via Extension Board Connector |
+| GPIO08 | TC:BUS TX |
+| GPIO09 | TC:BUS RX |
+| GPIO10 | TC:BUS RX |
+| GPIO12 | I²C CLK via Extension Board Connector |
+| GPIO13 | I²C DAT via Extension Board Connector |
+| GPIO14 | Free I/O via Extension Board Connector |
+| GPIO15 | Free I/O via Extension Board Connector |
+| GPIO16 | Free I/O via Extension Board Connector |
+| GPIO17 | Free I/O via Extension Board Connector |
+| GPIO18 | Free I/O via Extension Board Connector |
+| GPIO40 | Free I/O via Screw Terminal |
+| GPIO41 | External Button / Free I/O via Screw Terminal |
+| GPIO42 | Relay for Analog Door Opener or Light |

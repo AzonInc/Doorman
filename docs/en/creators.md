@@ -34,6 +34,14 @@ const members = [
     ]
   },
   {
+    avatar: 'https://www.github.com/mstirner.png',
+    name: 'mStirner',
+    title: 'Audio Support',
+    links: [
+      { icon: 'github', link: 'https://github.com/mStirner' },
+    ]
+  },
+  {
     avatar: 'https://www.github.com/calibanorg.png',
     name: 'calibanorg',
     title: 'Sponsor PCB Development',
