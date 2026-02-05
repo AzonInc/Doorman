@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-04")
+		(date "2026-02-05")
 		(rev "2.0")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -10910,6 +10910,7 @@
 	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
 		(at 191.77 104.14 0)
+		(mirror x)
 		(unit 2)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10917,7 +10918,7 @@
 		(dnp no)
 		(uuid "093bee44-f99a-40ed-9408-752c8ccbf174")
 		(property "Reference" "Q1"
-			(at 196.596 103.378 0)
+			(at 196.596 104.902 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10926,7 +10927,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 196.596 104.9019 0)
+			(at 196.596 103.3781 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -10935,7 +10936,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 196.85 101.6 0)
+			(at 196.85 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
