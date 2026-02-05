@@ -11540,7 +11540,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "39K"
+		(property "Value" "47K5"
 			(at 194.31 118.11 90)
 			(effects
 				(font
@@ -11566,7 +11566,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 47.5Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 194.31 118.11 0)
 			(effects
 				(font
@@ -11575,7 +11575,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C23153"
+		(property "LCSC" "C22375093"
 			(at 194.31 118.11 0)
 			(effects
 				(font
@@ -11584,7 +11584,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF3902T5E"
+		(property "MPN" "FRC0603F47R5TS"
 			(at 194.31 118.11 0)
 			(effects
 				(font
@@ -11940,7 +11940,7 @@
 				)
 			)
 		)
-		(property "Value" "1.2"
+		(property "Value" "1R2"
 			(at 144.78 119.38 90)
 			(effects
 				(font
@@ -12180,7 +12180,7 @@
 				)
 			)
 		)
-		(property "Value" "150"
+		(property "Value" "150R"
 			(at 39.37 157.48 90)
 			(effects
 				(font
@@ -14359,7 +14359,7 @@
 				)
 			)
 		)
-		(property "Value" "5.1K"
+		(property "Value" "5K1"
 			(at 264.16 76.2 90)
 			(effects
 				(font
@@ -15359,7 +15359,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2.2K"
+		(property "Value" "2K2"
 			(at 128.27 104.14 90)
 			(effects
 				(font
@@ -15827,7 +15827,7 @@
 				)
 			)
 		)
-		(property "Value" "62"
+		(property "Value" "62R"
 			(at 114.3 35.56 90)
 			(effects
 				(font
@@ -17415,7 +17415,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "39K"
+		(property "Value" "47K5"
 			(at 179.07 93.98 90)
 			(effects
 				(font
@@ -17441,7 +17441,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 47.5Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -17450,7 +17450,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C23153"
+		(property "LCSC" "C22375093"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -17459,7 +17459,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF3902T5E"
+		(property "MPN" "FRC0603F47R5TS"
 			(at 179.07 93.98 0)
 			(effects
 				(font
@@ -17536,7 +17536,7 @@
 				)
 			)
 		)
-		(property "Value" "470"
+		(property "Value" "470R"
 			(at 138.43 154.94 90)
 			(effects
 				(font
@@ -18416,7 +18416,7 @@
 				)
 			)
 		)
-		(property "Value" "1.2"
+		(property "Value" "1R2"
 			(at 147.32 119.38 90)
 			(effects
 				(font

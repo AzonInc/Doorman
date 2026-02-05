@@ -225,7 +225,7 @@
 				)
 			)
 		)
-		(property "Value" "1.2"
+		(property "Value" "1R2"
 			(at 0 1.65 90)
 			(layer "F.Fab")
 			(uuid "daa90910-6838-48ce-a6b0-dd566cd7d383")
@@ -2189,7 +2189,7 @@
 				)
 			)
 		)
-		(property "Value" "470"
+		(property "Value" "470R"
 			(at 0 1.43 270)
 			(layer "F.Fab")
 			(uuid "e0fa058a-badf-4439-9822-8391e6cfbf10")
@@ -5014,7 +5014,7 @@
 				)
 			)
 		)
-		(property "Value" "150"
+		(property "Value" "150R"
 			(at 0 1.17 0)
 			(layer "F.Fab")
 			(uuid "85393854-1541-41a1-af5c-42edc5391532")
@@ -5564,7 +5564,7 @@
 				)
 			)
 		)
-		(property "Value" "5.1K"
+		(property "Value" "5K1"
 			(at 0.27 0.9 90)
 			(layer "F.Fab")
 			(uuid "7f798ae5-9b40-4583-bd31-9ef74e7831d8")
@@ -5884,7 +5884,7 @@
 				)
 			)
 		)
-		(property "Value" "1.2"
+		(property "Value" "1R2"
 			(at 0 1.65 90)
 			(layer "F.Fab")
 			(uuid "42bc7770-1ee3-46e4-8684-965826d5ec6f")
@@ -10354,7 +10354,7 @@
 				)
 			)
 		)
-		(property "Value" "39K"
+		(property "Value" "47K5"
 			(at 0 1.43 90)
 			(layer "F.Fab")
 			(uuid "6d0757d3-ad88-4486-8ac6-4b75dac62459")
@@ -10378,7 +10378,7 @@
 				)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 47.5Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10391,7 +10391,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23153"
+		(property "LCSC" "C22375093"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10404,7 +10404,7 @@
 				)
 			)
 		)
-		(property "MPN" "0603WAF3902T5E"
+		(property "MPN" "FRC0603F47R5TS"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10634,7 +10634,7 @@
 				)
 			)
 		)
-		(property "Value" "39K"
+		(property "Value" "47K5"
 			(at 0 1.43 0)
 			(layer "F.Fab")
 			(uuid "3a0dabf9-df88-49b8-b3f9-722b02e0f227")
@@ -10658,7 +10658,7 @@
 				)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 39kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 47.5Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10671,7 +10671,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C23153"
+		(property "LCSC" "C22375093"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -10684,7 +10684,7 @@
 				)
 			)
 		)
-		(property "MPN" "0603WAF3902T5E"
+		(property "MPN" "FRC0603F47R5TS"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -12726,7 +12726,7 @@
 				)
 			)
 		)
-		(property "Value" "62"
+		(property "Value" "62R"
 			(at 0 1.82 0)
 			(layer "F.Fab")
 			(uuid "7077bac0-8e30-4594-b5fd-556511d7be50")
@@ -13327,7 +13327,7 @@
 				)
 			)
 		)
-		(property "Value" "2.2K"
+		(property "Value" "2K2"
 			(at 0.17 1.25 90)
 			(layer "F.Fab")
 			(uuid "c29e1633-9343-4faa-8b37-cb7a6a9a5f7f")
