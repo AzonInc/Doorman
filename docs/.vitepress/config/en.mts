@@ -122,6 +122,12 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
+      text: 'Extension Boards',
+      items: [
+        { text: 'Doorman EA (Audio)', link: 'doorman-ea', base: '/guide/extension-boards/' }
+      ]
+    },
+    {
       text: 'Enclosure',
       items: [
         { text: '3D printing', link: '3d-printing', base: '/guide/enclosure/' }

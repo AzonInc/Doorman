@@ -12,7 +12,7 @@ Settings are automatically made available once your device has been successfully
 
 The actual settings available to you depend on your specific indoor station model and firmware version. Please refer to the [supported settings list](../../reference/esphome-component-device#model-setting-availability) for up-to-date compatibility.
 
-The model must be set first; otherwise, the settings won’t appear in the web interface or in Home Assistant. Once the model is set, the settings will become visible—reload the web interface to see them.
+The model must be set first; otherwise, the settings won't appear in the web interface or in Home Assistant. Once the model is set, the settings will become visible—reload the web interface to see them.
 
 ::: tip
 If the model is already configured but the entities are still missing or unavailable, try restarting Doorman or reloading the ESPHome integration in Home Assistant.

@@ -120,9 +120,9 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     {
       text: 'Features',
       items: [
-        { text: 'Ring To Open', link: 'ring-to-open', base: '/guide/features/' },
-        { text: 'Innenstation Einstellungen', link: 'intercom-settings', base: '/guide/features/' },
-        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/guide/features/' },
+        { text: 'Ring To Open', link: 'ring-to-open', base: '/de/guide/features/' },
+        { text: 'Innenstation Einstellungen', link: 'intercom-settings', base: '/de/guide/features/' },
+        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/de/guide/features/' },
       ]
     },
     {
@@ -146,6 +146,12 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           ]
         },
         { text: 'Anpassungen', link: 'customization', base: '/de/guide/firmware/' }
+      ]
+    },
+    {
+      text: 'Erweiterungs Boards',
+      items: [
+        { text: 'Doorman EA (Audio)', link: 'doorman-ea', base: '/de/guide/extension-boards/' }
       ]
     },
     {
