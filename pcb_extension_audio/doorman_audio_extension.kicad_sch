@@ -4428,7 +4428,7 @@
 			)
 		)
 	)
-	(global_label "I2S_SCLK"
+	(global_label "I2S_BCLK"
 		(shape input)
 		(at 68.58 46.99 90)
 		(fields_autoplaced yes)
@@ -4440,7 +4440,7 @@
 		)
 		(uuid "615e8a20-f75c-4980-946e-95d78b474054")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 68.58 35.2358 90)
+			(at 68.58 35.1753 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4516,7 +4516,7 @@
 			)
 		)
 	)
-	(global_label "I2S_SCLK"
+	(global_label "I2S_BCLK"
 		(shape input)
 		(at 238.76 124.46 0)
 		(fields_autoplaced yes)
@@ -4528,7 +4528,7 @@
 		)
 		(uuid "7e3ce366-0e65-4376-afab-3d2b1b1d7354")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 249.3652 124.46 0)
+			(at 250.5747 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
