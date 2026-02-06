@@ -1237,7 +1237,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector_Generic:Conn_02x07_Odd_Even"
+		(symbol "Connector_Generic:Conn_02x07_Top_Bottom"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -1253,7 +1253,7 @@
 					)
 				)
 			)
-			(property "Value" "Conn_02x07_Odd_Even"
+			(property "Value" "Conn_02x07_Top_Bottom"
 				(at 1.27 -10.16 0)
 				(effects
 					(font
@@ -1279,7 +1279,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connector, double row, 02x07, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(property "Description" "Generic connector, double row, 02x07, top/bottom pin numbering scheme (row 1: 1...pins_per_row, row2: pins_per_row+1 ... num_pins), script generated (kicad-library-utils/schlib/autogen/connector/)"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1306,7 +1306,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_02x07_Odd_Even_1_1"
+			(symbol "Conn_02x07_Top_Bottom_1_1"
 				(rectangle
 					(start -1.27 8.89)
 					(end 3.81 -8.89)
@@ -1493,114 +1493,6 @@
 				(pin passive line
 					(at -5.08 5.08 0)
 					(length 3.81)
-					(name "Pin_3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 2.54 0)
-					(length 3.81)
-					(name "Pin_5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 0 0)
-					(length 3.81)
-					(name "Pin_7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -2.54 0)
-					(length 3.81)
-					(name "Pin_9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -5.08 0)
-					(length 3.81)
-					(name "Pin_11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -7.62 0)
-					(length 3.81)
-					(name "Pin_13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 7.62 7.62 180)
-					(length 3.81)
 					(name "Pin_2"
 						(effects
 							(font
@@ -1617,7 +1509,25 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 5.08 180)
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
 					(length 3.81)
 					(name "Pin_4"
 						(effects
@@ -1635,7 +1545,25 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 2.54 180)
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
 					(length 3.81)
 					(name "Pin_6"
 						(effects
@@ -1653,7 +1581,25 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 0 180)
+					(at -5.08 -7.62 0)
+					(length 3.81)
+					(name "Pin_7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 7.62 180)
 					(length 3.81)
 					(name "Pin_8"
 						(effects
@@ -1671,7 +1617,25 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 -2.54 180)
+					(at 7.62 5.08 180)
+					(length 3.81)
+					(name "Pin_9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 2.54 180)
 					(length 3.81)
 					(name "Pin_10"
 						(effects
@@ -1689,7 +1653,25 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 -5.08 180)
+					(at 7.62 0 180)
+					(length 3.81)
+					(name "Pin_11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -2.54 180)
 					(length 3.81)
 					(name "Pin_12"
 						(effects
@@ -1699,6 +1681,24 @@
 						)
 					)
 					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -5.08 180)
+					(length 3.81)
+					(name "Pin_13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -6613,6 +6613,228 @@
 		)
 	)
 	(symbol
+		(lib_id "Audio:ES8388")
+		(at 148.59 124.46 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5275d761-e145-45b7-a5b5-52d3d6c6df73")
+		(property "Reference" "U2"
+			(at 153.416 99.314 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ES8388"
+			(at 153.2733 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DFN_QFN:QFN-28-1EP_4x4mm_P0.45mm_EP2.6x2.6mm"
+			(at 148.59 157.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.everest-semi.com/pdf/ES8388%20DS.pdf"
+			(at 148.59 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-40℃~+85℃ 1.7V~3.6V 10MHz 2 24 96000Hz Audio Analog-to-Digital Converter、Audio Decoder SPI、I2C QFN-28-EP(4x4) ADCs/DACs - Special Purpose ROHS"
+			(at 148.59 152.654 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C365736"
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "ES8388"
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "QFN-28-EP(4x4)"
+			(at 148.59 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "16"
+			(uuid "009db4ed-799b-45e8-a3a5-112ce04444e2")
+		)
+		(pin "13"
+			(uuid "15eecfb9-8119-439d-9af0-920bb58ac73c")
+		)
+		(pin "23"
+			(uuid "5e0d21ce-3921-4b61-87d1-252a361c9dd6")
+		)
+		(pin "12"
+			(uuid "383e244b-8d3c-4ca4-9505-7538f14ca52d")
+		)
+		(pin "3"
+			(uuid "9df5940f-dbe4-4ed8-9dc4-0a176b8ec25f")
+		)
+		(pin "29"
+			(uuid "8b0887c8-41cc-4c04-a32c-a057c1a87730")
+		)
+		(pin "22"
+			(uuid "87409abb-f1e2-484e-a9b3-39cf8d2e9dce")
+		)
+		(pin "24"
+			(uuid "961818ed-8f8f-4d37-b3a2-3b968d4bd652")
+		)
+		(pin "28"
+			(uuid "0a4d21ff-f6a6-4d62-95bb-d40e23f96dc7")
+		)
+		(pin "1"
+			(uuid "3ecdef86-48b3-4d45-8dcf-878ed2c52d8c")
+		)
+		(pin "19"
+			(uuid "ab05ff92-d227-4756-8918-7e225bf9257d")
+		)
+		(pin "8"
+			(uuid "f918394d-fc92-4b73-abec-7db1796be38e")
+		)
+		(pin "27"
+			(uuid "9cd28fa6-1852-4207-b330-5eb9ace074ed")
+		)
+		(pin "2"
+			(uuid "3d13f0a8-f902-4049-9340-d94d05855d11")
+		)
+		(pin "4"
+			(uuid "167d5470-2dd1-42a2-bdbe-7f0d68d4d907")
+		)
+		(pin "20"
+			(uuid "4b856f51-3e39-481f-acc4-d28645daf768")
+		)
+		(pin "26"
+			(uuid "47932261-e61d-41e4-a886-b1ad35c761e9")
+		)
+		(pin "5"
+			(uuid "c8fa1d40-dfc3-40c6-9c63-f6db02439975")
+		)
+		(pin "10"
+			(uuid "3c051e19-b5b2-4852-bd9d-e183ba05989b")
+		)
+		(pin "18"
+			(uuid "6b567fcb-dadf-4dd7-b621-eccb9b52cd04")
+		)
+		(pin "17"
+			(uuid "f80d1899-378d-4377-9d02-20cd7afb1767")
+		)
+		(pin "7"
+			(uuid "0386cb1f-e4b2-4bc1-8054-7a0ff5b930cd")
+		)
+		(pin "6"
+			(uuid "d56e293b-35e9-469c-be97-2f99c2b9fde9")
+		)
+		(pin "9"
+			(uuid "280f5404-62a0-41ce-aca4-8ba8398e3a7d")
+		)
+		(pin "25"
+			(uuid "4c39d5eb-d84f-4e19-8e9e-f49944e2c039")
+		)
+		(pin "21"
+			(uuid "81c5d581-4fc7-4335-9062-3cf85ee3cd04")
+		)
+		(pin "11"
+			(uuid "212bdc8d-ad70-4b74-98d5-c2027c17a0ad")
+		)
+		(pin "15"
+			(uuid "ff1e54eb-aca6-42c9-8652-ac76826b6183")
+		)
+		(pin "14"
+			(uuid "8d170119-979b-4c08-813d-e62e325307b4")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 118.11 35.56 180)
 		(unit 1)
@@ -8162,7 +8384,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_02x07_Odd_Even")
+		(lib_id "Connector_Generic:Conn_02x07_Top_Bottom")
 		(at 233.68 124.46 180)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8205,7 +8427,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+105℃ 1.5A 14P 2 2mm 2mm 2x7P 4.3mm Brass Gold Square Hole Surface Mount,Vertical Top SMD,P=2mm Female Headers ROHS"
+		(property "Description" "Generic connector, double row, 02x07, top/bottom pin numbering scheme (row 1: 1...pins_per_row, row2: pins_per_row+1 ... num_pins), script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 233.68 124.46 0)
 			(effects
 				(font
@@ -10347,6 +10569,73 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_7")
+		(lib_id "power:GND")
+		(at 151.13 147.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "adac311a-2f7f-4621-a24c-ba33dbb8b911")
+		(property "Reference" "#PWR02"
+			(at 151.13 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 151.13 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 151.13 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 151.13 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 151.13 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7a91f8c2-539a-4e73-8f4d-aa5af3e433d0")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
