@@ -50,6 +50,14 @@ const members = [
     ]
   },
   {
+    avatar: 'https://www.github.com/sektion4.png',
+    name: 'sektion4',
+    title: 'PCB Support',
+    links: [
+      { icon: 'github', link: 'https://github.com/sektion4' },
+    ]
+  },
+  {
     avatar: 'https://www.github.com/atc1441.png',
     name: 'atc1441',
     title: 'Reverse engineering of TCS Bus communication',
