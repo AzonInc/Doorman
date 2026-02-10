@@ -20,7 +20,7 @@
       "footprints": true,
       "graphics": true,
       "keepouts": true,
-      "lockedItems": true,
+      "lockedItems": false,
       "otherItems": true,
       "pads": true,
       "text": true,
@@ -50,17 +50,16 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "ffffffff_ffffffff_fffffff5_fff5ffff",
+    "visible_layers": "00000000_00000000_0fffffff_ffffffff",
     "zone_display_mode": 0
   },
   "git": {
-    "repo_password": "",
     "repo_type": "",
     "repo_username": "",
     "ssh_key": ""
   },
   "meta": {
-    "filename": "doorman_audio_extension.kicad_prl",
+    "filename": "Doorman-S3-Panel.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
@@ -93,18 +92,18 @@
       11
     ],
     "col_widths": [
-      104,
-      94,
-      58,
-      46,
-      58,
-      64,
-      58,
-      49,
-      58,
-      58,
-      58,
-      58
+      186,
+      171,
+      112,
+      87,
+      112,
+      122,
+      112,
+      91,
+      112,
+      112,
+      112,
+      112
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

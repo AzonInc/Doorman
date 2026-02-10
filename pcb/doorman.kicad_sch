@@ -7484,6 +7484,17 @@
 		)
 		(uuid "8b3b9d6d-75e3-4d7c-a378-25ecc924539c")
 	)
+	(text "Flash"
+		(exclude_from_sim no)
+		(at 36.068 70.866 0)
+		(effects
+			(font
+				(size 0.8 0.8)
+			)
+			(justify right bottom)
+		)
+		(uuid "962ffde8-eb61-4abc-a909-36fe4e98fe0f")
+	)
 	(text "ESP32-S3"
 		(exclude_from_sim no)
 		(at 18.796 23.368 0)
@@ -7505,6 +7516,17 @@
 			(justify left bottom)
 		)
 		(uuid "a5b9ce8e-b4bb-4745-91ad-4b70806b861e")
+	)
+	(text "Reset"
+		(exclude_from_sim no)
+		(at 34.544 46.736 0)
+		(effects
+			(font
+				(size 0.8 0.8)
+			)
+			(justify right bottom)
+		)
+		(uuid "ae573206-2aff-4eeb-acbe-5cdbca6f1de7")
 	)
 	(text "RELAY"
 		(exclude_from_sim no)
@@ -14054,7 +14076,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "100mW Thick Film Resistors ±100ppm/℃ ±1% 10kΩ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 46.99 29.21 0)
 			(effects
 				(font
@@ -14208,7 +14230,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "2.1A 3.9uH ±20% 3A SMD,4x4x3mm  Power Inductors ROHS"
+		(property "Description" "2.3A 3.3A 3.9uH Magnetic Shielded Inductor ±20% SMD,4x4mm Power Inductors ROHS"
 			(at 185.42 49.53 0)
 			(effects
 				(font
@@ -14217,7 +14239,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C96899"
+		(property "LCSC" "C6808101"
 			(at 185.42 49.53 90)
 			(effects
 				(font
@@ -14235,7 +14257,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "SWPA4030S3R9MT"
+		(property "MPN" "ANR4030T3R9M"
 			(at 185.42 49.53 0)
 			(effects
 				(font
@@ -14589,7 +14611,7 @@
 				)
 			)
 		)
-		(property "Value" "Reset Button"
+		(property "Value" "Button"
 			(at 33.02 40.386 0)
 			(effects
 				(font
@@ -14987,7 +15009,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+105℃ 1.5A 14P 2 2mm 2mm 2x7P 4.3mm Brass Square Hole Surface Mount,Vertical Top SMD,P=2mm Female Headers ROHS"
+		(property "Description" "-40℃~+105℃ 1.5A 14P 2 2mm 2mm 2x7P 4.3mm Brass Gold Square Hole Surface Mount,Vertical Top SMD,P=2mm Female Headers ROHS"
 			(at 247.65 180.34 0)
 			(effects
 				(font
@@ -14996,7 +15018,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C3975171"
+		(property "LCSC" "C22373875"
 			(at 247.65 180.34 0)
 			(effects
 				(font
@@ -15005,7 +15027,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "PM200-2-07-S-4.3"
+		(property "MPN" "HC-PM200-4.3H-2x7PS"
 			(at 247.65 180.34 0)
 			(effects
 				(font
@@ -16349,7 +16371,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+125℃ 2A 350mA 40V 5uA@30V 600mV@200mA Independent SOD-323 Schottky Diodes ROHS-40℃~+125℃ 2A 350mA 40V 5uA@30V 600mV@200mA Independent SOD-323 Schottky Diodes ROHS"
+		(property "Description" "-40℃~+125℃ 2A 350mA 40V 5uA@30V 600mV@200mA Independent SOD-323 Schottky Diodes ROHS"
 			(at 127 44.45 0)
 			(effects
 				(font
@@ -16960,7 +16982,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "50V 10uF X5R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "10uF ±10% 50V Ceramic Capacitor X7R 1206"
 			(at 139.7 55.88 0)
 			(effects
 				(font
@@ -16969,7 +16991,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C13585"
+		(property "LCSC" "C89632"
 			(at 139.7 55.88 0)
 			(effects
 				(font
@@ -16978,7 +17000,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL31A106KBHNNNE"
+		(property "MPN" "CL31B106KBHNNNE"
 			(at 139.7 55.88 0)
 			(effects
 				(font
@@ -17768,7 +17790,7 @@
 				)
 			)
 		)
-		(property "Value" "Flash Button"
+		(property "Value" "Button"
 			(at 34.29 64.516 0)
 			(effects
 				(font

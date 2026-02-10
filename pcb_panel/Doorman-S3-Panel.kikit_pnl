@@ -1,5 +1,5 @@
 {
-    "export_path": "",
+    "export_path": "D:/Projekte/Doorman/pcb_panel/Doorman-S3-Panel.kicad_pcb",
     "hide_outside_reference_value": true,
     "frame_pcb": "",
     "use_frame": true,
@@ -22,7 +22,7 @@
     "frame_left": 0,
     "frame_right": 0,
     "mill_fillets": 1.0,
-    "export_mill_fillets": false,
+    "export_mill_fillets": 2,
     "netRenamePattern": "B{n}-{orig}",
     "refRenamePattern": "B{n}-{orig}",
     "frame_tooling_holes": true,
@@ -37,7 +37,7 @@
     "pcb": [
         {
             "file": "D:\\Projekte\\Doorman\\pcb\\doorman.kicad_pcb",
-            "x": 0.0,
+            "x": 0,
             "y": 56399970.0,
             "margin_left": 0,
             "margin_right": 0,
@@ -50,7 +50,7 @@
                 {
                     "x": 36024674.0,
                     "y": 18893332.66666668,
-                    "width": 10.0,
+                    "width": 20.0,
                     "closest": true,
                     "direction": 0.0
                 },

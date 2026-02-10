@@ -5388,7 +5388,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 40.132 73.66 90)
 			(effects
 				(font
@@ -5406,7 +5406,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 10kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 41.91 73.66 0)
 			(effects
 				(font
@@ -5415,7 +5415,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25744"
+		(property "LCSC" "C25804"
 			(at 41.91 73.66 90)
 			(effects
 				(font
@@ -5424,7 +5424,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402WGF1002TCE"
+		(property "MPN" "0603WAF1002T5E"
 			(at 41.91 73.66 90)
 			(effects
 				(font
@@ -5460,7 +5460,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0402"
+		(property "Package" "0603"
 			(at 41.91 73.66 90)
 			(effects
 				(font
@@ -6119,7 +6119,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 43.688 83.82 90)
 			(effects
 				(font
@@ -6137,7 +6137,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 10kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
 			(at 41.91 83.82 0)
 			(effects
 				(font
@@ -6146,7 +6146,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25744"
+		(property "LCSC" "C25804"
 			(at 41.91 83.82 90)
 			(effects
 				(font
@@ -6155,7 +6155,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402WGF1002TCE"
+		(property "MPN" "0603WAF1002T5E"
 			(at 41.91 83.82 90)
 			(effects
 				(font
@@ -6191,7 +6191,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0402"
+		(property "Package" "0603"
 			(at 41.91 83.82 90)
 			(effects
 				(font
@@ -8748,7 +8748,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, double row, 02x07, top/bottom pin numbering scheme (row 1: 1...pins_per_row, row2: pins_per_row+1 ... num_pins), script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "-40℃~+105℃ 1.5A 14P 2 2mm 2mm 2mm 2x7P 3.8mm Black Brass Pin Header Surface Mount,Vertical SMD,P=2mm Pin Headers ROHS"
 			(at 233.68 124.46 0)
 			(effects
 				(font
@@ -8757,7 +8757,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C22373875"
+		(property "LCSC" "C3294446"
 			(at 233.68 124.46 0)
 			(effects
 				(font
@@ -8766,7 +8766,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "HC-PM200-4.3H-2x7PS "
+		(property "MPN" "PZ200-2-07-S"
 			(at 233.68 124.46 0)
 			(effects
 				(font
@@ -11228,7 +11228,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1kΩ 200V 250mW Thick Film Resistor ±1% ±100ppm/℃ 1206 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 200V 200Ω 250mW Thick Film Resistor ±100ppm/℃ ±5% 1206 Chip Resistor - Surface Mount ROHS"
 			(at 240.03 71.12 0)
 			(effects
 				(font
@@ -11237,7 +11237,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C4410"
+		(property "LCSC" "C25361"
 			(at 240.03 71.12 90)
 			(effects
 				(font
@@ -11246,7 +11246,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1206W4F1001T5E"
+		(property "MPN" "1206W4J0201T5E"
 			(at 240.03 71.12 90)
 			(effects
 				(font
@@ -11591,7 +11591,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C140782"
+		(property "LCSC" "C730416"
 			(at 130.81 82.55 0)
 			(effects
 				(font
@@ -11600,7 +11600,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM188R60J476ME15D"
+		(property "MPN" "CL10A476MQ8QRNC"
 			(at 130.81 82.55 0)
 			(effects
 				(font
@@ -11768,7 +11768,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C140782"
+		(property "LCSC" "C730416"
 			(at 135.89 80.01 0)
 			(effects
 				(font
@@ -11777,7 +11777,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "GRM188R60J476ME15D"
+		(property "MPN" "CL10A476MQ8QRNC"
 			(at 135.89 80.01 0)
 			(effects
 				(font
