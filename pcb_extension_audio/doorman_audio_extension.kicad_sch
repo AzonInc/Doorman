@@ -6,7 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3 Audio Extension Board")
-		(date "2026-02-04")
+		(date "2026-02-10")
 		(rev "1.0")
 	)
 	(lib_symbols
@@ -1227,6 +1227,251 @@
 						)
 					)
 					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Connector:Conn_01x04_Pin"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x04_Pin"
+				(at 0 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x04, script generated"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Conn_01x04_Pin_1_1"
+				(rectangle
+					(start 0.8636 2.667)
+					(end 0 2.413)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start 0.8636 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start 0.8636 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start 0.8636 -4.953)
+					(end 0 -5.207)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 2.54) (xy 0.8636 2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 0.8636 0)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 0.8636 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -5.08) (xy 0.8636 -5.08)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 5.08 2.54 180)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -2.54 180)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -5.08 180)
+					(length 3.81)
+					(name "Pin_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3035,6 +3280,16 @@
 	)
 	(wire
 		(pts
+			(xy 270.51 156.21) (xy 260.35 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f47091a-92e2-405a-81c5-8bb9a96a96c3")
+	)
+	(wire
+		(pts
 			(xy 229.87 83.82) (xy 229.87 81.28)
 		)
 		(stroke
@@ -4015,6 +4270,16 @@
 	)
 	(wire
 		(pts
+			(xy 240.03 153.67) (xy 233.68 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebf332a8-4115-49dc-9aa7-a82d84c17150")
+	)
+	(wire
+		(pts
 			(xy 88.9 101.6) (xy 88.9 99.06)
 		)
 		(stroke
@@ -4243,6 +4508,28 @@
 			)
 		)
 	)
+	(global_label "AUDIO_OUT_R1"
+		(shape input)
+		(at 260.35 153.67 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "17422a30-de83-4e32-a96f-59daff278543")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 277.0029 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "I2S_DAT_OUT"
 		(shape input)
 		(at 238.76 121.92 0)
@@ -4289,6 +4576,28 @@
 	)
 	(global_label "AUDIO_OUT_R2"
 		(shape input)
+		(at 260.35 151.13 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "27318030-ca0d-4b43-b4c0-004dd3ed74a8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 277.0029 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO_OUT_R2"
+		(shape input)
 		(at 151.13 82.55 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4300,6 +4609,28 @@
 		(uuid "2b48a150-af11-4a4f-ac3f-fdf20ade0197")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 167.7829 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "AUDIO_IN_L2"
+		(shape input)
+		(at 233.68 151.13 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2c405915-a457-470b-ae37-7c5c093e5065")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 248.3977 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4322,50 +4653,6 @@
 		(uuid "3219fba7-64c1-4df1-90f0-11f5b9331cfa")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 166.0896 69.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "AUDIO_IN_L2"
-		(shape input)
-		(at 233.68 154.94 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "333eb2e1-89a9-49d6-bd52-7ede927ddf34")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 248.3977 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "AUDIO_IN_R2"
-		(shape input)
-		(at 233.68 152.4 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "4b40d222-5063-4e74-a694-9523133e13f4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 248.6396 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4487,7 +4774,7 @@
 	)
 	(global_label "AUDIO_OUT_L2"
 		(shape input)
-		(at 260.35 149.86 0)
+		(at 260.35 148.59 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4497,7 +4784,7 @@
 		)
 		(uuid "63f49b4a-fedd-4ce1-a64c-6c8054615890")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 276.761 149.86 0)
+			(at 276.761 148.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4531,7 +4818,7 @@
 	)
 	(global_label "PIN3"
 		(shape input)
-		(at 208.28 152.4 0)
+		(at 208.28 149.86 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4541,7 +4828,7 @@
 		)
 		(uuid "69fefe8e-8fab-4069-a3eb-9d7ee1a0c40a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 215.68 152.4 0)
+			(at 215.68 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4586,28 +4873,6 @@
 		(uuid "8a3c2a0b-0f65-40b8-b4b1-e593366e3106")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 167.541 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "AUDIO_OUT_R2"
-		(shape input)
-		(at 260.35 152.4 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "91b636e0-9add-48de-8a41-5d996beee35d")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 277.0029 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4771,28 +5036,6 @@
 			)
 		)
 	)
-	(global_label "AUDIO_OUT_R1"
-		(shape input)
-		(at 260.35 154.94 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "b6bd04a5-b3c1-42ff-8d78-6ebd77e21d84")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 277.0029 154.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "BUS_WIRE1"
 		(shape input)
 		(at 226.06 132.08 180)
@@ -4881,6 +5124,28 @@
 			)
 		)
 	)
+	(global_label "AUDIO_IN_R2"
+		(shape input)
+		(at 233.68 148.59 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dbd8b99e-c17c-413f-9ce4-df16c63a2ddb")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 248.6396 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "I2C_CLK"
 		(shape input)
 		(at 238.76 116.84 0)
@@ -4927,7 +5192,7 @@
 	)
 	(global_label "VCC"
 		(shape input)
-		(at 208.28 154.94 0)
+		(at 208.28 152.4 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4937,7 +5202,7 @@
 		)
 		(uuid "e257918d-1f65-400d-b028-3b672483327a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 214.8938 154.94 0)
+			(at 214.8938 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7243,17 +7508,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 255.27 152.4 0)
+		(lib_id "Connector:Conn_01x04_Pin")
+		(at 255.27 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp yes)
-		(fields_autoplaced yes)
 		(uuid "54e8a354-7fc9-4a5b-bcb8-66f8d7d72cb1")
 		(property "Reference" "J1"
-			(at 255.905 144.78 0)
+			(at 256.032 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7261,15 +7525,15 @@
 			)
 		)
 		(property "Value" "Audio Out"
-			(at 255.905 147.32 0)
+			(at 255.905 146.05 0)
 			(effects
 				(font
 					(size 0.8 0.8)
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 255.27 152.4 0)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7278,7 +7542,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 255.27 152.4 0)
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7286,8 +7550,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 255.27 152.4 0)
+		(property "Description" "Generic connector, single row, 01x04, script generated"
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7296,7 +7560,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 255.27 152.4 0)
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7305,7 +7569,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 255.27 152.4 0)
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7314,7 +7578,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 255.27 152.4 0)
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7323,7 +7587,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 255.27 152.4 0)
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7332,7 +7596,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 255.27 152.4 0)
+			(at 255.27 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7348,6 +7612,9 @@
 		)
 		(pin "3"
 			(uuid "6f639643-2c36-452c-b690-c10840e483a5")
+		)
+		(pin "4"
+			(uuid "2c1facff-912d-41ec-ad4a-695bf8e8b874")
 		)
 		(instances
 			(project ""
@@ -8022,6 +8289,73 @@
 		)
 	)
 	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 270.51 156.21 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6c3cb8a7-612a-4209-8361-b26c8501ec64")
+		(property "Reference" "#PWR015"
+			(at 270.51 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 270.51 160.274 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 270.51 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 270.51 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 270.51 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b75a44d0-a992-4e8f-8698-bf4315bb3b9d")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR015")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 73.66 82.55 90)
 		(unit 1)
@@ -8573,16 +8907,15 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 203.2 152.4 0)
+		(at 203.2 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp yes)
-		(fields_autoplaced yes)
 		(uuid "783cc744-ddd7-4247-af57-d594f7be3ee6")
 		(property "Reference" "J2"
-			(at 203.835 147.32 0)
+			(at 203.962 146.05 0)
 			(effects
 				(font
 					(size 1 1)
@@ -8590,7 +8923,7 @@
 			)
 		)
 		(property "Value" "GPIO"
-			(at 203.835 149.86 0)
+			(at 203.835 147.32 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -8598,7 +8931,7 @@
 			)
 		)
 		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8607,7 +8940,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8616,7 +8949,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8625,7 +8958,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8634,7 +8967,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8643,7 +8976,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8652,7 +8985,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8661,7 +8994,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 203.2 152.4 0)
+			(at 203.2 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8996,17 +9329,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x02_Pin")
-		(at 228.6 152.4 0)
+		(lib_id "Connector:Conn_01x03_Pin")
+		(at 228.6 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp yes)
-		(fields_autoplaced yes)
 		(uuid "8200a691-ffcc-4748-8e81-5cda1e18e1d1")
 		(property "Reference" "J5"
-			(at 229.235 147.32 0)
+			(at 229.108 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -9014,15 +9346,15 @@
 			)
 		)
 		(property "Value" "Audio In"
-			(at 229.235 149.86 0)
+			(at 229.235 146.05 0)
 			(effects
 				(font
 					(size 0.8 0.8)
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 228.6 152.4 0)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9031,7 +9363,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 228.6 152.4 0)
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9039,8 +9371,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 228.6 152.4 0)
+		(property "Description" "Generic connector, single row, 01x03, script generated"
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9049,7 +9381,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 228.6 152.4 0)
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9058,7 +9390,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 228.6 152.4 0)
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9067,7 +9399,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 228.6 152.4 0)
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9076,7 +9408,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 228.6 152.4 0)
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9085,7 +9417,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 228.6 152.4 0)
+			(at 228.6 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9098,6 +9430,9 @@
 		)
 		(pin "2"
 			(uuid "948137dd-e957-4a18-9e50-05a1f84be008")
+		)
+		(pin "3"
+			(uuid "4874d674-fb5f-4055-b353-8776cc968044")
 		)
 		(instances
 			(project "doorman"
@@ -11442,6 +11777,73 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 240.03 153.67 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c8501bb1-7299-43d8-b62b-e113c2a4390b")
+		(property "Reference" "#PWR02"
+			(at 240.03 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 240.03 157.734 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 240.03 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 240.03 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 240.03 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f7b03db3-e04c-4c82-8ec5-d4980d482201")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
