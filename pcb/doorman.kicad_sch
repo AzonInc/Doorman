@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-05")
+		(date "2026-02-10")
 		(rev "2.0")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -2589,6 +2589,15 @@
 				)
 			)
 			(property "Description" "Light emitting diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
 				(at 0 0 0)
 				(effects
 					(font
@@ -7398,17 +7407,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "Screw Terminals"
-		(exclude_from_sim no)
-		(at 240.03 125.984 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "0fc572b2-765a-4f1c-8c26-041166e02738")
-	)
 	(text "USB-C"
 		(exclude_from_sim no)
 		(at 141.732 21.59 0)
@@ -7529,17 +7527,6 @@
 			(justify left bottom)
 		)
 		(uuid "cf3883f3-4527-4d22-8278-b95ba656f835")
-	)
-	(text "Extension Board Connector"
-		(exclude_from_sim no)
-		(at 236.728 163.576 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d28c1875-de39-4b1c-8f24-8b79bd285235")
 	)
 	(text "Transmitting Data"
 		(exclude_from_sim no)
@@ -8113,6 +8100,16 @@
 	)
 	(wire
 		(pts
+			(xy 173.99 149.86) (xy 179.07 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "46c5fba5-6e74-4ce7-8de4-25bce4af69a5")
+	)
+	(wire
+		(pts
 			(xy 179.07 121.92) (xy 179.07 127)
 		)
 		(stroke
@@ -8160,6 +8157,16 @@
 			(type default)
 		)
 		(uuid "4d024622-d53d-4bed-8b18-364f06f42876")
+	)
+	(wire
+		(pts
+			(xy 173.99 157.48) (xy 179.07 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4e6f4845-0d2e-4771-88f9-1e6cfb5aca82")
 	)
 	(wire
 		(pts
@@ -9374,7 +9381,7 @@
 		)
 	)
 	(global_label "IO16"
-		(shape input)
+		(shape bidirectional)
 		(at 242.57 180.34 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9385,7 +9392,7 @@
 		)
 		(uuid "044ebced-51fc-422b-a312-103aee7ef9c9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 231.9648 180.34 0)
+			(at 234.1192 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9396,7 +9403,7 @@
 		)
 	)
 	(global_label "IO7"
-		(shape input)
+		(shape bidirectional)
 		(at 255.27 182.88 0)
 		(fields_autoplaced yes)
 		(effects
@@ -9418,7 +9425,7 @@
 		)
 	)
 	(global_label "I2C_CLK"
-		(shape input)
+		(shape bidirectional)
 		(at 242.57 172.72 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9440,7 +9447,7 @@
 		)
 	)
 	(global_label "IO14"
-		(shape input)
+		(shape bidirectional)
 		(at 242.57 177.8 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9451,7 +9458,7 @@
 		)
 		(uuid "1d924c1f-3675-45ea-859d-f7714c6e2af6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 231.9648 177.8 0)
+			(at 234.1192 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9462,7 +9469,7 @@
 		)
 	)
 	(global_label "IO15"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 106.68 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9484,7 +9491,7 @@
 		)
 	)
 	(global_label "IO18"
-		(shape input)
+		(shape bidirectional)
 		(at 242.57 182.88 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9495,7 +9502,7 @@
 		)
 		(uuid "21492baa-106c-43cc-8ff7-745de7379352")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 232.3277 182.88 0)
+			(at 234.1192 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9506,7 +9513,7 @@
 		)
 	)
 	(global_label "BUS_WIRE1"
-		(shape input)
+		(shape bidirectional)
 		(at 243.84 133.35 0)
 		(fields_autoplaced yes)
 		(effects
@@ -9517,7 +9524,7 @@
 		)
 		(uuid "22a35aca-6f57-4b57-8dc4-b74cf8c82d5a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 257.2875 133.35 0)
+			(at 258.3988 133.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9528,7 +9535,7 @@
 		)
 	)
 	(global_label "IO17"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 111.76 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9550,7 +9557,7 @@
 		)
 	)
 	(global_label "IO17"
-		(shape input)
+		(shape bidirectional)
 		(at 255.27 180.34 0)
 		(fields_autoplaced yes)
 		(effects
@@ -9704,7 +9711,7 @@
 		)
 	)
 	(global_label "IO16"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 109.22 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9726,7 +9733,7 @@
 		)
 	)
 	(global_label "BUS_WIRE1"
-		(shape input)
+		(shape bidirectional)
 		(at 255.27 187.96 0)
 		(fields_autoplaced yes)
 		(effects
@@ -9836,7 +9843,7 @@
 		)
 	)
 	(global_label "I2C_CLK"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 99.06 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9858,7 +9865,7 @@
 		)
 	)
 	(global_label "BUS_WIRE2"
-		(shape input)
+		(shape bidirectional)
 		(at 243.84 130.81 0)
 		(fields_autoplaced yes)
 		(effects
@@ -9869,7 +9876,7 @@
 		)
 		(uuid "88a7ded6-ec0f-4ad2-af4b-c94322540093")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 257.2875 130.81 0)
+			(at 258.3988 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9902,7 +9909,7 @@
 		)
 	)
 	(global_label "IO7"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 86.36 180)
 		(fields_autoplaced yes)
 		(effects
@@ -9968,7 +9975,7 @@
 		)
 	)
 	(global_label "IO14"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 104.14 180)
 		(fields_autoplaced yes)
 		(effects
@@ -10012,7 +10019,7 @@
 		)
 	)
 	(global_label "BUS_WIRE2"
-		(shape input)
+		(shape bidirectional)
 		(at 242.57 187.96 180)
 		(fields_autoplaced yes)
 		(effects
@@ -10078,7 +10085,7 @@
 		)
 	)
 	(global_label "I2C_DAT"
-		(shape input)
+		(shape bidirectional)
 		(at 255.27 175.26 0)
 		(fields_autoplaced yes)
 		(effects
@@ -10100,7 +10107,7 @@
 		)
 	)
 	(global_label "I2C_DAT"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 101.6 180)
 		(fields_autoplaced yes)
 		(effects
@@ -10144,7 +10151,7 @@
 		)
 	)
 	(global_label "IO18"
-		(shape input)
+		(shape bidirectional)
 		(at 52.07 114.3 180)
 		(fields_autoplaced yes)
 		(effects
@@ -10210,7 +10217,7 @@
 		)
 	)
 	(global_label "BUS_WIRE1"
-		(shape input)
+		(shape bidirectional)
 		(at 248.92 27.94 0)
 		(fields_autoplaced yes)
 		(effects
@@ -10221,7 +10228,7 @@
 		)
 		(uuid "f01c29bc-8c1d-434d-ae0e-7232cce4a59a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 262.3675 27.94 0)
+			(at 263.4788 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10232,7 +10239,7 @@
 		)
 	)
 	(global_label "BUS_WIRE2"
-		(shape input)
+		(shape bidirectional)
 		(at 248.92 43.18 0)
 		(fields_autoplaced yes)
 		(effects
@@ -10243,7 +10250,7 @@
 		)
 		(uuid "f238529e-e2e2-4313-a951-f65c77939de7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 262.3675 43.18 0)
+			(at 263.4788 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10320,7 +10327,7 @@
 		)
 	)
 	(global_label "IO15"
-		(shape input)
+		(shape bidirectional)
 		(at 255.27 177.8 0)
 		(fields_autoplaced yes)
 		(effects
@@ -10358,7 +10365,7 @@
 				)
 			)
 		)
-		(property "Value" "USB_C_Receptacle_USB2.0"
+		(property "Value" "USB-C Connector"
 			(at 242.316 66.294 0)
 			(effects
 				(font
@@ -11458,7 +11465,7 @@
 	(symbol
 		(lib_name "GND_2")
 		(lib_id "power:GND")
-		(at 179.07 157.48 0)
+		(at 173.99 157.48 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11466,7 +11473,7 @@
 		(dnp no)
 		(uuid "200922ab-c76a-4557-8118-7ae4c29aad5d")
 		(property "Reference" "#PWR042"
-			(at 179.07 163.83 0)
+			(at 173.99 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11475,7 +11482,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 179.07 161.544 0)
+			(at 173.99 161.544 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11483,7 +11490,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 179.07 157.48 0)
+			(at 173.99 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11492,7 +11499,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 157.48 0)
+			(at 173.99 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11501,7 +11508,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 179.07 157.48 0)
+			(at 173.99 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12591,7 +12598,7 @@
 	(symbol
 		(lib_name "+3.3V_1")
 		(lib_id "power:+3.3V")
-		(at 179.07 149.86 0)
+		(at 173.99 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12599,7 +12606,7 @@
 		(dnp no)
 		(uuid "3a41bffd-e5ab-4f32-8d61-51d303b5df82")
 		(property "Reference" "#PWR043"
-			(at 179.07 153.67 0)
+			(at 173.99 153.67 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12608,7 +12615,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 176.022 145.542 0)
+			(at 170.942 145.542 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12617,7 +12624,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 179.07 149.86 0)
+			(at 173.99 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12626,7 +12633,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 149.86 0)
+			(at 173.99 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12635,7 +12642,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 179.07 149.86 0)
+			(at 173.99 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13912,6 +13919,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 146.05 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "f619b0cb-c414-4bf9-9cb1-f52e95ae6ff0")
 		)
@@ -14795,8 +14811,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Terminal"
-			(at 235.712 142.494 90)
+		(property "Value" "Screw Terminals"
+			(at 235.712 146.304 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14945,7 +14961,7 @@
 				)
 			)
 		)
-		(property "Value" "Conn_02x07_Odd_Even"
+		(property "Value" "Extension Board Connector"
 			(at 248.92 168.91 0)
 			(effects
 				(font
