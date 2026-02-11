@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-10")
+		(date "2026-02-11")
 		(rev "2.0")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -9953,7 +9953,7 @@
 		)
 	)
 	(global_label "BUS_TX"
-		(shape input)
+		(shape output)
 		(at 123.19 104.14 180)
 		(fields_autoplaced yes)
 		(effects
