@@ -11213,7 +11213,7 @@
 				)
 			)
 		)
-		(property "Value" "BC817"
+		(property "Value" "BC817-40"
 			(at 151.892 105.41 0)
 			(effects
 				(font
@@ -11242,7 +11242,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1 NPN 100MHz 100nA 250 300mW 45V 500mA 5V 700mV NPN SOT-23 Bipolar (BJT) ROHS"
+		(property "Description" "-65℃~+150℃ 1 NPN 100MHz 100nA 250 345mW 45V 500mA 5V 700mV NPN SOT-23 Bipolar (BJT) ROHS"
 			(at 144.78 104.14 0)
 			(effects
 				(font
@@ -11260,7 +11260,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "BC817-40"
+		(property "MPN" "BC817-40,215"
 			(at 144.78 104.14 0)
 			(effects
 				(font
@@ -11269,7 +11269,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C609806"
+		(property "LCSC" "C52801"
 			(at 144.78 104.14 0)
 			(effects
 				(font
@@ -13878,7 +13878,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "25mA 无色透明透镜 -30℃~+85℃ Positive post 617nm~621nm Red 120° 55mW 0603  Light Emitting Diodes (LED) ROHS"
+		(property "Description" "-40℃~+85℃ 120° 2.4V 20mA 300mcd 40mW 615nm~630nm 645nm Discrete Diode Red Water Clear 0603 LED Indication - Discrete ROHS"
 			(at 146.05 154.94 0)
 			(effects
 				(font
@@ -13887,7 +13887,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C965799"
+		(property "LCSC" "C2286"
 			(at 146.05 154.94 0)
 			(effects
 				(font
@@ -13896,7 +13896,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "XL-1608SURC-06"
+		(property "MPN" "KT-0603R"
 			(at 146.05 154.94 0)
 			(effects
 				(font
