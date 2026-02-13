@@ -149,9 +149,9 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Erweiterungs Boards',
+      text: 'Hardware',
       items: [
-        { text: 'Doorman EA (Audio)', link: 'doorman-ea', base: '/de/guide/extension-boards/' }
+        { text: 'Audio Erweiterung', link: 'audio-extension', base: '/de/guide/hardware/' }
       ]
     },
     {
