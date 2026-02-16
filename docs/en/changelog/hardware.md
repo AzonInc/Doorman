@@ -8,9 +8,10 @@ Welcome to the complete history of all PCB updates! This page highlights the new
 ## Doorman S3
 ### 2.0.0 <Badge type="warning" text="Next" />
 - Remove footprints for optional audio components
-- Introduce a new TC:BUS communication circuit
+- Redesigned TC:BUS communication circuit
+- Add Siedle In-Home-Bus communication circuit
 - Replace ESP32-S3-WROOM-1-N8R8 with ESP32-S3-MINI-1-N4R2
-- Add an extension board connector exposing selected GPIOs, GND, TC:BUS and power rails
+- Add an extension board connector exposing selected GPIOs, GND, BUS-Wires and power rails
 
 ### 1.6.1
 - Add some optional component footprints for audio PoC
