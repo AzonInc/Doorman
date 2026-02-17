@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-16")
+		(date "2026-02-17")
 		(rev "2.0")
 		(comment 1 "TC:Bus Intercom Gateway")
 	)
@@ -8120,10 +8120,6 @@
 		(uuid "0cee1938-2cd8-497e-99f4-e69ba106147e")
 	)
 	(no_connect
-		(at 52.07 81.28)
-		(uuid "197a18d7-d1de-419c-bad9-b1089e1a320d")
-	)
-	(no_connect
 		(at 82.55 106.68)
 		(uuid "1eb1a15f-1fcb-4682-9097-b8d55ceb0033")
 	)
@@ -8150,6 +8146,10 @@
 	(no_connect
 		(at 82.55 109.22)
 		(uuid "8605d775-84ce-4735-afc3-aec7264753b0")
+	)
+	(no_connect
+		(at 82.55 76.2)
+		(uuid "9218e786-779f-486c-a37e-008e2705819f")
 	)
 	(no_connect
 		(at 82.55 96.52)
@@ -10511,6 +10511,28 @@
 			)
 		)
 	)
+	(global_label "SIEDLE_TX_DAT"
+		(shape output)
+		(at 52.07 81.28 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "55e4f504-5669-41cb-ac23-ca5db008ebbc")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.8277 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "BUS_RX"
 		(shape input)
 		(at 52.07 91.44 180)
@@ -10524,6 +10546,28 @@
 		(uuid "5abb6fae-ed69-4e1c-83ef-1f1eb9a4be27")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 41.8277 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SIEDLE_TX_CAR"
+		(shape output)
+		(at 52.07 83.82 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "610e3d76-bcce-4a38-b322-c11ff283289a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.8277 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10711,22 +10755,44 @@
 	)
 	(global_label "SIEDLE_RX_DAT"
 		(shape input)
-		(at 82.55 76.2 0)
+		(at 52.07 96.52 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "9739807f-aea8-4a10-be5e-e6024cae0cf8")
+		(uuid "9b4d1e45-aa02-4356-88d1-e9249a8d7a27")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 99.6865 76.2 0)
+			(at 34.9335 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SIEDLE_RX_CAR"
+		(shape input)
+		(at 52.07 93.98 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9f66d332-109e-4690-93d2-29176ff43929")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 33.7844 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -10841,28 +10907,6 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_TX_CAR"
-		(shape output)
-		(at 52.07 96.52 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "b292530a-d012-4f07-a6cd-4f7e315fdce3")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.8277 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "I2C_DAT"
 		(shape bidirectional)
 		(at 255.27 175.26 0)
@@ -10898,28 +10942,6 @@
 		(uuid "c6734f71-3f63-46cf-af0a-14ad46b47f7e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 41.7067 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SIEDLE_TX_DAT"
-		(shape output)
-		(at 52.07 93.98 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "caa33a68-135b-47bb-a61b-11b67f7fa004")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.8277 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11057,28 +11079,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SIEDLE_RX_CAR"
-		(shape input)
-		(at 52.07 83.82 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "ec25549c-85a4-40c6-9d9e-dc9779c2638f")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 33.7844 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 				(hide yes)
 			)
 		)
