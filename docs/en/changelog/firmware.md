@@ -198,7 +198,7 @@ This release **will impact your current setup** and **requires** you to go throu
    The setup mode now attempts to automatically identify the indoor station model. However, this process is not compatible with all models, as some do not support automatic detection.
 
 - **Introduced a button to identify your indoor station model**  
-   You can now effortlessly determine the correct model for your settings by simply pressing the "Identify Indoor Station" button, perfect for cases where you're unsure which model you own.
+   You can now effortlessly determine the correct model for your settings by simply pressing the "Identify" button, perfect for cases where you're unsure which model you own.
 
 - **Expand Support for Model Settings**  
    Implemented settings compatibility for TCS TASTA (Koch TC60) IVW5xxx and ISW5xxx models.

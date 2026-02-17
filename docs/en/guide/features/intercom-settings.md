@@ -6,7 +6,7 @@ description: Customize your Indoor Station, including ringtones, volume, and oth
 
 With Doorman, you can fine-tune your indoor station to suit your environment and preferences. Whether it's customizing ringtones for different types of calls or adjusting volume levels, Doorman provides a powerful yet simple way to personalize your intercom experience.
 
-Settings are automatically made available once your device has been successfully identified. In cases where automatic identification fails, you can trigger the process manually using the `Identify Indoor Station` button.
+Settings are automatically made available once your device has been successfully identified. In cases where automatic identification fails, you can trigger the process manually using the `Identify` button.
 
 ## Available Settings
 

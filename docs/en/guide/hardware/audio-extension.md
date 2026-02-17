@@ -13,7 +13,7 @@ The board is built around the [ES8388](http://www.everest-semi.com/pdf/ES8388%20
 
    </div>
    <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
-        <img style="" src="/audio-extension-pcb.png">
+        <img style="" src="/audio-extension-alt.png">
    </div>
 </div>
 

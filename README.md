@@ -3,7 +3,7 @@
     Doorman S3
     <br>
     <br>
-    <img src=".github/images/enclosure.png" alt="Doorman S3" height="275">
+    <img src="./docs/public/enclosure-base-board.png" alt="Doorman S3" height="275">
     <br>
 </h1>
 
@@ -170,3 +170,6 @@ Thank you so much for your time, patience, expertise, and every piece of invalua
 
 **[calibanorg](https://github.com/calibanorg)**\
 Thank you so much for your support, both in terms of encouragement and financial assistance, in the development of Doorman.
+
+**[mikreocontroller.net](http://mikrocontroller.net/topic/308271)**\
+Thanks to the folks at mikrocontroller.net for figuring out the Siedle In-Home-Bus.

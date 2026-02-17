@@ -8,7 +8,7 @@ hero:
   text: Gateway for TCS and Koch intercoms
   tagline: Made for ESPHome and Home Assistant
   image:
-    src: /enclosure.png
+    src: /enclosure-base-board.png
     alt: Doorman
   actions:
     - theme: brand

@@ -20,7 +20,7 @@ You can also monitor the voltage level on older intercoms (14-24V DC) using the 
 
    </div>
    <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
-        <img style="" src="/enclosure.png">
+        <img style="" src="/enclosure-base-board.png">
    </div>
 </div>
 
