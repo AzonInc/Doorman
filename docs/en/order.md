@@ -123,17 +123,45 @@ export default {
             products: [
                 {
                     key: 'pcb',
-                    name: 'Doorman S3',
-                    image: '/pcb.png',
-                    details: 'PCB only – ideal if you can mount it inside a wallbox or the indoor station enclosure.',
+                    name: 'Base Board',
+                    image: '/base-board.png',
+                    details: 'Base Board for built-in installation. For mounting inside a wall box or indoor station enclosure.',
                     price: 0
                 },
                 {
+                    key: 'pcb_extension_audio',
+                    name: 'Audio Extension',
+                    image: '/audio-extension2.png',
+                    details: 'Audio Extension for upgrading your Doorman. <i>*Requires Base Board revision 2.0.0 or newer.</i>',
+                    price: 6
+                },
+                {
+                    key: 'enclosure',
+                    name: 'Enclosure',
+                    image: '/enclosure-only.png',
+                    details: 'Protective enclosure for visible installations. Perfect as a replacement or spare enclosure.',
+                    price: 3
+                },
+                {
+                    key: 'pcb_extension_audio_combo',
+                    name: 'Core Bundle',
+                    image: '/base-board-audio-extension.png',
+                    details: 'Base Board with Audio Extension. Ideal for built-in installations without a visible enclosure.',
+                    price: 41
+                },
+                {
                     key: 'bundle',
-                    name: 'Doorman S3 - Bundle',
-                    image: '/enclosure.png',
-                    details: 'Includes PCB and case – perfect when the device is installed in a visible spot.',
+                    name: 'Standard Bundle',
+                    image: '/enclosure-base-board.png',
+                    details: 'Base Board with Enclosure included. Ideal for visible and surface-mounted installations.',
                     price: 0
+                },
+                {
+                    key: 'bundle_audio',
+                    name: 'Audio Bundle',
+                    image: '/enclosure-audio-extension.png',
+                    details: 'Base Board, Audio Extension, and Enclosure. Ready for visible installation with audio support.',
+                    price: 44
                 }
             ],
             shipping_regions: [

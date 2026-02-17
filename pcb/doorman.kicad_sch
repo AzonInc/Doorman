@@ -7966,12 +7966,6 @@
 		(uuid "227dab47-a3d0-4767-9b41-c09c4c02f793")
 	)
 	(junction
-		(at 260.35 76.2)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "331ca8d7-e0f5-428d-8654-0148f1147a7c")
-	)
-	(junction
 		(at 179.07 104.14)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -8333,7 +8327,7 @@
 	)
 	(wire
 		(pts
-			(xy 267.97 76.2) (xy 267.97 78.74)
+			(xy 267.97 77.47) (xy 267.97 78.74)
 		)
 		(stroke
 			(width 0)
@@ -8641,16 +8635,6 @@
 		)
 		(uuid "4c1910ce-b573-4228-a0c7-4b027d293ecb")
 	)
-	(wire
-		(pts
-			(xy 260.35 76.2) (xy 260.35 74.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4d024622-d53d-4bed-8b18-364f06f42876")
-	)
 	(polyline
 		(pts
 			(xy 213.36 234.95) (xy 107.95 234.95)
@@ -8690,6 +8674,16 @@
 			(type default)
 		)
 		(uuid "4f1d758c-40fe-4b78-b0c1-d67fa6882615")
+	)
+	(wire
+		(pts
+			(xy 275.59 74.93) (xy 267.97 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4fe5c440-8509-4643-91c0-2442ea408b16")
 	)
 	(wire
 		(pts
@@ -9663,16 +9657,6 @@
 	)
 	(wire
 		(pts
-			(xy 260.35 77.47) (xy 260.35 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cdde5d83-309c-4098-9aed-04556d833833")
-	)
-	(wire
-		(pts
 			(xy 127 48.26) (xy 127 52.07)
 		)
 		(stroke
@@ -9970,6 +9954,16 @@
 			(type default)
 		)
 		(uuid "f81a5533-6e23-4780-b370-453607f7d061")
+	)
+	(wire
+		(pts
+			(xy 275.59 78.74) (xy 275.59 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8ceb260-fed3-4e42-91b7-f9699fa593a0")
 	)
 	(polyline
 		(pts
@@ -11350,6 +11344,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 132.08 170.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 132.08 170.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "32c6d625-22bf-43fc-9bf5-9c4c7f308840")
 		)
@@ -11436,6 +11448,24 @@
 			)
 		)
 		(property "Package" "SMD"
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 242.57 85.09 0)
 			(effects
 				(font
@@ -11874,6 +11904,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 190.5 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 190.5 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4a00a059-00a7-417a-bc74-b103bb88ccac")
 		)
@@ -11978,6 +12026,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 191.77 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 191.77 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 191.77 104.14 0)
 			(effects
 				(font
@@ -12111,6 +12177,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 162.56 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 162.56 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 162.56 52.07 0)
 			(effects
 				(font
@@ -12274,6 +12358,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 144.78 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 144.78 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 144.78 104.14 0)
 			(effects
 				(font
@@ -12635,6 +12737,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 194.31 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 194.31 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "fc1a5f02-ab79-4232-aca5-2cc53595879d")
 		)
@@ -12918,6 +13038,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 144.78 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 144.78 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4b905f7a-53b5-4266-983d-5a2bdb9bc434")
 		)
@@ -13134,6 +13272,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 189.23 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 189.23 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3c95d382-af28-42e0-a01b-f4690ce53fd1")
 		)
@@ -13321,6 +13477,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 199.39 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 199.39 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b16a667a-a7bf-44d5-8b5e-e28bbf58ad01")
 		)
@@ -13423,6 +13597,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 144.78 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 144.78 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 144.78 119.38 0)
 			(effects
 				(font
@@ -13545,6 +13737,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 247.65 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 247.65 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 247.65 35.56 0)
 			(effects
 				(font
@@ -13680,6 +13890,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "0213142e-edac-4b0d-89c8-535152549a15")
 		)
@@ -13787,6 +14015,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 67.31 88.9 0)
 			(effects
 				(font
@@ -14201,6 +14447,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 190.5 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 190.5 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "41d018a4-99a9-4254-add7-48b3df718277")
 		)
@@ -14454,6 +14718,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "16c1fd31-6459-4795-902a-734ce834ae58")
 		)
@@ -14551,6 +14833,24 @@
 			)
 		)
 		(property "MPN" "BC807-40,215"
+			(at 128.27 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 128.27 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 128.27 204.47 0)
 			(effects
 				(font
@@ -14809,6 +15109,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 137.16 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 137.16 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "5a7d6741-9e3b-44a5-b9d6-6fff70fe9613")
 		)
@@ -14971,6 +15289,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 175.26 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 175.26 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "08c8a59d-1c0c-4ccf-8158-9e4fa15dda68")
 		)
@@ -15121,6 +15457,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 179.07 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 179.07 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "636eba1c-5d40-4416-9b7a-bf17d5b8ad66")
 		)
@@ -15244,6 +15598,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 127 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 127 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "c6c029ff-eebe-4481-92f6-6bf328cd7ede")
 		)
@@ -15320,6 +15692,72 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_7")
+		(lib_id "power:GND")
+		(at 275.59 78.74 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "52f804b1-97c6-47e1-b2a8-27639aa62804")
+		(property "Reference" "#PWR045"
+			(at 275.59 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 279.146 79.248 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 275.59 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 275.59 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 275.59 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "91d055f7-425d-461f-8272-26b86ffc5b42")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -15527,6 +15965,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 142.24 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 142.24 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "dc18ca88-ef67-4e31-b735-2d15453820bc")
 		)
@@ -15670,6 +16126,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 33.02 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 33.02 34.29 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 33.02 34.29 90)
 			(effects
 				(font
@@ -15834,6 +16308,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 176.53 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 176.53 52.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5d398b08-a7d5-4a59-af2f-f16fa36b520f")
 		)
@@ -15956,6 +16448,24 @@
 			)
 		)
 		(property "Sim.Pins" "1=K 2=A"
+			(at 46.99 214.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 46.99 214.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 46.99 214.63 0)
 			(effects
 				(font
@@ -16180,6 +16690,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 46.99 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 46.99 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -16307,6 +16835,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 185.42 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 185.42 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "0d16f50f-0cad-4a6a-84f2-639f88d90432")
 		)
@@ -16396,7 +16942,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 264.16 76.2 90)
+		(at 264.16 77.47 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16404,7 +16950,7 @@
 		(dnp no)
 		(uuid "6dac6f3d-c48f-482d-8940-be391cafd031")
 		(property "Reference" "R3"
-			(at 264.16 73.66 90)
+			(at 264.16 72.644 90)
 			(effects
 				(font
 					(size 1 1)
@@ -16412,7 +16958,7 @@
 			)
 		)
 		(property "Value" "5K1"
-			(at 264.16 76.2 90)
+			(at 264.16 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -16420,7 +16966,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 264.16 77.978 90)
+			(at 264.16 79.248 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16429,7 +16975,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
-			(at 264.16 76.2 0)
+			(at 264.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16438,7 +16984,7 @@
 			)
 		)
 		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 264.16 76.2 0)
+			(at 264.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16447,7 +16993,7 @@
 			)
 		)
 		(property "LCSC" "C25905"
-			(at 264.16 76.2 90)
+			(at 264.16 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16456,7 +17002,7 @@
 			)
 		)
 		(property "MPN" "0402WGF5101TCE"
-			(at 264.16 76.2 90)
+			(at 264.16 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16465,7 +17011,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 264.16 76.2 0)
+			(at 264.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16474,7 +17020,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 264.16 76.2 0)
+			(at 264.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16483,7 +17029,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 264.16 76.2 0)
+			(at 264.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16492,7 +17038,7 @@
 			)
 		)
 		(property "Package" "0402"
-			(at 264.16 76.2 90)
+			(at 264.16 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16501,7 +17047,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 264.16 76.2 0)
+			(at 264.16 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16510,7 +17056,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 264.16 76.2 90)
+			(at 264.16 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16519,7 +17065,25 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 264.16 76.2 90)
+			(at 264.16 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 264.16 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 264.16 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16741,6 +17305,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 33.02 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 33.02 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "25ea83d7-14e4-4d7a-ac9d-7a9505f19f16")
 		)
@@ -16937,6 +17519,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "a5aea6de-ed68-429f-b809-5bfa782eea52")
 		)
@@ -17069,6 +17669,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 247.65 180.34 0)
 			(effects
 				(font
@@ -17660,6 +18278,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 128.27 104.14 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 128.27 104.14 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a1482566-f967-4a5a-8acc-fd36fce79eb6")
 		)
@@ -17775,6 +18411,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 199.39 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 199.39 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 199.39 57.15 0)
 			(effects
 				(font
@@ -18128,6 +18782,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 114.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 114.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6595ce14-7793-48c8-8988-1416ff6de45a")
 		)
@@ -18342,6 +19014,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 139.7 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 139.7 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "48931e88-20d5-49a5-94bf-627def4334ca")
 		)
@@ -18455,6 +19145,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 236.22 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 236.22 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 236.22 35.56 90)
 			(effects
 				(font
@@ -18666,6 +19374,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 127 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 127 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 127 44.45 90)
 			(effects
 				(font
@@ -19086,6 +19812,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 187.96 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 187.96 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "81eafd21-db19-482a-8281-8c5c16708c7d")
 		)
@@ -19239,6 +19983,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 116.84 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 116.84 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4e361a73-8a46-461c-8c5e-806e0c8d1b44")
 		)
@@ -19249,6 +20011,172 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 264.16 74.93 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ab9fce4e-49b4-4e58-8a20-ec83e8f30e87")
+		(property "Reference" "R22"
+			(at 264.16 79.756 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "5K1"
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 264.16 76.708 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
+			(at 264.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
+			(at 264.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25905"
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "0402WGF5101TCE"
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 264.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 264.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 264.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0402"
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 264.16 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d77cdd20-ec78-4bc7-813a-121bbc89a133")
+		)
+		(pin "2"
+			(uuid "e89f8a31-18fa-4c64-b0c6-0f94b966ff0e")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "R22")
 					(unit 1)
 				)
 			)
@@ -19381,6 +20309,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 175.26 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 175.26 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 175.26 218.44 0)
 			(effects
 				(font
@@ -19805,6 +20751,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 139.7 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 139.7 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "06d74a52-71dd-4da2-a937-3f7d136d15b9")
 		)
@@ -19945,6 +20909,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 114.3 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 114.3 44.45 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 114.3 44.45 90)
 			(effects
 				(font
@@ -20472,6 +21454,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 179.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 179.07 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "21fb6d69-f173-4272-8e4d-9f481586d940")
 		)
@@ -20612,6 +21612,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 39.37 214.63 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 39.37 214.63 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 39.37 214.63 90)
 			(effects
 				(font
@@ -20902,6 +21920,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 34.29 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 34.29 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "22c0b198-a1bd-4c59-acbf-d6f002bdd3ad")
 		)
@@ -21096,6 +22132,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "da3b212e-c3d1-46de-a83e-042f22168766")
 		)
@@ -21202,6 +22256,24 @@
 			)
 		)
 		(property "MPN" "BC807-40,215"
+			(at 186.69 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 186.69 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 186.69 204.47 0)
 			(effects
 				(font
@@ -21326,6 +22398,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 88.9 63.5 90)
 			(effects
 				(font
@@ -21547,6 +22637,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 177.8 170.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 177.8 170.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e17a3ea2-7f1d-4d8b-ae57-b408877196e4")
 		)
@@ -21718,6 +22826,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 147.32 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 147.32 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 147.32 119.38 0)
 			(effects
 				(font
@@ -21907,6 +23033,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 194.31 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 194.31 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 194.31 57.15 0)
 			(effects
 				(font
@@ -22329,6 +23473,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 80.01 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 80.01 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "ce1012f0-5e9f-4f98-b2fd-4f977fe1f0dc")
 		)
@@ -22436,6 +23598,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 147.32 93.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 147.32 93.98 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 147.32 93.98 90)
 			(effects
 				(font
@@ -22660,6 +23840,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 116.84 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 116.84 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "2982b973-60fb-4de5-ae71-e73d108d8baf")
 		)
@@ -22802,6 +24000,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 130.81 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 130.81 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 130.81 218.44 0)
 			(effects
 				(font
@@ -22997,6 +24213,24 @@
 				(hide yes)
 			)
 		)
+		(property "Cheap Version" ""
+			(at 90.17 214.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 90.17 214.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "4"
 			(uuid "4b856570-cbd2-4f32-84a0-acceece3a7ca")
 		)
@@ -23115,6 +24349,24 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
+			(at 114.3 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 114.3 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
 			(at 114.3 27.94 0)
 			(effects
 				(font
