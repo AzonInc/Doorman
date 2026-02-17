@@ -133,21 +133,21 @@ export default {
                     name: 'Audio Extension',
                     image: '/audio-extension2.png',
                     details: 'Audio Extension for upgrading your Doorman. <i>*Requires Base Board revision 2.0.0 or newer.</i>',
-                    price: 6
+                    price: 0
                 },
                 {
                     key: 'enclosure',
                     name: 'Enclosure',
                     image: '/enclosure-only.png',
                     details: 'Protective enclosure for visible installations. Perfect as a replacement or spare enclosure.',
-                    price: 3
+                    price: 0
                 },
                 {
                     key: 'pcb_extension_audio_combo',
                     name: 'Core Bundle',
                     image: '/base-board-audio-extension.png',
                     details: 'Base Board with Audio Extension. Ideal for built-in installations without a visible enclosure.',
-                    price: 41
+                    price: 0
                 },
                 {
                     key: 'bundle',
@@ -161,7 +161,7 @@ export default {
                     name: 'Audio Bundle',
                     image: '/enclosure-audio-extension.png',
                     details: 'Base Board, Audio Extension, and Enclosure. Ready for visible installation with audio support.',
-                    price: 44
+                    price: 0
                 }
             ],
             shipping_regions: [
