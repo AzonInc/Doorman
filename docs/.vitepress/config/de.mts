@@ -209,10 +209,16 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 function sidebarChangelog(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Changelog',
+      text: 'Hardware',
       items: [
-        { text: 'Firmware', link: 'firmware' },
-        { text: 'Hardware', link: 'hardware' }
+        { text: 'Doorman S3', link: 'hardware' },
+        { text: 'Audio Extension', link: 'hardware' }
+      ]
+    },
+    {
+      text: 'Firmware',
+      items: [
+        { text: 'ESPHome Firmware', link: 'firmware' }
       ]
     }
   ];
