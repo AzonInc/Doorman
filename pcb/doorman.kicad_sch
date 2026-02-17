@@ -11408,7 +11408,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "5A 1 Surface Mount，Right Angle 16P Female -25℃~+85℃ Type-C SMD USB Connectors ROHS"
+		(property "Description" "-30℃~+80℃ 1 10,000 cycles 16P 20V 5A 7.35mm Female Surface Mount, Right Angle Type-C SMD USB Connectors ROHS"
 			(at 242.57 85.09 0)
 			(effects
 				(font
@@ -11417,7 +11417,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C2765186"
+		(property "LCSC" "C165948"
 			(at 242.57 85.09 90)
 			(effects
 				(font
@@ -11426,34 +11426,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "TYPE-C 16PIN 2MD(073)"
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" "C2765186"
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" "C165948"
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
+		(property "MPN" "TYPE-C-31-M-12"
 			(at 242.57 85.09 0)
 			(effects
 				(font
@@ -11463,24 +11436,6 @@
 			)
 		)
 		(property "Package" "SMD"
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
 			(at 242.57 85.09 0)
 			(effects
 				(font
