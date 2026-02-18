@@ -1,0 +1,116 @@
+# Audio Addon
+
+esp32:
+  framework:
+    components:
+      # Required for AEC (esp_aec component)
+      - espressif/esp-sr^2.3.0
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/n-IA-hane/intercom-api
+      ref: main
+      path: esphome_components
+    components: [intercom_api, i2s_audio_duplex, esp_aec]
+
+
+esphome:
+  on_boot:
+    #- lambda: |-
+    #    ESP_LOGI("es8311", "Configuring ES8311 register 0x44 for digital feedback...");
+    #    
+    #    // ES8311 I2C address is 0x18
+    #    // First read current value
+    #    uint8_t reg = 0x44;
+    #    uint8_t current_val = 0;
+    #    id(i2c_bus).write(0x18, &reg, 1);
+    #    id(i2c_bus).read(0x18, &current_val, 1);
+    #    ESP_LOGI("es8311", "Register 0x44 current value: 0x%02X", current_val);
+
+    #    // Write new value: bits[6:4]=4 (DACL+ADC)
+    #    uint8_t data[2] = {0x44, 0x48};
+    #    auto err = id(i2c_bus).write(0x18, data, 2);
+    #    if (err == esphome::i2c::ERROR_OK) {
+    #      ESP_LOGI("es8311", "Wrote register 0x44=0x48 for digital feedback AEC");
+    #      // Verify
+    #      id(i2c_bus).write(0x18, &reg, 1);
+    #      id(i2c_bus).read(0x18, &current_val, 1);
+    #      ESP_LOGI("es8311", "Register 0x44 after write: 0x%02X", current_val);
+    #    } else {
+    #      ESP_LOGE("es8311", "Failed to write register 0x44: error %d", (int)err);
+    #    }
+
+    # Restore ES8388 volume and sync AEC reference
+    - lambda: |-
+        float vol = 0.15 + (id(speaker_volume).state / 100.0) * 0.60;
+        id(es8388_dac).set_volume(vol);
+        // AEC reference must match ES8388 hardware output level
+        id(i2s_duplex).set_aec_reference_volume(vol);
+
+audio_dac:
+  - platform: es8388
+    id: es8388_dac
+
+select:
+  - platform: es8388
+    es8388_id: es8388_dac
+    dac_output:
+      name: "DAC Output"
+    adc_input_mic:
+      name: "ADC Input MIC"
+
+
+i2s_audio_duplex:
+  id: i2s_duplex
+  i2s_lrclk_pin: GPIO15
+  i2s_bclk_pin: GPIO17
+  i2s_mclk_pin: GPIO7
+  i2s_din_pin: GPIO14
+  i2s_dout_pin: GPIO16
+  sample_rate: 16000
+  aec_id: aec_component
+  # digital feedback: RX is stereo with L=DAC(ref), R=ADC(mic)
+  use_stereo_aec_reference: true
+  # Minimal delay for stereo mode - reference is nearly sample-aligned
+  aec_reference_delay_ms: 10
+
+esp_aec:
+  id: aec_component
+  sample_rate: 16000
+  filter_length: 4 # 64ms tail length
+  mode: voip_low_cost
+
+microphone:
+  - platform: i2s_audio_duplex
+    id: mic_component
+    i2s_audio_duplex_id: i2s_duplex
+
+speaker:
+  - platform: i2s_audio_duplex
+    id: spk_component
+    i2s_audio_duplex_id: i2s_duplex
+
+number:
+  # Speaker volume with ES8388 hardware control (different from intercom_api volume)
+  # IMPORTANT: Also sync to i2s_duplex for AEC reference scaling
+  - platform: template
+    id: speaker_volume
+    name: "Speaker Volume"
+    icon: "mdi:volume-high"
+    min_value: 0
+    max_value: 100
+    step: 5
+    initial_value: 50
+    optimistic: true
+    restore_value: true
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          // ES8388 volume range: 0.15 (min) to 0.75 (max)
+          float es8388_vol = 0.15 + (x / 100.0) * 0.60;
+          id(es8388_dac).set_volume(es8388_vol);
+          
+          // AEC reference must match ES8388 hardware output level
+          // This ensures reference amplitude matches actual echo picked up by mic
+          id(i2s_duplex).set_aec_reference_volume(es8388_vol);

@@ -22,7 +22,7 @@ def get_host_architectures():
 def get_packages(host, api_variant, firmware, branch):
     # Define packages in exact order with their conditions
     is_esp32 = 'esp32' in host.lower()
-    has_psram = host in ['esp32-s2', 'esp32-s3', 'esp32-s3-quad']
+    has_psram = host in ['esp32-s2', 'esp32-s3', 'esp32-s3-quad', 'doorman-s3', 'doorman-s3-rev2', 'doorman-s3-rev2-audio']
 
     packages_config = [
         ('host', f'!include ../hosts/{host}.yaml', True),
@@ -30,11 +30,18 @@ def get_packages(host, api_variant, firmware, branch):
         ('external_components', '!include ../components/external-components.yaml', branch != 'local'),
         ('external_components_local', '!include ../components/external-components.local.yaml', branch == 'local'),
 
-        ('rgb_status_led', '!include ../components/rgb-status-led.yaml', True),
+        # Doorman S3 rev 2.x.x SK6812B
+        ('rgb_status_led', '!include ../components/rgb-status-led.sk6812b.yaml', host == 'doorman-s3-rev2'),
+        # Doorman S3 rev 1.x.x / ESP32-S3 / ESP32-S3 WS2812B
+        ('rgb_status_led', '!include ../components/rgb-status-led.ws2812b.yaml', host != 'doorman-s3-rev2'),
+        
         ('rgb_status_led_effects', '!include ../components/rgb-status-led.effects.yaml', True),
 
         ('base', '!include ../base.yaml', True),
         ('webserver_dev', '!include ../components/web-server.dev.yaml', branch == 'dev' or branch == 'local'),
+        
+        # Doorman S3 rev 2.x.x extension boards
+        ('audio', '!include ../components/audio.yaml', host == 'doorman-s3-rev2-audio'),
 
         ('bluedroid_ble', '!include ../components/bluedroid-ble.yaml', is_esp32 and firmware != 'nuki-bridge'),
         

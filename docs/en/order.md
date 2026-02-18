@@ -68,8 +68,8 @@ const allCountries = [
 export default {
     data() {
         const envelopeTrackingDetails = 'This option is similar to Parcel but intended for smaller, low-quantity orders.';
-        const parcelTrackingDetails = 'Choose this option if you are comfortable with not being able to track the shipment. Lost packages cannot be refunded or replaced.';
-        const packageTrackingDetails = 'Recommended for reliable delivery and shipment visibility with <u>tracking</u>. Lost packages may be eligible for investigation or claim.';
+        const parcelTrackingDetails = 'Choose this option if you are comfortable with not being able to track the shipment.<br>Lost or damaged packages cannot be refunded or replaced.';
+        const packageTrackingDetails = 'Recommended for reliable delivery and shipment visibility with <u>tracking</u>.<br>Lost or damaged packages may be eligible for investigation or claim.';
 
         return {
             errors: {
@@ -122,46 +122,46 @@ export default {
             ],
             products: [
                 {
-                    key: 'pcb',
-                    name: 'Base Board',
+                    key: 'core_board',
+                    name: 'Core Board',
                     image: '/base-board.png',
-                    details: 'Base Board for built-in installation. For mounting inside a wall box or indoor station enclosure.',
-                    price: 0
+                    details: 'Core Board only. For mounting inside a wall box or indoor station enclosure.',
+                    price: 37
                 },
                 {
-                    key: 'pcb_extension_audio',
+                    key: 'audio_extension',
                     name: 'Audio Extension',
                     image: '/audio-extension.png',
-                    details: 'Audio Extension for upgrading your Doorman. <i>*Requires Base Board revision 2.0.0 or newer.</i>',
-                    price: 0
+                    details: 'Audio Extension only - upgrade your Doorman.<br><i>*Requires Core Board revision 2.0.0 or newer.</i>',
+                    price: 8
                 },
                 {
                     key: 'enclosure',
-                    name: 'Enclosure',
+                    name: 'Protective Enclosure',
                     image: '/enclosure-only.png',
-                    details: 'Protective enclosure for visible installations. Perfect as a replacement or spare enclosure.',
-                    price: 0
+                    details: 'The Enclosure for everything - perfect for visible installations. Replacement or spare.',
+                    price: 4
                 },
                 {
-                    key: 'bundle_core',
-                    name: 'Core Bundle',
-                    image: '/base-board-audio-extension.png',
-                    details: 'Base Board with Audio Extension. Ideal for built-in installations without a visible enclosure.',
-                    price: 0
-                },
-                {
-                    key: 'bundle',
-                    name: 'Standard Bundle',
+                    key: 'core_board_enclosure',
+                    name: 'Starter Pack',
                     image: '/enclosure-base-board.png',
-                    details: 'Base Board with Enclosure included. Ideal for visible and surface-mounted installations.',
-                    price: 0
+                    details: 'Core Board and Enclosure. Ideal for visible and surface-mounted installations in your home.',
+                    price: 39
                 },
                 {
-                    key: 'bundle_audio',
-                    name: 'Audio Bundle',
+                    key: 'core_board_audio_extension',
+                    name: 'Audio Essentials Pack',
+                    image: '/base-board-audio-extension.png',
+                    details: 'Core Board and Audio Extension. For mounting inside a wall box or indoor station enclosure.',
+                    price: 42
+                },
+                {
+                    key: 'core_board_audio_extension_enclosure',
+                    name: 'All inclusive Pack',
                     image: '/enclosure-audio-extension.png',
-                    details: 'Base Board, Audio Extension, and Enclosure. Ready for visible installation with audio support.',
-                    price: 0
+                    details: 'Core Board, Audio Extension, and Enclosure. This is everything you will ever need.',
+                    price: 45
                 }
             ],
             shipping_regions: [

@@ -89,7 +89,7 @@ jobs:
     needs: [prepare-release, build-webserver]
     strategy:
       matrix:
-        chip: [esp32, esp32-s3, esp32-s3-quad]
+        chip: [esp32, esp32-s3, esp32-s3-quad, doorman-s3-rev2]
         variant: [standard, nuki-bridge]
         integration: [ha, mqtt, homekit, custom]
         exclude:
@@ -100,7 +100,7 @@ jobs:
             integration: homekit
     with:
       files: firmware/configurations/${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}.${{ github.ref_name == 'master' && 'master' || 'dev' }}.yaml
-      name: Doorman ${{ matrix.variant == 'nuki-bridge' && 'Nuki-Bridge' || 'Standard' }} for ${{ matrix.integration == 'ha' && 'Home Assistant' || matrix.integration == 'mqtt' && 'MQTT' || matrix.integration == 'homekit' && 'HomeKit' || matrix.integration == 'custom' && 'Custom Integration' || matrix.integration }}
+      name: Doorman ${{ matrix.variant == 'nuki-bridge' && 'Nuki-Bridge' || 'Standard' }} for ${{ matrix.integration == 'ha' && 'Home Assistant' || matrix.integration == 'mqtt' && 'MQTT' || matrix.integration == 'homekit' && 'HomeKit' || matrix.integration == 'custom' && 'Standalone Integration' || matrix.integration }}
       esphome_version: ${{ github.ref_name == 'master' && 'latest' || 'dev' }}
       directory_name: ${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}
       summary: ${{ needs.prepare-release.outputs.release_summary }}
@@ -149,4 +149,29 @@ jobs:
           private-ssh-key: ${{ secrets.AZON_SSH_KEY }}
           source-path: ./output/
           destination-path: ${{ secrets.AZON_PATH }}
+          ssh-port: ${{ secrets.AZON_SSH_PORT }}
+
+  deploy-experimental:
+    if: github.ref_name != 'master' && startsWith(github.ref_name, 'dev') == false
+    name: Deploy to Experimental Server
+    environment:
+      name: experimental.doorman.azon.ai
+      url: "https://experimental.doorman.azon.ai/"
+    needs: [bundle-assets]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Assets
+        uses: actions/download-artifact@v6
+        with:
+          name: asset-bundle
+          path: output
+
+      - name: Deploy via SSH
+        uses: SamKirkland/web-deploy@v1
+        with:
+          target-server: experimental.doorman.azon.ai
+          remote-user: ${{ secrets.AZON_USERNAME }}
+          private-ssh-key: ${{ secrets.AZON_SSH_KEY }}
+          source-path: ./output/
+          destination-path: ${{ secrets.AZON_PATH_EXPERIMENTAL }}
           ssh-port: ${{ secrets.AZON_SSH_PORT }}

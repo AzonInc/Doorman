@@ -14,29 +14,56 @@ export default {
             test: '',
             baseUrl: '../../firmware/release/',
             platform: '',
+            extension: '',
             integration: '',
             variant: '',
             platform_options: [
                 {
-                    key: 'esp32-s3',
-                    name: 'ESP32-S3 <span class="VPBadge tip">Octal</span>',
+                    key: 'doorman-s3-rev2',
+                    name: 'Doorman S3 <span class="VPBadge tip">2.x.x</span>',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for the <b>Doorman S3</b> and all ESP32-S3 boards with at least 8&nbsp;MB PSRAM.',
+                    details: 'Recommended for the <b>Doorman S3</b> revision <code>2.0.0</code> or later with the extension board connector.',
+                    extensions: [
+                        {
+                            key: 'none',
+                            name: 'No Extension',
+                            icon: '',
+                            iconColor: '',
+                            details: 'Standard board without extensions.',
+                        },
+                        {
+                            key: 'audio',
+                            name: 'Audio Extension',
+                            icon: '',
+                            iconColor: '',
+                            details: 'Audio Extension Board installed.',
+                        }
+                    ]
+                },
+                {
+                    key: 'esp32-s3',
+                    name: 'Doorman S3 <span class="VPBadge tip">1.x.x</span>',
+                    icon: '',
+                    iconColor: '',
+                    details: 'Recommended for the <b>Doorman S3</b> revison <code>1.x.x</code> (except 1.4.0) and all ESP32-S3 boards with at least 8&nbsp;MB PSRAM.',
+                    extensions: null
                 },
                 {
                     key: 'esp32-s3-quad',
-                    name: 'ESP32-S3 <span class="VPBadge tip">Quad</span>',
+                    name: 'Doorman S3 <span class="VPBadge tip">1.4.0</span>',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for <b>Doorman S3 (Revision 1.4)</b> and all ESP32-S3 boards with up to 4&nbsp;MB PSRAM.',
+                    details: 'Recommended for <b>Doorman S3</b> revision <code>1.4.0</code> only and all ESP32-S3 boards with up to 4&nbsp;MB PSRAM.',
+                    extensions: null
                 },
                 {
                     key: 'esp32',
                     name: 'ESP32',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for <b>all ESP32 boards without PSRAM</b>.',
+                    details: 'Recommended for <b>all ESP32 boards (no variant) without PSRAM</b>.',
+                    extensions: null
                 },
             ],
             integration_options: [
@@ -83,13 +110,21 @@ export default {
                     icon: '',
                     iconColor: '',
                     details: 'I also want to control my Nuki Smart Lock and use Ring to Open with the apartment doorbell.',
-                },
+                }
             ],
         }
     },
     watch: {
         platform(newPlatform, oldPlatform) {
             localStorage.setItem("fw_platform", newPlatform);
+
+            const selectedPlatform = this.platform_options.find(p => p.key === newPlatform);
+
+            if (!selectedPlatform?.extensions) {
+                this.extension = 'none';
+            } else if (!selectedPlatform.extensions.find(e => e.key === this.extension)) {
+                this.extension = 'none';
+            }
         },
         integration(newIntegration, oldIntegration) {
             localStorage.setItem("fw_integration", newIntegration);
@@ -108,8 +143,25 @@ export default {
         }
     },
     computed: {
+        selected_platform() {
+            return this.platform_options.find(p => p.key === this.platform);
+        },
+        platform_extensions() {
+            return this.selected_platform?.extensions || null;
+        },
+        platform_string() {
+            if (!this.extension || this.extension === 'none') {
+                return this.platform;
+            }
+
+            return `${this.platform}-${this.extension}`;
+        },
         fw_string() {
-            return [this.platform, this.integration, this.variant].join('.');
+            return [
+                this.platform_string,
+                this.integration,
+                this.variant
+            ].join('.');
         },
         manifest_file() {
             return this.baseUrl + this.fw_string + '/manifest.json';
@@ -201,6 +253,19 @@ This guided process ensures seamless integration with the Home Assistant API and
                 <div class="details" v-html="fw_platform.details"></div>
             </span>
         </label>
+    </div>
+    <div v-if="platform_extensions">
+        <h5 class="firmware_title_row"><icon-mdi-package-variant-plus /> Do you have an extension board?</h5>
+        <div class="firmware_option_row">
+            <label class="firmware_option" v-for="fw_extension in platform_extensions" :key="fw_extension.key">
+                <input type="radio" class="reset_default" v-model="extension" :value="fw_extension.key">
+                <span class="checkmark">
+                    <div class="icon" v-if="fw_extension.icon" v-html="fw_extension.icon"></div>
+                    <div class="title" v-html="fw_extension.name"></div>
+                    <div class="details" v-html="fw_extension.details"></div>
+                </span>
+            </label>
+        </div>
     </div>
     <div v-if="platform">
         <h5 class="firmware_title_row"><icon-ic-round-other-houses /> Do you use any smart home system?</h5>
