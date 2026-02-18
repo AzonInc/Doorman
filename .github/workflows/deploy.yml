@@ -89,7 +89,7 @@ jobs:
     needs: [prepare-release, build-webserver]
     strategy:
       matrix:
-        chip: [esp32, esp32-s3, esp32-s3-quad, doorman-s3-rev2]
+        chip: [esp32, esp32-s3, esp32-s3-quad, doorman-s3-rev2, doorman-s3-rev2-audio]
         variant: [standard, nuki-bridge]
         integration: [ha, mqtt, homekit, custom]
         exclude:

@@ -7,7 +7,7 @@ substitutions:
 packages:
   host: !include ../hosts/esp32-s3.yaml
   external_components_local: !include ../components/external-components.local.yaml
-  rgb_status_led: !include ../components/rgb-status-led.yaml
+  rgb_status_led: !include ../components/rgb-status-led.ws2812b.yaml
   rgb_status_led_effects: !include ../components/rgb-status-led.effects.yaml
   base: !include ../base.yaml
   webserver_dev: !include ../components/web-server.dev.yaml
