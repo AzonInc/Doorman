@@ -51,7 +51,7 @@ jobs:
           path: output
       
       - name: Upload Assets Bundle
-        if: startsWith(github.ref_name, 'dev')
+        if: github.ref_name != 'master'
         uses: actions/upload-artifact@v5
         with:
           name: asset-bundle

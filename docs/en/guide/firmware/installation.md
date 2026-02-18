@@ -30,14 +30,14 @@ export default {
                             name: 'No Extension',
                             icon: '',
                             iconColor: '',
-                            details: 'Standard board without extensions.',
+                            details: 'Only the Doorman Core Board.',
                         },
                         {
                             key: 'audio',
                             name: 'Audio Extension',
                             icon: '',
                             iconColor: '',
-                            details: 'Audio Extension Board installed.',
+                            details: 'I have an Audio Extension Board installed.',
                         }
                     ]
                 },
@@ -46,7 +46,7 @@ export default {
                     name: 'Doorman S3 <span class="VPBadge tip">1.x.x</span>',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for the <b>Doorman S3</b> revison <code>1.x.x</code> (except 1.4.0) and all ESP32-S3 boards with at least 8&nbsp;MB PSRAM.',
+                    details: 'Recommended for the <b>Doorman S3</b> revison <code>1.x.x</code> except <code>1.4.0</code> and all ESP32-S3 boards with at least 8&nbsp;MB PSRAM.',
                     extensions: null
                 },
                 {
