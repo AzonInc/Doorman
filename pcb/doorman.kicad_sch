@@ -11456,24 +11456,6 @@
 				(hide yes)
 			)
 		)
-		(property "Cheap Version" ""
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 242.57 85.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "A8"
 			(uuid "1cfcb048-ac4c-4c1a-a3fe-244bb952c558")
 		)
@@ -13969,7 +13951,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+85℃ -98.2dBm 2.4GHz 20.5dBm 355mA 3V~3.6V 95mA Bluetooth5.0 ESP32-S3 On-board PCB Antenna UART、SPI、I2C、GPIO、I2S、USB SMD WiFi Modules ROHS"
+		(property "Description" "-103.5dBm -40℃~+85℃ 2.4GHz 20.5dBm 355mA 3V~3.6V 95mA Bluetooth5.0 ESP32-S3 On-board PCB Antenna UART、SPI、I2C、GPIO、I2S、USB SMD WiFi Modules ROHS"
 			(at 67.31 45.72 0)
 			(effects
 				(font
