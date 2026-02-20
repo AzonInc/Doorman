@@ -14095,6 +14095,17 @@
 			)
 		)
 	)
+	(gr_text "08"
+		(at 184.28 96.8 0)
+		(layer "F.SilkS")
+		(uuid "cc554391-9d2d-4492-8eaa-8cc853706ff6")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.2)
+			)
+		)
+	)
 	(gr_text "R1"
 		(at 202.14 91.87 0)
 		(layer "F.SilkS" knockout)
@@ -14109,7 +14120,7 @@
 		)
 	)
 	(gr_text "14"
-		(at 196.3 97 0)
+		(at 196.29 96.92 0)
 		(layer "F.SilkS")
 		(uuid "d98f5073-f59a-45e6-8acc-add6e33e684d")
 		(effects
