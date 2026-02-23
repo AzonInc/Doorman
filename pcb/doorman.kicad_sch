@@ -6,9 +6,10 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-17")
+		(date "2026-02-23")
 		(rev "2.0")
-		(comment 1 "TC:Bus Intercom Gateway")
+		(comment 1 "For TC:BUS and SIEDLE In-Home Bus")
+		(comment 2 "Intercom Gateway")
 	)
 	(lib_symbols
 		(symbol "+3.3V_1"
@@ -9965,6 +9966,16 @@
 		)
 		(uuid "f8ceb260-fed3-4e42-91b7-f9699fa593a0")
 	)
+	(wire
+		(pts
+			(xy 186.69 212.09) (xy 189.23 212.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f950fae7-e838-4a34-b9b4-b174fe733aaa")
+	)
 	(polyline
 		(pts
 			(xy 16.51 170.18) (xy 105.41 170.18)
@@ -10087,28 +10098,6 @@
 			)
 		)
 	)
-	(global_label "IO16"
-		(shape bidirectional)
-		(at 242.57 180.34 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "044ebced-51fc-422b-a312-103aee7ef9c9")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 234.1192 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "IO7"
 		(shape bidirectional)
 		(at 255.27 182.88 0)
@@ -10127,6 +10116,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "IO12"
+		(shape bidirectional)
+		(at 242.57 182.88 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0a07fa94-4ee4-4898-80d2-11de8b8bc0a3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 234.1192 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -10153,28 +10164,6 @@
 			)
 		)
 	)
-	(global_label "IO14"
-		(shape bidirectional)
-		(at 242.57 177.8 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1d924c1f-3675-45ea-859d-f7714c6e2af6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 234.1192 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "IO15"
 		(shape bidirectional)
 		(at 52.07 106.68 180)
@@ -10188,28 +10177,6 @@
 		(uuid "1e72994a-9220-42e6-b885-369338dae030")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 41.4648 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "IO18"
-		(shape bidirectional)
-		(at 242.57 182.88 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "21492baa-106c-43cc-8ff7-745de7379352")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 234.1192 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10281,28 +10248,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "IO17"
-		(shape bidirectional)
-		(at 255.27 180.34 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "2f44eb7f-8602-4ee6-a396-6984d4175013")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 265.8752 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -10395,6 +10340,28 @@
 			)
 		)
 	)
+	(global_label "IO18"
+		(shape bidirectional)
+		(at 255.27 180.34 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3d219bd1-f01f-411c-b731-0f40b49562f5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 263.7208 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "USB_D+"
 		(shape bidirectional)
 		(at 260.35 88.9 0)
@@ -10417,6 +10384,28 @@
 			)
 		)
 	)
+	(global_label "IO12"
+		(shape bidirectional)
+		(at 52.07 99.06 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3ef0bbe0-189f-421f-b1a0-b75a0d495582")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.4648 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "IO16"
 		(shape bidirectional)
 		(at 52.07 109.22 180)
@@ -10430,6 +10419,28 @@
 		(uuid "3fcb9312-bdca-4981-875d-3402a2b172b4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 41.4648 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2C_DAT"
+		(shape bidirectional)
+		(at 52.07 104.14 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "41e63ac4-daa0-4062-a7e2-0bd8e0efd4d5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.7067 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10501,6 +10512,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "IO17"
+		(shape bidirectional)
+		(at 242.57 180.34 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "55dec5ea-c84f-4a4c-a538-f86058f8fbae")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 234.1192 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -10615,28 +10648,6 @@
 			)
 		)
 	)
-	(global_label "I2C_CLK"
-		(shape bidirectional)
-		(at 52.07 99.06 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "76ea99e6-a087-457f-a118-e6b6dddfdf79")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.4648 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "BUS_WIRE2"
 		(shape bidirectional)
 		(at 243.84 130.81 0)
@@ -10694,6 +10705,28 @@
 		(uuid "8cd3424a-4c0e-42a9-b1ad-4b6cde560e16")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 41.8277 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "IO15"
+		(shape bidirectional)
+		(at 242.57 177.8 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8cf09dbb-b4e5-4c05-b1e6-6707f5515222")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 234.1192 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10782,28 +10815,6 @@
 		(uuid "9f66d332-109e-4690-93d2-29176ff43929")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 33.7844 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "IO14"
-		(shape bidirectional)
-		(at 52.07 104.14 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "a23afd3c-84bd-4fbc-ba75-c86f6dcd14b4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.4648 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10923,28 +10934,6 @@
 			)
 		)
 	)
-	(global_label "I2C_DAT"
-		(shape bidirectional)
-		(at 52.07 101.6 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "c6734f71-3f63-46cf-af0a-14ad46b47f7e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.7067 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "SIEDLE_TX_CAR"
 		(shape output)
 		(at 128.27 170.18 180)
@@ -10963,6 +10952,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "IO16"
+		(shape bidirectional)
+		(at 255.27 177.8 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cc2eaf6d-4ff2-4321-b21c-89294e2e66c1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 263.7208 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -11077,6 +11088,28 @@
 			)
 		)
 	)
+	(global_label "I2C_CLK"
+		(shape bidirectional)
+		(at 52.07 101.6 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "eee728a4-8279-4d39-b594-df8dacc36dd7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 41.4648 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "BUS_WIRE1"
 		(shape bidirectional)
 		(at 248.92 27.94 0)
@@ -11183,28 +11216,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "IO15"
-		(shape bidirectional)
-		(at 255.27 177.8 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "fc16297d-6371-499f-91ac-9e4df328f197")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 262.6095 177.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
 				(hide yes)
 			)
 		)
@@ -12513,6 +12524,142 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR032")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 186.69 212.09 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp yes)
+		(uuid "1b0271a3-5aa7-41cc-b7d5-134a47007f5a")
+		(property "Reference" "J5"
+			(at 184.15 215.392 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "Siedle BUS RX Test Pad"
+			(at 182.626 219.71 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 186.69 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 186.69 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 186.69 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3d1bc544-a626-46af-993b-61b82fa55aa2")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "J5")
 					(unit 1)
 				)
 			)
