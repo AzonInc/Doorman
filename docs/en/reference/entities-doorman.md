@@ -115,7 +115,7 @@ A small LED on the Doorman's PCB controlled by the ESPHome [Status LED](https://
 You can turn off the LED if it becomes annoying. Even when turned off, it will still retain its functionality and blink to signal any issues.
 
 ### Status LED <Badge type="warning" text="RGB" /> <Badge type="tip" text="doorman_rgb_status_led" />
-A small WS2812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
+A small WS2812B/SK6812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
 
 ##### Event Types
 - **Waiting for WiFi** <Badge type="tip" text="Slow yellow/orange pulse" />

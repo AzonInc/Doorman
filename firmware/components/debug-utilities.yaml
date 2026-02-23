@@ -318,7 +318,7 @@ button:
           blue: 83%
           effect: none
           #transition_length: 1s
-          brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100.0;
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
 
       - delay: 3s
       - script.execute: update_led

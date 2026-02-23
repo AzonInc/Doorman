@@ -67,12 +67,12 @@ Check out the [TC:BUS ESPHome component documentation](https://doorman.azon.ai/r
 - **ESP32-S3 Powered** for robust performance
 - **USB-C port** for effortless flashing (because USB-C is just cool 😎)
 - **Compact design** fits into any setup
-- **Configurable WS2812B RGB LED** for event-based visual indicators
-- **Two additional GPIOs** for easy expansion (e.g., I²C sensors)
+- **Configurable WS2812B/SK6812B RGB LED** for event-based visual indicators
+- **Two additional GPIOs** for easy expansion (e.g., I²C sensors, external button)
 - **Solid-state relay** for switching up to 40V (max. 2.5A)—perfect for older intercom systems
-- **External Button** (G + BTN) for manual triggering
 - **Bridge Rectifier** for correcting polarity on bus-wire input
 - **TC:BUS Communication** for door functions and detecting the doorbell
+- **SIEDLE:IN-HOME-BUS Communication** for door functions and detecting the doorbell
 - **Nuki Bridge functionality** with the [Nuki Bridge Addon](https://doorman.azon.ai/guide/firmware/nuki-bridge)
 
 ---

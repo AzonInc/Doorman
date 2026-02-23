@@ -45,7 +45,7 @@ features:
       height: 28px
       width: 28px
     title: Erweiterbar
-    details: Zwei zusätzliche GPIOs und ein externer Button ermöglichen eine flexible und einfache Erweiterung mit eigenen Sensoren und Geräten, z. B. über I²C.
+    details: Zusätzliche GPIOs sind über die Schraubklemme zugänglich. Darüber hinaus bietet der Extension Board-Anschluss Zugriff auf acht weitere GPIOs sowie auf die Busleitungen, 3,3 V und Masse.
 
   - icon:
       src: /icons/fluent-emoji-party-popper.png

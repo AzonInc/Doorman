@@ -14,7 +14,7 @@ light:
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
 
-            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100.0) : 0;
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state) : 0;
             call.set_brightness_if_supported(out);
 
             call.set_transition_length_if_supported(250);
@@ -36,7 +36,7 @@ light:
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
 
-            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100.0) : 0;
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state) : 0;
             call.set_brightness_if_supported(out);
 
             call.set_transition_length_if_supported(2500);
@@ -58,7 +58,7 @@ light:
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
             
-            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100.0) : 0;
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state) : 0;
             call.set_brightness_if_supported(out);
 
             call.set_transition_length_if_supported(4000);
@@ -79,7 +79,7 @@ light:
 
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
-            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state / 100.0);
+            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state);
 
             call.set_transition_length(1000);
 

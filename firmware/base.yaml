@@ -8,10 +8,10 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
-  min_version: "2026.1.0"
+  min_version: "2026.2.0"
   project:
     name: "AzonInc.Doorman Standard"
-    version: "2026.1.1"
+    version: "2026.3.0"
   on_boot:
     - priority: 500.0
       then:
@@ -139,10 +139,10 @@ number:
     icon: "mdi:brightness-7"
     mode : slider
     restore_value: true
-    initial_value: '100'
-    max_value: 100
-    min_value: 10
-    step: 1
+    initial_value: '10'
+    max_value: 10
+    min_value: 0.1
+    step: 0.1
     optimistic: true
     disabled_by_default: true
     entity_category: CONFIG

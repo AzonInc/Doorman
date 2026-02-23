@@ -18,7 +18,7 @@ The board is built around the [ES8388](http://www.everest-semi.com/pdf/ES8388%20
 </div>
 
 ::: danger LIMITATIONS
-The extension board connector on the Doorman base board was introduced in revision `2.0.0` and is unfortunately not available on earlier versions. A Doorman base board of revision `2.0.0` or later is required in order to connect extension boards.
+The extension board connector on the Doorman core board was introduced in revision `2.0.0` and is unfortunately not available on earlier versions. A Doorman core board of revision `2.0.0` or later is required in order to connect extension boards.
 :::
 
 ## Audio channels
@@ -27,6 +27,6 @@ The extension board provides two audio channels: the first handles intercom bus 
 
 ## Assembly
 
-Simply plug the extension board into the 2×7-pin connector on the Doorman base board. It's very easy — just follow the video guide below.
+Simply plug the extension board into the 2×7-pin connector on the Doorman core board. It's very easy — just follow the video guide below.
 
 <video controls autoplay loop src="./video.mp4" />

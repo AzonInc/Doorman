@@ -4,19 +4,19 @@ description: Doorman is an open source intercom gateway that lets you connect TC
 
 # What is Doorman?
 
-Doorman allows you to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom to any home automation system. Additionally, some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms are counterparts to the TCS and Koch models.
+Doorman allows you to connect your [TCS TC:BUS](https://www.tcsag.de/), [Koch TC:BUS](https://www.kochag.ch/) or [SIEDLE IN-HOME-BUS](https://www.siedle.de/) intercom to any home automation system. Additionally, some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms are counterparts to the TCS and Koch models.
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
    <div style="min-width:260px;flex: 1 1 260px;" markdown>
 
 ### What about other intercoms?
     
-Doorman isn't limited to TCS or Koch intercoms.
+Doorman isn't limited to TC:BUS and IN-HOME-BUS intercoms.
 
 You can use it to simulate a button press to trigger a door opener or light with the integrated solid-state relay (up to 40V, max 2.5A).
 
-If your intercom operates on a 2-wire bus within the 14-24V DC range, it might be possible to implement other protocols as well.
-You can also monitor the voltage level on older intercoms (14-24V DC) using the internal ADC and trigger specific actions based on the readings.
+If your intercom operates on a 2-wire bus within the 14-30V DC range, it might be possible to implement other protocols as well.
+You can also monitor the voltage level on older intercoms (14-30V DC) using the internal ADC and trigger specific actions based on the readings.
 
    </div>
    <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
@@ -35,12 +35,12 @@ Just received your Doorman? Jump to the [Quickstart](getting-started) guide.
 - Powered by ESP32-S3
 - USB-C port for easy flashing (and because USB-C is cool 😎)
 - Compact design that fits almost anywhere
-- Configurable WS2812B RGB LED to indicate specific events
-- Two additional GPIOs for easy expansion with your own sensors and devices (e.g., I²C)
+- WS2812B/SK6812B RGB LED to indicate specific events
+- Two additional GPIOs for easy expansion with your own sensors and devices (e.g., I²C, external button)
 - Solid-state relay for switching up to 40V (max. 2.5A), ideal for older intercom systems
-- External Button (G + BTN)
 - Bridge rectifier for bus-wire input to correct polarity
 - TC:BUS communication for functions like opening the front door and detecting the doorbell
+- SIEDLE:IN-HOME-BUS communication for functions like opening the front door and detecting the doorbell
 - Can be used as a Nuki Bridge with the [Nuki Bridge Addon](firmware/nuki-bridge).
 
 ## Interested in a Doorman?

@@ -45,17 +45,20 @@ Der Doorman S3 nutzt bestimmte GPIO-Pins für spezielle Funktionen und bietet zu
 | :----- | :-----|
 | GPIO01 | Rote Status-LED |
 | GPIO02 | SK6812B RGB Status-LED |
+| GPIO05 | SIEDLE:IN-HOME-BUS TX Data |
+| GPIO06 | SIEDLE:IN-HOME-BUS TX Carrier |
 | GPIO07 | Freier I/O via Extension Board Verbinder |
 | GPIO08 | TC:BUS TX |
 | GPIO09 | TC:BUS RX |
-| GPIO10 | TC:BUS RX |
-| GPIO12 | I²C CLK via Extension Board Verbinder |
-| GPIO13 | I²C DAT via Extension Board Verbinder |
-| GPIO14 | Freier I/O via Extension Board Verbinder |
+| GPIO10 | SIEDLE:IN-HOME-BUS RX Carrier |
+| GPIO11 | SIEDLE:IN-HOME-BUS RX Data |
+| GPIO12 | Freier I/O via Extension Board Verbinder |
+| GPIO13 | I²C CLK via Extension Board Verbinder |
+| GPIO14 | I²C DAT via Extension Board Verbinder |
 | GPIO15 | Freier I/O via Extension Board Verbinder |
 | GPIO16 | Freier I/O via Extension Board Verbinder |
 | GPIO17 | Freier I/O via Extension Board Verbinder |
 | GPIO18 | Freier I/O via Extension Board Verbinder |
-| GPIO40 | Freier I/O via Screw Terminal |
+| GPIO40 | Freier I/O via Schrauben Terminal |
 | GPIO41 | Externer Button / Freier I/O via Schrauben Terminal |
 | GPIO42 | Relais für analogen Türöffner oder Licht |
