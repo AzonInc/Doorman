@@ -13518,7 +13518,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 192.278 218.44 90)
 			(effects
 				(font
@@ -13536,7 +13536,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 1kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" ""
 			(at 190.5 218.44 0)
 			(effects
 				(font
@@ -13545,7 +13545,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C21190"
+		(property "LCSC" ""
 			(at 190.5 218.44 0)
 			(effects
 				(font
@@ -13554,7 +13554,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF1001T5E"
+		(property "MPN" ""
 			(at 190.5 218.44 0)
 			(effects
 				(font
@@ -13563,7 +13563,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0603"
+		(property "Package" "0402"
 			(at 190.5 218.44 0)
 			(effects
 				(font
@@ -15104,6 +15104,7 @@
 	(symbol
 		(lib_id "Transistor_BJT:BC807")
 		(at 142.24 204.47 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15111,7 +15112,7 @@
 		(dnp no)
 		(uuid "42d51922-85cf-4fce-8824-6982ca4c8c99")
 		(property "Reference" "Q6"
-			(at 147.32 203.708 0)
+			(at 147.32 205.232 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15120,7 +15121,7 @@
 			)
 		)
 		(property "Value" "BC807-40"
-			(at 147.32 205.232 0)
+			(at 147.32 203.708 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -15129,7 +15130,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 147.32 206.375 0)
+			(at 147.32 202.565 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22527,6 +22528,7 @@
 	(symbol
 		(lib_id "Transistor_BJT:BC807")
 		(at 187.96 204.47 0)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22534,7 +22536,7 @@
 		(dnp no)
 		(uuid "dab5cab6-6de7-4564-8bce-568028894298")
 		(property "Reference" "Q5"
-			(at 193.04 203.708 0)
+			(at 193.04 205.232 0)
 			(effects
 				(font
 					(size 1 1)
@@ -22543,7 +22545,7 @@
 			)
 		)
 		(property "Value" "BC807-40"
-			(at 193.04 205.232 0)
+			(at 193.04 203.708 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -22552,7 +22554,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 193.04 206.375 0)
+			(at 193.04 202.565 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24253,7 +24255,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 146.558 218.44 90)
 			(effects
 				(font
@@ -24271,7 +24273,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 1kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+		(property "Description" ""
 			(at 144.78 218.44 0)
 			(effects
 				(font
@@ -24280,7 +24282,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C21190"
+		(property "LCSC" ""
 			(at 144.78 218.44 0)
 			(effects
 				(font
@@ -24289,7 +24291,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF1001T5E"
+		(property "MPN" ""
 			(at 144.78 218.44 0)
 			(effects
 				(font
@@ -24298,7 +24300,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0603"
+		(property "Package" "0402"
 			(at 144.78 218.44 0)
 			(effects
 				(font
