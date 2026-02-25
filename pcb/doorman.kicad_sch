@@ -7635,7 +7635,7 @@
 	)
 	(text "TC:BUS"
 		(exclude_from_sim no)
-		(at 125.222 93.726 0)
+		(at 123.698 96.012 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7688,7 +7688,7 @@
 		)
 		(uuid "9b73a196-6ec4-4b0b-9d48-8ee2ccfe5bbf")
 	)
-	(text "L1 & L2 to prevent Audio AC"
+	(text "L1+L2 to block audio path"
 		(exclude_from_sim no)
 		(at 246.888 33.274 0)
 		(effects
@@ -8298,7 +8298,7 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 27.94) (xy 241.3 27.94)
+			(xy 245.11 27.94) (xy 241.3 27.94)
 		)
 		(stroke
 			(width 0)
@@ -8818,7 +8818,7 @@
 	)
 	(wire
 		(pts
-			(xy 254 43.18) (xy 252.73 43.18)
+			(xy 255.27 43.18) (xy 252.73 43.18)
 		)
 		(stroke
 			(width 0)
@@ -9378,7 +9378,7 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 205.74) (xy 184.15 205.74)
+			(xy 186.69 205.74) (xy 184.15 205.74)
 		)
 		(stroke
 			(width 0)
@@ -9498,7 +9498,7 @@
 	)
 	(wire
 		(pts
-			(xy 255.27 27.94) (xy 254 27.94)
+			(xy 255.27 27.94) (xy 252.73 27.94)
 		)
 		(stroke
 			(width 0)
@@ -9548,7 +9548,7 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 185.42) (xy 219.71 175.26)
+			(xy 220.98 185.42) (xy 220.98 175.26)
 		)
 		(stroke
 			(width 0)
@@ -9668,7 +9668,7 @@
 	)
 	(wire
 		(pts
-			(xy 219.71 175.26) (xy 242.57 175.26)
+			(xy 220.98 175.26) (xy 242.57 175.26)
 		)
 		(stroke
 			(width 0)
@@ -10842,7 +10842,7 @@
 	)
 	(global_label "BUS_RX_IHB"
 		(shape input)
-		(at 185.42 205.74 0)
+		(at 186.69 205.74 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10852,7 +10852,7 @@
 		)
 		(uuid "e3f72c22-234f-483d-a806-52961eef94c8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 199.8352 205.74 0)
+			(at 201.1052 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10930,7 +10930,7 @@
 	)
 	(global_label "BUS_WIRE2"
 		(shape bidirectional)
-		(at 254 43.18 0)
+		(at 255.27 43.18 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10940,7 +10940,7 @@
 		)
 		(uuid "f238529e-e2e2-4313-a951-f65c77939de7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 268.5588 43.18 0)
+			(at 269.8288 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11320,7 +11320,7 @@
 	(symbol
 		(lib_name "GND_2")
 		(lib_id "power:GND")
-		(at 219.71 185.42 0)
+		(at 220.98 185.42 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11328,7 +11328,7 @@
 		(dnp no)
 		(uuid "057fd00e-3e1b-4e7b-9683-edd226c14393")
 		(property "Reference" "#PWR08"
-			(at 219.71 191.77 0)
+			(at 220.98 191.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11337,7 +11337,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 219.71 189.484 0)
+			(at 220.98 189.484 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11345,7 +11345,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 219.71 185.42 0)
+			(at 220.98 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11354,7 +11354,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 219.71 185.42 0)
+			(at 220.98 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11363,7 +11363,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 219.71 185.42 0)
+			(at 220.98 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13488,7 +13488,7 @@
 			)
 		)
 		(property "Value" "100uH"
-			(at 248.666 44.196 90)
+			(at 248.92 44.196 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -20959,7 +20959,7 @@
 	)
 	(symbol
 		(lib_id "Device:L")
-		(at 250.19 27.94 90)
+		(at 248.92 27.94 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20967,7 +20967,7 @@
 		(dnp no)
 		(uuid "f40d169e-4cd8-4a65-9d95-2ca6c456de5c")
 		(property "Reference" "L2"
-			(at 250.19 26.162 90)
+			(at 248.92 26.162 90)
 			(effects
 				(font
 					(size 1 1)
@@ -20975,7 +20975,7 @@
 			)
 		)
 		(property "Value" "100uH"
-			(at 249.936 28.956 90)
+			(at 248.92 28.956 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -20983,7 +20983,7 @@
 			)
 		)
 		(property "Footprint" "Inductor_SMD:L_Sunlord_SWPA3015S"
-			(at 250.19 27.94 0)
+			(at 248.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20992,7 +20992,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 250.19 27.94 0)
+			(at 248.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21001,7 +21001,7 @@
 			)
 		)
 		(property "Description" "100uH 210mA 230mA 3.11Ω ±20% SMD,3x3mm Power Inductors ROHS"
-			(at 250.19 27.94 0)
+			(at 248.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21010,7 +21010,7 @@
 			)
 		)
 		(property "LCSC" "C82994"
-			(at 250.19 27.94 90)
+			(at 248.92 27.94 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21019,7 +21019,7 @@
 			)
 		)
 		(property "Package" "SMD,3x3mm"
-			(at 250.19 27.94 0)
+			(at 248.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21028,7 +21028,7 @@
 			)
 		)
 		(property "MPN" "SWPA3015S101MT"
-			(at 250.19 27.94 0)
+			(at 248.92 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
