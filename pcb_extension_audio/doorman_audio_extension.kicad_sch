@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3 Audio Extension Board")
-		(date "2026-02-10")
-		(rev "1.0")
+		(date "2026-02-24")
+		(rev "1.1")
 	)
 	(lib_symbols
 		(symbol "+3.3V_2"
@@ -2939,9 +2939,9 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "LINE 1uF\nHP 47uF"
+	(text "LINE OUT 1uF\nHP OUT 47uF"
 		(exclude_from_sim no)
-		(at 137.414 88.392 0)
+		(at 133.35 88.392 0)
 		(effects
 			(font
 				(size 1 1)
@@ -2980,9 +2980,9 @@
 		)
 		(uuid "0e17673e-9cf7-4b37-a1c1-59f309224947")
 	)
-	(text "Difference (L1 OUT)"
+	(text "DIFF (L1 OUT)"
 		(exclude_from_sim no)
-		(at 175.26 65.024 0)
+		(at 172.974 65.024 0)
 		(effects
 			(font
 				(size 1 1)
@@ -2990,9 +2990,9 @@
 		)
 		(uuid "25d52bce-3419-4632-9bcb-43550035c0b7")
 	)
-	(text "HP Out"
+	(text "LINE OUT"
 		(exclude_from_sim no)
-		(at 170.434 82.804 0)
+		(at 171.196 82.804 0)
 		(effects
 			(font
 				(size 1 1)
@@ -3032,9 +3032,9 @@
 		)
 		(uuid "384a5845-8bd1-4636-8f23-5170b15c6474")
 	)
-	(text "HP Out"
+	(text "LINE OUT"
 		(exclude_from_sim no)
-		(at 170.434 80.264 0)
+		(at 171.196 80.264 0)
 		(effects
 			(font
 				(size 1 1)
@@ -3320,13 +3320,13 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 31.75) (xy 85.09 31.75)
+			(xy 137.16 64.77) (xy 127 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "156f4b46-213f-4187-8a26-bf1511efaa8a")
+		(uuid "172a2b4b-9ea0-4c5f-a4e5-e3ebb0b77156")
 	)
 	(wire
 		(pts
@@ -3607,16 +3607,6 @@
 			(type default)
 		)
 		(uuid "5c1ab870-f449-4b2a-9add-7c6a02f006fd")
-	)
-	(wire
-		(pts
-			(xy 219.71 71.12) (xy 229.87 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5cd57e7c-6314-4443-943a-d2a07f84a3cb")
 	)
 	(wire
 		(pts
@@ -3940,6 +3930,16 @@
 	)
 	(wire
 		(pts
+			(xy 227.33 71.12) (xy 229.87 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a546490d-c47e-426d-b38e-cc95e3e44f0f")
+	)
+	(wire
+		(pts
 			(xy 49.53 72.39) (xy 93.98 72.39)
 		)
 		(stroke
@@ -3977,16 +3977,6 @@
 			(type default)
 		)
 		(uuid "ab15d8a9-2785-41fc-8daa-8171d2179335")
-	)
-	(wire
-		(pts
-			(xy 127 31.75) (xy 134.62 31.75)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ad15ff7a-750f-4455-950d-f642e8cd0b34")
 	)
 	(wire
 		(pts
@@ -4040,7 +4030,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 64.77) (xy 127 64.77)
+			(xy 151.13 64.77) (xy 144.78 64.77)
 		)
 		(stroke
 			(width 0)
@@ -4067,6 +4057,16 @@
 			(type default)
 		)
 		(uuid "babf69ab-6b29-43e6-90d0-008c9b267db1")
+	)
+	(wire
+		(pts
+			(xy 218.44 71.12) (xy 219.71 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbb1f1f5-2af1-480a-92de-e4255d3f23d5")
 	)
 	(polyline
 		(pts
@@ -4230,6 +4230,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 24.13) (xy 92.71 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "da4245ee-ae23-49a6-9288-931145fe9235")
+	)
+	(wire
+		(pts
 			(xy 81.28 93.98) (xy 81.28 92.71)
 		)
 		(stroke
@@ -4257,6 +4267,16 @@
 			(type default)
 		)
 		(uuid "e78e5d26-2f72-4484-8dbc-8cdbcd4a7de2")
+	)
+	(wire
+		(pts
+			(xy 127 24.13) (xy 127 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e78f24c0-e749-40f4-b93a-0c7761531abb")
 	)
 	(wire
 		(pts
@@ -4992,7 +5012,7 @@
 	)
 	(global_label "AUDIO_OUT_L1"
 		(shape input)
-		(at 219.71 71.12 180)
+		(at 218.44 71.12 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5002,7 +5022,7 @@
 		)
 		(uuid "aaf972a2-45d7-465c-a1ce-fb5932c3dd24")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 203.299 71.12 0)
+			(at 202.029 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6264,6 +6284,181 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 223.52 71.12 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1a5c195b-7155-4eb0-a583-96fc4ffe3b9f")
+		(property "Reference" "R8"
+			(at 223.52 68.58 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 223.52 72.898 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
+			(at 223.52 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±1% 0603 Chip Resistor - Surface Mount ROHS"
+			(at 223.52 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C21189"
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "0603WAF0000T5E"
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 223.52 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 223.52 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 223.52 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0603"
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 223.52 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 223.52 71.12 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2505a4a6-4370-4d7c-a554-689e56630cde")
+		)
+		(pin "2"
+			(uuid "16a8197a-cf75-4f39-b467-7663afcdce0b")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -7670,7 +7865,7 @@
 	(symbol
 		(lib_name "+3.3V_2")
 		(lib_id "power:+3.3V")
-		(at 85.09 31.75 0)
+		(at 92.71 24.13 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -7679,7 +7874,7 @@
 		(dnp no)
 		(uuid "562e17de-2952-4be0-9bc1-fb7b43ead80c")
 		(property "Reference" "#PWR011"
-			(at 85.09 35.56 0)
+			(at 92.71 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7688,7 +7883,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 85.09 27.94 0)
+			(at 92.71 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7696,7 +7891,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 85.09 31.75 0)
+			(at 92.71 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7705,7 +7900,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 85.09 31.75 0)
+			(at 92.71 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7714,7 +7909,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 85.09 31.75 0)
+			(at 92.71 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9618,6 +9813,181 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 140.97 64.77 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "87d3cec6-7923-4947-8bab-79989a90b88e")
+		(property "Reference" "R7"
+			(at 145.034 63.754 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "0"
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 140.97 66.548 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
+			(at 140.97 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±1% 0603 Chip Resistor - Surface Mount ROHS"
+			(at 140.97 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C21189"
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "0603WAF0000T5E"
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 140.97 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 140.97 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 140.97 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0603"
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 140.97 64.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 140.97 64.77 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2a8f9db1-95c0-4c96-9628-669364ae59f0")
+		)
+		(pin "2"
+			(uuid "6bdaff66-bcca-4ab3-b880-876b3f375f63")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "R7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 251.46 71.12 270)
 		(unit 1)
@@ -10548,7 +10918,7 @@
 	(symbol
 		(lib_name "+3.3V_2")
 		(lib_id "power:+3.3V")
-		(at 134.62 31.75 0)
+		(at 127 24.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10556,7 +10926,7 @@
 		(dnp no)
 		(uuid "a0262754-3ffb-4ec8-8b5e-82f74df9a93a")
 		(property "Reference" "#PWR045"
-			(at 134.62 35.56 0)
+			(at 127 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10565,7 +10935,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 134.62 27.94 0)
+			(at 127 20.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10573,7 +10943,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 134.62 31.75 0)
+			(at 127 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10582,7 +10952,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 134.62 31.75 0)
+			(at 127 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10591,7 +10961,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 134.62 31.75 0)
+			(at 127 24.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11555,8 +11925,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47uF"
-			(at 134.112 83.82 90)
+		(property "Value" "1uF"
+			(at 134.874 83.82 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11582,7 +11952,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "47uF 6.3V X5R ±20% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "1uF 50V X5R ±10% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 130.81 82.55 0)
 			(effects
 				(font
@@ -11591,7 +11961,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C730416"
+		(property "LCSC" "C15849"
 			(at 130.81 82.55 0)
 			(effects
 				(font
@@ -11600,7 +11970,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL10A476MQ8QRNC"
+		(property "MPN" "CL10A105KB8NNNC"
 			(at 130.81 82.55 0)
 			(effects
 				(font
@@ -11732,7 +12102,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47uF"
+		(property "Value" "1uF"
 			(at 139.192 81.28 90)
 			(effects
 				(font
@@ -11759,7 +12129,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "47uF 6.3V X5R ±20% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
+		(property "Description" "1uF 50V X5R ±10% 0603 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
 			(at 135.89 80.01 0)
 			(effects
 				(font
@@ -11768,7 +12138,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C730416"
+		(property "LCSC" "C15849"
 			(at 135.89 80.01 0)
 			(effects
 				(font
@@ -11777,7 +12147,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "CL10A476MQ8QRNC"
+		(property "MPN" "CL10A105KB8NNNC"
 			(at 135.89 80.01 0)
 			(effects
 				(font

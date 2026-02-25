@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-23")
+		(date "2026-02-25")
 		(rev "2.0")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
@@ -5579,229 +5579,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Transistor_BJT:BC807"
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "Q"
-				(at 5.08 1.905 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "BC807"
-				(at 5.08 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-				(at 5.08 -1.905 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-						(italic yes)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC808-D.pdf"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-					(hide yes)
-				)
-			)
-			(property "Description" "0.8A Ic, 45V Vce, PNP Transistor, SOT-23"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Device" "PNP"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Sim.Pins" "1=B 2=E 3=C"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "PNP Transistor"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "SOT?23*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "BC807_0_1"
-				(polyline
-					(pts
-						(xy -2.54 0) (xy 0.635 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 1.905) (xy 0.635 -1.905)
-					)
-					(stroke
-						(width 0.508)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 0.635) (xy 2.54 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 -0.635) (xy 2.54 -2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 1.27 0)
-					(radius 2.8194)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.286 -1.778) (xy 1.778 -2.286) (xy 1.27 -1.27) (xy 2.286 -1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-			)
-			(symbol "BC807_1_1"
-				(pin input line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "B"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 5.08 270)
-					(length 2.54)
-					(name "C"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 -5.08 90)
-					(length 2.54)
-					(name "E"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Transistor_BJT:BC817"
 			(pin_names
 				(offset 0)
@@ -7757,6 +7534,28 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "In-Home-Bus Data"
+		(exclude_from_sim no)
+		(at 168.656 175.006 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "0642eaac-5801-43fc-a6a1-6f49729a546b")
+	)
+	(text "In-Home-Bus Carrier"
+		(exclude_from_sim no)
+		(at 170.688 89.916 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "06b3802e-a495-414c-957d-dc298ced0188")
+	)
 	(text "USB-C"
 		(exclude_from_sim no)
 		(at 144.272 26.67 0)
@@ -7767,6 +7566,17 @@
 			(justify right bottom)
 		)
 		(uuid "15f5ecc2-aef8-470d-842e-60abce96026c")
+	)
+	(text "TC:BUS & In-Home-Bus Carrier"
+		(exclude_from_sim no)
+		(at 114.808 175.006 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "1999d336-9d3c-44f3-95c3-852ba213e9b6")
 	)
 	(text "No external ps"
 		(exclude_from_sim no)
@@ -7790,6 +7600,17 @@
 		)
 		(uuid "45994ac6-4dc9-4c79-9120-3868719f8d9d")
 	)
+	(text "In-Home-Bus Data"
+		(exclude_from_sim no)
+		(at 172.212 129.794 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "47ccbf0a-269b-4d83-b28f-de6db0f77d5c")
+	)
 	(text "CONNECTORS"
 		(exclude_from_sim no)
 		(at 218.44 58.674 0)
@@ -7811,6 +7632,17 @@
 			(justify right bottom)
 		)
 		(uuid "69585e6e-9199-493d-8757-f1edbc9bc54d")
+	)
+	(text "TC:BUS"
+		(exclude_from_sim no)
+		(at 125.222 93.726 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "6c32693d-965a-4a4c-8e2d-c0e34de6e0c5")
 	)
 	(text "STATUS LEDS"
 		(exclude_from_sim no)
@@ -7878,9 +7710,9 @@
 		)
 		(uuid "ae573206-2aff-4eeb-acbe-5cdbca6f1de7")
 	)
-	(text "SIEDLE IN-HOME:BUS COMMUNICATION"
+	(text "BUS RX"
 		(exclude_from_sim no)
-		(at 109.728 146.304 0)
+		(at 110.236 169.926 0)
 		(effects
 			(font
 				(size 3 3)
@@ -7911,17 +7743,6 @@
 		)
 		(uuid "cf3883f3-4527-4d22-8278-b95ba656f835")
 	)
-	(text "Transmitting Data"
-		(exclude_from_sim no)
-		(at 121.92 96.266 0)
-		(effects
-			(font
-				(size 1.15 1.15)
-			)
-			(justify left bottom)
-		)
-		(uuid "d52a6870-b2df-4d61-8b28-dbd195f1b4d7")
-	)
 	(text "POWER FLAGS"
 		(exclude_from_sim no)
 		(at 18.796 217.17 0)
@@ -7933,9 +7754,9 @@
 		)
 		(uuid "e25c82ed-ee13-4d7a-aba2-a9c786cd3728")
 	)
-	(text "Receiving Data (inverted signal)"
+	(text "Inverted"
 		(exclude_from_sim no)
-		(at 174.752 80.772 0)
+		(at 140.208 203.708 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7944,7 +7765,18 @@
 		)
 		(uuid "ef6f9f87-38cb-4588-b33a-28a52f38432e")
 	)
-	(text "TC:BUS COMMUNICATION"
+	(text "Inverted"
+		(exclude_from_sim no)
+		(at 186.436 203.2 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "f3905d28-98a0-46da-9a2e-c53ec90a3dfb")
+	)
+	(text "BUS TX"
 		(exclude_from_sim no)
 		(at 109.728 77.724 0)
 		(effects
@@ -7974,37 +7806,31 @@
 		(uuid "227dab47-a3d0-4767-9b41-c09c4c02f793")
 	)
 	(junction
-		(at 179.07 104.14)
+		(at 120.65 198.12)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "428c1046-4f1d-4fca-80e9-af42faf21929")
 	)
 	(junction
-		(at 144.78 212.09)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "42e27d54-c340-4481-9ba7-7fa19fc8d75e")
-	)
-	(junction
-		(at 144.78 113.03)
+		(at 147.32 116.84)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4775dc9d-e180-4a56-a656-655580b584b6")
 	)
 	(junction
-		(at 134.62 104.14)
+		(at 137.16 107.95)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4d5d175d-48aa-4c6b-ab38-3970014ade78")
 	)
 	(junction
-		(at 190.5 212.09)
+		(at 184.15 205.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5511bfbb-d3d6-4fae-96b0-57c7c19bd964")
 	)
 	(junction
-		(at 144.78 125.73)
+		(at 147.32 129.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "57d49a3f-4a3d-4dfc-8c9d-a10fac9574ca")
@@ -8016,7 +7842,7 @@
 		(uuid "5f42dfdf-6702-43dd-8e3f-e39fd51c742d")
 	)
 	(junction
-		(at 176.53 204.47)
+		(at 168.91 198.12)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "604bcf34-068a-4da4-8082-c4104ed4f727")
@@ -8034,22 +7860,22 @@
 		(uuid "6f807447-95ce-4757-8c71-4b6ce2159fd9")
 	)
 	(junction
-		(at 194.31 111.76)
+		(at 135.89 205.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "71fddaad-1da7-434c-a6b8-9a989a901161")
-	)
-	(junction
-		(at 130.81 204.47)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "739327d2-881e-4be8-971a-586eabb0b05b")
 	)
 	(junction
 		(at 182.88 46.99)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7f5dd577-9a5d-498b-b58e-86d769f112c8")
+	)
+	(junction
+		(at 151.13 49.53)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a2b1ab30-8f87-4c72-b1a5-934e46e2fd15")
 	)
 	(junction
 		(at 193.04 46.99)
@@ -8064,7 +7890,7 @@
 		(uuid "c5a8d661-0c66-4fbc-a9fb-4b90b7f86ad1")
 	)
 	(junction
-		(at 147.32 113.03)
+		(at 149.86 116.84)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d6d28c5b-59c7-4e52-81d0-4ebef750c4d8")
@@ -8082,7 +7908,7 @@
 		(uuid "e52236ce-7096-420c-a7a8-ada36c22be61")
 	)
 	(junction
-		(at 147.32 125.73)
+		(at 149.86 129.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e8250231-7002-43ab-a2f8-09d49bbf77c3")
@@ -8126,6 +7952,10 @@
 		(uuid "1eb1a15f-1fcb-4682-9097-b8d55ceb0033")
 	)
 	(no_connect
+		(at 52.07 96.52)
+		(uuid "26bc50f9-890a-4fcd-acce-988ffb05adf7")
+	)
+	(no_connect
 		(at 95.25 196.85)
 		(uuid "30938bab-9c02-414e-a663-170bfb77adba")
 	)
@@ -8142,8 +7972,16 @@
 		(uuid "53124bf5-e36b-40ed-a443-42ce6f512148")
 	)
 	(no_connect
+		(at 201.93 181.61)
+		(uuid "565f9293-bf5e-4c97-a519-f36c0f1b8daa")
+	)
+	(no_connect
 		(at 82.55 93.98)
 		(uuid "66164f2e-3e3e-4b58-9b92-92375d7385ac")
+	)
+	(no_connect
+		(at 194.31 186.69)
+		(uuid "730ef7c8-e3b2-47da-961f-1cdda650e15c")
 	)
 	(no_connect
 		(at 82.55 109.22)
@@ -8152,6 +7990,10 @@
 	(no_connect
 		(at 82.55 76.2)
 		(uuid "9218e786-779f-486c-a37e-008e2705819f")
+	)
+	(no_connect
+		(at 201.93 191.77)
+		(uuid "a0e4bf2d-2e87-4e09-b637-6fb0d67b01ca")
 	)
 	(no_connect
 		(at 82.55 96.52)
@@ -8195,7 +8037,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 104.14) (xy 124.46 104.14)
+			(xy 125.73 107.95) (xy 127 107.95)
 		)
 		(stroke
 			(width 0)
@@ -8205,7 +8047,7 @@
 	)
 	(polyline
 		(pts
-			(xy 213.36 137.16) (xy 107.95 137.16)
+			(xy 213.36 160.02) (xy 107.95 160.02)
 		)
 		(stroke
 			(width 0)
@@ -8225,17 +8067,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 204.47) (xy 137.16 204.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "094c127f-6a22-4c24-a6a6-23e3d2aa8ef2")
-	)
-	(wire
-		(pts
-			(xy 147.32 97.79) (xy 147.32 99.06)
+			(xy 149.86 101.6) (xy 149.86 102.87)
 		)
 		(stroke
 			(width 0)
@@ -8275,7 +8107,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 113.03) (xy 147.32 115.57)
+			(xy 149.86 116.84) (xy 149.86 119.38)
 		)
 		(stroke
 			(width 0)
@@ -8292,6 +8124,16 @@
 			(type dash)
 		)
 		(uuid "108e7e76-0719-476a-bbb2-6362d27b6736")
+	)
+	(wire
+		(pts
+			(xy 151.13 53.34) (xy 151.13 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "13ad914f-c209-426c-883c-259cd3577a28")
 	)
 	(wire
 		(pts
@@ -8315,7 +8157,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 154.94) (xy 190.5 156.21)
+			(xy 198.12 124.46) (xy 198.12 125.73)
 		)
 		(stroke
 			(width 0)
@@ -8385,7 +8227,7 @@
 	)
 	(polyline
 		(pts
-			(xy 213.36 139.7) (xy 213.36 234.95)
+			(xy 213.36 162.56) (xy 213.36 234.95)
 		)
 		(stroke
 			(width 0)
@@ -8395,7 +8237,7 @@
 	)
 	(polyline
 		(pts
-			(xy 107.95 139.7) (xy 107.95 234.95)
+			(xy 107.95 162.56) (xy 107.95 234.95)
 		)
 		(stroke
 			(width 0)
@@ -8415,16 +8257,6 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 193.04) (xy 130.81 194.31)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "250cb4a1-e67f-4f83-98d1-bd916686e1e9")
-	)
-	(wire
-		(pts
 			(xy 38.1 68.58) (xy 52.07 68.58)
 		)
 		(stroke
@@ -8432,6 +8264,16 @@
 			(type default)
 		)
 		(uuid "260d70ae-09fe-44d4-8bd0-de308d02889a")
+	)
+	(wire
+		(pts
+			(xy 151.13 49.53) (xy 153.67 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26cbeda8-ec33-4b8c-a548-3ee6f38167a9")
 	)
 	(polyline
 		(pts
@@ -8455,7 +8297,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 204.47) (xy 176.53 214.63)
+			(xy 168.91 198.12) (xy 168.91 208.28)
 		)
 		(stroke
 			(width 0)
@@ -8475,17 +8317,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 223.52) (xy 130.81 222.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "34210505-4f3a-4984-b6ca-33e533455de4")
-	)
-	(wire
-		(pts
-			(xy 135.89 170.18) (xy 137.16 170.18)
+			(xy 189.23 99.06) (xy 190.5 99.06)
 		)
 		(stroke
 			(width 0)
@@ -8555,7 +8387,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 88.9) (xy 147.32 90.17)
+			(xy 149.86 92.71) (xy 149.86 93.98)
 		)
 		(stroke
 			(width 0)
@@ -8595,7 +8427,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 163.83) (xy 190.5 165.1)
+			(xy 198.12 133.35) (xy 198.12 134.62)
 		)
 		(stroke
 			(width 0)
@@ -8605,23 +8437,13 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 113.03) (xy 144.78 113.03)
+			(xy 149.86 116.84) (xy 147.32 116.84)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "43b02ef0-6f6d-42f1-a4e8-abd0293f1efd")
-	)
-	(wire
-		(pts
-			(xy 144.78 193.04) (xy 144.78 199.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "44c83f62-b3ec-46bc-89f1-5960baf2165a")
 	)
 	(wire
 		(pts
@@ -8635,7 +8457,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 121.92) (xy 179.07 127)
+			(xy 120.65 215.9) (xy 120.65 217.17)
 		)
 		(stroke
 			(width 0)
@@ -8725,7 +8547,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 104.14) (xy 134.62 104.14)
+			(xy 134.62 107.95) (xy 137.16 107.95)
 		)
 		(stroke
 			(width 0)
@@ -8735,7 +8557,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 163.83) (xy 144.78 165.1)
+			(xy 198.12 92.71) (xy 198.12 93.98)
 		)
 		(stroke
 			(width 0)
@@ -8745,7 +8567,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 111.76) (xy 194.31 111.76)
+			(xy 132.08 205.74) (xy 135.89 205.74)
 		)
 		(stroke
 			(width 0)
@@ -8795,7 +8617,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 223.52) (xy 176.53 222.25)
+			(xy 168.91 217.17) (xy 168.91 215.9)
 		)
 		(stroke
 			(width 0)
@@ -8825,7 +8647,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 111.76) (xy 196.85 111.76)
+			(xy 135.89 205.74) (xy 138.43 205.74)
 		)
 		(stroke
 			(width 0)
@@ -8845,7 +8667,7 @@
 	)
 	(polyline
 		(pts
-			(xy 107.95 71.12) (xy 107.95 137.16)
+			(xy 107.95 71.12) (xy 107.95 160.02)
 		)
 		(stroke
 			(width 0)
@@ -8863,19 +8685,9 @@
 		)
 		(uuid "603838f8-afa8-40a3-84cf-29dcc771e568")
 	)
-	(wire
-		(pts
-			(xy 130.81 201.93) (xy 130.81 204.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "619ee3b3-4b2e-419b-9c84-3811dfd9c1ba")
-	)
 	(polyline
 		(pts
-			(xy 213.36 71.12) (xy 213.36 137.16)
+			(xy 213.36 71.12) (xy 213.36 160.02)
 		)
 		(stroke
 			(width 0)
@@ -8915,7 +8727,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 193.04) (xy 176.53 194.31)
+			(xy 168.91 182.88) (xy 168.91 184.15)
 		)
 		(stroke
 			(width 0)
@@ -8935,7 +8747,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 88.9) (xy 179.07 90.17)
+			(xy 120.65 182.88) (xy 120.65 184.15)
 		)
 		(stroke
 			(width 0)
@@ -8955,7 +8767,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 123.19) (xy 144.78 125.73)
+			(xy 147.32 127) (xy 147.32 129.54)
 		)
 		(stroke
 			(width 0)
@@ -8965,7 +8777,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 176.53) (xy 190.5 175.26)
+			(xy 198.12 146.05) (xy 198.12 144.78)
 		)
 		(stroke
 			(width 0)
@@ -9005,7 +8817,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 109.22) (xy 194.31 111.76)
+			(xy 135.89 203.2) (xy 135.89 205.74)
 		)
 		(stroke
 			(width 0)
@@ -9025,7 +8837,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 127) (xy 147.32 125.73)
+			(xy 149.86 130.81) (xy 149.86 129.54)
 		)
 		(stroke
 			(width 0)
@@ -9055,7 +8867,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 125.73) (xy 134.62 118.11)
+			(xy 137.16 129.54) (xy 137.16 121.92)
 		)
 		(stroke
 			(width 0)
@@ -9105,7 +8917,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 127) (xy 194.31 121.92)
+			(xy 135.89 217.17) (xy 135.89 215.9)
 		)
 		(stroke
 			(width 0)
@@ -9115,7 +8927,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 125.73) (xy 134.62 125.73)
+			(xy 147.32 129.54) (xy 137.16 129.54)
 		)
 		(stroke
 			(width 0)
@@ -9155,7 +8967,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 109.22) (xy 147.32 113.03)
+			(xy 149.86 113.03) (xy 149.86 116.84)
 		)
 		(stroke
 			(width 0)
@@ -9182,16 +8994,6 @@
 			(type default)
 		)
 		(uuid "836cafe8-b4f8-4dfc-a326-1e325db69325")
-	)
-	(wire
-		(pts
-			(xy 144.78 212.09) (xy 144.78 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "85c73dfc-c6a0-4101-bfb7-c82b95a014a6")
 	)
 	(polyline
 		(pts
@@ -9225,7 +9027,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 223.52) (xy 190.5 222.25)
+			(xy 184.15 217.17) (xy 184.15 215.9)
 		)
 		(stroke
 			(width 0)
@@ -9295,7 +9097,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 97.79) (xy 179.07 104.14)
+			(xy 120.65 191.77) (xy 120.65 198.12)
 		)
 		(stroke
 			(width 0)
@@ -9315,7 +9117,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 88.9) (xy 194.31 99.06)
+			(xy 135.89 182.88) (xy 135.89 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9335,23 +9137,13 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 113.03) (xy 142.24 113.03)
+			(xy 147.32 116.84) (xy 144.78 116.84)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "a2e6e8d1-9720-4d6b-a60c-e35cdd456ce6")
-	)
-	(wire
-		(pts
-			(xy 144.78 209.55) (xy 144.78 212.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a585568b-73af-428e-8275-676fd8a00024")
 	)
 	(wire
 		(pts
@@ -9365,7 +9157,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 154.94) (xy 144.78 156.21)
+			(xy 198.12 83.82) (xy 198.12 85.09)
 		)
 		(stroke
 			(width 0)
@@ -9375,7 +9167,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 176.53) (xy 144.78 175.26)
+			(xy 198.12 105.41) (xy 198.12 104.14)
 		)
 		(stroke
 			(width 0)
@@ -9385,7 +9177,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 125.73) (xy 144.78 125.73)
+			(xy 149.86 129.54) (xy 147.32 129.54)
 		)
 		(stroke
 			(width 0)
@@ -9405,7 +9197,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 104.14) (xy 134.62 104.14)
+			(xy 142.24 107.95) (xy 137.16 107.95)
 		)
 		(stroke
 			(width 0)
@@ -9435,7 +9227,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 104.14) (xy 179.07 114.3)
+			(xy 120.65 198.12) (xy 120.65 208.28)
 		)
 		(stroke
 			(width 0)
@@ -9475,7 +9267,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 204.47) (xy 182.88 204.47)
+			(xy 168.91 198.12) (xy 176.53 198.12)
 		)
 		(stroke
 			(width 0)
@@ -9505,7 +9297,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 104.14) (xy 179.07 104.14)
+			(xy 128.27 198.12) (xy 120.65 198.12)
 		)
 		(stroke
 			(width 0)
@@ -9525,7 +9317,7 @@
 	)
 	(polyline
 		(pts
-			(xy 107.95 139.7) (xy 213.36 139.7)
+			(xy 107.95 162.56) (xy 213.36 162.56)
 		)
 		(stroke
 			(width 0)
@@ -9555,17 +9347,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 204.47) (xy 130.81 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bba5ae7a-1806-41d3-ac26-177c332fcfc0")
-	)
-	(wire
-		(pts
-			(xy 191.77 212.09) (xy 190.5 212.09)
+			(xy 185.42 205.74) (xy 184.15 205.74)
 		)
 		(stroke
 			(width 0)
@@ -9585,17 +9367,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 212.09) (xy 144.78 212.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bde5417f-24ab-42fd-befc-8480aed951a3")
-	)
-	(wire
-		(pts
-			(xy 147.32 123.19) (xy 147.32 125.73)
+			(xy 149.86 127) (xy 149.86 129.54)
 		)
 		(stroke
 			(width 0)
@@ -9605,7 +9377,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 170.18) (xy 182.88 170.18)
+			(xy 189.23 139.7) (xy 190.5 139.7)
 		)
 		(stroke
 			(width 0)
@@ -9632,16 +9404,6 @@
 			(type default)
 		)
 		(uuid "c2901212-cd24-4588-849e-dfc3a14c9e81")
-	)
-	(wire
-		(pts
-			(xy 144.78 223.52) (xy 144.78 222.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c2b694b7-eddd-4a95-98be-23f726442864")
 	)
 	(polyline
 		(pts
@@ -9715,7 +9477,7 @@
 	)
 	(wire
 		(pts
-			(xy 144.78 113.03) (xy 144.78 115.57)
+			(xy 147.32 116.84) (xy 147.32 119.38)
 		)
 		(stroke
 			(width 0)
@@ -9735,7 +9497,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 49.53) (xy 153.67 49.53)
+			(xy 142.24 49.53) (xy 151.13 49.53)
 		)
 		(stroke
 			(width 0)
@@ -9765,7 +9527,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 193.04) (xy 190.5 199.39)
+			(xy 184.15 182.88) (xy 184.15 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9775,7 +9537,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 104.14) (xy 134.62 107.95)
+			(xy 137.16 107.95) (xy 137.16 111.76)
 		)
 		(stroke
 			(width 0)
@@ -9785,7 +9547,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 201.93) (xy 176.53 204.47)
+			(xy 168.91 191.77) (xy 168.91 198.12)
 		)
 		(stroke
 			(width 0)
@@ -9795,7 +9557,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 209.55) (xy 190.5 212.09)
+			(xy 184.15 203.2) (xy 184.15 205.74)
 		)
 		(stroke
 			(width 0)
@@ -9855,6 +9617,16 @@
 	)
 	(wire
 		(pts
+			(xy 158.75 208.28) (xy 158.75 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e92130af-315a-47ca-a3e8-8845e193d5c2")
+	)
+	(wire
+		(pts
 			(xy 175.26 46.99) (xy 182.88 46.99)
 		)
 		(stroke
@@ -9883,6 +9655,16 @@
 		)
 		(uuid "ec9a9261-e560-4703-a6ac-51e351bffef8")
 	)
+	(wire
+		(pts
+			(xy 158.75 198.12) (xy 168.91 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eca33087-5ce6-4bdd-a621-895d0121aa36")
+	)
 	(polyline
 		(pts
 			(xy 107.95 68.58) (xy 213.36 68.58)
@@ -9905,7 +9687,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 212.09) (xy 190.5 214.63)
+			(xy 184.15 205.74) (xy 184.15 208.28)
 		)
 		(stroke
 			(width 0)
@@ -9945,6 +9727,16 @@
 	)
 	(wire
 		(pts
+			(xy 158.75 217.17) (xy 158.75 215.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5ca7d39-c635-4fa5-9648-3c3ce56cb344")
+	)
+	(wire
+		(pts
 			(xy 153.67 46.99) (xy 154.94 46.99)
 		)
 		(stroke
@@ -9975,7 +9767,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 111.76) (xy 194.31 114.3)
+			(xy 135.89 205.74) (xy 135.89 208.28)
 		)
 		(stroke
 			(width 0)
@@ -9995,7 +9787,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 212.09) (xy 190.5 212.09)
+			(xy 181.61 205.74) (xy 184.15 205.74)
 		)
 		(stroke
 			(width 0)
@@ -10225,28 +10017,6 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_RX_CAR"
-		(shape input)
-		(at 146.05 212.09 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "26625a1d-9e5a-4e39-9811-2ea91eca2e14")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 163.4889 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "IO17"
 		(shape bidirectional)
 		(at 52.07 111.76 180)
@@ -10271,7 +10041,7 @@
 	)
 	(global_label "BUS_RX"
 		(shape input)
-		(at 196.85 111.76 0)
+		(at 138.43 205.74 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10281,7 +10051,7 @@
 		)
 		(uuid "2ffaa3e3-1e33-4c0f-8922-df59c1739342")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 207.0923 111.76 0)
+			(at 148.6723 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10467,9 +10237,9 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_TX_DAT"
+	(global_label "BUS_TX_IHB"
 		(shape output)
-		(at 173.99 170.18 180)
+		(at 181.61 139.7 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10479,7 +10249,7 @@
 		)
 		(uuid "46335c0f-07fc-4cb1-b538-b6000ed75c8b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 157.1559 170.18 0)
+			(at 167.4972 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10577,7 +10347,29 @@
 			)
 		)
 	)
-	(global_label "BUS_TX"
+	(global_label "BUS_TX_IHB_CAR"
+		(shape output)
+		(at 52.07 81.28 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "63ccc93c-581c-4f23-8c77-eda9ab2c6981")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 33.361 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BUS_TX_TC"
 		(shape output)
 		(at 52.07 88.9 180)
 		(fields_autoplaced yes)
@@ -10589,7 +10381,7 @@
 		)
 		(uuid "75793846-fe0c-4157-9519-dc5b4b7ab5c4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 42.1301 88.9 0)
+			(at 38.9249 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10709,9 +10501,9 @@
 			)
 		)
 	)
-	(global_label "BUS_TX"
+	(global_label "BUS_TX_TC"
 		(shape output)
-		(at 123.19 104.14 180)
+		(at 125.73 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10721,7 +10513,7 @@
 		)
 		(uuid "9208e4da-e49a-4d09-b29e-fe0d352e9aa4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 113.2501 104.14 0)
+			(at 112.5849 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10731,7 +10523,7 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_TX_DAT"
+	(global_label "BUS_TX_IHB"
 		(shape output)
 		(at 52.07 83.82 180)
 		(fields_autoplaced yes)
@@ -10743,7 +10535,7 @@
 		)
 		(uuid "93d7879d-3231-4890-a18c-b83e0d1a3719")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.8277 83.82 0)
+			(at 37.9572 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10766,50 +10558,6 @@
 		(uuid "96ade989-6491-4c94-bd4f-d1a9771f60a9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 40.8601 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SIEDLE_RX_DAT"
-		(shape input)
-		(at 52.07 96.52 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9b4d1e45-aa02-4356-88d1-e9249a8d7a27")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 34.9335 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "SIEDLE_RX_CAR"
-		(shape input)
-		(at 52.07 93.98 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9f66d332-109e-4690-93d2-29176ff43929")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 33.7844 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10929,9 +10677,9 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_TX_CAR"
+	(global_label "BUS_TX_IHB_CAR"
 		(shape output)
-		(at 128.27 170.18 180)
+		(at 181.61 99.06 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10941,7 +10689,7 @@
 		)
 		(uuid "cad5d19f-53ab-4194-998c-220cb32a0120")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 118.0277 170.18 0)
+			(at 162.901 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11039,9 +10787,9 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_TX_CAR"
-		(shape output)
-		(at 52.07 81.28 180)
+	(global_label "BUS_RX_IHB"
+		(shape input)
+		(at 52.07 93.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11049,9 +10797,9 @@
 			)
 			(justify right)
 		)
-		(uuid "e194b583-790a-4739-afc3-5b554d33d912")
+		(uuid "dfaad453-4e83-4288-8433-f35f175e71ae")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.8277 81.28 0)
+			(at 37.6548 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11061,9 +10809,9 @@
 			)
 		)
 	)
-	(global_label "SIEDLE_RX_DAT"
+	(global_label "BUS_RX_IHB"
 		(shape input)
-		(at 191.77 212.09 0)
+		(at 185.42 205.74 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11073,7 +10821,7 @@
 		)
 		(uuid "e3f72c22-234f-483d-a806-52961eef94c8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 208.9065 212.09 0)
+			(at 199.8352 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11239,7 +10987,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 132.08 170.18 90)
+		(at 185.42 99.06 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11248,7 +10996,7 @@
 		(dnp no)
 		(uuid "00ae221d-a234-43ed-aea4-f346731231b6")
 		(property "Reference" "R4"
-			(at 133.35 172.212 90)
+			(at 186.69 101.092 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11257,7 +11005,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 132.08 170.18 90)
+			(at 185.42 99.06 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11265,7 +11013,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 132.08 168.402 90)
+			(at 185.42 97.282 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11274,7 +11022,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2206010216_UNI-ROYAL-Uniroyal-Elec-0402WGF1001TCE_C11702.pdf"
-			(at 132.08 170.18 0)
+			(at 185.42 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11283,7 +11031,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 132.08 170.18 0)
+			(at 185.42 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11292,7 +11040,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 132.08 170.18 0)
+			(at 185.42 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11301,7 +11049,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 132.08 170.18 0)
+			(at 185.42 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11310,79 +11058,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 132.08 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 132.08 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 132.08 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 132.08 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 132.08 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 132.08 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 132.08 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 132.08 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 132.08 170.18 90)
+			(at 185.42 99.06 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11810,7 +11486,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 190.5 111.76 90)
+		(at 132.08 205.74 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -11818,7 +11494,7 @@
 		(dnp yes)
 		(uuid "07e1541a-bf8d-4a97-bdf0-b6d5baf7dd42")
 		(property "Reference" "J7"
-			(at 187.96 115.062 0)
+			(at 129.54 209.042 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11826,7 +11502,7 @@
 			)
 		)
 		(property "Value" "BUS RX Test Pad"
-			(at 186.436 119.38 0)
+			(at 128.016 213.36 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11834,7 +11510,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 190.5 106.68 0)
+			(at 132.08 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11843,7 +11519,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 190.5 106.68 0)
+			(at 132.08 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11852,7 +11528,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11861,7 +11537,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11870,7 +11546,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11879,7 +11555,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11888,7 +11564,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11897,7 +11573,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11906,7 +11582,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11915,7 +11591,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11924,7 +11600,16 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 190.5 111.76 0)
+			(at 132.08 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" ""
+			(at 132.08 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11946,7 +11631,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
-		(at 191.77 104.14 0)
+		(at 133.35 198.12 0)
 		(mirror x)
 		(unit 2)
 		(exclude_from_sim no)
@@ -11955,7 +11640,7 @@
 		(dnp no)
 		(uuid "093bee44-f99a-40ed-9408-752c8ccbf174")
 		(property "Reference" "Q1"
-			(at 196.342 103.3779 0)
+			(at 137.922 197.3579 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11964,7 +11649,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 196.342 104.902 0)
+			(at 137.922 198.882 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11973,7 +11658,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 196.85 106.68 0)
+			(at 138.43 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11982,7 +11667,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
-			(at 191.77 104.14 0)
+			(at 133.35 198.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11991,7 +11676,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
-			(at 191.77 104.14 0)
+			(at 133.35 198.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12000,7 +11685,7 @@
 			)
 		)
 		(property "MPN" "BC847BPN,115 "
-			(at 191.77 104.14 0)
+			(at 133.35 198.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12009,7 +11694,7 @@
 			)
 		)
 		(property "LCSC" "C8655"
-			(at 191.77 104.14 0)
+			(at 133.35 198.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12018,43 +11703,7 @@
 			)
 		)
 		(property "Package" "SOT-363"
-			(at 191.77 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 191.77 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 191.77 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 191.77 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 191.77 104.14 0)
+			(at 133.35 198.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12168,51 +11817,6 @@
 				(hide yes)
 			)
 		)
-		(property "Price" ""
-			(at 165.1 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 165.1 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 165.1 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 165.1 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 165.1 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "b6a8aeef-8d69-4bb6-a6da-6150f8cb1666")
 		)
@@ -12309,7 +11913,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC817")
-		(at 144.78 104.14 0)
+		(at 147.32 107.95 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12317,7 +11921,7 @@
 		(dnp no)
 		(uuid "0e06fc20-93cc-4a47-b904-7d4c45bbe639")
 		(property "Reference" "Q2"
-			(at 150.876 103.886 0)
+			(at 153.416 107.696 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12325,7 +11929,7 @@
 			)
 		)
 		(property "Value" "BC817-40"
-			(at 153.162 105.41 0)
+			(at 155.702 109.22 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -12333,7 +11937,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 149.86 106.045 0)
+			(at 152.4 109.855 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12344,7 +11948,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC818-D.pdf"
-			(at 144.78 104.14 0)
+			(at 147.32 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12354,7 +11958,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN 100MHz 100nA 250 345mW 45V 500mA 5V 700mV NPN SOT-23 Bipolar (BJT) ROHS"
-			(at 144.78 104.14 0)
+			(at 147.32 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12363,7 +11967,7 @@
 			)
 		)
 		(property "Package" "SOT-23"
-			(at 144.78 104.14 0)
+			(at 147.32 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12372,7 +11976,7 @@
 			)
 		)
 		(property "MPN" "BC817-40,215"
-			(at 144.78 104.14 0)
+			(at 147.32 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12381,79 +11985,7 @@
 			)
 		)
 		(property "LCSC" "C52801"
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 144.78 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 144.78 104.14 0)
+			(at 147.32 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12482,7 +12014,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 147.32 127 0)
+		(at 149.86 130.81 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12491,7 +12023,7 @@
 		(dnp no)
 		(uuid "124f8607-77bc-46bf-babb-1193bcc6ba6d")
 		(property "Reference" "#PWR039"
-			(at 147.32 133.35 0)
+			(at 149.86 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12500,7 +12032,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 147.32 131.064 0)
+			(at 149.86 134.874 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12508,7 +12040,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 147.32 127 0)
+			(at 149.86 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12517,7 +12049,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 147.32 127 0)
+			(at 149.86 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12526,7 +12058,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 147.32 127 0)
+			(at 149.86 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12618,7 +12150,7 @@
 		(at 114.3 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
 		(dnp yes)
 		(uuid "147066cf-4872-4fd3-b6bf-a3100092267b")
@@ -12685,52 +12217,7 @@
 				(hide yes)
 			)
 		)
-		(property "Package" ""
-			(at 114.3 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 114.3 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 114.3 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 114.3 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 114.3 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
+		(property "Package" "1206"
 			(at 114.3 53.34 0)
 			(effects
 				(font
@@ -12756,7 +12243,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 187.96 212.09 90)
+		(at 181.61 205.74 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -12764,7 +12251,7 @@
 		(dnp yes)
 		(uuid "1b0271a3-5aa7-41cc-b7d5-134a47007f5a")
 		(property "Reference" "J5"
-			(at 185.42 215.392 0)
+			(at 179.07 209.042 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12772,7 +12259,7 @@
 			)
 		)
 		(property "Value" "Siedle BUS RX Test Pad"
-			(at 183.896 219.71 0)
+			(at 177.546 213.36 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -12780,7 +12267,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 187.96 207.01 0)
+			(at 181.61 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12789,7 +12276,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 187.96 207.01 0)
+			(at 181.61 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12798,7 +12285,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12807,7 +12294,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12816,7 +12303,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12825,7 +12312,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12834,7 +12321,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12843,7 +12330,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12852,7 +12339,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12861,7 +12348,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12870,7 +12357,16 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 187.96 212.09 0)
+			(at 181.61 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" ""
+			(at 181.61 205.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12958,7 +12454,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 194.31 118.11 0)
+		(at 135.89 212.09 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12967,7 +12463,7 @@
 		(dnp no)
 		(uuid "202bac98-08a4-486c-b757-faa9b0444cd1")
 		(property "Reference" "R12"
-			(at 198.628 118.364 0)
+			(at 140.208 212.344 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12976,7 +12472,7 @@
 			)
 		)
 		(property "Value" "47K5"
-			(at 194.31 118.11 90)
+			(at 135.89 212.09 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12984,7 +12480,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 196.088 118.11 90)
+			(at 137.668 212.09 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12993,7 +12489,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 194.31 118.11 0)
+			(at 135.89 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13002,7 +12498,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 47.5Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 194.31 118.11 0)
+			(at 135.89 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13011,7 +12507,7 @@
 			)
 		)
 		(property "LCSC" "C22375093"
-			(at 194.31 118.11 0)
+			(at 135.89 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13020,7 +12516,7 @@
 			)
 		)
 		(property "MPN" "FRC0603F47R5TS"
-			(at 194.31 118.11 0)
+			(at 135.89 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13029,79 +12525,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 194.31 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 194.31 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 194.31 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 194.31 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 194.31 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 194.31 118.11 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 194.31 118.11 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 194.31 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 194.31 118.11 0)
+			(at 135.89 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13194,7 +12618,7 @@
 	(symbol
 		(lib_name "+3.3V_3")
 		(lib_id "power:+3.3V")
-		(at 190.5 193.04 0)
+		(at 184.15 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13202,7 +12626,7 @@
 		(dnp no)
 		(uuid "21998875-0489-4b17-8d25-d31711fca5e4")
 		(property "Reference" "#PWR047"
-			(at 190.5 196.85 0)
+			(at 184.15 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13211,7 +12635,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 190.5 188.976 0)
+			(at 184.15 178.816 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13219,7 +12643,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 193.04 0)
+			(at 184.15 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13228,7 +12652,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 193.04 0)
+			(at 184.15 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13237,7 +12661,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 190.5 193.04 0)
+			(at 184.15 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13259,7 +12683,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 144.78 160.02 0)
+		(at 198.12 88.9 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13268,7 +12692,7 @@
 		(dnp no)
 		(uuid "2417a039-bfc3-4149-845e-faba38a96916")
 		(property "Reference" "R13"
-			(at 149.352 160.02 0)
+			(at 202.692 88.9 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13277,15 +12701,15 @@
 			)
 		)
 		(property "Value" "200R"
-			(at 144.78 160.02 90)
+			(at 198.12 88.9 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 146.558 160.02 90)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
+			(at 199.898 88.9 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13294,7 +12718,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 144.78 160.02 0)
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13302,8 +12726,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 125mW 150V 200Ω Thick Film Resistor ±1% ±100ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
-			(at 144.78 160.02 0)
+		(property "Description" "-55℃~+155℃ 200V 200Ω 250mW Thick Film Resistor ±100ppm/℃ ±5% 1206 Chip Resistor - Surface Mount ROHS"
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13311,8 +12735,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C17540"
-			(at 144.78 160.02 0)
+		(property "LCSC" "C25361"
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13320,8 +12744,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0805W8F2000T5E"
-			(at 144.78 160.02 0)
+		(property "MPN" "1206W4J0201T5E"
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13329,80 +12753,8 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0805"
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 144.78 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 144.78 160.02 0)
+		(property "Package" "1206"
+			(at 198.12 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13427,16 +12779,15 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 179.07 88.9 0)
+		(at 120.65 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "281795cb-d882-4be1-8b1d-ad3abd49f952")
 		(property "Reference" "#PWR038"
-			(at 179.07 92.71 0)
+			(at 120.65 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13445,7 +12796,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 179.07 83.82 0)
+			(at 120.65 178.816 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13453,7 +12804,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 179.07 88.9 0)
+			(at 120.65 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13462,7 +12813,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 88.9 0)
+			(at 120.65 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13471,7 +12822,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 179.07 88.9 0)
+			(at 120.65 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13493,7 +12844,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 190.5 218.44 0)
+		(at 184.15 212.09 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13502,7 +12853,7 @@
 		(dnp no)
 		(uuid "28441949-841e-4655-ab58-a9dd1b44ede9")
 		(property "Reference" "R18"
-			(at 195.072 218.44 0)
+			(at 188.722 212.09 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13511,7 +12862,7 @@
 			)
 		)
 		(property "Value" "1K"
-			(at 190.5 218.44 90)
+			(at 184.15 212.09 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13519,7 +12870,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 192.278 218.44 90)
+			(at 185.928 212.09 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13528,7 +12879,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 218.44 0)
+			(at 184.15 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13536,8 +12887,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 190.5 218.44 0)
+		(property "Description" "-55℃~+155℃ 1kΩ 200V 250mW Thick Film Resistor ±1% ±100ppm/℃ 1206 Chip Resistor - Surface Mount ROHS"
+			(at 184.15 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13545,8 +12896,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" ""
-			(at 190.5 218.44 0)
+		(property "LCSC" "C4410"
+			(at 184.15 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13554,8 +12905,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" ""
-			(at 190.5 218.44 0)
+		(property "MPN" "1206W4F1001T5E"
+			(at 184.15 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13564,79 +12915,7 @@
 			)
 		)
 		(property "Package" "0402"
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 190.5 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 190.5 218.44 0)
+			(at 184.15 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13849,6 +13128,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Device" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b16a667a-a7bf-44d5-8b5e-e28bbf58ad01")
 		)
@@ -13863,7 +13151,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 144.78 119.38 0)
+		(at 147.32 123.19 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13872,7 +13160,7 @@
 		(dnp no)
 		(uuid "2b685efb-e4e5-4c6e-a853-e9b5463c5f14")
 		(property "Reference" "R8"
-			(at 142.24 119.38 0)
+			(at 144.78 123.19 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13880,7 +13168,7 @@
 			)
 		)
 		(property "Value" "1R2"
-			(at 144.78 119.38 90)
+			(at 147.32 123.19 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13888,7 +13176,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 146.558 119.38 90)
+			(at 149.098 123.19 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13897,7 +13185,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 144.78 119.38 0)
+			(at 147.32 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13906,7 +13194,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±400ppm/℃ ±5% 0805 Chip Resistor - Surface Mount ROHS"
-			(at 144.78 119.38 0)
+			(at 147.32 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13915,7 +13203,7 @@
 			)
 		)
 		(property "LCSC" "C5140149"
-			(at 144.78 119.38 0)
+			(at 147.32 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13924,7 +13212,7 @@
 			)
 		)
 		(property "MPN" "SCR0805J1R2"
-			(at 144.78 119.38 0)
+			(at 147.32 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13933,43 +13221,7 @@
 			)
 		)
 		(property "Package" "0805"
-			(at 144.78 119.38 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 144.78 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 144.78 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 144.78 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 144.78 119.38 0)
+			(at 147.32 123.19 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14072,51 +13324,6 @@
 				(hide yes)
 			)
 		)
-		(property "Price" ""
-			(at 247.65 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 247.65 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 247.65 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 247.65 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 247.65 35.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "3b6e2c9f-d25a-46e5-92cf-52ecbab75e76")
 		)
@@ -14209,51 +13416,6 @@
 			)
 		)
 		(property "Package" "0402"
-			(at 39.37 157.48 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 39.37 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 39.37 157.48 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 39.37 157.48 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 39.37 157.48 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 39.37 157.48 90)
 			(effects
 				(font
@@ -14386,6 +13548,15 @@
 			)
 		)
 		(property "Expensive Version" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" ""
 			(at 67.31 88.9 0)
 			(effects
 				(font
@@ -14667,7 +13838,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 190.5 160.02 0)
+		(at 198.12 129.54 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14676,7 +13847,7 @@
 		(dnp no)
 		(uuid "3ab7f48e-49a6-42c6-b6b5-776d995d4688")
 		(property "Reference" "R15"
-			(at 195.072 160.02 0)
+			(at 202.692 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14685,15 +13856,15 @@
 			)
 		)
 		(property "Value" "10R"
-			(at 190.5 160.02 90)
+			(at 198.12 129.54 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 192.278 160.02 90)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
+			(at 199.898 129.54 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14702,7 +13873,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 160.02 0)
+			(at 198.12 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14710,8 +13881,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 10Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
-			(at 190.5 160.02 0)
+		(property "Description" "-55℃~+155℃ 10Ω 200V 250mW Thick Film Resistor ±1% ±400ppm/℃ 1206 Chip Resistor - Surface Mount ROHS"
+			(at 198.12 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14719,8 +13890,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C17415"
-			(at 190.5 160.02 0)
+		(property "LCSC" "C17903"
+			(at 198.12 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14728,8 +13899,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0805W8F100JT5E"
-			(at 190.5 160.02 0)
+		(property "MPN" "1206W4F100JT5E"
+			(at 198.12 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14737,80 +13908,8 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0805"
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 190.5 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 190.5 160.02 0)
+		(property "Package" "1206"
+			(at 198.12 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14835,7 +13934,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 144.78 154.94 0)
+		(at 198.12 83.82 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14844,7 +13943,7 @@
 		(fields_autoplaced yes)
 		(uuid "3c18d75c-10e1-41a7-8661-20162aa4ed10")
 		(property "Reference" "#PWR048"
-			(at 144.78 158.75 0)
+			(at 198.12 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14853,7 +13952,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 144.78 149.86 0)
+			(at 198.12 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14861,7 +13960,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 144.78 154.94 0)
+			(at 198.12 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14870,7 +13969,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 144.78 154.94 0)
+			(at 198.12 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14879,7 +13978,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 144.78 154.94 0)
+			(at 198.12 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14902,7 +14001,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 179.07 127 0)
+		(at 120.65 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14910,7 +14009,7 @@
 		(dnp no)
 		(uuid "408a403e-9f1b-471a-96dd-1074553e94e3")
 		(property "Reference" "#PWR023"
-			(at 179.07 133.35 0)
+			(at 120.65 223.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14919,7 +14018,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 179.07 131.064 0)
+			(at 120.65 221.234 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14927,7 +14026,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 179.07 127 0)
+			(at 120.65 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14936,7 +14035,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 127 0)
+			(at 120.65 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14945,7 +14044,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 179.07 127 0)
+			(at 120.65 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15089,6 +14188,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Device" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "16c1fd31-6459-4795-902a-734ce834ae58")
 		)
@@ -15096,136 +14204,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "J9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Transistor_BJT:BC807")
-		(at 142.24 204.47 0)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "42d51922-85cf-4fce-8824-6982ca4c8c99")
-		(property "Reference" "Q6"
-			(at 147.32 205.232 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "BC807-40"
-			(at 147.32 203.708 0)
-			(effects
-				(font
-					(size 0.8 0.8)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 147.32 202.565 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC808-D.pdf"
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "-65℃~+150℃ 1 PNP 100nA 250 250mW 45V 500mA 5V 700mV 80MHz PNP SOT-23 Bipolar (BJT) ROHS"
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Device" "PNP"
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" "1=B 2=E 3=C"
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C57316"
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "BC807-40,215"
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 142.24 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "d715458a-0885-42fe-af18-eb529ba764cc")
-		)
-		(pin "1"
-			(uuid "731ae6bd-e48f-4184-a1d9-693f553a3b12")
-		)
-		(pin "2"
-			(uuid "196ccefc-277c-4a92-aab7-316eacc58c0f")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "Q6")
 					(unit 1)
 				)
 			)
@@ -15298,74 +14276,8 @@
 		)
 	)
 	(symbol
-		(lib_name "+3.3V_3")
-		(lib_id "power:+3.3V")
-		(at 144.78 193.04 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "4928e1d6-0bc5-4af9-9572-c41aa4cdcefd")
-		(property "Reference" "#PWR053"
-			(at 144.78 196.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3.3V"
-			(at 144.78 188.976 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 144.78 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 144.78 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 144.78 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2d5e98fd-b811-4ff8-93c1-cc818a040c57")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR053")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
-		(at 137.16 113.03 0)
+		(at 139.7 116.84 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -15374,7 +14286,7 @@
 		(dnp no)
 		(uuid "4971c67f-9a89-4399-9b63-2343bad26623")
 		(property "Reference" "Q1"
-			(at 132.08 111.7599 0)
+			(at 134.62 115.5699 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15383,7 +14295,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 132.08 113.538 0)
+			(at 134.62 117.348 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -15392,7 +14304,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 132.08 110.49 0)
+			(at 134.62 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15401,7 +14313,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
-			(at 137.16 113.03 0)
+			(at 139.7 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15410,7 +14322,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
-			(at 137.16 113.03 0)
+			(at 139.7 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15419,7 +14331,7 @@
 			)
 		)
 		(property "MPN" "BC847BPN,115 "
-			(at 137.16 113.03 0)
+			(at 139.7 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15428,7 +14340,7 @@
 			)
 		)
 		(property "LCSC" "C8655"
-			(at 137.16 113.03 0)
+			(at 139.7 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15437,43 +14349,7 @@
 			)
 		)
 		(property "Package" "SOT-363"
-			(at 137.16 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 137.16 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 137.16 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 137.16 113.03 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 137.16 113.03 0)
+			(at 139.7 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15510,7 +14386,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 176.53 198.12 0)
+		(at 168.91 187.96 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -15519,7 +14395,7 @@
 		(dnp no)
 		(uuid "4dcdf145-a103-44ef-91ef-f7b139c99645")
 		(property "Reference" "R16"
-			(at 181.102 198.374 0)
+			(at 173.482 188.214 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15528,7 +14404,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 176.53 198.12 90)
+			(at 168.91 187.96 90)
 			(effects
 				(font
 					(size 1 1)
@@ -15536,7 +14412,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 178.308 198.12 90)
+			(at 170.688 187.96 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15545,7 +14421,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 198.12 0)
+			(at 168.91 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15554,7 +14430,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 176.53 198.12 0)
+			(at 168.91 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15563,7 +14439,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 176.53 198.12 0)
+			(at 168.91 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15572,7 +14448,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 176.53 198.12 0)
+			(at 168.91 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15581,79 +14457,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 176.53 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 176.53 198.12 0)
+			(at 168.91 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15678,7 +14482,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 179.07 118.11 0)
+		(at 120.65 212.09 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -15687,7 +14491,7 @@
 		(dnp no)
 		(uuid "4e82eefb-2966-44b0-a36f-8b5d1db9bc5d")
 		(property "Reference" "R6"
-			(at 182.372 118.11 0)
+			(at 123.952 212.09 0)
 			(effects
 				(font
 					(size 1 1)
@@ -15696,7 +14500,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 179.07 118.11 90)
+			(at 120.65 212.09 90)
 			(effects
 				(font
 					(size 1 1)
@@ -15704,7 +14508,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 180.848 118.11 90)
+			(at 122.428 212.09 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15713,7 +14517,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 118.11 0)
+			(at 120.65 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15722,7 +14526,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 179.07 118.11 0)
+			(at 120.65 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15731,7 +14535,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 179.07 118.11 0)
+			(at 120.65 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15740,7 +14544,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 179.07 118.11 0)
+			(at 120.65 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15749,79 +14553,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 179.07 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 179.07 118.11 0)
+			(at 120.65 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15917,51 +14649,6 @@
 			)
 		)
 		(property "Package" "SMD,D8xL10.5mm"
-			(at 129.54 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 129.54 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 129.54 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 129.54 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 129.54 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 129.54 53.34 0)
 			(effects
 				(font
@@ -16185,7 +14872,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC817")
-		(at 142.24 170.18 0)
+		(at 195.58 99.06 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16193,7 +14880,7 @@
 		(dnp no)
 		(uuid "550f8b1e-80c9-4cd7-9f81-b82c2908ee60")
 		(property "Reference" "Q3"
-			(at 148.336 169.926 0)
+			(at 201.676 98.806 0)
 			(effects
 				(font
 					(size 1 1)
@@ -16201,7 +14888,7 @@
 			)
 		)
 		(property "Value" "BC817-40"
-			(at 150.622 171.45 0)
+			(at 203.962 100.33 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -16209,7 +14896,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 147.32 172.085 0)
+			(at 200.66 100.965 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16220,7 +14907,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC818-D.pdf"
-			(at 142.24 170.18 0)
+			(at 195.58 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16230,7 +14917,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN 100MHz 100nA 250 345mW 45V 500mA 5V 700mV NPN SOT-23 Bipolar (BJT) ROHS"
-			(at 142.24 170.18 0)
+			(at 195.58 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16239,7 +14926,7 @@
 			)
 		)
 		(property "Package" "SOT-23"
-			(at 142.24 170.18 0)
+			(at 195.58 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16248,7 +14935,7 @@
 			)
 		)
 		(property "MPN" "BC817-40,215"
-			(at 142.24 170.18 0)
+			(at 195.58 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16257,79 +14944,7 @@
 			)
 		)
 		(property "LCSC" "C52801"
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 142.24 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 142.24 170.18 0)
+			(at 195.58 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16434,78 +15049,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 33.02 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 33.02 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 33.02 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 33.02 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 33.02 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 33.02 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 33.02 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 33.02 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "e64475ad-d170-4adf-a90a-0933c5a7e4f6")
 		)
@@ -16599,79 +15142,7 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 179.07 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 179.07 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 179.07 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "Package" "0603"
-			(at 179.07 49.53 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 179.07 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 179.07 49.53 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 179.07 49.53 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 179.07 49.53 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 179.07 49.53 90)
 			(effects
 				(font
@@ -16766,60 +15237,6 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 44.45 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 44.45 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 44.45 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 44.45 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" "1=K 2=A"
-			(at 44.45 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 44.45 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 44.45 193.04 0)
 			(effects
 				(font
@@ -16990,78 +15407,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 46.99 34.29 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -17155,51 +15500,6 @@
 		)
 		(property "MPN" "ANR4030T3R9M"
 			(at 187.96 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 187.96 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 187.96 46.99 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 187.96 46.99 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 187.96 46.99 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 187.96 46.99 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17364,79 +15664,7 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 264.16 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 264.16 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 264.16 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "Package" "0402"
-			(at 264.16 77.47 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 264.16 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 264.16 77.47 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 264.16 77.47 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 264.16 77.47 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 264.16 77.47 90)
 			(effects
 				(font
@@ -17605,78 +15833,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 33.02 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "25ea83d7-14e4-4d7a-ac9d-7a9505f19f16")
 		)
@@ -17837,52 +15993,7 @@
 				(hide yes)
 			)
 		)
-		(property "Price" ""
-			(at 238.76 138.43 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "Package" "Plugin,P=2.54mm"
-			(at 238.76 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 238.76 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 238.76 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 238.76 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 238.76 138.43 90)
 			(effects
 				(font
@@ -18013,42 +16124,6 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer_Name" ""
-			(at 247.65 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 247.65 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 247.65 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 247.65 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "7"
 			(uuid "b9ab50e2-53cb-477f-83d8-2c9f8da3ee95")
 		)
@@ -18169,7 +16244,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 190.5 223.52 0)
+		(at 184.15 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18177,7 +16252,7 @@
 		(dnp no)
 		(uuid "74f1d091-dda8-4001-b249-7f8aa4988891")
 		(property "Reference" "#PWR049"
-			(at 190.5 229.87 0)
+			(at 184.15 223.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18186,7 +16261,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 190.5 227.584 0)
+			(at 184.15 221.234 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18194,7 +16269,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 223.52 0)
+			(at 184.15 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18203,7 +16278,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 223.52 0)
+			(at 184.15 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18212,7 +16287,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 190.5 223.52 0)
+			(at 184.15 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18301,7 +16376,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 190.5 176.53 0)
+		(at 198.12 146.05 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -18310,7 +16385,7 @@
 		(dnp no)
 		(uuid "7b4a491f-2cca-4aee-aedb-0ac2ebe3455c")
 		(property "Reference" "#PWR044"
-			(at 190.5 182.88 0)
+			(at 198.12 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18319,7 +16394,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 190.5 180.594 0)
+			(at 198.12 150.114 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18327,7 +16402,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 176.53 0)
+			(at 198.12 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18336,7 +16411,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 176.53 0)
+			(at 198.12 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18345,7 +16420,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 190.5 176.53 0)
+			(at 198.12 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18360,6 +16435,151 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR044")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 151.13 53.34 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp yes)
+		(uuid "7d9bd61a-75e1-459a-a7dd-ee348deffd6a")
+		(property "Reference" "J10"
+			(at 151.13 61.214 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "VCC Test Pad"
+			(at 151.384 62.738 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 146.05 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 146.05 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Price" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" ""
+			(at 151.13 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" ""
+			(at 151.13 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Cheap Version" ""
+			(at 151.13 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Expensive Version" ""
+			(at 151.13 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" ""
+			(at 151.13 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e603e959-9cb9-4ab0-a5e5-bdb6056a7d56")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "J10")
 					(unit 1)
 				)
 			)
@@ -18499,7 +16719,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 128.27 104.14 90)
+		(at 130.81 107.95 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -18508,7 +16728,7 @@
 		(dnp no)
 		(uuid "85fbd99d-af2a-49e8-b5af-5c66c8965858")
 		(property "Reference" "R2"
-			(at 129.54 106.172 90)
+			(at 132.08 109.982 90)
 			(effects
 				(font
 					(size 1 1)
@@ -18517,7 +16737,7 @@
 			)
 		)
 		(property "Value" "2K2"
-			(at 128.27 104.14 90)
+			(at 130.81 107.95 90)
 			(effects
 				(font
 					(size 1 1)
@@ -18525,7 +16745,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 128.27 102.362 90)
+			(at 130.81 106.172 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18534,7 +16754,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2206010216_UNI-ROYAL-Uniroyal-Elec-0402WGF1001TCE_C11702.pdf"
-			(at 128.27 104.14 0)
+			(at 130.81 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18543,7 +16763,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 2.2kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 128.27 104.14 0)
+			(at 130.81 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18552,7 +16772,7 @@
 			)
 		)
 		(property "LCSC" "C25879"
-			(at 128.27 104.14 0)
+			(at 130.81 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18561,7 +16781,7 @@
 			)
 		)
 		(property "MPN" "0402WGF2201TCE"
-			(at 128.27 104.14 0)
+			(at 130.81 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18570,79 +16790,7 @@
 			)
 		)
 		(property "Package" "0402"
-			(at 128.27 104.14 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 128.27 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 128.27 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 128.27 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 128.27 104.14 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 128.27 104.14 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 128.27 104.14 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 128.27 104.14 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 128.27 104.14 90)
+			(at 130.81 107.95 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18738,51 +16886,6 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 201.93 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 201.93 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 201.93 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 201.93 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 201.93 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 201.93 54.61 0)
 			(effects
 				(font
@@ -19082,78 +17185,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 121.92 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "6595ce14-7793-48c8-8988-1416ff6de45a")
 		)
@@ -19170,34 +17201,35 @@
 		)
 	)
 	(symbol
-		(lib_id "power:VBUS")
-		(at 147.32 88.9 0)
+		(lib_id "Diode:BZV55C6V2")
+		(at 158.75 212.09 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "96b6ee78-3402-4098-92fb-f02b0c546b85")
-		(property "Reference" "#PWR037"
-			(at 147.32 92.71 0)
+		(uuid "96694814-ff56-426c-b9ce-3f7bdde94f73")
+		(property "Reference" "D3"
+			(at 162.56 211.582 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
-				(hide yes)
+				(justify left)
 			)
 		)
-		(property "Value" "VBUS"
-			(at 147.32 83.82 0)
+		(property "Value" "5.1V"
+			(at 163.322 213.106 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 0.8 0.8)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 147.32 88.9 0)
+		(property "Footprint" "Diode_SMD:D_SOD-123"
+			(at 163.195 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19206,7 +17238,103 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 147.32 88.9 0)
+			(at 158.75 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-65℃~+150℃ 1.6kΩ 17Ω 370mW 4.85V~5.36V 5.1V 5uA@2V Independent SOD-123 Zener Diodes ROHS"
+			(at 158.75 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C85181"
+			(at 158.75 212.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "MMSZ5231B-7-F"
+			(at 158.75 212.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SOD-123"
+			(at 158.75 212.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0c3c59a9-e0d9-44bc-b58e-31f244362015")
+		)
+		(pin "2"
+			(uuid "a2d0ba76-da5d-4c13-802e-0dac187b6e6b")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VBUS")
+		(at 149.86 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "96b6ee78-3402-4098-92fb-f02b0c546b85")
+		(property "Reference" "#PWR037"
+			(at 149.86 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VBUS"
+			(at 149.86 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 149.86 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 149.86 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19215,7 +17343,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 147.32 88.9 0)
+			(at 149.86 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19306,78 +17434,6 @@
 			)
 		)
 		(property "MPN" "1N5819WS"
-			(at 142.24 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 142.24 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 142.24 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 142.24 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 142.24 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 142.24 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 142.24 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 142.24 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 142.24 41.91 90)
 			(effects
 				(font
@@ -19517,6 +17573,15 @@
 			)
 		)
 		(property "Expensive Version" ""
+			(at 236.22 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" ""
 			(at 236.22 35.56 90)
 			(effects
 				(font
@@ -19674,78 +17739,6 @@
 			)
 		)
 		(property "MPN" "1N5819WS"
-			(at 129.54 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 129.54 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 129.54 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 129.54 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 129.54 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 129.54 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 129.54 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 129.54 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 129.54 41.91 90)
 			(effects
 				(font
@@ -19967,7 +17960,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 176.53 193.04 0)
+		(at 168.91 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19975,7 +17968,7 @@
 		(dnp no)
 		(uuid "a0fe7c41-c57f-46bc-801b-6c39ff29cfe5")
 		(property "Reference" "#PWR051"
-			(at 176.53 196.85 0)
+			(at 168.91 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19984,7 +17977,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 176.53 188.976 0)
+			(at 168.91 178.816 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19992,7 +17985,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 193.04 0)
+			(at 168.91 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20001,7 +17994,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 193.04 0)
+			(at 168.91 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20010,7 +18003,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 176.53 193.04 0)
+			(at 168.91 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20031,8 +18024,116 @@
 		)
 	)
 	(symbol
+		(lib_id "Transistor_BJT:BC847BPN")
+		(at 199.39 186.69 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a1c18903-306c-49ae-9a51-5649b2abe0a5")
+		(property "Reference" "Q6"
+			(at 204.47 185.928 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BC847BPN"
+			(at 204.47 187.4521 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
+			(at 204.47 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C8655"
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BC847BPN,115 "
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SOT-363"
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "0dddc5a9-a878-4bb1-883f-1728b95b8e4c")
+		)
+		(pin "1"
+			(uuid "f5707c6a-8cbc-4860-8c6a-7a926c89ae21")
+		)
+		(pin "5"
+			(uuid "4e4cbcb2-7549-472f-bb27-4c7c7e517e69")
+		)
+		(pin "3"
+			(uuid "823568ce-0085-4c86-8939-70e1c8584d99")
+		)
+		(pin "4"
+			(uuid "c7145269-fe05-41aa-8ed6-215be1b40e80")
+		)
+		(pin "6"
+			(uuid "256e6323-1e57-4f38-9773-9f2a9c6a8828")
+		)
+		(instances
+			(project ""
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "Q6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Transistor_BJT:BC817")
-		(at 187.96 170.18 0)
+		(at 195.58 139.7 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20040,7 +18141,7 @@
 		(dnp no)
 		(uuid "a3a2bea2-681c-4d22-aedb-140faa47e351")
 		(property "Reference" "Q4"
-			(at 194.056 169.926 0)
+			(at 201.676 139.446 0)
 			(effects
 				(font
 					(size 1 1)
@@ -20048,7 +18149,7 @@
 			)
 		)
 		(property "Value" "BC817-40"
-			(at 196.342 171.45 0)
+			(at 203.962 140.97 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -20056,7 +18157,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 193.04 172.085 0)
+			(at 200.66 141.605 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20067,7 +18168,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC818-D.pdf"
-			(at 187.96 170.18 0)
+			(at 195.58 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20077,7 +18178,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN 100MHz 100nA 250 345mW 45V 500mA 5V 700mV NPN SOT-23 Bipolar (BJT) ROHS"
-			(at 187.96 170.18 0)
+			(at 195.58 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20086,7 +18187,7 @@
 			)
 		)
 		(property "Package" "SOT-23"
-			(at 187.96 170.18 0)
+			(at 195.58 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20095,7 +18196,7 @@
 			)
 		)
 		(property "MPN" "BC817-40,215"
-			(at 187.96 170.18 0)
+			(at 195.58 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20104,79 +18205,7 @@
 			)
 		)
 		(property "LCSC" "C52801"
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 187.96 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 187.96 170.18 0)
+			(at 195.58 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20197,174 +18226,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "Q4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 130.81 198.12 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ab973d9d-b316-4868-a686-e3f9675e2530")
-		(property "Reference" "R19"
-			(at 135.382 198.374 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10K"
-			(at 130.81 198.12 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 132.588 198.12 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C25804"
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "0603WAF1002T5E"
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Package" "0603"
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 130.81 198.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4e361a73-8a46-461c-8c5e-806e0c8d1b44")
-		)
-		(pin "2"
-			(uuid "a274ebd9-c3da-4ebd-b77b-98d9bd96f968")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "R19")
 					(unit 1)
 				)
 			)
@@ -20440,79 +18301,7 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 264.16 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 264.16 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 264.16 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "Package" "0402"
-			(at 264.16 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 264.16 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 264.16 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 264.16 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 264.16 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 264.16 74.93 90)
 			(effects
 				(font
@@ -20538,7 +18327,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 176.53 218.44 0)
+		(at 168.91 212.09 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -20547,7 +18336,7 @@
 		(dnp no)
 		(uuid "abd88c70-4f89-4266-baa8-8a8bcae111a3")
 		(property "Reference" "R17"
-			(at 181.102 218.694 0)
+			(at 173.482 212.344 0)
 			(effects
 				(font
 					(size 1 1)
@@ -20556,7 +18345,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 176.53 218.44 90)
+			(at 168.91 212.09 90)
 			(effects
 				(font
 					(size 1 1)
@@ -20564,7 +18353,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 178.308 218.44 90)
+			(at 170.688 212.09 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20573,7 +18362,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 218.44 0)
+			(at 168.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20582,7 +18371,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 176.53 218.44 0)
+			(at 168.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20591,7 +18380,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 176.53 218.44 0)
+			(at 168.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20600,7 +18389,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 176.53 218.44 0)
+			(at 168.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20609,79 +18398,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 176.53 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 176.53 218.44 0)
+			(at 168.91 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20839,7 +18556,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 190.5 154.94 0)
+		(at 198.12 124.46 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20848,7 +18565,7 @@
 		(fields_autoplaced yes)
 		(uuid "b2768f60-0d3a-435c-9d36-c2ff698889f9")
 		(property "Reference" "#PWR056"
-			(at 190.5 158.75 0)
+			(at 198.12 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20857,7 +18574,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 190.5 149.86 0)
+			(at 198.12 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20865,7 +18582,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 190.5 154.94 0)
+			(at 198.12 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20874,7 +18591,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 154.94 0)
+			(at 198.12 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20883,7 +18600,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 190.5 154.94 0)
+			(at 198.12 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21042,79 +18759,7 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "Package" "1206"
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 142.24 53.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 142.24 53.34 0)
 			(effects
 				(font
@@ -21217,78 +18862,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 114.3 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 114.3 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 114.3 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 114.3 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 114.3 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 114.3 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 114.3 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 114.3 41.91 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "142f130a-538c-4cbf-8a7b-d25b204a9b75")
 		)
@@ -21371,6 +18944,115 @@
 		)
 	)
 	(symbol
+		(lib_id "Transistor_BJT:BC847BPN")
+		(at 181.61 198.12 0)
+		(mirror x)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bbd77e1f-02ce-4301-b3ad-65572e7090a9")
+		(property "Reference" "Q6"
+			(at 186.436 197.3579 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BC847BPN"
+			(at 186.436 198.882 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
+			(at 186.69 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C8655"
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BC847BPN,115 "
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SOT-363"
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "0dddc5a9-a878-4bb1-883f-1728b95b8e4c")
+		)
+		(pin "1"
+			(uuid "f5707c6a-8cbc-4860-8c6a-7a926c89ae21")
+		)
+		(pin "5"
+			(uuid "4e4cbcb2-7549-472f-bb27-4c7c7e517e69")
+		)
+		(pin "3"
+			(uuid "823568ce-0085-4c86-8939-70e1c8584d99")
+		)
+		(pin "4"
+			(uuid "c7145269-fe05-41aa-8ed6-215be1b40e80")
+		)
+		(pin "6"
+			(uuid "256e6323-1e57-4f38-9773-9f2a9c6a8828")
+		)
+		(instances
+			(project ""
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "Q6")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
 		(at 22.86 53.34 0)
@@ -21432,72 +19114,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR02")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "GND_1")
-		(lib_id "power:GND")
-		(at 144.78 223.52 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ca48c690-d3c3-4af0-965a-92dddcc61d52")
-		(property "Reference" "#PWR054"
-			(at 144.78 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 144.78 227.584 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 144.78 223.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 144.78 223.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 144.78 223.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d6b8aba3-a0c7-44f3-85ce-14101fda6652")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -21636,73 +19252,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:VBUS")
-		(at 130.81 193.04 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "cf9be4d6-4fd8-4e97-a30f-3aa00641bfb2")
-		(property "Reference" "#PWR055"
-			(at 130.81 196.85 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "VBUS"
-			(at 130.81 188.976 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 130.81 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 130.81 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6f69d91a-1b05-473d-98f2-6a17d00380e1")
-		)
-		(instances
-			(project ""
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR055")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
-		(at 179.07 93.98 0)
+		(at 120.65 187.96 0)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -21711,7 +19262,7 @@
 		(dnp no)
 		(uuid "d07aa84e-d678-4a7c-8b95-7c68e173e271")
 		(property "Reference" "R5"
-			(at 180.34 93.98 0)
+			(at 121.92 187.96 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21720,7 +19271,7 @@
 			)
 		)
 		(property "Value" "47K5"
-			(at 179.07 93.98 90)
+			(at 120.65 187.96 90)
 			(effects
 				(font
 					(size 1 1)
@@ -21728,7 +19279,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 177.292 93.98 90)
+			(at 118.872 187.96 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21737,7 +19288,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 179.07 93.98 0)
+			(at 120.65 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21746,7 +19297,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 47.5Ω 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 179.07 93.98 0)
+			(at 120.65 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21755,7 +19306,7 @@
 			)
 		)
 		(property "LCSC" "C22375093"
-			(at 179.07 93.98 0)
+			(at 120.65 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21764,7 +19315,7 @@
 			)
 		)
 		(property "MPN" "FRC0603F47R5TS"
-			(at 179.07 93.98 0)
+			(at 120.65 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21773,52 +19324,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 179.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 179.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 179.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 179.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 179.07 93.98 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 179.07 93.98 0)
+			(at 120.65 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21920,78 +19426,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 36.83 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 36.83 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 36.83 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 36.83 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 36.83 193.04 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 36.83 193.04 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 36.83 193.04 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 36.83 193.04 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "e2ddaf98-b51f-4f60-ab2f-15975f2eb37f")
 		)
@@ -22002,72 +19436,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "GND_1")
-		(lib_id "power:GND")
-		(at 130.81 223.52 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d182a2dd-00a2-40db-b6e7-0e2ae947d77e")
-		(property "Reference" "#PWR052"
-			(at 130.81 229.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 130.81 227.584 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 130.81 223.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 223.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 130.81 223.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5a6d32fb-3ecd-41e8-b2e5-d6b4310f02da")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -22220,78 +19588,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 33.02 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "22c0b198-a1bd-4c59-acbf-d6f002bdd3ad")
 		)
@@ -22316,7 +19612,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 194.31 127 0)
+		(at 135.89 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22324,7 +19620,7 @@
 		(dnp no)
 		(uuid "d58c1fd7-fe8f-44d8-b71b-250b6414ef55")
 		(property "Reference" "#PWR029"
-			(at 194.31 133.35 0)
+			(at 135.89 223.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22333,7 +19629,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 194.31 131.064 0)
+			(at 135.89 221.234 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22341,7 +19637,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 194.31 127 0)
+			(at 135.89 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22350,7 +19646,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 194.31 127 0)
+			(at 135.89 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22359,7 +19655,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 194.31 127 0)
+			(at 135.89 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22459,51 +19755,6 @@
 				(hide yes)
 			)
 		)
-		(property "Price" ""
-			(at 55.88 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 55.88 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 55.88 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 55.88 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 55.88 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "da3b212e-c3d1-46de-a83e-042f22168766")
 		)
@@ -22520,136 +19771,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "U3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Transistor_BJT:BC807")
-		(at 187.96 204.47 0)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "dab5cab6-6de7-4564-8bce-568028894298")
-		(property "Reference" "Q5"
-			(at 193.04 205.232 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "BC807-40"
-			(at 193.04 203.708 0)
-			(effects
-				(font
-					(size 0.8 0.8)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 193.04 202.565 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BC808-D.pdf"
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Description" "-65℃~+150℃ 1 PNP 100nA 250 250mW 45V 500mA 5V 700mV 80MHz PNP SOT-23 Bipolar (BJT) ROHS"
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Device" "PNP"
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" "1=B 2=E 3=C"
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C57316"
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "BC807-40,215"
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 187.96 204.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "7de2977a-f495-4433-b132-a5517a08d192")
-		)
-		(pin "1"
-			(uuid "2bbb8e37-9b9d-49a3-a015-e7c094fce16b")
-		)
-		(pin "2"
-			(uuid "f23e2efa-73d0-46d5-b79e-73911f5fca2e")
-		)
-		(instances
-			(project ""
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "Q5")
 					(unit 1)
 				)
 			)
@@ -22779,6 +19900,15 @@
 				(hide yes)
 			)
 		)
+		(property "Sim.Device" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a59c948b-5956-4c4a-bf2d-0462cc7d249d")
 		)
@@ -22786,6 +19916,72 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_1")
+		(lib_id "power:GND")
+		(at 158.75 217.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "de91b412-8e3a-46f5-b5db-312badff0cce")
+		(property "Reference" "#PWR052"
+			(at 158.75 223.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 158.75 221.234 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 158.75 217.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 158.75 217.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 158.75 217.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "84363ea6-b872-4280-8ce9-0fe60a8066bb")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -22859,7 +20055,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 177.8 170.18 90)
+		(at 185.42 139.7 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -22868,7 +20064,7 @@
 		(dnp no)
 		(uuid "e5026f24-03d4-4b69-940a-2274adcb4f25")
 		(property "Reference" "R14"
-			(at 179.07 172.212 90)
+			(at 186.69 141.732 90)
 			(effects
 				(font
 					(size 1 1)
@@ -22877,7 +20073,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 177.8 170.18 90)
+			(at 185.42 139.7 90)
 			(effects
 				(font
 					(size 1 1)
@@ -22885,7 +20081,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 177.8 168.402 90)
+			(at 185.42 137.922 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22894,7 +20090,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2206010216_UNI-ROYAL-Uniroyal-Elec-0402WGF1001TCE_C11702.pdf"
-			(at 177.8 170.18 0)
+			(at 185.42 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22903,7 +20099,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 177.8 170.18 0)
+			(at 185.42 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22912,7 +20108,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 177.8 170.18 0)
+			(at 185.42 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22921,7 +20117,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 177.8 170.18 0)
+			(at 185.42 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22930,79 +20126,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 177.8 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 177.8 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 177.8 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 177.8 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 177.8 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 177.8 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 177.8 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 177.8 170.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 177.8 170.18 90)
+			(at 185.42 139.7 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23093,7 +20217,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 147.32 119.38 0)
+		(at 149.86 123.19 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23102,7 +20226,7 @@
 		(dnp no)
 		(uuid "e59ea2c5-c3fc-4bc0-9460-b87010415d18")
 		(property "Reference" "R11"
-			(at 150.368 119.38 0)
+			(at 152.908 123.19 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23110,7 +20234,7 @@
 			)
 		)
 		(property "Value" "1R2"
-			(at 147.32 119.38 90)
+			(at 149.86 123.19 90)
 			(effects
 				(font
 					(size 1 1)
@@ -23118,7 +20242,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
-			(at 149.098 119.38 90)
+			(at 151.638 123.19 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23127,7 +20251,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 147.32 119.38 0)
+			(at 149.86 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23136,7 +20260,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±400ppm/℃ ±5% 0805 Chip Resistor - Surface Mount ROHS"
-			(at 147.32 119.38 0)
+			(at 149.86 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23145,7 +20269,7 @@
 			)
 		)
 		(property "LCSC" "C5140149"
-			(at 147.32 119.38 0)
+			(at 149.86 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23154,7 +20278,7 @@
 			)
 		)
 		(property "MPN" "SCR0805J1R2"
-			(at 147.32 119.38 0)
+			(at 149.86 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23163,43 +20287,7 @@
 			)
 		)
 		(property "Package" "0805"
-			(at 147.32 119.38 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 147.32 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 147.32 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 147.32 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 147.32 119.38 0)
+			(at 149.86 123.19 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23369,51 +20457,6 @@
 				(hide yes)
 			)
 		)
-		(property "Price" ""
-			(at 196.85 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 196.85 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 196.85 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 196.85 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 196.85 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "9ff7f50c-6a7a-4bd1-bb7a-36e2c35b6a87")
 		)
@@ -23565,7 +20608,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 144.78 176.53 0)
+		(at 198.12 105.41 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23574,7 +20617,7 @@
 		(dnp no)
 		(uuid "f3343dde-ce74-44a0-8721-6f64e16a43bb")
 		(property "Reference" "#PWR030"
-			(at 144.78 182.88 0)
+			(at 198.12 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23583,7 +20626,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 144.78 180.594 0)
+			(at 198.12 109.474 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23591,7 +20634,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 144.78 176.53 0)
+			(at 198.12 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23600,7 +20643,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 144.78 176.53 0)
+			(at 198.12 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23609,7 +20652,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 144.78 176.53 0)
+			(at 198.12 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23632,7 +20675,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 176.53 223.52 0)
+		(at 168.91 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23640,7 +20683,7 @@
 		(dnp no)
 		(uuid "f362ffac-e941-441d-9dd7-ff53ebd9c1cd")
 		(property "Reference" "#PWR050"
-			(at 176.53 229.87 0)
+			(at 168.91 223.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23649,7 +20692,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 176.53 227.584 0)
+			(at 168.91 221.234 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23657,7 +20700,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 223.52 0)
+			(at 168.91 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23666,7 +20709,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 223.52 0)
+			(at 168.91 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23675,7 +20718,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 176.53 223.52 0)
+			(at 168.91 217.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23774,78 +20817,6 @@
 				(hide yes)
 			)
 		)
-		(property "Height" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 73.66 41.91 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(pin "1"
 			(uuid "ce1012f0-5e9f-4f98-b2fd-4f977fe1f0dc")
 		)
@@ -23863,7 +20834,7 @@
 	)
 	(symbol
 		(lib_id "Diode:BZV55C6V2")
-		(at 147.32 93.98 90)
+		(at 149.86 97.79 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -23872,7 +20843,7 @@
 		(dnp no)
 		(uuid "f5bb780f-c8c1-4967-b01d-8b9b15aa4959")
 		(property "Reference" "D7"
-			(at 144.78 93.472 90)
+			(at 147.32 97.282 90)
 			(effects
 				(font
 					(size 1 1)
@@ -23881,7 +20852,7 @@
 			)
 		)
 		(property "Value" "6.2V"
-			(at 144.78 94.996 90)
+			(at 147.32 98.806 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -23890,7 +20861,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_MELF"
-			(at 151.765 93.98 0)
+			(at 154.305 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23899,7 +20870,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 147.32 93.98 0)
+			(at 149.86 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23908,7 +20879,7 @@
 			)
 		)
 		(property "Description" "10uA@3V 1W 2Ω 6.2V 700Ω LL-41 Zener Diodes ROHS"
-			(at 147.32 93.98 0)
+			(at 149.86 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23917,7 +20888,7 @@
 			)
 		)
 		(property "LCSC" "C5359931"
-			(at 147.32 93.98 90)
+			(at 149.86 97.79 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23926,7 +20897,7 @@
 			)
 		)
 		(property "MPN" "ZM4735A"
-			(at 147.32 93.98 90)
+			(at 149.86 97.79 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23935,43 +20906,7 @@
 			)
 		)
 		(property "Package" "LL-41"
-			(at 147.32 93.98 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 147.32 93.98 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 147.32 93.98 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 147.32 93.98 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 147.32 93.98 90)
+			(at 149.86 97.79 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24061,345 +20996,9 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 130.81 218.44 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f9077d2b-b125-43bc-819a-3799f2e0153b")
-		(property "Reference" "R20"
-			(at 135.382 218.694 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "2K"
-			(at 130.81 218.44 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 132.588 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "-55℃~+155℃ 100mW 2kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C22975"
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "0603WAF2001T5E"
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Package" "0603"
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 130.81 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2982b973-60fb-4de5-ae71-e73d108d8baf")
-		)
-		(pin "2"
-			(uuid "b189d46e-4426-408a-bac8-81d6e1e4b7f5")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "R20")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 144.78 218.44 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f90bd61d-6fd2-417f-a315-794a72638ec2")
-		(property "Reference" "R21"
-			(at 149.352 218.44 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1K"
-			(at 144.78 218.44 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 146.558 218.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Package" "0402"
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Price" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
-			(at 144.78 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1c1b2f96-35bf-4c95-acb4-98c74059b152")
-		)
-		(pin "2"
-			(uuid "8306e308-c2d7-4652-bceb-dabb33ba2e02")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "R21")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_name "+3.3V_3")
 		(lib_id "power:+3.3V")
-		(at 194.31 88.9 0)
+		(at 135.89 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -24407,7 +21006,7 @@
 		(dnp no)
 		(uuid "fb5f2e15-02c8-4027-828b-b166b84c1b97")
 		(property "Reference" "#PWR016"
-			(at 194.31 92.71 0)
+			(at 135.89 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24416,7 +21015,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 194.31 84.836 0)
+			(at 135.89 178.816 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24424,7 +21023,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 194.31 88.9 0)
+			(at 135.89 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24433,7 +21032,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 194.31 88.9 0)
+			(at 135.89 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24442,7 +21041,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 194.31 88.9 0)
+			(at 135.89 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24514,15 +21113,6 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC Part" "C5349956"
-			(at 86.36 207.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "LCSC" "C5349956"
 			(at 86.36 193.04 0)
 			(effects
@@ -24541,43 +21131,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer_Name" ""
-			(at 86.36 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 86.36 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
 		(property "Package" "2020"
-			(at 86.36 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 86.36 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 86.36 193.04 0)
 			(effects
 				(font
@@ -24686,42 +21240,6 @@
 			)
 		)
 		(property "Package" "Plugin,P=1.27mm"
-			(at 114.3 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" ""
-			(at 114.3 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" ""
-			(at 114.3 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Cheap Version" ""
-			(at 114.3 33.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Expensive Version" ""
 			(at 114.3 33.02 0)
 			(effects
 				(font
