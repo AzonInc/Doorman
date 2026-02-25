@@ -7688,6 +7688,17 @@
 		)
 		(uuid "9b73a196-6ec4-4b0b-9d48-8ee2ccfe5bbf")
 	)
+	(text "L1 & L2 to prevent Audio AC"
+		(exclude_from_sim no)
+		(at 246.888 33.274 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a0d3972c-adec-4477-980b-3ccb7b67e3d3")
+	)
 	(text "Fix Bus Wire polarity"
 		(exclude_from_sim no)
 		(at 218.44 25.908 0)
@@ -7926,7 +7937,7 @@
 		(uuid "eaf0df58-9095-4bd0-b28d-24b1f80cf061")
 	)
 	(junction
-		(at 236.22 35.56)
+		(at 229.87 35.56)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f66bf959-b17e-4814-9bd6-51c7e3af6bce")
@@ -8064,6 +8075,16 @@
 			(type default)
 		)
 		(uuid "0594ae1e-b947-498c-91dd-a7df395dc064")
+	)
+	(wire
+		(pts
+			(xy 245.11 43.18) (xy 241.3 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0af228f1-530b-4228-9ca4-8e3a6b58078b")
 	)
 	(wire
 		(pts
@@ -8274,6 +8295,16 @@
 			(type default)
 		)
 		(uuid "26cbeda8-ec33-4b8c-a548-3ee6f38167a9")
+	)
+	(wire
+		(pts
+			(xy 246.38 27.94) (xy 241.3 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "298ae002-e6aa-440d-9da0-0e8f8fa334aa")
 	)
 	(polyline
 		(pts
@@ -8517,7 +8548,7 @@
 	)
 	(wire
 		(pts
-			(xy 269.24 40.64) (xy 269.24 35.56)
+			(xy 276.86 40.64) (xy 276.86 35.56)
 		)
 		(stroke
 			(width 0)
@@ -8787,7 +8818,7 @@
 	)
 	(wire
 		(pts
-			(xy 248.92 43.18) (xy 247.65 43.18)
+			(xy 254 43.18) (xy 252.73 43.18)
 		)
 		(stroke
 			(width 0)
@@ -9217,7 +9248,7 @@
 	)
 	(wire
 		(pts
-			(xy 236.22 40.64) (xy 236.22 35.56)
+			(xy 229.87 40.64) (xy 229.87 35.56)
 		)
 		(stroke
 			(width 0)
@@ -9467,7 +9498,7 @@
 	)
 	(wire
 		(pts
-			(xy 248.92 27.94) (xy 247.65 27.94)
+			(xy 255.27 27.94) (xy 254 27.94)
 		)
 		(stroke
 			(width 0)
@@ -9567,7 +9598,7 @@
 	)
 	(wire
 		(pts
-			(xy 236.22 35.56) (xy 240.03 35.56)
+			(xy 229.87 35.56) (xy 233.68 35.56)
 		)
 		(stroke
 			(width 0)
@@ -9757,7 +9788,7 @@
 	)
 	(wire
 		(pts
-			(xy 269.24 35.56) (xy 255.27 35.56)
+			(xy 276.86 35.56) (xy 248.92 35.56)
 		)
 		(stroke
 			(width 0)
@@ -10877,7 +10908,7 @@
 	)
 	(global_label "BUS_WIRE1"
 		(shape bidirectional)
-		(at 248.92 27.94 0)
+		(at 255.27 27.94 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10887,7 +10918,7 @@
 		)
 		(uuid "f01c29bc-8c1d-434d-ae0e-7232cce4a59a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 263.4788 27.94 0)
+			(at 269.8288 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10899,7 +10930,7 @@
 	)
 	(global_label "BUS_WIRE2"
 		(shape bidirectional)
-		(at 248.92 43.18 0)
+		(at 254 43.18 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10909,7 +10940,7 @@
 		)
 		(uuid "f238529e-e2e2-4313-a951-f65c77939de7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 263.4788 43.18 0)
+			(at 268.5588 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12940,7 +12971,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 236.22 40.64 180)
+		(at 229.87 40.64 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12949,7 +12980,7 @@
 		(fields_autoplaced yes)
 		(uuid "299bbe14-2d9d-4e97-a04d-4f07d239cd88")
 		(property "Reference" "#PWR015"
-			(at 236.22 36.83 0)
+			(at 229.87 36.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12958,7 +12989,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 236.22 45.72 0)
+			(at 229.87 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12966,7 +12997,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 236.22 40.64 0)
+			(at 229.87 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12975,7 +13006,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 236.22 40.64 0)
+			(at 229.87 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12984,7 +13015,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 236.22 40.64 0)
+			(at 229.87 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13246,7 +13277,7 @@
 	)
 	(symbol
 		(lib_id "Diode_Bridge:MB6S")
-		(at 247.65 35.56 180)
+		(at 241.3 35.56 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13254,7 +13285,7 @@
 		(dnp no)
 		(uuid "2f45c7d8-e949-4ccb-a89e-d4dfcc21b213")
 		(property "Reference" "D2"
-			(at 241.554 29.972 0)
+			(at 235.204 29.972 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13262,7 +13293,7 @@
 			)
 		)
 		(property "Value" "MB6S"
-			(at 242.316 31.496 0)
+			(at 235.966 31.496 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -13270,7 +13301,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TO-269AA"
-			(at 243.84 38.735 0)
+			(at 237.49 38.735 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13280,7 +13311,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.vishay.com/docs/88573/dfs.pdf"
-			(at 247.65 35.56 0)
+			(at 241.3 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13289,7 +13320,7 @@
 			)
 		)
 		(property "Description" "-55℃~+150℃ 1V@0.5A 30A 5uA 600V 800mA MBS Bridge Rectifiers ROHS"
-			(at 247.65 35.56 0)
+			(at 241.3 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13298,7 +13329,7 @@
 			)
 		)
 		(property "LCSC" "C2886734"
-			(at 247.65 35.56 0)
+			(at 241.3 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13307,7 +13338,7 @@
 			)
 		)
 		(property "MPN" "MB6S"
-			(at 247.65 35.56 0)
+			(at 241.3 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13316,7 +13347,7 @@
 			)
 		)
 		(property "Package" "MBS"
-			(at 247.65 35.56 0)
+			(at 241.3 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13434,6 +13465,100 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 248.92 43.18 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "34079c24-ff5d-4828-9097-04fbc317abed")
+		(property "Reference" "L3"
+			(at 248.92 41.402 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "100uH"
+			(at 248.666 44.196 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+			)
+		)
+		(property "Footprint" "Inductor_SMD:L_Sunlord_SWPA3015S"
+			(at 248.92 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100uH 210mA 230mA 3.11Ω ±20% SMD,3x3mm Power Inductors ROHS"
+			(at 248.92 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C82994"
+			(at 248.92 43.18 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SMD,3x3mm"
+			(at 248.92 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SWPA3015S101MT"
+			(at 248.92 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ca1adb23-60f0-4fcf-b87c-1bf65f9efa4c")
+		)
+		(pin "2"
+			(uuid "d8f73f92-a41e-4df7-881f-a14f3903b83a")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "L3")
 					(unit 1)
 				)
 			)
@@ -17459,7 +17584,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 236.22 35.56 90)
+		(at 229.87 35.56 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -17467,7 +17592,7 @@
 		(dnp no)
 		(uuid "993fb52d-8981-4a0c-8ecc-8a3fae334f31")
 		(property "Reference" "J6"
-			(at 232.41 32.004 90)
+			(at 226.06 32.004 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17475,7 +17600,7 @@
 			)
 		)
 		(property "Value" "BUS Test Pad"
-			(at 232.918 33.782 90)
+			(at 226.568 33.782 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -17483,7 +17608,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 236.22 30.48 0)
+			(at 229.87 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17492,7 +17617,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 236.22 30.48 0)
+			(at 229.87 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17501,7 +17626,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 236.22 35.56 0)
+			(at 229.87 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17510,7 +17635,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 236.22 35.56 0)
+			(at 229.87 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17519,7 +17644,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 236.22 35.56 0)
+			(at 229.87 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17528,7 +17653,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 236.22 35.56 0)
+			(at 229.87 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17537,7 +17662,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 236.22 35.56 0)
+			(at 229.87 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17546,7 +17671,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 236.22 35.56 90)
+			(at 229.87 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17555,7 +17680,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 236.22 35.56 90)
+			(at 229.87 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17564,7 +17689,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 236.22 35.56 90)
+			(at 229.87 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17573,7 +17698,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 236.22 35.56 90)
+			(at 229.87 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17582,7 +17707,7 @@
 			)
 		)
 		(property "Sim.Device" ""
-			(at 236.22 35.56 90)
+			(at 229.87 35.56 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19026,22 +19151,22 @@
 			)
 		)
 		(pin "2"
-			(uuid "0dddc5a9-a878-4bb1-883f-1728b95b8e4c")
+			(uuid "0dddc5a9-a878-4bb1-883f-1728b95b8e4d")
 		)
 		(pin "1"
-			(uuid "f5707c6a-8cbc-4860-8c6a-7a926c89ae21")
+			(uuid "f5707c6a-8cbc-4860-8c6a-7a926c89ae22")
 		)
 		(pin "5"
-			(uuid "4e4cbcb2-7549-472f-bb27-4c7c7e517e69")
+			(uuid "4e4cbcb2-7549-472f-bb27-4c7c7e517e6a")
 		)
 		(pin "3"
-			(uuid "823568ce-0085-4c86-8939-70e1c8584d99")
+			(uuid "823568ce-0085-4c86-8939-70e1c8584d9a")
 		)
 		(pin "4"
-			(uuid "c7145269-fe05-41aa-8ed6-215be1b40e80")
+			(uuid "c7145269-fe05-41aa-8ed6-215be1b40e81")
 		)
 		(pin "6"
-			(uuid "256e6323-1e57-4f38-9773-9f2a9c6a8828")
+			(uuid "256e6323-1e57-4f38-9773-9f2a9c6a8829")
 		)
 		(instances
 			(project ""
@@ -20833,6 +20958,100 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:L")
+		(at 250.19 27.94 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f40d169e-4cd8-4a65-9d95-2ca6c456de5c")
+		(property "Reference" "L2"
+			(at 250.19 26.162 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "100uH"
+			(at 249.936 28.956 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+			)
+		)
+		(property "Footprint" "Inductor_SMD:L_Sunlord_SWPA3015S"
+			(at 250.19 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250.19 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "100uH 210mA 230mA 3.11Ω ±20% SMD,3x3mm Power Inductors ROHS"
+			(at 250.19 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C82994"
+			(at 250.19 27.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SMD,3x3mm"
+			(at 250.19 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "SWPA3015S101MT"
+			(at 250.19 27.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "05d6e5e0-4f85-437b-bc39-6cfa4e354d0c")
+		)
+		(pin "2"
+			(uuid "7f58d094-a2f2-4192-bb51-2281c369c3df")
+		)
+		(instances
+			(project "doorman"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "L2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Diode:BZV55C6V2")
 		(at 149.86 97.79 90)
 		(mirror x)
@@ -20931,7 +21150,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 269.24 40.64 0)
+		(at 276.86 40.64 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20939,7 +21158,7 @@
 		(dnp no)
 		(uuid "f811aeff-dda0-4aee-a917-df14a396325e")
 		(property "Reference" "#PWR024"
-			(at 269.24 46.99 0)
+			(at 276.86 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20948,7 +21167,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 271.272 44.704 0)
+			(at 278.892 44.704 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20957,7 +21176,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 269.24 40.64 0)
+			(at 276.86 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20966,7 +21185,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 269.24 40.64 0)
+			(at 276.86 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20975,7 +21194,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 269.24 40.64 0)
+			(at 276.86 40.64 0)
 			(effects
 				(font
 					(size 1.27 1.27)
