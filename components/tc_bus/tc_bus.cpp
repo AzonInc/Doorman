@@ -318,7 +318,7 @@ namespace esphome::tc_bus
         static bool telegram_is_long = false;
         static bool telegram_is_response = false;
         static uint32_t usLast = 0;
-        static bool after_data_telegram = false;
+        static bool wait_for_response = false;
 
         // Calculate time difference
         uint32_t usNow = micros();
@@ -351,10 +351,10 @@ namespace esphome::tc_bus
         {
             if (timeInUS >= PULSE_START_MIN_US && timeInUS <= PULSE_START_MAX_US)
             {
-                // ack timeout
+                // Response timeout
                 if (timeInUS > ACK_TIMEOUT_US)
                 {
-                    after_data_telegram = false;
+                    wait_for_response = false;
                 }
 
                 telegram = 0;
@@ -387,7 +387,7 @@ namespace esphome::tc_bus
             case DecoderState::LENGTH_BIT:
             {
                 telegram_is_long = (bit == 1);
-                expected_bits = telegram_is_long ? 32 : after_data_telegram ? 4 : 16;
+                expected_bits = telegram_is_long ? 32 : wait_for_response ? 4 : 16;
                 bit_index = 0;
                 state = DecoderState::DATA_BITS;
                 break;
@@ -414,7 +414,7 @@ namespace esphome::tc_bus
                 }
 
                 const bool crc_ok = (crc & 1u) == (uint8_t)bit;
-                telegram_is_response = (expected_bits == 4) || (expected_bits == 32 && after_data_telegram);
+                telegram_is_response = (expected_bits == 4) || (expected_bits == 32 && wait_for_response);
 
                 if (crc_ok)
                 {
@@ -422,7 +422,7 @@ namespace esphome::tc_bus
                     arg->telegram_is_long = telegram_is_long; 
                     arg->telegram_is_response = telegram_is_response;
                     arg->telegram_is_ready = true;
-                    after_data_telegram = !telegram_is_response;
+                    wait_for_response = !telegram_is_response;
                 }
 
                 state = DecoderState::IDLE;
