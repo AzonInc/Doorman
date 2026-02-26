@@ -250,7 +250,7 @@ namespace esphome::tc_bus
         if (received)
         {
             // From receiver
-            if(telegram_data.type == TELEGRAM_TYPE_DATA)
+            if(telegram_data.type == TELEGRAM_TYPE_ACK_DATA)
             {
                 if (this->current_flow_ == FLOW_READ_MEMORY)
                 {
@@ -288,7 +288,7 @@ namespace esphome::tc_bus
                     }
                     else
                     {
-                        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0, 300);
+                        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
                     }
 
                     // Do not proceed
@@ -738,8 +738,8 @@ namespace esphome::tc_bus
                             "  Serial Number: %i",
                             device_group_to_string(DEVICE_GROUP_INDOOR_STATION), 0, this->serial_number_);
 
-            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 0, 400); // group 0
-            send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0, 400);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 0); // group 0
+            send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0);
 
             this->set_timeout("wait_for_identification_group_0", 1000, [this]()
             {
@@ -749,8 +749,8 @@ namespace esphome::tc_bus
                                 "  Group: %s (%i)\n"
                                 "  Serial Number: %i",
                                 device_group_to_string(DEVICE_GROUP_INDOOR_STATION), 1, this->serial_number_);
-                send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1, 400); // group 1
-                send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0, 400);
+                send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1); // group 1
+                send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0);
 
                 this->set_timeout("wait_for_identification_group_1", 1000, [this]()
                 {
@@ -774,8 +774,8 @@ namespace esphome::tc_bus
                             "  Group: %s\n"
                             "  Serial Number: %i",
                             device_group_to_string(this->device_group_), this->serial_number_);
-            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, (uint8_t)this->device_group_, 400);
-            send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0, 400);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, (uint8_t)this->device_group_);
+            send_telegram(TELEGRAM_TYPE_REQUEST_VERSION, 0, 0);
 
             this->set_timeout("wait_for_identification_other", 1000, [this]() {
                 // Failed
@@ -921,7 +921,7 @@ namespace esphome::tc_bus
             this->complete_current_flow();
         });
 
-        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0, 300);
+        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
     }
 
     void TCBusDeviceComponent::read_memory_update(uint8_t index)
@@ -957,7 +957,7 @@ namespace esphome::tc_bus
                         model_to_string(this->model_), device_group_to_string(this->device_group_), this->serial_number_);
 
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0, 300);
+        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
 
         reading_memory_count_ = (index / 4);
 
@@ -972,7 +972,7 @@ namespace esphome::tc_bus
             this->complete_current_flow();
         });
 
-        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0, 300);
+        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
     }
 
     uint8_t TCBusDeviceComponent::get_doorbell_button_memory_index(uint8_t row, uint8_t col)

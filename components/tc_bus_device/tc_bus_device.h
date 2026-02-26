@@ -116,7 +116,7 @@ namespace esphome::tc_bus
 
         // Telegram handling
         bool on_receive(TelegramData telegram_data, bool received) override;
-        void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t wait_duration = 200);
+        void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t wait_duration = 250);
 
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR

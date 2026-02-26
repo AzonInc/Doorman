@@ -18,3 +18,46 @@ packages:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+
+binary_sensor:
+  - platform: tc_bus
+    id: internal_call_sensor
+    name: "Internal Call ISH3030"
+    type: internal_call
+    address: 255
+    payload: 255
+    serial_number: 798906
+    auto_off: 2s
+    on_press:
+      - tc_bus.send:
+          type: ack_status
+          payload: 0x1
+
+      - delay: 2s
+
+      - tc_bus.send:
+          type: start_talking
+          serial_number: 798906
+
+  - platform: tc_bus
+    id: start_talking_sensor
+    name: "Start Talking ISW5010"
+    type: start_talking
+    address: 12
+    payload: 1
+    serial_number: 398149
+    auto_off: 2s
+    on_press:
+      - tc_bus.send:
+          type: ack_status
+          payload: 0x1
+
+button:
+  - platform: template
+    name: "Internal Call ISW5010"
+    on_press:
+      - tc_bus.send:
+          type: internal_call
+          serial_number: 398149
+          address: 12
+          #0613457F

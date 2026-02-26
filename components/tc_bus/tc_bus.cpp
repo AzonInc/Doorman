@@ -23,6 +23,15 @@ namespace esphome::tc_bus
     {
         ESP_LOGCONFIG(TAG, "Running setup");
 
+        this->rx_pin_->setup();
+        this->tx_pin_->setup();
+        this->tx_pin_->digital_write(false);
+        
+        auto &s = this->store_;
+
+        s.rx_pin = this->rx_pin_->to_isr();
+        this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+
         #ifdef USE_BINARY_SENSOR
             // Reset Binary Sensor Listeners
             for (auto &listener : listeners_)
@@ -38,14 +47,14 @@ namespace esphome::tc_bus
                 listener->lock(&listener->timer_);
             }
         #endif
-
-        // Register remote receiver listener
-        this->rx_->register_listener(this);
     }
 
     void TCBusComponent::dump_config()
     {
         ESP_LOGCONFIG(TAG, "TC:BUS:");
+
+        LOG_PIN("  RX Pin: ", this->rx_pin_);
+        LOG_PIN("  TX Pin: ", this->tx_pin_);
 
         #ifdef USE_TEXT_SENSOR
         ESP_LOGCONFIG(TAG, "  Text Sensors:");
@@ -55,6 +64,38 @@ namespace esphome::tc_bus
 
     void TCBusComponent::loop()
     {
+        // Process received Telegrams
+        auto &s = this->store_;
+
+        uint32_t telegram;
+        bool telegram_is_ready;
+        bool telegram_is_long;
+        bool telegram_is_response;
+
+        // Brackets limit InterruptLock lifetime
+        {
+            InterruptLock lock;
+            telegram = s.telegram;
+            telegram_is_ready = s.telegram_is_ready;
+            telegram_is_long = s.telegram_is_long;
+            telegram_is_response = s.telegram_is_response;
+
+            s.telegram = 0;
+            s.telegram_is_ready = false;
+            s.telegram_is_long = false;
+            s.telegram_is_response = false;
+        }
+
+        if(telegram_is_ready)
+        {
+            TelegramData telegram_data = parseTelegram(telegram, telegram_is_long, telegram_is_response);
+            this->handle_telegram(telegram_data);
+        }
+
+        // Process Telegram queue
+        this->process_telegram_queue();
+
+        // Process Sensors
         uint32_t now_millis = millis();
 
         #ifdef USE_BINARY_SENSOR
@@ -78,9 +119,6 @@ namespace esphome::tc_bus
             }
         }
         #endif
-
-        // Process telegram queue
-        this->process_telegram_queue();
     }
 
     void TCBusComponent::process_telegram_queue()
@@ -91,7 +129,7 @@ namespace esphome::tc_bus
         {
             TCBusTelegramQueueItem &queue_item = this->telegram_queue_.front();
 
-            if (currentTime - this->last_telegram_time_ >= queue_item.wait_duration)
+            if (queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_STATUS || queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_DATA || (currentTime - this->last_telegram_time_ >= queue_item.wait_duration))
             {
                 // Send telegram
                 this->transmit_telegram(queue_item.telegram_data);
@@ -102,46 +140,32 @@ namespace esphome::tc_bus
                 // Update the time of the last telegram
                 this->last_telegram_time_ = currentTime;
             }
+            else
+            {
+                ESP_LOGW(TAG, "Queue on hold");
+            }
         }
     }
 
-    void TCBusComponent::received_telegram(TelegramData telegram_data, bool received)
+    void TCBusComponent::handle_telegram(TelegramData telegram_data, bool received)
     {
         if (received)
         {
             // From receiver
-            if (wait_for_data_telegram_)
-            {
-                this->cancel_timeout("wait_for_data_telegram");
-                ESP_LOGV(TAG, "Reset wait_for_data_telegram_");
-                this->wait_for_data_telegram_ = false;
+            ESP_LOGI(TAG,
+                "Received Telegram: %s (%i-bit, 0x%08X, %s)\n"
+                "  Address: %i\n"
+                "  Payload: 0x%X\n"
+                "  Serial-Number: %i",
+                telegram_type_to_string(telegram_data.type), (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, 
+                telegram_data.address, 
+                telegram_data.payload, 
+                telegram_data.serial_number);
 
-                ESP_LOGI(TAG,
-                    "Received Data Telegram:\n"
-                    "  Payload: 0x%08X\n"
-                    "  Response: %s",
-                    telegram_data.payload,
-                    YESNO(telegram_data.is_response));
-            }
-            else
+            // Additional information
+            if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
             {
-                ESP_LOGI(TAG,
-                    "Received Telegram: %s (%i-bit, 0x%08X, %s)\n"
-                    "  Address: %i\n"
-                    "  Payload: 0x%X\n"
-                    "  Serial-Number: %i\n"
-                    "  Response: %s",
-                    telegram_type_to_string(telegram_data.type), (telegram_data.is_long ? 32 : 16), telegram_data.raw, telegram_data.hex, 
-                    telegram_data.address, 
-                    telegram_data.payload, 
-                    telegram_data.serial_number, 
-                    YESNO(telegram_data.is_response));
-
-                // Additional information
-                if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
-                {
-                    ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
-                }
+                ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
             }
 
             // Fire Callback
@@ -184,39 +208,28 @@ namespace esphome::tc_bus
                 }
             }
             #endif
+
+            // Process Telegram queue
+            this->process_telegram_queue();
         }
         else
         {
             // From transmitter
-            if(telegram_data.type == TELEGRAM_TYPE_DATA)
-            {
-                ESP_LOGI(TAG,
-                    "Sending Data Telegram:\n"
-                    "  Payload: 0x%08X\n"
-                    "  Response: %s",
-                    telegram_data.payload,
-                    YESNO(telegram_data.is_response));
-            }
-            else
-            {
-                ESP_LOGI(TAG,
-                    "Sending Telegram: %s (%i-bit, 0x%08X, %s)\n"
-                    "  Address: %i\n"
-                    "  Payload: 0x%X\n"
-                    "  Serial-Number: %i\n"
-                    "  Response: %s",
-                    telegram_type_to_string(telegram_data.type), 
-                    (telegram_data.is_long ? 32 : 16), telegram_data.raw, telegram_data.hex, 
-                    telegram_data.address, 
-                    telegram_data.payload, 
-                    telegram_data.serial_number, 
-                    YESNO(telegram_data.is_response));
+            ESP_LOGI(TAG,
+                "Sending Telegram: %s (%i-bit, 0x%08X, %s)\n"
+                "  Address: %i\n"
+                "  Payload: 0x%X\n"
+                "  Serial-Number: %i",
+                telegram_type_to_string(telegram_data.type), 
+                (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, 
+                telegram_data.address, 
+                telegram_data.payload, 
+                telegram_data.serial_number);
 
-                // Additional information
-                if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
-                {
-                    ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
-                }
+            // Additional information
+            if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
+            {
+                ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
             }
         }
 
@@ -246,17 +259,6 @@ namespace esphome::tc_bus
         {
             ESP_LOGV(TAG, "Save device group: %d", telegram_data.payload);
             this->selected_device_group_ = (uint8_t)telegram_data.payload;
-        }
-        else if (telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK || telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION)
-        {
-            ESP_LOGV(TAG, "Set wait_for_data_telegram_");
-            this->wait_for_data_telegram_ = true;
-
-            this->set_timeout("wait_for_data_telegram", 1000, [this]() {
-                // Failed
-                ESP_LOGV(TAG, "Reset wait_for_data_telegram_ (timeout)");
-                this->wait_for_data_telegram_ = false;
-            });
         }
         else if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES)
         {
@@ -299,255 +301,134 @@ namespace esphome::tc_bus
         #endif
 
         #ifdef USE_TEXT_SENSOR
-        if (telegram_data.type != TELEGRAM_TYPE_ACK)
+        // Publish Telegram to Last Bus Telegram Sensor
+        if (this->bus_telegram_text_sensor_ != nullptr)
         {
-            // Publish Telegram to Last Bus Telegram Sensor
-            if (this->bus_telegram_text_sensor_ != nullptr)
-            {
-                this->bus_telegram_text_sensor_->publish_state(telegram_data.hex);
-            }
+            this->bus_telegram_text_sensor_->publish_state(telegram_data.hex);
         }
         #endif
     }
 
-    bool TCBusComponent::on_receive(remote_base::RemoteReceiveData data)
+    void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
     {
-        ESP_LOGV(TAG, "Received raw data (Length: %" PRIi32 ")", data.size());
+        static DecoderState state = DecoderState::IDLE;
+        static uint8_t expected_bits = 0;
+        static uint8_t bit_index = 0;
+        static uint32_t telegram = 0;
+        static bool telegram_is_long = false;
+        static bool telegram_is_response = false;
+        static uint32_t usLast = 0;
+        static bool after_data_telegram = false;
 
-        bool is_long = false;
-        bool telegram_ready = false;
+        // Calculate time difference
+        uint32_t usNow = micros();
+        uint32_t timeInUS = usNow - usLast;
 
-        bool is_response = false;
-
-        uint32_t telegram = 0;
-        uint8_t cmd_pos = 0;
-        uint8_t cmd_crc = 0;
-        uint8_t cmd_cal_crc = 1;
-
-        uint8_t ack_telegram = 0;
-        uint8_t ack_pos = 0;
-        uint8_t ack_crc = 0;
-        uint8_t ack_cal_crc = 1;
-
-        // Process each pulse duration in the received data
-        for (auto raw_pulse_duration : data.get_raw_data())
+        // Filter glitches
+        if (timeInUS < PULSE_FILTER)
         {
-            uint32_t pulse_duration = std::abs(raw_pulse_duration);
-            uint8_t pulse_type = 4;
-
-            // Determine the type of pulse based on its duration
-            if (pulse_duration >= BIT_0_MIN && pulse_duration <= BIT_0_MAX)
-            {
-                pulse_type = 0;
-                ESP_LOGV(TAG, "Telegram Bit (%i), %i", 0, cmd_pos);
-            }
-            else if (pulse_duration >= BIT_1_MIN && pulse_duration <= BIT_1_MAX)
-            {
-                pulse_type = 1;
-                ESP_LOGV(TAG, "Telegram Bit (%i), %i", 1, cmd_pos);
-            }
-            else if (pulse_duration >= START_RSP && pulse_duration <= START_MAX)
-            {
-                pulse_type = 2;
-                is_response = true;
-                ESP_LOGV(TAG, "Begin Response Telegram (%i)", pulse_duration, cmd_pos);
-            }
-            else if (pulse_duration >= START_CMD && pulse_duration <= START_MAX)
-            {
-                pulse_type = 2;
-                ESP_LOGV(TAG, "Begin Telegram (%i)", pulse_duration, cmd_pos);
-            }
-            else
-            {
-                // If the pulse duration does not match any known type, reset the state
-                // Check for ACK
-                if (ack_pos == 6)
-                {
-                    TelegramData telegram_data = parseTelegram(ack_telegram, false, true, false);
-                    if (ack_crc == ack_cal_crc)
-                    {
-                        this->received_telegram(telegram_data);
-                    }
-
-                    ack_pos = 0;
-                    ack_telegram = 0;
-                    ack_crc = 0;
-                    ack_cal_crc = 1;
-                }
-
-                // Invalid timing, reset state
-                cmd_pos = 0;
-                ESP_LOGV(TAG, "Reset (%i), %i", pulse_duration, cmd_pos);
-                continue;
-            }
-
-            // Process acknowledgment bits
-            if (pulse_type == 0 || pulse_type == 1)
-            {
-                if (ack_pos == 0)
-                {
-                    ack_pos++;
-                }
-                else if (ack_pos >= 1 && ack_pos <= 4)
-                {
-                    if (pulse_type)
-                    {
-                        ack_telegram |= (1 << (4 - ack_pos));
-                    }
-                    ack_cal_crc ^= pulse_type;
-                    ack_pos++;
-                }
-                else if (ack_pos == 5)
-                {
-                    ack_crc = pulse_type;
-                    ack_pos++;
-                }
-            }
-            else if (pulse_type == 2)
-            {
-                if (ack_pos == 6)
-                {
-                    TelegramData telegram_data = parseTelegram(ack_telegram, false, true, false);
-                    if (ack_crc == ack_cal_crc)
-                    {
-                        this->received_telegram(telegram_data);
-                    }
-                }
-
-                ack_pos = 0;
-                ack_telegram = 0;
-                ack_crc = 0;
-                ack_cal_crc = 1;
-            }
-
-            // Process telegram bits
-            if (cmd_pos == 0)
-            {
-                if (pulse_type == 2)
-                {
-                    cmd_pos++;
-                    telegram = 0;
-                    cmd_crc = 0;
-                    cmd_cal_crc = 1;
-                    is_long = false;
-                }
-            }
-            else if (pulse_type == 0 || pulse_type == 1)
-            {
-                if (cmd_pos == 1)
-                {
-                    is_long = pulse_type;
-                    cmd_pos++;
-                }
-                else if (cmd_pos >= 2 && cmd_pos <= 17)
-                {
-                    if (pulse_type)
-                    {
-                        telegram |= (1 << ((is_long ? 33 : 17) - cmd_pos));
-                    }
-                    cmd_cal_crc ^= pulse_type;
-                    cmd_pos++;
-                }
-                else if (cmd_pos == 18)
-                {
-                    if (is_long)
-                    {
-                        if (pulse_type)
-                        {
-                            telegram |= (1 << (33 - cmd_pos));
-                        }
-                        cmd_cal_crc ^= pulse_type;
-                        cmd_pos++;
-                    }
-                    else
-                    {
-                        cmd_crc = pulse_type;
-                        telegram_ready = true;
-                    }
-                }
-                else if (cmd_pos >= 19 && cmd_pos <= 33)
-                {
-                    if (pulse_type)
-                    {
-                        telegram |= (1 << (33 - cmd_pos));
-                    }
-                    cmd_cal_crc ^= pulse_type;
-                    cmd_pos++;
-                }
-                else if (cmd_pos == 34)
-                {
-                    cmd_crc = pulse_type;
-                    telegram_ready = true;
-                }
-            }
-            else if (pulse_type == 2)
-            { // Another START signal
-                // Only reset if we're not in the middle of a valid telegram
-                if (!telegram_ready)
-                {
-                    cmd_pos = 1; // Set to 1 since we're starting a new telegram
-                    telegram = 0;
-                    cmd_crc = 0;
-                    cmd_cal_crc = 1;
-                    is_long = false;
-                }
-            }
-            else
-            {
-                cmd_pos = 0;
-                telegram = 0;
-                cmd_crc = 0;
-                cmd_cal_crc = 1;
-                is_long = false;
-
-                ack_pos = 0;
-                ack_telegram = 0;
-                ack_crc = 0;
-                ack_cal_crc = 1;
-            }
-
-            // If the telegram is ready, process it
-            if (telegram_ready)
-            {
-                telegram_ready = false;
-
-                if (cmd_crc == cmd_cal_crc)
-                {
-                    if (this->last_sent_telegram_ == -1)
-                    {
-                        ESP_LOGV(TAG, "Received data %X, previously sent: NOTHING", telegram);
-                    }
-                    else
-                    {
-                        ESP_LOGV(TAG, "Received data %X, previously sent: %08X", telegram, this->last_sent_telegram_);
-                    }
-
-                    if (this->last_sent_telegram_ == -1 || (this->last_sent_telegram_ != -1 && static_cast<int32_t>(telegram) != this->last_sent_telegram_))
-                    {
-                        TelegramData telegram_data = parseTelegram(telegram, is_long, is_response, wait_for_data_telegram_);
-                        this->received_telegram(telegram_data);
-                    }
-                    else
-                    {
-                        ESP_LOGV(TAG, "Received telegram 0x%08X, but ignoring it as it matches the last sent telegram.", telegram);
-                    }
-                    this->last_sent_telegram_ = -1;
-                }
-                else
-                {
-                    ESP_LOGW(TAG, "CRC mismatch! Received: %d | Expected: %d", cmd_crc, cmd_cal_crc);
-                }
-
-                ack_pos = 0;
-                ack_telegram = 0;
-                ack_crc = 0;
-                ack_cal_crc = 1;
-                telegram = 0;
-                cmd_pos = 0;
-            }
+            return;
         }
 
-        return true;
+        usLast = usNow;
+
+        // Save last bit timestamp
+        arg->last_bit_change = millis();
+
+        // Classify pulse into bit value (-1 = not a data bit)
+        int bit = -1;
+        if (timeInUS >= PULSE_BIT_0_MIN_US && timeInUS <= PULSE_BIT_0_MAX_US)
+        {
+            bit = 0;
+        }
+        else if (timeInUS >= PULSE_BIT_1_MIN_US && timeInUS <= PULSE_BIT_1_MAX_US)
+        {
+            bit = 1;
+        }
+
+        // Gap or start pulse
+        if (timeInUS >= NEW_TELEGRAM_THRESHOLD_US && bit < 0)
+        {
+            if (timeInUS >= PULSE_START_MIN_US && timeInUS <= PULSE_START_MAX_US)
+            {
+                // ack timeout
+                if (timeInUS > ACK_TIMEOUT_US)
+                {
+                    after_data_telegram = false;
+                }
+
+                telegram = 0;
+                telegram_is_long = false;
+                telegram_is_response = false;
+                bit_index = 0;
+                state = DecoderState::LENGTH_BIT;
+            }
+            else
+            {
+                state = DecoderState::IDLE;
+            }
+            return;
+        }
+
+        // Invalid pulse
+        if (bit < 0)
+        {
+            state = DecoderState::IDLE;
+            return;
+        }
+
+        switch (state)
+        {
+            case DecoderState::IDLE:
+            {
+                break;
+            }
+
+            case DecoderState::LENGTH_BIT:
+            {
+                telegram_is_long = (bit == 1);
+                expected_bits = telegram_is_long ? 32 : after_data_telegram ? 4 : 16;
+                bit_index = 0;
+                state = DecoderState::DATA_BITS;
+                break;
+            }
+
+            case DecoderState::DATA_BITS:
+            {
+                telegram = (telegram << 1) | (uint32_t)bit;
+
+                if (++bit_index >= expected_bits)
+                {
+                    state = DecoderState::CRC_BIT;
+                }
+                break;
+            }
+
+            case DecoderState::CRC_BIT:
+            {
+                // CRC: start value 1, XOR all data bits MSB first, length_bit excluded
+                uint8_t crc = 1;
+                for (int8_t i = (int8_t)expected_bits - 1; i >= 0; --i)
+                {
+                    crc ^= (telegram >> i) & 1u;
+                }
+
+                const bool crc_ok = (crc & 1u) == (uint8_t)bit;
+                telegram_is_response = (expected_bits == 4) || (expected_bits == 32 && after_data_telegram);
+
+                if (crc_ok)
+                {
+                    arg->telegram = telegram;
+                    arg->telegram_is_long = telegram_is_long; 
+                    arg->telegram_is_response = telegram_is_response;
+                    arg->telegram_is_ready = true;
+                    after_data_telegram = !telegram_is_response;
+                }
+
+                state = DecoderState::IDLE;
+                break;
+            }
+        }
     }
 
     #ifdef USE_BINARY_SENSOR
@@ -596,7 +477,7 @@ namespace esphome::tc_bus
     void TCBusComponent::send_telegram(TelegramData telegram_data, uint32_t wait_duration)
     {
         ESP_LOGV(TAG, "Called send_telegram(TelegramData telegram_data: object, uint32_t wait_duration: %i)", wait_duration);
-        ESP_LOGV(TAG, "TelegramData Object: Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i | Wait Duration: %i", telegram_type_to_string(telegram_data.type), telegram_data.address, telegram_data.payload, telegram_data.serial_number, (telegram_data.is_long ? 32 : 16), wait_duration);
+        ESP_LOGV(TAG, "TelegramData Object: Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i | Wait Duration: %i", telegram_type_to_string(telegram_data.type), telegram_data.address, telegram_data.payload, telegram_data.serial_number, (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), wait_duration);
         
         if (telegram_data.raw == 0)
         {
@@ -612,46 +493,66 @@ namespace esphome::tc_bus
 
     void TCBusComponent::transmit_telegram(TelegramData telegram_data)
     {   
-        this->received_telegram(telegram_data, false);
+        this->handle_telegram(telegram_data, false);
 
-        this->last_sent_telegram_ = telegram_data.raw;
-
-        auto call = id(this->tx_).transmit();
-        remote_base::RemoteTransmitData *dst = call.get_data();
-
-        // Start transmission with initial mark and space
-        dst->mark(telegram_data.type == TELEGRAM_TYPE_ACK ? BUS_ACK_START_MS : BUS_CMD_START_MS);
-        dst->space(telegram_data.is_long ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
-
-        // Calculate length based on telegram type
-        // Acknowledge telegrams only have 4 bits if short
-        uint8_t length = (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK ? 4 : 16));
-
-        // Track checksum
-        uint8_t checksm = 1;
-
-        // Process all bits
-        for (int i = length - 1; i >= 0; i--)
+        if (this->sending_)
         {
-            // Extract single bit
-            bool bit = (telegram_data.raw & (1UL << i)) != 0;
-
-            // Update checksum
-            checksm ^= bit;
-
-            // Send bit as mark/space sequence
-            if (i % 2 == 0)
-            {
-                dst->space(bit ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
-            }
-            else
-            {
-                dst->mark(bit ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
-            }
+            ESP_LOGW(TAG, "Transmission of telegram %s cancelled, another transmission is in progress!", telegram_data.hex);
         }
+        else
+        {
+            // Pause reading
+            ESP_LOGV(TAG, "Pause reading");
+            this->rx_pin_->detach_interrupt();
 
-        dst->mark(checksm ? BUS_ONE_BIT_MS : BUS_ZERO_BIT_MS);
+            this->sending_ = true;
 
-        call.perform();
+            // Start Telegram
+            this->tx_pin_->digital_write(true);
+            delay(PULSE_START);
+
+            // Length: 32 or 16 (4) bits
+            this->tx_pin_->digital_write(false);
+            delay(telegram_data.is_long ? PULSE_BIT_1 : PULSE_BIT_0);
+
+            // Calculate length based on telegram type
+            // Status Acknowledge telegrams only have 4 bits
+            uint8_t length = (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16));
+
+            // Track checksum
+            uint8_t checksm = 1;
+
+            // Process all bits
+            for (int i = length - 1; i >= 0; i--)
+            {
+                // Extract single bit
+                bool bit = (telegram_data.raw & (1UL << i)) != 0;
+
+                // Update checksum
+                checksm ^= bit;
+
+                // Send bit as mark/space sequence
+                if (i % 2 == 0)
+                {
+                    this->tx_pin_->digital_write(false);
+                    delay(bit ? PULSE_BIT_1 : PULSE_BIT_0);
+                }
+                else
+                {
+                    this->tx_pin_->digital_write(true);
+                    delay(bit ? PULSE_BIT_1 : PULSE_BIT_0);
+                }
+            }
+
+            this->tx_pin_->digital_write(true);
+            delay(checksm ? PULSE_BIT_1 : PULSE_BIT_0);
+            this->tx_pin_->digital_write(false);
+
+            this->sending_ = false;
+
+            // Resume reading
+            ESP_LOGV(TAG, "Resume reading");
+            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+        }
     }
 }

@@ -1,12 +1,11 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import remote_transmitter, remote_receiver
-from esphome import automation
+from esphome import pins, automation
 from esphome.const import CONF_ID, CONF_TRIGGER_ID, CONF_TYPE
 
 CODEOWNERS = ["@azoninc"]
 
-DEPENDENCIES = ["remote_transmitter", "remote_receiver"]
+DEPENDENCIES = []
 MULTI_CONF = False
 
 tc_bus_ns = cg.esphome_ns.namespace("tc_bus")
@@ -27,8 +26,8 @@ ReceivedTelegramTrigger = tc_bus_ns.class_("ReceivedTelegramTrigger", automation
 TELEGRAM_TYPE = tc_bus_ns.enum("TelegramType")
 TELEGRAM_TYPES = {
     "unknown": TELEGRAM_TYPE.TELEGRAM_TYPE_UNKNOWN,
-    "ack": TELEGRAM_TYPE.TELEGRAM_TYPE_ACK,
-    "data": TELEGRAM_TYPE.TELEGRAM_TYPE_DATA,
+    "ack_status": TELEGRAM_TYPE.TELEGRAM_TYPE_ACK_STATUS,
+    "ack_data": TELEGRAM_TYPE.TELEGRAM_TYPE_ACK_DATA,
     "search_doorman_devices": TELEGRAM_TYPE.TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES,
     "found_doorman_device": TELEGRAM_TYPE.TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE,
     "door_call": TELEGRAM_TYPE.TELEGRAM_TYPE_DOOR_CALL,
@@ -62,8 +61,8 @@ TELEGRAM_TYPES = {
 
 CONF_TC_BUS_ID = "tc_bus_id"
 
-CONF_TRANSMITTER_ID = "transmitter_id"
-CONF_RECEIVER_ID = "receiver_id"
+CONF_RX_PIN = "rx_pin"
+CONF_TX_PIN = "tx_pin"
 
 CONF_TELEGRAM = "telegram"
 CONF_IS_LONG = "is_long"
@@ -81,12 +80,8 @@ def validate_config(config):
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(TCBusComponent),
-        cv.GenerateID(CONF_TRANSMITTER_ID): cv.use_id(
-            remote_transmitter.RemoteTransmitterComponent
-        ),
-        cv.GenerateID(CONF_RECEIVER_ID): cv.use_id(
-            remote_receiver.RemoteReceiverComponent
-        ),
+        cv.Optional(CONF_RX_PIN, default=9): pins.internal_gpio_input_pin_schema,
+        cv.Optional(CONF_TX_PIN, default=8): pins.internal_gpio_output_pin_schema,
         cv.Optional(CONF_ON_TELEGRAM): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReceivedTelegramTrigger),
@@ -105,11 +100,11 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 
-    transmitter = await cg.get_variable(config[CONF_TRANSMITTER_ID])
-    cg.add(var.set_tx(transmitter))
+    rx_pin = await cg.gpio_pin_expression(config[CONF_RX_PIN])
+    cg.add(var.set_rx_pin(rx_pin))
 
-    receiver = await cg.get_variable(config[CONF_RECEIVER_ID])
-    cg.add(var.set_rx(receiver))
+    tx_pin = await cg.gpio_pin_expression(config[CONF_TX_PIN])
+    cg.add(var.set_tx_pin(tx_pin))
 
     for conf in config.get(CONF_ON_TELEGRAM, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)

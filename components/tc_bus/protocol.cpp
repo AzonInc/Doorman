@@ -16,25 +16,27 @@ namespace esphome::tc_bus
 
         switch (type)
         {
-            case TELEGRAM_TYPE_DATA:
+            case TELEGRAM_TYPE_ACK_DATA:
                 data.is_long = true;
                 data.is_response = true;
-                data.is_data = true;
-                data.raw = payload;
                 data.payload = payload;
                 data.serial_number = 0;
                 data.address = 0;
+                data.raw = payload;
                 break;
 
-            case TELEGRAM_TYPE_ACK:
+            case TELEGRAM_TYPE_ACK_STATUS:
+                data.is_long = false;
+                data.is_response = true;
+                data.serial_number = 0;
+                data.address = 0;
+
                 if(payload < 1 || payload > 15)
                 {
                     payload = 1;
                 }
                 data.payload = payload;
-
-                data.is_long = false;
-                data.is_response = true;
+                
                 data.raw |= (payload & 0xF); // 1
                 break;
 
@@ -316,7 +318,7 @@ namespace esphome::tc_bus
 
         // Generate telegram HEX
         size_t pos = 0;
-        size_t len =  data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK ? 1 : 3);
+        size_t len =  data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 1 : 3);
         for (int i = len; i >= 0; --i) {
             uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
             data.hex[pos++] = "0123456789ABCDEF"[nibble];
@@ -325,7 +327,7 @@ namespace esphome::tc_bus
         return data;
     }
 
-    TelegramData parseTelegram(uint32_t raw, bool is_long, bool is_response, bool is_data)
+    TelegramData parseTelegram(uint32_t raw, bool is_long, bool is_response)
     {
         TelegramData data{};
         data.raw = raw;
@@ -335,23 +337,16 @@ namespace esphome::tc_bus
         data.is_long = is_long;
         data.is_response = is_response;
 
-        if(is_data)
+        if (is_response)
         {
-            data.type = TELEGRAM_TYPE_DATA;
-            data.is_long = true;
+            data.type = is_long ? TELEGRAM_TYPE_ACK_DATA : TELEGRAM_TYPE_ACK_STATUS;
             data.payload = raw;
             data.serial_number = 0;
             data.address = 0;
         }
         else
         {
-            if (raw <= 0xF)
-            {
-                // Handle 4-bit acknowledge telegrams
-                data.type = TELEGRAM_TYPE_ACK;
-                data.payload = raw & 0xF;
-            }
-            else if (is_long)
+            if (is_long)
             {
                 // Handle 32-bit telegrams
 
@@ -575,7 +570,7 @@ namespace esphome::tc_bus
 
         // Generate telegram HEX
         size_t pos = 0;
-        size_t len =  data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK ? 1 : 3);
+        size_t len = data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 1 : 3);
         for (int i = len; i >= 0; --i) {
             uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
             data.hex[pos++] = "0123456789ABCDEF"[nibble];
@@ -614,8 +609,8 @@ namespace esphome::tc_bus
         {TELEGRAM_TYPE_SELECT_MEMORY_PAGE, "SELECT_MEMORY_PAGE"},
         {TELEGRAM_TYPE_WRITE_MEMORY, "WRITE_MEMORY"},
         {TELEGRAM_TYPE_REQUEST_VERSION, "REQUEST_VERSION"},
-        {TELEGRAM_TYPE_ACK, "ACK"},
-        {TELEGRAM_TYPE_DATA, "DATA"},
+        {TELEGRAM_TYPE_ACK_STATUS, "ACK_STATUS"},
+        {TELEGRAM_TYPE_ACK_DATA, "ACK_DATA"},
     };
     
     const char* telegram_type_to_string(TelegramType type)

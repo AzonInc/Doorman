@@ -154,54 +154,12 @@ namespace esphome::configo
     bool ConfigoComponent::on_receive(tc_bus::TelegramData telegram_data, bool received)
     {
       // Send to serial output -> configo software
-      bool qprot = true;
-
-      std::vector<uint8_t> false_types = {
-        tc_bus::TELEGRAM_TYPE_DOOR_CALL,
-        tc_bus::TELEGRAM_TYPE_FLOOR_CALL,
-        tc_bus::TELEGRAM_TYPE_INTERNAL_CALL,
-        tc_bus::TELEGRAM_TYPE_CONTROL_FUNCTION,
-        tc_bus::TELEGRAM_TYPE_START_TALKING_DOOR_CALL,
-        tc_bus::TELEGRAM_TYPE_START_TALKING,
-        tc_bus::TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL,
-        tc_bus::TELEGRAM_TYPE_STOP_TALKING,
-        tc_bus::TELEGRAM_TYPE_OPEN_DOOR,
-        tc_bus::TELEGRAM_TYPE_OPEN_DOOR_LONG,
-        tc_bus::TELEGRAM_TYPE_LIGHT,
-        tc_bus::TELEGRAM_TYPE_DOOR_OPENED,
-        tc_bus::TELEGRAM_TYPE_DOOR_CLOSED,
-        tc_bus::TELEGRAM_TYPE_END_OF_RINGTONE,
-        tc_bus::TELEGRAM_TYPE_END_OF_DOOR_READINESS,
-        tc_bus::TELEGRAM_TYPE_INITIALIZE_DOOR_STATION,
-        tc_bus::TELEGRAM_TYPE_RESET,
-        tc_bus::TELEGRAM_TYPE_SELECT_DEVICE_GROUP,
-        tc_bus::TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET,
-        tc_bus::TELEGRAM_TYPE_SEARCH_DEVICES,
-        tc_bus::TELEGRAM_TYPE_FOUND_DEVICE,
-        tc_bus::TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM,
-        tc_bus::TELEGRAM_TYPE_PROGRAMMING_MODE,
-        tc_bus::TELEGRAM_TYPE_READ_MEMORY_BLOCK,
-        tc_bus::TELEGRAM_TYPE_SELECT_MEMORY_PAGE,
-        tc_bus::TELEGRAM_TYPE_WRITE_MEMORY,
-        tc_bus::TELEGRAM_TYPE_REQUEST_VERSION
-      };
-
-      if (std::find(false_types.begin(), false_types.end(), telegram_data.type) != false_types.end())
-      {
-        qprot = false;
-      }
+      bool qprot = (telegram_data.type == tc_bus::TelegramType::TELEGRAM_TYPE_ACK_STATUS || telegram_data.type == tc_bus::TelegramType::TELEGRAM_TYPE_ACK_DATA);
 
       size_t len = strlen(telegram_data.hex);
       std::vector<uint8_t> vec(telegram_data.hex, telegram_data.hex + len);
       vec.insert(vec.begin(), received ? (qprot ? '%' : '$') : ' ');
       this->write_data_(vec, true);
-
-      /*if(telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION)
-      {
-        waitingForResponse_ = true;
-      }
-
-      waitingForResponse_ = false;*/
 
       return true;
     }

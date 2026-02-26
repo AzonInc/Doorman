@@ -8,9 +8,6 @@ esphome:
 logger:
   level: VERBOSE
   initial_level: DEBUG
-
-remote_receiver:
-  dump: raw
   
 globals:
   - id: search_mode

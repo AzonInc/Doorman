@@ -35,14 +35,6 @@ psram:
   mode: octal
   speed: 80MHz
 
-remote_receiver:
-  rmt_symbols: 192
-  use_dma: false
-
-remote_transmitter:
-  rmt_symbols: 48
-  use_dma: false
-
 wifi:
   output_power: 8.5
   enable_btm: true

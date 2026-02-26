@@ -11,9 +11,6 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/preferences.h"
 
-#include "esphome/components/remote_transmitter/remote_transmitter.h"
-#include "esphome/components/remote_receiver/remote_receiver.h"
-
 #ifdef USE_API
 #include "esphome/components/api/custom_api_device.h"
 #endif
@@ -49,6 +46,26 @@ namespace esphome::tc_bus
         TelegramData telegram_data;
         uint32_t wait_duration;
     };
+
+    enum class DecoderState : uint8_t {
+        IDLE       = 0,
+        LENGTH_BIT = 1,
+        DATA_BITS  = 2,
+        CRC_BIT    = 3,
+    };
+
+    static constexpr uint16_t PULSE_FILTER              = 1500;
+    static constexpr uint16_t PULSE_START               = 6000;
+    static constexpr uint16_t PULSE_START_MIN_US        = 5800;
+    static constexpr uint16_t PULSE_START_MAX_US        = 6400;
+    static constexpr uint16_t PULSE_BIT_0               = 2000;
+    static constexpr uint16_t PULSE_BIT_0_MIN_US        = 1850;
+    static constexpr uint16_t PULSE_BIT_0_MAX_US        = 2300;
+    static constexpr uint16_t PULSE_BIT_1_MIN_US        = 3900;
+    static constexpr uint16_t PULSE_BIT_1               = 4000;
+    static constexpr uint16_t PULSE_BIT_1_MAX_US        = 4300;
+    static constexpr uint16_t NEW_TELEGRAM_THRESHOLD_US = 5000;
+    static constexpr uint16_t ACK_TIMEOUT_US            = 6000;
 
 #ifdef USE_BINARY_SENSOR
     class TCBusListener
@@ -103,51 +120,48 @@ namespace esphome::tc_bus
         public:
             virtual bool on_receive(TelegramData data, bool received) = 0;
     };
+
+    struct TCBusComponentStore
+    {
+        static void gpio_intr(TCBusComponentStore *arg);
+
+        volatile uint32_t last_bit_change{0};
+
+        volatile uint32_t telegram{0};
+        volatile bool telegram_is_long{false};
+        volatile bool telegram_is_response{false};
+        volatile bool telegram_is_ready{false};
+
+        volatile bool after_data_telegram{false};
+
+        ISRInternalGPIOPin rx_pin;
+    };
     
-    class TCBusComponent: public Component, public remote_base::RemoteReceiverListener
+    class TCBusComponent: public Component
     {
 #ifdef USE_TEXT_SENSOR
         SUB_TEXT_SENSOR(bus_telegram);
 #endif
 
     public:
-        void set_tx(remote_transmitter::RemoteTransmitterComponent *tx) { this->tx_ = tx; }
-        void set_rx(remote_receiver::RemoteReceiverComponent *rx) { this->rx_ = rx; }
+        void set_rx_pin(InternalGPIOPin *pin) { this->rx_pin_ = pin; }
+        void set_tx_pin(InternalGPIOPin *pin) { this->tx_pin_ = pin; }
 
         float get_setup_priority() const override { return setup_priority::BUS; }
         void setup() override;
         void dump_config() override;
         void loop() override;
-        bool on_receive(remote_base::RemoteReceiveData data) override;
 
         void register_remote_listener(TCBusRemoteListener*listener) { this->remote_listeners_.push_back(listener); }
 
-        // Telegram handling
-        static constexpr uint32_t BUS_CMD_START_MS = 5985;
-        static constexpr uint32_t BUS_ACK_START_MS = 6200;
-
-        static constexpr uint32_t BUS_ONE_BIT_MS = 4000;
-        static constexpr uint32_t BUS_ZERO_BIT_MS = 2000;
-
-        static constexpr uint32_t BIT_0_MIN = 1000;
-        static constexpr uint32_t BIT_0_MAX = 2999;
-
-        static constexpr uint32_t BIT_1_MIN = 3000;
-        static constexpr uint32_t BIT_1_MAX = 4999;
-
-        static constexpr uint32_t START_CMD = 5700;
-        static constexpr uint32_t START_RSP = 6090;
-
-        static constexpr uint32_t START_MAX = 6900;
-
-        void send_telegram(uint32_t telegram, uint32_t wait_duration = 200);
-        void send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 200);
-        void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 200);
-        void send_telegram(TelegramData telegram_data, uint32_t wait_duration = 200);
+        void send_telegram(uint32_t telegram, uint32_t wait_duration = 250);
+        void send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 250);
+        void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250);
+        void send_telegram(TelegramData telegram_data, uint32_t wait_duration = 250);
 
         void process_telegram_queue();
         void transmit_telegram(TelegramData telegram_data);
-        void received_telegram(TelegramData telegram_data, bool received = true);
+        void handle_telegram(TelegramData telegram_data, bool received = true);
 
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR
@@ -170,14 +184,14 @@ namespace esphome::tc_bus
 
     protected:
         // Telegram handling
-        remote_transmitter::RemoteTransmitterComponent *tx_{nullptr};
-        remote_receiver::RemoteReceiverComponent *rx_{nullptr};
-
+        InternalGPIOPin *rx_pin_;
+        InternalGPIOPin *tx_pin_;
+        TCBusComponentStore store_;
         std::vector<TCBusRemoteListener *> remote_listeners_;
+        bool sending_;
 
         FixedQueue<TCBusTelegramQueueItem, 16> telegram_queue_;
         uint32_t last_telegram_time_ = 0;
-        int32_t last_sent_telegram_ = -1;
 
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR
@@ -194,7 +208,6 @@ namespace esphome::tc_bus
 
         // Misc
         bool programming_mode_ = false;
-        bool wait_for_data_telegram_ = false;
     };
 
     static TCBusComponent *global_tc_bus = nullptr; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)

@@ -8078,7 +8078,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 43.18) (xy 241.3 43.18)
+			(xy 241.3 43.18) (xy 243.84 43.18)
 		)
 		(stroke
 			(width 0)
@@ -8298,7 +8298,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 27.94) (xy 241.3 27.94)
+			(xy 241.3 27.94) (xy 243.84 27.94)
 		)
 		(stroke
 			(width 0)
@@ -8815,16 +8815,6 @@
 			(type default)
 		)
 		(uuid "6e6f0647-2c74-4936-b5d5-04b415fdc7ad")
-	)
-	(wire
-		(pts
-			(xy 255.27 43.18) (xy 252.73 43.18)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6ed6aced-5368-4472-af1f-2f78c26cd9d0")
 	)
 	(wire
 		(pts
@@ -9495,16 +9485,6 @@
 			(type default)
 		)
 		(uuid "d1746690-fc5d-45e6-9eca-01a16a9cb915")
-	)
-	(wire
-		(pts
-			(xy 255.27 27.94) (xy 252.73 27.94)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d62fdce5-73bf-4a19-b31e-a25677b0d0dc")
 	)
 	(wire
 		(pts
@@ -10908,7 +10888,7 @@
 	)
 	(global_label "BUS_WIRE1"
 		(shape bidirectional)
-		(at 255.27 27.94 0)
+		(at 243.84 27.94 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10918,7 +10898,7 @@
 		)
 		(uuid "f01c29bc-8c1d-434d-ae0e-7232cce4a59a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 269.8288 27.94 0)
+			(at 258.3988 27.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10930,7 +10910,7 @@
 	)
 	(global_label "BUS_WIRE2"
 		(shape bidirectional)
-		(at 255.27 43.18 0)
+		(at 243.84 43.18 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10940,7 +10920,7 @@
 		)
 		(uuid "f238529e-e2e2-4313-a951-f65c77939de7")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 269.8288 43.18 0)
+			(at 258.3988 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13465,100 +13445,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R9")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:L")
-		(at 248.92 43.18 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "34079c24-ff5d-4828-9097-04fbc317abed")
-		(property "Reference" "L3"
-			(at 248.92 41.402 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "100uH"
-			(at 248.92 44.196 90)
-			(effects
-				(font
-					(size 0.8 0.8)
-				)
-			)
-		)
-		(property "Footprint" "Inductor_SMD:L_Sunlord_SWPA3015S"
-			(at 248.92 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 248.92 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "100uH 210mA 230mA 3.11Ω ±20% SMD,3x3mm Power Inductors ROHS"
-			(at 248.92 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C82994"
-			(at 248.92 43.18 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Package" "SMD,3x3mm"
-			(at 248.92 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "SWPA3015S101MT"
-			(at 248.92 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ca1adb23-60f0-4fcf-b87c-1bf65f9efa4c")
-		)
-		(pin "2"
-			(uuid "d8f73f92-a41e-4df7-881f-a14f3903b83a")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "L3")
 					(unit 1)
 				)
 			)
@@ -20952,100 +20838,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "C2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:L")
-		(at 248.92 27.94 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f40d169e-4cd8-4a65-9d95-2ca6c456de5c")
-		(property "Reference" "L2"
-			(at 248.92 26.162 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "100uH"
-			(at 248.92 28.956 90)
-			(effects
-				(font
-					(size 0.8 0.8)
-				)
-			)
-		)
-		(property "Footprint" "Inductor_SMD:L_Sunlord_SWPA3015S"
-			(at 248.92 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 248.92 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "100uH 210mA 230mA 3.11Ω ±20% SMD,3x3mm Power Inductors ROHS"
-			(at 248.92 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C82994"
-			(at 248.92 27.94 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Package" "SMD,3x3mm"
-			(at 248.92 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "SWPA3015S101MT"
-			(at 248.92 27.94 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "05d6e5e0-4f85-437b-bc39-6cfa4e354d0c")
-		)
-		(pin "2"
-			(uuid "7f58d094-a2f2-4192-bb51-2281c369c3df")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "L2")
 					(unit 1)
 				)
 			)
