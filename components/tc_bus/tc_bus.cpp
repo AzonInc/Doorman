@@ -129,7 +129,12 @@ namespace esphome::tc_bus
         {
             TCBusTelegramQueueItem &queue_item = this->telegram_queue_.front();
 
-            if (queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_STATUS || queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_DATA || (currentTime - this->last_telegram_time_ >= queue_item.wait_duration))
+            bool is_response = queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_STATUS || queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_DATA;
+            bool waiting_done = (currentTime - this->last_telegram_time_ >= queue_item.wait_duration);
+            
+            // TODO: condition for minimum delay after last bit
+
+            if (this->sending_ == false && (is_response || waiting_done))
             {
                 // Send telegram
                 this->transmit_telegram(queue_item.telegram_data);
