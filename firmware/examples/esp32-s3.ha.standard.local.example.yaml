@@ -38,6 +38,7 @@ binary_sensor:
       - tc_bus.send:
           type: start_talking
           serial_number: 798906
+          address: 63
 
   - platform: tc_bus
     id: start_talking_sensor

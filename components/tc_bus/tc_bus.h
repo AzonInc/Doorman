@@ -219,6 +219,8 @@ namespace esphome::tc_bus
 
         // Misc
         bool programming_mode_ = false;
+
+        HighFrequencyLoopRequester high_freq_;
     };
 
     static TCBusComponent *global_tc_bus = nullptr; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
