@@ -48,24 +48,35 @@ namespace esphome::tc_bus
     };
 
     enum class DecoderState : uint8_t {
-        IDLE       = 0,
+        WAIT_FOR_START = 0,
         LENGTH_BIT = 1,
-        DATA_BITS  = 2,
-        CRC_BIT    = 3,
+        DATA_BITS = 2,
+        CRC_BIT = 3,
     };
+
+    static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
+
+    static constexpr uint8_t QUEUE_SIZE = 8;
 
     static constexpr uint16_t PULSE_FILTER              = 1500;
     static constexpr uint16_t PULSE_START               = 6000;
-    static constexpr uint16_t PULSE_START_MIN_US        = 5800;
-    static constexpr uint16_t PULSE_START_MAX_US        = 6400;
+    static constexpr uint16_t PULSE_START_MIN_US        = 5700;
+    static constexpr uint16_t PULSE_START_MAX_US        = 6450;
+
     static constexpr uint16_t PULSE_BIT_0               = 2000;
     static constexpr uint16_t PULSE_BIT_0_MIN_US        = 1850;
     static constexpr uint16_t PULSE_BIT_0_MAX_US        = 2300;
-    static constexpr uint16_t PULSE_BIT_1_MIN_US        = 3900;
+
     static constexpr uint16_t PULSE_BIT_1               = 4000;
-    static constexpr uint16_t PULSE_BIT_1_MAX_US        = 4300;
-    static constexpr uint16_t NEW_TELEGRAM_THRESHOLD_US = 5000;
-    static constexpr uint16_t ACK_TIMEOUT_US            = 6000;
+    static constexpr uint16_t PULSE_BIT_1_MIN_US        = 3900;
+    static constexpr uint16_t PULSE_BIT_1_MAX_US        = 4400;
+
+    static constexpr uint16_t RETRANSMISSION_GAP_MIN_US = 19900;
+    static constexpr uint16_t RETRANSMISSION_GAP_MAX_US = 21000;
+
+    static constexpr uint16_t ACK_TIMEOUT_US            = 7000;
+
+
 
 #ifdef USE_BINARY_SENSOR
     class TCBusListener
@@ -127,12 +138,12 @@ namespace esphome::tc_bus
 
         volatile uint32_t last_bit_change{0};
 
-        volatile uint32_t telegram{0};
-        volatile bool telegram_is_long{false};
-        volatile bool telegram_is_response{false};
-        volatile bool telegram_is_ready{false};
+        TelegramData queue[QUEUE_SIZE];
+        volatile uint8_t queue_head{0};
+        volatile uint8_t queue_tail{0};
 
-        volatile bool after_data_telegram{false};
+        volatile uint32_t debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
+        volatile uint8_t debug_buffer_index = 0;
 
         ISRInternalGPIOPin rx_pin;
     };

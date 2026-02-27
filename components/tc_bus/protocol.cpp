@@ -327,7 +327,7 @@ namespace esphome::tc_bus
         return data;
     }
 
-    TelegramData parseTelegram(uint32_t raw, bool is_long, bool is_response)
+    TelegramData parseTelegram(uint32_t raw, bool is_long, bool is_response, bool is_retransmission)
     {
         TelegramData data{};
         data.raw = raw;
@@ -336,6 +336,7 @@ namespace esphome::tc_bus
         data.payload = 0;
         data.is_long = is_long;
         data.is_response = is_response;
+        data.is_retransmission = is_retransmission;
 
         if (is_response)
         {

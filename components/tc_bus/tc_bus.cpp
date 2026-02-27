@@ -47,6 +47,27 @@ namespace esphome::tc_bus
                 listener->lock(&listener->timer_);
             }
         #endif
+
+        this->set_interval("timing_debug", 5000, [this] {
+            this->rx_pin_->detach_interrupt();
+            uint8_t index = this->store_.debug_buffer_index;
+            this->store_.debug_buffer_index = 0;
+            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+
+            if(index > 0)
+            {
+                ESP_LOGI(TAG, "Timings:");
+                std::string timings_str;
+                for (uint8_t i = 0; i < index; i++) {
+                    uint32_t timing = this->store_.debug_buffer[i];
+                    if (i > 0) timings_str += ",";
+                    timings_str += std::to_string(timing);
+                }
+                ESP_LOGI(TAG, "Microseconds: %s", timings_str.c_str());
+            } else {
+                ESP_LOGI(TAG, "Timings: No data available");
+            }
+        });
     }
 
     void TCBusComponent::dump_config()
@@ -67,28 +88,21 @@ namespace esphome::tc_bus
         // Process received Telegrams
         auto &s = this->store_;
 
-        uint32_t telegram;
-        bool telegram_is_ready;
-        bool telegram_is_long;
-        bool telegram_is_response;
-
-        // Brackets limit InterruptLock lifetime
+        while (true)
         {
-            InterruptLock lock;
-            telegram = s.telegram;
-            telegram_is_ready = s.telegram_is_ready;
-            telegram_is_long = s.telegram_is_long;
-            telegram_is_response = s.telegram_is_response;
+            uint8_t head, tail;
+            TelegramData tele;
 
-            s.telegram = 0;
-            s.telegram_is_ready = false;
-            s.telegram_is_long = false;
-            s.telegram_is_response = false;
-        }
+            {
+                InterruptLock lock;
+                head = s.queue_head;
+                tail = s.queue_tail;
+                if (head == tail) break;
+                tele = s.queue[head];
+                s.queue_head = (head + 1) % QUEUE_SIZE;
+            }
 
-        if(telegram_is_ready)
-        {
-            TelegramData telegram_data = parseTelegram(telegram, telegram_is_long, telegram_is_response);
+            TelegramData telegram_data = parseTelegram(tele.raw, tele.is_long, tele.is_response, tele.is_retransmission);
             this->handle_telegram(telegram_data);
         }
 
@@ -158,11 +172,11 @@ namespace esphome::tc_bus
         {
             // From receiver
             ESP_LOGI(TAG,
-                "Received Telegram: %s (%i-bit, 0x%08X, %s)\n"
+                "Received Telegram: %s (%i-bit, 0x%08X, %s, %s)\n"
                 "  Address: %i\n"
                 "  Payload: 0x%X\n"
                 "  Serial-Number: %i",
-                telegram_type_to_string(telegram_data.type), (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, 
+                telegram_type_to_string(telegram_data.type), (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, telegram_data.is_retransmission ? "retransmission" : "first", 
                 telegram_data.address, 
                 telegram_data.payload, 
                 telegram_data.serial_number);
@@ -221,12 +235,12 @@ namespace esphome::tc_bus
         {
             // From transmitter
             ESP_LOGI(TAG,
-                "Sending Telegram: %s (%i-bit, 0x%08X, %s)\n"
+                "Sending Telegram: %s (%i-bit, 0x%08X, %s, %s)\n"
                 "  Address: %i\n"
                 "  Payload: 0x%X\n"
                 "  Serial-Number: %i",
                 telegram_type_to_string(telegram_data.type), 
-                (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, 
+                (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, telegram_data.is_retransmission ? "retransmission" : "first", 
                 telegram_data.address, 
                 telegram_data.payload, 
                 telegram_data.serial_number);
@@ -316,79 +330,88 @@ namespace esphome::tc_bus
 
     void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
     {
-        static DecoderState state = DecoderState::IDLE;
+        static DecoderState state = DecoderState::WAIT_FOR_START;
         static uint8_t expected_bits = 0;
         static uint8_t bit_index = 0;
         static uint32_t telegram = 0;
         static bool telegram_is_long = false;
         static bool telegram_is_response = false;
-        static uint32_t usLast = 0;
+        static uint32_t last_us = 0;
+        static bool telegram_is_retransmission = false;
         static bool wait_for_response = false;
 
         // Calculate time difference
-        uint32_t usNow = micros();
-        uint32_t timeInUS = usNow - usLast;
+        uint32_t now_us = micros();
+        uint32_t us = now_us - last_us;
 
         // Filter glitches
-        if (timeInUS < PULSE_FILTER)
+        if (us < PULSE_FILTER)
         {
             return;
         }
 
-        usLast = usNow;
+        if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
+            arg->debug_buffer[arg->debug_buffer_index++] = us;
+        }
+
+        last_us = now_us;
 
         // Save last bit timestamp
         arg->last_bit_change = millis();
 
         // Classify pulse into bit value (-1 = not a data bit)
         int bit = -1;
-        if (timeInUS >= PULSE_BIT_0_MIN_US && timeInUS <= PULSE_BIT_0_MAX_US)
+        if (us >= PULSE_BIT_0_MIN_US && us <= PULSE_BIT_0_MAX_US)
         {
             bit = 0;
         }
-        else if (timeInUS >= PULSE_BIT_1_MIN_US && timeInUS <= PULSE_BIT_1_MAX_US)
+        else if (us >= PULSE_BIT_1_MIN_US && us <= PULSE_BIT_1_MAX_US)
         {
             bit = 1;
         }
 
-        // Gap or start pulse
-        if (timeInUS >= NEW_TELEGRAM_THRESHOLD_US && bit < 0)
+        // Response gap timeout
+        if (us > ACK_TIMEOUT_US)
         {
-            if (timeInUS >= PULSE_START_MIN_US && timeInUS <= PULSE_START_MAX_US)
-            {
-                // Response timeout
-                if (timeInUS > ACK_TIMEOUT_US)
-                {
-                    wait_for_response = false;
-                }
+            wait_for_response = false;
+        }
 
-                telegram = 0;
-                telegram_is_long = false;
-                telegram_is_response = false;
-                bit_index = 0;
-                state = DecoderState::LENGTH_BIT;
-            }
-            else
-            {
-                state = DecoderState::IDLE;
-            }
+        // Save potential retransmission gap
+        if (us >= RETRANSMISSION_GAP_MIN_US && us <= RETRANSMISSION_GAP_MAX_US)
+        {
+            telegram_is_retransmission = true;
+        }
+        else if (us > RETRANSMISSION_GAP_MAX_US)
+        {
+            telegram_is_retransmission = false;
+        }
+
+        // Start pulse
+        if (us >= PULSE_START_MIN_US && us <= PULSE_START_MAX_US)
+        {
+            telegram = 0;
+            telegram_is_long = false;
+            telegram_is_response = false;
+            bit_index = 0;
+            state = DecoderState::LENGTH_BIT;
             return;
         }
 
-        // Invalid pulse
+        // Invalid pulse while waiting or idle → ignore
+        if (state == DecoderState::WAIT_FOR_START)
+        {
+            return;
+        }
+
+        // Invalid pulse in active state → reset
         if (bit < 0)
         {
-            state = DecoderState::IDLE;
+            state = DecoderState::WAIT_FOR_START;
             return;
         }
 
         switch (state)
         {
-            case DecoderState::IDLE:
-            {
-                break;
-            }
-
             case DecoderState::LENGTH_BIT:
             {
                 telegram_is_long = (bit == 1);
@@ -423,14 +446,22 @@ namespace esphome::tc_bus
 
                 if (crc_ok)
                 {
-                    arg->telegram = telegram;
-                    arg->telegram_is_long = telegram_is_long; 
-                    arg->telegram_is_response = telegram_is_response;
-                    arg->telegram_is_ready = true;
+                    uint8_t next = (arg->queue_tail + 1) % QUEUE_SIZE;
+                    if (next != arg->queue_head)
+                    {
+                        TelegramData t;
+                        t.raw = telegram;
+                        t.is_long = telegram_is_long;
+                        t.is_response = telegram_is_response;
+                        t.is_retransmission = telegram_is_retransmission;
+
+                        arg->queue[arg->queue_tail] = t;
+                        arg->queue_tail = next;
+                    }
                     wait_for_response = !telegram_is_response;
                 }
 
-                state = DecoderState::IDLE;
+                state = DecoderState::WAIT_FOR_START;
                 break;
             }
         }
@@ -514,11 +545,11 @@ namespace esphome::tc_bus
 
             // Start Telegram
             this->tx_pin_->digital_write(true);
-            delay(PULSE_START);
+            delay_microseconds_safe(PULSE_START);
 
             // Length: 32 or 16 (4) bits
             this->tx_pin_->digital_write(false);
-            delay(telegram_data.is_long ? PULSE_BIT_1 : PULSE_BIT_0);
+            delay_microseconds_safe(telegram_data.is_long ? PULSE_BIT_1 : PULSE_BIT_0);
 
             // Calculate length based on telegram type
             // Status Acknowledge telegrams only have 4 bits
@@ -540,17 +571,17 @@ namespace esphome::tc_bus
                 if (i % 2 == 0)
                 {
                     this->tx_pin_->digital_write(false);
-                    delay(bit ? PULSE_BIT_1 : PULSE_BIT_0);
+                    delay_microseconds_safe(bit ? PULSE_BIT_1 : PULSE_BIT_0);
                 }
                 else
                 {
                     this->tx_pin_->digital_write(true);
-                    delay(bit ? PULSE_BIT_1 : PULSE_BIT_0);
+                    delay_microseconds_safe(bit ? PULSE_BIT_1 : PULSE_BIT_0);
                 }
             }
 
             this->tx_pin_->digital_write(true);
-            delay(checksm ? PULSE_BIT_1 : PULSE_BIT_0);
+            delay_microseconds_safe(checksm ? PULSE_BIT_1 : PULSE_BIT_0);
             this->tx_pin_->digital_write(false);
 
             this->sending_ = false;
