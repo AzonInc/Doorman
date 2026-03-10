@@ -23,12 +23,23 @@ namespace esphome::tc_bus
     {
         ESP_LOGCONFIG(TAG, "Running setup");
 
+        global_tc_bus = this;
+
         this->rx_pin_->setup();
         this->tx_pin_->setup();
         this->tx_pin_->digital_write(false);
         
-        auto &s = this->store_;
+        size_t queue_size = 16;
 
+        this->telegram_receive_queue = xQueueCreate(16, sizeof(TCBusTelegramQueueItem));
+        if (this->telegram_receive_queue == nullptr)
+        {
+            ESP_LOGE(TAG, "Failed to create telegram receive queue of size %" PRIu32, (uint32_t) queue_size);
+            this->mark_failed(LOG_STR("Failed to create telegram receiver queue!"));
+            return;
+        }
+
+        auto &s = this->store_;
         s.rx_pin = this->rx_pin_->to_isr();
         this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
 
@@ -47,27 +58,6 @@ namespace esphome::tc_bus
                 listener->lock(&listener->timer_);
             }
         #endif
-
-        this->set_interval("timing_debug", 5000, [this] {
-            this->rx_pin_->detach_interrupt();
-            uint8_t index = this->store_.debug_buffer_index;
-            this->store_.debug_buffer_index = 0;
-            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
-
-            if(index > 0)
-            {
-                ESP_LOGI(TAG, "Timings:");
-                std::string timings_str;
-                for (uint8_t i = 0; i < index; i++) {
-                    uint32_t timing = this->store_.debug_buffer[i];
-                    if (i > 0) timings_str += ",";
-                    timings_str += std::to_string(timing);
-                }
-                ESP_LOGI(TAG, "Microseconds: %s", timings_str.c_str());
-            } else {
-                ESP_LOGI(TAG, "Timings: No data available");
-            }
-        });
 
         this->high_freq_.start();
     }
@@ -88,28 +78,31 @@ namespace esphome::tc_bus
     void TCBusComponent::loop()
     {
         // Process received Telegrams
-        auto &s = this->store_;
 
-        while (true)
+        TelegramData telegram;
+        while (xQueueReceive(this->telegram_receive_queue, &telegram, 0) == pdTRUE)
         {
-            uint8_t head, tail;
-            TelegramData tele;
-
+            bool is_echo = false;
+            for (auto it = this->sent_telegram_history_.begin(); it != this->sent_telegram_history_.end(); ++it)
             {
-                InterruptLock lock;
-                head = s.queue_head;
-                tail = s.queue_tail;
-                if (head == tail) break;
-                tele = s.queue[head];
-                s.queue_head = (head + 1) % QUEUE_SIZE;
+                if (*it == telegram.raw)
+                {
+                    is_echo = true;
+                    this->sent_telegram_history_.erase(it);
+                    break;
+                }
             }
 
-            TelegramData telegram_data = parseTelegram(tele.raw, tele.is_long, tele.is_response, tele.is_retransmission);
-            this->handle_telegram(telegram_data);
+            if (!is_echo)
+            {
+                TelegramData telegram_data = parseTelegram(telegram.raw, telegram.is_long, telegram.is_response, telegram.is_retransmission);
+                this->handle_telegram(telegram_data);
+            }
+            else
+            {
+                ESP_LOGV(TAG, "Received telegram 0x%08X, ignoring as echo.", telegram.raw);
+            }
         }
-
-        // Process Telegram queue
-        this->process_telegram_queue();
 
         // Process Sensors
         uint32_t now_millis = millis();
@@ -125,6 +118,9 @@ namespace esphome::tc_bus
         }
         #endif
 
+        // Process Telegram queue
+        this->process_telegram_queue();
+
         #ifdef USE_LOCK
         // Lock after ... milliseconds
         for (auto &listener : lock_listeners_)
@@ -135,40 +131,30 @@ namespace esphome::tc_bus
             }
         }
         #endif
-
-        // Process Telegram queue
-        this->process_telegram_queue();
     }
 
     void TCBusComponent::process_telegram_queue()
     {
-        uint32_t now_millis = millis();
-
-        if (!this->telegram_queue_.empty())
+        if (!this->telegram_transmit_queue.empty())
         {
-            TCBusTelegramQueueItem &queue_item = this->telegram_queue_.front();
+            TCBusTelegramQueueItem &queue_item = this->telegram_transmit_queue.front();
 
-            bool is_response = queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_STATUS || queue_item.telegram_data.type == TELEGRAM_TYPE_ACK_DATA;
-            bool waiting_done = (now_millis - this->last_telegram_time_ >= queue_item.wait_duration);
-            
-            uint32_t time_between = now_millis - this->store_.last_bit_change;
-            // TODO: condition for minimum delay after last bit
-            ESP_LOGD(TAG, "process queue: Last bit %i ms ago", time_between);
-
-            if (this->sending_ == false && (is_response || waiting_done))
+            if (!this->store_.sending)
             {
-                // Send telegram
+                uint32_t time_since_last_bit = millis() - this->store_.last_bit_change;
+                uint32_t min_gap = queue_item.telegram_data.is_response ? 5 : 130;
+
+                if (queue_item.telegram_data.is_response && time_since_last_bit < min_gap)
+                {
+                    delay_microseconds_safe((min_gap - time_since_last_bit) * 1000);
+                }
+                else if (time_since_last_bit < min_gap)
+                {
+                    return;
+                }
+
                 this->transmit_telegram(queue_item.telegram_data);
-
-                // Remove telegram from the queue
-                this->telegram_queue_.pop();
-
-                // Update the time of the last telegram
-                this->last_telegram_time_ = now_millis;
-            }
-            else
-            {
-                ESP_LOGW(TAG, "Queue on hold");
+                this->telegram_transmit_queue.pop();
             }
         }
     }
@@ -192,6 +178,10 @@ namespace esphome::tc_bus
             if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
             {
                 ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
+            }
+            else if(telegram_data.type == TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE)
+            {
+                ESP_LOGD(TAG, "  Description: Response to Doorman search request.");
             }
 
             // Fire Callback
@@ -288,8 +278,6 @@ namespace esphome::tc_bus
         }
         else if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES)
         {
-            ESP_LOGI(TAG, "Responding to Doorman search request.");
-
             uint8_t mac[6];
             get_mac_address_raw(mac);
             uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
@@ -307,9 +295,9 @@ namespace esphome::tc_bus
         }
 
         // Call remote listeners
-        for (auto *listener : this->remote_listeners_)
+        for (auto &entry : this->remote_listeners_)
         {
-            listener->on_receive(telegram_data, received);
+            entry.listener->on_receive(telegram_data, received);
         }
 
         #ifdef USE_LOCK
@@ -337,6 +325,11 @@ namespace esphome::tc_bus
 
     void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
     {
+        /*if(arg->sending)
+        {
+            return;
+        }*/
+
         static DecoderState state = DecoderState::WAIT_FOR_START;
         static uint8_t expected_bits = 0;
         static uint8_t bit_index = 0;
@@ -355,10 +348,6 @@ namespace esphome::tc_bus
         if (us < PULSE_FILTER)
         {
             return;
-        }
-
-        if (arg->debug_buffer_index < TIMING_DEBUG_BUFFER_SIZE) {
-            arg->debug_buffer[arg->debug_buffer_index++] = us;
         }
 
         last_us = now_us;
@@ -453,20 +442,15 @@ namespace esphome::tc_bus
 
                 if (crc_ok)
                 {
-                    uint8_t next = (arg->queue_tail + 1) % QUEUE_SIZE;
-                    if (next != arg->queue_head)
-                    {
-                        TelegramData t;
-                        t.raw = telegram;
-                        t.is_long = telegram_is_long;
-                        t.is_response = telegram_is_response;
-                        t.is_retransmission = telegram_is_retransmission;
+                    TelegramData t;
+                    t.raw = telegram;
+                    t.is_long = telegram_is_long;
+                    t.is_response = telegram_is_response;
+                    t.is_retransmission = telegram_is_retransmission;
 
-                        arg->queue[arg->queue_tail] = t;
-                        arg->queue_tail = next;
+                    BaseType_t higher = pdFALSE;
+                    xQueueSendFromISR(global_tc_bus->telegram_receive_queue, &t, &higher);
 
-                        App.wake_loop_threadsafe();
-                    }
                     wait_for_response = !telegram_is_response;
                 }
 
@@ -490,70 +474,62 @@ namespace esphome::tc_bus
     }
     #endif
 
-    void TCBusComponent::send_telegram(uint32_t telegram, uint32_t wait_duration)
+    TelegramData TCBusComponent::send_telegram(uint32_t telegram, uint32_t wait_duration)
     {
-        ESP_LOGV(TAG, "Called send_telegram(uint32_t telegram, uint32_t wait_duration)");
-        ESP_LOGV(TAG, "Telegram: 0x%X | Wait Duration: %i", telegram, wait_duration);
-
         // Determine length of telegram
         // Not reliable as its based on the 32 bit integer itself
         bool is_long = (telegram > 0xFFFF);
 
         TelegramData telegram_data = parseTelegram(telegram, is_long);
-        send_telegram(telegram_data, wait_duration);
+        return send_telegram(telegram_data, wait_duration);
     }
 
-    void TCBusComponent::send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration)
+    TelegramData TCBusComponent::send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration)
     {
-        ESP_LOGV(TAG, "Called send_telegram(uint32_t telegram: 0x%X, bool is_long: %s, uint32_t wait_duration: %i", telegram, (is_long ? "true" : "false"), wait_duration);
-
         TelegramData telegram_data = parseTelegram(telegram, is_long);
-        send_telegram(telegram_data, wait_duration);
+        return send_telegram(telegram_data, wait_duration);
     }
 
-    void TCBusComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration)
+    TelegramData TCBusComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration)
     {
-        ESP_LOGV(TAG, "Called send_telegram(TelegramType type: %s, uint8_t address: %i, uint32_t payload: 0x%X, uint32_t serial_number: %i, uint32_t wait_duration: %i)", telegram_type_to_string(type), address, payload, serial_number, wait_duration);
-
         TelegramData telegram_data = buildTelegram(type, address, payload, serial_number);
-        send_telegram(telegram_data, wait_duration);
+        return send_telegram(telegram_data, wait_duration);
     }
 
-    void TCBusComponent::send_telegram(TelegramData telegram_data, uint32_t wait_duration)
+    TelegramData TCBusComponent::send_telegram(TelegramData telegram_data, uint32_t wait_duration)
     {
-        ESP_LOGV(TAG, "Called send_telegram(TelegramData telegram_data: object, uint32_t wait_duration: %i)", wait_duration);
-        ESP_LOGV(TAG, "TelegramData Object: Type: %s | Address: %i | Payload: 0x%X | Serial-Number: %i | Length: %i | Wait Duration: %i", telegram_type_to_string(telegram_data.type), telegram_data.address, telegram_data.payload, telegram_data.serial_number, (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), wait_duration);
-        
-        if (telegram_data.raw == 0)
+        if (telegram_data.raw == 0  && telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
         {
             ESP_LOGW(TAG, "Sending telegram of type %s is not yet supported.", telegram_type_to_string(telegram_data.type));
-            return;
+            return telegram_data;
         }
 
-        if (!this->telegram_queue_.push({telegram_data, wait_duration}))
+        if (!this->telegram_transmit_queue.push({telegram_data, wait_duration}))
         {
             ESP_LOGW(TAG, "Telegram queue full, dropping telegram 0x%08X", telegram_data.raw);
         }
+        
+        // Process Telegram queue
+        this->process_telegram_queue();
+
+        return telegram_data;
     }
 
     void TCBusComponent::transmit_telegram(TelegramData telegram_data)
     {   
-        if (this->sending_)
+        if (this->store_.sending)
         {
             ESP_LOGW(TAG, "Transmission of telegram %s cancelled, another transmission is in progress!", telegram_data.hex);
         }
         else
         {
-            uint32_t now_millis = millis();
-            uint32_t time_between = now_millis - this->store_.last_bit_change;
+            uint32_t start_millis = millis();
+            uint32_t time_between = start_millis - this->store_.last_bit_change;
             ESP_LOGD(TAG, "transmit: Last bit %i ms ago", time_between);
 
-            
-            // Pause reading
-            ESP_LOGV(TAG, "Pause reading");
-            this->rx_pin_->detach_interrupt();
+            this->sent_telegram_history_.push_back(telegram_data.raw);
 
-            this->sending_ = true;
+            this->store_.sending = true;
 
             // Start Telegram
             this->tx_pin_->digital_write(true);
@@ -580,27 +556,15 @@ namespace esphome::tc_bus
                 checksm ^= bit;
 
                 // Send bit as mark/space sequence
-                if (i % 2 == 0)
-                {
-                    this->tx_pin_->digital_write(false);
-                    delay_microseconds_safe(bit ? PULSE_BIT_1 : PULSE_BIT_0);
-                }
-                else
-                {
-                    this->tx_pin_->digital_write(true);
-                    delay_microseconds_safe(bit ? PULSE_BIT_1 : PULSE_BIT_0);
-                }
+                this->tx_pin_->digital_write(i % 2 != 0);
+                delay_microseconds_safe(bit ? PULSE_BIT_1 : PULSE_BIT_0);
             }
 
             this->tx_pin_->digital_write(true);
             delay_microseconds_safe(checksm ? PULSE_BIT_1 : PULSE_BIT_0);
             this->tx_pin_->digital_write(false);
 
-            this->sending_ = false;
-
-            // Resume reading
-            ESP_LOGV(TAG, "Resume reading");
-            this->rx_pin_->attach_interrupt(TCBusComponentStore::gpio_intr, &this->store_, gpio::INTERRUPT_ANY_EDGE);
+            this->store_.sending = false;
         }
 
         this->handle_telegram(telegram_data, false);

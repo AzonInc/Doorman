@@ -9,7 +9,7 @@
 	(paper "A5")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-25")
+		(date "2026-03-10")
 		(rev "2.0")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
@@ -889,7 +889,7 @@
 			(at 0 -5.645 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "7aee87b6-b522-4df3-a216-983f85d04556")
+			(uuid "a6821460-1088-440d-a17d-72cb3e67918c")
 			(effects
 				(font
 					(size 1 1)
@@ -900,7 +900,7 @@
 		(property "Value" "USB-C Connector"
 			(at 2.06967 5.12 0)
 			(layer "F.Fab")
-			(uuid "2f3d9fda-f7ef-469b-8ad4-7ff37d6fab37")
+			(uuid "ff73daed-6609-40f2-8942-74120365524d")
 			(effects
 				(font
 					(size 1 1)
@@ -913,7 +913,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "b919df1d-8963-4252-8ff7-c78d0b811a82")
+			(uuid "d4f6d408-7862-4370-a27f-fc83e94dbd06")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -926,7 +926,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "7c649e22-104d-4356-9f04-8284e2da5ade")
+			(uuid "d26e46d6-c488-4b73-a2d5-3f130c73c7ca")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3328,7 +3328,7 @@
 			(at 0 -2.5 270)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "048371f3-fd01-4e0d-b2f5-4099ea8c2203")
+			(uuid "06203d52-c37f-490c-9f37-7f89acc446ad")
 			(effects
 				(font
 					(size 1 1)
@@ -3339,7 +3339,7 @@
 		(property "Value" "Button"
 			(at 0 2.5 270)
 			(layer "F.Fab")
-			(uuid "200ae2ba-473b-4b4f-92f5-36af67ac27e3")
+			(uuid "4a36b011-7c3f-4685-bb5a-b917ace12f43")
 			(effects
 				(font
 					(size 1 1)
@@ -3352,7 +3352,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "4c6e364d-a72d-48db-af99-fd74d7e09acb")
+			(uuid "5c554ba0-f615-41b0-accd-6c6c20c1e652")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3365,7 +3365,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "199adb5d-b606-450e-9cc7-ccb8656c48f8")
+			(uuid "247f48ce-4f44-48b5-87e5-1221cd8f36d7")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8018,7 +8018,7 @@
 			(at 3.2 -0.000001 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "8ba6712c-9986-458a-91b7-0a2d0ff5c811")
+			(uuid "60ec1506-e3e0-4f61-9f8a-504cde9c64b5")
 			(effects
 				(font
 					(size 1 1)
@@ -8030,7 +8030,7 @@
 			(at 0.5 2.5 270)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "d5c8b419-8f5c-4ce2-9e66-536c506fad88")
+			(uuid "55c9e178-bfa1-4bad-b56a-04e6fe74d41c")
 			(effects
 				(font
 					(size 1 1)
@@ -8043,7 +8043,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "6a8c5707-35b5-4888-93fe-92b0186da478")
+			(uuid "9c850534-c525-418e-9302-9b027b10a3ca")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8056,7 +8056,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "c5dff68a-f0c7-49d0-88bd-c60968c8d5f6")
+			(uuid "2aa0b117-8da7-47be-a357-19847ed8e87c")
 			(effects
 				(font
 					(size 1.27 1.27)

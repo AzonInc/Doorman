@@ -21,7 +21,7 @@ namespace esphome::tc_bus
                 tail_ = (tail_ + 1) % N;
                 return true;
             }
-
+ 
             T &front() {
                 return buffer_[tail_];
             }

@@ -54,10 +54,6 @@ namespace esphome::tc_bus
         CRC_BIT = 3,
     };
 
-    static const uint8_t TIMING_DEBUG_BUFFER_SIZE = 255;
-
-    static constexpr uint8_t QUEUE_SIZE = 8;
-
     static constexpr uint16_t PULSE_FILTER              = 1500;
     static constexpr uint16_t PULSE_START               = 6000;
     static constexpr uint16_t PULSE_START_MIN_US        = 5700;
@@ -132,19 +128,16 @@ namespace esphome::tc_bus
             virtual bool on_receive(TelegramData data, bool received) = 0;
     };
 
+    struct PrioritizedListener {
+        TCBusRemoteListener *listener;
+        uint8_t priority;
+    };
+
     struct TCBusComponentStore
     {
         static void gpio_intr(TCBusComponentStore *arg);
-
         volatile uint32_t last_bit_change{0};
-
-        TelegramData queue[QUEUE_SIZE];
-        volatile uint8_t queue_head{0};
-        volatile uint8_t queue_tail{0};
-
-        volatile uint32_t debug_buffer[TIMING_DEBUG_BUFFER_SIZE];
-        volatile uint8_t debug_buffer_index = 0;
-
+        volatile bool sending{false};
         ISRInternalGPIOPin rx_pin;
     };
     
@@ -163,12 +156,19 @@ namespace esphome::tc_bus
         void dump_config() override;
         void loop() override;
 
-        void register_remote_listener(TCBusRemoteListener*listener) { this->remote_listeners_.push_back(listener); }
+        void register_remote_listener(TCBusRemoteListener *listener, uint8_t priority = 0) {
+            PrioritizedListener entry{listener, priority};
+            auto it = std::lower_bound(remote_listeners_.begin(), remote_listeners_.end(), entry,
+                [](const PrioritizedListener &a, const PrioritizedListener &b) {
+                    return a.priority > b.priority;
+                });
+            remote_listeners_.insert(it, entry);
+        }
 
-        void send_telegram(uint32_t telegram, uint32_t wait_duration = 250);
-        void send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 250);
-        void send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250);
-        void send_telegram(TelegramData telegram_data, uint32_t wait_duration = 250);
+        TelegramData send_telegram(uint32_t telegram, uint32_t wait_duration = 250);
+        TelegramData send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 250);
+        TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250);
+        TelegramData send_telegram(TelegramData telegram_data, uint32_t wait_duration = 250);
 
         void process_telegram_queue();
         void transmit_telegram(TelegramData telegram_data);
@@ -190,6 +190,9 @@ namespace esphome::tc_bus
             this->received_telegram_callback_.add(std::move(callback));
         }
 
+        QueueHandle_t telegram_receive_queue{nullptr};
+        FixedQueue<TCBusTelegramQueueItem, 16> telegram_transmit_queue;
+
         // Misc
         uint8_t selected_device_group_ = 2;
 
@@ -198,11 +201,9 @@ namespace esphome::tc_bus
         InternalGPIOPin *rx_pin_;
         InternalGPIOPin *tx_pin_;
         TCBusComponentStore store_;
-        std::vector<TCBusRemoteListener *> remote_listeners_;
-        bool sending_;
-
-        FixedQueue<TCBusTelegramQueueItem, 16> telegram_queue_;
-        uint32_t last_telegram_time_ = 0;
+        std::vector<PrioritizedListener> remote_listeners_;
+        std::vector<uint32_t> sent_telegram_history_;
+        uint32_t last_transmission_end_ = 0;
 
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR

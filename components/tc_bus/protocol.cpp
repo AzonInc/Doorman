@@ -248,6 +248,14 @@ namespace esphome::tc_bus
                 data.raw |= payload & 0xFFFFFF; // MAC address
                 break;
 
+            case TELEGRAM_TYPE_FOUND_DEVICE:
+                data.serial_number = serial_number;
+
+                data.raw |= (5 << 28); // 5
+                data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
+                data.raw |= (0x10 & 0xFF); // 10
+                break;
+
             case TELEGRAM_TYPE_SELECT_DEVICE_GROUP:
                 data.payload = payload;
                 data.is_long = false;
@@ -281,6 +289,16 @@ namespace esphome::tc_bus
                 data.raw |= (0 << 8);  // 0
                 data.raw |= (4 << 4);  // 4
                 data.raw |= (payload & 0xF); // 0 / 1
+                break;
+
+            case TELEGRAM_TYPE_INITIALIZE_DOOR_STATION:
+                data.address = address;
+                data.is_long = false;
+
+                data.raw |= (8 << 12); // 8
+                data.raw |= (2 << 8); // 2
+                data.raw |= (0 << 7); // 0
+                data.raw |= (address & 0x3F); // 0
                 break;
 
             case TELEGRAM_TYPE_READ_MEMORY_BLOCK:

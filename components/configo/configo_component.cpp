@@ -154,11 +154,9 @@ namespace esphome::configo
     bool ConfigoComponent::on_receive(tc_bus::TelegramData telegram_data, bool received)
     {
       // Send to serial output -> configo software
-      bool qprot = (telegram_data.type == tc_bus::TelegramType::TELEGRAM_TYPE_ACK_STATUS || telegram_data.type == tc_bus::TelegramType::TELEGRAM_TYPE_ACK_DATA);
-
       size_t len = strlen(telegram_data.hex);
       std::vector<uint8_t> vec(telegram_data.hex, telegram_data.hex + len);
-      vec.insert(vec.begin(), received ? (qprot ? '%' : '$') : ' ');
+      vec.insert(vec.begin(), received ? (telegram_data.is_response ? '%' : '$') : ' ');
       this->write_data_(vec, true);
 
       return true;

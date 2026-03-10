@@ -1237,6 +1237,113 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Connector_Generic:Conn_02x07_Top_Bottom"
 			(pin_names
 				(offset 1.016)
@@ -2706,7 +2813,7 @@
 	)
 	(text "AC Audio from TC:BUS"
 		(exclude_from_sim no)
-		(at 223.012 37.084 0)
+		(at 232.918 33.528 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2811,7 +2918,7 @@
 	)
 	(text "AC Audio to TC:BUS"
 		(exclude_from_sim no)
-		(at 225.044 98.806 0)
+		(at 236.22 97.536 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2920,7 +3027,7 @@
 		(uuid "371a80f9-ad37-4af9-8216-60b3afa5e841")
 	)
 	(junction
-		(at 228.6 133.35)
+		(at 228.6 137.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "40d5701d-e141-43e3-99f7-ac8c2c465ad0")
@@ -2938,7 +3045,7 @@
 		(uuid "48673466-0302-4b98-a9be-54d269dc45eb")
 	)
 	(junction
-		(at 228.6 66.04)
+		(at 228.6 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "689d4125-a454-4d4f-ab0d-ed8be6270292")
@@ -3007,7 +3114,7 @@
 	)
 	(wire
 		(pts
-			(xy 217.17 66.04) (xy 218.44 66.04)
+			(xy 217.17 71.12) (xy 218.44 71.12)
 		)
 		(stroke
 			(width 0)
@@ -3024,6 +3131,16 @@
 			(type default)
 		)
 		(uuid "0c69a1ea-44f2-4039-bd7b-cb6eca9c1bba")
+	)
+	(wire
+		(pts
+			(xy 228.6 40.64) (xy 228.6 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c791b19-26c3-46d8-8232-44206216c755")
 	)
 	(wire
 		(pts
@@ -3127,7 +3244,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 133.35) (xy 228.6 133.35)
+			(xy 226.06 137.16) (xy 228.6 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3267,7 +3384,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 133.35) (xy 234.95 133.35)
+			(xy 228.6 137.16) (xy 234.95 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3297,7 +3414,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 67.31) (xy 228.6 66.04)
+			(xy 228.6 72.39) (xy 228.6 71.12)
 		)
 		(stroke
 			(width 0)
@@ -3377,6 +3494,16 @@
 	)
 	(wire
 		(pts
+			(xy 228.6 101.6) (xy 228.6 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "54720e44-2667-469b-b0e9-871d1415f7d9")
+	)
+	(wire
+		(pts
 			(xy 49.53 101.6) (xy 49.53 82.55)
 		)
 		(stroke
@@ -3417,7 +3544,7 @@
 	)
 	(wire
 		(pts
-			(xy 252.73 66.04) (xy 255.27 66.04)
+			(xy 252.73 71.12) (xy 255.27 71.12)
 		)
 		(stroke
 			(width 0)
@@ -3557,7 +3684,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 133.35) (xy 228.6 135.89)
+			(xy 228.6 137.16) (xy 228.6 139.7)
 		)
 		(stroke
 			(width 0)
@@ -3647,7 +3774,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 133.35) (xy 247.65 133.35)
+			(xy 242.57 137.16) (xy 247.65 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3667,7 +3794,7 @@
 	)
 	(wire
 		(pts
-			(xy 252.73 133.35) (xy 255.27 133.35)
+			(xy 252.73 137.16) (xy 255.27 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3737,7 +3864,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 146.05) (xy 228.6 143.51)
+			(xy 228.6 149.86) (xy 228.6 147.32)
 		)
 		(stroke
 			(width 0)
@@ -3747,7 +3874,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 66.04) (xy 247.65 66.04)
+			(xy 228.6 71.12) (xy 247.65 71.12)
 		)
 		(stroke
 			(width 0)
@@ -3887,6 +4014,16 @@
 	)
 	(wire
 		(pts
+			(xy 228.6 67.31) (xy 228.6 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5ea1963-76f7-462a-9376-e6d272538588")
+	)
+	(wire
+		(pts
 			(xy 101.6 39.37) (xy 101.6 38.1)
 		)
 		(stroke
@@ -3927,7 +4064,7 @@
 	)
 	(wire
 		(pts
-			(xy 228.6 76.2) (xy 228.6 74.93)
+			(xy 228.6 81.28) (xy 228.6 80.01)
 		)
 		(stroke
 			(width 0)
@@ -3997,7 +4134,7 @@
 	)
 	(wire
 		(pts
-			(xy 226.06 66.04) (xy 228.6 66.04)
+			(xy 226.06 71.12) (xy 228.6 71.12)
 		)
 		(stroke
 			(width 0)
@@ -4104,6 +4241,16 @@
 			(type default)
 		)
 		(uuid "db711f98-1159-43f4-ad08-5c556f84ab67")
+	)
+	(wire
+		(pts
+			(xy 228.6 132.08) (xy 228.6 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e59291f7-6807-4db9-88f5-f2433c7084e5")
 	)
 	(wire
 		(pts
@@ -4217,7 +4364,7 @@
 	)
 	(wire
 		(pts
-			(xy 217.17 133.35) (xy 218.44 133.35)
+			(xy 217.17 137.16) (xy 218.44 137.16)
 		)
 		(stroke
 			(width 0)
@@ -4395,7 +4542,7 @@
 	)
 	(global_label "BUS_WIRE2"
 		(shape input)
-		(at 255.27 133.35 0)
+		(at 255.27 137.16 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4405,7 +4552,7 @@
 		)
 		(uuid "16eb3231-d1f5-4f87-992e-ad23a4ca7f44")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 268.7175 133.35 0)
+			(at 268.7175 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4527,7 +4674,7 @@
 	)
 	(global_label "AUDIO_IN_R1"
 		(shape input)
-		(at 217.17 66.04 180)
+		(at 217.17 71.12 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4537,7 +4684,7 @@
 		)
 		(uuid "3113fca9-6ed8-462b-b193-d9c2edcfb8b3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 202.2104 66.04 0)
+			(at 202.2104 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4569,6 +4716,50 @@
 			)
 		)
 	)
+	(global_label "I2S_DAT_OUT"
+		(shape input)
+		(at 118.11 185.42 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "364ae20a-1151-423b-ac01-c06e6a591354")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 103.211 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2S_BCLK"
+		(shape input)
+		(at 83.82 173.99 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "48709837-638b-486c-b7a7-25793c819755")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 72.0053 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "AUDIO_OUT_L1"
 		(shape input)
 		(at 151.13 74.93 0)
@@ -4587,6 +4778,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2C_DAT"
+		(shape input)
+		(at 118.11 175.26 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "50dc6483-3b1d-46d9-9535-b7711e98e98a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 107.7467 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4747,6 +4960,28 @@
 	)
 	(global_label "I2S_DAT_IN"
 		(shape input)
+		(at 118.11 180.34 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "730d6a20-58ca-4551-a07f-f06bbaddc0e4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 104.9043 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2S_DAT_IN"
+		(shape input)
 		(at 60.96 147.32 0)
 		(fields_autoplaced yes)
 		(effects
@@ -4791,7 +5026,7 @@
 	)
 	(global_label "BUS_WIRE2"
 		(shape input)
-		(at 255.27 66.04 0)
+		(at 255.27 71.12 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4801,12 +5036,34 @@
 		)
 		(uuid "931774fa-feb0-48d5-a4cc-3662efc6299a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 268.7175 66.04 0)
+			(at 268.7175 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2C_CLK"
+		(shape input)
+		(at 118.11 168.91 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "946f91ee-344e-4a39-a54a-72c60d60ad01")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 107.5048 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -4917,6 +5174,28 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2S_MCLK"
+		(shape input)
+		(at 83.82 179.07 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ae848188-f8dd-41e9-a74e-9dd3293f08e9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 71.8239 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 				(hide yes)
 			)
 		)
@@ -5121,7 +5400,7 @@
 	)
 	(global_label "AUDIO_OUT_R1"
 		(shape input)
-		(at 217.17 133.35 180)
+		(at 217.17 137.16 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5131,7 +5410,29 @@
 		)
 		(uuid "e4c30dc9-9a90-41f3-98aa-0faca8be0fdb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 200.5171 133.35 0)
+			(at 200.5171 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "I2S_LRCK"
+		(shape input)
+		(at 83.82 168.91 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f1fe0a3b-b381-487a-84b8-6d3dfdbcf016")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 72.0053 168.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6975,6 +7276,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 118.11 180.34 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "357cf8be-77cc-46d2-ac64-c3772ace59fc")
+		(property "Reference" "TP10"
+			(at 127 179.578 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2S DAT IN"
+			(at 136.398 181.102 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 118.11 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 118.11 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 118.11 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "66838be4-baaf-4873-9dac-e7b29f72acf8")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 55.88 52.07 180)
 		(unit 1)
@@ -7861,6 +8229,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 228.6 132.08 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "566353d5-d773-4c01-8aa6-0d4a42bafa07")
+		(property "Reference" "TP4"
+			(at 226.06 128.778 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test Point OUT R1"
+			(at 226.06 130.0479 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 223.52 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 223.52 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 228.6 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7737db71-6b1c-4aa2-9caf-cde759dbb377")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 68.58 52.07 180)
 		(unit 1)
@@ -8037,7 +8472,7 @@
 	)
 	(symbol
 		(lib_id "Diode:PTVS5V0Z1USK")
-		(at 228.6 139.7 270)
+		(at 228.6 143.51 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8045,7 +8480,7 @@
 		(dnp no)
 		(uuid "5f434347-57b0-4e71-9c87-79aff3ce6914")
 		(property "Reference" "D4"
-			(at 224.536 139.192 90)
+			(at 224.536 143.002 90)
 			(effects
 				(font
 					(size 1 1)
@@ -8054,7 +8489,7 @@
 			)
 		)
 		(property "Value" "TPCDSOD323-T03SC"
-			(at 214.376 140.716 90)
+			(at 214.376 144.526 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -8063,7 +8498,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 224.155 139.7 0)
+			(at 224.155 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8072,7 +8507,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PTVS5V0Z1USK.pdf"
-			(at 228.6 139.7 0)
+			(at 228.6 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8081,7 +8516,7 @@
 			)
 		)
 		(property "Description" "1 100nA 12V 3.3V 38A@8/20us 500W@8/20us 50pF 6V ESD IEC 61000-4-2、IEC 61000-4-5、IEC 61000-4-4 SOD-323 ESD and Surge Protection (TVS/ESD) ROHS"
-			(at 228.6 139.7 0)
+			(at 228.6 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8090,7 +8525,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8099,7 +8534,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8108,7 +8543,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8117,7 +8552,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8126,7 +8561,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8135,7 +8570,7 @@
 			)
 		)
 		(property "LCSC" "C907860"
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8144,7 +8579,7 @@
 			)
 		)
 		(property "MPN" "TPCDSOD323-T03SC"
-			(at 228.6 139.7 90)
+			(at 228.6 143.51 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8656,7 +9091,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 222.25 66.04 90)
+		(at 222.25 71.12 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8664,7 +9099,7 @@
 		(dnp no)
 		(uuid "6a823749-0c6d-4958-bb6b-b20d7613b244")
 		(property "Reference" "R4"
-			(at 222.25 63.5 90)
+			(at 222.25 68.58 90)
 			(effects
 				(font
 					(size 1 1)
@@ -8672,7 +9107,7 @@
 			)
 		)
 		(property "Value" "0"
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1 1)
@@ -8680,7 +9115,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 222.25 67.818 90)
+			(at 222.25 72.898 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8689,7 +9124,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
-			(at 222.25 66.04 0)
+			(at 222.25 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8698,7 +9133,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±1% 0603 Chip Resistor - Surface Mount ROHS"
-			(at 222.25 66.04 0)
+			(at 222.25 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8707,7 +9142,7 @@
 			)
 		)
 		(property "LCSC" "C21189"
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8716,7 +9151,7 @@
 			)
 		)
 		(property "MPN" "0603WAF0000T5E"
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8725,7 +9160,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 222.25 66.04 0)
+			(at 222.25 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8734,7 +9169,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 222.25 66.04 0)
+			(at 222.25 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8743,7 +9178,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 222.25 66.04 0)
+			(at 222.25 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8752,7 +9187,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8761,7 +9196,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 222.25 66.04 0)
+			(at 222.25 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8770,7 +9205,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8779,7 +9214,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8788,7 +9223,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8797,7 +9232,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8806,7 +9241,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 222.25 66.04 90)
+			(at 222.25 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8824,6 +9259,73 @@
 			(project "doorman_audio_extension"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 83.82 179.07 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "6be7be2b-71e4-4986-95c4-7f9f9a399dc0")
+		(property "Reference" "TP7"
+			(at 91.694 178.308 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2S MCLK"
+			(at 101.346 179.832 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 83.82 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.82 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 83.82 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3a90e405-7073-48d1-998d-bab594fb323f")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP7")
 					(unit 1)
 				)
 			)
@@ -9737,6 +10239,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 228.6 67.31 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "7a63ff39-0fa8-48f2-bc43-4fe96da6cd17")
+		(property "Reference" "TP2"
+			(at 226.06 64.008 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test Point IN R1"
+			(at 226.06 65.2779 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 223.52 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 223.52 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 228.6 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b3f65687-74b7-4538-8a19-9dff1ad01c78")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
 		(at 110.49 105.41 0)
@@ -10051,8 +10620,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 83.82 173.99 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "85c6b5e0-abcc-47b6-a734-d3c40f6724a7")
+		(property "Reference" "TP8"
+			(at 91.694 173.228 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2S BCLK"
+			(at 101.092 174.752 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 83.82 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.82 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 83.82 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "96d333bc-45e7-4a2f-aa0d-5c9bb903b4ba")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
-		(at 250.19 133.35 270)
+		(at 250.19 137.16 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10060,7 +10696,7 @@
 		(dnp no)
 		(uuid "8988ce5e-5265-4b79-9367-fd79f897241c")
 		(property "Reference" "C14"
-			(at 248.666 128.524 90)
+			(at 248.666 132.334 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10069,7 +10705,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 248.92 130.048 90)
+			(at 248.92 133.858 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -10078,7 +10714,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10087,7 +10723,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10096,7 +10732,7 @@
 			)
 		)
 		(property "Description" "10uF 50V X7R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10105,7 +10741,7 @@
 			)
 		)
 		(property "LCSC" "C89632"
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10114,7 +10750,7 @@
 			)
 		)
 		(property "MPN" "CL31B106KBHNNNE"
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10123,7 +10759,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10132,7 +10768,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10141,7 +10777,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10150,7 +10786,7 @@
 			)
 		)
 		(property "Package" "1206"
-			(at 250.19 133.35 90)
+			(at 250.19 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10159,7 +10795,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 250.19 133.35 0)
+			(at 250.19 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10168,7 +10804,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 250.19 133.35 90)
+			(at 250.19 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10177,7 +10813,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 250.19 133.35 90)
+			(at 250.19 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10186,7 +10822,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 250.19 133.35 90)
+			(at 250.19 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10195,7 +10831,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 250.19 133.35 90)
+			(at 250.19 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10204,7 +10840,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 250.19 133.35 90)
+			(at 250.19 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10229,7 +10865,7 @@
 	)
 	(symbol
 		(lib_id "Diode:PTVS5V0Z1USK")
-		(at 228.6 71.12 270)
+		(at 228.6 76.2 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10237,7 +10873,7 @@
 		(dnp no)
 		(uuid "8de4f5eb-d59f-473a-8a83-e0669594cc48")
 		(property "Reference" "D3"
-			(at 224.79 70.612 90)
+			(at 224.79 75.692 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10246,7 +10882,7 @@
 			)
 		)
 		(property "Value" "TPCDSOD323-T03SC"
-			(at 214.376 72.136 90)
+			(at 214.376 77.216 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -10255,7 +10891,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 224.155 71.12 0)
+			(at 224.155 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10264,7 +10900,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 71.12 0)
+			(at 228.6 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10273,7 +10909,7 @@
 			)
 		)
 		(property "Description" "1 100nA 12V 3.3V 38A@8/20us 500W@8/20us 50pF 6V ESD IEC 61000-4-2、IEC 61000-4-5、IEC 61000-4-4 SOD-323 ESD and Surge Protection (TVS/ESD) ROHS"
-			(at 228.6 71.12 0)
+			(at 228.6 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10282,7 +10918,7 @@
 			)
 		)
 		(property "LCSC" "C907860"
-			(at 228.6 71.12 90)
+			(at 228.6 76.2 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10291,7 +10927,7 @@
 			)
 		)
 		(property "MPN" "TPCDSOD323-T03SC"
-			(at 228.6 71.12 90)
+			(at 228.6 76.2 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10704,6 +11340,73 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 118.11 168.91 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "9bd73df6-8215-4929-947e-9a9a45f7af32")
+		(property "Reference" "TP5"
+			(at 125.984 168.148 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2C CLK"
+			(at 134.747 169.7991 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 118.11 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 118.11 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 118.11 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c638a808-38bf-4843-a2e2-c9da3d842315")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP5")
 					(unit 1)
 				)
 			)
@@ -11262,8 +11965,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 228.6 40.64 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "a64a5abf-ee41-40e3-baf9-166af4cdce3a")
+		(property "Reference" "TP1"
+			(at 226.06 37.338 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test Point IN L1"
+			(at 226.06 38.6079 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 223.52 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 223.52 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 228.6 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d5c78784-1666-4c38-93d5-f3baae2a26ba")
+		)
+		(instances
+			(project ""
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
-		(at 222.25 133.35 90)
+		(at 222.25 137.16 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11271,7 +12041,7 @@
 		(dnp no)
 		(uuid "a67f1847-04b2-4d42-b8e6-8a46566f9709")
 		(property "Reference" "R9"
-			(at 222.25 130.81 90)
+			(at 222.25 134.62 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11279,7 +12049,7 @@
 			)
 		)
 		(property "Value" "0"
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11287,7 +12057,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 222.25 135.128 90)
+			(at 222.25 138.938 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11296,7 +12066,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
-			(at 222.25 133.35 0)
+			(at 222.25 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11305,7 +12075,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 0Ω 100mW 75V Thick Film Resistor ±1% 0603 Chip Resistor - Surface Mount ROHS"
-			(at 222.25 133.35 0)
+			(at 222.25 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11314,7 +12084,7 @@
 			)
 		)
 		(property "LCSC" "C21189"
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11323,7 +12093,7 @@
 			)
 		)
 		(property "MPN" "0603WAF0000T5E"
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11332,7 +12102,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 222.25 133.35 0)
+			(at 222.25 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11341,7 +12111,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 222.25 133.35 0)
+			(at 222.25 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11350,7 +12120,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 222.25 133.35 0)
+			(at 222.25 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11359,7 +12129,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11368,7 +12138,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 222.25 133.35 0)
+			(at 222.25 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11377,7 +12147,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11386,7 +12156,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11395,7 +12165,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11404,7 +12174,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11413,7 +12183,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 222.25 133.35 90)
+			(at 222.25 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11438,7 +12208,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 250.19 66.04 270)
+		(at 250.19 71.12 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11446,7 +12216,7 @@
 		(dnp no)
 		(uuid "a73a7fa4-f7eb-4d50-9f99-6fc8410e6aa6")
 		(property "Reference" "C12"
-			(at 248.666 61.214 90)
+			(at 248.666 66.294 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11455,7 +12225,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 248.92 62.738 90)
+			(at 248.92 67.818 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11464,7 +12234,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11473,7 +12243,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11482,7 +12252,7 @@
 			)
 		)
 		(property "Description" "10uF 50V X7R ±10% 1206 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS"
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11491,7 +12261,7 @@
 			)
 		)
 		(property "LCSC" "C89632"
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11500,7 +12270,7 @@
 			)
 		)
 		(property "MPN" "CL31B106KBHNNNE"
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11509,7 +12279,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11518,7 +12288,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11527,7 +12297,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11536,7 +12306,7 @@
 			)
 		)
 		(property "Package" "1206"
-			(at 250.19 66.04 90)
+			(at 250.19 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11545,7 +12315,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 250.19 66.04 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11554,7 +12324,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 250.19 66.04 90)
+			(at 250.19 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11563,7 +12333,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 250.19 66.04 90)
+			(at 250.19 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11572,7 +12342,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 250.19 66.04 90)
+			(at 250.19 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11581,7 +12351,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 250.19 66.04 90)
+			(at 250.19 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11590,7 +12360,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 250.19 66.04 90)
+			(at 250.19 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12012,7 +12782,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 238.76 133.35 90)
+		(at 238.76 137.16 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12020,7 +12790,7 @@
 		(dnp no)
 		(uuid "b2ff4ea9-fbd7-4394-8e17-78684856cf4e")
 		(property "Reference" "R6"
-			(at 238.76 130.81 90)
+			(at 238.76 134.62 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12028,7 +12798,7 @@
 			)
 		)
 		(property "Value" "200"
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12036,7 +12806,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
-			(at 238.76 135.128 90)
+			(at 238.76 138.938 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12045,7 +12815,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
-			(at 238.76 133.35 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12054,7 +12824,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 200V 200Ω 250mW Thick Film Resistor ±100ppm/℃ ±5% 1206 Chip Resistor - Surface Mount ROHS"
-			(at 238.76 133.35 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12063,7 +12833,7 @@
 			)
 		)
 		(property "LCSC" "C25361"
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12072,7 +12842,7 @@
 			)
 		)
 		(property "MPN" "1206W4J0201T5E"
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12081,7 +12851,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 238.76 133.35 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12090,7 +12860,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 238.76 133.35 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12099,7 +12869,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 238.76 133.35 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12108,7 +12878,7 @@
 			)
 		)
 		(property "Package" "1206"
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12117,7 +12887,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 238.76 133.35 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12126,7 +12896,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12135,7 +12905,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12144,7 +12914,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12153,7 +12923,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12162,7 +12932,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 238.76 133.35 90)
+			(at 238.76 137.16 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12188,7 +12958,7 @@
 	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
-		(at 228.6 76.2 0)
+		(at 228.6 81.28 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12197,7 +12967,7 @@
 		(fields_autoplaced yes)
 		(uuid "b60f6312-3362-421f-a34d-dcc8f7eafb5f")
 		(property "Reference" "#PWR018"
-			(at 228.6 82.55 0)
+			(at 228.6 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12206,7 +12976,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 228.6 81.28 0)
+			(at 228.6 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12214,7 +12984,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 228.6 76.2 0)
+			(at 228.6 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12223,7 +12993,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 76.2 0)
+			(at 228.6 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12232,7 +13002,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 228.6 76.2 0)
+			(at 228.6 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12607,6 +13377,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 83.82 168.91 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "be9edbc7-0a0d-4042-98a1-3ee31561981d")
+		(property "Reference" "TP9"
+			(at 91.694 168.148 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2S LRCLK"
+			(at 101.854 169.672 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 83.82 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 83.82 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 83.82 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "09210fc8-9a88-4377-8281-167002ddbcd1")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 130.81 80.01 90)
 		(unit 1)
@@ -12845,6 +13682,73 @@
 			(project "doorman_audio_extension"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 228.6 101.6 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "cc634c90-0525-4752-81e7-e15a3e7ea850")
+		(property "Reference" "TP3"
+			(at 226.06 98.298 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Test Point OUT L1"
+			(at 226.06 99.5679 0)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 223.52 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 223.52 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 228.6 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "758c477a-6a38-4820-84eb-0f493ff9d01d")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP3")
 					(unit 1)
 				)
 			)
@@ -13094,6 +13998,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 118.11 175.26 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "dcdc177f-9995-4e76-8970-76c760245654")
+		(property "Reference" "TP6"
+			(at 125.984 174.498 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2C DAT"
+			(at 134.747 176.1491 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 118.11 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 118.11 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 118.11 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "14f07ff1-7c49-4c94-af04-8282ea3cb201")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
 		(at 92.71 39.37 0)
@@ -13231,7 +14202,7 @@
 	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
-		(at 228.6 146.05 0)
+		(at 228.6 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13240,7 +14211,7 @@
 		(fields_autoplaced yes)
 		(uuid "e5bee1eb-dc8a-4b4e-ba29-de9a89fe4cbd")
 		(property "Reference" "#PWR019"
-			(at 228.6 152.4 0)
+			(at 228.6 156.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13249,7 +14220,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 228.6 151.13 0)
+			(at 228.6 154.94 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13257,7 +14228,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 228.6 146.05 0)
+			(at 228.6 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13266,7 +14237,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 146.05 0)
+			(at 228.6 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13275,7 +14246,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 228.6 146.05 0)
+			(at 228.6 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14126,6 +15097,73 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 118.11 185.42 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "f86681dc-562f-4323-8246-b11300b8c236")
+		(property "Reference" "TP11"
+			(at 127 184.658 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "Test Point I2S DAT OUT"
+			(at 137.668 186.182 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 118.11 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 118.11 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 118.11 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5ae41005-21a3-4ec5-8406-f6ec3af889fd")
+		)
+		(instances
+			(project "doorman_audio_extension"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "TP11")
 					(unit 1)
 				)
 			)
