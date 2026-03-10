@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-02-25")
+		(date "2026-03-10")
 		(rev "2.0")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
@@ -7633,9 +7633,9 @@
 		)
 		(uuid "69585e6e-9199-493d-8757-f1edbc9bc54d")
 	)
-	(text "TC:BUS"
+	(text "TC:BUS Data"
 		(exclude_from_sim no)
-		(at 123.698 96.012 0)
+		(at 118.11 97.79 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7687,17 +7687,6 @@
 			(justify left bottom)
 		)
 		(uuid "9b73a196-6ec4-4b0b-9d48-8ee2ccfe5bbf")
-	)
-	(text "L1+L2 to block audio path"
-		(exclude_from_sim no)
-		(at 246.888 33.274 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a0d3972c-adec-4477-980b-3ccb7b67e3d3")
 	)
 	(text "Fix Bus Wire polarity"
 		(exclude_from_sim no)
