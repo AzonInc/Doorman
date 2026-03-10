@@ -1,4 +1,4 @@
-26853984945261289
+26855758110049931
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60311,6 +60311,13 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
+Doorman
+QFN40P300X300X60-21N
+<b>25 qfen</b><br>
+
+0
+21
+21
 Doorman
 doorman-s3-2
 

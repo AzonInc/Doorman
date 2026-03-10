@@ -76,9 +76,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.0,
-          "height": 1.7,
-          "width": 1.7
+          "drill": 0.0,
+          "height": 1.0,
+          "width": 2.58
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -609,6 +609,8 @@
     },
     "net_colors": {
       "+3.3V": "rgb(255, 153, 0)",
+      "AUDIO_IN_P": "rgb(255, 0, 255)",
+      "AVDD": "rgb(255, 153, 0)",
       "Net-(D1-K)": "rgb(255, 0, 255)"
     },
     "netclass_assignments": null,
