@@ -418,6 +418,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
                 modelData.capabilities |= CAP_AMBIENT_LIGHT;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 break;
             case MODEL_IS_TASTA_VIDEO: /* Koch 60 Series Video */
             case MODEL_IS_TASTA_PRO_VIDEO:
@@ -435,6 +437,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
                 modelData.capabilities |= CAP_AMBIENT_LIGHT;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 break;
             case MODEL_IS_SENSO_PRO_AUDIO:  /* Koch 70 Series Audio */
                 modelData.device_group = 1;
@@ -448,6 +452,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 break;
             case MODEL_IS_SENSO_PRO_VIDEO:  /* Koch 70 Series Video */
                 modelData.device_group = 1;
@@ -462,6 +468,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 break;
             case MODEL_IS_ECOOS:
                 modelData.device_group = 1;
@@ -1028,19 +1036,10 @@ namespace esphome::tc_bus
 
         if(model_data.device_group == 0 || model_data.device_group == 1)
         {
-            bool next_gen_model = (
-                model == MODEL_IS_TASTA_AUDIO ||
-                model == MODEL_IS_TASTA_VIDEO ||
-                model == MODEL_IS_TASTA_PRO_AUDIO ||
-                model == MODEL_IS_TASTA_PRO_VIDEO ||
-                model == MODEL_IS_SENSO_PRO_AUDIO ||
-                model == MODEL_IS_SENSO_PRO_VIDEO
-            );
-
             // IS
             if (setting == SETTING_RINGTONE_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_ENTRANCE_DOOR_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 24;
                     data.start_bit = 7;
@@ -1055,7 +1054,7 @@ namespace esphome::tc_bus
             }
             else if (setting == SETTING_RINGTONE_INTERNAL_CALL && (model_data.capabilities & CAP_RINGTONE_INTERNAL_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 25;
                     data.start_bit = 7;
@@ -1070,7 +1069,7 @@ namespace esphome::tc_bus
             }
             else if (setting == SETTING_RINGTONE_FLOOR_CALL && (model_data.capabilities & CAP_RINGTONE_FLOOR_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 26;
                     data.start_bit = 7;
@@ -1085,7 +1084,7 @@ namespace esphome::tc_bus
             }
             else if (setting == SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 27;
                     data.start_bit = 7;

@@ -901,7 +901,7 @@ namespace esphome::tc_bus
                         model_to_string(this->model_), device_group_to_string(this->device_group_), this->serial_number_);
 
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
+        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
         memory_buffer_.clear();
 
@@ -951,13 +951,13 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::execute_read_memory_update(uint8_t index)
     {
-        ESP_LOGI(TAG, "Read device memory:\n"
+        ESP_LOGI(TAG, "Read device memory after update:\n"
                         "  Model: %s (%s)\n"
                         "  Serial Number: %i",
                         model_to_string(this->model_), device_group_to_string(this->device_group_), this->serial_number_);
 
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
+        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
         reading_memory_count_ = (index / 4);
 
@@ -1021,33 +1021,43 @@ namespace esphome::tc_bus
 
         uint8_t button_rows = get_setting(SETTING_BUTTON_ROWS);
 
-        if (this->model_ == MODEL_AS_TCU2) {
-            if (row >= 1 && row <= 4 && col >= 5 && col <= 8) {
+        if (this->model_ == MODEL_AS_TCU2)
+        {
+            if (row >= 1 && row <= 4 && col >= 5 && col <= 8)
+            {
                 return tcu2_indices[row - 1][col - 5];
             }
             return 0;
         }
         
-        if (this->model_ == MODEL_AS_TCU3 || this->model_ == MODEL_AS_TCU4) {
-            if (row >= 1 && row <= 4 && col >= 5 && col <= 8) {
+        if (this->model_ == MODEL_AS_TCU3 || this->model_ == MODEL_AS_TCU4)
+        {
+            if (row >= 1 && row <= 4 && col >= 5 && col <= 8)
+            {
                 return tcu34_indices[row - 1][col - 5];
             }
             return 0;
         }
         
-        if (this->model_ == MODEL_AS_PES) {
-            if (col < 1 || col > 2 || row < 1) {
+        if (this->model_ == MODEL_AS_PES)
+        {
+            if (col < 1 || col > 2 || row < 1)
+            {
                 return 0;
             }
 
             uint8_t offset = 0;
             
             // If button_rows <= 4, use offset to shift rows
-            if (button_rows <= 4) {
+            if (button_rows <= 4)
+            {
                 offset = 4;
-            } else {
+            }
+            else
+            {
                 // For button_rows > 4, manually map first 4 rows
-                if (row <= 4) {
+                if (row <= 4)
+                {
                     static const uint8_t pes_first_4[][2] = {
                         {92, 32}, {86, 26}, {80, 20}, {74, 14}
                     };
@@ -1061,7 +1071,8 @@ namespace esphome::tc_bus
             };
 
             uint8_t dynamic_row = row + offset - 5;  // Convert to 0-based index
-            if (dynamic_row < 6) {
+            if (dynamic_row < 6)
+            {
                 return pes_dynamic[dynamic_row][col - 1];
             }
 
@@ -1071,7 +1082,8 @@ namespace esphome::tc_bus
         const uint8_t* indices = nullptr;
         uint8_t max_buttons = 0;
 
-        switch(this->model_) {
+        switch(this->model_)
+        {
             case MODEL_AS_PUK_DSP:
                 indices = &dsp_indices[0][0];
                 max_buttons = 10;
@@ -1089,19 +1101,25 @@ namespace esphome::tc_bus
                 max_buttons = 8;
                 break;
             case MODEL_AS_PDS0X:
-                if(get_setting(SETTING_HAS_CODE_LOCK) == 254) {
+                if(get_setting(SETTING_HAS_CODE_LOCK) == 254)
+                {
                     indices = &pds_indices[0][0];
                     max_buttons = 1;
-                } else {
+                }
+                else
+                {
                     indices = &pds0x04_indices[0][0];
                     max_buttons = 3;
                 }
                 break;
             case MODEL_AS_PDS0X04:
-                if(get_setting(SETTING_HAS_CODE_LOCK) == 254) {
+                if(get_setting(SETTING_HAS_CODE_LOCK) == 254)
+                {
                     indices = &pds_indices[0][0];
                     max_buttons = 1;
-                } else {
+                }
+                else
+                {
                     indices = &pds0x04_indices[0][0];
                     max_buttons = 3;
                 }
@@ -1110,7 +1128,8 @@ namespace esphome::tc_bus
                 return 0;
         }
 
-        if (indices && row > 0 && row <= max_buttons) {
+        if (indices && row > 0 && row <= max_buttons)
+        {
             uint8_t config = (button_rows <= 3) ? button_rows : 4;
             return indices[config * max_buttons + row - 1];
         }
@@ -1140,25 +1159,32 @@ namespace esphome::tc_bus
         }
 
         uint8_t base_index = get_doorbell_button_memory_index(row, col);
-        if (base_index == 0) {
+        if (base_index == 0)
+        {
             ESP_LOGW(TAG, "No memory index for button found!");
             return button;
         }
 
         // First action
         uint8_t primary_action_value = (memory_buffer_[base_index] >> 4) & 0x0F;
-        if (primary_action_value == 0xF || primary_action_value == 0x0 || primary_action_value == 0x1 || primary_action_value == 0x2) {
+        if (primary_action_value == 0xF || primary_action_value == 0x0 || primary_action_value == 0x1 || primary_action_value == 0x2)
+        {
             button.primary_action = static_cast<DoorbellButtonAction>(primary_action_value);
-        } else {
+        }
+        else
+        {
             button.primary_action = DOORBELL_BUTTON_ACTION_NONE;
         }
         button.primary_payload = ((memory_buffer_[base_index] & 0x0F) << 16) | (memory_buffer_[base_index + 1] << 8) | memory_buffer_[base_index + 2];
 
         // Second action
         uint8_t secondary_action_value = (memory_buffer_[base_index + 3] >> 4) & 0x0F;
-        if (secondary_action_value == 0xF || secondary_action_value == 0x0 || secondary_action_value == 0x1 || secondary_action_value == 0x2) {
+        if (secondary_action_value == 0xF || secondary_action_value == 0x0 || secondary_action_value == 0x1 || secondary_action_value == 0x2)
+        {
             button.secondary_action = static_cast<DoorbellButtonAction>(secondary_action_value);
-        } else {
+        }
+        else
+        {
             button.secondary_action = DOORBELL_BUTTON_ACTION_NONE;
         }
         button.secondary_payload = ((memory_buffer_[base_index + 3] & 0x0F) << 16) | (memory_buffer_[base_index + 4] << 8) | memory_buffer_[base_index + 5];
@@ -1213,7 +1239,7 @@ namespace esphome::tc_bus
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
         // Select memory page %i of serial number %i
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
+        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
         // Transfer new button assignments (2 bytes per transmission)
         uint16_t value1 = (memory_buffer_[base_index] << 8) | memory_buffer_[base_index + 1];
@@ -1225,8 +1251,15 @@ namespace esphome::tc_bus
         send_telegram(TELEGRAM_TYPE_WRITE_MEMORY, base_index + 4, value3);
 
         // Reset
-        send_telegram(TELEGRAM_TYPE_RESET);
-
+        if(!(this->model_data_.capabilities & CAP_INDIVIDUAL_RESET))
+        {
+            send_telegram(TELEGRAM_TYPE_RESET);
+        }
+        else
+        {
+            send_telegram(TELEGRAM_TYPE_CONTROL_FUNCTION, 0, 0xD7);
+        }
+        
         return true;
     }
 
@@ -1333,14 +1366,21 @@ namespace esphome::tc_bus
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
         // Select memory page %i of serial number %i
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
+        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
         // Transfer new settings value to memory
         uint16_t new_values = (memory_buffer_[cellData.index] << 8) | memory_buffer_[cellData.index + 1];
         send_telegram(TELEGRAM_TYPE_WRITE_MEMORY, cellData.index, new_values);
 
         // Reset
-        send_telegram(TELEGRAM_TYPE_RESET);
+        if(!(this->model_data_.capabilities & CAP_INDIVIDUAL_RESET))
+        {
+            send_telegram(TELEGRAM_TYPE_RESET);
+        }
+        else
+        {
+            send_telegram(TELEGRAM_TYPE_CONTROL_FUNCTION, 0, 0xD7);
+        }
 
         return true;
     }
@@ -1375,7 +1415,7 @@ namespace esphome::tc_bus
         // Prepare Transmission
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0, 0);
+        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
         // Transmit Memory
         for (size_t address = 0; address < memory_buffer_.size(); address += 2)
@@ -1385,7 +1425,14 @@ namespace esphome::tc_bus
         }
 
         // Reset
-        send_telegram(TELEGRAM_TYPE_RESET);
+        if(!(this->model_data_.capabilities & CAP_INDIVIDUAL_RESET))
+        {
+            send_telegram(TELEGRAM_TYPE_RESET);
+        }
+        else
+        {
+            send_telegram(TELEGRAM_TYPE_CONTROL_FUNCTION, 0, 0xD7);
+        }
 
         return true;
     }

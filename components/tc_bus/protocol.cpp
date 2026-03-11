@@ -295,9 +295,49 @@ namespace esphome::tc_bus
                 data.address = address;
                 data.is_long = false;
 
-                data.raw |= (8 << 12); // 8
+                data.raw |= (2 << 12); // 2
+                data.raw |= (8 << 8); // 8
+                data.raw |= (0 << 7); // 0
+                data.raw |= (address & 0x3F); // 0
+                break;
+
+            case TELEGRAM_TYPE_END_OF_RINGTONE:
+                data.address = address;
+                data.is_long = false;
+
+                data.raw |= (2 << 12); // 2
                 data.raw |= (2 << 8); // 2
                 data.raw |= (0 << 7); // 0
+                data.raw |= (address & 0x3F); // 0
+                break;
+
+            case TELEGRAM_TYPE_END_OF_DOOR_READINESS:
+                data.address = address;
+                data.is_long = false;
+
+                data.raw |= (2 << 12); // 2
+                data.raw |= (4 << 8); // 4
+                data.raw |= (0 << 7); // 0
+                data.raw |= (address & 0x3F); // 0
+                break;
+
+            case TELEGRAM_TYPE_DOOR_CLOSED:
+                data.address = address;
+                data.is_long = false;
+
+                data.raw |= (2 << 12); // 2
+                data.raw |= (1 << 8); // 1
+                data.raw |= (1 << 7); // 8
+                data.raw |= (address & 0x3F); // 0
+                break;
+
+            case TELEGRAM_TYPE_DOOR_OPENED:
+                data.address = address;
+                data.is_long = false;
+
+                data.raw |= (2 << 12); // 2
+                data.raw |= (1 << 8); // 1
+                data.raw &= ~(1 << 7); // 0
                 data.raw |= (address & 0x3F); // 0
                 break;
 

@@ -177,6 +177,8 @@ namespace esphome::tc_bus
         CAP_BUTTON_ROWS = (1 << 18),
         CAP_HAS_CODE_LOCK = (1 << 19),
         CAP_UPDATE_DOORBELL_BUTTON = (1 << 20),
+        CAP_ALT_RINGTONE_ADDRESS = (1 << 21),
+        CAP_INDIVIDUAL_RESET = (1 << 22),
     };
 
     struct ModelData {
