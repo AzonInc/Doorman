@@ -64,6 +64,9 @@ def get_packages(host, api_variant, firmware, branch):
         # Add configo for local tests
         ('configo', '!include ../components/configo.yaml', branch == 'local'),
 
+        # Add virtual devices for local tests
+        ('virtual_devices', '!include ../components/virtual-devices.yaml', branch == 'local'),
+
         ('pattern_events', '!include ../components/pattern-events.yaml', True),
         ('ring_to_open', '!include ../components/ring-to-open.yaml', True),
         ('ring_to_open_homekit', '!include ../components/ring-to-open.homekit.yaml', api_variant == 'homekit'),
