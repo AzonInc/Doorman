@@ -10,5 +10,4 @@ i2c:
   id: i2c_bus
   sda: GPIO13
   scl: GPIO12
-  frequency: 100kHz
   scan: true
