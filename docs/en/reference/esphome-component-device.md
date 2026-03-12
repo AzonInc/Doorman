@@ -298,7 +298,7 @@ on_...:
 ```
 :::
 
-### Answer Call <Badge type="tip" text="tc_bus_device.answer_call" />
+### Answer Call <Badge type="tip" text="tc_bus_device.answer_call" /> <Badge type="warning" text="Only virtual" />
 This action allows you to answer an incoming call.
 
 ```yaml
@@ -307,7 +307,7 @@ on_...:
       id: my_virtual_tc_bus_indoor_station_device
 ```
 
-### End Call <Badge type="tip" text="tc_bus_device.end_call" />
+### End Call <Badge type="tip" text="tc_bus_device.end_call" /> <Badge type="warning" text="Only virtual" />
 This action allows you to end the current call.
 
 ```yaml
@@ -316,7 +316,7 @@ on_...:
       id: my_virtual_tc_bus_indoor_station_device
 ```
 
-### Initiate Call <Badge type="tip" text="tc_bus_device.call" />
+### Initiate Call <Badge type="tip" text="tc_bus_device.call" /> <Badge type="warning" text="Only virtual" />
 This action allows you to end the current call.
 
 :::code-group

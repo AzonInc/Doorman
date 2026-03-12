@@ -641,8 +641,11 @@ namespace esphome::tc_bus
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_RESET)
                 {
-                    this->memory_mode_ = false;
-                    this->reset_call();
+                    if(this->tc_bus_->get_selected_device_group() == this->device_group_)
+                    {
+                        this->memory_mode_ = false;
+                        this->reset_call();
+                    }
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION && telegram_data.serial_number == this->serial_number_)
                 {
@@ -750,10 +753,13 @@ namespace esphome::tc_bus
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
                 {
-                    this->memory_mode_ = false;
-                    this->reset_call();
-                    this->cancel_timeout("door_readiness_timeout");
-                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_INITIALIZE_DOOR_STATION, this->address_);
+                    if(this->tc_bus_->get_selected_device_group() == this->device_group_)
+                    {
+                        this->memory_mode_ = false;
+                        this->reset_call();
+                        this->cancel_timeout("door_readiness_timeout");
+                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_INITIALIZE_DOOR_STATION, this->address_);
+                    }
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION && telegram_data.serial_number == this->serial_number_)
                 {
@@ -1279,6 +1285,11 @@ namespace esphome::tc_bus
             if(supports_setting(SETTING_CALL_TIME_UNLIMITED))
             {
                 ESP_LOGI(TAG, "  Call Time Unlimited: %s", YESNO(get_setting(SETTING_CALL_TIME_UNLIMITED)));
+            }
+
+            if(supports_setting(SETTING_AMBIENT_LIGHT))
+            {
+                ESP_LOGI(TAG, "  Ambient Light (standby): %s", YESNO(get_setting(SETTING_AMBIENT_LIGHT)));
             }
 
             if(supports_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL))
