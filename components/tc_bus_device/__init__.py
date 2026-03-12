@@ -47,6 +47,24 @@ TCBusDeviceIdentifyAction = tc_bus_ns.class_(
     cg.Parented.template(TCBusDeviceComponent)
 )
 
+TCBusDeviceAnswerCallAction = tc_bus_ns.class_(
+    "TCBusDeviceAnswerCallAction",
+    automation.Action,
+    cg.Parented.template(TCBusDeviceComponent)
+)
+
+TCBusDeviceEndCallAction = tc_bus_ns.class_(
+    "TCBusDeviceEndCallAction",
+    automation.Action,
+    cg.Parented.template(TCBusDeviceComponent)
+)
+
+TCBusDeviceCallAction = tc_bus_ns.class_(
+    "TCBusDeviceCallAction",
+    automation.Action,
+    cg.Parented.template(TCBusDeviceComponent)
+)
+
 
 IdentifyCompleteTrigger = tc_bus_ns.class_(
     "IdentifyCompleteTrigger",
@@ -75,6 +93,26 @@ ReadMemoryTimeoutTrigger = tc_bus_ns.class_(
 
 ReceivedDeviceTelegramTrigger = tc_bus_ns.class_(
     "ReceivedDeviceTelegramTrigger", 
+    automation.Trigger.template()
+)
+
+IncomingCallTrigger = tc_bus_ns.class_(
+    "IncomingCallTrigger", 
+    automation.Trigger.template()
+)
+
+CallStartedTrigger = tc_bus_ns.class_(
+    "CallStartedTrigger", 
+    automation.Trigger.template()
+)
+
+CallEndedTrigger = tc_bus_ns.class_(
+    "CallEndedTrigger", 
+    automation.Trigger.template()
+)
+
+CallFailedTrigger = tc_bus_ns.class_(
+    "CallFailedTrigger", 
     automation.Trigger.template()
 )
 
@@ -224,11 +262,19 @@ CONF_TC_BUS_DEVICE = "tc_bus_device"
 CONF_TC_BUS_DEVICE_ID = "tc_bus_device_id"
 
 CONF_AUTO_CONFIGURATION = "auto_configuration"
+CONF_VIRTUAL_DEVICE = "virtual"
 
 CONF_TELEGRAM = "telegram"
 CONF_IS_LONG = "is_long"
 CONF_ADDRESS = "address"
 CONF_PAYLOAD = "payload"
+
+CONF_INTERNAL = "internal"
+
+CONF_ON_INCOMING_CALL = "on_incoming_call"
+CONF_ON_CALL_STARTED = "on_call_started"
+CONF_ON_CALL_ENDED = "on_call_ended"
+CONF_ON_CALL_FAILED = "on_call_failed"
 
 CONF_BUTTON_ROW = "button_row"
 CONF_BUTTON_COL = "button_col"
@@ -244,14 +290,49 @@ CONF_ON_IDENTIFY_UNKNOWN = "on_identify_unknown"
 CONF_ON_IDENTIFY_TIMEOUT = "on_identify_timeout"
 
 def validate_config(config):
+    if config.get(CONF_VIRTUAL_DEVICE, False):
+        invalid_keys = [
+            CONF_AUTO_CONFIGURATION,
+            CONF_ON_READ_MEMORY_COMPLETE,
+            CONF_ON_READ_MEMORY_TIMEOUT,
+            CONF_ON_IDENTIFY_COMPLETE,
+            CONF_ON_IDENTIFY_UNKNOWN,
+            CONF_ON_IDENTIFY_TIMEOUT,
+        ]
+        for key in invalid_keys:
+            if key in config:
+                raise cv.Invalid(
+                    f"'{key}' is not compatible with virtual devices.",
+                    path=[key]
+                )
+
+        call_keys = [
+            CONF_ON_INCOMING_CALL,
+            CONF_ON_CALL_STARTED,
+            CONF_ON_CALL_ENDED,
+            CONF_ON_CALL_FAILED,
+        ]
+        allowed_groups = [
+            DEVICE_GROUP.DEVICE_GROUP_INDOOR_STATION,
+            DEVICE_GROUP.DEVICE_GROUP_OUTDOOR_STATION,
+        ]
+        device_type = config.get(CONF_TYPE)
+        for key in call_keys:
+            if key in config and device_type not in allowed_groups:
+                raise cv.Invalid(
+                    f"'{key}' is only compatible with virtual indoor- and outdoor-stations.",
+                    path=[key]
+                )
+
     return config
 
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID() : cv.declare_id(TCBusDeviceComponent),
         cv.GenerateID(CONF_TC_BUS_ID): cv.use_id(TCBusComponent),
+        cv.Optional(CONF_VIRTUAL_DEVICE, default="false"): cv.boolean,
         cv.Optional(CONF_TYPE, default="indoor_station"): cv.enum(DEVICE_GROUPS, upper=False),
-        cv.Optional(CONF_AUTO_CONFIGURATION, default="false"): cv.boolean,
+        cv.Optional(CONF_AUTO_CONFIGURATION): cv.boolean,
         cv.Optional(CONF_ON_READ_MEMORY_COMPLETE): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryCompleteTrigger),
@@ -277,6 +358,26 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyTimeoutTrigger),
             }
         ),
+        cv.Optional(CONF_ON_INCOMING_CALL): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IncomingCallTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_CALL_STARTED): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(CallStartedTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_CALL_ENDED): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(CallEndedTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_CALL_FAILED): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(CallFailedTrigger),
+            }
+        ),
     }
 )
 
@@ -293,7 +394,10 @@ async def to_code(config):
     cg.add(var.set_tc_bus_component(tc_bus_component))
     cg.add(var.set_internal_id(str(config[CONF_ID])))
     cg.add(var.set_device_group(config[CONF_TYPE]))
-    cg.add(var.set_auto_configuration(config[CONF_AUTO_CONFIGURATION]))
+    cg.add(var.set_virtual_device(config[CONF_VIRTUAL_DEVICE]))
+
+    if CONF_AUTO_CONFIGURATION in config:
+        cg.add(var.set_auto_configuration(config[CONF_AUTO_CONFIGURATION]))
 
     for conf in config.get(CONF_ON_READ_MEMORY_COMPLETE, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
@@ -312,6 +416,22 @@ async def to_code(config):
         await automation.build_automation(trigger, [], conf)
 
     for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
+
+    for conf in config.get(CONF_ON_INCOMING_CALL, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+
+    for conf in config.get(CONF_ON_CALL_STARTED, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+
+    for conf in config.get(CONF_ON_CALL_ENDED, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+
+    for conf in config.get(CONF_ON_CALL_FAILED, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [], conf)
 
@@ -445,4 +565,70 @@ async def tc_bus_device_request_version_to_code(config, action_id, template_args
     var = cg.new_Pvariable(action_id, template_args)
     await cg.register_parented(var, config[CONF_ID])
     
+    return var
+
+
+
+TC_BUS_DEVICE_ANSWER_CALL_SCHEMA = cv.All(
+    cv.Schema(
+    {
+        cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent),
+    })
+)
+
+@automation.register_action(
+    "tc_bus_device.answer_call",
+    TCBusDeviceAnswerCallAction,
+    TC_BUS_DEVICE_ANSWER_CALL_SCHEMA
+)
+async def tc_bus_device_answer_call_to_code(config, action_id, template_args, args):
+    var = cg.new_Pvariable(action_id, template_args)
+    await cg.register_parented(var, config[CONF_ID])
+
+    return var
+
+
+TC_BUS_DEVICE_END_CALL_SCHEMA = cv.All(
+    cv.Schema(
+    {
+        cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent),
+    })
+)
+
+@automation.register_action(
+    "tc_bus_device.end_call",
+    TCBusDeviceEndCallAction,
+    TC_BUS_DEVICE_END_CALL_SCHEMA
+)
+async def tc_bus_device_end_call_to_code(config, action_id, template_args, args):
+    var = cg.new_Pvariable(action_id, template_args)
+    await cg.register_parented(var, config[CONF_ID])
+
+    return var
+
+
+TC_BUS_DEVICE_CALL_SCHEMA = cv.All(
+    cv.Schema(
+    {
+        cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent),
+        cv.Optional(CONF_ADDRESS, default="0"): cv.templatable(cv.hex_uint32_t),
+        cv.Optional(CONF_INTERNAL, default="false"): cv.templatable(cv.boolean),
+    })
+)
+
+@automation.register_action(
+    "tc_bus_device.call",
+    TCBusDeviceCallAction,
+    TC_BUS_DEVICE_CALL_SCHEMA
+)
+async def tc_bus_device_call_to_code(config, action_id, template_args, args):
+    var = cg.new_Pvariable(action_id, template_args)
+    await cg.register_parented(var, config[CONF_ID])
+
+    address_template = await cg.templatable(config[CONF_ADDRESS], args, cg.uint32)
+    cg.add(var.set_address(address_template))
+
+    internal_template = await cg.templatable(config[CONF_INTERNAL], args, cg.bool_)
+    cg.add(var.set_internal(internal_template))
+
     return var

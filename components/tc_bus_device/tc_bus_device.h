@@ -32,9 +32,11 @@
 namespace esphome::tc_bus
 {
     // Queue configuration - max pending flows across all instances
-    constexpr size_t FLOW_QUEUE_SIZE = 10;
+    static constexpr size_t FLOW_QUEUE_SIZE = 10;
 
     static const char* FLOW_QUEUE_TAG = "tc_bus_device.flow_queue";
+
+    static constexpr uint16_t CALL_TIMEOUT_MS = 60000;
 
     enum FlowType
     {
@@ -42,6 +44,16 @@ namespace esphome::tc_bus
         FLOW_READ_MEMORY,
         FLOW_READ_MEMORY_UPDATE,
         FLOW_IDENTIFY_DEVICE
+    };
+
+    enum class CallState : uint8_t {
+        IDLE = 0,
+        OUT_CHECK_DST = 1,
+        OUT_RINGING = 2,
+        IN_RINGING = 3,
+        IN_WAIT_FOR_INIT = 4,
+        CONNECTED = 5,
+        LINE_BUSY = 6,
     };
 
 #ifdef USE_BINARY_SENSOR
@@ -69,8 +81,14 @@ namespace esphome::tc_bus
     struct TCBusDeviceSettings
     {
         Model model;
-        uint32_t serial_number;
-        bool force_long_door_opener_protocol;
+        uint32_t serial_number = 0;
+        uint8_t address = 0;
+        uint8_t address_divider = 0;
+        uint8_t door_readiness_duration = 7;
+        uint8_t call_time_duration = 7;
+        uint8_t door_opener_duration = 4;
+        bool force_long_door_opener_protocol = false;
+        bool auto_answer_call = false;
     };
 
     class TCBusDeviceComponent : public Component, public TCBusRemoteListener
@@ -84,13 +102,21 @@ namespace esphome::tc_bus
 #endif
 #ifdef USE_NUMBER
         SUB_NUMBER(serial_number);
+        SUB_NUMBER(address);
+
         SUB_NUMBER(volume_handset_door_call);
         SUB_NUMBER(volume_handset_internal_call);
         SUB_NUMBER(volume_ringtone);
+
+        SUB_NUMBER(address_divider);
+        SUB_NUMBER(door_readiness_duration);
+        SUB_NUMBER(call_time_duration);
+        SUB_NUMBER(door_opener_duration);
 #endif
 #ifdef USE_SWITCH
         SUB_SWITCH(force_long_door_opener_protocol);
         SUB_SWITCH(ringtone_mute);
+        SUB_SWITCH(auto_answer_call);
 #endif
 #ifdef USE_BUTTON
         SUB_BUTTON(read_memory);
@@ -102,11 +128,14 @@ namespace esphome::tc_bus
 
         void set_internal_id(const std::string &internal_id) { this->internal_id_.assign(internal_id); }
         void set_tc_bus_component(TCBusComponent *bus) { this->tc_bus_ = bus; }
-        void set_device_group(DeviceGroup device_group) { this->device_group_ = device_group; }
+        
         void set_auto_configuration(bool auto_configuration) { this->auto_configuration_ = auto_configuration; }
-        void set_force_long_door_opener_protocol(bool force_long_door_opener_protocol) { this->force_long_door_opener_protocol_ = force_long_door_opener_protocol; }
+        void set_virtual_device(bool virtual_device) { this->virtual_device_ = virtual_device; }
+
         void set_serial_number(uint32_t serial_number, bool save = true);
         void set_model(Model model, bool save = true);
+        void set_device_group(DeviceGroup device_group) { this->device_group_ = device_group; }
+
         void set_current_flow(FlowType type) { this->current_flow_ = type; }
 
         float get_setup_priority() const override { return setup_priority::BUS - 1.0f; }
@@ -123,6 +152,11 @@ namespace esphome::tc_bus
         void register_listener(TCBusDeviceListener *listener);
         #endif
 
+        // Call handling
+        void call(uint32_t destination, bool internal);
+        void answer_call();
+        void end_call();
+        bool reset_call();
 
         // Flow Queue Management
         static void process_flow_queue();
@@ -185,6 +219,26 @@ namespace esphome::tc_bus
         {
             this->identify_timeout_callback_.add(std::move(callback));
         }
+
+        void add_incoming_call_callback(std::function<void(TelegramData)> &&callback)
+        {
+            this->incoming_call_callback_.add(std::move(callback));
+        }
+
+        void add_call_started_callback(std::function<void(TelegramData)> &&callback)
+        {
+            this->call_started_callback_.add(std::move(callback));
+        }
+
+        void add_call_ended_callback(std::function<void(TelegramData)> &&callback)
+        {
+            this->call_ended_callback_.add(std::move(callback));
+        }
+
+        void add_call_failed_callback(std::function<void()> &&callback)
+        {
+            this->call_failed_callback_.add(std::move(callback));
+        }
         
     protected:
         // Telegram binary listeners
@@ -192,21 +246,36 @@ namespace esphome::tc_bus
         std::vector<TCBusDeviceListener *> listeners_{};
         #endif
 
-        // Indoor station data
-        Model model_;
+        bool auto_configuration_{false};
+
+        // General device data
+        Model model_{MODEL_NONE};
         ModelData model_data_;
-        uint32_t serial_number_;
-        DeviceGroup device_group_;
-        bool auto_configuration_;
-        bool force_long_door_opener_protocol_;
+        uint32_t serial_number_{0};
+        uint8_t address_{0};
+        DeviceGroup device_group_{DEVICE_GROUP_INDOOR_STATION};
+        bool virtual_device_{false};
+        
+        bool force_long_door_opener_protocol_{false};
+        bool auto_answer_call_{false};
+        uint8_t address_divider_{0};
+        uint8_t door_readiness_duration_{0}; // unlimited (0), 8 (1) / ... / 120 (15)
+        uint8_t call_time_duration_{0}; // unlimited (0), 8 (1) / ... / 120 (15)
+        uint8_t door_opener_duration_{0}; // 0 - 15s
+
+        // Call handling
+        bool call_internal_{false};
+        uint32_t call_address_{0};
+        CallState call_state_{CallState::IDLE};
 
         // Flow Queue Management
-        FlowType current_flow_ = FLOW_NONE;
+        FlowType current_flow_{FLOW_NONE};
 
         // Memory reading
+        bool memory_mode_{false};
         std::vector<uint8_t> memory_buffer_;
-        uint8_t reading_memory_count_ = 0;
-        uint8_t reading_memory_max_ = 0;
+        uint8_t reading_memory_count_{0};
+        uint8_t reading_memory_max_{0};
 
         // Preferences
         ESPPreferenceObject pref_;
@@ -217,10 +286,16 @@ namespace esphome::tc_bus
         CallbackManager<void(ModelData)> identify_complete_callback_{};
         CallbackManager<void()> identify_unknown_callback_{};
         CallbackManager<void()> identify_timeout_callback_{};
+        CallbackManager<void(TelegramData)> incoming_call_callback_{};
+        CallbackManager<void(TelegramData)> call_started_callback_{};
+        CallbackManager<void(TelegramData)> call_ended_callback_{};
+        CallbackManager<void()> call_failed_callback_{};
 
         // Misc
         std::string internal_id_;
         TCBusComponent *tc_bus_{nullptr};
+
+        HighFrequencyLoopRequester high_freq_;
 
     private:
         // Flow Queue Management

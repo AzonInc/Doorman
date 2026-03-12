@@ -247,7 +247,7 @@ tc_bus:
     - if:
         condition:
           - switch.is_on: doorman_setup_mode
-          - lambda: "return x.type == TELEGRAM_TYPE_FLOOR_CALL || x.type == TELEGRAM_TYPE_DOOR_CALL;"
+          - lambda: "return x.type == TELEGRAM_TYPE_FLOOR_CALL || x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_INTERNAL_CALL;"
         then:
           # Save Serial Number
           - number.set:

@@ -174,14 +174,22 @@ namespace esphome::tc_bus
                 telegram_data.payload, 
                 telegram_data.serial_number);
 
-            // Additional information
-            if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
+            if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES)
             {
-                ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
+                uint8_t mac[6];
+                get_mac_address_raw(mac);
+                uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
+
+                send_telegram(TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
             }
-            else if(telegram_data.type == TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE)
+            else if (telegram_data.type == TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE)
             {
-                ESP_LOGD(TAG, "  Description: Response to Doorman search request.");
+                uint8_t mac[3];
+                mac[0] = (telegram_data.payload >> 16) & 0xFF;
+                mac[1] = (telegram_data.payload >> 8) & 0xFF;
+                mac[2] = telegram_data.payload & 0xFF;
+
+                ESP_LOGI(TAG, "  Discovered Doorman MAC: %02X:%02X:%02X", mac[0], mac[1], mac[2]);
             }
 
             // Fire Callback
@@ -241,18 +249,15 @@ namespace esphome::tc_bus
                 telegram_data.address, 
                 telegram_data.payload, 
                 telegram_data.serial_number);
-
-            // Additional information
-            if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
-            {
-                ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
-            }
         }
 
         // Sent or received - no response to identification and read memory process
         
-        // Update Door Readiness Status
-        if (telegram_data.type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL)
+        if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
+        {
+            ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
+        }
+        else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL)
         {
             bool door_readiness_state = telegram_data.payload == 1;
             ESP_LOGI(TAG, "  Door readiness: %s", YESNO(door_readiness_state));
@@ -262,9 +267,26 @@ namespace esphome::tc_bus
             bool talk_mode = telegram_data.payload == 1;
             ESP_LOGI(TAG, "  Talk mode: %s", talk_mode ? "Full duplex / handsfree" : "half duplex");
         }
+        else if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL)
+        {
+            this->door_readiness_active_ = true;
+        }
         else if (telegram_data.type == TELEGRAM_TYPE_END_OF_DOOR_READINESS)
         {
-            ESP_LOGI(TAG, "  Door readiness: %s", YESNO(false));
+            // Note:
+            // Does not take the address into account, as this telegram is usually sent
+            // by the outdoor station for the indoor station, and the indoor station
+            // is the only one that reacts to it by changing its door readiness status
+            
+            this->door_readiness_active_ = false;
+        }
+        else if (telegram_data.type == TELEGRAM_TYPE_RESET && this->selected_device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
+        {
+            this->door_readiness_active_ = false;
+        }
+        else if (telegram_data.type == TELEGRAM_TYPE_INITIALIZE_DOOR_STATION)
+        {
+            this->door_readiness_active_ = false;
         }
         else if (telegram_data.type == TELEGRAM_TYPE_PROGRAMMING_MODE)
         {
@@ -275,23 +297,6 @@ namespace esphome::tc_bus
         {
             ESP_LOGV(TAG, "Save device group: %d", telegram_data.payload);
             this->selected_device_group_ = (uint8_t)telegram_data.payload;
-        }
-        else if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES)
-        {
-            uint8_t mac[6];
-            get_mac_address_raw(mac);
-            uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
-
-            send_telegram(TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
-        }
-        else if (telegram_data.type == TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE)
-        {
-            uint8_t mac[3];
-            mac[0] = (telegram_data.payload >> 16) & 0xFF;
-            mac[1] = (telegram_data.payload >> 8) & 0xFF;
-            mac[2] = telegram_data.payload & 0xFF;
-
-            ESP_LOGI(TAG, "  Discovered Doorman MAC: %02X:%02X:%02X", mac[0], mac[1], mac[2]);
         }
 
         // Call remote listeners
@@ -325,11 +330,6 @@ namespace esphome::tc_bus
 
     void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
     {
-        /*if(arg->sending)
-        {
-            return;
-        }*/
-
         static DecoderState state = DecoderState::WAIT_FOR_START;
         static uint8_t expected_bits = 0;
         static uint8_t bit_index = 0;

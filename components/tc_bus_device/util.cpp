@@ -27,6 +27,7 @@ namespace esphome::tc_bus
         {SETTING_CALLING_DURATION, "CALLING_DURATION"},
         {SETTING_BUTTON_ROWS, "BUTTON_ROWS"},
         {SETTING_HAS_CODE_LOCK, "HAS_CODE_LOCK"},
+        {SETTING_AUTO_ANSWER_CALL, "AUTO_ANSWER_CALL"},
     };
 
     SettingType string_to_setting_type(const char* str)

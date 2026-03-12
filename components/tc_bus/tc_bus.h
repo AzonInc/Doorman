@@ -194,7 +194,9 @@ namespace esphome::tc_bus
         FixedQueue<TCBusTelegramQueueItem, 16> telegram_transmit_queue;
 
         // Misc
-        uint8_t selected_device_group_ = 2;
+        bool is_programming_mode_active() const { return this->programming_mode_; }
+        bool is_door_readiness_active() const { return this->door_readiness_active_; }
+        uint8_t get_selected_device_group() const { return this->selected_device_group_; }
 
     protected:
         // Telegram handling
@@ -219,7 +221,9 @@ namespace esphome::tc_bus
         CallbackManager<void(TelegramData)> received_telegram_callback_{};
 
         // Misc
-        bool programming_mode_ = false;
+        bool programming_mode_{false};
+        uint8_t selected_device_group_{2};
+        bool door_readiness_active_{false};
 
         HighFrequencyLoopRequester high_freq_;
     };

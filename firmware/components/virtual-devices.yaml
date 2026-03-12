@@ -1,6 +1,7 @@
-tc_bus_virtual_device:
+tc_bus_device:
   - id: virtual_indoor_station
     type: indoor_station
+    virtual: true
     on_incoming_call:
       - logger.log: INCOMING CALL FROM AS / IA
     on_call_started:
@@ -12,6 +13,7 @@ tc_bus_virtual_device:
 
   - id: virtual_outdoor_station
     type: outdoor_station
+    virtual: true
     on_incoming_call:
       - logger.log: INCOMING CALL FROM IS
     on_call_started:
@@ -23,20 +25,20 @@ tc_bus_virtual_device:
 
 
 number:
-  - platform: tc_bus_virtual_device
-    tc_bus_virtual_device_id: virtual_indoor_station
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_indoor_station
     serial_number:
       id: virtual_indoor_station_serial_number
       name: "Virtual IS Serial Number"
 
-  - platform: tc_bus_virtual_device
-    tc_bus_virtual_device_id: virtual_outdoor_station
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_outdoor_station
     serial_number:
       id: virtual_outdoor_station_serial_number
       name: "Virtual AS Serial Number"
 
-  - platform: tc_bus_virtual_device
-    tc_bus_virtual_device_id: virtual_outdoor_station
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_outdoor_station
     address:
       id: virtual_outdoor_station_address
       name: "Virtual AS Address"
@@ -45,25 +47,25 @@ button:
   - platform: template
     name: "Answer Call ON VIS"
     on_press:
-      - tc_bus_virtual_device.answer_call:
+      - tc_bus_device.answer_call:
           id: virtual_indoor_station
 
   - platform: template
     name: "End Call ON VIS"
     on_press:
-      - tc_bus_virtual_device.end_call:
+      - tc_bus_device.end_call:
           id: virtual_indoor_station
 
   - platform: template
     name: "End Call ON VAS"
     on_press:
-      - tc_bus_virtual_device.end_call:
+      - tc_bus_device.end_call:
           id: virtual_outdoor_station
 
   - platform: template
     name: "Call ISW5030 ON VIS"
     on_press:
-      - tc_bus_virtual_device.call:
+      - tc_bus_device.call:
           id: virtual_indoor_station
           address: 398149
           internal: true
@@ -71,13 +73,13 @@ button:
   - platform: template
     name: "Call ISW5030 ON VAS"
     on_press:
-      - tc_bus_virtual_device.call:
+      - tc_bus_device.call:
           id: virtual_outdoor_station
           address: 398149
 
   - platform: template
     name: "Talk to AS 0 ON VIS"
     on_press:
-      - tc_bus_virtual_device.call:
+      - tc_bus_device.call:
           id: virtual_indoor_station
           address: 0

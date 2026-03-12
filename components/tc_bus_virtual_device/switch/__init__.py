@@ -9,7 +9,6 @@ from .. import CONF_TC_BUS_VIRTUAL_DEVICE_ID, TCBusVirtualDeviceComponent, tc_bu
 
 ForceLongDoorOpenerProtocolSwitch = tc_bus_ns.class_("VForceLongDoorOpenerProtocolSwitch", switch.Switch, cg.Component)
 AutoAnswerCallSwitch = tc_bus_ns.class_("VAutoAnswerCallSwitch", switch.Switch, cg.Component)
-UnlimitedCallTimeSwitch = tc_bus_ns.class_("VUnlimitedCallTimeSwitch", switch.Switch, cg.Component)
 
 CONF_FORCE_LONG_DOOR_OPENER_PROTOCOL = "force_long_door_opener_protocol"
 CONF_AUTO_ANSWER_CALL = "auto_answer_call"

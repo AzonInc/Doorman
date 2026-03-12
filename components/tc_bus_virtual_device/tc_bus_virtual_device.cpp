@@ -239,7 +239,7 @@ namespace esphome::tc_bus
         // General
         if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DEVICES)
         {
-            if(this->tc_bus_->selected_device_group_ == this->device_group_)
+            if(this->tc_bus_->get_selected_device_group() == this->device_group_)
             {
                 this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
                 this->tc_bus_->send_telegram(TELEGRAM_TYPE_FOUND_DEVICE, 0, 0, this->serial_number_);

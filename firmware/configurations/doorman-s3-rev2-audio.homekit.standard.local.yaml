@@ -18,6 +18,7 @@ packages:
   debug_component: !include ../components/debug-component.yaml
   debug_component_psram: !include ../components/debug-component.psram.yaml
   configo: !include ../components/configo.yaml
+  virtual_devices: !include ../components/virtual-devices.yaml
   pattern_events: !include ../components/pattern-events.yaml
   ring_to_open: !include ../components/ring-to-open.yaml
   ring_to_open_homekit: !include ../components/ring-to-open.homekit.yaml

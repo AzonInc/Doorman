@@ -120,7 +120,8 @@ namespace esphome::tc_bus
         SETTING_DOOR_READINESS_DURATION,
         SETTING_CALLING_DURATION,
         SETTING_BUTTON_ROWS,
-        SETTING_HAS_CODE_LOCK
+        SETTING_HAS_CODE_LOCK,
+        SETTING_AUTO_ANSWER_CALL
     };
 
     struct SettingMapping {
@@ -179,6 +180,7 @@ namespace esphome::tc_bus
         CAP_UPDATE_DOORBELL_BUTTON = (1 << 20),
         CAP_ALT_RINGTONE_ADDRESS = (1 << 21),
         CAP_INDIVIDUAL_RESET = (1 << 22),
+        CAP_AUTO_ANSWER_CALL = (1 << 23),
     };
 
     struct ModelData {

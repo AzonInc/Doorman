@@ -93,6 +93,36 @@ namespace esphome::tc_bus
             }
     };
 
+    template<typename... Ts>
+    class TCBusDeviceCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        TEMPLATABLE_VALUE(uint32_t, address)
+        TEMPLATABLE_VALUE(bool, internal)
+
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->call(this->address_.value(x...), this->internal_.value(x...));
+            }
+    };
+
+    template<typename... Ts>
+    class TCBusDeviceAnswerCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->answer_call();
+            }
+    };
+
+    template<typename... Ts>
+    class TCBusDeviceEndCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->end_call();
+            }
+    };
+
     // Callbacks
     class ReadMemoryCompleteTrigger : public Trigger<std::vector<uint8_t>> {
         public:
@@ -124,6 +154,34 @@ namespace esphome::tc_bus
         public:
             explicit IdentifyCompleteTrigger(TCBusDeviceComponent *parent) {
                 parent->add_identify_complete_callback([this](const ModelData &value) { this->trigger(value); });
+            }
+    };
+
+    class IncomingCallTrigger : public Trigger<TelegramData> {
+        public:
+            explicit IncomingCallTrigger(TCBusDeviceComponent *parent) {
+                parent->add_incoming_call_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+
+    class CallStartedTrigger : public Trigger<TelegramData> {
+        public:
+            explicit CallStartedTrigger(TCBusDeviceComponent *parent) {
+                parent->add_call_started_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+
+    class CallEndedTrigger : public Trigger<TelegramData> {
+        public:
+            explicit CallEndedTrigger(TCBusDeviceComponent *parent) {
+                parent->add_call_ended_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+
+    class CallFailedTrigger : public Trigger<> {
+        public:
+            explicit CallFailedTrigger(TCBusDeviceComponent *parent) {
+                parent->add_call_failed_callback([this]() { this->trigger(); });
             }
     };
 }

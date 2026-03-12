@@ -20,4 +20,12 @@ namespace esphome::tc_bus
       protected:
         void write_state(bool value) override;
     };
+
+    class AutoAnswerCallSwitch final : public switch_::Switch, public Parented<TCBusDeviceComponent> {
+      public:
+        AutoAnswerCallSwitch() = default;
+
+      protected:
+        void write_state(bool value) override;
+    };
 }

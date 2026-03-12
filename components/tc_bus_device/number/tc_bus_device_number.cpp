@@ -8,6 +8,12 @@ namespace esphome::tc_bus
         this->parent_->set_serial_number(value, true);
     }
 
+    void AddressNumber::control(float value)
+    {
+        // entity state is updated in update_setting() after validation
+        this->parent_->update_setting(SETTING_AS_ADDRESS, value);
+    }
+
     void VolumeHandsetDoorCallNumber::control(float value)
     {
         this->publish_state(value);
@@ -24,6 +30,30 @@ namespace esphome::tc_bus
     {
         this->publish_state(value);
         this->parent_->update_setting(SETTING_VOLUME_RINGTONE, value);
+    }
+
+    void AddressDividerNumber::control(float value)
+    {
+        this->publish_state(value);
+        this->parent_->update_setting(SETTING_AS_ADDRESS_DIVIDER, value);
+    }
+
+    void DoorReadinessDurationNumber::control(float value)
+    {
+        this->publish_state(value);
+        this->parent_->update_setting(SETTING_DOOR_READINESS_DURATION, value);
+    }
+
+    void CallTimeDurationNumber::control(float value)
+    {
+        this->publish_state(value);
+        this->parent_->update_setting(SETTING_CALLING_DURATION, value);
+    }
+
+    void DoorOpenerDurationNumber::control(float value)
+    {
+        this->publish_state(value);
+        this->parent_->update_setting(SETTING_DOOR_OPENER_DURATION, value);
     }
 
 }
