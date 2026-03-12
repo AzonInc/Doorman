@@ -135,14 +135,14 @@ async def to_code(config):
 
     if door_readiness_duration := config.get(CONF_DOOR_READINESS_DURATION):
         n = await number.new_number(
-            door_readiness_duration, min_value=0, max_value=15, step=1
+            door_readiness_duration, min_value=0, max_value=120, step=8
         )
         await cg.register_parented(n, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_door_readiness_duration_number(n))
 
     if call_time_duration := config.get(CONF_CALL_TIME_DURATION):
         n = await number.new_number(
-            call_time_duration, min_value=0, max_value=15, step=1
+            call_time_duration, min_value=0, max_value=120, step=8
         )
         await cg.register_parented(n, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_call_time_duration_number(n))

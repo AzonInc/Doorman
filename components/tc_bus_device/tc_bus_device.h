@@ -36,7 +36,8 @@ namespace esphome::tc_bus
 
     static const char* FLOW_QUEUE_TAG = "tc_bus_device.flow_queue";
 
-    static constexpr uint16_t CALL_TIMEOUT_MS = 60000;
+    static constexpr uint32_t CALL_TIMEOUT_MS = 60000;
+    static constexpr uint32_t CALL_TIME_LIMIT_MS = 120000;
 
     enum FlowType
     {
@@ -87,8 +88,13 @@ namespace esphome::tc_bus
         uint8_t door_readiness_duration = 7;
         uint8_t call_time_duration = 7;
         uint8_t door_opener_duration = 4;
+        bool address_lock = false;
         bool force_long_door_opener_protocol = false;
         bool auto_answer_call = false;
+        bool calling_requires_door_readiness = false;
+        bool door_opener_requires_door_readiness = false;
+        bool door_opener_requires_active_call = false;
+        bool call_time_unlimited = false;
     };
 
     class TCBusDeviceComponent : public Component, public TCBusRemoteListener
@@ -117,6 +123,11 @@ namespace esphome::tc_bus
         SUB_SWITCH(force_long_door_opener_protocol);
         SUB_SWITCH(ringtone_mute);
         SUB_SWITCH(auto_answer_call);
+        SUB_SWITCH(calling_requires_door_readiness);
+        SUB_SWITCH(door_opener_requires_door_readiness);
+        SUB_SWITCH(door_opener_requires_active_call);
+        SUB_SWITCH(address_lock);
+        SUB_SWITCH(call_time_unlimited);
 #endif
 #ifdef USE_BUTTON
         SUB_BUTTON(read_memory);
@@ -130,7 +141,7 @@ namespace esphome::tc_bus
         void set_tc_bus_component(TCBusComponent *bus) { this->tc_bus_ = bus; }
         
         void set_auto_configuration(bool auto_configuration) { this->auto_configuration_ = auto_configuration; }
-        void set_virtual_device(bool virtual_device) { this->virtual_device_ = virtual_device; }
+        void set_virtual(bool virtual_device) { this->virtual_ = virtual_device; }
 
         void set_serial_number(uint32_t serial_number, bool save = true);
         void set_model(Model model, bool save = true);
@@ -195,50 +206,75 @@ namespace esphome::tc_bus
         }
 
         // Automation Callbacks
+        #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
         void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback)
         {
             this->read_memory_complete_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
         void add_read_memory_timeout_callback(std::function<void()> &&callback)
         {
             this->read_memory_timeout_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
         void add_identify_complete_callback(std::function<void(ModelData)> &&callback)
         {
             this->identify_complete_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
         void add_identify_unknown_callback(std::function<void()> &&callback)
         {
             this->identify_unknown_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_IDENTIFY_TIMEOUT_CALLBACK
         void add_identify_timeout_callback(std::function<void()> &&callback)
         {
             this->identify_timeout_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_INCOMING_CALL_CALLBACK
         void add_incoming_call_callback(std::function<void(TelegramData)> &&callback)
         {
             this->incoming_call_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_CALL_STARTED_CALLBACK
         void add_call_started_callback(std::function<void(TelegramData)> &&callback)
         {
             this->call_started_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_CALL_ENDED_CALLBACK
         void add_call_ended_callback(std::function<void(TelegramData)> &&callback)
         {
             this->call_ended_callback_.add(std::move(callback));
         }
+        #endif
 
+        #ifdef USE_CALL_FAILED_CALLBACK
         void add_call_failed_callback(std::function<void()> &&callback)
         {
             this->call_failed_callback_.add(std::move(callback));
         }
+        #endif
+
+        #ifdef USE_DOOR_OPENER_CALLBACK
+        void add_door_opener_callback(std::function<void(bool)> &&callback)
+        {
+            this->door_opener_callback_.add(std::move(callback));
+        }
+        #endif
         
     protected:
         // Telegram binary listeners
@@ -254,14 +290,19 @@ namespace esphome::tc_bus
         uint32_t serial_number_{0};
         uint8_t address_{0};
         DeviceGroup device_group_{DEVICE_GROUP_INDOOR_STATION};
-        bool virtual_device_{false};
+        bool virtual_{false};
         
+        bool address_lock_{false};
         bool force_long_door_opener_protocol_{false};
         bool auto_answer_call_{false};
+        bool calling_requires_door_readiness_{false};
+        bool door_opener_requires_door_readiness_{false};
+        bool door_opener_requires_active_call_{false};
+        bool call_time_unlimited_{false};
         uint8_t address_divider_{0};
-        uint8_t door_readiness_duration_{0}; // unlimited (0), 8 (1) / ... / 120 (15)
-        uint8_t call_time_duration_{0}; // unlimited (0), 8 (1) / ... / 120 (15)
-        uint8_t door_opener_duration_{0}; // 0 - 15s
+        uint8_t door_readiness_duration_{7}; // unlimited (0), 8 (1) / ... / 120 (15)
+        uint8_t call_time_duration_{7}; // unlimited (0), 8 (1) / ... / 120 (15)
+        uint8_t door_opener_duration_{4}; // 0 - 15s
 
         // Call handling
         bool call_internal_{false};
@@ -281,15 +322,37 @@ namespace esphome::tc_bus
         ESPPreferenceObject pref_;
 
         // Automation Callbacks
+        #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
         CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
+        #endif
+        #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
         CallbackManager<void()> read_memory_timeout_callback_{};
+        #endif
+        #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
         CallbackManager<void(ModelData)> identify_complete_callback_{};
+        #endif
+        #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
         CallbackManager<void()> identify_unknown_callback_{};
+        #endif
+        #ifdef USE_IDENTIFY_TIMEOUT_CALLBACK
         CallbackManager<void()> identify_timeout_callback_{};
+        #endif
+
+        #ifdef USE_INCOMING_CALL_CALLBACK
         CallbackManager<void(TelegramData)> incoming_call_callback_{};
+        #endif
+        #ifdef USE_CALL_STARTED_CALLBACK
         CallbackManager<void(TelegramData)> call_started_callback_{};
+        #endif
+        #ifdef USE_CALL_ENDED_CALLBACK
         CallbackManager<void(TelegramData)> call_ended_callback_{};
+        #endif
+        #ifdef USE_CALL_FAILED_CALLBACK
         CallbackManager<void()> call_failed_callback_{};
+        #endif
+        #ifdef USE_DOOR_OPENER_CALLBACK
+        CallbackManager<void(bool)> door_opener_callback_{};
+        #endif
 
         // Misc
         std::string internal_id_;

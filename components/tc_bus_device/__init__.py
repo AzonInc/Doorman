@@ -1,3 +1,4 @@
+from logging import config
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import automation
@@ -116,6 +117,11 @@ CallFailedTrigger = tc_bus_ns.class_(
     automation.Trigger.template()
 )
 
+DoorOpenerTrigger = tc_bus_ns.class_(
+    "DoorOpenerTrigger", 
+    automation.Trigger.template()
+)
+
 SETTING_TYPE = tc_bus_ns.enum("SettingType")
 SETTING_TYPES = {
     "ringtone_floor_call": SETTING_TYPE.SETTING_RINGTONE_FLOOR_CALL,
@@ -131,11 +137,15 @@ SETTING_TYPES = {
     "ambient_light": SETTING_TYPE.SETTING_AMBIENT_LIGHT,
     "ringtone_mute": SETTING_TYPE.SETTING_RINGTONE_MUTE,
     "door_opener_duration": SETTING_TYPE.SETTING_DOOR_OPENER_DURATION,
-    "as_address": SETTING_TYPE.SETTING_AS_ADDRESS,
-    "as_address_lock": SETTING_TYPE.SETTING_AS_ADDRESS_LOCK,
-    "talking_requires_door_readiness": SETTING_TYPE.SETTING_TALKING_REQUIRES_DOOR_READINESS,
+    "address": SETTING_TYPE.SETTING_ADDRESS,
+    "address_lock": SETTING_TYPE.SETTING_ADDRESS_LOCK,
+    "calling_requires_door_readiness": SETTING_TYPE.SETTING_CALLING_REQUIRES_DOOR_READINESS,
+    "door_opener_requires_door_readiness": SETTING_TYPE.SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS,
+    "door_opener_requires_active_call": SETTING_TYPE.SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL,
     "door_readiness_duration": SETTING_TYPE.SETTING_DOOR_READINESS_DURATION,
-    "calling_duration": SETTING_TYPE.SETTING_CALLING_DURATION,
+    "call_time_duration": SETTING_TYPE.SETTING_CALL_TIME_DURATION,
+    "auto_answer_call": SETTING_TYPE.SETTING_AUTO_ANSWER_CALL,
+    "call_time_unlimited": SETTING_TYPE.CALL_TIME_UNLIMITED,
     "button_rows": SETTING_TYPE.SETTING_BUTTON_ROWS,
     "has_code_lock": SETTING_TYPE.SETTING_HAS_CODE_LOCK,
 }
@@ -262,7 +272,7 @@ CONF_TC_BUS_DEVICE = "tc_bus_device"
 CONF_TC_BUS_DEVICE_ID = "tc_bus_device_id"
 
 CONF_AUTO_CONFIGURATION = "auto_configuration"
-CONF_VIRTUAL_DEVICE = "virtual"
+CONF_VIRTUAL = "virtual"
 
 CONF_TELEGRAM = "telegram"
 CONF_IS_LONG = "is_long"
@@ -270,11 +280,6 @@ CONF_ADDRESS = "address"
 CONF_PAYLOAD = "payload"
 
 CONF_INTERNAL = "internal"
-
-CONF_ON_INCOMING_CALL = "on_incoming_call"
-CONF_ON_CALL_STARTED = "on_call_started"
-CONF_ON_CALL_ENDED = "on_call_ended"
-CONF_ON_CALL_FAILED = "on_call_failed"
 
 CONF_BUTTON_ROW = "button_row"
 CONF_BUTTON_COL = "button_col"
@@ -289,8 +294,17 @@ CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
 CONF_ON_IDENTIFY_UNKNOWN = "on_identify_unknown"
 CONF_ON_IDENTIFY_TIMEOUT = "on_identify_timeout"
 
+CONF_ON_INCOMING_CALL = "on_incoming_call"
+CONF_ON_CALL_STARTED = "on_call_started"
+CONF_ON_CALL_ENDED = "on_call_ended"
+CONF_ON_CALL_FAILED = "on_call_failed"
+
+CONF_ON_DOOR_OPENER = "on_door_opener"
+
 def validate_config(config):
-    if config.get(CONF_VIRTUAL_DEVICE, False):
+    device_group = config.get(CONF_TYPE)
+
+    if config.get(CONF_VIRTUAL, False):
         invalid_keys = [
             CONF_AUTO_CONFIGURATION,
             CONF_ON_READ_MEMORY_COMPLETE,
@@ -312,17 +326,24 @@ def validate_config(config):
             CONF_ON_CALL_ENDED,
             CONF_ON_CALL_FAILED,
         ]
+
         allowed_groups = [
             DEVICE_GROUP.DEVICE_GROUP_INDOOR_STATION,
             DEVICE_GROUP.DEVICE_GROUP_OUTDOOR_STATION,
         ]
-        device_type = config.get(CONF_TYPE)
+        
         for key in call_keys:
-            if key in config and device_type not in allowed_groups:
+            if key in config and device_group not in allowed_groups:
                 raise cv.Invalid(
                     f"'{key}' is only compatible with virtual indoor- and outdoor-stations.",
                     path=[key]
                 )
+            
+        if (CONF_ON_DOOR_OPENER in config and device_group != DEVICE_GROUP.DEVICE_GROUP_OUTDOOR_STATION):
+            raise cv.Invalid(
+                f"'{CONF_ON_DOOR_OPENER}' is only compatible with virtual outdoor-stations.",
+                path=[CONF_ON_DOOR_OPENER]
+            )
 
     return config
 
@@ -330,9 +351,10 @@ CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID() : cv.declare_id(TCBusDeviceComponent),
         cv.GenerateID(CONF_TC_BUS_ID): cv.use_id(TCBusComponent),
-        cv.Optional(CONF_VIRTUAL_DEVICE, default="false"): cv.boolean,
+        cv.Optional(CONF_VIRTUAL, default="false"): cv.boolean,
         cv.Optional(CONF_TYPE, default="indoor_station"): cv.enum(DEVICE_GROUPS, upper=False),
         cv.Optional(CONF_AUTO_CONFIGURATION): cv.boolean,
+
         cv.Optional(CONF_ON_READ_MEMORY_COMPLETE): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryCompleteTrigger),
@@ -358,6 +380,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyTimeoutTrigger),
             }
         ),
+
         cv.Optional(CONF_ON_INCOMING_CALL): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IncomingCallTrigger),
@@ -378,6 +401,11 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(CallFailedTrigger),
             }
         ),
+        cv.Optional(CONF_ON_DOOR_OPENER): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(DoorOpenerTrigger),
+            }
+        ),
     }
 )
 
@@ -393,47 +421,76 @@ async def to_code(config):
     tc_bus_component = await cg.get_variable(config[CONF_TC_BUS_ID])
     cg.add(var.set_tc_bus_component(tc_bus_component))
     cg.add(var.set_internal_id(str(config[CONF_ID])))
-    cg.add(var.set_device_group(config[CONF_TYPE]))
-    cg.add(var.set_virtual_device(config[CONF_VIRTUAL_DEVICE]))
+
+    if CONF_TYPE in config:
+        cg.add(var.set_device_group(config[CONF_TYPE]))
+
+    if CONF_VIRTUAL in config:
+        cg.add(var.set_virtual(config[CONF_VIRTUAL]))
 
     if CONF_AUTO_CONFIGURATION in config:
         cg.add(var.set_auto_configuration(config[CONF_AUTO_CONFIGURATION]))
 
-    for conf in config.get(CONF_ON_READ_MEMORY_COMPLETE, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(cg.std_vector.template(cg.uint8), "x")], conf)
+    if CONF_ON_READ_MEMORY_COMPLETE in config:
+        cg.add_define("USE_READ_MEMORY_COMPLETE_CALLBACK")
+        for conf in config.get(CONF_ON_READ_MEMORY_COMPLETE, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(cg.std_vector.template(cg.uint8), "x")], conf)
 
-    for conf in config.get(CONF_ON_READ_MEMORY_TIMEOUT, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [], conf)
+    if CONF_ON_READ_MEMORY_TIMEOUT in config:
+        cg.add_define("USE_READ_MEMORY_TIMEOUT_CALLBACK")
+        for conf in config.get(CONF_ON_READ_MEMORY_TIMEOUT, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [], conf)
 
-    for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(ModelData, "x")], conf)
+    if CONF_ON_IDENTIFY_COMPLETE in config:
+        cg.add_define("USE_IDENTIFY_COMPLETE_CALLBACK")
+        for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(ModelData, "x")], conf)
 
-    for conf in config.get(CONF_ON_IDENTIFY_UNKNOWN, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [], conf)
+    if CONF_ON_IDENTIFY_UNKNOWN in config:
+        cg.add_define("USE_IDENTIFY_UNKNOWN_CALLBACK")
+        for conf in config.get(CONF_ON_IDENTIFY_UNKNOWN, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [], conf)
 
-    for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [], conf)
+    if CONF_ON_IDENTIFY_TIMEOUT in config:
+        cg.add_define("USE_IDENTIFY_TIMEOUT_CALLBACK")
+        for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [], conf)
 
-    for conf in config.get(CONF_ON_INCOMING_CALL, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+    if CONF_ON_INCOMING_CALL in config:
+        cg.add_define("USE_INCOMING_CALL_CALLBACK")
+        for conf in config.get(CONF_ON_INCOMING_CALL, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(TelegramData, "x")], conf)
 
-    for conf in config.get(CONF_ON_CALL_STARTED, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+    if CONF_ON_CALL_STARTED in config:
+        cg.add_define("USE_CALL_STARTED_CALLBACK")
+        for conf in config.get(CONF_ON_CALL_STARTED, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(TelegramData, "x")], conf)
 
-    for conf in config.get(CONF_ON_CALL_ENDED, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+    if CONF_ON_CALL_ENDED in config:
+        cg.add_define("USE_CALL_ENDED_CALLBACK")
+        for conf in config.get(CONF_ON_CALL_ENDED, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(TelegramData, "x")], conf)
 
-    for conf in config.get(CONF_ON_CALL_FAILED, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [], conf)
+    if CONF_ON_CALL_FAILED in config:
+        cg.add_define("USE_CALL_FAILED_CALLBACK")
+        for conf in config.get(CONF_ON_CALL_FAILED, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [], conf)
+
+    if CONF_ON_DOOR_OPENER in config:
+        cg.add_define("USE_DOOR_OPENER_CALLBACK")
+        for conf in config.get(CONF_ON_DOOR_OPENER, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(cg.bool_, "active")], conf)
+
 
 TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
     cv.Schema(

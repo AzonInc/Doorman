@@ -11,7 +11,7 @@ namespace esphome::tc_bus
     void AddressNumber::control(float value)
     {
         // entity state is updated in update_setting() after validation
-        this->parent_->update_setting(SETTING_AS_ADDRESS, value);
+        this->parent_->update_setting(SETTING_ADDRESS, value);
     }
 
     void VolumeHandsetDoorCallNumber::control(float value)
@@ -41,13 +41,13 @@ namespace esphome::tc_bus
     void DoorReadinessDurationNumber::control(float value)
     {
         this->publish_state(value);
-        this->parent_->update_setting(SETTING_DOOR_READINESS_DURATION, value);
+        this->parent_->update_setting(SETTING_DOOR_READINESS_DURATION, value/8);
     }
 
     void CallTimeDurationNumber::control(float value)
     {
         this->publish_state(value);
-        this->parent_->update_setting(SETTING_CALLING_DURATION, value);
+        this->parent_->update_setting(SETTING_CALL_TIME_DURATION, value/8);
     }
 
     void DoorOpenerDurationNumber::control(float value)

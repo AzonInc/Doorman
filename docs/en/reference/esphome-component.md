@@ -225,16 +225,17 @@ The `TelegramData` struct is used internally and can also be used in the `on_tel
 ```c++
 struct TelegramData {
     uint32_t raw;
+
+    bool is_long;
+    bool is_response;
+    bool is_retransmission;
+
     char hex[9];
 
     TelegramType type;
     uint8_t address;
     uint32_t serial_number;
     uint32_t payload;
-    
-    bool is_long;
-    bool is_response;
-    bool is_data;
 };
 ```
 

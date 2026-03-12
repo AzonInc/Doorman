@@ -48,7 +48,7 @@ namespace esphome::tc_bus
             // TODO: count internal devices and increment serial number for each device
             // to avoid conflicts when multiple virtual devices are used
 
-            if(this->virtual_device_)
+            if(this->virtual_)
             {
                 uint8_t mac[6];
                 get_mac_address_raw(mac);
@@ -70,8 +70,12 @@ namespace esphome::tc_bus
         this->door_opener_duration_ = recovered.door_opener_duration;
         this->force_long_door_opener_protocol_ = recovered.force_long_door_opener_protocol;
         this->auto_answer_call_ = recovered.auto_answer_call;
+        this->call_time_unlimited_ = recovered.call_time_unlimited;
+        this->calling_requires_door_readiness_ = recovered.calling_requires_door_readiness;
+        this->door_opener_requires_door_readiness_ = recovered.door_opener_requires_door_readiness;
+        this->door_opener_requires_active_call_ = recovered.door_opener_requires_active_call;
 
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             this->memory_buffer_.resize(128, 0); 
 
@@ -110,42 +114,61 @@ namespace esphome::tc_bus
                 // TODO: Fill memory with default values for other devices
                 ESP_LOGW(TAG, "TODO: Fill memory with default values for other devices");
             }
-        }
 
+            #ifdef USE_SWITCH
+            if (this->force_long_door_opener_protocol_switch_ != nullptr)
+            {
+                this->force_long_door_opener_protocol_switch_->publish_state(this->force_long_door_opener_protocol_);
+            }
+            if (this->auto_answer_call_switch_ != nullptr)
+            {
+                this->auto_answer_call_switch_->publish_state(this->auto_answer_call_);
+            }
+            if (this->call_time_unlimited_switch_ != nullptr)
+            {
+                this->call_time_unlimited_switch_->publish_state(this->call_time_unlimited_);
+            }
+            if (this->calling_requires_door_readiness_switch_ != nullptr)
+            {
+                this->calling_requires_door_readiness_switch_->publish_state(this->calling_requires_door_readiness_);
+            }
+            if (this->door_opener_requires_door_readiness_switch_ != nullptr)
+            {
+                this->door_opener_requires_door_readiness_switch_->publish_state(this->door_opener_requires_door_readiness_);
+            }
+            if (this->door_opener_requires_active_call_switch_ != nullptr)
+            {
+                this->door_opener_requires_active_call_switch_->publish_state(this->door_opener_requires_active_call_);
+            }
+            if (this->address_lock_switch_ != nullptr)
+            {
+                this->address_lock_switch_->publish_state(this->address_lock_);
+            }
+            #endif
 
-        #ifdef USE_SWITCH
-        if (this->force_long_door_opener_protocol_switch_ != nullptr)
-        {
-            this->force_long_door_opener_protocol_switch_->publish_state(this->force_long_door_opener_protocol_);
+            #ifdef USE_NUMBER
+            if (this->address_number_ != nullptr)
+            {
+                this->address_number_->publish_state(this->address_);
+            }
+            if (this->address_divider_number_ != nullptr)
+            {
+                this->address_divider_number_->publish_state(this->address_divider_);
+            }
+            if (this->door_readiness_duration_number_ != nullptr)
+            {
+                this->door_readiness_duration_number_->publish_state(this->door_readiness_duration_ * 8);
+            }
+            if (this->call_time_duration_number_ != nullptr)
+            {
+                this->call_time_duration_number_->publish_state(this->call_time_duration_ * 8);
+            }
+            if (this->door_opener_duration_number_ != nullptr)
+            {
+                this->door_opener_duration_number_->publish_state(this->door_opener_duration_);
+            }
+            #endif
         }
-        if (this->auto_answer_call_switch_ != nullptr)
-        {
-            this->auto_answer_call_switch_->publish_state(this->auto_answer_call_);
-        }
-        #endif
-
-        #ifdef USE_NUMBER
-        if (this->address_number_ != nullptr)
-        {
-            this->address_number_->publish_state(this->address_);
-        }
-        if (this->address_divider_number_ != nullptr)
-        {
-            this->address_divider_number_->publish_state(this->address_divider_);
-        }
-        if (this->door_readiness_duration_number_ != nullptr)
-        {
-            this->door_readiness_duration_number_->publish_state(this->door_readiness_duration_);
-        }
-        if (this->call_time_duration_number_ != nullptr)
-        {
-            this->call_time_duration_number_->publish_state(this->call_time_duration_);
-        }
-        if (this->door_opener_duration_number_ != nullptr)
-        {
-            this->door_opener_duration_number_->publish_state(this->door_opener_duration_);
-        }
-        #endif
 
         #ifdef USE_BINARY_SENSOR
         // Reset Binary Sensor Listeners
@@ -156,7 +179,7 @@ namespace esphome::tc_bus
         #endif
 
         // Register remote listener
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             // Higher priority for virtual devices to ensure they receive telegrams in time
             this->tc_bus_->register_remote_listener(this, 10);
@@ -167,7 +190,7 @@ namespace esphome::tc_bus
         }
 
         // Schedule flows for physical devices only
-        if(this->virtual_device_ == false && this->auto_configuration_ && this->serial_number_ != 0)
+        if(this->virtual_ == false && this->auto_configuration_ && this->serial_number_ != 0)
         {
             if(this->model_ != MODEL_NONE)
             {
@@ -181,7 +204,7 @@ namespace esphome::tc_bus
             }
         }
 
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             this->high_freq_.start();
         }
@@ -191,7 +214,7 @@ namespace esphome::tc_bus
     {
         if(serial_number > 0xFFFFF)
         {
-            if(this->virtual_device_)
+            if(this->virtual_)
             {
                 // TODO: generate unique serial number for each virtual device
                 ESP_LOGW(TAG, "Invalid Serial Number, reset to device MAC.");
@@ -220,7 +243,7 @@ namespace esphome::tc_bus
         }
 
         // Only for physical devices
-        if(this->virtual_device_ == false && serial_number != 0)
+        if(this->virtual_ == false && serial_number != 0)
         {
             // Schedule model identification flow
             if(this->auto_configuration_ && save && changed)
@@ -263,7 +286,7 @@ namespace esphome::tc_bus
         }
 
         // Only for physical devices
-        if(!this->virtual_device_)
+        if(!this->virtual_)
         {
             // When model of physical device was changed and new model is not none
             if(model != MODEL_NONE)
@@ -310,6 +333,10 @@ namespace esphome::tc_bus
         settings.door_opener_duration = this->door_opener_duration_;
         settings.force_long_door_opener_protocol = this->force_long_door_opener_protocol_;
         settings.auto_answer_call = this->auto_answer_call_;
+        settings.call_time_unlimited = this->call_time_unlimited_;
+        settings.calling_requires_door_readiness = this->calling_requires_door_readiness_;
+        settings.door_opener_requires_door_readiness = this->door_opener_requires_door_readiness_;
+        settings.door_opener_requires_active_call = this->door_opener_requires_active_call_;
 
         if (!this->pref_.save(&settings))
         {
@@ -319,24 +346,24 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::dump_config()
     {
-        ESP_LOGCONFIG(TAG, this->virtual_device_ ? "Virtual TC:BUS Device:" : "TC:BUS Device:");
+        ESP_LOGCONFIG(TAG, this->virtual_ ? "Virtual TC:BUS Device:" : "TC:BUS Device:");
         ESP_LOGCONFIG(TAG, "  Group: %s", device_group_to_string(this->device_group_));
         ESP_LOGCONFIG(TAG, "  Model: %s", model_to_string(this->model_));
         ESP_LOGCONFIG(TAG, "  Serial Number: %i", this->serial_number_);
 
-        if(this->virtual_device_ && this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
+        if(this->virtual_ && this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
         {
             ESP_LOGCONFIG(TAG, "  Address: %i", this->address_);
             ESP_LOGCONFIG(TAG, "  Door Readiness Duration: %i sec.", this->door_readiness_duration_ * 8);
             ESP_LOGCONFIG(TAG, "  Door Opener Duration: %i sec.", this->door_opener_duration_ * 8);
         }
 
-        if(this->virtual_device_ && this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if(this->virtual_ && this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
         {
             ESP_LOGCONFIG(TAG, "  Address Divider: %i", this->address_divider_);
         }
 
-        if(this->virtual_device_ && (this->device_group_ == DEVICE_GROUP_INDOOR_STATION || this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION))
+        if(this->virtual_ && (this->device_group_ == DEVICE_GROUP_INDOOR_STATION || this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION))
         {
             ESP_LOGCONFIG(TAG, "  Call Time Duration: %i sec.", this->call_time_duration_ * 8);
         }
@@ -357,6 +384,11 @@ namespace esphome::tc_bus
         LOG_SWITCH("    ", "Force long door opener protocol", this->force_long_door_opener_protocol_switch_);
         LOG_SWITCH("    ", "Ringtone Mute", this->ringtone_mute_switch_);
         LOG_SWITCH("    ", "Auto answer call", this->auto_answer_call_switch_);
+        LOG_SWITCH("    ", "Call Time Unlimited", this->call_time_unlimited_switch_);
+        LOG_SWITCH("    ", "Calling requires door readiness", this->calling_requires_door_readiness_switch_);
+        LOG_SWITCH("    ", "Door opener requires door readiness", this->door_opener_requires_door_readiness_switch_);
+        LOG_SWITCH("    ", "Door opener requires active call", this->door_opener_requires_active_call_switch_);
+        LOG_SWITCH("    ", "Address Lock", this->address_lock_switch_);
         #endif
 
         #ifdef USE_NUMBER
@@ -397,7 +429,7 @@ namespace esphome::tc_bus
         #endif
 
         // Process flows for physical devices only
-        if(!this->virtual_device_)
+        if(!this->virtual_)
         {
             this->process_flow_queue();
         }
@@ -410,7 +442,7 @@ namespace esphome::tc_bus
             return false;
         }
 
-        if (this->virtual_device_)
+        if (this->virtual_)
         {
             // Virtual Device
 
@@ -446,11 +478,13 @@ namespace esphome::tc_bus
             {
                 ESP_LOGD(TAG, "Stop talking received - disconnecting call");
 
+                #ifdef USE_CALL_ENDED_CALLBACK
                 bool cancelled = this->reset_call();
                 if(cancelled)
                 {
                     this->call_ended_callback_.call(telegram_data);
                 }
+                #endif
                 return true;
             }
             else if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK && this->memory_mode_)
@@ -485,7 +519,9 @@ namespace esphome::tc_bus
                     this->call_internal_ = false;
                     this->call_address_ = telegram_data.address;
                     this->call_state_ = CallState::IN_RINGING;
+                    #ifdef USE_INCOMING_CALL_CALLBACK
                     this->incoming_call_callback_.call(telegram_data);
+                    #endif
                 }
                 else if(telegram_data.type == TELEGRAM_TYPE_INTERNAL_CALL && telegram_data.serial_number == this->serial_number_)
                 {
@@ -500,7 +536,10 @@ namespace esphome::tc_bus
                     this->call_internal_ = true;
                     this->call_address_ = telegram_data.address;
                     this->call_state_ = CallState::IN_RINGING;
+
+                    #ifdef USE_INCOMING_CALL_CALLBACK
                     this->incoming_call_callback_.call(telegram_data);
+                    #endif
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL)
                 {
@@ -521,17 +560,22 @@ namespace esphome::tc_bus
                         this->cancel_timeout("wait_for_call_ack");
                         this->cancel_timeout("wait_for_talking_ack");
 
+                        #ifdef USE_CALL_STARTED_CALLBACK
                         this->call_started_callback_.call(telegram_data);
+                        #endif
 
-                        if(this->call_time_duration_ != 0)
+                        if(this->call_time_unlimited_ == false)
                         {
-                            this->set_timeout("call_time_limit", (this->call_time_duration_ * 8 * 1000), [this]() {
+                            this->set_timeout("call_time_limit", CALL_TIME_LIMIT_MS, [this]() {
                                 this->reset_call();
 
                                 ESP_LOGD(TAG, "Maximum call time reached - disconnecting call");
 
                                 TelegramData out_telegram_data = this->tc_bus_->send_telegram(TELEGRAM_TYPE_STOP_TALKING, 63);
+
+                                #ifdef USE_CALL_ENDED_CALLBACK
                                 this->call_ended_callback_.call(out_telegram_data);
+                                #endif
                             });
                         }
                     }
@@ -555,14 +599,40 @@ namespace esphome::tc_bus
                         // wait for start talking telegram
                         this->set_timeout("wait_for_talking_ack", CALL_TIMEOUT_MS, [this]() {
                             this->reset_call();
-                            ESP_LOGE(TAG, "START TALKING TIMEOUT - No response from indoor station");
+                            ESP_LOGE(TAG, "Call timeout - No answer from indoor station");
+
+                            #ifdef USE_CALL_FAILED_CALLBACK
                             this->call_failed_callback_.call();
+                            #endif
                         });
                     }
                     else if(this->call_state_ == CallState::IN_WAIT_FOR_INIT)
                     {
                         this->call_state_ = CallState::CONNECTED;
-                        this->call_started_callback_.call(telegram_data);
+
+                        #ifdef USE_CALL_STARTED_CALLBACK
+                        TelegramData telegram_data_cb;
+                        if(this->call_internal_)
+                        {
+                            telegram_data_cb = buildTelegram(TELEGRAM_TYPE_START_TALKING, this->call_address_, 0, this->serial_number_);
+                        }
+                        else
+                        {
+                            // TODO: needs evaluation with real outdoor station for correct address assignment
+                            telegram_data_cb = buildTelegram(TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, this->tc_bus_->is_door_readiness_active() ? 1 : 0, this->serial_number_);
+
+                            ESP_LOGW(TAG,
+                                "TODO CB Telegram:\n"
+                                "  Address: %i\n"
+                                "  Payload: 0x%X\n"
+                                "  Serial-Number: %i",
+                                telegram_data_cb.address, 
+                                telegram_data_cb.payload, 
+                                telegram_data_cb.serial_number);
+                        }
+
+                        this->call_started_callback_.call(telegram_data_cb);
+                        #endif
 
                         // reset ack timeouts
                         this->cancel_timeout("wait_for_call_ack");
@@ -600,26 +670,41 @@ namespace esphome::tc_bus
                     // or call initiated by indoor station directly to outdoor station address
                     if((this->call_state_ == CallState::IDLE || this->call_state_ == CallState::OUT_RINGING) && telegram_data.address == this->address_)
                     {
-                        // out: acknowledge talk
-                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 3);
-                        this->call_state_ = CallState::CONNECTED;
-                        this->call_started_callback_.call(telegram_data);
-
-                        // reset ack timeouts
-                        this->cancel_timeout("wait_for_call_ack");
-                        this->cancel_timeout("wait_for_talking_ack");
-
-                        // call time limit
-                        if(this->call_time_duration_ != 0)
+                        // indoor station calls directly to outdoor station without door readiness
+                        if(this->calling_requires_door_readiness_ && this->tc_bus_->is_door_readiness_active() == false)
                         {
-                            this->set_timeout("call_time_limit", (this->call_time_duration_ * 8 * 1000), [this]() {
-                                this->reset_call();
-                                
-                                ESP_LOGD(TAG, "Maximum call time reached - disconnecting call from indoor station");
+                            ESP_LOGE(TAG, "Door readiness is not active - rejecting call from indoor station");
+                            this->reset_call();
+                        }
+                        else
+                        {
+                            // out: acknowledge talk
+                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 3);
+                            this->call_state_ = CallState::CONNECTED;
 
-                                TelegramData out_telegram_data = this->tc_bus_->send_telegram(TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL, this->address_);
-                                this->call_ended_callback_.call(out_telegram_data);
-                            });
+                            #ifdef USE_CALL_STARTED_CALLBACK
+                            this->call_started_callback_.call(telegram_data);
+                            #endif
+
+                            // reset ack timeouts
+                            this->cancel_timeout("wait_for_call_ack");
+                            this->cancel_timeout("wait_for_talking_ack");
+
+                            // call time limit
+                            if(this->call_time_duration_ != 0)
+                            {
+                                this->set_timeout("call_time_limit", (this->call_time_duration_ * 8 * 1000), [this]() {
+                                    this->reset_call();
+                                    
+                                    ESP_LOGD(TAG, "Maximum call time reached - disconnecting call from indoor station");
+
+                                    TelegramData out_telegram_data = this->tc_bus_->send_telegram(TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL, this->address_);
+
+                                    #ifdef USE_CALL_ENDED_CALLBACK
+                                    this->call_ended_callback_.call(out_telegram_data);
+                                    #endif
+                                });
+                            }
                         }
                     }
                     else
@@ -647,7 +732,10 @@ namespace esphome::tc_bus
                         this->set_timeout("wait_for_talking_ack", CALL_TIMEOUT_MS, [this]() {
                             this->reset_call();
                             ESP_LOGE(TAG, "Call timeout - No answer from indoor station");
+
+                            #ifdef USE_CALL_FAILED_CALLBACK
                             this->call_failed_callback_.call();
+                            #endif
                         });
 
                         // Door readiness timeout
@@ -674,6 +762,31 @@ namespace esphome::tc_bus
                     // PUK
                     // Version 2.9.12
                     this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_DATA, 0, 0x0420D29C);
+                }
+                else if ((telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG) && telegram_data.address == this->address_)
+                {
+                    // Open door command received from indoor station
+                    if(this->door_opener_requires_door_readiness_ == false || (this->door_opener_requires_door_readiness_ && this->tc_bus_->is_door_readiness_active() == false))
+                    {
+                        if(this->door_opener_requires_active_call_ == false || (this->door_opener_requires_active_call_ && this->call_state_ == CallState::CONNECTED))
+                        {
+                            // Ack door opened
+                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+
+                            this->cancel_timeout("door_opener_timeout");
+
+                            ESP_LOGD(TAG, "Turn on door opener");
+
+                            #ifdef USE_DOOR_OPENER_CALLBACK
+                            this->door_opener_callback_.call(true);
+                            
+                            this->set_timeout("door_opener_timeout", this->door_opener_duration_ * 1000, [this]() {
+                                ESP_LOGD(TAG, "Time elapsed - turn off door opener");
+                                this->door_opener_callback_.call(false);
+                            });
+                            #endif
+                        }
+                    }
                 }
             }
         }
@@ -709,7 +822,9 @@ namespace esphome::tc_bus
                         ESP_LOGI(TAG, "  Total Size: %i Bytes", memory_buffer_.size());
                         ESP_LOGD(TAG, "  Buffer: %s", format_hex_pretty(memory_buffer_, ' ', false).c_str());
 
+                        #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
                         this->read_memory_complete_callback_.call(memory_buffer_);
+                        #endif
 
                         this->publish_settings();
 
@@ -873,7 +988,9 @@ namespace esphome::tc_bus
                         // Update Model
                         this->set_model(device.model);
 
+                        #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
                         this->identify_complete_callback_.call(device);
+                        #endif
                     }
                     else
                     {
@@ -883,7 +1000,9 @@ namespace esphome::tc_bus
                                         "  Note: Please open an issue and provide your logs in order to implement support for this device model.",
                                         device_group_to_string(device.device_group),
                                         telegram_data.hex);
+                        #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
                         this->identify_unknown_callback_.call();
+                        #endif
                     }
 
                     // Complete this request and process next in queue
@@ -893,33 +1012,31 @@ namespace esphome::tc_bus
                     return true;
                 }
             }
-            else
-            {
-                #ifdef USE_BINARY_SENSOR
-                // Fire Binary Sensors
-                for (auto &listener : listeners_)
-                {
-                    bool allow_publish = (telegram_data.type == (listener->type_.value_or(TELEGRAM_TYPE_UNKNOWN))) &&
-                        (telegram_data.address == listener->address_.value_or(0) || listener->address_.value_or(0) == 255) &&
-                        (telegram_data.payload == listener->payload_.value_or(0) || listener->payload_.value_or(0) == 255) &&
-                        (telegram_data.serial_number == this->serial_number_);
+        }
 
-                    // Trigger listener binary sensor if match found
-                    if (allow_publish)
-                    {
-                        listener->turn_on(&listener->timer_, listener->auto_off_);
-                    }
-                }
-                #endif
+        #ifdef USE_BINARY_SENSOR
+        // Fire Binary Sensors
+        for (auto &listener : listeners_)
+        {
+            bool allow_publish = (telegram_data.type == (listener->type_.value_or(TELEGRAM_TYPE_UNKNOWN))) &&
+                (telegram_data.address == listener->address_.value_or(0) || listener->address_.value_or(0) == 255) &&
+                (telegram_data.payload == listener->payload_.value_or(0) || listener->payload_.value_or(0) == 255) &&
+                (telegram_data.serial_number == this->serial_number_);
+
+            // Trigger listener binary sensor if match found
+            if (allow_publish)
+            {
+                listener->turn_on(&listener->timer_, listener->auto_off_);
             }
         }
+        #endif
 
         return true;
     }
 
     bool TCBusDeviceComponent::reset_call()
     {
-        if(!this->virtual_device_)
+        if(!this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for virtual devices");
             return false;
@@ -944,7 +1061,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::call(uint32_t destination, bool internal)
     {
-        if(!this->virtual_device_)
+        if(!this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for virtual devices");
             return;
@@ -970,8 +1087,11 @@ namespace esphome::tc_bus
                 // ack timeout
                 this->set_timeout("wait_for_call_ack", 20, [this]() {
                     this->reset_call();
-                    ESP_LOGE(TAG, "ACK TIMEOUT - No response from indoor station");
+                    ESP_LOGE(TAG, "Call failed - No response from indoor station");
+
+                    #ifdef USE_CALL_FAILED_CALLBACK
                     this->call_failed_callback_.call();
+                    #endif
                 });
             }
             else
@@ -984,8 +1104,11 @@ namespace esphome::tc_bus
                 // ack timeout
                 this->set_timeout("wait_for_talking_ack", 20, [this]() {
                     this->reset_call();
-                    ESP_LOGE(TAG, "ACK TIMEOUT - No response from outdoor station");
+                    ESP_LOGE(TAG, "Call timeout - No answer from outdoor station");
+
+                    #ifdef USE_CALL_FAILED_CALLBACK
                     this->call_failed_callback_.call();
+                    #endif
                 });
             }
         }
@@ -1005,15 +1128,18 @@ namespace esphome::tc_bus
             // ack timeout
             this->set_timeout("wait_for_call_ack", 20, [this]() {
                 this->reset_call();
-                ESP_LOGE(TAG, "ACK TIMEOUT - No response from indoor station");
+                ESP_LOGE(TAG, "Call failed - No response from indoor station");
+
+                #ifdef USE_CALL_FAILED_CALLBACK
                 this->call_failed_callback_.call();
+                #endif
             });
         }
     }
 
     void TCBusDeviceComponent::answer_call()
     {
-        if(!this->virtual_device_)
+        if(!this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for virtual devices");
             return;
@@ -1025,20 +1151,23 @@ namespace esphome::tc_bus
             return;
         }
 
-        this->tc_bus_->send_telegram(this->call_internal_ ? TELEGRAM_TYPE_START_TALKING : TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, 0, this->serial_number_);
+        this->tc_bus_->send_telegram(this->call_internal_ ? TELEGRAM_TYPE_START_TALKING : TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, this->call_internal_ ? 0 : (this->tc_bus_->is_door_readiness_active() ? 1 : 0), this->serial_number_);
         this->call_state_ = CallState::IN_WAIT_FOR_INIT;
         
         // ack timeout
         this->set_timeout("wait_for_talking_ack", 20, [this]() {
             this->reset_call();
-            ESP_LOGE(TAG, "ACK TIMEOUT - No response from outdoor station");
+            ESP_LOGE(TAG, "Call timeout - no answer from outdoor station");
+
+            #ifdef USE_CALL_FAILED_CALLBACK
             this->call_failed_callback_.call();
+            #endif
         });
     }
 
     void TCBusDeviceComponent::end_call()
     {
-        if(!this->virtual_device_)
+        if(!this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for virtual devices");
             return;
@@ -1074,12 +1203,14 @@ namespace esphome::tc_bus
 
         this->reset_call();
 
+        #ifdef USE_CALL_ENDED_CALLBACK
         this->call_ended_callback_.call(telegram_data);
+        #endif
     }
 
     void TCBusDeviceComponent::publish_settings()
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1141,6 +1272,20 @@ namespace esphome::tc_bus
                 ESP_LOGI(TAG, "  Address Divider (VAS): %i", get_setting(SETTING_VAS_ADDRESS_DIVIDER));
             }
 
+            if(supports_setting(SETTING_AUTO_ANSWER_CALL))
+            {
+                ESP_LOGI(TAG, "  Auto Answer Call: %s", YESNO(get_setting(SETTING_AUTO_ANSWER_CALL)));
+            }
+            if(supports_setting(SETTING_CALL_TIME_UNLIMITED))
+            {
+                ESP_LOGI(TAG, "  Call Time Unlimited: %s", YESNO(get_setting(SETTING_CALL_TIME_UNLIMITED)));
+            }
+
+            if(supports_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL))
+            {
+                ESP_LOGI(TAG, "  Always use long door opener protocol: %s", YESNO(get_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL)));
+            }
+
             #ifdef USE_SELECT
             if (this->ringtone_entrance_door_call_select_)
             {
@@ -1161,9 +1306,9 @@ namespace esphome::tc_bus
             #endif
 
             #ifdef USE_NUMBER
-            if (this->address_number_ != nullptr)
+            if (this->address_divider_number_ != nullptr)
             {
-                this->address_number_->publish_state(get_setting(SETTING_AS_ADDRESS));
+                this->address_divider_number_->publish_state(get_setting(SETTING_AS_ADDRESS_DIVIDER));
             }
             if (this->volume_handset_door_call_number_)
             {
@@ -1184,31 +1329,58 @@ namespace esphome::tc_bus
             {
                 this->ringtone_mute_switch_->publish_state(get_setting(SETTING_RINGTONE_MUTE) == 1);
             }
+            if (this->auto_answer_call_switch_)
+            {
+                this->auto_answer_call_switch_->publish_state(get_setting(SETTING_AUTO_ANSWER_CALL) == 1);
+            }
+            if (this->force_long_door_opener_protocol_switch_)
+            {
+                this->force_long_door_opener_protocol_switch_->publish_state(get_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL) == 1);
+            }
+            if (this->call_time_unlimited_switch_)
+            {
+                this->call_time_unlimited_switch_->publish_state(get_setting(SETTING_CALL_TIME_UNLIMITED) == 1);
+            }
             #endif
         }
         else if(this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
         {
-            if(supports_setting(SETTING_AS_ADDRESS))
+            if(supports_setting(SETTING_ADDRESS))
             {
-                ESP_LOGI(TAG, "  Address: %i", get_setting(SETTING_AS_ADDRESS));
+                ESP_LOGI(TAG, "  Address: %i", get_setting(SETTING_ADDRESS));
             }
-            if(supports_setting(SETTING_AS_ADDRESS_LOCK))
+            if(supports_setting(SETTING_ADDRESS_LOCK))
             {
-                ESP_LOGI(TAG, "  Address Lock: %s", YESNO(get_setting(SETTING_AS_ADDRESS_LOCK)));
+                ESP_LOGI(TAG, "  Address Lock: %s", YESNO(get_setting(SETTING_ADDRESS_LOCK)));
             }
-            if(supports_setting(SETTING_TALKING_REQUIRES_DOOR_READINESS))
+            if(supports_setting(SETTING_CALLING_REQUIRES_DOOR_READINESS))
             {
-                ESP_LOGI(TAG, "  Talking requires door readiness: %s", YESNO(get_setting(SETTING_TALKING_REQUIRES_DOOR_READINESS)));
+                ESP_LOGI(TAG, "  Calling requires door readiness: %s", YESNO(get_setting(SETTING_CALLING_REQUIRES_DOOR_READINESS)));
+            }
+            if(supports_setting(SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS))
+            {
+                ESP_LOGI(TAG, "  Door Opener requires door readiness: %s", YESNO(get_setting(SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS)));
+            }
+            if(supports_setting(SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL))
+            {
+                ESP_LOGI(TAG, "  Door Opener requires active call: %s", YESNO(get_setting(SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL)));
             }
             if(supports_setting(SETTING_DOOR_OPENER_DURATION))
             {
                 uint8_t door_opener_dur = get_setting(SETTING_DOOR_OPENER_DURATION);
                 ESP_LOGI(TAG, "  Door Opener Duration: %i sec.", door_opener_dur);
             }
-            if(supports_setting(SETTING_CALLING_DURATION))
+            if(supports_setting(SETTING_CALL_TIME_DURATION))
             {
-                uint8_t calling_dur = get_setting(SETTING_CALLING_DURATION);
-                ESP_LOGI(TAG, "  Calling Duration: %f sec.", calling_dur * 0.5);
+                uint8_t calling_dur = get_setting(SETTING_CALL_TIME_DURATION);
+                if(calling_dur == 0)
+                {
+                    ESP_LOGI(TAG, "  Maximum Call Duration: Unlimited");
+                }
+                else
+                {
+                    ESP_LOGI(TAG, "  Maximum Call Duration: %i sec.", calling_dur * 8);
+                }
             }
             if(supports_setting(SETTING_DOOR_READINESS_DURATION))
             {
@@ -1277,6 +1449,44 @@ namespace esphome::tc_bus
                     }
                 }
             }
+
+            #ifdef USE_NUMBER
+            if (this->address_number_ != nullptr)
+            {
+                this->address_number_->publish_state(get_setting(SETTING_ADDRESS));
+            }
+            if (this->door_opener_duration_number_ != nullptr)
+            {
+                this->door_opener_duration_number_->publish_state(get_setting(SETTING_DOOR_OPENER_DURATION));
+            }
+            if (this->call_time_duration_number_ != nullptr)
+            {
+                this->call_time_duration_number_->publish_state(get_setting(SETTING_CALL_TIME_DURATION));
+            }
+            if (this->door_readiness_duration_number_ != nullptr)
+            {
+                this->door_readiness_duration_number_->publish_state(get_setting(SETTING_DOOR_READINESS_DURATION));
+            }
+            #endif
+
+            #ifdef USE_SWITCH
+            if (this->address_lock_switch_ != nullptr)
+            {
+                this->address_lock_switch_->publish_state(get_setting(SETTING_ADDRESS_LOCK) == 1);
+            }
+            if (this->calling_requires_door_readiness_switch_ != nullptr)
+            {
+                this->calling_requires_door_readiness_switch_->publish_state(get_setting(SETTING_CALLING_REQUIRES_DOOR_READINESS) == 1);
+            }
+            if (this->door_opener_requires_door_readiness_switch_ != nullptr)
+            {
+                this->door_opener_requires_door_readiness_switch_->publish_state(get_setting(SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS) == 1);
+            }
+            if (this->door_opener_requires_active_call_switch_ != nullptr)
+            {
+                this->door_opener_requires_active_call_switch_->publish_state(get_setting(SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL) == 1);
+            }
+            #endif
         }
         else
         {
@@ -1297,7 +1507,7 @@ namespace esphome::tc_bus
         // Use 32-bit protocol
         if(type == TELEGRAM_TYPE_OPEN_DOOR)
         {
-            if(this->virtual_device_ == false && this->get_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL) == 1)
+            if(this->virtual_ == false && this->get_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL) == 1)
             {
                 type = TELEGRAM_TYPE_OPEN_DOOR_LONG;
             }
@@ -1313,7 +1523,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::identify_device()
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1330,7 +1540,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::execute_identify_device()
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1369,7 +1579,10 @@ namespace esphome::tc_bus
                     // Didn't receive identify result of group 1
                     // Failed
 
+                    #ifdef USE_IDENTIFY_TIMEOUT_CALLBACK
                     this->identify_timeout_callback_.call();
+                    #endif
+
                     ESP_LOGE(TAG, "Identification timeout. The device model may not support identification. Please select model manually.");
 
                     // Complete this request and process next in queue
@@ -1481,7 +1694,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::read_memory()
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1503,7 +1716,9 @@ namespace esphome::tc_bus
         {
             ESP_LOGE(TAG, "The model %s (Serial: %i) does not support reading memory!", model_to_string(this->model_), this->serial_number_);
             // Call timeout callback for unsupported models
+            #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
             this->read_memory_timeout_callback_.call();
+            #endif
             return;
         }
 
@@ -1513,7 +1728,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::execute_read_memory()
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1538,7 +1753,9 @@ namespace esphome::tc_bus
             reading_memory_count_ = 0;
             reading_memory_max_ = 0;
 
+            #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
             this->read_memory_timeout_callback_.call();
+            #endif
             ESP_LOGE(TAG, "First memory block not received in time. Reading canceled!");
 
             // Complete this request and process next in queue
@@ -1550,7 +1767,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::read_memory_update(uint8_t index)
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1572,7 +1789,9 @@ namespace esphome::tc_bus
         {
             ESP_LOGE(TAG, "The model %s (Serial: %i) does not support reading memory!", model_to_string(this->model_), this->serial_number_);
             // Call timeout callback for unsupported models
+            #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
             this->read_memory_timeout_callback_.call();
+            #endif
             return;
         }
 
@@ -1581,7 +1800,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::execute_read_memory_update(uint8_t index)
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return;
@@ -1782,7 +2001,7 @@ namespace esphome::tc_bus
     {
         DoorbellButtonConfig button{};
 
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return button;
@@ -1841,7 +2060,7 @@ namespace esphome::tc_bus
 
     bool TCBusDeviceComponent::update_doorbell_button(uint8_t row, uint8_t col, DoorbellButtonConfig button)
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return false;
@@ -1922,7 +2141,7 @@ namespace esphome::tc_bus
 
     bool TCBusDeviceComponent::supports_setting(SettingType type)
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             return true;
         }
@@ -1949,11 +2168,15 @@ namespace esphome::tc_bus
         // Get internal state for virtual device first,
         // because it can support all settings independent
         // of model and memory buffer state
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
-            if(type == SETTING_AS_ADDRESS)
+            if(type == SETTING_ADDRESS)
             {
                 return this->address_;
+            }
+            else if(type == SETTING_ADDRESS_LOCK)
+            {
+                return this->address_lock_ ? 1 : 0;
             }
             else if(type == SETTING_AS_ADDRESS_DIVIDER)
             {
@@ -1963,7 +2186,7 @@ namespace esphome::tc_bus
             {
                 return this->door_readiness_duration_;
             }
-            else if(type == SETTING_CALLING_DURATION)
+            else if(type == SETTING_CALL_TIME_DURATION)
             {
                 return this->call_time_duration_;
             }
@@ -1978,6 +2201,22 @@ namespace esphome::tc_bus
             else if(type == SETTING_AUTO_ANSWER_CALL)
             {
                 return this->auto_answer_call_ ? 1 : 0;
+            }
+            else if(type == SETTING_CALL_TIME_UNLIMITED)
+            {
+                return this->call_time_unlimited_ ? 1 : 0;
+            }
+            else if(type == SETTING_CALLING_REQUIRES_DOOR_READINESS)
+            {
+                return this->calling_requires_door_readiness_ ? 1 : 0;
+            }
+            else if(type == SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS)
+            {
+                return this->door_opener_requires_door_readiness_ ? 1 : 0;
+            }
+            else if(type == SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL)
+            {
+                return this->door_opener_requires_active_call_ ? 1 : 0;
             }
         }
 
@@ -2008,9 +2247,9 @@ namespace esphome::tc_bus
 
     bool TCBusDeviceComponent::update_setting(SettingType type, uint8_t new_value)
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
-            if(type == SETTING_AS_ADDRESS)
+            if(type == SETTING_ADDRESS)
             {
                 if(new_value > 0xFF)
                 {
@@ -2027,6 +2266,10 @@ namespace esphome::tc_bus
                 }
                 #endif
             }
+            else if(type == SETTING_ADDRESS_LOCK)
+            {
+                this->address_lock_ = (new_value != 0);
+            }
             if(type == SETTING_AS_ADDRESS_DIVIDER)
             {
                 this->address_divider_ = new_value;
@@ -2035,7 +2278,7 @@ namespace esphome::tc_bus
             {
                 this->door_readiness_duration_ = new_value;
             }
-            else if(type == SETTING_CALLING_DURATION)
+            else if(type == SETTING_CALL_TIME_DURATION)
             {
                 this->call_time_duration_ = new_value;
             }
@@ -2050,6 +2293,22 @@ namespace esphome::tc_bus
             else if(type == SETTING_AUTO_ANSWER_CALL)
             {
                 this->auto_answer_call_ = (new_value != 0);
+            }
+            else if(type == SETTING_CALL_TIME_UNLIMITED)
+            {
+                this->call_time_unlimited_ = (new_value != 0);
+            }
+            else if(type == SETTING_CALLING_REQUIRES_DOOR_READINESS)
+            {
+                this->calling_requires_door_readiness_ = (new_value != 0);
+            }
+            else if(type == SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS)
+            {
+                this->door_opener_requires_door_readiness_ = (new_value != 0);
+            }
+            else if(type == SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL)
+            {
+                this->door_opener_requires_active_call_ = (new_value != 0);
             }
 
             this->save_preferences();
@@ -2078,7 +2337,7 @@ namespace esphome::tc_bus
         SettingCellData cellData = getSettingCellData(type, this->model_);
         if (cellData.index == 0)
         {
-            if(!this->virtual_device_)
+            if(!this->virtual_)
             {
                 ESP_LOGE(TAG, "Cannot write because setting %s is not available for model %s!", setting_type_to_string(type), model_to_string(this->model_));
             }
@@ -2097,11 +2356,16 @@ namespace esphome::tc_bus
         uint8_t mask = (1 << cellData.length) - 1;
         uint8_t current_byte = memory_buffer_[cellData.index];
         current_byte &= ~(mask << shift);
+        if(cellData.length == 1 && new_value > 1)
+        {
+            // For 1-bit settings, any non-zero value is treated as 1
+            new_value = 1;
+        }
         current_byte |= ((new_value & mask) << shift);
         memory_buffer_[cellData.index] = current_byte;
 
         // Update memory of physical device
-        if(this->virtual_device_ == false)
+        if(this->virtual_ == false)
         {
             // Prepare Transmission
             // Select device group
@@ -2134,7 +2398,7 @@ namespace esphome::tc_bus
 
     bool TCBusDeviceComponent::write_memory()
     {
-        if(this->virtual_device_)
+        if(this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for physical devices");
             return false;

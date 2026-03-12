@@ -20,14 +20,17 @@ namespace esphome::tc_bus
         {SETTING_AMBIENT_LIGHT, "AMBIENT_LIGHT"},
         {SETTING_RINGTONE_MUTE, "RINGTONE_MUTE"},
         {SETTING_DOOR_OPENER_DURATION, "DOOR_OPENER_DURATION"},
-        {SETTING_AS_ADDRESS, "AS_ADDRESS"},
-        {SETTING_AS_ADDRESS_LOCK, "AS_ADDRESS_LOCK"},
-        {SETTING_TALKING_REQUIRES_DOOR_READINESS, "TALKING_REQUIRES_DOOR_READINESS"},
+        {SETTING_ADDRESS, "ADDRESS"},
+        {SETTING_ADDRESS_LOCK, "ADDRESS_LOCK"},
+        {SETTING_CALLING_REQUIRES_DOOR_READINESS, "CALLING_REQUIRES_DOOR_READINESS"},
+        {SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS, "DOOR_OPENER_REQUIRES_DOOR_READINESS"},
+        {SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL, "DOOR_OPENER_REQUIRES_ACTIVE_CALL"},
         {SETTING_DOOR_READINESS_DURATION, "DOOR_READINESS_DURATION"},
-        {SETTING_CALLING_DURATION, "CALLING_DURATION"},
+        {SETTING_CALL_TIME_DURATION, "CALL_TIME_DURATION"},
         {SETTING_BUTTON_ROWS, "BUTTON_ROWS"},
         {SETTING_HAS_CODE_LOCK, "HAS_CODE_LOCK"},
         {SETTING_AUTO_ANSWER_CALL, "AUTO_ANSWER_CALL"},
+        {SETTING_CALL_TIME_UNLIMITED, "CALL_TIME_UNLIMITED"},
     };
 
     SettingType string_to_setting_type(const char* str)
@@ -917,11 +920,16 @@ namespace esphome::tc_bus
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_BUTTON_ROWS;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
@@ -931,11 +939,16 @@ namespace esphome::tc_bus
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_BUTTON_ROWS;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
@@ -946,11 +959,16 @@ namespace esphome::tc_bus
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_BUTTON_ROWS;
                 modelData.capabilities |= CAP_HAS_CODE_LOCK;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
@@ -960,11 +978,15 @@ namespace esphome::tc_bus
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -972,11 +994,15 @@ namespace esphome::tc_bus
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -984,11 +1010,15 @@ namespace esphome::tc_bus
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -1144,20 +1174,45 @@ namespace esphome::tc_bus
                 data.start_bit = 3;
                 data.length = 4;
             }
+            else if (setting == SETTING_AUTO_ANSWER_CALL && (model_data.capabilities & CAP_AUTO_ANSWER_CALL))
+            {
+                data.index = 15;
+                data.start_bit = 4;
+            }
+            else if (setting == SETTING_CALL_TIME_UNLIMITED && (model_data.capabilities & CAP_CALL_TIME_UNLIMITED))
+            {
+                data.index = 23;
+                data.start_bit = 0;
+            }
         }
         else if(model_data.device_group == 2)
         {
             // AS
-            if (setting == SETTING_AS_ADDRESS && (model_data.capabilities & CAP_AS_ADDRESS))
+            if (setting == SETTING_ADDRESS && (model_data.capabilities & CAP_ADDRESS))
             {
                 data.index = 0;
                 data.start_bit = 6;
                 data.length = 7;
             }
-            else if (setting == SETTING_AS_ADDRESS_LOCK && (model_data.capabilities & CAP_AS_ADDRESS_LOCK))
+            else if (setting == SETTING_ADDRESS_LOCK && (model_data.capabilities & CAP_ADDRESS_LOCK))
             {
                 data.index = 0;
                 data.start_bit = 7;
+            }
+            else if (setting == SETTING_CALLING_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_CALLING_REQUIRES_DOOR_READINESS))
+            {
+                data.index = 4;
+                data.start_bit = 5;
+            }
+            else if (setting == SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS))
+            {
+                data.index = 4;
+                data.start_bit = 4;
+            }
+            else if (setting == SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL && (model_data.capabilities & CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL))
+            {
+                data.index = 4;
+                data.start_bit = 3;
             }
             else if (setting == SETTING_DOOR_OPENER_DURATION && (model_data.capabilities & CAP_DOOR_OPENER_DURATION))
             {
@@ -1165,15 +1220,10 @@ namespace esphome::tc_bus
                 data.start_bit = 7;
                 data.length = 4;
             }
-            else if (setting == SETTING_TALKING_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_TALKING_REQUIRES_DOOR_READINESS))
+            else if (setting == SETTING_CALL_TIME_DURATION && (model_data.capabilities & CAP_CALL_TIME_DURATION))
             {
-                data.index = 4;
-                data.start_bit = 5;
-            }
-            else if (setting == SETTING_CALLING_DURATION && (model_data.capabilities & CAP_CALLING_DURATION))
-            {
-                data.index = 3;
-                data.start_bit = 7;
+                data.index = 2;
+                data.start_bit = 3;
                 data.length = 4;
             }
             else if (setting == SETTING_DOOR_READINESS_DURATION && (model_data.capabilities & CAP_DOOR_READINESS_DURATION))
