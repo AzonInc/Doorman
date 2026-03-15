@@ -9,6 +9,7 @@ from esphome.const import (
 from .. import CONF_TC_BUS_DEVICE_ID, TCBusDeviceComponent, tc_bus_ns
 
 SerialNumberNumber = tc_bus_ns.class_("SerialNumberNumber", number.Number, cg.Component)
+ParallelSerialNumberNumber = tc_bus_ns.class_("ParallelSerialNumberNumber", number.Number, cg.Component)
 AddressNumber = tc_bus_ns.class_("AddressNumber", number.Number, cg.Component)
 
 VolumeHandsetDoorCallNumber = tc_bus_ns.class_("VolumeHandsetDoorCallNumber", number.Number, cg.Component)
@@ -21,6 +22,7 @@ CallTimeDurationNumber = tc_bus_ns.class_("CallTimeDurationNumber", number.Numbe
 DoorOpenerDurationNumber = tc_bus_ns.class_("DoorOpenerDurationNumber", number.Number, cg.Component)
 
 CONF_SERIAL_NUMBER = "serial_number"
+CONF_PARALLEL_SERIAL_NUMBER = "parallel_serial_number"
 CONF_ADDRESS = "address"
 
 CONF_VOLUME_HANDSET_DOOR_CALL = "volume_handset_door_call"
@@ -37,6 +39,11 @@ CONFIG_SCHEMA = cv.Schema(
         cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
         cv.Optional(CONF_SERIAL_NUMBER): number.number_schema(
             SerialNumberNumber,
+            entity_category=ENTITY_CATEGORY_CONFIG,
+            icon="mdi:numeric"
+        ).extend({ cv.Optional(CONF_MODE, default="BOX"): cv.enum(NUMBER_MODES, upper=True), }),
+        cv.Optional(CONF_PARALLEL_SERIAL_NUMBER): number.number_schema(
+            ParallelSerialNumberNumber,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:numeric"
         ).extend({ cv.Optional(CONF_MODE, default="BOX"): cv.enum(NUMBER_MODES, upper=True), }),
@@ -91,10 +98,17 @@ async def to_code(config):
 
     if serial_number := config.get(CONF_SERIAL_NUMBER):
         n = await number.new_number(
-            serial_number, min_value=0, max_value=1048575, step=1
+            serial_number, min_value=0, max_value=1000000, step=1
         )
         await cg.register_parented(n, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_serial_number_number(n))
+
+    if parallel_serial_number := config.get(CONF_PARALLEL_SERIAL_NUMBER):
+        n = await number.new_number(
+            parallel_serial_number, min_value=0, max_value=1000000, step=1
+        )
+        await cg.register_parented(n, config[CONF_TC_BUS_DEVICE_ID])
+        cg.add(tc_bus_device_component.set_parallel_serial_number_number(n))
 
     if address := config.get(CONF_ADDRESS):
         n = await number.new_number(

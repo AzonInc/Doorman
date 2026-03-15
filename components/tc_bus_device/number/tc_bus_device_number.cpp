@@ -8,6 +8,12 @@ namespace esphome::tc_bus
         this->parent_->set_serial_number(value, true);
     }
 
+    void ParallelSerialNumberNumber::control(float value)
+    {
+        // entity state is updated in update_setting() after validation
+        this->parent_->update_setting(SETTING_PARALLEL_SERIAL_NUMBER, value);
+    }
+
     void AddressNumber::control(float value)
     {
         // entity state is updated in update_setting() after validation

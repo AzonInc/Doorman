@@ -17,7 +17,7 @@ namespace esphome::tc_bus
         {SETTING_AS_ADDRESS_DIVIDER, "AS_ADDRESS_DIVIDER"},
         {SETTING_VAS_ADDRESS_DIVIDER, "VAS_ADDRESS_DIVIDER"},
         {SETTING_USE_LONG_DOOR_OPENER_PROTOCOL, "USE_LONG_DOOR_OPENER_PROTOCOL"},
-        {SETTING_AMBIENT_LIGHT, "AMBIENT_LIGHT"},
+        {SETTING_NO_AMBIENT_LIGHT_IN_STANDBY, "NO_AMBIENT_LIGHT_IN_STANDBY"},
         {SETTING_RINGTONE_MUTE, "RINGTONE_MUTE"},
         {SETTING_DOOR_OPENER_DURATION, "DOOR_OPENER_DURATION"},
         {SETTING_ADDRESS, "ADDRESS"},
@@ -31,6 +31,7 @@ namespace esphome::tc_bus
         {SETTING_HAS_CODE_LOCK, "HAS_CODE_LOCK"},
         {SETTING_AUTO_ANSWER_CALL, "AUTO_ANSWER_CALL"},
         {SETTING_CALL_TIME_UNLIMITED, "CALL_TIME_UNLIMITED"},
+        {SETTING_PARALLEL_SERIAL_NUMBER, "PARALLEL_SERIAL_NUMBER"},
     };
 
     SettingType string_to_setting_type(const char* str)
@@ -420,10 +421,11 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
-                modelData.capabilities |= CAP_AMBIENT_LIGHT;
+                modelData.capabilities |= CAP_NO_AMBIENT_LIGHT_IN_STANDBY;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TASTA_VIDEO: /* Koch 60 Series Video */
             case MODEL_IS_TASTA_PRO_VIDEO:
@@ -439,10 +441,11 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
-                modelData.capabilities |= CAP_AMBIENT_LIGHT;
+                modelData.capabilities |= CAP_NO_AMBIENT_LIGHT_IN_STANDBY;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_SENSO_PRO_AUDIO:  /* Koch 70 Series Audio */
                 modelData.device_group = 1;
@@ -458,6 +461,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_SENSO_PRO_VIDEO:  /* Koch 70 Series Video */
                 modelData.device_group = 1;
@@ -474,6 +478,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_ECOOS:
                 modelData.device_group = 1;
@@ -1163,7 +1168,7 @@ namespace esphome::tc_bus
                 data.index = 23;
                 data.start_bit = 4;
             }
-            else if (setting == SETTING_AMBIENT_LIGHT && (model_data.capabilities & CAP_AMBIENT_LIGHT))
+            else if (setting == SETTING_NO_AMBIENT_LIGHT_IN_STANDBY && (model_data.capabilities & CAP_NO_AMBIENT_LIGHT_IN_STANDBY))
             {
                 data.index = 23;
                 data.start_bit = 1;
@@ -1183,6 +1188,12 @@ namespace esphome::tc_bus
             {
                 data.index = 23;
                 data.start_bit = 0;
+            }
+            else if (setting == SETTING_PARALLEL_SERIAL_NUMBER && (model_data.capabilities & CAP_PARALLEL_SERIAL_NUMBER))
+            {
+                data.index = 9;
+                data.start_bit = 3;
+                data.length = 20;
             }
         }
         else if(model_data.device_group == 2)

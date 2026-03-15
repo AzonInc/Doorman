@@ -4379,28 +4379,6 @@
 			)
 		)
 	)
-	(global_label "BUS_WIRE2"
-		(shape input)
-		(at 255.27 142.24 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "16eb3231-d1f5-4f87-992e-ad23a4ca7f44")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 268.7175 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "I2S_DAT_OUT"
 		(shape input)
 		(at 60.96 144.78 0)
@@ -4546,6 +4524,28 @@
 		(uuid "465ef220-0c37-4b9d-b11d-490c348e1f24")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 144.9229 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BUS_WIRE2"
+		(shape input)
+		(at 255.27 111.76 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "46b4e380-24ae-4030-8402-2b99c7abc3af")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 268.7175 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4810,28 +4810,6 @@
 		(uuid "69fefe8e-8fab-4069-a3eb-9d7ee1a0c40a")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 109 135.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "BUS_WIRE1"
-		(shape input)
-		(at 255.27 111.76 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "70ed8460-8ef1-4faf-b01a-61cb9888ffd6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 268.7175 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5145,6 +5123,28 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "BUS_WIRE1"
+		(shape input)
+		(at 255.27 142.24 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c4da710a-2237-4d7b-89fb-b2aeb39ec5c7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 268.7175 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 				(hide yes)
 			)
 		)
@@ -8782,7 +8782,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "61ac6c95-c348-4671-bb79-35e649f30c35")
 		(property "Reference" "R11"
 			(at 230.378 82.55 0)
@@ -15532,7 +15532,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "fc5d04d0-db2a-4571-be52-c2752a4a6341")
 		(property "Reference" "R2"
 			(at 229.87 48.26 0)

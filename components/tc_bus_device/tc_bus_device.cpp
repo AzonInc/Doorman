@@ -63,6 +63,7 @@ namespace esphome::tc_bus
         this->set_serial_number(recovered.serial_number, false);
         this->set_model(recovered.model, false);
 
+        this->parallel_serial_number_ = recovered.parallel_serial_number;
         this->address_ = recovered.address;
         this->address_divider_ = recovered.address_divider;
         this->door_readiness_duration_ = recovered.door_readiness_duration;
@@ -147,6 +148,10 @@ namespace esphome::tc_bus
             #endif
 
             #ifdef USE_NUMBER
+            if (this->parallel_serial_number_number_ != nullptr)
+            {
+                this->parallel_serial_number_number_->publish_state(this->parallel_serial_number_);
+            }
             if (this->address_number_ != nullptr)
             {
                 this->address_number_->publish_state(this->address_);
@@ -324,6 +329,7 @@ namespace esphome::tc_bus
     {
         TCBusDeviceSettings settings{};
         settings.serial_number = this->serial_number_;
+        settings.parallel_serial_number = this->parallel_serial_number_;
         settings.address = this->address_;
         settings.model = this->model_;
 
@@ -394,6 +400,7 @@ namespace esphome::tc_bus
         #ifdef USE_NUMBER
         ESP_LOGCONFIG(TAG, "  Number Inputs:");
         LOG_NUMBER("    ", "Serial Number", this->serial_number_number_);
+        LOG_NUMBER("    ", "Parallel Serial Number", this->parallel_serial_number_number_);
         LOG_NUMBER("    ", "Address", this->address_number_);
         LOG_NUMBER("    ", "Volume Handset Door Call", this->volume_handset_door_call_number_);
         LOG_NUMBER("    ", "Volume Handset Internal Call", this->volume_handset_internal_call_number_);
@@ -506,7 +513,7 @@ namespace esphome::tc_bus
             // Device specific
             if(this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
             {
-                if(telegram_data.type == TELEGRAM_TYPE_DOOR_CALL && telegram_data.serial_number == this->serial_number_)
+                if(telegram_data.type == TELEGRAM_TYPE_DOOR_CALL && (telegram_data.serial_number == this->serial_number_ || telegram_data.serial_number == this->parallel_serial_number_))
                 {
                     // 1. receive door call from outdoor station
                     // 2. send ACK STATUS
@@ -517,13 +524,14 @@ namespace esphome::tc_bus
                     // Door call from outdoor station
                     this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
                     this->call_internal_ = false;
+                    this->call_from_parallel_sn_ = (telegram_data.serial_number == this->parallel_serial_number_ && telegram_data.serial_number == this->serial_number_);
                     this->call_address_ = telegram_data.address;
                     this->call_state_ = CallState::IN_RINGING;
                     #ifdef USE_INCOMING_CALL_CALLBACK
                     this->incoming_call_callback_.call(telegram_data);
                     #endif
                 }
-                else if(telegram_data.type == TELEGRAM_TYPE_INTERNAL_CALL && telegram_data.serial_number == this->serial_number_)
+                else if(telegram_data.type == TELEGRAM_TYPE_INTERNAL_CALL && (telegram_data.serial_number == this->serial_number_ || telegram_data.serial_number == this->parallel_serial_number_))
                 {
                     // 1. receive internal call from indoor station (address 63)
                     // 2. send ACK STATUS
@@ -614,12 +622,12 @@ namespace esphome::tc_bus
                         TelegramData telegram_data_cb;
                         if(this->call_internal_)
                         {
-                            telegram_data_cb = buildTelegram(TELEGRAM_TYPE_START_TALKING, this->call_address_, 0, this->serial_number_);
+                            telegram_data_cb = buildTelegram(TELEGRAM_TYPE_START_TALKING, this->call_address_, 0, this->call_from_parallel_sn_ ? this->parallel_serial_number_ : this->serial_number_);
                         }
                         else
                         {
                             // TODO: needs evaluation with real outdoor station for correct address assignment
-                            telegram_data_cb = buildTelegram(TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, this->tc_bus_->is_door_readiness_active() ? 1 : 0, this->serial_number_);
+                            telegram_data_cb = buildTelegram(TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, this->tc_bus_->is_door_readiness_active() ? 1 : 0, this->call_from_parallel_sn_ ? this->parallel_serial_number_ : this->serial_number_);
 
                             ESP_LOGW(TAG,
                                 "TODO CB Telegram:\n"
@@ -811,7 +819,9 @@ namespace esphome::tc_bus
                                     "  Block Data: %s",
                                     percent, (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4, format_hex_pretty(telegram_data.raw, ' ', false).c_str());
 
-                    this->cancel_timeout("wait_for_first_memory_block");
+                    // Reset counter & timeout
+                    this->cancel_timeout("wait_for_memory_block");
+                    reading_memory_try_ = 0;
 
                     // Save Data to memory Store
                     memory_buffer_.push_back((telegram_data.raw >> 24) & 0xFF);
@@ -836,10 +846,16 @@ namespace esphome::tc_bus
 
                         // Complete this request and process next in queue
                         this->complete_current_flow();
+
+                        // Reset
+                        reading_memory_try_ = 0;
+                        reading_memory_count_ = 0;
+                        reading_memory_max_ = 0;
                     }
                     else
                     {
-                        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
+                        // Read next block
+                        read_selected_memory_block();
                     }
 
                     // Do not proceed
@@ -853,7 +869,9 @@ namespace esphome::tc_bus
                                     "  Block Data: %s", 
                                     (reading_memory_count_ * 4), (reading_memory_count_ * 4) + 4, format_hex_pretty(telegram_data.raw, ' ', false).c_str());
 
-                    this->cancel_timeout("wait_for_first_memory_block");
+                    // Reset counter & timeout
+                    this->cancel_timeout("wait_for_memory_block");
+                    reading_memory_try_ = 0;
 
                     // Save Data to memory Store
                     memory_buffer_[reading_memory_count_]     = (telegram_data.raw >> 24) & 0xFF;
@@ -1040,6 +1058,39 @@ namespace esphome::tc_bus
         return true;
     }
 
+    void TCBusDeviceComponent::read_selected_memory_block()
+    {
+        this->cancel_timeout("wait_for_memory_block");
+
+        if(reading_memory_try_ == 2)
+        {
+            memory_buffer_.clear();
+            reading_memory_try_ = 0;
+            reading_memory_count_ = 0;
+            reading_memory_max_ = 0;
+
+            #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
+            this->read_memory_timeout_callback_.call();
+            #endif
+            ESP_LOGE(TAG, "Memory reading canceled!");
+
+            // Complete this request and process next in queue
+            this->complete_current_flow();
+        }
+        else
+        {
+            this->set_timeout("wait_for_memory_block", 2000, [this]()
+            {
+                // Retry reading the same block
+                ESP_LOGW(TAG, "Memory reading stuck - retry #%i", reading_memory_try_);
+                read_selected_memory_block();
+            });
+
+            send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
+            reading_memory_try_++;
+        }
+    }
+
     bool TCBusDeviceComponent::reset_call()
     {
         if(!this->virtual_)
@@ -1051,6 +1102,7 @@ namespace esphome::tc_bus
         bool was_active = (this->call_state_ != CallState::IDLE && this->call_state_ != CallState::LINE_BUSY);
         
         this->call_internal_ = false;
+        this->call_from_parallel_sn_ = false;
         this->call_address_ = 0;
         this->call_state_ = CallState::IDLE;
 
@@ -1157,7 +1209,7 @@ namespace esphome::tc_bus
             return;
         }
 
-        this->tc_bus_->send_telegram(this->call_internal_ ? TELEGRAM_TYPE_START_TALKING : TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, this->call_internal_ ? 0 : (this->tc_bus_->is_door_readiness_active() ? 1 : 0), this->serial_number_);
+        this->tc_bus_->send_telegram(this->call_internal_ ? TELEGRAM_TYPE_START_TALKING : TELEGRAM_TYPE_START_TALKING_DOOR_CALL, this->call_address_, this->call_internal_ ? 0 : (this->tc_bus_->is_door_readiness_active() ? 1 : 0), this->call_from_parallel_sn_ ? this->parallel_serial_number_ : this->serial_number_);
         this->call_state_ = CallState::IN_WAIT_FOR_INIT;
         
         // ack timeout
@@ -1234,6 +1286,11 @@ namespace esphome::tc_bus
 
         if(this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
         {
+            if(supports_setting(SETTING_PARALLEL_SERIAL_NUMBER))
+            {
+                ESP_LOGI(TAG, "  Parallel Serial Number: %i", get_setting(SETTING_PARALLEL_SERIAL_NUMBER));
+            }
+
             if(supports_setting(SETTING_RINGTONE_MUTE))
             {
                 ESP_LOGI(TAG, "  Ringtone muted: %s", YESNO(get_setting(SETTING_RINGTONE_MUTE)));
@@ -1287,9 +1344,9 @@ namespace esphome::tc_bus
                 ESP_LOGI(TAG, "  Call Time Unlimited: %s", YESNO(get_setting(SETTING_CALL_TIME_UNLIMITED)));
             }
 
-            if(supports_setting(SETTING_AMBIENT_LIGHT))
+            if(supports_setting(SETTING_NO_AMBIENT_LIGHT_IN_STANDBY))
             {
-                ESP_LOGI(TAG, "  Ambient Light (standby): %s", YESNO(get_setting(SETTING_AMBIENT_LIGHT)));
+                ESP_LOGI(TAG, "  No Ambient Light in standby: %s", YESNO(get_setting(SETTING_NO_AMBIENT_LIGHT_IN_STANDBY)));
             }
 
             if(supports_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL))
@@ -1317,6 +1374,10 @@ namespace esphome::tc_bus
             #endif
 
             #ifdef USE_NUMBER
+            if (this->parallel_serial_number_number_ != nullptr)
+            {
+                this->parallel_serial_number_number_->publish_state(get_setting(SETTING_PARALLEL_SERIAL_NUMBER));
+            }
             if (this->address_divider_number_ != nullptr)
             {
                 this->address_divider_number_->publish_state(get_setting(SETTING_AS_ADDRESS_DIVIDER));
@@ -1755,25 +1816,12 @@ namespace esphome::tc_bus
 
         memory_buffer_.clear();
 
+        reading_memory_try_ = 0;
         reading_memory_count_ = 0;
         reading_memory_max_ = (this->model_data_.memory_size / 4);
 
-        this->set_timeout("wait_for_first_memory_block", 2000, [this]()
-        {
-            memory_buffer_.clear();
-            reading_memory_count_ = 0;
-            reading_memory_max_ = 0;
-
-            #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
-            this->read_memory_timeout_callback_.call();
-            #endif
-            ESP_LOGE(TAG, "First memory block not received in time. Reading canceled!");
-
-            // Complete this request and process next in queue
-            this->complete_current_flow();
-        });
-
-        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
+        // Read current memory block
+        read_selected_memory_block();
     }
 
     void TCBusDeviceComponent::read_memory_update(uint8_t index)
@@ -1825,20 +1873,11 @@ namespace esphome::tc_bus
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
         send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
+        reading_memory_try_ = 0;
         reading_memory_count_ = (index / 4);
 
-        this->set_timeout("wait_for_first_memory_block", 2000, [this]()
-        {
-            reading_memory_count_ = 0;
-            reading_memory_max_ = 0;
-
-            ESP_LOGE(TAG, "Memory block not received in time. Reading canceled!");
-
-            // Complete this request and process next in queue
-            this->complete_current_flow();
-        });
-
-        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, reading_memory_count_, 0);
+        // Read current memory block
+        read_selected_memory_block();
     }
 
     uint8_t TCBusDeviceComponent::get_doorbell_button_memory_index(uint8_t row, uint8_t col)
@@ -2174,7 +2213,7 @@ namespace esphome::tc_bus
         }
     }
 
-    uint8_t TCBusDeviceComponent::get_setting(SettingType type)
+    uint32_t TCBusDeviceComponent::get_setting(SettingType type)
     {
         // Get internal state for virtual device first,
         // because it can support all settings independent
@@ -2184,6 +2223,10 @@ namespace esphome::tc_bus
             if(type == SETTING_ADDRESS)
             {
                 return this->address_;
+            }
+            else if(type == SETTING_PARALLEL_SERIAL_NUMBER)
+            {
+                return this->parallel_serial_number_;
             }
             else if(type == SETTING_ADDRESS_LOCK)
             {
@@ -2250,17 +2293,55 @@ namespace esphome::tc_bus
             return 0;
         }
 
-        uint8_t shift = cellData.start_bit - cellData.length + 1;
-        uint8_t mask = (1 << cellData.length) - 1;
-        uint8_t value = (memory_buffer_[cellData.index] >> shift) & mask;
+        uint8_t  total_bits        = cellData.length;
+        uint8_t  bits_in_first_byte = cellData.start_bit + 1;  // bits available in first byte
+        uint8_t  byte_index        = cellData.index;
+        int32_t  bits_remaining    = total_bits;
+        uint32_t value             = 0;
+
+        while(bits_remaining > 0)
+        {
+            uint8_t bits_this_byte = (bits_remaining < bits_in_first_byte) ? bits_remaining : bits_in_first_byte;
+
+            uint8_t start_bit_in_byte = bits_in_first_byte - 1;
+            uint8_t shift_in_byte = start_bit_in_byte - bits_this_byte + 1;
+            uint8_t byte_mask = ((1 << bits_this_byte) - 1) << shift_in_byte;
+
+            uint8_t field_bits = (memory_buffer_[byte_index] & byte_mask) >> shift_in_byte;
+
+            value = (value << bits_this_byte) | field_bits;
+
+            bits_remaining -= bits_this_byte;
+            byte_index++;
+            bits_in_first_byte  = 8;
+        }
+
         return value;
     }
 
-    bool TCBusDeviceComponent::update_setting(SettingType type, uint8_t new_value)
+    bool TCBusDeviceComponent::update_setting(SettingType type, uint32_t new_value)
     {
         if(this->virtual_)
         {
-            if(type == SETTING_ADDRESS)
+            if(type == SETTING_PARALLEL_SERIAL_NUMBER)
+            {
+                if(new_value > 1000000)
+                {
+                    ESP_LOGW(TAG, "Invalid Serial Number, reset to 1000000.");
+                    new_value = 1000000;
+                }
+
+                this->parallel_serial_number_ = new_value;
+
+                // Update Entities
+                #ifdef USE_NUMBER
+                if (this->parallel_serial_number_number_ != nullptr)
+                {
+                    this->parallel_serial_number_number_->publish_state(new_value);
+                }
+                #endif
+            }
+            else if(type == SETTING_ADDRESS)
             {
                 if(new_value > 0xFF)
                 {
@@ -2362,18 +2443,51 @@ namespace esphome::tc_bus
                         "  Value: %X",
                         model_to_string(this->model_), device_group_to_string(this->device_group_), this->serial_number_, setting_type_to_string(type), new_value);
         
-        // Apply new data
-        uint8_t shift = cellData.start_bit - cellData.length + 1;
-        uint8_t mask = (1 << cellData.length) - 1;
-        uint8_t current_byte = memory_buffer_[cellData.index];
-        current_byte &= ~(mask << shift);
-        if(cellData.length == 1 && new_value > 1)
+        // --- Apply new_value into memory_buffer_ ---
+        // start_bit is the MSB of the field (bit index within the byte at cellData.index,
+        // counted from MSB=7). length is total bit count, may span multiple bytes.
+        //
+        // We write bit by bit from MSB to LSB of the field into the buffer.
+        uint8_t total_bits = cellData.length;
+        uint8_t start_bit = cellData.start_bit;  // bit offset within first byte (7=MSB, 0=LSB)
+
+        // Clamp 1-bit fields
+        if(total_bits == 1 && new_value > 1)
         {
-            // For 1-bit settings, any non-zero value is treated as 1
             new_value = 1;
         }
-        current_byte |= ((new_value & mask) << shift);
-        memory_buffer_[cellData.index] = current_byte;
+
+        // Mask value to the declared bit width
+        uint32_t mask_val = (total_bits < 32) ? ((1UL << total_bits) - 1) : 0xFFFFFFFFUL;
+        new_value &= mask_val;
+
+        // Walk through bits from MSB of field to LSB, writing into consecutive buffer bytes
+        int bits_remaining = total_bits;
+        uint8_t  byte_index  = cellData.index;
+
+        // How many bits fit in the first byte starting from start_bit downward?
+        uint8_t  bits_in_first_byte = start_bit + 1; // e.g. start_bit=7 → 8 bits, start_bit=3 → 4 bits
+
+        while(bits_remaining > 0)
+        {
+            uint8_t bits_this_byte = (bits_remaining < bits_in_first_byte) ? bits_remaining : bits_in_first_byte;
+
+            // Which bits of new_value do we write here? The MSBs go first.
+            uint8_t shift_in_value = bits_remaining - bits_this_byte;  // how far up in new_value these bits sit
+            uint8_t field_bits = (new_value >> shift_in_value) & ((1 << bits_this_byte) - 1);
+
+            // Bit position within current byte: bits occupy [start_bit_in_byte .. start_bit_in_byte - bits_this_byte + 1]
+            uint8_t start_bit_in_byte = bits_in_first_byte - 1;  // = 7 for all bytes after the first (full bytes)
+            uint8_t shift_in_byte = start_bit_in_byte - bits_this_byte + 1;
+            uint8_t byte_mask = ((1 << bits_this_byte) - 1) << shift_in_byte;
+
+            memory_buffer_[byte_index] &= ~byte_mask;
+            memory_buffer_[byte_index] |= (field_bits << shift_in_byte);
+
+            bits_remaining -= bits_this_byte;
+            byte_index++;
+            bits_in_first_byte = 8;  // all subsequent bytes are full bytes (start from bit 7)
+        }
 
         // Update memory of physical device
         if(this->virtual_ == false)
@@ -2385,9 +2499,21 @@ namespace esphome::tc_bus
             // Select memory page %i of serial number %i
             send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
-            // Transfer new settings value to memory
-            uint16_t new_values = (memory_buffer_[cellData.index] << 8) | memory_buffer_[cellData.index + 1];
-            send_telegram(TELEGRAM_TYPE_WRITE_MEMORY, cellData.index, new_values);
+            // Determine which 2-byte blocks (even-aligned pairs) are dirty and send one
+            // WRITE_MEMORY telegram per block.
+            // The protocol always writes two consecutive bytes at an even address.
+            uint8_t first_byte = cellData.index;
+            uint8_t last_byte  = byte_index - 1;  // inclusive
+
+            // Align down to even address for first block
+            uint8_t block_start = first_byte & ~0x01;
+            uint8_t block_end   = last_byte  & ~0x01;
+
+            for(uint8_t blk = block_start; blk <= block_end; blk += 2)
+            {
+                uint16_t word = (this->memory_buffer_[blk] << 8) | this->memory_buffer_[blk + 1];
+                send_telegram(TELEGRAM_TYPE_WRITE_MEMORY, blk, word);
+            }
 
             // Reset
             if(!(this->model_data_.capabilities & CAP_INDIVIDUAL_RESET))

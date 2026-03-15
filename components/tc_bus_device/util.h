@@ -111,7 +111,7 @@ namespace esphome::tc_bus
         SETTING_AS_ADDRESS_DIVIDER,
         SETTING_VAS_ADDRESS_DIVIDER,
         SETTING_USE_LONG_DOOR_OPENER_PROTOCOL,
-        SETTING_AMBIENT_LIGHT,
+        SETTING_NO_AMBIENT_LIGHT_IN_STANDBY,
         SETTING_RINGTONE_MUTE,
         SETTING_DOOR_OPENER_DURATION,
         SETTING_ADDRESS,
@@ -124,7 +124,8 @@ namespace esphome::tc_bus
         SETTING_BUTTON_ROWS,
         SETTING_HAS_CODE_LOCK,
         SETTING_AUTO_ANSWER_CALL,
-        SETTING_CALL_TIME_UNLIMITED
+        SETTING_CALL_TIME_UNLIMITED,
+        SETTING_PARALLEL_SERIAL_NUMBER,
     };
 
     struct SettingMapping {
@@ -170,7 +171,7 @@ namespace esphome::tc_bus
         CAP_AS_ADDRESS_DIVIDER = (1 << 7),
         CAP_VAS_ADDRESS_DIVIDER = (1 << 8),
         CAP_USE_LONG_DOOR_OPENER_PROTOCOL = (1 << 9),
-        CAP_AMBIENT_LIGHT = (1 << 10),
+        CAP_NO_AMBIENT_LIGHT_IN_STANDBY = (1 << 10),
         CAP_RINGTONE_MUTE = (1 << 11),
         CAP_DOOR_OPENER_DURATION = (1 << 12),
         CAP_DOOR_READINESS_DURATION = (1 << 13),
@@ -187,6 +188,7 @@ namespace esphome::tc_bus
         CAP_INDIVIDUAL_RESET = (1 << 24),
         CAP_AUTO_ANSWER_CALL = (1 << 25),
         CAP_CALL_TIME_UNLIMITED = (1 << 26),
+        CAP_PARALLEL_SERIAL_NUMBER = (1 << 27),
     };
 
     struct ModelData {

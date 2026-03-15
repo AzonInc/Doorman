@@ -13,6 +13,14 @@ namespace esphome::tc_bus
         void control(float value) override;
     };
 
+    class ParallelSerialNumberNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        ParallelSerialNumberNumber() = default;
+
+      protected:
+        void control(float value) override;
+    };
+
     class AddressNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
       public:
         AddressNumber() = default;

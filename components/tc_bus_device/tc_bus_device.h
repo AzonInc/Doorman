@@ -83,6 +83,7 @@ namespace esphome::tc_bus
     {
         Model model;
         uint32_t serial_number = 0;
+        uint32_t parallel_serial_number = 0;
         uint8_t address = 0;
         uint8_t address_divider = 0;
         uint8_t door_readiness_duration = 7;
@@ -108,6 +109,7 @@ namespace esphome::tc_bus
 #endif
 #ifdef USE_NUMBER
         SUB_NUMBER(serial_number);
+        SUB_NUMBER(parallel_serial_number);
         SUB_NUMBER(address);
 
         SUB_NUMBER(volume_handset_door_call);
@@ -177,6 +179,7 @@ namespace esphome::tc_bus
         // Flow: Memory reading
         void read_memory();
         void read_memory_update(uint8_t index);
+        void read_selected_memory_block();
         bool write_memory();
         bool memory_buffer_empty() { return this->memory_buffer_.empty(); }
 
@@ -185,8 +188,8 @@ namespace esphome::tc_bus
 
         // Bus Device Settings
         bool supports_setting(SettingType type);
-        uint8_t get_setting(SettingType type);
-        bool update_setting(SettingType type, uint8_t new_value);
+        uint32_t get_setting(SettingType type);
+        bool update_setting(SettingType type, uint32_t new_value);
         void publish_settings();
 
         uint8_t get_memory_byte(uint8_t index);
@@ -288,6 +291,7 @@ namespace esphome::tc_bus
         Model model_{MODEL_NONE};
         ModelData model_data_;
         uint32_t serial_number_{0};
+        uint32_t parallel_serial_number_{1000000};
         uint8_t address_{0};
         DeviceGroup device_group_{DEVICE_GROUP_INDOOR_STATION};
         bool virtual_{false};
@@ -306,6 +310,7 @@ namespace esphome::tc_bus
 
         // Call handling
         bool call_internal_{false};
+        bool call_from_parallel_sn_{false};
         uint32_t call_address_{0};
         CallState call_state_{CallState::IDLE};
 
@@ -316,6 +321,7 @@ namespace esphome::tc_bus
         bool memory_mode_{false};
         std::vector<uint8_t> memory_buffer_;
         uint8_t reading_memory_count_{0};
+        uint8_t reading_memory_try_{0};
         uint8_t reading_memory_max_{0};
 
         // Preferences

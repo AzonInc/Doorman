@@ -36,7 +36,7 @@
     "fiducials_solder_mask_opening_diameter": 2.0,
     "pcb": [
         {
-            "file": "D:\\Projekte\\Doorman\\pcb\\doorman.kicad_pcb",
+            "file": "D:\\Projekte\\Doorman\\pcb_core_board\\doorman.kicad_pcb",
             "x": 0,
             "y": 56399970.0,
             "margin_left": 0,

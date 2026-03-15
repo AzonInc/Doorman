@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-03-10")
+		(date "2026-03-15")
 		(rev "2.0")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
@@ -11066,6 +11066,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "32c6d625-22bf-43fc-9bf5-9c4c7f308840")
 		)
@@ -11152,6 +11170,24 @@
 			)
 		)
 		(property "Package" "SMD"
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 242.57 85.09 0)
 			(effects
 				(font
@@ -11617,6 +11653,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 132.08 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 132.08 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4a00a059-00a7-417a-bc74-b103bb88ccac")
 		)
@@ -11703,6 +11757,24 @@
 			)
 		)
 		(property "Package" "SOT-363"
+			(at 133.35 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 133.35 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 133.35 198.12 0)
 			(effects
 				(font
@@ -11809,6 +11881,24 @@
 			)
 		)
 		(property "Package" "TSOT-23-6"
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 165.1 49.53 0)
 			(effects
 				(font
@@ -11985,6 +12075,24 @@
 			)
 		)
 		(property "LCSC" "C52801"
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 147.32 107.95 0)
 			(effects
 				(font
@@ -12226,6 +12334,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9b6ccd81-045d-4403-a29d-18af6343aae0")
 		)
@@ -12366,6 +12492,24 @@
 			)
 		)
 		(property "Sim.Device" ""
+			(at 181.61 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 181.61 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 181.61 205.74 0)
 			(effects
 				(font
@@ -12525,6 +12669,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 135.89 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 135.89 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 135.89 212.09 0)
 			(effects
 				(font
@@ -12762,6 +12924,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4b905f7a-53b5-4266-983d-5a2bdb9bc434")
 		)
@@ -12915,6 +13095,24 @@
 			)
 		)
 		(property "Package" "0402"
+			(at 184.15 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 184.15 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 184.15 212.09 0)
 			(effects
 				(font
@@ -13137,6 +13335,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b16a667a-a7bf-44d5-8b5e-e28bbf58ad01")
 		)
@@ -13222,6 +13438,24 @@
 		)
 		(property "Package" "0805"
 			(at 147.32 123.19 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 147.32 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13324,6 +13558,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3b6e2c9f-d25a-46e5-92cf-52ecbab75e76")
 		)
@@ -13416,6 +13668,24 @@
 			)
 		)
 		(property "Package" "0402"
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 39.37 157.48 90)
 			(effects
 				(font
@@ -13557,6 +13827,24 @@
 			)
 		)
 		(property "Sim.Device" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 67.31 88.9 0)
 			(effects
 				(font
@@ -13917,6 +14205,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "41d018a4-99a9-4254-add7-48b3df718277")
 		)
@@ -14197,6 +14503,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "16c1fd31-6459-4795-902a-734ce834ae58")
 		)
@@ -14357,6 +14681,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "5a7d6741-9e3b-44a5-b9d6-6fff70fe9613")
 		)
@@ -14465,6 +14807,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 168.91 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 168.91 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "08c8a59d-1c0c-4ccf-8158-9e4fa15dda68")
 		)
@@ -14561,6 +14921,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 120.65 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 120.65 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "636eba1c-5d40-4416-9b7a-bf17d5b8ad66")
 		)
@@ -14649,6 +15027,24 @@
 			)
 		)
 		(property "Package" "SMD,D8xL10.5mm"
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 129.54 53.34 0)
 			(effects
 				(font
@@ -14952,6 +15348,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "dc18ca88-ef67-4e31-b735-2d15453820bc")
 		)
@@ -15041,6 +15455,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 33.02 41.91 90)
 			(effects
 				(font
@@ -15151,6 +15583,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5d398b08-a7d5-4a59-af2f-f16fa36b520f")
 		)
@@ -15237,6 +15687,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 44.45 193.04 0)
 			(effects
 				(font
@@ -15407,6 +15875,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -15500,6 +15986,24 @@
 		)
 		(property "MPN" "ANR4030T3R9M"
 			(at 187.96 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 187.96 46.99 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15673,6 +16177,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 264.16 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 264.16 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b50e4863-a523-4ce6-a624-1c30677180e8")
 		)
@@ -15825,6 +16347,24 @@
 			)
 		)
 		(property "Package" "SMD,2.5x3mm"
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 33.02 52.07 0)
 			(effects
 				(font
@@ -16002,6 +16542,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "a5aea6de-ed68-429f-b809-5bfa782eea52")
 		)
@@ -16116,6 +16674,24 @@
 			)
 		)
 		(property "Package" "SMD,P=2mm"
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 247.65 180.34 0)
 			(effects
 				(font
@@ -16573,6 +17149,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e603e959-9cb9-4ab0-a5e5-bdb6056a7d56")
 		)
@@ -16798,6 +17392,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a1482566-f967-4a5a-8acc-fd36fce79eb6")
 		)
@@ -16886,6 +17498,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 201.93 54.61 0)
 			(effects
 				(font
@@ -17185,6 +17815,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6595ce14-7793-48c8-8988-1416ff6de45a")
 		)
@@ -17274,6 +17922,24 @@
 			)
 		)
 		(property "Package" "SOD-123"
+			(at 158.75 212.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 158.75 212.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 158.75 212.09 90)
 			(effects
 				(font
@@ -17373,15 +18039,15 @@
 		(dnp no)
 		(uuid "97243824-64b8-4025-a546-750241a9b759")
 		(property "Reference" "D1"
-			(at 145.796 41.402 90)
+			(at 145.542 41.402 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Value" "1N5819WS"
-			(at 148.082 43.18 90)
+		(property "Value" "PMEG6010CEJ"
+			(at 148.844 43.18 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -17406,7 +18072,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+125℃ 2A 350mA 40V 5uA@30V 600mV@200mA Independent SOD-323 Schottky Diodes ROHS"
+		(property "Description" "1 Independent 100uA@60V 10A 1A 60V 700mV@1A SOD-323 Schottky Diodes ROHS"
 			(at 142.24 41.91 0)
 			(effects
 				(font
@@ -17415,7 +18081,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C191023"
+		(property "LCSC" "C27636122"
 			(at 142.24 41.91 0)
 			(effects
 				(font
@@ -17433,7 +18099,25 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1N5819WS"
+		(property "MPN" "PMEG6010CEJ"
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 142.24 41.91 90)
 			(effects
 				(font
@@ -17590,6 +18274,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "830f92e6-efa8-430a-90c8-65678a098c4e")
 		)
@@ -17678,15 +18380,15 @@
 		(dnp no)
 		(uuid "9a754817-228f-476f-b785-d4e7d9654536")
 		(property "Reference" "D5"
-			(at 133.096 41.402 90)
+			(at 132.842 41.402 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Value" "1N5819WS"
-			(at 135.382 42.926 90)
+		(property "Value" "PMEG6010CEJ"
+			(at 136.144 42.926 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -17711,7 +18413,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+125℃ 2A 350mA 40V 5uA@30V 600mV@200mA Independent SOD-323 Schottky Diodes ROHS"
+		(property "Description" "1 Independent 100uA@60V 10A 1A 60V 700mV@1A SOD-323 Schottky Diodes ROHS"
 			(at 129.54 41.91 0)
 			(effects
 				(font
@@ -17720,7 +18422,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C191023"
+		(property "LCSC" "C27636122"
 			(at 129.54 41.91 0)
 			(effects
 				(font
@@ -17738,7 +18440,25 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1N5819WS"
+		(property "MPN" "PMEG6010CEJ"
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 129.54 41.91 90)
 			(effects
 				(font
@@ -18104,6 +18824,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 199.39 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "0dddc5a9-a878-4bb1-883f-1728b95b8e4c")
 		)
@@ -18213,6 +18951,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "81eafd21-db19-482a-8281-8c5c16708c7d")
 		)
@@ -18310,6 +19066,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 264.16 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "d77cdd20-ec78-4bc7-813a-121bbc89a133")
 		)
@@ -18398,6 +19172,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 168.91 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 168.91 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 168.91 212.09 0)
 			(effects
 				(font
@@ -18768,6 +19560,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "06d74a52-71dd-4da2-a937-3f7d136d15b9")
 		)
@@ -18800,8 +19610,8 @@
 				)
 			)
 		)
-		(property "Value" "1N5819WS"
-			(at 119.888 42.926 90)
+		(property "Value" "PMEG6010CEJ"
+			(at 120.904 42.926 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -18826,7 +19636,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-40℃~+125℃ 2A 350mA 40V 5uA@30V 600mV@200mA Independent SOD-323 Schottky Diodes ROHS"
+		(property "Description" "1 Independent 100uA@60V 10A 1A 60V 700mV@1A SOD-323 Schottky Diodes ROHS"
 			(at 114.3 41.91 0)
 			(effects
 				(font
@@ -18835,7 +19645,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C191023"
+		(property "LCSC" "C27636122"
 			(at 114.3 41.91 0)
 			(effects
 				(font
@@ -18853,7 +19663,25 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "1N5819WS"
+		(property "MPN" "PMEG6010CEJ"
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 114.3 41.91 90)
 			(effects
 				(font
@@ -19083,6 +19911,24 @@
 			)
 		)
 		(property "Package" "SOT-363"
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 181.61 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 181.61 198.12 0)
 			(effects
 				(font
@@ -19398,6 +20244,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 120.65 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 120.65 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "21fb6d69-f173-4272-8e4d-9f481586d940")
 		)
@@ -19484,6 +20348,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 36.83 193.04 90)
 			(effects
 				(font
@@ -19646,6 +20528,24 @@
 			)
 		)
 		(property "Package" "SMD,2.5x3mm"
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 33.02 68.58 0)
 			(effects
 				(font
@@ -19821,6 +20721,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "da3b212e-c3d1-46de-a83e-042f22168766")
 		)
@@ -19967,6 +20885,24 @@
 			)
 		)
 		(property "Sim.Device" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 88.9 63.5 90)
 			(effects
 				(font
@@ -20200,6 +21136,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e17a3ea2-7f1d-4d8b-ae57-b408877196e4")
 		)
@@ -20361,6 +21315,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "dc633dc8-e52d-463d-8298-a0fd3a3b7ca3")
 		)
@@ -20515,6 +21487,24 @@
 			)
 		)
 		(property "Package" "0603"
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 196.85 54.61 0)
 			(effects
 				(font
@@ -20883,6 +21873,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "ce1012f0-5e9f-4f98-b2fd-4f977fe1f0dc")
 		)
@@ -20972,6 +21980,24 @@
 			)
 		)
 		(property "Package" "LL-41"
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
 			(at 149.86 97.79 90)
 			(effects
 				(font
@@ -21206,6 +22232,24 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "4"
 			(uuid "4b856570-cbd2-4f32-84a0-acceece3a7ca")
 		)
@@ -21307,6 +22351,24 @@
 		)
 		(property "Package" "Plugin,P=1.27mm"
 			(at 114.3 33.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 114.3 33.02 90)
 			(effects
 				(font
 					(size 1.27 1.27)
