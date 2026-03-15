@@ -271,7 +271,7 @@ text_sensor:
 switch:
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
-    force_long_door_opener_protocol:
+    use_long_door_opener_protocol:
       id: use_32_open_door_protocol
       device_id: tc_bus_is
       name: "Use 32-Bit Door Protocol"

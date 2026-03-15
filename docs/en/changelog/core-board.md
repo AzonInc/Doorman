@@ -10,7 +10,7 @@ This page highlights the new features, improvements, and changes made in each re
 - Redesigned `TC:BUS` communication circuit
 - Added `SIEDLE:IN-HOME-BUS` communication circuit
 - Replaced ESP32-S3-WROOM-1-N8R8 with ESP32-S3-MINI-1-N4R2
-- Added a 2x7-pin extension board connector exposing selected GPIOs, GND, Bus lines, and power rails
+- Added a 2x7-pin extension board connector exposing selected GPIOs, GND and Bus lines
 
 ## 1.6.1
 - Added some optional component footprints for audio PoC
@@ -35,14 +35,14 @@ This page highlights the new features, improvements, and changes made in each re
 ## 1.4.0
 - Added a diode to prevent multiple power sources damage the circuit
 
-## 1.3.0
-Initial release
+## 1.3.0 <Badge type="info" text="Initial release" />
+No changelog available
 
-## 1.2.0
-No changelog available / Development Board
+## 1.2.0 <Badge type="info" text="Development Board" />
+No changelog available
 
-## 1.1.0
-No changelog available / Development Board
+## 1.1.0 <Badge type="info" text="Development Board" />
+No changelog available
 
-## 1.0.0
-No changelog available / Development Board
+## 1.0.0 <Badge type="info" text="Development Board" />
+No changelog available

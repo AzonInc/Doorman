@@ -244,6 +244,7 @@ CONF_MODEL_CTRL = [
     "TCS NBV3210",
     "TCS VBVS30",
     "TCS NBV2600",
+    "TCS VBVS05",
     "DEBUG CONTROLLER",
 ]
 
@@ -303,47 +304,41 @@ CONF_ON_DOOR_OPENER = "on_door_opener"
 
 def validate_config(config):
     device_group = config.get(CONF_TYPE)
+    is_virtual = config.get(CONF_VIRTUAL, False)
 
-    if config.get(CONF_VIRTUAL, False):
-        invalid_keys = [
-            CONF_AUTO_CONFIGURATION,
-            CONF_ON_READ_MEMORY_COMPLETE,
-            CONF_ON_READ_MEMORY_TIMEOUT,
-            CONF_ON_IDENTIFY_COMPLETE,
-            CONF_ON_IDENTIFY_UNKNOWN,
-            CONF_ON_IDENTIFY_TIMEOUT,
-        ]
-        for key in invalid_keys:
-            if key in config:
-                raise cv.Invalid(
-                    f"'{key}' is not compatible with virtual devices.",
-                    path=[key]
-                )
+    # Keys that are only valid for virtual devices
+    virtual_only_keys = [
+        CONF_ON_INCOMING_CALL,
+        CONF_ON_CALL_STARTED,
+        CONF_ON_CALL_ENDED,
+        CONF_ON_CALL_FAILED,
+        CONF_ON_DOOR_OPENER,
+    ]
+    for key in virtual_only_keys:
+        if key in config and not is_virtual:
+            raise cv.Invalid(f"'{key}' is only compatible with virtual devices.", path=[key])
 
-        call_keys = [
-            CONF_ON_INCOMING_CALL,
-            CONF_ON_CALL_STARTED,
-            CONF_ON_CALL_ENDED,
-            CONF_ON_CALL_FAILED,
-        ]
+    if not is_virtual:
+        return config
+    
+    # From here on: virtual devices only
+    if device_group not in ("indoor_station", "outdoor_station"):
+        raise cv.Invalid(
+            "Only virtual 'indoor_station' and 'outdoor_station' devices are supported.",
+            path=[CONF_VIRTUAL]
+        )
 
-        allowed_groups = [
-            DEVICE_GROUP.DEVICE_GROUP_INDOOR_STATION,
-            DEVICE_GROUP.DEVICE_GROUP_OUTDOOR_STATION,
-        ]
-        
-        for key in call_keys:
-            if key in config and device_group not in allowed_groups:
-                raise cv.Invalid(
-                    f"'{key}' is only compatible with virtual indoor- and outdoor-stations.",
-                    path=[key]
-                )
-            
-        if (CONF_ON_DOOR_OPENER in config and device_group != DEVICE_GROUP.DEVICE_GROUP_OUTDOOR_STATION):
-            raise cv.Invalid(
-                f"'{CONF_ON_DOOR_OPENER}' is only compatible with virtual outdoor-stations.",
-                path=[CONF_ON_DOOR_OPENER]
-            )
+    for key in [CONF_AUTO_CONFIGURATION, CONF_ON_READ_MEMORY_COMPLETE, CONF_ON_READ_MEMORY_TIMEOUT,
+                CONF_ON_IDENTIFY_COMPLETE, CONF_ON_IDENTIFY_UNKNOWN, CONF_ON_IDENTIFY_TIMEOUT]:
+        if key in config:
+            raise cv.Invalid(f"'{key}' is not compatible with virtual devices.", path=[key])
+
+    for key in [CONF_ON_INCOMING_CALL, CONF_ON_CALL_STARTED, CONF_ON_CALL_ENDED, CONF_ON_CALL_FAILED]:
+        if key in config and device_group not in ("indoor_station", "outdoor_station"):
+            raise cv.Invalid(f"'{key}' is only compatible with virtual 'indoor_station' and 'outdoor_station' devices.", path=[key])
+
+    if CONF_ON_DOOR_OPENER in config and device_group != "outdoor_station":
+        raise cv.Invalid(f"'{CONF_ON_DOOR_OPENER}' is only compatible with virtual outdoor-stations.", path=[CONF_ON_DOOR_OPENER])
 
     return config
 

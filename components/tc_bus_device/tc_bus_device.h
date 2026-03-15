@@ -90,7 +90,7 @@ namespace esphome::tc_bus
         uint8_t call_time_duration = 7;
         uint8_t door_opener_duration = 4;
         bool address_lock = false;
-        bool force_long_door_opener_protocol = false;
+        bool use_long_door_opener_protocol = false;
         bool auto_answer_call = false;
         bool calling_requires_door_readiness = false;
         bool door_opener_requires_door_readiness = false;
@@ -122,7 +122,7 @@ namespace esphome::tc_bus
         SUB_NUMBER(door_opener_duration);
 #endif
 #ifdef USE_SWITCH
-        SUB_SWITCH(force_long_door_opener_protocol);
+        SUB_SWITCH(use_long_door_opener_protocol);
         SUB_SWITCH(ringtone_mute);
         SUB_SWITCH(auto_answer_call);
         SUB_SWITCH(calling_requires_door_readiness);
@@ -297,7 +297,7 @@ namespace esphome::tc_bus
         bool virtual_{false};
         
         bool address_lock_{false};
-        bool force_long_door_opener_protocol_{false};
+        bool use_long_door_opener_protocol_{false};
         bool auto_answer_call_{false};
         bool calling_requires_door_readiness_{false};
         bool door_opener_requires_door_readiness_{false};

@@ -184,7 +184,7 @@ function sidebarChangelog(): DefaultTheme.SidebarItem[] {
     {
       text: 'Hardware',
       items: [
-        { text: 'Doorman S3', link: 'base' },
+        { text: 'Doorman S3', link: 'core-board' },
         { text: 'Audio Extension', link: 'extension-audio' }
       ]
     },

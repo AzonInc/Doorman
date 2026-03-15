@@ -88,6 +88,7 @@ namespace esphome::tc_bus
         MODEL_CTRL_NBV3210,
         MODEL_CTRL_VBVS30,
         MODEL_CTRL_NBV2600,
+        MODEL_CTRL_VBVS05,
         MODEL_CTRL_DEBUG,
 
         MODEL_EXT_TRE2,
@@ -97,6 +98,14 @@ namespace esphome::tc_bus
     struct ModelMapping {
         Model model;
         const char* name;
+    };
+
+    struct ModelEntry {
+        uint16_t model_key;
+        uint8_t  device_group;
+        uint16_t fw_min;
+        uint16_t fw_max;
+        Model    model;
     };
 
     enum SettingType {
@@ -216,7 +225,9 @@ namespace esphome::tc_bus
 
     const char* model_to_string(Model model = MODEL_NONE);
     Model string_to_model(const char* str);
-    Model identifier_string_to_model(const uint8_t& device_group, const char* model_key, const uint8_t& hw_version = 0, const uint32_t& fw_version = 0);
+
+    uint16_t model_to_identifier(Model model);
+    Model identifier_to_model(uint8_t device_group, uint16_t model_key, uint8_t hw_version = 0, uint16_t fw_version = 0);
 
     uint8_t ringtone_to_int(const char* str);
     const char* int_to_ringtone(uint8_t ringtone);

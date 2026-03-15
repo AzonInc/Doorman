@@ -108,138 +108,217 @@ namespace esphome::tc_bus
         }
     }
 
-    Model identifier_string_to_model(const uint8_t& device_group, const char* model_key, const uint8_t& hw_version, const uint32_t& fw_version)
+    static const ModelEntry MODEL_TABLE[] = {
+        // Group 0
+        { 0x000, 0, 0,   UINT16_MAX , MODEL_IS_ISH3030       },
+        { 0x001, 0, 0,   UINT16_MAX , MODEL_IS_ISH3230       },
+        { 0x002, 0, 0,   UINT16_MAX , MODEL_IS_ISH3022       },
+        { 0x003, 0, 0,   UINT16_MAX , MODEL_IS_ISH3130       },
+        { 0x800, 0, 0,   UINT16_MAX , MODEL_IS_IVH3222       },
+        { 0x900, 0, 0,   UINT16_MAX , MODEL_IS_IVH4222       },
+        { 0xB00, 0, 0,   UINT16_MAX , MODEL_IS_IMM1000       },
+        { 0xC01, 0, 0,   UINT16_MAX , MODEL_IS_VMH           },
+        { 0xC00, 0, 0,   UINT16_MAX , MODEL_IS_VML           },
+        { 0xC02, 0, 0,   UINT16_MAX , MODEL_IS_VMF           },
+        { 0x281, 0, 512, UINT16_MAX , MODEL_IS_TC40V2        },
+        { 0x281, 0, 0,   511,         MODEL_IS_TC40          },
+        { 0x180, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x181, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x182, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x183, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x184, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x185, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x186, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x187, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x188, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x189, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x18A, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x18B, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x18C, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x18D, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x18E, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x18F, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+
+        // Group 1
+        { 0x010, 1, 0, UINT16_MAX , MODEL_IS_ISW3030         },
+        { 0x011, 1, 0, UINT16_MAX , MODEL_IS_ISW3230         },
+        { 0x013, 1, 0, UINT16_MAX , MODEL_IS_ISW3130         },
+        { 0x015, 1, 0, UINT16_MAX , MODEL_IS_ISW3330         },
+        { 0x017, 1, 0, UINT16_MAX , MODEL_IS_ISW3340         },
+        { 0x194, 1, 0, UINT16_MAX , MODEL_IS_IVW9030         },
+        { 0x400, 1, 0, UINT16_MAX , MODEL_IS_ISW42X0         },
+        { 0x410, 1, 0, UINT16_MAX , MODEL_IS_TKIS            },
+        { 0x420, 1, 0, UINT16_MAX , MODEL_IS_TKISV           },
+        { 0x200, 1, 0, UINT16_MAX , MODEL_IS_ISW4100         },
+        { 0x201, 1, 0, UINT16_MAX , MODEL_IS_IMM2100         },
+        { 0x208, 1, 0, UINT16_MAX , MODEL_IS_CAIXXXX         },
+        { 0x280, 1, 512, UINT16_MAX , MODEL_IS_VTC42V2       },
+        { 0x280, 1, 0,   511,         MODEL_IS_VTC40         },
+        { 0x800, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
+        { 0x805, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
+        { 0x807, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
+        { 0x809, 1, 0, UINT16_MAX , MODEL_IS_CAI2000         },
+        { 0x80C, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
+        { 0x810, 1, 0, UINT16_MAX , MODEL_IS_IVW2220         },
+        { 0x815, 1, 0, UINT16_MAX , MODEL_IS_IVW2221         },
+        { 0x820, 1, 0, UINT16_MAX , MODEL_IS_IVW3011         },
+        { 0x830, 1, 0, UINT16_MAX , MODEL_IS_IVW3012         },
+        { 0x1E8, 1, 0, UINT16_MAX , MODEL_IS_IVW9010         },
+        { 0x1EA, 1, 0, UINT16_MAX , MODEL_IS_IVW9110         },
+        { 0x1E9, 1, 0, UINT16_MAX , MODEL_IS_IVW9011         },
+        { 0x1B3, 1, 0, UINT16_MAX , MODEL_IS_IVE70           },
+        { 0x1B4, 1, 0, UINT16_MAX , MODEL_IS_IVE70           },
+        { 0x1B5, 1, 0, UINT16_MAX , MODEL_IS_IVE70           },
+        { 0x020, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x021, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x022, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x023, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x024, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x025, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x026, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x027, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x030, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x031, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x032, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x033, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x034, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x035, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x036, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x037, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x028, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x02B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x02F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x068, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x06F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x060, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
+        { 0x038, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x039, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x03A, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x03B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x03C, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x03D, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x03E, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x03F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
+        { 0x070, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x071, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x072, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x073, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x074, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x075, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x076, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x077, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x078, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x079, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x07A, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x07B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x07C, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x07D, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x07E, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x07F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
+        { 0x080, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x081, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x082, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x083, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x084, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x085, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x086, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x087, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0x088, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x089, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x08A, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x08B, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x08C, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x08D, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x08E, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x08F, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0x058, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x059, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x05A, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x05B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x05C, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x05D, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x05E, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0x05F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
+        { 0xC70, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC71, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC72, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC73, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC74, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC75, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC76, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC77, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC90, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC91, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC92, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC93, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC94, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC95, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC96, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC97, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
+        { 0xC80, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC81, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC82, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC83, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC84, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC85, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC86, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { 0xC87, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+
+        // Group 2
+        { 0x420, 2,    0, 2623,        MODEL_AS_PUK         },
+        { 0x420, 2, 2624, UINT16_MAX , MODEL_AS_PDS0X       },
+        { 0x430, 2, 2656, UINT16_MAX , MODEL_AS_PES         },
+        { 0x4E0, 2,    0, UINT16_MAX , MODEL_AS_PUK_DSP     },
+        { 0x400, 2,    0, UINT16_MAX , MODEL_AS_PAKV2       },
+        { 0x280, 2,    0, UINT16_MAX , MODEL_AS_PAKV3       },
+        { 0x270, 2,    0, UINT16_MAX , MODEL_AS_PAKV3       },
+        { 0xC00, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC01, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC02, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC03, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC04, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC05, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC06, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC09, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xD09, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
+        { 0xC20, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { 0xC21, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { 0xC22, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { 0xC23, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { 0xC24, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { 0xC25, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { 0xC26, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+
+        // Group 4
+        { 0x008, 4, 0, UINT16_MAX , MODEL_CTRL_BVS30        },
+        { 0x010, 4, 0, UINT16_MAX , MODEL_CTRL_NBV3210      },
+        { 0x009, 4, 0, UINT16_MAX , MODEL_CTRL_VBVS30       },
+        { 0xD2D, 4, 0, UINT16_MAX , MODEL_CTRL_NBV2600      },
+        { 0x000, 4, 0, UINT16_MAX , MODEL_CTRL_VBVS05       },
+    };
+
+    Model identifier_to_model(uint8_t device_group, uint16_t model_key, uint8_t hw_version, uint16_t fw_version)
     {
-        if(device_group == 0 || device_group == 1)
+        for (const ModelEntry& e : MODEL_TABLE)
         {
-            if (strcmp(model_key, "000") == 0) return MODEL_IS_ISH3030;
-            else if (strcmp(model_key, "010") == 0) return MODEL_IS_ISW3030;
-            else if (strcmp(model_key, "001") == 0) return MODEL_IS_ISH3230;
-            else if (strcmp(model_key, "011") == 0) return MODEL_IS_ISW3230;
-            else if (strcmp(model_key, "003") == 0) return MODEL_IS_ISH3130;
-            else if (strcmp(model_key, "013") == 0) return MODEL_IS_ISW3130;
-            else if (strcmp(model_key, "015") == 0) return MODEL_IS_ISW3330;
-            else if (strcmp(model_key, "002") == 0) return MODEL_IS_ISH3022;
-            else if (strcmp(model_key, "017") == 0) return MODEL_IS_ISW3340;
-            else if (strcmp(model_key, "800") == 0) return MODEL_IS_IVH3222;
-            else if (strcmp(model_key, "900") == 0) return MODEL_IS_IVH4222;
-            else if (strcmp(model_key, "B00") == 0) return MODEL_IS_IMM1000;
-            else if (strcmp(model_key, "200") == 0) return MODEL_IS_ISW4100;
-            else if (strcmp(model_key, "201") == 0) return MODEL_IS_IMM2100;
-
-            else if (strcmp(model_key, "020") == 0 || strcmp(model_key, "021") == 0 || strcmp(model_key, "022") == 0 || strcmp(model_key, "023") == 0 || strcmp(model_key, "024") == 0 || strcmp(model_key, "025") == 0 || strcmp(model_key, "026") == 0 || strcmp(model_key, "027") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5010
-
-            else if (strcmp(model_key, "028") == 0 || strcmp(model_key, "02B") == 0 || strcmp(model_key, "02F") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5020
-
-            else if (strcmp(model_key, "030") == 0 || strcmp(model_key, "031") == 0 || strcmp(model_key, "032") == 0 || strcmp(model_key, "033") == 0 || strcmp(model_key, "034") == 0 || strcmp(model_key, "035") == 0 || strcmp(model_key, "036") == 0 || strcmp(model_key, "037") == 0)
-                return MODEL_IS_TASTA_VIDEO; // IVW511X
-
-            else if (strcmp(model_key, "038") == 0 || strcmp(model_key, "039") == 0 || strcmp(model_key, "03A") == 0 || strcmp(model_key, "03B") == 0 || strcmp(model_key, "03C") == 0 || strcmp(model_key, "03D") == 0 || strcmp(model_key, "03E") == 0 || strcmp(model_key, "03F") == 0)
-                return MODEL_IS_TASTA_VIDEO; // IVW521X
-
-            else if (strcmp(model_key, "058") == 0 || strcmp(model_key, "059") == 0 || strcmp(model_key, "05A") == 0 || strcmp(model_key, "05B") == 0 || strcmp(model_key, "05C") == 0 || strcmp(model_key, "05D") == 0 || strcmp(model_key, "05E") == 0 || strcmp(model_key, "05F") == 0)
-                return MODEL_IS_TASTA_PRO_VIDEO; // IVW6511 (+ smart stick)
-
-            else if (strcmp(model_key, "060") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5033
-
-            else if (strcmp(model_key, "068") == 0 || strcmp(model_key, "06F") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5030 / ISW5031
-
-            else if (strcmp(model_key, "070") == 0 || strcmp(model_key, "071") == 0 || strcmp(model_key, "072") == 0 || strcmp(model_key, "073") == 0 || strcmp(model_key, "074") == 0 || strcmp(model_key, "075") == 0 || strcmp(model_key, "076") == 0 || strcmp(model_key, "077") == 0)
-                return MODEL_IS_TASTA_PRO_AUDIO; // ISW6031 (+ smart stick)
-
-            else if (strcmp(model_key, "078") == 0 || strcmp(model_key, "079") == 0 || strcmp(model_key, "07A") == 0 || strcmp(model_key, "07B") == 0 || strcmp(model_key, "07C") == 0 || strcmp(model_key, "07D") == 0 || strcmp(model_key, "07E") == 0 || strcmp(model_key, "07F") == 0)
-                return MODEL_IS_TASTA_PRO_AUDIO; // ISW6010 (+ smart stick)
-
-            else if (strcmp(model_key, "080") == 0 || strcmp(model_key, "081") == 0 || strcmp(model_key, "082") == 0 || strcmp(model_key, "083") == 0 || strcmp(model_key, "084") == 0 || strcmp(model_key, "085") == 0 || strcmp(model_key, "086") == 0 || strcmp(model_key, "087") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISW7030 / TC70
-
-            else if (strcmp(model_key, "088") == 0 || strcmp(model_key, "089") == 0 || strcmp(model_key, "08A") == 0 || strcmp(model_key, "08B") == 0 || strcmp(model_key, "08C") == 0 || strcmp(model_key, "08D") == 0 || strcmp(model_key, "08E") == 0 || strcmp(model_key, "08F") == 0)
-                return MODEL_IS_SENSO_PRO_VIDEO; // IVW7510 (+ smart stick)
-
-            else if (strcmp(model_key, "180") == 0 || strcmp(model_key, "181") == 0 || strcmp(model_key, "182") == 0 || strcmp(model_key, "183") == 0 || strcmp(model_key, "184") == 0 || strcmp(model_key, "185") == 0 || strcmp(model_key, "186") == 0 || strcmp(model_key, "187") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISH7030
-
-            else if (strcmp(model_key, "188") == 0 || strcmp(model_key, "189") == 0 || strcmp(model_key, "18A") == 0 || strcmp(model_key, "18B") == 0 || strcmp(model_key, "18C") == 0 || strcmp(model_key, "18D") == 0 || strcmp(model_key, "18E") == 0 || strcmp(model_key, "18F") == 0)
-                return MODEL_IS_SENSO_PRO_VIDEO; // IVH7510
-
-            else if (strcmp(model_key, "C70") == 0 || strcmp(model_key, "C71") == 0 || strcmp(model_key, "C72") == 0 || strcmp(model_key, "C73") == 0 || strcmp(model_key, "C74") == 0 || strcmp(model_key, "C75") == 0 || strcmp(model_key, "C76") == 0 || strcmp(model_key, "C77") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISW7030 / TC70 (+ smart stick)
-
-            else if (strcmp(model_key, "C90") == 0 || strcmp(model_key, "C91") == 0 || strcmp(model_key, "C92") == 0 || strcmp(model_key, "C93") == 0 || strcmp(model_key, "C94") == 0 || strcmp(model_key, "C95") == 0 || strcmp(model_key, "C96") == 0 || strcmp(model_key, "C97") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISWM7000 (+ smart stick)
-
-            else if (strcmp(model_key, "C80") == 0 || strcmp(model_key, "C81") == 0 || strcmp(model_key, "C82") == 0 || strcmp(model_key, "C83") == 0 || strcmp(model_key, "C84") == 0 || strcmp(model_key, "C85") == 0 || strcmp(model_key, "C86") == 0 || strcmp(model_key, "C87") == 0)
-                return MODEL_IS_SENSO_PRO_VIDEO; // IVWM7000 (+ smart stick)
-
-            else if (strcmp(model_key, "800") == 0 || strcmp(model_key, "805") == 0)
-                return MODEL_IS_ECOOS; // IVW2210
-
-            else if (strcmp(model_key, "807") == 0)
-                return MODEL_IS_ECOOS; // IVW2211
-
-            else if (strcmp(model_key, "80C") == 0)
-                return MODEL_IS_ECOOS; // IVW2212
-
-            else if (strcmp(model_key, "810") == 0) return MODEL_IS_IVW2220;
-            else if (strcmp(model_key, "815") == 0) return MODEL_IS_IVW2221;
-            else if (strcmp(model_key, "820") == 0) return MODEL_IS_IVW3011;
-            else if (strcmp(model_key, "830") == 0) return MODEL_IS_IVW3012;
-
-            else if (strcmp(model_key, "C01") == 0) return MODEL_IS_VMH;
-            else if (strcmp(model_key, "C00") == 0) return MODEL_IS_VML;
-            else if (strcmp(model_key, "C02") == 0) return MODEL_IS_VMF;
-            else if (strcmp(model_key, "400") == 0) return MODEL_IS_ISW42X0;
-            else if (strcmp(model_key, "410") == 0) return MODEL_IS_TKIS;
-            else if (strcmp(model_key, "420") == 0) return MODEL_IS_TKISV;
-            else if (strcmp(model_key, "208") == 0) return MODEL_IS_CAIXXXX;
-            else if (strcmp(model_key, "809") == 0) return MODEL_IS_CAI2000;
-            else if (strcmp(model_key, "280") == 0) {
-                return (fw_version >= 512) ? MODEL_IS_VTC42V2 : MODEL_IS_VTC40;
+            if (e.device_group == device_group && e.model_key == model_key && fw_version >= e.fw_min && fw_version <= e.fw_max)
+            {
+                return e.model;
             }
-            else if (strcmp(model_key, "281") == 0) {
-                return (fw_version >= 512) ? MODEL_IS_TC40V2 : MODEL_IS_TC40;
-            }
-        
-            else if (strcmp(model_key, "194") == 0) return MODEL_IS_IVW9030;
-            else if (strcmp(model_key, "1E8") == 0) return MODEL_IS_IVW9010;
-            else if (strcmp(model_key, "1EA") == 0) return MODEL_IS_IVW9110;
-            else if (strcmp(model_key, "1E9") == 0) return MODEL_IS_IVW9011;
-            else if (strcmp(model_key, "1B3") == 0 || strcmp(model_key, "1B4") == 0 || strcmp(model_key, "1B5") == 0)
-                return MODEL_IS_IVE70;
         }
-        else if(device_group == 2)
-        {
-            if (strcmp(model_key, "420") == 0 && fw_version < 2624) return MODEL_AS_PUK;
-            else if (strcmp(model_key, "4E0") == 0) return MODEL_AS_PUK_DSP;
-
-            else if ((strcmp(model_key, "420") == 0 && fw_version >= 2624)) return MODEL_AS_PDS0X;
-            else if ((strcmp(model_key, "430") == 0 && fw_version >= 2656)) return MODEL_AS_PES;
-
-            else if (strcmp(model_key, "400") == 0) return MODEL_AS_PAKV2;
-            else if (strcmp(model_key, "280") == 0 || strcmp(model_key, "270") == 0) return MODEL_AS_PAKV3;
-            else if (strcmp(model_key, "C00") == 0 || strcmp(model_key, "C00") == 0 || strcmp(model_key, "C01") == 0 || strcmp(model_key, "C02") == 0 || strcmp(model_key, "C03") == 0 || strcmp(model_key, "C04") == 0 || strcmp(model_key, "C05") == 0 || strcmp(model_key, "C06") == 0 || strcmp(model_key, "C09") == 0 || strcmp(model_key, "D09") == 0)
-                return MODEL_AS_TCU3;
-            else if (strcmp(model_key, "C20") == 0 || strcmp(model_key, "C21") == 0 || strcmp(model_key, "C22") == 0 || strcmp(model_key, "C23") == 0 || strcmp(model_key, "C24") == 0 || strcmp(model_key, "C25") == 0 || strcmp(model_key, "C26") == 0)
-                return MODEL_AS_TCU4;
-        }
-        else if(device_group == 4)
-        {
-            if (strcmp(model_key, "008") == 0) return MODEL_CTRL_BVS30;
-            else if (strcmp(model_key, "010") == 0) return MODEL_CTRL_NBV3210;
-            else if (strcmp(model_key, "009") == 0) return MODEL_CTRL_VBVS30;
-            else if (strcmp(model_key, "D2D") == 0) return MODEL_CTRL_NBV2600;
-        }
-        else
-        {
-            // Other device groups
-            // Not implemented
-        }
-
         return MODEL_NONE;
+    }
+
+    uint16_t model_to_identifier(Model model)
+    {
+        for (const ModelEntry& e : MODEL_TABLE)
+        {
+            if (e.model == model)
+            {
+                return e.model_key;
+            }
+        }
+        return 0x000;
     }
 
     const ModelMapping model_mappings[] = {
@@ -314,6 +393,7 @@ namespace esphome::tc_bus
         {MODEL_CTRL_NBV3210, "TCS NBV3210"},
         {MODEL_CTRL_VBVS30, "TCS VBVS30"},
         {MODEL_CTRL_NBV2600, "TCS NBV2600"},
+        {MODEL_CTRL_VBVS05, "TCS VBVS05"},
         {MODEL_CTRL_DEBUG, "DEBUG CONTROLLER"},
         {MODEL_EXT_TRE2, "TCS TRE2"},
         {MODEL_EXT_DEBUG, "DEBUG EXTENSION"}
@@ -1036,6 +1116,7 @@ namespace esphome::tc_bus
             case MODEL_CTRL_NBV3210:
             case MODEL_CTRL_VBVS30:
             case MODEL_CTRL_NBV2600:
+            case MODEL_CTRL_VBVS05:
                 modelData.device_group = 4;
                 modelData.memory_size = 0;
                 break;

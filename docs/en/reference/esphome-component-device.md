@@ -39,7 +39,8 @@ The `tc_bus_device` Number Input platform offers the following configuration opt
 | Option                         | Description                                                                                                   | Required | Default       |
 |--------------------------------|---------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `tc_bus_device_id`             | ID of the related `tc_bus_device` instance.                                                                   | ✅ | |
-| `serial_number`                | Serial Number Input to set the serial number of the predefined bus device.                                    | | |
+| `serial_number`                | Serial Number Input to set the serial number of the predefined bus device.                                    | ✅ | |
+| `parallel_serial_number`       | Parallel Serial Number Input to set the parallel serial number of the predefined bus device.                  | | |
 | `address`                      | Address Number Input to set the address for the outdoor station.                                              | | |
 | `volume_handset_door_call`     | Door Call Handset Volume Number Input to set the handset volume for door calls of the indoor station.         | | |
 | `volume_handset_internal_call` | Internal Call Handset Volume Number Input to set the handset volume for internal calls of the indoor station. | | |
@@ -56,7 +57,7 @@ The `tc_bus_device` Select platform offers the following configuration options:
 | Option                               | Description                                                                                                    | Required | Default       |
 |--------------------------------------|----------------------------------------------------------------------------------------------------------------|----------|---------------|
 | `tc_bus_device_id`                   | ID of the related `tc_bus_device` instance.                                                                    | ✅ | |
-| `model`                              | Model Select to set the model of the device (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| No | `None` |
+| `model`                              | Model Select to set the model of the device (used to read and write settings). Take a look at the [supported models and settings](#model-setting-availability).| ✅ | |
 | `ringtone_entrance_door_call`        | Select to set the entrance door call ringtone of the indoor station. | | |
 | `ringtone_second_entrance_door_call` | Select to set the second entrance door call ringtone of the indoor station. | | |
 | `ringtone_floor_call`                | Select to set the floor call ringtone of the indoor station. | | |
@@ -378,6 +379,7 @@ tc_bus_device:
   - id: my_tc_bus_indoor_station_device
     type: indoor_station
     auto_configuration: true
+    # Optional
     on_read_memory_complete:
       - lambda: |-
           std::string hexString = str_upper_case(format_hex(x));
@@ -403,6 +405,9 @@ number:
     tc_bus_device_id: my_tc_bus_indoor_station_device
     serial_number:
       name: "Serial Number"
+    # Optional
+    parallel_serial_number:
+      name: "Parallel Serial Number"
     volume_ringtone:
       name: "Volume: Ringtone"
     volume_handset_door_call:
@@ -415,6 +420,7 @@ select:
     tc_bus_device_id: my_tc_bus_indoor_station_device
     model:
       name: "Model"
+    # Optional
     ringtone_entrance_door_call:
       name: "Ringtone: Entrance Door Call"
     ringtone_second_entrance_door_call:
@@ -427,14 +433,18 @@ select:
 switch:
   - platform: tc_bus_device
     tc_bus_device_id: my_tc_bus_indoor_station_device
+    # Optional
     use_long_door_opener:
       name: "Enforce long Door Opener Telegram"
     ringtone_mute:
       name: "Ringtone: Mute"
+    call_time_unlimited:
+      name: "Call Time Unlimited"
 
 button:
   - platform: tc_bus_device
     tc_bus_device_id: my_tc_bus_indoor_station_device
+    # Optional
     identify_device:
       name: "Identify Device"
     read_memory:
@@ -463,6 +473,7 @@ tc_bus_device:
   - id: my_tc_bus_indoor_station_device
     type: indoor_station
     virtual: true
+    # Optional
     on_incoming_call:
       - logger.log: "Incoming call from indoor- or outdoor station"
     on_call_started:
@@ -477,12 +488,13 @@ number:
     tc_bus_device_id: my_tc_bus_indoor_station_device
     serial_number:
       name: "Serial Number"
-
+    # Optional
+    parallel_serial_number:
+      name: "Parallel Serial Number"
     # If the calling address is > address divider,
     # it's the second outdoor station, otherwise the first.
     address_divider:
       name: "AS Address Divider"
-
     # 8 - 120 sec. (0 is unlimited)
     call_time_duration:
       name: "Maximum call duration"
@@ -496,6 +508,7 @@ select:
 switch:
   - platform: tc_bus_device
     tc_bus_device_id: my_tc_bus_indoor_station_device
+    # Optional
     use_long_door_opener:
       name: "Always use long door opener Telegram"
     auto_answer_call:
@@ -518,6 +531,7 @@ tc_bus_device:
   - id: my_tc_bus_outdoor_station_device
     type: outdoor_station
     virtual: true
+    # Optional
     on_incoming_call:
       - logger.log: "Incoming call from indoor station"
     on_call_started:
@@ -532,27 +546,30 @@ number:
     tc_bus_device_id: my_tc_bus_outdoor_station_device
     serial_number:
       name: "Serial Number"
-    
-    # With a single outdoor station the address,
-    # the address is usually 0
+    # Optional
+    # With a single outdoor station the address is usually 0
     address:
       name: "Address"
-
     # 8 - 120 sec. (0 is unlimited)
     call_time_duration:
       name: "Maximum call duration"
-
     # 8 - 120 sec. (0 is unlimited)
     door_readiness_duration:
       name: "Door readiness duration"
-
     # 0 - 15 sec.
     door_opener_duration:
       name: "Door opener duration"
 
+select:
+  - platform: tc_bus_device
+    tc_bus_device_id: my_tc_bus_outdoor_station_device
+    model:
+      name: "Model"
+
 switch:
   - platform: tc_bus_device
     tc_bus_device_id: my_tc_bus_outdoor_station_device
+    # Optional
     address_lock:
       name: "Address Lock"
     calling_requires_door_readiness:
@@ -561,12 +578,6 @@ switch:
       name: "Door Opener requires active call"
     door_opener_requires_door_readiness:
       name: "Door Opener requires door readiness"
-
-select:
-  - platform: tc_bus_device
-    tc_bus_device_id: my_tc_bus_outdoor_station_device
-    model:
-      name: "Model"
 ```
 :::
 

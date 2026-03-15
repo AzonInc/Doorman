@@ -36,9 +36,6 @@ number:
     serial_number:
       id: virtual_outdoor_station_serial_number
       name: "Virtual AS Serial Number"
-
-  - platform: tc_bus_device
-    tc_bus_device_id: virtual_outdoor_station
     address:
       id: virtual_outdoor_station_address
       name: "Virtual AS Address"

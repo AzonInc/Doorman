@@ -16,7 +16,7 @@ DoorOpenerRequiresDoorReadiness = tc_bus_ns.class_("DoorOpenerRequiresDoorReadin
 AddressLockSwitch = tc_bus_ns.class_("AddressLockSwitch", switch.Switch, cg.Component)
 CallTimeUnlimitedSwitch = tc_bus_ns.class_("CallTimeUnlimitedSwitch", switch.Switch, cg.Component)
 
-CONF_FORCE_LONG_DOOR_OPENER_PROTOCOL = "force_long_door_opener_protocol"
+CONF_USE_LONG_DOOR_OPENER_PROTOCOL = "use_long_door_opener_protocol"
 CONF_RINGTONE_MUTE = "ringtone_mute"
 CONF_AUTO_ANSWER_CALL = "auto_answer_call"
 CONF_CALLING_REQUIRES_DOOR_READINESS = "calling_requires_door_readiness"
@@ -28,7 +28,7 @@ CONF_CALL_TIME_UNLIMITED = "call_time_unlimited"
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
-        cv.Optional(CONF_FORCE_LONG_DOOR_OPENER_PROTOCOL): switch.switch_schema(
+        cv.Optional(CONF_USE_LONG_DOOR_OPENER_PROTOCOL): switch.switch_schema(
             UseLongDoorOpenerProtocolSwitch,
             device_class=DEVICE_CLASS_SWITCH,
             entity_category=ENTITY_CATEGORY_CONFIG,
@@ -82,10 +82,10 @@ CONFIG_SCHEMA = cv.Schema(
 async def to_code(config):
     tc_bus_device_component = await cg.get_variable(config[CONF_TC_BUS_DEVICE_ID])
 
-    if force_long_door_opener_protocol := config.get(CONF_FORCE_LONG_DOOR_OPENER_PROTOCOL):
-        s = await switch.new_switch(force_long_door_opener_protocol)
+    if use_long_door_opener_protocol := config.get(CONF_USE_LONG_DOOR_OPENER_PROTOCOL):
+        s = await switch.new_switch(use_long_door_opener_protocol)
         await cg.register_parented(s, config[CONF_TC_BUS_DEVICE_ID])
-        cg.add(tc_bus_device_component.set_force_long_door_opener_protocol_switch(s))
+        cg.add(tc_bus_device_component.set_use_long_door_opener_protocol_switch(s))
 
     if ringtone_mute := config.get(CONF_RINGTONE_MUTE):
         s = await switch.new_switch(ringtone_mute)

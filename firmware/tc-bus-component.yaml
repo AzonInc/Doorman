@@ -129,15 +129,15 @@ select:
 switch:
   - platform: tc_bus_device
     tc_bus_device_id: my_indoor_station
-    force_long_door_opener_protocol:
-      name: "IS1: Enforce long Door Opener Telegram"
+    use_long_door_opener_protocol:
+      name: "IS1: Always use long Door Opener Telegram"
     ringtone_mute:
       name: "IS1: Ringtone Mute"
 
   - platform: tc_bus_device
     tc_bus_device_id: my_indoor_station2
-    force_long_door_opener_protocol:
-      name: "IS2: Enforce long Door Opener Telegram"
+    use_long_door_opener_protocol:
+      name: "IS2: Always use long Door Opener Telegram"
     ringtone_mute:
       name: "IS2: Ringtone Mute"
 

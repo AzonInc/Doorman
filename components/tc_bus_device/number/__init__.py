@@ -37,7 +37,7 @@ CONF_DOOR_OPENER_DURATION = "door_opener_duration"
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
-        cv.Optional(CONF_SERIAL_NUMBER): number.number_schema(
+        cv.Required(CONF_SERIAL_NUMBER): number.number_schema(
             SerialNumberNumber,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:numeric"
@@ -117,7 +117,6 @@ async def to_code(config):
         await cg.register_parented(n, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_address_number(n))
 
-    # Physical Device
     if volume_handset_door_call := config.get(CONF_VOLUME_HANDSET_DOOR_CALL):
         n = await number.new_number(
             volume_handset_door_call, min_value=0, max_value=7, step=1
@@ -139,7 +138,6 @@ async def to_code(config):
         await cg.register_parented(n, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_volume_ringtone_number(n))
 
-    # Virtual Device
     if address_divider := config.get(CONF_ADDRESS_DIVIDER):
         n = await number.new_number(
             address_divider, min_value=0, max_value=63, step=1

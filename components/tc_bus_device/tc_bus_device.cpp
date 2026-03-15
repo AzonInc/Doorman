@@ -69,7 +69,7 @@ namespace esphome::tc_bus
         this->door_readiness_duration_ = recovered.door_readiness_duration;
         this->call_time_duration_ = recovered.call_time_duration;
         this->door_opener_duration_ = recovered.door_opener_duration;
-        this->force_long_door_opener_protocol_ = recovered.force_long_door_opener_protocol;
+        this->use_long_door_opener_protocol_ = recovered.use_long_door_opener_protocol;
         this->auto_answer_call_ = recovered.auto_answer_call;
         this->call_time_unlimited_ = recovered.call_time_unlimited;
         this->calling_requires_door_readiness_ = recovered.calling_requires_door_readiness;
@@ -117,9 +117,9 @@ namespace esphome::tc_bus
             }
 
             #ifdef USE_SWITCH
-            if (this->force_long_door_opener_protocol_switch_ != nullptr)
+            if (this->use_long_door_opener_protocol_switch_ != nullptr)
             {
-                this->force_long_door_opener_protocol_switch_->publish_state(this->force_long_door_opener_protocol_);
+                this->use_long_door_opener_protocol_switch_->publish_state(this->use_long_door_opener_protocol_);
             }
             if (this->auto_answer_call_switch_ != nullptr)
             {
@@ -337,7 +337,7 @@ namespace esphome::tc_bus
         settings.door_readiness_duration = this->door_readiness_duration_;
         settings.call_time_duration = this->call_time_duration_;
         settings.door_opener_duration = this->door_opener_duration_;
-        settings.force_long_door_opener_protocol = this->force_long_door_opener_protocol_;
+        settings.use_long_door_opener_protocol = this->use_long_door_opener_protocol_;
         settings.auto_answer_call = this->auto_answer_call_;
         settings.call_time_unlimited = this->call_time_unlimited_;
         settings.calling_requires_door_readiness = this->calling_requires_door_readiness_;
@@ -376,7 +376,8 @@ namespace esphome::tc_bus
 
         if(this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
         {
-            ESP_LOGCONFIG(TAG, "  Force long door opener protocol: %s", YESNO(this->force_long_door_opener_protocol_));
+            ESP_LOGCONFIG(TAG, "  Parallel Serial Number: %i", this->parallel_serial_number_);
+            ESP_LOGCONFIG(TAG, "  Always use long door opener protocol: %s", YESNO(this->use_long_door_opener_protocol_));
         }
 
         #ifdef USE_BUTTON
@@ -387,7 +388,7 @@ namespace esphome::tc_bus
 
         #ifdef USE_SWITCH
         ESP_LOGCONFIG(TAG, "  Switches:");
-        LOG_SWITCH("    ", "Force long door opener protocol", this->force_long_door_opener_protocol_switch_);
+        LOG_SWITCH("    ", "Always use long door opener protocol", this->use_long_door_opener_protocol_switch_);
         LOG_SWITCH("    ", "Ringtone Mute", this->ringtone_mute_switch_);
         LOG_SWITCH("    ", "Auto answer call", this->auto_answer_call_switch_);
         LOG_SWITCH("    ", "Call Time Unlimited", this->call_time_unlimited_switch_);
@@ -472,14 +473,22 @@ namespace esphome::tc_bus
                 if(this->memory_mode_)
                 {
                     this->memory_mode_ = false;
-                    ESP_LOGW(TAG, "MEMORY MODE FALSE");
+                    ESP_LOGD(TAG, "MEMORY MODE OFF");
                 }
             }
             else if(telegram_data.type == TELEGRAM_TYPE_SELECT_MEMORY_PAGE && telegram_data.serial_number == this->serial_number_)
             {
                 this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+
                 this->memory_mode_ = true;
-                return true;
+                ESP_LOGD(TAG, "MEMORY MODE ON");
+            }
+            else if (telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION && telegram_data.serial_number == this->serial_number_)
+            {
+                // HW version 1, FW version 2.9.12
+                uint16_t identifier = model_to_identifier(this->model_);
+                const uint32_t payload = ((uint32_t)0x1 << 28) | ((uint32_t)identifier << 16) | (0xD << 12) | 0x29C;
+                this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_DATA, 0, payload);
             }
             else if(telegram_data.type == TELEGRAM_TYPE_STOP_TALKING || telegram_data.type == TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL)
             {
@@ -655,15 +664,6 @@ namespace esphome::tc_bus
                         this->reset_call();
                     }
                 }
-                else if (telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION && telegram_data.serial_number == this->serial_number_)
-                {
-                    // TODO: use actual model identifier selected
-
-                    // TASTA PRO AUDIO
-                    // Version 2.9.12
-                    // + Smart Stick
-                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_DATA, 0, 0x007ED29C);
-                }
             }
             else if(this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
             {
@@ -768,14 +768,6 @@ namespace esphome::tc_bus
                         this->cancel_timeout("door_readiness_timeout");
                         this->tc_bus_->send_telegram(TELEGRAM_TYPE_INITIALIZE_DOOR_STATION, this->address_);
                     }
-                }
-                else if (telegram_data.type == TELEGRAM_TYPE_REQUEST_VERSION && telegram_data.serial_number == this->serial_number_)
-                {
-                    // TODO: use actual model identifier selected
-
-                    // PUK
-                    // Version 2.9.12
-                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_DATA, 0, 0x0420D29C);
                 }
                 else if ((telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG) && telegram_data.address == this->address_)
                 {
@@ -896,34 +888,25 @@ namespace esphome::tc_bus
                     ModelData device;
                     device.device_group = this->tc_bus_->get_selected_device_group();
                     device.memory_size = 0;
-                    
-                    const char* hex = telegram_data.hex;
 
-                    if (hex[4] == 'D')
+                    if (((telegram_data.raw >> 12) & 0xF) == 0xD)
                     {
                         // New models
 
+                        // Hardware version
+                        device.hardware_version = (telegram_data.raw >> 28) & 0xF;
+
+                        const uint16_t model_key = (telegram_data.raw >> 16) & 0xFFF;
+                        const uint32_t fw_version = telegram_data.raw & 0xFFF;
+
                         // FW Version
-                        char fw_buf[4] = { hex[5], hex[6], hex[7], '\0' };
-                        device.firmware_version = strtol(fw_buf, nullptr, 16);
+                        device.firmware_version = fw_version;
+                        device.firmware_major   = (fw_version >> 8) & 0xF;
+                        device.firmware_minor   = (fw_version >> 4) & 0xF;
+                        device.firmware_patch   =  fw_version       & 0xF;
 
-                        // Firmware major, minor, patch (1 char each)
-                        char tmp[2] = {0};
-                        tmp[0] = hex[5];
-                        device.firmware_major = strtol(tmp, nullptr, 16);
-                        tmp[0] = hex[6];
-                        device.firmware_minor = strtol(tmp, nullptr, 16);
-                        tmp[0] = hex[7];
-                        device.firmware_patch = strtol(tmp, nullptr, 16);
-
-                        // Hardware version (first char, decimal)
-                        tmp[0] = hex[0];
-                        tmp[1] = '\0';
-                        device.hardware_version = strtol(tmp, nullptr, 10);
-
-                        // Model string (substring 1-3)
-                        char model_buf[4] = { hex[1], hex[2], hex[3], '\0' };
-                        device.model = identifier_string_to_model(device.device_group, model_buf, device.hardware_version, device.firmware_version);
+                        // Model
+                        device.model = identifier_to_model(device.device_group, model_key, device.hardware_version, fw_version);
                     }
                     else
                     {
@@ -1024,6 +1007,7 @@ namespace esphome::tc_bus
                                         "  Note: Please open an issue and provide your logs in order to implement support for this device model.",
                                         device_group_to_string(device.device_group),
                                         telegram_data.hex);
+
                         #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
                         this->identify_unknown_callback_.call();
                         #endif
@@ -1069,10 +1053,11 @@ namespace esphome::tc_bus
             reading_memory_count_ = 0;
             reading_memory_max_ = 0;
 
+            ESP_LOGE(TAG, "Memory reading canceled!");
+
             #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
             this->read_memory_timeout_callback_.call();
             #endif
-            ESP_LOGE(TAG, "Memory reading canceled!");
 
             // Complete this request and process next in queue
             this->complete_current_flow();
@@ -1405,9 +1390,9 @@ namespace esphome::tc_bus
             {
                 this->auto_answer_call_switch_->publish_state(get_setting(SETTING_AUTO_ANSWER_CALL) == 1);
             }
-            if (this->force_long_door_opener_protocol_switch_)
+            if (this->use_long_door_opener_protocol_switch_)
             {
-                this->force_long_door_opener_protocol_switch_->publish_state(get_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL) == 1);
+                this->use_long_door_opener_protocol_switch_->publish_state(get_setting(SETTING_USE_LONG_DOOR_OPENER_PROTOCOL) == 1);
             }
             if (this->call_time_unlimited_switch_)
             {
@@ -1583,9 +1568,8 @@ namespace esphome::tc_bus
             {
                 type = TELEGRAM_TYPE_OPEN_DOOR_LONG;
             }
-            else if(this->force_long_door_opener_protocol_)
+            else if(this->use_long_door_opener_protocol_)
             {
-                ESP_LOGV(TAG, "Detected 32-bit door protocol override, change telegram telegram to OPEN_DOOR_LONG.");
                 type = TELEGRAM_TYPE_OPEN_DOOR_LONG;
             }
         }
@@ -2250,7 +2234,7 @@ namespace esphome::tc_bus
             }
             else if(type == SETTING_USE_LONG_DOOR_OPENER_PROTOCOL)
             {
-                return this->force_long_door_opener_protocol_ ? 1 : 0;
+                return this->use_long_door_opener_protocol_ ? 1 : 0;
             }
             else if(type == SETTING_AUTO_ANSWER_CALL)
             {
@@ -2380,7 +2364,7 @@ namespace esphome::tc_bus
             }
             else if(type == SETTING_USE_LONG_DOOR_OPENER_PROTOCOL)
             {
-                this->force_long_door_opener_protocol_ = (new_value != 0);
+                this->use_long_door_opener_protocol_ = (new_value != 0);
             }
             else if(type == SETTING_AUTO_ANSWER_CALL)
             {
