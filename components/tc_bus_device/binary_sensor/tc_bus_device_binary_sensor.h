@@ -12,4 +12,9 @@ namespace esphome::tc_bus
             void turn_off(uint32_t *timer) override;
     };
 
+    class DoorOpenerBinarySensor final : public binary_sensor::BinarySensor, public Parented<TCBusDeviceComponent> {
+      public:
+        DoorOpenerBinarySensor() = default;
+    };
+
 }

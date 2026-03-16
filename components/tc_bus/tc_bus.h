@@ -46,14 +46,7 @@ namespace esphome::tc_bus
         TelegramData telegram_data;
         uint32_t wait_duration;
     };
-
-    enum class DecoderState : uint8_t {
-        WAIT_FOR_START = 0,
-        LENGTH_BIT = 1,
-        DATA_BITS = 2,
-        CRC_BIT = 3,
-    };
-
+    
     static constexpr uint16_t PULSE_FILTER              = 1500;
     static constexpr uint16_t PULSE_START               = 6000;
     static constexpr uint16_t PULSE_START_MIN_US        = 5700;

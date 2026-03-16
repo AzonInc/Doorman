@@ -26,13 +26,13 @@ namespace esphome::tc_bus
         this->parent_->update_setting(SETTING_CALLING_REQUIRES_DOOR_READINESS, value);
     }
 
-    void DoorOpenerRequiresActiveCall::write_state(bool value)
+    void DoorOpenerRequiresActiveCallSwitch::write_state(bool value)
     {
         this->publish_state(value);
         this->parent_->update_setting(SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL, value);
     }
 
-    void DoorOpenerRequiresDoorReadiness::write_state(bool value)
+    void DoorOpenerRequiresDoorReadinessSwitch::write_state(bool value)
     {
         this->publish_state(value);
         this->parent_->update_setting(SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS, value);

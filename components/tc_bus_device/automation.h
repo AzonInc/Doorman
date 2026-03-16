@@ -29,7 +29,7 @@ namespace esphome::tc_bus
     class TCBusDeviceUpdateSettingAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
     {
         TEMPLATABLE_VALUE(SettingType, type)
-        TEMPLATABLE_VALUE(uint8_t, value)
+        TEMPLATABLE_VALUE(uint16_t, value)
 
         public:
             void play(const Ts &...x) override {
@@ -201,15 +201,6 @@ namespace esphome::tc_bus
         public:
             explicit CallFailedTrigger(TCBusDeviceComponent *parent) {
                 parent->add_call_failed_callback([this]() { this->trigger(); });
-            }
-    };
-    #endif
-
-    #ifdef USE_DOOR_OPENER_CALLBACK
-    class DoorOpenerTrigger : public Trigger<> {
-        public:
-            explicit DoorOpenerTrigger(TCBusDeviceComponent *parent) {
-                parent->add_door_opener_callback([this](const bool &value) { this->trigger(value); });
             }
     };
     #endif

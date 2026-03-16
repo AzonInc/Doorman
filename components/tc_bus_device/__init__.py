@@ -2,7 +2,7 @@ from logging import config
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import automation
-from esphome.const import CONF_ID, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE
+from esphome.const import CONF_ID, CONF_TRIGGER_ID, CONF_TYPE, CONF_VALUE, ENTITY_CATEGORY_DIAGNOSTIC
 from ..tc_bus import tc_bus_ns, TCBusComponent, CONF_TC_BUS_ID, TELEGRAM_TYPE, TELEGRAM_TYPES
 
 AUTO_LOAD = ["tc_bus"]
@@ -114,11 +114,6 @@ CallEndedTrigger = tc_bus_ns.class_(
 
 CallFailedTrigger = tc_bus_ns.class_(
     "CallFailedTrigger", 
-    automation.Trigger.template()
-)
-
-DoorOpenerTrigger = tc_bus_ns.class_(
-    "DoorOpenerTrigger", 
     automation.Trigger.template()
 )
 
@@ -300,8 +295,6 @@ CONF_ON_CALL_STARTED = "on_call_started"
 CONF_ON_CALL_ENDED = "on_call_ended"
 CONF_ON_CALL_FAILED = "on_call_failed"
 
-CONF_ON_DOOR_OPENER = "on_door_opener"
-
 def validate_config(config):
     device_group = config.get(CONF_TYPE)
     is_virtual = config.get(CONF_VIRTUAL, False)
@@ -311,8 +304,7 @@ def validate_config(config):
         CONF_ON_INCOMING_CALL,
         CONF_ON_CALL_STARTED,
         CONF_ON_CALL_ENDED,
-        CONF_ON_CALL_FAILED,
-        CONF_ON_DOOR_OPENER,
+        CONF_ON_CALL_FAILED
     ]
     for key in virtual_only_keys:
         if key in config and not is_virtual:
@@ -336,9 +328,6 @@ def validate_config(config):
     for key in [CONF_ON_INCOMING_CALL, CONF_ON_CALL_STARTED, CONF_ON_CALL_ENDED, CONF_ON_CALL_FAILED]:
         if key in config and device_group not in ("indoor_station", "outdoor_station"):
             raise cv.Invalid(f"'{key}' is only compatible with virtual 'indoor_station' and 'outdoor_station' devices.", path=[key])
-
-    if CONF_ON_DOOR_OPENER in config and device_group != "outdoor_station":
-        raise cv.Invalid(f"'{CONF_ON_DOOR_OPENER}' is only compatible with virtual outdoor-stations.", path=[CONF_ON_DOOR_OPENER])
 
     return config
 
@@ -395,12 +384,7 @@ CONFIG_SCHEMA = cv.Schema(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(CallFailedTrigger),
             }
-        ),
-        cv.Optional(CONF_ON_DOOR_OPENER): automation.validate_automation(
-            {
-                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(DoorOpenerTrigger),
-            }
-        ),
+        )
     }
 )
 
@@ -480,12 +464,6 @@ async def to_code(config):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             await automation.build_automation(trigger, [], conf)
 
-    if CONF_ON_DOOR_OPENER in config:
-        cg.add_define("USE_DOOR_OPENER_CALLBACK")
-        for conf in config.get(CONF_ON_DOOR_OPENER, []):
-            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-            await automation.build_automation(trigger, [(cg.bool_, "active")], conf)
-
 
 TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
     cv.Schema(
@@ -522,7 +500,7 @@ TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA = cv.All(
     {
         cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent),
         cv.Required(CONF_TYPE): cv.templatable(cv.enum(SETTING_TYPES, upper=False)),
-        cv.Required(CONF_VALUE): cv.templatable(cv.hex_uint8_t)
+        cv.Required(CONF_VALUE): cv.templatable(cv.hex_uint32_t)
     })
 )
 
@@ -538,7 +516,7 @@ async def tc_bus_device_update_setting_to_code(config, action_id, template_args,
     type_template = await cg.templatable(config[CONF_TYPE], args, SETTING_TYPE)
     cg.add(var.set_type(type_template))
 
-    value_template = await cg.templatable(config[CONF_VALUE], args, cg.uint8)
+    value_template = await cg.templatable(config[CONF_VALUE], args, cg.uint32)
     cg.add(var.set_value(value_template))
 
     return var

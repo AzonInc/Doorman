@@ -39,6 +39,8 @@ namespace esphome::tc_bus
     static constexpr uint32_t CALL_TIMEOUT_MS = 60000;
     static constexpr uint32_t CALL_TIME_LIMIT_MS = 120000;
 
+    static constexpr uint16_t ACK_TIMEOUT_MS = 30;
+
     enum FlowType
     {
         FLOW_NONE,
@@ -134,6 +136,9 @@ namespace esphome::tc_bus
 #ifdef USE_BUTTON
         SUB_BUTTON(read_memory);
         SUB_BUTTON(identify_device);
+#endif
+#ifdef USE_BINARY_SENSOR
+        SUB_BINARY_SENSOR(door_opener);
 #endif
 
     public:
@@ -271,13 +276,6 @@ namespace esphome::tc_bus
             this->call_failed_callback_.add(std::move(callback));
         }
         #endif
-
-        #ifdef USE_DOOR_OPENER_CALLBACK
-        void add_door_opener_callback(std::function<void(bool)> &&callback)
-        {
-            this->door_opener_callback_.add(std::move(callback));
-        }
-        #endif
         
     protected:
         // Telegram binary listeners
@@ -355,9 +353,6 @@ namespace esphome::tc_bus
         #endif
         #ifdef USE_CALL_FAILED_CALLBACK
         CallbackManager<void()> call_failed_callback_{};
-        #endif
-        #ifdef USE_DOOR_OPENER_CALLBACK
-        CallbackManager<void(bool)> door_opener_callback_{};
         #endif
 
         // Misc

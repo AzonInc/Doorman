@@ -531,7 +531,7 @@ namespace esphome::tc_bus
                     // 4. receive acknowledge from outdoor station to initiate call
 
                     // Door call from outdoor station
-                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001);
                     this->call_internal_ = false;
                     this->call_from_parallel_sn_ = (telegram_data.serial_number == this->parallel_serial_number_ && telegram_data.serial_number == this->serial_number_);
                     this->call_address_ = telegram_data.address;
@@ -549,7 +549,7 @@ namespace esphome::tc_bus
                     // 4. receive acknowledge from outdoor station to initiate call
 
                     // Internal call from another indoor station
-                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+                    this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001);
                     this->call_internal_ = true;
                     this->call_address_ = telegram_data.address;
                     this->call_state_ = CallState::IN_RINGING;
@@ -568,14 +568,14 @@ namespace esphome::tc_bus
                     if(this->call_state_ == CallState::OUT_RINGING && this->call_address_ == telegram_data.serial_number)
                     {
                         // out: acknowledge talk
-                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 3);
+                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001); // full duplex
                         this->call_state_ = CallState::CONNECTED;
-
-                        ESP_LOGD(TAG, "Connected to another indoor station");
 
                         // reset ack timeouts
                         this->cancel_timeout("wait_for_call_ack");
                         this->cancel_timeout("wait_for_talking_ack");
+
+                        ESP_LOGD(TAG, "Connected to another indoor station");
 
                         #ifdef USE_CALL_STARTED_CALLBACK
                         this->call_started_callback_.call(telegram_data);
@@ -611,7 +611,9 @@ namespace esphome::tc_bus
                         // reset call ack timeout
                         this->cancel_timeout("wait_for_call_ack");
 
-                        ESP_LOGD(TAG, "Indoor Station acknowledged, waiting for start talking");
+                        bool ringtone_muted = telegram_data.raw & (1 << 1);
+
+                        ESP_LOGD(TAG, "Indoor Station acknowledged (%s), waiting for start talking", ringtone_muted ? "ringtone muted" : "ringing");
 
                         // wait for start talking telegram
                         this->set_timeout("wait_for_talking_ack", CALL_TIMEOUT_MS, [this]() {
@@ -625,7 +627,15 @@ namespace esphome::tc_bus
                     }
                     else if(this->call_state_ == CallState::IN_WAIT_FOR_INIT)
                     {
+                        // reset ack timeouts
+                        this->cancel_timeout("wait_for_call_ack");
+                        this->cancel_timeout("wait_for_talking_ack");
+
                         this->call_state_ = CallState::CONNECTED;
+
+                        bool full_duplex = telegram_data.raw & (1 << 3);
+
+                        ESP_LOGD(TAG, "Talking acknowledged: %s duplex", full_duplex ? "full" : "half");
 
                         #ifdef USE_CALL_STARTED_CALLBACK
                         TelegramData telegram_data_cb;
@@ -650,15 +660,11 @@ namespace esphome::tc_bus
 
                         this->call_started_callback_.call(telegram_data_cb);
                         #endif
-
-                        // reset ack timeouts
-                        this->cancel_timeout("wait_for_call_ack");
-                        this->cancel_timeout("wait_for_talking_ack");
                     }
                 }
-                else if (telegram_data.type == TELEGRAM_TYPE_RESET)
+                else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
                 {
-                    if(this->tc_bus_->get_selected_device_group() == this->device_group_)
+                    if(this->tc_bus_->get_selected_device_group() == this->device_group_ || telegram_data.serial_number == this->serial_number_)
                     {
                         this->memory_mode_ = false;
                         this->reset_call();
@@ -690,16 +696,18 @@ namespace esphome::tc_bus
                         else
                         {
                             // out: acknowledge talk
-                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 3);
+                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001); // full duplex
                             this->call_state_ = CallState::CONNECTED;
 
-                            #ifdef USE_CALL_STARTED_CALLBACK
-                            this->call_started_callback_.call(telegram_data);
-                            #endif
+                            ESP_LOGD(TAG, "Connected to indoor station (full duplex)");
 
                             // reset ack timeouts
                             this->cancel_timeout("wait_for_call_ack");
                             this->cancel_timeout("wait_for_talking_ack");
+
+                            #ifdef USE_CALL_STARTED_CALLBACK
+                            this->call_started_callback_.call(telegram_data);
+                            #endif
 
                             // call time limit
                             if(this->call_time_duration_ != 0)
@@ -737,8 +745,10 @@ namespace esphome::tc_bus
                         // reset call ack timeout
                         this->cancel_timeout("wait_for_call_ack");
 
-                        ESP_LOGD(TAG, "Indoor Station acknowledged, waiting for start talking");
+                        bool ringtone_muted = telegram_data.raw & (1 << 1);
 
+                        ESP_LOGD(TAG, "Indoor Station acknowledged (muted: %s), waiting for start talking", ringtone_muted ? "ringtone muted" : "ringing");
+                        
                         // wait for start talking telegram
                         this->set_timeout("wait_for_talking_ack", CALL_TIMEOUT_MS, [this]() {
                             this->reset_call();
@@ -759,16 +769,6 @@ namespace esphome::tc_bus
                         }
                     }
                 }
-                else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
-                {
-                    if(this->tc_bus_->get_selected_device_group() == this->device_group_)
-                    {
-                        this->memory_mode_ = false;
-                        this->reset_call();
-                        this->cancel_timeout("door_readiness_timeout");
-                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_INITIALIZE_DOOR_STATION, this->address_);
-                    }
-                }
                 else if ((telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG) && telegram_data.address == this->address_)
                 {
                     // Open door command received from indoor station
@@ -777,21 +777,40 @@ namespace esphome::tc_bus
                         if(this->door_opener_requires_active_call_ == false || (this->door_opener_requires_active_call_ && this->call_state_ == CallState::CONNECTED))
                         {
                             // Ack door opened
-                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001);
 
                             this->cancel_timeout("door_opener_timeout");
 
                             ESP_LOGD(TAG, "Turn on door opener");
 
-                            #ifdef USE_DOOR_OPENER_CALLBACK
-                            this->door_opener_callback_.call(true);
-                            
+                            #ifdef USE_BINARY_SENSOR
+                            if (this->door_opener_binary_sensor_ != nullptr)
+                            {
+                                this->door_opener_binary_sensor_->publish_state(true);
+                            }
+                            #endif
+
                             this->set_timeout("door_opener_timeout", this->door_opener_duration_ * 1000, [this]() {
                                 ESP_LOGD(TAG, "Time elapsed - turn off door opener");
-                                this->door_opener_callback_.call(false);
+
+                                #ifdef USE_BINARY_SENSOR
+                                if (this->door_opener_binary_sensor_ != nullptr)
+                                {
+                                    this->door_opener_binary_sensor_->publish_state(false);
+                                }
+                                #endif
                             });
-                            #endif
                         }
+                    }
+                }
+                else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
+                {
+                    if(this->tc_bus_->get_selected_device_group() == this->device_group_ || telegram_data.serial_number == this->serial_number_)
+                    {
+                        this->memory_mode_ = false;
+                        this->reset_call();
+                        this->cancel_timeout("door_readiness_timeout");
+                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_INITIALIZE_DOOR_STATION, this->address_);
                     }
                 }
             }
@@ -1128,7 +1147,7 @@ namespace esphome::tc_bus
                 this->tc_bus_->send_telegram(TELEGRAM_TYPE_INTERNAL_CALL, 63, 0, destination);
 
                 // ack timeout
-                this->set_timeout("wait_for_call_ack", 20, [this]() {
+                this->set_timeout("wait_for_call_ack", ACK_TIMEOUT_MS, [this]() {
                     this->reset_call();
                     ESP_LOGE(TAG, "Call failed - No response from indoor station");
 
@@ -1145,7 +1164,7 @@ namespace esphome::tc_bus
                 this->tc_bus_->send_telegram(TELEGRAM_TYPE_START_TALKING_DOOR_CALL, destination, this->tc_bus_->is_door_readiness_active() ? 1 : 0, this->serial_number_);
                 
                 // ack timeout
-                this->set_timeout("wait_for_talking_ack", 20, [this]() {
+                this->set_timeout("wait_for_talking_ack", ACK_TIMEOUT_MS, [this]() {
                     this->reset_call();
                     ESP_LOGE(TAG, "Call timeout - No answer from outdoor station");
 
@@ -1169,7 +1188,7 @@ namespace esphome::tc_bus
             this->tc_bus_->send_telegram(TELEGRAM_TYPE_DOOR_CALL, this->address_, 0, destination);
             
             // ack timeout
-            this->set_timeout("wait_for_call_ack", 20, [this]() {
+            this->set_timeout("wait_for_call_ack", ACK_TIMEOUT_MS, [this]() {
                 this->reset_call();
                 ESP_LOGE(TAG, "Call failed - No response from indoor station");
 
@@ -1198,9 +1217,10 @@ namespace esphome::tc_bus
         this->call_state_ = CallState::IN_WAIT_FOR_INIT;
         
         // ack timeout
-        this->set_timeout("wait_for_talking_ack", 20, [this]() {
+        this->set_timeout("wait_for_talking_ack", ACK_TIMEOUT_MS, [this]() {
+            ESP_LOGE(TAG, "Call timeout - no answer from other device %s station", this->call_internal_ ? "indoor" : "outdoor");
+
             this->reset_call();
-            ESP_LOGE(TAG, "Call timeout - no answer from outdoor station");
 
             #ifdef USE_CALL_FAILED_CALLBACK
             this->call_failed_callback_.call();

@@ -48,13 +48,12 @@ The Doorman S3 uses certain GPIO pins for specific functions and provides additi
 | :----- | :-----|
 | GPIO01 | Red Status LED |
 | GPIO02 | SK6812B RGB Status LED |
-| GPIO05 | SIEDLE:IN-HOME-BUS TX Data |
-| GPIO06 | SIEDLE:IN-HOME-BUS TX Carrier |
+| GPIO05 | SIEDLE:IN-HOME-BUS TX Carrier |
+| GPIO06 | SIEDLE:IN-HOME-BUS TX Data |
 | GPIO07 | Free I/O via Extension Board Connector |
 | GPIO08 | TC:BUS TX |
-| GPIO09 | TC:BUS RX |
-| GPIO10 | SIEDLE:IN-HOME-BUS RX Carrier |
-| GPIO11 | SIEDLE:IN-HOME-BUS RX Data |
+| GPIO09 | TC:BUS RX / SIEDLE:IN-HOME-BUS RX Carrier |
+| GPIO10 | SIEDLE:IN-HOME-BUS RX Data |
 | GPIO12 | Free I/O via Extension Board Connector |
 | GPIO13 | I²C CLK via Extension Board Connector |
 | GPIO14 | I²C DAT via Extension Board Connector |

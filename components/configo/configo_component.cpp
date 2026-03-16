@@ -165,7 +165,7 @@ namespace esphome::configo
     // Received data from configo software
     bool ConfigoComponent::parse_configo_byte_(uint8_t byte)
     {
-      ESP_LOGD(TAG, "Parse Configo Byte: 0x%02X", byte);
+      ESP_LOGVV(TAG, "Parse Configo Byte: 0x%02X", byte);
 
       if(byte == 0x01)
       {

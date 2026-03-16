@@ -62,7 +62,7 @@ def get_packages(host, api_variant, firmware, branch):
         ('debug_component_psram', '!include ../components/debug-component.psram.yaml', (branch == 'dev' or branch == 'local') and has_psram),
         
         # Add configo for local tests
-        ('configo', '!include ../components/configo.yaml', branch == 'local'),
+        # ('configo', '!include ../components/configo.yaml', branch == 'local'),
 
         # Add virtual devices for local tests
         ('virtual_devices', '!include ../components/virtual-devices.yaml', branch == 'local'),

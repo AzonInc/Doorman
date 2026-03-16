@@ -376,7 +376,7 @@ namespace esphome::tc_bus
 
         // Generate telegram HEX
         size_t pos = 0;
-        size_t len =  data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 1 : 3);
+        size_t len =  data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
         for (int i = len; i >= 0; --i) {
             uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
             data.hex[pos++] = "0123456789ABCDEF"[nibble];
@@ -629,7 +629,7 @@ namespace esphome::tc_bus
 
         // Generate telegram HEX
         size_t pos = 0;
-        size_t len = data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 1 : 3);
+        size_t len = data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
         for (int i = len; i >= 0; --i) {
             uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
             data.hex[pos++] = "0123456789ABCDEF"[nibble];

@@ -23,7 +23,7 @@ CONF_RINGTONE_INTERNAL_CALL = "ringtone_internal_call"
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
-        cv.Required(CONF_MODEL): select.select_schema(
+        cv.Optional(CONF_MODEL): select.select_schema(
             ModelSelect,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:doorbell-video"

@@ -439,6 +439,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3130: /* TC50P */
                 modelData.device_group = 1;
@@ -451,6 +453,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3230: /* TC50 GFA */
                 modelData.device_group = 1;
@@ -463,6 +467,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3330: /* TC50 BW */
                 modelData.device_group = 1;
@@ -475,6 +481,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3340:
                 modelData.device_group = 1;
@@ -487,6 +494,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TASTA_AUDIO: /* Koch 60 Series Audio */
             case MODEL_IS_TASTA_PRO_AUDIO:
@@ -506,6 +514,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TASTA_VIDEO: /* Koch 60 Series Video */
             case MODEL_IS_TASTA_PRO_VIDEO:
@@ -526,6 +536,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_SENSO_PRO_AUDIO:  /* Koch 70 Series Audio */
                 modelData.device_group = 1;
@@ -538,10 +550,13 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_SENSO_PRO_VIDEO:  /* Koch 70 Series Video */
                 modelData.device_group = 1;
@@ -555,10 +570,13 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ECOOS:
                 modelData.device_group = 1;
@@ -571,6 +589,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 // Supported? Not documented
                 //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 break;
@@ -583,6 +604,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IMM2100: /* TCE31 */
                 modelData.device_group = 1;
@@ -593,6 +617,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_VTC42V2:
                 modelData.device_group = 1;
@@ -606,6 +633,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TC40V2:
                 modelData.device_group = 1;
@@ -618,6 +648,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_VTC40:
                 modelData.device_group = 1;
@@ -631,6 +664,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TC40:
                 modelData.device_group = 1;
@@ -643,6 +679,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TC2000:
                 modelData.device_group = 1;
@@ -650,6 +689,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TC20P:
                 modelData.device_group = 1;
@@ -658,6 +698,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TC20F:
                 modelData.device_group = 1;
@@ -666,6 +707,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IVW2220:
                 modelData.device_group = 1;
@@ -678,6 +720,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IVW2221:
                 modelData.device_group = 1;
@@ -690,6 +735,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IVW3011:
                 modelData.device_group = 1;
@@ -702,6 +750,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IVW3012:
                 modelData.device_group = 1;
@@ -714,6 +765,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TKIS:
                 modelData.device_group = 1;
@@ -726,6 +780,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TKISV:
                 modelData.device_group = 1;
@@ -739,6 +795,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_CAI2000:
                 modelData.device_group = 1;
@@ -751,6 +809,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_CAIXXXX:
                 modelData.device_group = 1;
@@ -762,6 +823,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW42X0:
                 modelData.device_group = 1;
@@ -773,15 +837,16 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
 
             // Group 0
             case MODEL_IS_ISH3022:
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                // Volume is set directly on hardware
-                // Might not be supported
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_ISH3130: /* TCH50P */
                 modelData.device_group = 0;
@@ -794,6 +859,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
                 break;
             case MODEL_IS_ISH3230: /* TCH50 GFA */
                 modelData.device_group = 0;
@@ -806,6 +873,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
                 break;
             case MODEL_IS_ISH3030: /* TCH50 */
                 modelData.device_group = 0;
@@ -818,6 +887,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
                 break;
             case MODEL_IS_ISH1030: /* TTS25 */
                 modelData.device_group = 0;
@@ -825,6 +896,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TTCXX:
                 modelData.device_group = 0;
@@ -832,6 +904,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TTSXX:
                 modelData.device_group = 0;
@@ -839,6 +912,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1000: /* TCH30 */
                 modelData.device_group = 0;
@@ -851,6 +925,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1100: /* TCHE30 */
                 modelData.device_group = 0;
@@ -863,6 +938,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1300: /* VTCH30 */
                 modelData.device_group = 0;
@@ -875,6 +951,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1500:
                 modelData.device_group = 0;
@@ -887,6 +964,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1310: /* VTCHE30 */
                 modelData.device_group = 0;
@@ -899,6 +977,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1110: /* TCHEE30 */
                 modelData.device_group = 0;
@@ -911,6 +990,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IVH3222: /* VTCH50 */
                 modelData.device_group = 0;
@@ -921,8 +1001,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                // Has Hardware Switch, might not be supported
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IVH4222: /* VTCH50/2D */
                 modelData.device_group = 0;
@@ -933,8 +1012,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                // Has Hardware Switch, might not be supported
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_VMH:
                 modelData.device_group = 0;
@@ -948,6 +1026,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_VML:
                 modelData.device_group = 0;
@@ -961,6 +1040,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_VMF:
                 modelData.device_group = 0;
@@ -974,6 +1054,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 break;
 
             case MODEL_IS_IVW9010:

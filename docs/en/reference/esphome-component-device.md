@@ -27,7 +27,6 @@ The `tc_bus_device` component offers the following configuration options:
 | `on_call_started`         | Defines actions to be triggered when the virtual device is connected to a call. Returns a `TelegramData` object as the `x` variable.          | | |
 | `on_call_ended`           | Defines actions to be triggered when the virtual device is disconnected from a call. Returns a `TelegramData` object as the `x` variable.     | | |
 | `on_call_failed`          | Defines actions to be triggered when the virtual device fails to call another indoor or outdoor station.                                      | | |
-| `on_door_opener`          | Defines actions to be triggered when the virtual outdoor station triggers the door opener.                                                    | | |
 
 ## Automatic Configuration <Badge type="warning" text="Only physical" />
 If you enable the `auto_configuration` option, the component automatically attempts to identify the device model as soon as the serial number is set.
@@ -88,18 +87,30 @@ The `tc_bus_device` Button platform offers the following configuration options:
 | `read_memory`         | This reads the device memory if supported into a memory buffer. Take a look at the [supported models and settings](#model-setting-availability). | | |
 
 ## Binary Sensors
-The `tc_bus_device` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram.
+The `tc_bus_device` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or on special cases.
 
+### Base Options
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
 | `id`             | Unique ID for the binary sensor component.                                                               | ✅ |               |
 | `tc_bus_device_id` | ID of the related `tc_bus_device` instance.                                                            | ✅ |               |
+| `sensor_type`    | Can be used as telegram listener or door opener state for virtual outdoor stations. Available options: `telegram`, `virtual_door_opener`. If set to `telegram`, the options below apply.| ✅ | `telegram`          |
 | `icon`           | Icon to represent the sensor in the UI.                                                                  | | `mdi:doorbell`|
 | `name`           | Name of the binary sensor.                                                                               | | `Doorbell`    |
+
+### Sensor Type: `telegram`
+This sensor type supports advanced triggering options, enabling it to respond to specific received telegrams.
+
+| Option           | Description                                                                                              | Required | Default       |
+|------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | | `3s`          |
-| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `payload`.               | ✅ | `unknown`     |
+| `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `payload`.               | ✅ |      |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | | `0`           |
 | `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.                                  | | `0`           |
+
+### Sensor Type: `virtual_door_opener`
+This sensor type replaces the physical door opener when using a virtual outdoor station.
+It allows you to trigger a relay connected to a buzzer or door release mechanism to open the door. The activation duration follows the door opener time configured for the virtual outdoor station.
 
 ## Callbacks
 ### Read Memory Complete <Badge type="tip" text="on_read_memory_complete" /> <Badge type="warning" text="Only physical" />
@@ -202,20 +213,6 @@ This callback allows you to detect when the incoming or outgoing call failed.
 ```yaml
 on_call_failed:
   - logger.log: "Call failed!"
-```
-
-### Door Opener <Badge type="tip" text="on_door_opener" /> <Badge type="warning" text="Only virtual" />
-This callback allows you to handle the door opener. The current state is available as the `active` variable.
-
-```yaml
-on_door_opener:
-  - if:
-      condition:
-        lambda: !lambda "return active;"
-      then:
-        - logger.log: "Turn on door opener"
-      else:
-        - logger.log: "Turn off door opener"
 ```
 
 ## Actions
@@ -578,6 +575,16 @@ switch:
       name: "Door Opener requires active call"
     door_opener_requires_door_readiness:
       name: "Door Opener requires door readiness"
+
+binary_sensor:
+  - platform: tc_bus_device
+    tc_bus_device_id: my_tc_bus_outdoor_station_device
+    sensor_type: virtual_door_opener
+    name: "Door Opener Active"
+    on_press:
+      - logger.log: Turn on door opener
+    on_release:
+      - logger.log: Turn off door opener
 ```
 :::
 
@@ -687,7 +694,7 @@ struct ModelData {
     uint8_t firmware_major = 0;
     uint8_t firmware_minor = 0;
     uint8_t firmware_patch = 0;
-    uint8_t hardware_version = 0; 
+    uint8_t hardware_version = 0;
     
     uint8_t device_group = 0;
     uint8_t memory_size = 0;
@@ -719,7 +726,7 @@ Here are the available setting types you can use to update the settings of your 
 - vas_address_divider <Badge type="tip" text="SETTING_VAS_ADDRESS_DIVIDER" />
 - use_long_door_opener_protocol <Badge type="tip" text="SETTING_USE_LONG_DOOR_OPENER_PROTOCOL" />
 - no_ambient_light_in_standby <Badge type="tip" text="SETTING_NO_AMBIENT_LIGHT_IN_STANDBY" />
-- call_time_duration <Badge type="tip" text="SETTING_CALL_TIME_DURATION" />
+- call_time_unlimited <Badge type="tip" text="SETTING_CALL_TIME_UNLIMITED" />
 - auto_answer_call <Badge type="tip" text="SETTING_AUTO_ANSWER_CALL" />
 
 ### Outdoor Station
@@ -743,55 +750,55 @@ Below is a list of available settings for specific indoor station models:
 
 | Model                        | Available settings |
 |------------------------------|--------------------|
-| TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS ISH3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call` |
-| TCS ISW3030 / Koch TC50 / Scantron Stilux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS ISW3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS ISW3130 / Koch TC50P     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call` |
-| TCS IVH4222 / Koch VTCH50/2D | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call` |
-| TCS ISW3330 / Koch TC50 BW   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS TASTA Audio / Koch 60 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS TASTA Video / Koch 60 Series Video / Scantron VIVO | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS TASTA PRO Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS TASTA PRO Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS SENSO PRO Audio / Koch 70 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `use_long_door_opener_protocol` |
-| TCS SENSO PRO Video / Koch 70 Series Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `use_long_door_opener_protocol` |
-| TCS ECOOS / Koch ecoos / Scantron SLIM60T | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider` |
-| TCS ISW4100 / Koch TC31      | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `as_address_divider` |
-| TCS IMM2100 / Koch TCE31     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `as_address_divider` |
-| TCS VTC42V2                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider` |
-| TCS TC40V2                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS VTC40                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider` |
-| TCS TC40                     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IMM1000 / Koch TCH30     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IMM1100 / Koch TCHE30    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IMM1300 / Koch VTCH30    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IMM1310 / Koch VTCHE30   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IMM1110 / Koch TCHEE30   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IMM1500                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| TCS IVW2220 / Koch Sky       | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider` |
-| TCS IVW2221 / Koch Sky R1.00 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider` |
-| TCS IVW3011 / Koch Skyline Plus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider` |
-| TCS IVW3012 / Koch Skyline/Aldup | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider` |
-| TCS VMH / Koch VMH | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider` |
-| TCS VML / Koch VML | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider` |
-| TCS VMF / Koch VMF | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider` |
-| Jung TKIS                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider` |
-| Jung TKISV                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider` |
-| TCS CAIXXXX / Koch CAIXXXX   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `as_address_divider` |
-| TCS CAI2000 / Koch Carus     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `as_address_divider`, `vas_address_divider` |
-| TCS ISW42X0                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `as_address_divider` |
-| TCS TC20P                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call` |
-| TCS TC20F                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call` |
-| TCS TC2000                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
-| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
-| TCS TTC-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
-| TCS TTS-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call` |
-| TCS ISH3022                  | None |
+| TCS ISH3030 / Koch TCH50 / Scantron Lux2 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited` |
+| TCS ISH3130 / Koch TCH50P / Scantron LuxPlus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited` |
+| TCS ISH3230 / Koch TCH50 GFA | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited` |
+| TCS ISH3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `parallel_serial_number` |
+| TCS ISW3030 / Koch TC50 / Scantron Stilux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS ISW3230 / Koch TC50 GFA  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS ISW3340                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `auto_answer_call` |
+| TCS ISW3130 / Koch TC50P     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `parallel_serial_number` |
+| TCS IVH4222 / Koch VTCH50/2D | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `parallel_serial_number` |
+| TCS ISW3330 / Koch TC50 BW   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `auto_answer_call` |
+| TCS TASTA Audio / Koch 60 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
+| TCS TASTA Video / Koch 60 Series Video / Scantron VIVO | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
+| TCS TASTA PRO Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
+| TCS TASTA PRO Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
+| TCS SENSO PRO Audio / Koch 70 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol` |
+| TCS SENSO PRO Video / Koch 70 Series Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol` |
+| TCS ECOOS / Koch ecoos / Scantron SLIM60T | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS ISW4100 / Koch TC31      | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS IMM2100 / Koch TCE31     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS VTC42V2                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS TC40V2                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS VTC40                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS TC40                     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS IMM1000 / Koch TCH30     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number` |
+| TCS IMM1100 / Koch TCHE30    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number` |
+| TCS IMM1300 / Koch VTCH30    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number` |
+| TCS IMM1310 / Koch VTCHE30   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number` |
+| TCS IMM1110 / Koch TCHEE30   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number` |
+| TCS IMM1500                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number` |
+| TCS IVW2220 / Koch Sky       | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS IVW2221 / Koch Sky R1.00 | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS IVW3011 / Koch Skyline Plus | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS IVW3012 / Koch Skyline/Aldup | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS VMH / Koch VMH | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number` |
+| TCS VML / Koch VML | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number` |
+| TCS VMF / Koch VMF | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number` |
+| Jung TKIS                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `auto_answer_call` |
+| Jung TKISV                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `auto_answer_call` |
+| TCS CAIXXXX / Koch CAIXXXX   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS CAI2000 / Koch Carus     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS ISW42X0                  | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `volume_ringtone`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |
+| TCS TC20P                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `parallel_serial_number` |
+| TCS TC20F                    | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `parallel_serial_number` |
+| TCS TC2000                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `parallel_serial_number` |
+| TCS ISH1030 / Koch TTS25     | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `parallel_serial_number` |
+| TCS TTC-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `parallel_serial_number` |
+| TCS TTS-XX                   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_internal_call`, `parallel_serial_number` |
+| TCS ISH3022                  | `parallel_serial_number` |
 | TCS IVW9010 | None |
 | TCS IVW9011 / Koch VTP10 | None |
 | TCS IVW9110 | None |
@@ -803,16 +810,16 @@ Below is a list of available settings for specific outdoor station models:
 
 | Model     | Available settings |
 |-----------|--------------------|
-| TCS PAKV2    | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows` |
-| TCS PAKV3    | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows` |
-| TCS PUK      | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows` |
-| TCS PUK-DSP  | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows` |
-| TCS PES      | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows` |
-| TCS PDS0X    | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows`, `has_code_lock` |
-| TCS PDS0X/04 | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness`, `button_rows`, `has_code_lock` |
-| TCS TCU2     | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness` |
-| TCS TCU3     | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness` |
-| TCS TCU4     | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `talking_requires_door_readiness` |
+| TCS PAKV2    | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows` |
+| TCS PAKV3    | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows` |
+| TCS PUK      | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows` |
+| TCS PUK-DSP  | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows` |
+| TCS PES      | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows` |
+| TCS PDS0X    | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows`, `has_code_lock` |
+| TCS PDS0X/04 | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness`, `door_opener_requires_active_call`, `button_rows`, `has_code_lock` |
+| TCS TCU2     | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness` |
+| TCS TCU3     | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness` |
+| TCS TCU4     | `as_address`, `as_address_lock`, `door_opener_duration`, `door_readiness_duration`, `call_time_duration`, `calling_requires_door_readiness`, `door_opener_requires_door_readiness` |
 
 ### Controller
 Below is a list of available settings for specific controller models:

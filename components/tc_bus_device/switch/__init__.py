@@ -11,8 +11,8 @@ UseLongDoorOpenerProtocolSwitch = tc_bus_ns.class_("UseLongDoorOpenerProtocolSwi
 RingtoneMuteSwitch = tc_bus_ns.class_("RingtoneMuteSwitch", switch.Switch, cg.Component)
 AutoAnswerCallSwitch = tc_bus_ns.class_("AutoAnswerCallSwitch", switch.Switch, cg.Component)
 CallingRequiresDoorReadinessSwitch = tc_bus_ns.class_("CallingRequiresDoorReadinessSwitch", switch.Switch, cg.Component)
-DoorOpenerRequiresActiveCall = tc_bus_ns.class_("DoorOpenerRequiresActiveCall", switch.Switch, cg.Component)
-DoorOpenerRequiresDoorReadiness = tc_bus_ns.class_("DoorOpenerRequiresDoorReadiness", switch.Switch, cg.Component)
+DoorOpenerRequiresActiveCallSwitch = tc_bus_ns.class_("DoorOpenerRequiresActiveCallSwitch", switch.Switch, cg.Component)
+DoorOpenerRequiresDoorReadinessSwitch = tc_bus_ns.class_("DoorOpenerRequiresDoorReadinessSwitch", switch.Switch, cg.Component)
 AddressLockSwitch = tc_bus_ns.class_("AddressLockSwitch", switch.Switch, cg.Component)
 CallTimeUnlimitedSwitch = tc_bus_ns.class_("CallTimeUnlimitedSwitch", switch.Switch, cg.Component)
 
@@ -53,13 +53,13 @@ CONFIG_SCHEMA = cv.Schema(
             icon="mdi:todo"
         ),
         cv.Optional(CONF_DOOR_OPENER_REQUIRES_ACTIVE_CALL): switch.switch_schema(
-            DoorOpenerRequiresActiveCall,
+            DoorOpenerRequiresActiveCallSwitch,
             device_class=DEVICE_CLASS_SWITCH,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:todo"
         ),
         cv.Optional(CONF_DOOR_OPENER_REQUIRES_DOOR_READINESS): switch.switch_schema(
-            DoorOpenerRequiresDoorReadiness,
+            DoorOpenerRequiresDoorReadinessSwitch,
             device_class=DEVICE_CLASS_SWITCH,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:todo"

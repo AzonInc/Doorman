@@ -16,34 +16,43 @@ This is the only component required for communication on the bus. However, it ca
 ## Configuration
 The `tc_bus` hub serves as the central component enabling bus communication. It provides the following configuration options:
 
-| Option                    | Description                                                                                                                                   | Required | Default       |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| `id`                      | Unique ID for the component.                                                                                                                  | Yes      |               |
-| `receiver_id`             | ID of remote_receiver for receiving data from the TC:BUS.                                                                            | No       | The configured remote_receiver |
-| `transmitter_id`          | ID of remote_transmitter for transmitting data to the TC:BUS. Should be connected to the transistor.                                 | No       | The configured remote_receiver |
-| `on_telegram`             | Defines actions to be triggered when a telegram is received from the TC:BUS. Returns a `TelegramData` struct as the `x` variable.          | No       |               |
+| Option                    | Description                                                                                                                       | Required | Default       |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `id`                      | Unique ID for the component.                                                                                                      | ✅ | |
+| `rx_pin`                  | GPIO pin for receiving data from the TC:BUS.                                                                                      | | `GPIO09` |
+| `tx_pin`                  | GPIO pin for transmitting data to the TC:BUS. Should be connected to the transistor.                                              | | `GPIO08` |
+| `on_telegram`             | Defines actions to be triggered when a telegram is received from the TC:BUS. Returns a `TelegramData` struct as the `x` variable. | | |
 
 ## Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
 
 | Option                 | Description                                                | Required | Default       |
 |------------------------|------------------------------------------------------------|----------|---------------|
-| `bus_telegram`         | Displays the most recently received bus telegram, showing the full communication traffic from all connected devices. | No       |               |
+| `bus_telegram`         | Displays the most recently received bus telegram, showing the full communication traffic from all connected devices. | | |
 
 ## Binary Sensors
-The `tc_bus` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram.
+The `tc_bus` Binary Sensor detects binary states such as doorbell presses. It can be configured to trigger based on a predefined telegram or on special cases.
+
+### Base Options
+| Option           | Description                                                                                              | Required | Default       |
+|------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
+| `id`             | Unique ID for the binary sensor component.                                                               | ✅ | |
+| `tc_bus_id`      | ID of the related `tc_bus` instance.                                                                     | | |
+| `sensor_type`    | Can be used as telegram listener. Available options: `telegram`. If set to `telegram`, the options below apply.| ✅ | `telegram`          |
+| `icon`           | Icon to represent the sensor in the UI.                                                                  | | `mdi:doorbell`|
+| `name`           | Name of the binary sensor.                                                                               | | `Doorbell`    |
+
+### Sensor Type: `telegram`
+This sensor type supports advanced triggering options, enabling it to respond to specific received telegrams.
 
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
-| `id`             | Unique ID for the binary sensor component.                                                               | Yes      |               |
-| `icon`           | Icon to represent the sensor in the UI.                                                                  | No       | `mdi:doorbell`|
-| `name`           | Name of the binary sensor.                                                                               | No       | `Doorbell`    |
-| `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | No       | `3s`          |
-| `telegram`        | A specific 32-bit hexadecimal telegram that triggers the binary sensor when received from the TC:BUS.| Yes       | `0`           |
-| `type`           | Telegram type that will trigger the binary sensor, used alongside `address`, `payload` and `serial_number`. Cannot be used with `telegram`.  | Yes       | `unknown`     |
-| `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | No       | `0`           |
-| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | No       | `0`           |
-| `serial_number`  | Specific device serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | No       | `unknown`     |
+| `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | | `3s`          |
+| `telegram`        | A specific 32-bit hexadecimal telegram that triggers the binary sensor when received from the TC:BUS.| ✅ | `0`           |
+| `type`           | Telegram type that will trigger the binary sensor, used alongside `address`, `payload` and `serial_number`. Cannot be used with `telegram`.  | ✅ | |
+| `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | | `0`           |
+| `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | | `0`           |
+| `serial_number`  | Specific device serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | | `0` |
 
 ::: info
 You can use **either** `telegram` **or** a combination of `type`, `address`, `payload`, and `serial_number`, but **not both** simultaneously.  
@@ -55,14 +64,15 @@ The `tc_bus` Lock platform can be configured to trigger based on a predefined ou
 
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
-| `id`             | Unique ID for the lock component.                                                                        | Yes      |               |
-| `icon`           | Icon to represent the lock in the UI.                                                                    | No       | `mdi:door`    |
-| `name`           | Name of the lock.                                                                                        | No       | `Entrance Door` |
-| `auto_lock`      | Time period after which the lock resets the virtual state to `locked`.                                   | No       | `5s`          |
-| `address`        | 8-bit address that serves as a condition to trigger the lock. If you set it to `255`, it will catch all addresses. | No       | `0`           |
-| `before_unlock_action` | Defines actions to be triggered before the `open_door` telegram is sent.                           | No       |               |
-| `after_unlock_action` | Defines actions to be triggered after the `open_door` telegram is sent.                             | No       |               |
-| `lock_action`    | Defines actions to be triggered when the lock state is changed back to locked.                           | No       |               |
+| `id`             | Unique ID for the lock component.                                                                        | ✅ | |
+| `tc_bus_id`      | ID of the related `tc_bus` instance.                                                                     | | |
+| `icon`           | Icon to represent the lock in the UI.                                                                    | | `mdi:door` |
+| `name`           | Name of the lock.                                                                                        | | `Entrance Door` |
+| `auto_lock`      | Time period after which the lock resets the virtual state to `locked`.                                   | | `5s` |
+| `address`        | 8-bit address that serves as a condition to trigger the lock. If you set it to `255`, it will catch all addresses. | | `0` |
+| `before_unlock_action` | Defines actions to be triggered before the `open_door` telegram is sent.                           | | |
+| `after_unlock_action` | Defines actions to be triggered after the `open_door` telegram is sent.                             | | |
+| `lock_action`    | Defines actions to be triggered when the lock state is changed back to locked.                           | | |
 
 
 
@@ -132,23 +142,11 @@ external_components:
   - source: github://azoninc/doorman@master
     components: [ tc_bus ]
 
-## RMT configuration
-remote_receiver:
-  pin:
-    number: GPIO9
-    mode: INPUT
-  filter: 1500us
-  idle: 7000us
-
-remote_transmitter:
-  pin:
-    number: GPIO8
-    mode: OUTPUT
-  carrier_duty_percent: 100%
-
 # TC:BUS configuration
 tc_bus:
   id: my_tc_bus
+  rx_pin: GPIO9
+  tx_pin: GPIO8
   on_telegram:
     - logger.log: "Received telegram from bus!"
 
@@ -168,7 +166,6 @@ lock:
 
 text_sensor:
   - platform: tc_bus
-    tc_bus_id: my_tc_bus
     bus_telegram:
       name: "Last Bus Telegram"
 

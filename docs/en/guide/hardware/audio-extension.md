@@ -9,7 +9,7 @@ description: Audio extension board for the Doorman S3
 
 This extension board adds full audio capability to your Doorman S3. It allows you to both listen and transmit audio back through the intercom bus.
 
-The board is built around the [ES8388](http://www.everest-semi.com/pdf/ES8388%20DS.pdf) audio codec, providing high-quality analog-to-digital and digital-to-analog conversion for reliable two-way audio communication.
+The board is built around the [ES8311](http://www.everest-semi.com/pdf/ES8311%20PB.pdf) audio codec, providing high-quality analog-to-digital and digital-to-analog conversion for reliable two-way audio communication with echo cancellation.
 
    </div>
    <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
@@ -20,10 +20,6 @@ The board is built around the [ES8388](http://www.everest-semi.com/pdf/ES8388%20
 ::: danger LIMITATIONS
 The extension board connector on the Doorman core board was introduced in revision `2.0.0` and is unfortunately not available on earlier versions. A Doorman core board of revision `2.0.0` or later is required in order to connect extension boards.
 :::
-
-## Audio channels
-
-The extension board provides two audio channels: the first handles intercom bus audio through the `L1` and `R1` inputs and `L1` output, with `L1` output also feeding directly into `R1` input, which acts as a differential signal to filter the output and reduce noise. `R1` output can also serve independently as a line-level output. The second channel offers `L2` and `R2` outputs for line-level audio and `L2` and `R2` inputs for additional line-level sources.
 
 ## Assembly
 

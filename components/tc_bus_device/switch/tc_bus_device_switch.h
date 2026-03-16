@@ -37,17 +37,17 @@ namespace esphome::tc_bus
         void write_state(bool value) override;
     };
 
-    class DoorOpenerRequiresActiveCall final : public switch_::Switch, public Parented<TCBusDeviceComponent> {
+    class DoorOpenerRequiresActiveCallSwitch final : public switch_::Switch, public Parented<TCBusDeviceComponent> {
       public:
-        DoorOpenerRequiresActiveCall() = default;
+        DoorOpenerRequiresActiveCallSwitch() = default;
 
       protected:
         void write_state(bool value) override;
     };
 
-    class DoorOpenerRequiresDoorReadiness final : public switch_::Switch, public Parented<TCBusDeviceComponent> {
+    class DoorOpenerRequiresDoorReadinessSwitch final : public switch_::Switch, public Parented<TCBusDeviceComponent> {
       public:
-        DoorOpenerRequiresDoorReadiness() = default;
+        DoorOpenerRequiresDoorReadinessSwitch() = default;
 
       protected:
         void write_state(bool value) override;

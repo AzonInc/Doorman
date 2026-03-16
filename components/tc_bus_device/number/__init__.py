@@ -37,7 +37,7 @@ CONF_DOOR_OPENER_DURATION = "door_opener_duration"
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_TC_BUS_DEVICE_ID): cv.use_id(TCBusDeviceComponent),
-        cv.Required(CONF_SERIAL_NUMBER): number.number_schema(
+        cv.Optional(CONF_SERIAL_NUMBER): number.number_schema(
             SerialNumberNumber,
             entity_category=ENTITY_CATEGORY_CONFIG,
             icon="mdi:numeric"

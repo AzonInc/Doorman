@@ -141,7 +141,7 @@ namespace esphome::tc_bus
 
             if (!this->store_.sending)
             {
-                uint32_t time_since_last_bit = millis() - this->store_.last_bit_change;
+                uint32_t time_since_last_bit = micros() - this->store_.last_bit_change;
                 uint32_t min_gap = queue_item.telegram_data.is_response ? 5 : 130;
 
                 if (queue_item.telegram_data.is_response && time_since_last_bit < min_gap)
@@ -265,7 +265,7 @@ namespace esphome::tc_bus
         else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING)
         {
             bool talk_mode = telegram_data.payload == 1;
-            ESP_LOGI(TAG, "  Talk mode: %s", talk_mode ? "Full duplex / handsfree" : "half duplex");
+            ESP_LOGI(TAG, "  Talk mode: %s", talk_mode ? "Full duplex" : "Half duplex");
         }
         else if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL)
         {
@@ -330,19 +330,20 @@ namespace esphome::tc_bus
 
     void IRAM_ATTR HOT TCBusComponentStore::gpio_intr(TCBusComponentStore *arg)
     {
-        static DecoderState state = DecoderState::WAIT_FOR_START;
+        static uint8_t state = 0; // 0=WAIT, 1=LENGTH, 2=DATA, 3=PARITY
         static uint8_t expected_bits = 0;
         static uint8_t bit_index = 0;
         static uint32_t telegram = 0;
+        static uint32_t last_us = 0;
+
         static bool telegram_is_long = false;
         static bool telegram_is_response = false;
-        static uint32_t last_us = 0;
         static bool telegram_is_retransmission = false;
         static bool wait_for_response = false;
 
         // Calculate time difference
-        uint32_t now_us = micros();
-        uint32_t us = now_us - last_us;
+        const uint32_t now_us = micros();
+        const uint32_t us = now_us - last_us;
 
         // Filter glitches
         if (us < PULSE_FILTER)
@@ -350,10 +351,9 @@ namespace esphome::tc_bus
             return;
         }
 
-        last_us = now_us;
-
         // Save last bit timestamp
-        arg->last_bit_change = millis();
+        last_us = now_us;
+        arg->last_bit_change = now_us;
 
         // Classify pulse into bit value (-1 = not a data bit)
         int bit = -1;
@@ -389,74 +389,60 @@ namespace esphome::tc_bus
             telegram_is_long = false;
             telegram_is_response = false;
             bit_index = 0;
-            state = DecoderState::LENGTH_BIT;
+            state = 1;
             return;
         }
 
-        // Invalid pulse while waiting or idle → ignore
-        if (state == DecoderState::WAIT_FOR_START)
+        // Invalid pulse while waiting or idle - ignore
+        if (state == 0)
         {
             return;
         }
 
-        // Invalid pulse in active state → reset
+        // Invalid pulse in active state - reset
         if (bit < 0)
         {
-            state = DecoderState::WAIT_FOR_START;
+            state = 0;
             return;
         }
 
-        switch (state)
+        if(state == 1)
         {
-            case DecoderState::LENGTH_BIT:
+            telegram_is_long = (bit == 1);
+            expected_bits = telegram_is_long ? 32 : wait_for_response ? 4 : 16;
+            bit_index = 0;
+            state = 2;
+        }
+        else if(state == 1)
+        {
+            telegram = (telegram << 1) | bit;
+            if (++bit_index >= expected_bits)
             {
-                telegram_is_long = (bit == 1);
-                expected_bits = telegram_is_long ? 32 : wait_for_response ? 4 : 16;
-                bit_index = 0;
-                state = DecoderState::DATA_BITS;
-                break;
+                state = 3;
+            }
+        }
+        else if(state == 3)
+        {
+            // Start value 1: parity(telegram) XOR 1, then compare to received bit
+            const bool parity_ok = (__builtin_parity(telegram) ^ 1) == bit;
+
+            telegram_is_response = (expected_bits == 4) || (expected_bits == 32 && wait_for_response);
+
+            if (parity_ok)
+            {
+                TelegramData t;
+                t.raw = telegram;
+                t.is_long = telegram_is_long;
+                t.is_response = telegram_is_response;
+                t.is_retransmission = telegram_is_retransmission;
+
+                BaseType_t higher = pdFALSE;
+                xQueueSendFromISR(global_tc_bus->telegram_receive_queue, &t, &higher);
+
+                wait_for_response = !telegram_is_response;
             }
 
-            case DecoderState::DATA_BITS:
-            {
-                telegram = (telegram << 1) | (uint32_t)bit;
-
-                if (++bit_index >= expected_bits)
-                {
-                    state = DecoderState::CRC_BIT;
-                }
-                break;
-            }
-
-            case DecoderState::CRC_BIT:
-            {
-                // CRC: start value 1, XOR all data bits MSB first, length_bit excluded
-                uint8_t crc = 1;
-                for (int8_t i = (int8_t)expected_bits - 1; i >= 0; --i)
-                {
-                    crc ^= (telegram >> i) & 1u;
-                }
-
-                const bool crc_ok = (crc & 1u) == (uint8_t)bit;
-                telegram_is_response = (expected_bits == 4) || (expected_bits == 32 && wait_for_response);
-
-                if (crc_ok)
-                {
-                    TelegramData t;
-                    t.raw = telegram;
-                    t.is_long = telegram_is_long;
-                    t.is_response = telegram_is_response;
-                    t.is_retransmission = telegram_is_retransmission;
-
-                    BaseType_t higher = pdFALSE;
-                    xQueueSendFromISR(global_tc_bus->telegram_receive_queue, &t, &higher);
-
-                    wait_for_response = !telegram_is_response;
-                }
-
-                state = DecoderState::WAIT_FOR_START;
-                break;
-            }
+            state = 0;
         }
     }
 
@@ -523,15 +509,24 @@ namespace esphome::tc_bus
         }
         else
         {
-            uint32_t start_millis = millis();
-            uint32_t time_between = start_millis - this->store_.last_bit_change;
-            ESP_LOGD(TAG, "transmit: Last bit %i ms ago", time_between);
+            uint32_t start_us = micros();
+            uint32_t time_between = start_us - this->store_.last_bit_change;
+            ESP_LOGD(TAG, "transmit: Last bit %i us ago", time_between);
 
             this->sent_telegram_history_.push_back(telegram_data.raw);
 
             this->store_.sending = true;
 
-            // Start Telegram
+            // Calculate length based on telegram type
+            // Status Acknowledge telegrams only have 4 bits
+            uint8_t length = (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16));
+
+            uint32_t data = telegram_data.raw;
+
+            // Parity bit (odd parity)
+            uint8_t parity = __builtin_parity(data) ^ 1;
+
+            // Begin transmission
             this->tx_pin_->digital_write(true);
             delay_microseconds_safe(PULSE_START);
 
@@ -539,29 +534,17 @@ namespace esphome::tc_bus
             this->tx_pin_->digital_write(false);
             delay_microseconds_safe(telegram_data.is_long ? PULSE_BIT_1 : PULSE_BIT_0);
 
-            // Calculate length based on telegram type
-            // Status Acknowledge telegrams only have 4 bits
-            uint8_t length = (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16));
-
-            // Track checksum
-            uint8_t checksm = 1;
-
-            // Process all bits
-            for (int i = length - 1; i >= 0; i--)
+            // Process bits
+            for (int i = length; i-- > 0;)
             {
-                // Extract single bit
-                bool bit = (telegram_data.raw & (1UL << i)) != 0;
-
-                // Update checksum
-                checksm ^= bit;
-
-                // Send bit as mark/space sequence
-                this->tx_pin_->digital_write(i % 2 != 0);
+                bool bit = (data >> i) & 1;
+                this->tx_pin_->digital_write(i & 1);
                 delay_microseconds_safe(bit ? PULSE_BIT_1 : PULSE_BIT_0);
             }
 
+            // Parity
             this->tx_pin_->digital_write(true);
-            delay_microseconds_safe(checksm ? PULSE_BIT_1 : PULSE_BIT_0);
+            delay_microseconds_safe(parity ? PULSE_BIT_1 : PULSE_BIT_0);
             this->tx_pin_->digital_write(false);
 
             this->store_.sending = false;
