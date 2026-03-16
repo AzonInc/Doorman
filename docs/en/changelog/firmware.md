@@ -21,6 +21,9 @@ This release **will impact your current setup** and **requires** you to go throu
 - **More Device Settings**  
    The `tc_bus_device` component now provides additional options for creating entities for specific device settings. These were introduced for the new virtual devices but will also enhance support for physical devices.
 
+- **Restore RTO Timeout**  
+   An active [Ring To Open](https://doorman.azon.ai/guide/features/ring-to-open) timeout is now preserved across restarts. Previously, the timeout was temporary and reset whenever the system restarted.
+
 - **Read Memory Retry Logic**  
    If a device does not respond during memory reads, the request is now retried up to two times per block. If it still fails, the operation times out instead of blocking subsequent read operations.
 

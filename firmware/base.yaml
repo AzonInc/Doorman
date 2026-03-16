@@ -799,12 +799,12 @@ script:
       - logger.log: "Running set_unused_entities_internal script"
 
       # Set second entrance door internal if not used
-      - lambda: |-
-          bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
-          id(second_entrance_door)->set_internal(internal);
-          id(second_entrance_door_before_open_cmds)->set_internal(internal);
-          id(second_entrance_doorbell)->set_internal(internal);
-          id(second_entrance_doorbell_pattern)->set_internal(internal);
+      #- lambda: |-
+      #    bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+      #    id(second_entrance_door)->set_internal(internal);
+      #    id(second_entrance_door_before_open_cmds)->set_internal(internal);
+      #    id(second_entrance_doorbell)->set_internal(internal);
+      #    id(second_entrance_doorbell_pattern)->set_internal(internal);
 
   - id: blink_status_led
     mode: restart

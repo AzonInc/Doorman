@@ -1,13 +1,13 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
-from esphome.const import CONF_ID, CONF_ICON
+from esphome.const import CONF_ID, CONF_ICON, ENTITY_CATEGORY_DIAGNOSTIC
 from .. import tc_bus_ns, TCBusComponent, CONF_TC_BUS_ID, TELEGRAM_TYPES
 
 BusTelegramListenerBinarySensor = tc_bus_ns.class_("BusTelegramListenerBinarySensor", binary_sensor.BinarySensor, cg.Component)
+DoorReadinessBinarySensor = tc_bus_ns.class_("DoorReadinessBinarySensor", binary_sensor.BinarySensor, cg.Component)
 
 CONF_TELEGRAM = "telegram"
-
 CONF_TYPE = "type"
 CONF_ADDRESS = "address"
 CONF_PAYLOAD = "payload"
@@ -15,6 +15,7 @@ CONF_SERIAL_NUMBER = "serial_number"
 CONF_NAME = "name"
 CONF_AUTO_OFF = "auto_off"
 CONF_SENSOR_TYPE = "sensor_type"
+CONF_DOOR_READINESS = "door_readiness"
 
 DEPENDENCIES = ["tc_bus"]
 
@@ -51,12 +52,22 @@ TELEGRAM_SCHEMA = cv.All(
     validate_telegram_sensor,
 )
 
+DOOR_READINESS_SCHEMA = binary_sensor.binary_sensor_schema(
+    DoorReadinessBinarySensor,
+    entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+    icon="mdi:account-badge",
+).extend({
+    cv.GenerateID(): cv.declare_id(DoorReadinessBinarySensor),
+    cv.GenerateID(CONF_TC_BUS_ID): cv.use_id(TCBusComponent),
+})
+
 CONFIG_SCHEMA = cv.typed_schema(
     {
-        "telegram": TELEGRAM_SCHEMA
+        CONF_TELEGRAM: TELEGRAM_SCHEMA,
+        CONF_DOOR_READINESS: DOOR_READINESS_SCHEMA,
     },
     key=CONF_SENSOR_TYPE,
-    default_type="telegram"
+    default_type=CONF_TELEGRAM
 )
 
 async def to_code(config):
@@ -66,7 +77,7 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await binary_sensor.register_binary_sensor(var, config)
 
-    if sensor_type == "telegram":
+    if sensor_type == CONF_TELEGRAM:
         if CONF_TELEGRAM in config:
             telegram = await cg.templatable(config[CONF_TELEGRAM], [], cg.uint32)
             cg.add(var.set_telegram(telegram))
@@ -88,3 +99,6 @@ async def to_code(config):
 
         cg.add(var.set_auto_off(config[CONF_AUTO_OFF]))
         cg.add(tc_bus.register_listener(var))
+
+    elif sensor_type == CONF_DOOR_READINESS:
+        cg.add(tc_bus.set_door_readiness_binary_sensor(var))

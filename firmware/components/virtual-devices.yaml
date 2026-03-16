@@ -27,7 +27,7 @@ tc_bus_device:
 binary_sensor:
   - platform: tc_bus_device
     tc_bus_device_id: virtual_outdoor_station
-    sensor_type: door_opener
+    sensor_type: virtual_door_opener
     id: door_opener_active
     name: "Door Opener Active"
     on_press:

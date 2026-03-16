@@ -136,7 +136,8 @@ TC_BUS_SEND_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus.send",
     TCBusSendAction,
-    TC_BUS_SEND_SCHEMA
+    TC_BUS_SEND_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_send_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -179,6 +180,7 @@ async def tc_bus_send_to_code(config, action_id, template_args, args):
             cv.Optional(CONF_PROGRAMMING_MODE, default=False): cv.templatable(cv.boolean)
         }
     ),
+    synchronous=True
 )
 async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)

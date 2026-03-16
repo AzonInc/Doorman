@@ -1,5 +1,72 @@
 # Ring To Open Addon
 
+globals:
+  - id: rto_entrance_door_timer_remaining
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+  - id: rto_second_entrance_door_timer_remaining
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+  - id: rto_apartment_door_timer_remaining
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+interval:
+  - interval: 10s
+    then:
+      - lambda: |-
+          if(!id(rto_entrance_door).state || id(rto_entrance_door_timer_remaining) <= 0)
+          {
+            return;
+          }
+          id(rto_entrance_door_timer_remaining) -= 10;
+          if(id(rto_entrance_door_timer_remaining) % 60 == 0)
+          {
+            ESP_LOGD("RTO", "Entrance Door timer: %d minutes remaining", id(rto_entrance_door_timer_remaining) / 60);
+          }
+          if(id(rto_entrance_door_timer_remaining) <= 0)
+          {
+            ESP_LOGD("RTO", "Entrance Door timer elapsed");
+            id(rto_entrance_door).turn_off();
+          }
+
+      - lambda: |-
+          if(!id(rto_second_entrance_door).state || id(rto_second_entrance_door_timer_remaining) <= 0)
+          {
+            return;
+          }
+          id(rto_second_entrance_door_timer_remaining) -= 10;
+          if(id(rto_second_entrance_door_timer_remaining) % 60 == 0)
+          {
+            ESP_LOGD("RTO", "Second Entrance Door timer: %d minutes remaining", id(rto_second_entrance_door_timer_remaining) / 60);
+          }
+          if(id(rto_second_entrance_door_timer_remaining) <= 0)
+          {
+            ESP_LOGD("RTO", "Second Entrance Door timer elapsed");
+            id(rto_second_entrance_door).turn_off();
+          }
+
+      - lambda: |-
+          if(!id(rto_apartment_door).state || id(rto_apartment_door_timer_remaining) <= 0)
+          {
+            return;
+          }
+          id(rto_apartment_door_timer_remaining) -= 10;
+          if(id(rto_apartment_door_timer_remaining) % 60 == 0)
+          {
+            ESP_LOGD("RTO", "Apartment Door timer: %d minutes remaining", id(rto_apartment_door_timer_remaining) / 60);
+          }
+          if(id(rto_apartment_door_timer_remaining) <= 0)
+          {
+            ESP_LOGD("RTO", "Apartment Door timer elapsed");
+            id(rto_apartment_door).turn_off();
+          }
+
 web_server:
   sorting_groups:
     - id: sorting_group_rto_settings
@@ -28,15 +95,8 @@ binary_sensor:
                   - delay: !lambda "return 5000 + (rand() % 10000);"
                 else:
                   - delay: !lambda |-
-                      std::string str = id(rto_entrance_door_delay)->current_option();
-                      size_t pos = str.find(' ');
-                      std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                      int value = std::stoi(first_token) * 1000;
-                      if(value == 0)
-                      {
-                        value += 300; // Ensure at least 300ms delay
-                      }
-                      return value;
+                      int milliseconds = std::stoi(id(rto_entrance_door_delay)->current_option()) * 1000;
+                      return std::max(milliseconds, 300);
 
             - script.execute: rto_entrance_door_action
 
@@ -61,15 +121,8 @@ binary_sensor:
                   - delay: !lambda "return 5000 + (rand() % 10000);"
                 else:
                   - delay: !lambda |-
-                      std::string str = id(rto_second_entrance_door_delay)->current_option();
-                      size_t pos = str.find(' ');
-                      std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                      int value = std::stoi(first_token) * 1000;
-                      if(value == 0)
-                      {
-                        value += 300; // Ensure at least 300ms delay
-                      }
-                      return value;
+                      int milliseconds = std::stoi(id(rto_second_entrance_door_delay)->current_option()) * 1000;
+                      return std::max(milliseconds, 300);
 
             - script.execute: rto_second_entrance_door_action
 
@@ -94,11 +147,8 @@ binary_sensor:
                   - delay: !lambda "return 5000 + (rand() % 10000);"
                 else:
                   - delay: !lambda |-
-                      std::string str = id(rto_apartment_door_delay)->current_option();
-                      size_t pos = str.find(' ');
-                      std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                      int value = std::stoi(first_token) * 1000;
-                      return value;
+                      int milliseconds = std::stoi(id(rto_second_entrance_door_delay)->current_option()) * 1000;
+                      return std::max(milliseconds, 0);
 
             - script.execute: rto_apartment_door_action
 
@@ -122,10 +172,6 @@ binary_sensor:
                       id: tc_bus_indoor_station
                       type: floor_call
 
-            # Reset to prevent address conflict
-            - tc_bus.send:
-                type: reset
-
   - id: !extend function_button
     on_press:
       - if:
@@ -146,9 +192,11 @@ binary_sensor:
                       id: tc_bus_indoor_station
                       type: floor_call
 
-            # Reset to prevent address conflict
+            # Reset outdoor stations
+            # to prevent address conflict
             - tc_bus.send:
-                type: reset
+                type: select_device_group_reset
+                payload: 2
 
 
 event:
@@ -175,17 +223,8 @@ event:
                   - delay: !lambda "return 5000 + (rand() % 10000);"
                 else:
                   - delay: !lambda |-
-                      std::string str = id(rto_entrance_door_delay)->current_option();
-                      size_t pos = str.find(' ');
-                      std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                      int value = std::stoi(first_token);
-
-                      // Subtract 2 seconds for the pattern offset
-                      if(value < 2)
-                      {
-                        value = 2;
-                      }
-                      return (value - 2) * 1000;
+                      int seconds = std::stoi(id(rto_entrance_door_delay)->current_option());
+                      return (std::max(seconds, 2) - 2) * 1000;
 
             - script.execute: rto_entrance_door_action
 
@@ -213,17 +252,8 @@ event:
                   - delay: !lambda "return 5000 + (rand() % 10000);"
                 else:
                   - delay: !lambda |-
-                      std::string str = id(rto_second_entrance_door_delay)->current_option();
-                      size_t pos = str.find(' ');
-                      std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                      int value = std::stoi(first_token);
-
-                      // Subtract 2 seconds for the pattern offset
-                      if(value < 2)
-                      {
-                        value = 2;
-                      }
-                      return (value - 2) * 1000;
+                      int seconds = std::stoi(id(rto_second_entrance_door_delay)->current_option());
+                      return (std::max(seconds, 2) - 2) * 1000;
 
             - script.execute: rto_second_entrance_door_action
 
@@ -250,17 +280,8 @@ event:
                   - delay: !lambda "return 5000 + (rand() % 10000);"
                 else:
                   - delay: !lambda |-
-                      std::string str = id(rto_apartment_door_delay)->current_option();
-                      size_t pos = str.find(' ');
-                      std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                      int value = std::stoi(first_token);
-                      
-                      // Subtract 2 seconds for the pattern offset
-                      if(value < 2)
-                      {
-                        value = 2;
-                      }
-                      return (value - 2) * 1000;
+                      int seconds = std::stoi(id(rto_apartment_door_delay)->current_option());
+                      return (std::max(seconds, 2) - 2) * 1000;
 
             - script.execute: rto_apartment_door_action
 
@@ -331,9 +352,16 @@ switch:
     disabled_by_default: true
     optimistic: true
     turn_on_action:
-      - script.execute: rto_entrance_door_timer
+      - lambda: |-
+          std::string opt = id(rto_entrance_door_timeout_mode)->current_option();
+          if (opt == "Never" || opt == "Ring once") return;
+          int minutes = std::stoi(opt);
+          id(rto_entrance_door_timer_remaining) = minutes * 60;
+          ESP_LOGD("RTO", "Apartment timer set: %d minutes", minutes);
     turn_off_action:
-      - script.stop: rto_entrance_door_timer
+      - globals.set:
+          id: rto_entrance_door_timer_remaining
+          value: '0'
     on_turn_on:
       - script.execute: update_led
     on_turn_off:
@@ -352,9 +380,16 @@ switch:
     disabled_by_default: true
     optimistic: true
     turn_on_action:
-      - script.execute: rto_second_entrance_door_timer
+      - lambda: |-
+          std::string opt = id(rto_second_entrance_door_timeout_mode)->current_option();
+          if (opt == "Never" || opt == "Ring once") return;
+          int minutes = std::stoi(opt);
+          id(rto_second_entrance_door_timer_remaining) = minutes * 60;
+          ESP_LOGD("RTO", "Apartment timer set: %d minutes", minutes);
     turn_off_action:
-      - script.stop: rto_second_entrance_door_timer
+      - globals.set:
+          id: rto_second_entrance_door_timer_remaining
+          value: '0'
     on_turn_on:
       - script.execute: update_led
     on_turn_off:
@@ -374,9 +409,16 @@ switch:
     restore_mode: RESTORE_DEFAULT_OFF
     optimistic: true
     turn_on_action:
-      - script.execute: rto_apartment_door_timer
+      - lambda: |-
+          std::string opt = id(rto_apartment_door_timeout_mode)->current_option();
+          if (opt == "Never" || opt == "Ring once") return;
+          int minutes = std::stoi(opt);
+          id(rto_apartment_door_timer_remaining) = minutes * 60;
+          ESP_LOGD("RTO", "Apartment timer set: %d minutes", minutes);
     turn_off_action:
-      - script.stop: rto_apartment_door_timer
+      - globals.set:
+          id: rto_apartment_door_timer_remaining
+          value: '0'
     on_turn_on:
       - script.execute: update_led
     on_turn_off:
@@ -682,73 +724,6 @@ select:
       sorting_weight: -90
 
 script:
-  - id: !extend set_unused_entities_internal
-    then:
-      # Set second entrance door entities to internal if not used
-      - lambda: |-
-          bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
-          id(rto_second_entrance_door)->set_internal(internal);
-          id(rto_second_entrance_door_delay)->set_internal(internal);
-          id(rto_second_entrance_door_timeout_mode)->set_internal(internal);
-          id(rto_second_entrance_door_pattern_condition)->set_internal(internal);
-
-  - id: rto_entrance_door_timer
-    mode: restart
-    then:
-      # Turn off Ring To Open Mode after selected time
-      - if:
-          condition:
-            - lambda: |-
-                return id(rto_entrance_door_timeout_mode)->current_option() != "Never" && 
-                       id(rto_entrance_door_timeout_mode)->current_option() != "Ring once";
-          then:
-            - delay: !lambda |-
-                std::string str = id(rto_entrance_door_timeout_mode)->current_option();
-                size_t pos = str.find(' ');
-                std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                int value = std::stoi(first_token);
-                ESP_LOGD("main", "RTO: Entrance Door will stay turned on for %i minutes", value);
-                return value * 60 * 1000;
-            - switch.turn_off: rto_entrance_door
-
-  - id: rto_second_entrance_door_timer
-    mode: restart
-    then:
-      # Turn off Ring To Open Mode after selected time
-      - if:
-          condition:
-            - lambda: |-
-                return id(rto_second_entrance_door_timeout_mode)->current_option() != "Never" &&
-                       id(rto_second_entrance_door_timeout_mode)->current_option() != "Ring once";
-          then:
-            - delay: !lambda |-
-                std::string str = id(rto_second_entrance_door_timeout_mode)->current_option();
-                size_t pos = str.find(' ');
-                std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                int value = std::stoi(first_token);
-                ESP_LOGD("main", "RTO: Second Entrance Door will stay turned on for %i minutes", value);
-                return value * 60 * 1000;
-            - switch.turn_off: rto_second_entrance_door
-
-  - id: rto_apartment_door_timer
-    mode: restart
-    then:
-      # Turn off Ring To Open Mode after selected time
-      - if:
-          condition:
-            - lambda: |-
-                return id(rto_apartment_door_timeout_mode)->current_option() != "Never" && 
-                       id(rto_apartment_door_timeout_mode)->current_option() != "Ring once";
-          then:
-            - delay: !lambda |-
-                std::string str = id(rto_apartment_door_timeout_mode)->current_option();
-                size_t pos = str.find(' ');
-                std::string first_token = (pos != std::string::npos) ? str.substr(0, pos) : str;
-                int value = std::stoi(first_token);
-                ESP_LOGD("main", "RTO: Apartment Door will stay turned on for %i minutes", value);
-                return value * 60 * 1000;
-            - switch.turn_off: rto_apartment_door
-
   - id: rto_entrance_door_action
     then:
       - logger.log: "RTO: Execute Entrance Door Action"
@@ -762,6 +737,16 @@ script:
   - id: rto_apartment_door_action
     then:
       - logger.log: "RTO: Execute Apartment Door Action"
+
+  #- id: !extend set_unused_entities_internal
+  #  then:
+  #    # Set second entrance door entities to internal if not used
+  #    - lambda: |-
+  #        bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+  #        id(rto_second_entrance_door)->set_internal(internal);
+  #        id(rto_second_entrance_door_delay)->set_internal(internal);
+  #        id(rto_second_entrance_door_timeout_mode)->set_internal(internal);
+  #        id(rto_second_entrance_door_pattern_condition)->set_internal(internal);
 
   - id: !extend update_led
     then:

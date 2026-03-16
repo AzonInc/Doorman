@@ -45,6 +45,11 @@ The `tc_bus` Binary Sensor detects binary states such as doorbell presses. It ca
 ### Sensor Type: `telegram`
 This sensor type supports advanced triggering options, enabling it to respond to specific received telegrams.
 
+::: tip NOTE
+You can use **either** `telegram` **or** a combination of `type`, `address`, `payload`, and `serial_number`, but **not both** simultaneously.  
+This ensures the binary sensor triggers either through a specific telegram or a combination of parameters, preventing conflicts.
+:::
+
 | Option           | Description                                                                                              | Required | Default       |
 |------------------|----------------------------------------------------------------------------------------------------------|----------|---------------|
 | `auto_off`       | Time period after which the sensor automatically turns off, useful for momentary signals like doorbell presses.  | | `3s`          |
@@ -54,10 +59,8 @@ This sensor type supports advanced triggering options, enabling it to respond to
 | `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.  | | `0`           |
 | `serial_number`  | Specific device serial number that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all serial numbers. | | `0` |
 
-::: info
-You can use **either** `telegram` **or** a combination of `type`, `address`, `payload`, and `serial_number`, but **not both** simultaneously.  
-This ensures the binary sensor triggers either through a specific telegram or a combination of parameters, preventing conflicts.
-:::
+### Sensor Type: `door_readiness`
+This sensor shows the door readiness state.
 
 ## Locks
 The `tc_bus` Lock platform can be configured to trigger based on a predefined outdoor station.
@@ -103,7 +106,7 @@ on_...:
 ### Sending Telegrams <Badge type="tip" text="tc_bus.send" />
 You can send telegrams on the bus using this action.
 
-::: tip Note
+::: tip NOTE
 You can either use the `telegram` field to send a specific telegram or use the `type`, `address`, `payload`, and `serial_number` fields to create a more complex message. **Both cannot be used at the same time**.
 
 You can explicitly send a 32-bit telegram by using the optional `is_long` property, which is useful when the telegram begins with leading zeros.

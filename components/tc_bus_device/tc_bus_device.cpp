@@ -492,15 +492,15 @@ namespace esphome::tc_bus
             }
             else if(telegram_data.type == TELEGRAM_TYPE_STOP_TALKING || telegram_data.type == TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL)
             {
-                ESP_LOGD(TAG, "Stop talking received - disconnecting call");
-
-                #ifdef USE_CALL_ENDED_CALLBACK
                 bool cancelled = this->reset_call();
                 if(cancelled)
                 {
+                    ESP_LOGD(TAG, "Stop talking received - disconnected call");
+
+                    #ifdef USE_CALL_ENDED_CALLBACK
                     this->call_ended_callback_.call(telegram_data);
+                    #endif
                 }
-                #endif
                 return true;
             }
             else if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK && this->memory_mode_)
@@ -575,7 +575,7 @@ namespace esphome::tc_bus
                         this->cancel_timeout("wait_for_call_ack");
                         this->cancel_timeout("wait_for_talking_ack");
 
-                        ESP_LOGD(TAG, "Connected to another indoor station");
+                        ESP_LOGD(TAG, "Connected to indoor station (full duplex)");
 
                         #ifdef USE_CALL_STARTED_CALLBACK
                         this->call_started_callback_.call(telegram_data);

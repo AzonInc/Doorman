@@ -85,7 +85,7 @@ binary_sensor:
     name: "Connection Status"
     icon: "mdi:connection"
     lambda: |-
-      if (id(debug_bus_voltage).state >= 2.8) {
+      if (id(debug_bus_voltage).state >= 2.45) {
         return true;
       } else {
         return false;

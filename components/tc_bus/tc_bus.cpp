@@ -83,14 +83,11 @@ namespace esphome::tc_bus
         while (xQueueReceive(this->telegram_receive_queue, &telegram, 0) == pdTRUE)
         {
             bool is_echo = false;
-            for (auto it = this->sent_telegram_history_.begin(); it != this->sent_telegram_history_.end(); ++it)
+            
+            if (this->store_.expect_echo && telegram.raw == this->store_.echo_raw)
             {
-                if (*it == telegram.raw)
-                {
-                    is_echo = true;
-                    this->sent_telegram_history_.erase(it);
-                    break;
-                }
+                this->store_.expect_echo = false;
+                is_echo = true;
             }
 
             if (!is_echo)
@@ -142,15 +139,18 @@ namespace esphome::tc_bus
             if (!this->store_.sending)
             {
                 uint32_t time_since_last_bit = micros() - this->store_.last_bit_change;
-                uint32_t min_gap = queue_item.telegram_data.is_response ? 5 : 130;
+                uint32_t min_gap = queue_item.telegram_data.is_response ? 5000 : 130000;
 
-                if (queue_item.telegram_data.is_response && time_since_last_bit < min_gap)
+                if(time_since_last_bit < min_gap)
                 {
-                    delay_microseconds_safe((min_gap - time_since_last_bit) * 1000);
-                }
-                else if (time_since_last_bit < min_gap)
-                {
-                    return;
+                    if (queue_item.telegram_data.is_response)
+                    {
+                        delay_microseconds_safe(min_gap - time_since_last_bit);
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 this->transmit_telegram(queue_item.telegram_data);
@@ -270,6 +270,13 @@ namespace esphome::tc_bus
         else if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL)
         {
             this->door_readiness_active_ = true;
+
+            #ifdef USE_BINARY_SENSOR
+            if (this->door_opener_readiness_sensor_ != nullptr)
+            {
+                this->door_opener_readiness_sensor_->publish_state(true);
+            }
+            #endif
         }
         else if (telegram_data.type == TELEGRAM_TYPE_END_OF_DOOR_READINESS)
         {
@@ -279,14 +286,35 @@ namespace esphome::tc_bus
             // is the only one that reacts to it by changing its door readiness status
             
             this->door_readiness_active_ = false;
+
+            #ifdef USE_BINARY_SENSOR
+            if (this->door_opener_readiness_sensor_ != nullptr)
+            {
+                this->door_opener_readiness_sensor_->publish_state(false);
+            }
+            #endif
         }
         else if (telegram_data.type == TELEGRAM_TYPE_RESET && this->selected_device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
         {
             this->door_readiness_active_ = false;
+
+            #ifdef USE_BINARY_SENSOR
+            if (this->door_opener_readiness_sensor_ != nullptr)
+            {
+                this->door_opener_readiness_sensor_->publish_state(false);
+            }
+            #endif
         }
         else if (telegram_data.type == TELEGRAM_TYPE_INITIALIZE_DOOR_STATION)
         {
             this->door_readiness_active_ = false;
+
+            #ifdef USE_BINARY_SENSOR
+            if (this->door_opener_readiness_sensor_ != nullptr)
+            {
+                this->door_opener_readiness_sensor_->publish_state(false);
+            }
+            #endif
         }
         else if (telegram_data.type == TELEGRAM_TYPE_PROGRAMMING_MODE)
         {
@@ -413,7 +441,7 @@ namespace esphome::tc_bus
             bit_index = 0;
             state = 2;
         }
-        else if(state == 1)
+        else if(state == 2)
         {
             telegram = (telegram << 1) | bit;
             if (++bit_index >= expected_bits)
@@ -513,9 +541,9 @@ namespace esphome::tc_bus
             uint32_t time_between = start_us - this->store_.last_bit_change;
             ESP_LOGD(TAG, "transmit: Last bit %i us ago", time_between);
 
-            this->sent_telegram_history_.push_back(telegram_data.raw);
-
             this->store_.sending = true;
+            this->store_.echo_raw = telegram_data.raw;
+            this->store_.expect_echo = true;
 
             // Calculate length based on telegram type
             // Status Acknowledge telegrams only have 4 bits

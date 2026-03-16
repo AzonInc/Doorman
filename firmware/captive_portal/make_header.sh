@@ -34,16 +34,14 @@ fi
 cat <<EOT >>$OUTPUT_FILE
 #include "esphome/core/hal.h"
 
-namespace esphome {
-namespace $3 {
+namespace esphome::$3 {
 
 EOT
 echo "const uint8_t INDEX_GZ[] PROGMEM = {" >>$OUTPUT_FILE
 xxd -cols 19 -i $1/index.html.gz | sed -e '2,$!d' -e 's/^/  /' -e '$d' | sed -e '$d' | sed -e '$s/$/};/' >>$OUTPUT_FILE
 cat <<EOT >>$OUTPUT_FILE
 
-}  // namespace $3
-}  // namespace esphome
+}  // namespace esphome::$3
 EOT
 if [ -n "$4" ]; then
   echo "" >>$OUTPUT_FILE

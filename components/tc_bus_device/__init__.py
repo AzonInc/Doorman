@@ -478,7 +478,8 @@ TC_BUS_DEVICE_SEND_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus_device.send",
     TCBusDeviceSendAction,
-    TC_BUS_DEVICE_SEND_SCHEMA
+    TC_BUS_DEVICE_SEND_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_device_send_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -507,7 +508,8 @@ TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus_device.update_setting",
     TCBusDeviceUpdateSettingAction,
-    TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA
+    TC_BUS_DEVICE_UPDATE_SETTING_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_device_update_setting_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -537,7 +539,8 @@ TC_BUS_DEVICE_UPDATE_DOORBELL_BUTTON_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus_device.update_doorbell_button",
     TCBusDeviceUpdateDoorbellButtonAction,
-    TC_BUS_DEVICE_UPDATE_DOORBELL_BUTTON_SCHEMA
+    TC_BUS_DEVICE_UPDATE_DOORBELL_BUTTON_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_device_update_doorbell_button_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -575,6 +578,7 @@ async def tc_bus_device_update_doorbell_button_to_code(config, action_id, templa
             cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent)
         }
     ),
+    synchronous=True
 )
 async def tc_bus_device_read_memory_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -590,6 +594,7 @@ async def tc_bus_device_read_memory_to_code(config, action_id, template_args, ar
             cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent)
         }
     ),
+    synchronous=True
 )
 async def tc_bus_device_request_version_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -609,7 +614,8 @@ TC_BUS_DEVICE_ANSWER_CALL_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus_device.answer_call",
     TCBusDeviceAnswerCallAction,
-    TC_BUS_DEVICE_ANSWER_CALL_SCHEMA
+    TC_BUS_DEVICE_ANSWER_CALL_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_device_answer_call_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -628,7 +634,8 @@ TC_BUS_DEVICE_END_CALL_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus_device.end_call",
     TCBusDeviceEndCallAction,
-    TC_BUS_DEVICE_END_CALL_SCHEMA
+    TC_BUS_DEVICE_END_CALL_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_device_end_call_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
@@ -649,7 +656,8 @@ TC_BUS_DEVICE_CALL_SCHEMA = cv.All(
 @automation.register_action(
     "tc_bus_device.call",
     TCBusDeviceCallAction,
-    TC_BUS_DEVICE_CALL_SCHEMA
+    TC_BUS_DEVICE_CALL_SCHEMA,
+    synchronous=True
 )
 async def tc_bus_device_call_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)

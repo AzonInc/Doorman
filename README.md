@@ -1,11 +1,4 @@
-<h1 align="center">
-    <br>
-    Doorman S3
-    <br>
-    <br>
-    <img src="./docs/public/enclosure-base-board.png" alt="Doorman S3" height="275">
-    <br>
-</h1>
+![header](./.github/images/header.png)
 
 **Doorman S3** is a versatile intercom gateway designed to connect your [TCS](https://www.tcsag.de/) or [Koch](https://www.kochag.ch/) intercom system to any home automation platform. It's also compatible with rebranded versions of [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/), and older [Jung](https://www.jung-group.com/) intercom models.
 
@@ -101,7 +94,7 @@ For more in-depth compatibility information, refer to the [Compatibility Docs](h
 
 <img src=".github/images/pcbx_example.png" alt="PCBX Delivery" height="275">
 
-You can find all the necessary files for manufacturing the **Doorman S3** [here](https://github.com/azoninc/doorman/tree/master/pcb).
+You can find all the necessary files for manufacturing the **Doorman S3** [here](https://github.com/azoninc/doorman/tree/master/hardware/core_board).
 
 ---
 
@@ -130,8 +123,9 @@ The repository is organized as follows:
 - **`components`**: External component files for ESPHome
 - **`docs`**: Documentation
 - **`enclosure`**: STL design files for the enclosure
-- **`firmware`**: ESPHome configuration files
-- **`pcb`**: KiCad schematic and PCB design files
+- **`firmware`**: ESPHome files
+- **`hardware`**: KiCAD schematics and PCB design files
+- **`renders`**: Blender Render files
 
 ---
 

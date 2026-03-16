@@ -131,6 +131,8 @@ namespace esphome::tc_bus
         static void gpio_intr(TCBusComponentStore *arg);
         volatile uint32_t last_bit_change{0};
         volatile bool sending{false};
+        volatile uint32_t echo_raw{0};
+        volatile bool expect_echo{false};
         ISRInternalGPIOPin rx_pin;
     };
     
@@ -138,6 +140,9 @@ namespace esphome::tc_bus
     {
 #ifdef USE_TEXT_SENSOR
         SUB_TEXT_SENSOR(bus_telegram);
+#endif
+#ifdef USE_BINARY_SENSOR
+        SUB_BINARY_SENSOR(door_readiness);
 #endif
 
     public:
@@ -197,8 +202,6 @@ namespace esphome::tc_bus
         InternalGPIOPin *tx_pin_;
         TCBusComponentStore store_;
         std::vector<PrioritizedListener> remote_listeners_;
-        std::vector<uint32_t> sent_telegram_history_;
-        uint32_t last_transmission_end_ = 0;
 
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR
