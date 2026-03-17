@@ -9,9 +9,6 @@ esphome:
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
   min_version: "2026.2.0"
-  project:
-    name: "AzonInc.Doorman Standard"
-    version: "2026.3.0"
   on_boot:
     - priority: 500.0
       then:
@@ -80,17 +77,6 @@ web_server:
     - id: sorting_group_information
       name: "Information - System"
       sorting_weight: -5
-
-wifi:
-  id: wifi_id
-  ap:
-    ssid: "${friendly_name} Setup"
-    password: "Op3n-Sesame!"
-
-captive_portal:
-
-# Improv for easy provisioning
-improv_serial:
 
 # Setup TC:BUS Component
 tc_bus:

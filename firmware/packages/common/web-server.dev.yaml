@@ -1,0 +1,4 @@
+# Webserver Addon: Dev Build
+
+web_server:
+  js_url: "https://dev.doorman.azon.ai/firmware/esphome-webserver/www.js"

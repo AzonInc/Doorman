@@ -1,0 +1,54 @@
+# Doorman Standard Firmware (HomeKit)
+# Base Board ESP32-S3
+
+# You can change a few options here.
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+  branch: "dev"
+  firmware_type: "standard"
+  api_variant: "homekit"
+  host_platform: "esp32-s3"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: false
+  project:
+    name: AzonInc.Doorman Standard
+    version: 2026.3.0
+
+wifi:
+  id: wifi_id
+  ap:
+    ssid: "${friendly_name} Setup"
+    password: "Op3n-Sesame!"
+
+captive_portal:
+
+improv_serial:
+
+packages:
+  remote_package_files:
+    url: https://github.com/azoninc/doorman
+    ref: dev
+    refresh: 0s
+    files:
+      - path: packages/host/esp32-s3.yaml
+      - path: packages/common/external-components.yaml
+      - path: packages/common/rgb-status-led.ws2812b.yaml
+      - path: packages/common/rgb-status-led.effects.yaml
+      - path: packages/common/base.yaml
+      - path: packages/common/web-server.dev.yaml
+      - path: packages/common/bluedroid-ble.yaml
+      - path: packages/ota/esphome.yaml
+      - path: packages/ota/http.yaml
+      - path: packages/api/homekit.yaml
+      - path: packages/debug/debug-utilities.yaml
+      - path: packages/debug/debug-component.yaml
+      - path: packages/debug/debug-component.psram.yaml
+      - path: packages/pattern_events/pattern-events.yaml
+      - path: packages/ring_to_open/ring-to-open.yaml
+      - path: packages/ring_to_open/ring-to-open.homekit.yaml
+      - path: packages/bus_devices/indoor-station-settings.yaml
+      - path: packages/bus_devices/interactive-setup.yaml

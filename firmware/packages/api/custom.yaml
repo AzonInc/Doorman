@@ -1,0 +1,17 @@
+# API: Custom
+
+script:
+  - id: !extend boot_state
+    then:
+      # WiFi already connected
+      - logger.log: "LED: All good, custom api version"
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: none
+          red: 100%
+          green: 65%
+          blue: 0%
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
+      - delay: 3s
+      - script.execute: update_led

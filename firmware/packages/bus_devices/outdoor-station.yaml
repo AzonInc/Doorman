@@ -1,0 +1,90 @@
+# Outdoor Station Settings Addon
+
+esphome:
+  devices:
+    - id: tc_bus_os
+      name: "TC:BUS Outdoor Station"
+
+web_server:
+  sorting_groups:
+    - id: sorting_group_outdoor_station_settings
+      name: "Settings - TC:BUS Outdoor Station"
+      sorting_weight: -69
+
+tc_bus_device:
+  - id: tc_bus_outdoor_station
+    type: outdoor_station
+    auto_configuration: true
+
+number:
+  - platform: tc_bus_device
+    tc_bus_device_id: tc_bus_outdoor_station
+    serial_number:
+      id: outdoor_station_serial_number
+      device_id: tc_bus_os
+      name: "Serial Number"
+      icon: "mdi:barcode-scan"
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_outdoor_station_settings
+        sorting_weight: -100
+
+select:
+  - platform: tc_bus_device
+    tc_bus_device_id: tc_bus_outdoor_station
+    model:
+      id: outdoor_station_model
+      device_id: tc_bus_os
+      name: "Model"
+      icon: "mdi:doorbell-video"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_outdoor_station_settings
+        sorting_weight: -97
+
+# Read Memory before reading and writing
+button:
+  - platform: tc_bus_device
+    tc_bus_device_id: tc_bus_outdoor_station
+    identify_device:
+      id: identify_outdoor_station
+      device_id: tc_bus_os
+      name: "Identify"
+      icon: "mdi:identifier"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_outdoor_station_settings
+        sorting_weight: -96
+
+    read_memory:
+      id: read_outdoor_station_memory
+      device_id: tc_bus_os
+      name: "Read Memory"
+      icon: "mdi:file-arrow-up-down"
+      entity_category: CONFIG
+      disabled_by_default: true
+      web_server:
+        sorting_group_id: sorting_group_outdoor_station_settings
+        sorting_weight: -95
+
+  - platform: template
+    id: test_doorbell_button_assign
+    device_id: tc_bus_os
+    name: "Test Assignment"
+    on_press:
+      - tc_bus_device.update_doorbell_button:
+          id: tc_bus_outdoor_station
+          button_row: 1
+
+  - platform: template
+    device_id: tc_bus_os
+    name: "Read Actions of Doorbell Button 1 via lambda"
+    on_press:
+      - lambda: |-
+          DoorbellButtonConfig button = id(tc_bus_outdoor_station)->get_doorbell_button(1);
+          ESP_LOGD("TAG", "Primary Action: %s", doorbell_button_action_to_string(button.primary_action));
+          ESP_LOGD("TAG", "Primary Payload: %x", button.primary_payload);
+          ESP_LOGD("TAG", "Secondary Action: %s", doorbell_button_action_to_string(button.secondary_action));
+          ESP_LOGD("TAG", "Secondary Payload: %x", button.secondary_payload);

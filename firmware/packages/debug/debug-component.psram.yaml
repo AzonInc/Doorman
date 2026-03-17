@@ -1,0 +1,11 @@
+# Debug Component Addon for PSRAM modules
+
+sensor:
+  - platform: debug
+    psram:
+      id: debug_free_psram
+      device_id: doorman_debug
+      name: "Free PSRAM"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_debug_tools

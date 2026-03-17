@@ -1,25 +1,52 @@
+# Doorman Standard Firmware (MQTT)
+# Base Board DOORMAN-S3-REV2-AUDIO
+
+# You can change a few options here.
 substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
   branch: "dev"
   firmware_type: "standard"
   api_variant: "mqtt"
   host_platform: "doorman-s3-rev2-audio"
 
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: false
+  project:
+    name: AzonInc.Doorman Standard
+    version: 2026.3.0
+
+wifi:
+  id: wifi_id
+  ap:
+    ssid: "${friendly_name} Setup"
+    password: "Op3n-Sesame!"
+
+captive_portal:
+
+improv_serial:
+
 packages:
-  host: !include ../hosts/doorman-s3-rev2-audio.yaml
-  external_components: !include ../components/external-components.yaml
-  rgb_status_led: !include ../components/rgb-status-led.ws2812b.yaml
-  rgb_status_led_effects: !include ../components/rgb-status-led.effects.yaml
-  base: !include ../base.yaml
-  webserver_dev: !include ../components/web-server.dev.yaml
-  audio: !include ../components/audio.yaml
-  ota_update_esphome: !include ../components/ota-update.esphome.yaml
-  ota_update_http: !include ../components/ota-update.http.yaml
-  ota_update_http_dev: !include ../components/ota-update.http.dev.yaml
-  api: !include ../components/api.mqtt.yaml
-  debug_utilities: !include ../components/debug-utilities.yaml
-  debug_component: !include ../components/debug-component.yaml
-  debug_component_psram: !include ../components/debug-component.psram.yaml
-  pattern_events: !include ../components/pattern-events.yaml
-  ring_to_open: !include ../components/ring-to-open.yaml
-  indoor_station_settings: !include ../components/indoor-station-settings.yaml
-  interactive_setup: !include ../components/interactive-setup.yaml
+  remote_package_files:
+    url: https://github.com/azoninc/doorman
+    ref: dev
+    refresh: 0s
+    files:
+      - path: packages/host/doorman-s3-rev2-audio.yaml
+      - path: packages/common/external-components.yaml
+      - path: packages/common/rgb-status-led.ws2812b.yaml
+      - path: packages/common/rgb-status-led.effects.yaml
+      - path: packages/common/base.yaml
+      - path: packages/common/web-server.dev.yaml
+      - path: packages/audio/es8311.yaml
+      - path: packages/ota/esphome.yaml
+      - path: packages/api/mqtt.yaml
+      - path: packages/debug/debug-utilities.yaml
+      - path: packages/debug/debug-component.yaml
+      - path: packages/debug/debug-component.psram.yaml
+      - path: packages/pattern_events/pattern-events.yaml
+      - path: packages/ring_to_open/ring-to-open.yaml
+      - path: packages/bus_devices/indoor-station-settings.yaml
+      - path: packages/bus_devices/interactive-setup.yaml

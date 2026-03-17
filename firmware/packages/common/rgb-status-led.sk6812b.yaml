@@ -1,0 +1,20 @@
+# RMT Light Status LED Addon
+
+light:
+  - platform: esp32_rmt_led_strip
+    id: doorman_rgb_status_led
+    name: RGB Status LED
+    icon: "mdi:led-on"
+    internal: true
+    restore_mode: ALWAYS_OFF
+    rgb_order: GRB
+    pin: ${rgb_led_pin}
+    num_leds: 1
+    chipset: sk6812
+    use_psram: true
+    rmt_symbols: 144
+    gamma_correct: 1
+    default_transition_length: 1s
+    #web_server:
+    #  sorting_group_id: sorting_group_system
+    #  sorting_weight: 1

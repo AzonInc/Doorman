@@ -1,0 +1,339 @@
+# Interactive Setup Addon
+
+switch:
+  - platform: template
+    id: doorman_setup_mode
+    device_id: tc_bus_is
+    name: Setup Mode
+    icon: mdi:account-cog
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: CONFIG
+    optimistic: true
+    on_turn_on:
+      - logger.log:
+          format: "Reset saved setup data"
+          level: INFO
+      - number.set:
+          id: indoor_station_serial_number
+          value: 0
+      - select.set:
+          id: indoor_station_model
+          option: "None"
+      - number.set:
+          id: entrance_door_station_address
+          value: 63
+      - number.set:
+          id: second_entrance_door_station_address
+          value: 63
+      - logger.log:
+          format: "Setup Step 1: Waiting for door or floor call."
+          level: INFO
+      - script.execute: update_setup_sensors
+      - script.execute: update_led
+    on_turn_off:
+      - script.execute: update_setup_sensors
+      - script.execute: update_led
+    web_server:
+      sorting_group_id: sorting_group_setup_status
+      sorting_weight: -1
+
+text_sensor:
+  - platform: template
+    id: setup_status_serial_number
+    name: "Setup: Serial Number"
+    icon: "mdi:numeric"
+    lambda: |-
+      if(id(indoor_station_serial_number).state != 0)
+      {
+        return {"Complete"};
+      }
+      else
+      {
+        if(id(doorman_setup_mode).state == true)
+        {
+          return {"Press Apartment or Entrance Doorbell"};
+        }
+        else
+        {
+          return {"Pending"};
+        }
+      }
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_setup_status
+      sorting_weight: 1
+
+  - platform: template
+    id: setup_status_indoor_station_model
+    name: "Setup: Indoor Station Model"
+    icon: "mdi:doorbell-video"
+    lambda: |-
+      if(id(indoor_station_model)->current_option() != "None")
+      {
+        return {"Complete"};
+      }
+      else
+      {
+        if(id(doorman_setup_mode).state == true)
+        {
+          if(id(indoor_station_serial_number).state != 0)
+          {
+            return {"Identifying..."};
+          }
+          else
+          {
+            return {"Pending"};
+          }
+        }
+        else
+        {
+          return {"Pending"};
+        }
+      }
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_setup_status
+      sorting_weight: 2
+
+  - platform: template
+    id: setup_status_indoor_station_memory
+    name: "Setup: Indoor Station Memory"
+    icon: "mdi:database"
+    lambda: |-
+      if(id(tc_bus_indoor_station).memory_buffer_empty() != true)
+      {
+        return {"Complete"};
+      }
+      else
+      {
+        if(id(doorman_setup_mode).state == true)
+        {
+          if(id(indoor_station_model)->current_option() != "None")
+          {
+            return {"Reading memory..."};
+          }
+          else
+          {
+            return {"Pending"};
+          }
+        }
+        else
+        {
+          return {"Pending"};
+        }
+      }
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_setup_status
+      sorting_weight: 3
+
+  - platform: template
+    id: setup_status_entrance_door_address
+    name: "Setup: Entrance Doorbell"
+    icon: "mdi:doorbell"
+    lambda: |-
+      if(id(entrance_door_station_address).state != 63)
+      {
+        return {"Complete"};
+      }
+      else
+      {
+        if(id(doorman_setup_mode).state == true)
+        {
+          return {"Pending"};
+        }
+        else
+        {
+          if(id(indoor_station_serial_number).state == 0)
+          {
+            return {"Pending"};
+          }
+          else
+          {
+            return {"Press Entrance Doorbell"};
+          }
+        }
+      }
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_setup_status
+      sorting_weight: 4
+
+  - platform: template
+    id: setup_status_second_entrance_door_address
+    name: "Setup: Second Entrance Doorbell"
+    icon: "mdi:doorbell"
+    lambda: |-
+      if(id(second_entrance_door_station_address).state != 63)
+      {
+        return {"Complete"};
+      }
+      else
+      {
+        if(id(doorman_setup_mode).state == true)
+        {
+          return {"Pending"};
+        }
+        else
+        {
+          if(id(indoor_station_serial_number).state == 0)
+          {
+            return {"Pending"};
+          }
+          else
+          {
+            if(id(entrance_door_station_address).state == 63)
+            {
+              return {"Pending"};
+            }
+            else
+            {
+              return {"Press Second Entrance Doorbell (optional)"};
+            }
+          }
+        }
+      }
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_setup_status
+      sorting_weight: 5
+
+# Update setup state on changes
+number:
+  - id: !extend entrance_door_station_address
+    on_value:
+      - script.execute: update_setup_sensors
+  - id: !extend second_entrance_door_station_address
+    on_value:
+      - script.execute: update_setup_sensors
+
+
+# Extend TC:BUS Component
+tc_bus_device:
+  - id: !extend tc_bus_indoor_station
+    on_identify_complete:
+      - script.execute: update_setup_sensors
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - script.execute: complete_setup
+
+    on_identify_unknown:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - script.execute: complete_setup
+
+    on_identify_timeout:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - script.execute: complete_setup
+
+    on_read_memory_complete:
+      - script.execute: update_setup_sensors
+    
+    on_read_memory_timeout:
+      - script.execute: update_setup_sensors
+
+tc_bus:
+  on_telegram:
+    # Setup mode: Wait for Floor or Door Call
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+          - lambda: "return x.type == TELEGRAM_TYPE_FLOOR_CALL || x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_INTERNAL_CALL;"
+        then:
+          # Save Serial Number
+          - number.set:
+              id: indoor_station_serial_number
+              value: !lambda "return x.serial_number;"
+
+          - script.execute: update_setup_sensors
+
+    # If no door station id is set, wait for one
+    - if:
+        condition:
+          - lambda: return id(entrance_door_station_address).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_address).state;
+        then:
+          - number.set:
+              id: entrance_door_station_address
+              value: !lambda "return x.address;"
+          - script.execute: update_setup_sensors
+              
+    # If no second door station id is set, wait for one
+    - if:
+        condition:
+          - lambda: return id(second_entrance_door_station_address).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_address).state;
+        then:
+          - number.set:
+              id: second_entrance_door_station_address
+              value: !lambda "return x.address;"
+          - logger.log:
+              format: "The second door is now enabled! If any related entities are missing, restart Doorman to regenerate them."
+              level: WARN
+          - script.execute: update_setup_sensors
+
+script:
+  - id: !extend boot_component_init
+    then:
+      # Turn on setup mode if serial number is 0 on boot
+      - if:
+          condition:
+            - lambda: return id(indoor_station_serial_number).state == 0;
+            - switch.is_off: doorman_setup_mode
+          then:
+            - switch.turn_on: doorman_setup_mode
+            - logger.log:
+                format: "Entering setup mode automatically because no Indoor Station serial number is set."
+                level: INFO
+
+  - id: update_setup_sensors
+    then:
+      - lambda: |-
+          id(setup_status_serial_number).update();
+          id(setup_status_indoor_station_model).update();
+          id(setup_status_indoor_station_memory).update();
+          id(setup_status_entrance_door_address).update();
+          id(setup_status_second_entrance_door_address).update();
+
+  - id: complete_setup
+    then:
+      - switch.turn_off: doorman_setup_mode
+
+      - script.execute: update_setup_sensors
+
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 0%
+          green: 100%
+          blue: 10%
+          effect: none
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
+
+      - delay: 3s
+      
+      - script.execute: update_led
+
+      - logger.log:
+          format: "Setup completed. You can now continue with the Doorbells."
+          level: INFO
+
+  - id: !extend update_led
+    then:
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+          then:
+            - light.turn_on:
+                id: doorman_rgb_status_led
+                red: 0%
+                green: 100%
+                blue: 10%
+                effect: pulse

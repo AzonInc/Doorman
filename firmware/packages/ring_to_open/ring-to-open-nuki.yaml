@@ -1,0 +1,20 @@
+# Ring To Open Addon - Nuki Bridge
+
+switch:
+  # Show in UI
+  - id: !extend rto_apartment_door
+    internal: false
+
+select:
+  # Show in UI
+  - id: !extend rto_apartment_door_timeout_mode
+    internal: false
+  - id: !extend rto_apartment_door_pattern_condition
+    internal: false
+  - id: !extend rto_apartment_door_delay
+    internal: false
+
+script:
+  - id: !extend rto_apartment_door_action
+    then:
+      - lock.open: apartment_door

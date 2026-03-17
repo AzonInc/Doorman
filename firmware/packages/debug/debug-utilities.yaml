@@ -1,0 +1,357 @@
+# Debug Utilities Addon
+
+esphome:
+  devices:
+    - id: tc_bus_debug
+      name: "TC:BUS Debug Tools"
+
+logger:
+  level: VERBOSE
+  initial_level: DEBUG
+  
+globals:
+  - id: search_mode
+    type: int
+    restore_value: no
+    initial_value: "0"
+
+  - id: as_list
+    type: std::vector<int>
+    initial_value: ''
+
+  - id: is0_list
+    type: std::vector<int>
+    initial_value: ''
+
+  - id: is1_list
+    type: std::vector<int>
+    initial_value: ''
+
+  - id: extra_list
+    type: std::vector<int>
+    initial_value: ''
+
+  - id: controller_list
+    type: std::vector<int>
+    initial_value: ''
+
+
+select:
+  - id: !extend esphome_logger_level
+    options:
+      - "Configuration"
+      - "Debug"
+      - "Verbose"
+    initial_option: "Debug"
+    disabled_by_default: false
+    on_value:
+      - lambda: |-
+          if(i <= 3) {
+            id(esphome_logger).set_log_level("remote.raw", 0);
+          } else {
+            id(esphome_logger).set_log_level("remote.raw", i);
+          }
+
+  - platform: template
+    id: esphome_logger_level_tc_bus
+    device_id: tc_bus_debug
+    name: "Component Log Level"
+    icon: "mdi:math-log"
+    optimistic: true
+    options:
+      - "Disabled"
+      - "Error"
+      - "Warning"
+      - "Info"
+      - "Configuration"
+      - "Debug"
+      - "Verbose"
+    initial_option: "Debug"
+    restore_value: true
+    entity_category: CONFIG
+    on_value:
+      - lambda: |-
+          id(esphome_logger).set_log_level("tc_bus", i);
+          id(esphome_logger).set_log_level("tc_bus_device", i);
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+      sorting_weight: -5
+
+
+binary_sensor:
+  - platform: template
+    id: debug_bus_connected
+    device_id: tc_bus_debug
+    name: "Connection Status"
+    icon: "mdi:connection"
+    lambda: |-
+      if (id(debug_bus_voltage).state >= 2.45) {
+        return true;
+      } else {
+        return false;
+      }
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+sensor:
+  - platform: adc
+    id: debug_bus_voltage
+    device_id: tc_bus_debug
+    name: "Voltage"
+    icon: "mdi:current-dc"
+    pin: ${adc_input_pin}
+    update_interval: 5s
+    attenuation: 12dB
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+      sorting_weight: -5
+
+text:
+  - platform: template
+    id: debug_send_telegram
+    device_id: tc_bus_debug
+    name: "Send Telegram"
+    icon: "mdi:send"
+    mode: text
+    optimistic: true
+    set_action: 
+      then: 
+        - lambda: |-
+            x.erase(std::remove_if(x.begin(), x.end(), [](char c) { return !std::isxdigit(c); }), x.end());
+            x.erase(0, x.find_first_not_of('0'));
+            x.resize(8);
+            unsigned long number = 0;
+            if(std::string(x.c_str()) != "") {
+              number = std::stoul(x.c_str(), nullptr, 16);
+            }
+            id(tc_bus_id)->send_telegram(number);
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+button:
+  - platform: template
+    id: debug_restart_control_unit
+    device_id: tc_bus_debug
+    name: "System Restart"
+    icon: mdi:restart
+    on_press:
+      - tc_bus.send:
+          type: reset
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    id: debug_floor_call
+    device_id: tc_bus_debug
+    name: "Test Floor Call"
+    icon: mdi:restart
+    on_press:
+      - tc_bus_device.send:
+          id: tc_bus_indoor_station
+          type: floor_call
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    id: debug_system_discovery
+    device_id: tc_bus_debug
+    name: "System Discovery"
+    icon: "mdi:home-search"
+    on_press: 
+      - logger.log: Start system discovery...
+
+      # Clear Lists
+      - lambda: |-
+          id(as_list).clear();
+          id(is0_list).clear();
+          id(is1_list).clear();
+          id(extra_list).clear();
+          id(controller_list).clear();
+
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 100%
+          green: 45%
+          blue: 83%
+          effect: pulse
+
+      # Search Outdoor Stations
+      - logger.log: Search outdoor stations (2)...
+      - tc_bus.send:
+          type: select_device_group
+          payload: 2
+      - globals.set:
+          id: search_mode
+          value: "1"
+      - delay: 350ms
+      - tc_bus.send:
+          type: search_devices
+      # Wait until every outdoor station sent response
+      - delay: 5s
+
+      # Search Indoor Stations 0
+      - logger.log: Search indoor stations (0)...
+      - globals.set:
+          id: search_mode
+          value: "2"
+      - tc_bus.send:
+          type: select_device_group
+          payload: 0
+      - delay: 350ms
+      - tc_bus.send:
+          type: search_devices
+      # Wait until every indoor station sent response
+      - delay: 10s
+
+      # Search Indoor Stations 1
+      - logger.log: Search indoor stations (1)...
+      - globals.set:
+          id: search_mode
+          value: "3"
+      - tc_bus.send:
+          type: select_device_group
+          payload: 1
+      - delay: 350ms
+      - tc_bus.send:
+          type: search_devices
+      # Wait until every indoor station sent response
+      - delay: 10s
+
+      # Search Extras
+      - logger.log: Search extras (6)...
+      - globals.set:
+          id: search_mode
+          value: "4"
+      - tc_bus.send:
+          type: select_device_group
+          payload: 6
+      - delay: 350ms
+      - tc_bus.send:
+          type: search_devices
+      # Wait until every extra sent response
+      - delay: 10s
+
+      # Search Controllers
+      - logger.log: Search controllers (4)...
+      - globals.set:
+          id: search_mode
+          value: "5"
+      - tc_bus.send:
+          type: select_device_group
+          payload: 4
+      - delay: 350ms
+      - tc_bus.send:
+          type: search_devices
+      # Wait until every controller sent response
+      - delay: 10s
+
+      # Complete
+      - globals.set:
+          id: search_mode
+          value: "0"
+
+      - logger.log: "Search complete!"
+
+      - lambda: |-
+          ESP_LOGI("DEBUG", "Controllers (Group 4): %d", id(controller_list).size());
+          if(id(controller_list).size() > 0) {
+            for (const auto& value : id(controller_list)) {
+              ESP_LOGI("DEBUG", "%d", value);
+            }
+          } else {
+            ESP_LOGI("DEBUG", "No results!");
+          }
+          ESP_LOGI("DEBUG", "    ");
+
+      - lambda: |-
+          ESP_LOGI("DEBUG", "Outdoor Stations (Group 2): %d", id(as_list).size());
+          if(id(as_list).size() > 0) {
+            for (const auto& value : id(as_list)) {
+              ESP_LOGI("DEBUG", "%d", value);
+            }
+          } else {
+            ESP_LOGI("DEBUG", "No results!");
+          }
+          ESP_LOGI("DEBUG", "    ");
+
+      - lambda: |-
+          ESP_LOGI("DEBUG", "Indoor Stations (Group 0): %d", id(is0_list).size());
+          if(id(is0_list).size() > 0) {
+            for (const auto& value : id(is0_list)) {
+              ESP_LOGI("DEBUG", "%d", value);
+            }
+          } else {
+            ESP_LOGI("DEBUG", "No results!");
+          }
+          ESP_LOGI("DEBUG", "    ");
+
+      - lambda: |-
+          ESP_LOGI("DEBUG", "Indoor Stations (Group 1): %d", id(is1_list).size());
+          if(id(is1_list).size() > 0) {
+            for (const auto& value : id(is1_list)) {
+              ESP_LOGI("DEBUG", "%d", value);
+            }
+          } else {
+            ESP_LOGI("DEBUG", "No results!");
+          }
+          ESP_LOGI("DEBUG", "    ");
+
+      - lambda: |-
+          ESP_LOGI("DEBUG", "Extras (Group 6): %d", id(extra_list).size());
+          if(id(extra_list).size() > 0) {
+            for (const auto& value : id(extra_list)) {
+              ESP_LOGI("DEBUG", "%d", value);
+            }
+          } else {
+            ESP_LOGI("DEBUG", "No results!");
+          }
+
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          red: 100%
+          green: 45%
+          blue: 83%
+          effect: none
+          #transition_length: 1s
+          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
+
+      - delay: 3s
+      - script.execute: update_led
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+# Extend TC:BUS Component
+tc_bus:
+  on_telegram:
+    - if:
+        condition:
+          - lambda: |-
+              return x.type == TELEGRAM_TYPE_FOUND_DEVICE && id(search_mode) != 0;
+        then:
+          - lambda: |-
+              int mode = id(search_mode);
+              int serial = x.serial_number;
+
+              if (mode == 1) {
+                if (std::find(id(as_list).begin(), id(as_list).end(), serial) == id(as_list).end()) {
+                  id(as_list).push_back(serial);
+                }
+              } else if (mode == 2) {
+                if (std::find(id(is0_list).begin(), id(is0_list).end(), serial) == id(is0_list).end()) {
+                  id(is0_list).push_back(serial);
+                }
+              } else if (mode == 3) {
+                if (std::find(id(is1_list).begin(), id(is1_list).end(), serial) == id(is1_list).end()) {
+                  id(is1_list).push_back(serial);
+                }
+              } else if (mode == 4) {
+                if (std::find(id(extra_list).begin(), id(extra_list).end(), serial) == id(extra_list).end()) {
+                  id(extra_list).push_back(serial);
+                }
+              } else if (mode == 5) {
+                if (std::find(id(controller_list).begin(), id(controller_list).end(), serial) == id(controller_list).end()) {
+                  id(controller_list).push_back(serial);
+                }
+              }

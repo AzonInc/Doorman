@@ -1,0 +1,36 @@
+# Debug Component Addon
+
+debug:
+  update_interval: 5s
+
+esphome:
+  devices:
+    - id: doorman_debug
+      name: "Doorman Debug Tools"
+
+text_sensor:
+  - platform: debug
+    reset_reason:
+      id: debug_restart_reason
+      device_id: doorman_debug
+      name: "Reset Reason"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_debug_tools
+
+sensor:
+  - platform: debug
+    free:
+      id: debug_heap_free
+      device_id: doorman_debug
+      name: "Heap Free"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_debug_tools
+    block:
+      id: debug_heap_max_block
+      device_id: doorman_debug
+      name: "Heap Max Block"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_debug_tools
