@@ -17,25 +17,25 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: firmware/web-server/package-lock.json
+          cache-dependency-path: firmware/web-server/ui/package-lock.json
 
       - name: Install dependencies
         run: npm install
-        working-directory: firmware/web-server
+        working-directory: firmware/web-server/ui
 
       - name: Use dev branch resources
         if: startsWith(github.ref_name, 'dev')
-        working-directory: firmware/web-server
+        working-directory: firmware/web-server/ui
         run: |
           find . -type f -exec sed -i "s/doorman.azon.ai/dev.doorman.azon.ai/g" {} +
 
       - name: Build Webserver Bundle
-        working-directory: firmware/web-server
+        working-directory: firmware/web-server/ui
         run: npm run xbuild
 
       - name: Upload webserver artifact
         uses: actions/upload-artifact@v5
         with:
           name: webserver-bundle
-          path: firmware/web-server/dist
+          path: firmware/web-server/ui/dist
           if-no-files-found: error

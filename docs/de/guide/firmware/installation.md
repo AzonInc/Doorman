@@ -270,9 +270,13 @@ Wenn du volle Kontrolle möchtest und eigene Sensoren, Automationen oder Funktio
 ### ESPHome Dashboard
 Du kannst Doorman in dein [ESPHome-Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) übernehmen und eine individuell angepasste Firmware flashen.
 
+::: warning EINSCHRÄNKUNG
+Die Übernahme ins Dashboard funktioniert ausschließlich wenn die Firmware mit `Home Assistant` Smart Home Integration geflasht wurde.
+:::
+
 Die übernommene Konfiguration könnte zum Beispiel so aussehen:
 ```yaml
-<!--@include: ../firmware/minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
 ```
 
 ### ESPHome CLI
@@ -298,82 +302,134 @@ esphome run <yamlfile.yaml>
 | ADC Input      | GPIO 10  | GPIO 36  |
 
 ### Standard Firmware
-::: details ESP32-S3 (Octal PSRAM) / Doorman S3 (1.5+)
+::: details Doorman S3 (2.0+)
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3.ha.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 ```
 ```yaml [MQTT]
-<!--@include: ../../../../firmware/examples/esp32-s3.mqtt.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.mqtt.standard.master.yaml-->
 ```
 ```yaml [HomeKit]
-<!--@include: ../../../../firmware/examples/esp32-s3.homekit.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.homekit.standard.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3.custom.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.custom.standard.master.yaml-->
 ```
 :::
 
-::: details ESP32-S3 (Quad PSRAM) / Doorman S3 (1.4)
+::: details Doorman S3 (2.0+) + Audio Extension Board
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.ha.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.ha.standard.master.yaml-->
 ```
 ```yaml [MQTT]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.mqtt.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.mqtt.standard.master.yaml-->
 ```
 ```yaml [HomeKit]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.homekit.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.homekit.standard.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.custom.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.custom.standard.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.5+) / ESP32-S3 (Octal PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+```
+```yaml [MQTT]
+<!--@include: ../../../../firmware/configurations/esp32-s3.mqtt.standard.master.yaml-->
+```
+```yaml [HomeKit]
+<!--@include: ../../../../firmware/configurations/esp32-s3.homekit.standard.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3.custom.standard.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.4) / ESP32-S3 (Quad PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.ha.standard.master.yaml-->
+```
+```yaml [MQTT]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.mqtt.standard.master.yaml-->
+```
+```yaml [HomeKit]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.homekit.standard.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.custom.standard.master.yaml-->
 ```
 :::
 
 ::: details Generic ESP32
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32.ha.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.ha.standard.master.yaml-->
 ```
 ```yaml [MQTT]
-<!--@include: ../../../../firmware/examples/esp32.mqtt.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.mqtt.standard.master.yaml-->
 ```
 ```yaml [HomeKit]
-<!--@include: ../../../../firmware/examples/esp32.homekit.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.homekit.standard.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32.custom.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.custom.standard.master.yaml-->
 ```
 :::
 
 ### Nuki Bridge Firmware
-::: details ESP32-S3 (Octal PSRAM) / Doorman S3 (1.5+)
+::: details Doorman S3 (2.0+)
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3.ha.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.nuki-bridge.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3.custom.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.custom.nuki-bridge.master.yaml-->
 ```
 :::
 
-::: details ESP32-S3 (Quad PSRAM) / Doorman S3 (1.4)
+::: details Doorman S3 (2.0+) + Audio Erweiterung
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.ha.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.ha.nuki-bridge.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.custom.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.custom.nuki-bridge.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.5+) / ESP32-S3 (Octal PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3.ha.nuki-bridge.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3.custom.nuki-bridge.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.4) / ESP32-S3 (Quad PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.ha.nuki-bridge.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.custom.nuki-bridge.master.yaml-->
 ```
 :::
 
 ::: details Generic ESP32
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32.ha.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.ha.nuki-bridge.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32.custom.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.custom.nuki-bridge.master.yaml-->
 ```
 :::
 

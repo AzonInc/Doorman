@@ -1,0 +1,7 @@
+wifi:
+  id: wifi_id
+  ap:
+    ssid: "${friendly_name} Setup"
+    password: "${ap_password}"
+
+captive_portal:

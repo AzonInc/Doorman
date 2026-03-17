@@ -99,7 +99,7 @@ jobs:
           - variant: nuki-bridge
             integration: homekit
     with:
-      files: firmware/configurations/${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}.${{ github.ref_name == 'master' && 'master' || 'dev' }}.yaml
+      files: firmware/configurations/${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}.${{ github.ref_name == 'master' && 'master' || 'dev' }}.factory.yaml
       name: Doorman ${{ matrix.variant == 'nuki-bridge' && 'Nuki-Bridge' || 'Standard' }} for ${{ matrix.integration == 'ha' && 'Home Assistant' || matrix.integration == 'mqtt' && 'MQTT' || matrix.integration == 'homekit' && 'HomeKit' || matrix.integration == 'custom' && 'Standalone Integration' || matrix.integration }}
       esphome_version: ${{ github.ref_name == 'master' && 'latest' || 'dev' }}
       directory_name: ${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}

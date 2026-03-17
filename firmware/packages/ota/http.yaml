@@ -31,7 +31,7 @@ switch:
     icon: "mdi:test-tube"
     entity_category: CONFIG
     optimistic: true
-    restore_mode: "{{ 'RESTORE_DEFAULT_ON' if branch == 'dev' else 'RESTORE_DEFAULT_OFF' }}"
+    restore_mode: "${ 'RESTORE_DEFAULT_ON' if branch == 'dev' else 'RESTORE_DEFAULT_OFF' }"
     on_turn_on:
       - logger.log: "OTA update source set to dev"
       - lambda: |-

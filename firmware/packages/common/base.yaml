@@ -1,17 +1,12 @@
-# Configurable Options
-substitutions:
-  name: "doorman-s3"
-  friendly_name: "Doorman S3"
-
 # Essential ESPHome Configuration Options
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
-  name_add_mac_suffix: false
+  name: "${name}"
+  friendly_name: "${friendly_name}"
   min_version: "2026.2.0"
   project:
-    name: "AzonInc.Doorman Standard"
-    version: "2026.3.0"
+    name: AzonInc.Doorman Standard
+    version: 2026.3.0
+  name_add_mac_suffix: false
   on_boot:
     - priority: 500.0
       then:
@@ -27,6 +22,7 @@ esphome:
   devices:
     - id: tc_bus_general
       name: "TC:BUS"
+      
     - id: tc_bus_is
       name: "TC:BUS Indoor Station"
 
@@ -38,7 +34,7 @@ logger:
   runtime_tag_levels: true
 
 web_server:
-  js_url: "https://doorman.azon.ai/firmware/esphome-webserver/www.js"
+  js_url: "${ 'https://dev.doorman.azon.ai/firmware/esphome-webserver/www.js' if branch == 'dev' else 'https://doorman.azon.ai/firmware/esphome-webserver/www.js' }"
   version: 3
   sorting_groups:
     - id: sorting_group_controls
@@ -80,6 +76,9 @@ web_server:
     - id: sorting_group_information
       name: "Information - System"
       sorting_weight: -5
+
+# Setup Improv Serial
+improv_serial:
 
 # Setup TC:BUS Component
 tc_bus:

@@ -37,12 +37,6 @@ jobs:
         working-directory: docs
         run: |
           sed -i "s/\"version\": \".*\"/\"version\": \"${FULL_VERSION}\"/" package.json
-          
-      - name: Update example firmware branch references
-        if: startsWith(github.ref_name, 'dev')
-        working-directory: firmware/examples
-        run: |
-          sed -i "s/master.yaml@master/dev.yaml@${{ github.ref_name }}/g" *.example.yaml
 
       - name: Update documentation branch references
         if: startsWith(github.ref_name, 'dev')
@@ -55,12 +49,11 @@ jobs:
           sed -i "s/@master/@${{ github.ref_name }}/g" */reference/schematics.md
 
           # Update example references
-          sed -i "s/@master/@${{ github.ref_name }}/g" */guide/firmware/customization.md
-          sed -i "s/branch: \"master\"/branch: \"${{ github.ref_name }}\"/g" */guide/firmware/customization.md
+          sed -i "s/master\.yaml/dev.yaml/g" */guide/firmware/customization.yaml
           
           # Update firmware example references
-          sed -i "s/master.yaml@master/dev.yaml@${{ github.ref_name }}/g" */guide/firmware/minimal.example.yaml
-          
+          sed -i "s/master\.yaml/dev.yaml/g" */guide/firmware/installation.yaml
+
           # Update ESPHome component references
           sed -i "s/@master/@${{ github.ref_name }}/g" */reference/esphome-component*.md
 

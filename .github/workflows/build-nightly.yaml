@@ -27,10 +27,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Build ESPHome firmware
+      - name: Build Factory ESPHome firmware
         uses: esphome/build-action@v7.1.0
         with:
-          yaml-file: firmware/configurations/${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}.master.yaml
+          yaml-file: firmware/configurations/${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}.master.factory.yaml
           version: latest
           complete-manifest: true
 

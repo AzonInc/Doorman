@@ -5,6 +5,8 @@
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
   branch: "dev"
   firmware_type: "standard"
   api_variant: "ha"
@@ -13,20 +15,10 @@ substitutions:
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
-  name_add_mac_suffix: false
-  project:
-    name: AzonInc.Doorman Standard
-    version: 2026.3.0
 
 wifi:
-  id: wifi_id
-  ap:
-    ssid: "${friendly_name} Setup"
-    password: "Op3n-Sesame!"
-
-captive_portal:
-
-improv_serial:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
 
 packages:
   remote_package_files:
@@ -34,19 +26,19 @@ packages:
     ref: dev
     refresh: 0s
     files:
-      - path: packages/host/esp32-s3.yaml
-      - path: packages/common/external-components.yaml
-      - path: packages/common/rgb-status-led.ws2812b.yaml
-      - path: packages/common/rgb-status-led.effects.yaml
-      - path: packages/common/base.yaml
-      - path: packages/common/web-server.dev.yaml
-      - path: packages/common/bluedroid-ble.yaml
-      - path: packages/ota/esphome.yaml
-      - path: packages/api/homeassistant.yaml
-      - path: packages/debug/debug-utilities.yaml
-      - path: packages/debug/debug-component.yaml
-      - path: packages/debug/debug-component.psram.yaml
-      - path: packages/pattern_events/pattern-events.yaml
-      - path: packages/ring_to_open/ring-to-open.yaml
-      - path: packages/bus_devices/indoor-station-settings.yaml
-      - path: packages/bus_devices/interactive-setup.yaml
+      - path: firmware/packages/host/esp32-s3.yaml
+      - path: firmware/packages/common/rgb-status-led.ws2812b.yaml
+      - path: firmware/packages/common/rgb-status-led.effects.yaml
+      - path: firmware/packages/common/external-components.yaml
+      - path: firmware/packages/common/base.yaml
+      - path: firmware/packages/common/wifi.yaml
+      - path: firmware/packages/common/bluedroid-ble.yaml
+      - path: firmware/packages/ota/esphome.yaml
+      - path: firmware/packages/api/homeassistant.yaml
+      - path: firmware/packages/debug/debug-utilities.yaml
+      - path: firmware/packages/debug/debug-component.yaml
+      - path: firmware/packages/debug/debug-component.psram.yaml
+      - path: firmware/packages/pattern_events/pattern-events.yaml
+      - path: firmware/packages/ring_to_open/ring-to-open.yaml
+      - path: firmware/packages/bus_devices/indoor-station-settings.yaml
+      - path: firmware/packages/bus_devices/interactive-setup.yaml

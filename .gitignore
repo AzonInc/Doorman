@@ -22,4 +22,6 @@ TODOs.md
 __pycache__
 .esphome
 .esphome/
-/secrets.yaml
+/.esphome/
+secrets.yaml
+firmware/configurations/.gitignore

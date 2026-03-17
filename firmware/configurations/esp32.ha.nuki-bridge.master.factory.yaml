@@ -5,6 +5,8 @@
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
   branch: "master"
   firmware_type: "nuki-bridge"
   api_variant: "ha"
@@ -13,42 +15,24 @@ substitutions:
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
-  name_add_mac_suffix: false
-  project:
-    name: AzonInc.Doorman Nuki-Bridge
-    version: 2026.3.0
-
-wifi:
-  id: wifi_id
-  ap:
-    ssid: "${friendly_name} Setup"
-    password: "Op3n-Sesame!"
-
-captive_portal:
-
-improv_serial:
 
 dashboard_import:
   package_import_url: github://azoninc/doorman/firmware/configurations/esp32.ha.nuki-bridge.master.yaml@master
   import_full_config: true
 
 packages:
-  remote_package_files:
-    url: https://github.com/azoninc/doorman
-    ref: master
-    refresh: 0s
-    files:
-      - path: packages/host/esp32.yaml
-      - path: packages/common/external-components.yaml
-      - path: packages/common/rgb-status-led.ws2812b.yaml
-      - path: packages/common/rgb-status-led.effects.yaml
-      - path: packages/common/base.yaml
-      - path: packages/ota/esphome.yaml
-      - path: packages/ota/http.yaml
-      - path: packages/api/homeassistant.yaml
-      - path: packages/pattern_events/pattern-events.yaml
-      - path: packages/ring_to_open/ring-to-open.yaml
-      - path: packages/ring_to_open/ring-to-open-nuki.yaml
-      - path: packages/bus_devices/indoor-station-settings.yaml
-      - path: packages/nuki/nuki-bridge.yaml
-      - path: packages/bus_devices/interactive-setup.yaml
+  host: !include ../packages/host/esp32.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.ws2812b.yaml
+  rgb_status_led_effects: !include ../packages/common/rgb-status-led.effects.yaml
+  external_components: !include ../packages/common/external-components.yaml
+  base: !include ../packages/common/base.yaml
+  wifi: !include ../packages/common/wifi.yaml
+  ota_update_esphome: !include ../packages/ota/esphome.yaml
+  ota_update_http: !include ../packages/ota/http.yaml
+  api: !include ../packages/api/homeassistant.yaml
+  pattern_events: !include ../packages/pattern_events/pattern-events.yaml
+  ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
+  ring_to_open_nuki: !include ../packages/ring_to_open/ring-to-open-nuki.yaml
+  indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
+  addon_nuki_bridge: !include ../packages/nuki/nuki-bridge.yaml
+  interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml

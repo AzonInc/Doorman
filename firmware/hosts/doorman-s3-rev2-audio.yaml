@@ -1,3 +1,0 @@
-# Board Setup
-packages:
-  base: !include doorman-s3-rev2.yaml

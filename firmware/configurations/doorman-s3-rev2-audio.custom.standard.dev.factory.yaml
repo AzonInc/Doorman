@@ -1,10 +1,16 @@
 # Doorman Standard Firmware (Custom)
 # Base Board DOORMAN-S3-REV2-AUDIO
 
+# ESPHome Dashboard import and remote logging are not
+# supported in this firmware, as they require the API.
+# Available only via the Home Assistant API integration.
+
 # You can change a few options here.
 substitutions:
   name: "doorman-s3"
   friendly_name: "Doorman S3"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
   branch: "dev"
   firmware_type: "standard"
   api_variant: "custom"
@@ -13,41 +19,22 @@ substitutions:
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
-  name_add_mac_suffix: false
-  project:
-    name: AzonInc.Doorman Standard
-    version: 2026.3.0
-
-wifi:
-  id: wifi_id
-  ap:
-    ssid: "${friendly_name} Setup"
-    password: "Op3n-Sesame!"
-
-captive_portal:
-
-improv_serial:
 
 packages:
-  remote_package_files:
-    url: https://github.com/azoninc/doorman
-    ref: dev
-    refresh: 0s
-    files:
-      - path: packages/host/doorman-s3-rev2-audio.yaml
-      - path: packages/common/external-components.yaml
-      - path: packages/common/rgb-status-led.ws2812b.yaml
-      - path: packages/common/rgb-status-led.effects.yaml
-      - path: packages/common/base.yaml
-      - path: packages/common/web-server.dev.yaml
-      - path: packages/audio/es8311.yaml
-      - path: packages/ota/esphome.yaml
-      - path: packages/ota/http.yaml
-      - path: packages/api/custom.yaml
-      - path: packages/debug/debug-utilities.yaml
-      - path: packages/debug/debug-component.yaml
-      - path: packages/debug/debug-component.psram.yaml
-      - path: packages/pattern_events/pattern-events.yaml
-      - path: packages/ring_to_open/ring-to-open.yaml
-      - path: packages/bus_devices/indoor-station-settings.yaml
-      - path: packages/bus_devices/interactive-setup.yaml
+  host: !include ../packages/host/doorman-s3-rev2-audio.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.ws2812b.yaml
+  rgb_status_led_effects: !include ../packages/common/rgb-status-led.effects.yaml
+  external_components: !include ../packages/common/external-components.yaml
+  base: !include ../packages/common/base.yaml
+  wifi: !include ../packages/common/wifi.yaml
+  audio: !include ../packages/audio/es8311.yaml
+  ota_update_esphome: !include ../packages/ota/esphome.yaml
+  ota_update_http: !include ../packages/ota/http.yaml
+  api: !include ../packages/api/custom.yaml
+  debug_utilities: !include ../packages/debug/debug-utilities.yaml
+  debug_component: !include ../packages/debug/debug-component.yaml
+  debug_component_psram: !include ../packages/debug/debug-component.psram.yaml
+  pattern_events: !include ../packages/pattern_events/pattern-events.yaml
+  ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
+  indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
+  interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml

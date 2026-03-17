@@ -1,6 +1,8 @@
 # Nuki Bridge Addon
 
 esphome:
+  project:
+    name: AzonInc.Doorman Nuki-Bridge
   devices:
     - id: nuki_smart_lock
       name: "Nuki Lock"
