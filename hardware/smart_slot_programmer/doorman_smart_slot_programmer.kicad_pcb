@@ -187,7 +187,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -216,7 +216,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/43bf270a-63ef-40b5-99bc-7dc06e1f4fe2")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -291,7 +291,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -320,7 +320,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/3861602e-d622-44ec-ab96-89ebbabcca62")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -395,7 +395,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -424,7 +424,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/6233fe98-3c4f-47e4-9bd5-a96cca6912e7")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -499,7 +499,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -528,7 +528,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/78ffe931-cf09-4d5b-a400-dd2dcaa70ca0")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -603,7 +603,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -632,7 +632,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/1d1e3ad9-e943-4857-972e-cebe1ccf0eb2")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -707,7 +707,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -736,7 +736,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/4879175f-f014-4a72-b34b-e8d4dbfa5828")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -811,7 +811,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -840,7 +840,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/db297448-be21-4692-81e9-f34a1428b6c9")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -915,7 +915,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -944,7 +944,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/f0c9944e-3979-409d-987e-8f69f58238a5")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -1019,7 +1019,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1048,7 +1048,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/c86b4e97-574c-4bb1-81e8-9d772c0efc35")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -1123,7 +1123,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1152,7 +1152,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/94b3b4f8-385a-4b3f-8ee5-f8a3571378dd")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr exclude_from_pos_files)
 		(fp_circle
 			(center 0 0)
@@ -1356,7 +1356,7 @@
 		)
 		(path "/e05ecd70-f0b3-4f6e-8234-f27ec2c9cfe4")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 5.1 3.545)
@@ -1582,7 +1582,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -1613,7 +1613,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/d5259e31-1b2d-4535-8d00-fb1f8b7b082e")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr through_hole)
 		(fp_line
 			(start -10.09 1.33)
@@ -2787,7 +2787,7 @@
 		)
 		(path "/542728b8-f0b6-43ce-9b2e-dea62d5d00af")
 		(sheetname "/")
-		(sheetfile "doorman_slot_programmer.kicad_sch")
+		(sheetfile "doorman_smart_slot_programmer.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 5.1 3.545)

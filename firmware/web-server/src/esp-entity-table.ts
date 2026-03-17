@@ -50,6 +50,12 @@ interface entityConfig {
   value_numeric_history: number[];
   uom?: string;
   is_disabled_by_default?: boolean;
+  // Water heater specific
+  away?: boolean;
+  is_on?: boolean;
+  // Infrared specific
+  supports_transmitter?: boolean;
+  supports_receiver?: boolean;
 }
 
 interface groupConfig {
@@ -140,8 +146,10 @@ export class EntityTable extends LitElement implements RestAction {
     window.source?.addEventListener('state', (e: Event) => {
       const messageEvent = e as MessageEvent;
       const data = JSON.parse(messageEvent.data);
-      let idx = this.entities.findIndex((x) => x.unique_id === data.id);
-      if (idx != -1 && data.id) {
+      // Prefer name_id (new format) over id (legacy format) for entity identification
+      const entityId = data.name_id || data.id;
+      let idx = this.entities.findIndex((x) => x.unique_id === entityId);
+      if (idx != -1 && entityId) {
         if (typeof data.value === 'number') {
           let history = [...this.entities[idx].value_numeric_history];
           history.push(data.value);
@@ -158,6 +166,7 @@ export class EntityTable extends LitElement implements RestAction {
         }
 
         delete data.id;
+        delete data.name_id;
         delete data.domain;
         delete data.unique_id;
         Object.assign(this.entities[idx], data);
@@ -167,18 +176,18 @@ export class EntityTable extends LitElement implements RestAction {
         if (data?.name && data?.domain) {
           this.addEntity(data);
         } else {
-          if (this._unknown_state_events[data.id]) {
-            this._unknown_state_events[data.id]++;
+          if (this._unknown_state_events[entityId]) {
+            this._unknown_state_events[entityId]++;
           } else {
-            this._unknown_state_events[data.id] = 1;
+            this._unknown_state_events[entityId] = 1;
           }
           // ignore the first few events, maybe the esp will send a detail_all
           // event soon
-          if (this._unknown_state_events[data.id] < 1) {
+          if (this._unknown_state_events[entityId] < 1) {
             return;
           }
 
-          fetch(buildIdFetchUrl(this._basePath, data.id), {
+          fetch(buildIdFetchUrl(this._basePath, entityId), {
             method: 'GET',
           })
               .then((r) => {
@@ -228,15 +237,17 @@ export class EntityTable extends LitElement implements RestAction {
   }
 
   addEntity(data: any) {
-    let idx = this.entities.findIndex((x) => x.unique_id === data.id);
-    if (idx === -1 && data.id) {
+    // Prefer name_id (new format) over id (legacy format) for entity identification
+    const entityId = data.name_id || data.id;
+    let idx = this.entities.findIndex((x) => x.unique_id === entityId);
+    if (idx === -1 && entityId) {
       // Dynamically add discovered entity
       // domain comes from JSON (new format) or parsed from id (old format)
-      const domain = data.domain || parseDomainFromId(data.id);
+      const domain = data.domain || parseDomainFromId(entityId);
       let entity = {
         ...data,
         domain: domain,
-        unique_id: data.id,
+        unique_id: entityId,
         entity_category: data.entity_category,
         sorting_group: data.sorting_group ?? (EntityTable.ENTITY_CATEGORIES[parseInt(data.entity_category)] || EntityTable.ENTITY_UNDEFINED),
         value_numeric_history: [data.value],
@@ -909,6 +920,228 @@ class ActionRenderer {
     return html`${this._actionButton(this.entity, "OPEN", "open", this.entity.state === "OPEN")}
     ${this._actionButton(this.entity, "☐", "stop")}
     ${this._actionButton(this.entity, "CLOSE", "close", this.entity.state === "CLOSED")}`;
+  }
+  render_water_heater() {
+    if (!this.entity) return;
+
+    // Current temperature display (if available)
+    let current_temp = this.entity.current_temperature !== undefined
+      ? html`<div class="climate-row" style="padding-bottom: 10px">
+               <label>Current:&nbsp;${this.entity.current_temperature} °C</label>
+             </div>`
+      : nothing;
+
+    // Target temperature control(s)
+    let target_temp;
+    if (
+      this.entity.target_temperature_low !== undefined &&
+      this.entity.target_temperature_high !== undefined
+    ) {
+      target_temp = html`
+        <div class="climate-row">
+          <label>Target Low:&nbsp;</label>
+          ${this._range(
+            this.entity,
+            "set",
+            "target_temperature_low",
+            this.entity.target_temperature_low,
+            this.entity.min_temp,
+            this.entity.max_temp,
+            this.entity.step
+          )}
+        </div>
+        <div class="climate-row">
+          <label>Target High:&nbsp;</label>
+          ${this._range(
+            this.entity,
+            "set",
+            "target_temperature_high",
+            this.entity.target_temperature_high,
+            this.entity.min_temp,
+            this.entity.max_temp,
+            this.entity.step
+          )}
+        </div>`;
+    } else if (this.entity.target_temperature !== undefined) {
+      target_temp = html`
+        <div class="climate-row">
+          <label>Target:&nbsp;</label>
+          ${this._range(
+            this.entity,
+            "set",
+            "target_temperature",
+            this.entity.target_temperature,
+            this.entity.min_temp,
+            this.entity.max_temp,
+            this.entity.step
+          )}
+        </div>`;
+    } else {
+      target_temp = nothing;
+    }
+
+    // Mode selector (if modes available)
+    let modes = (this.entity.modes?.length ?? 0) > 0
+      ? html`
+          <div class="climate-row">
+            <label>Mode:&nbsp;</label>
+            ${this._select(
+              this.entity,
+              "set",
+              "mode",
+              this.entity.modes || [],
+              this.entity.state || ""
+            )}
+          </div>`
+      : nothing;
+
+    // Away mode toggle (if supported)
+    let away = this.entity.away !== undefined
+      ? html`
+          <div class="climate-row">
+            <label>Away:&nbsp;</label>
+            ${this._actionButton(
+              this.entity,
+              this.entity.away ? "ON" : "OFF",
+              `set?away=${!this.entity.away}`,
+              false
+            )}
+          </div>`
+      : nothing;
+
+    // On/Off toggle (if supported)
+    let on_off = this.entity.is_on !== undefined
+      ? html`
+          <div class="climate-row">
+            <label>Power:&nbsp;</label>
+            ${this._actionButton(
+              this.entity,
+              this.entity.is_on ? "ON" : "OFF",
+              `set?is_on=${!this.entity.is_on}`,
+              false
+            )}
+          </div>`
+      : nothing;
+
+    return html`
+      <div class="climate-wrap">
+        ${current_temp} ${target_temp} ${modes} ${away} ${on_off}
+      </div>
+    `;
+  }
+  render_infrared() {
+    if (!this.entity) return;
+
+    // Only show transmit UI if entity supports transmitter
+    if (this.entity.supports_transmitter !== true) {
+      return nothing;
+    }
+
+    const entity = this.entity;
+
+    // Helper to encode timings array to base64url
+    const encodeTimings = (timingsStr: string): string => {
+      const timings = timingsStr.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+      const buffer = new ArrayBuffer(timings.length * 4);
+      const view = new DataView(buffer);
+      timings.forEach((val, i) => view.setInt32(i * 4, val, true)); // little-endian
+      const bytes = new Uint8Array(buffer);
+      let binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      // Convert to base64url: replace + with -, / with _, remove padding =
+      return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    };
+
+    const handleTransmit = (e: Event) => {
+      const button = e.currentTarget as HTMLElement;
+      const container = button.parentElement?.parentElement; // button -> .infrared-row -> .infrared-wrap
+      if (!container) {
+        console.error('Infrared: Could not find container');
+        return;
+      }
+
+      const carrierInput = container.querySelector('input[data-field="carrier"]') as HTMLInputElement;
+      const repeatInput = container.querySelector('input[data-field="repeat"]') as HTMLInputElement;
+      const timingsInput = container.querySelector('input[data-field="timings"]') as HTMLInputElement;
+
+      if (!carrierInput || !repeatInput || !timingsInput) {
+        console.error('Infrared: Could not find input elements', { carrierInput, repeatInput, timingsInput });
+        return;
+      }
+
+      const carrier = carrierInput.value || '38000';
+      const repeat = repeatInput.value || '1';
+      const timingsRaw = timingsInput.value || '';
+
+      if (!timingsRaw.trim()) {
+        console.warn('Infrared: No timings provided');
+        return;
+      }
+
+      const timingsEncoded = encodeTimings(timingsRaw);
+      console.log('Infrared: Transmitting', { carrier, repeat, timingsRaw, timingsEncoded });
+
+      // Build URL for transmit action (without query params - data goes in body)
+      const basePath = getBasePath();
+      const url = buildEntityActionUrl(basePath, entity, 'transmit');
+
+      // Send data in POST body to avoid URI Too Long error
+      const body = new URLSearchParams();
+      body.append('carrier_frequency', carrier);
+      body.append('repeat_count', repeat);
+      body.append('data', timingsEncoded);
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: body.toString()
+      }).then(r => {
+        console.log('Infrared: Transmit response', r);
+      }).catch(err => {
+        console.error('Infrared: Transmit error', err);
+      });
+    };
+
+    return html`
+      <div class="infrared-wrap">
+        <div class="infrared-row">
+          <label>Carrier (Hz):&nbsp;</label>
+          <input
+            type="number"
+            data-field="carrier"
+            value="38000"
+            min="1000"
+            max="100000"
+            style="width: 80px"
+          />
+        </div>
+        <div class="infrared-row">
+          <label>Repeat:&nbsp;</label>
+          <input
+            type="number"
+            data-field="repeat"
+            value="1"
+            min="1"
+            max="100"
+            style="width: 50px"
+          />
+        </div>
+        <div class="infrared-row">
+          <label>Timings:&nbsp;</label>
+          <input
+            type="text"
+            data-field="timings"
+            placeholder="e.g. 9000,-4500,560,-560,..."
+            style="width: 100%; min-width: 200px"
+          />
+        </div>
+        <div class="infrared-row">
+          <button class="abutton" @click=${handleTransmit}>TX</button>
+        </div>
+      </div>
+    `;
   }
   render_update() {
     if (!this.entity) return;

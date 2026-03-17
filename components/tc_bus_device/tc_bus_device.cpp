@@ -39,22 +39,29 @@ namespace esphome::tc_bus
         uint32_t hash = fnv1_hash("tc_bus_device_" + this->internal_id_);
         this->pref_ = global_preferences->make_preference<TCBusDeviceSettings>(hash, true);
 
-        TCBusDeviceSettings recovered{};
+        // Register remote listener
+        // Before loading settings because we need listener_id_
+        if(this->virtual_)
+        {
+            // Higher priority for virtual devices to ensure they receive telegrams in time
+            this->tc_bus_->register_remote_listener(this, 10);
+        }
+        else
+        {
+            this->tc_bus_->register_remote_listener(this);
+        }
 
+        // Restore settings
+        TCBusDeviceSettings recovered{};
         if (!this->pref_.load(&recovered))
         {
-            // Generate serial number for virtual device based on mac address
-
-            // TODO: count internal devices and increment serial number for each device
-            // to avoid conflicts when multiple virtual devices are used
-
+            // Generate serial number for virtual device based on mac address + listener id
             if(this->virtual_)
             {
                 uint8_t mac[6];
                 get_mac_address_raw(mac);
-                uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | (mac[5] & 0xF0) >> 4;
-
-                recovered.serial_number = mac_addr;
+                uint32_t mac_addr = ((mac[3] & 0x0F) << 16) | (mac[4] << 8) | mac[5];
+                recovered.serial_number = mac_addr + this->listener_id_;
             }
         }
 
@@ -183,17 +190,6 @@ namespace esphome::tc_bus
         }
         #endif
 
-        // Register remote listener
-        if(this->virtual_)
-        {
-            // Higher priority for virtual devices to ensure they receive telegrams in time
-            this->tc_bus_->register_remote_listener(this, 10);
-        }
-        else
-        {
-            this->tc_bus_->register_remote_listener(this);
-        }
-
         // Schedule flows for physical devices only
         if(this->virtual_ == false && this->auto_configuration_ && this->serial_number_ != 0)
         {
@@ -217,18 +213,16 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::set_serial_number(uint32_t serial_number, bool save)
     {
-        if(serial_number > 0xFFFFF)
+        if(serial_number > 1000000)
         {
             if(this->virtual_)
             {
-                // TODO: generate unique serial number for each virtual device
-                ESP_LOGW(TAG, "Invalid Serial Number, reset to device MAC.");
+                ESP_LOGW(TAG, "Invalid Serial Number, reset to device MAC + Listener ID.");
 
                 uint8_t mac[6];
                 get_mac_address_raw(mac);
-                uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | (mac[5] & 0xF0) >> 4;
-
-                serial_number = mac_addr;
+                uint32_t mac_addr = ((mac[3] & 0x0F) << 16) | (mac[4] << 8) | mac[5];
+                serial_number = mac_addr + this->listener_id_;
             }
             else
             {
@@ -747,7 +741,7 @@ namespace esphome::tc_bus
 
                         bool ringtone_muted = telegram_data.raw & (1 << 1);
 
-                        ESP_LOGD(TAG, "Indoor Station acknowledged (muted: %s), waiting for start talking", ringtone_muted ? "ringtone muted" : "ringing");
+                        ESP_LOGD(TAG, "Indoor Station acknowledged (%s), waiting for start talking", ringtone_muted ? "ringtone muted" : "ringing");
                         
                         // wait for start talking telegram
                         this->set_timeout("wait_for_talking_ack", CALL_TIMEOUT_MS, [this]() {
@@ -1065,7 +1059,7 @@ namespace esphome::tc_bus
     {
         this->cancel_timeout("wait_for_memory_block");
 
-        if(reading_memory_try_ == 2)
+        if(reading_memory_try_ == 3)
         {
             memory_buffer_.clear();
             reading_memory_try_ = 0;

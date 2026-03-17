@@ -291,7 +291,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/b6ef7a32-6261-4297-99df-5a7b4f7f4442")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -530,7 +530,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/ac7e0c22-746a-485d-9074-9eb63c95d39a")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 -1.560001)
@@ -845,7 +845,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/3145ff0b-0e9b-455d-a0ab-083fa87c1aa4")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.153641 0.38)
@@ -1175,7 +1175,7 @@
 		)
 		(path "/e05ecd70-f0b3-4f6e-8234-f27ec2c9cfe4")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -5.1 -3.545)
@@ -1512,7 +1512,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/8c7ce2b1-bb4d-4a87-a247-8d79699974b2")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -1753,7 +1753,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/2b742482-6fbc-496e-a9e4-5ba65bde0ce3")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -1994,7 +1994,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/bd898690-9837-4983-83ee-da550ef3842f")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -2236,7 +2236,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6a2792cc-6754-4de0-a91d-a9ff261b5666")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.153641 0.38)
@@ -2477,7 +2477,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/50156a00-4c97-43ed-b724-ecac14d86396")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -2690,7 +2690,7 @@
 		(property ki_fp_filters "LED* LED_SMD:* LED_THT:*")
 		(path "/9646387b-a1d0-4835-b2d1-11e6fb4abcd4")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.485 -0.735)
@@ -2994,7 +2994,7 @@
 		)
 		(path "/542728b8-f0b6-43ce-9b2e-dea62d5d00af")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -5.1 -3.545)
@@ -3278,7 +3278,7 @@
 				)
 			)
 		)
-		(property "Description" "Zener diode"
+		(property "Description" "1 Independent 100nA@2V 10Ω 200Ω 500mW 6.08V~6.32V 6.2V MiniMELF Zener Diodes ROHS"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -3317,10 +3317,36 @@
 				)
 			)
 		)
+		(property "MPN" "ZMM6B2"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c93c8278-1f02-4261-94f3-25eb67179696")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C3041470"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9b0b72be-b148-4953-a627-4c0ac5701b0f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "TO-???* *_Diode_* *SingleDiode* D_*")
 		(path "/2981aa95-d853-4358-bdb6-6c8ce58755e7")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -2.66 -1.11)
@@ -3641,7 +3667,7 @@
 		(property ki_fp_filters "SOT?23*")
 		(path "/c489dc5d-d50d-42cd-b169-695aaf012f4f")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 0 1.560001)
@@ -3937,7 +3963,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6960f330-6b6d-4dee-be50-b2aade554afc")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -4343,7 +4369,7 @@
 		)
 		(path "/4346d8a2-fb99-4106-8cb4-b91ea4e1fa4e")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_poly
 			(pts
@@ -5391,7 +5417,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/dd6fc53c-98f3-4639-b690-bd661bb745f0")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 0.36)
@@ -5632,7 +5658,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/9f8d1448-737c-489f-a344-3715805e397b")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -5873,7 +5899,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/fda51753-5037-4d64-882e-fc17020c0fba")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -6115,7 +6141,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/264aa813-9e08-425e-9303-9c5ab853b590")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -6356,7 +6382,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/016af4c3-7fd0-4616-8c7a-c2950f26ec2c")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 0.36)
@@ -6598,7 +6624,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/76cd2730-39e0-4229-8aad-8002d42e690a")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -6839,7 +6865,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/089d5572-3851-4285-a7ad-08b06c732ce3")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -7078,7 +7104,7 @@
 		(property ki_fp_filters "Choke_* *Coil* Inductor_* L_*")
 		(path "/cae5c11b-1019-45b0-8477-865e8ac34862")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 2.26 2.26)
@@ -7361,7 +7387,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/960982e5-f494-4ec1-9702-d3b81f4519b6")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -7602,7 +7628,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/79abdcf6-4675-4b14-9481-62c28ec436da")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -7843,7 +7869,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ffeac847-2500-49c7-9e5d-91d7cf4c0486")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -8077,7 +8103,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/43bf270a-63ef-40b5-99bc-7dc06e1f4fe2")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -8214,7 +8240,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/3861602e-d622-44ec-ab96-89ebbabcca62")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -8351,7 +8377,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/78ffe931-cf09-4d5b-a400-dd2dcaa70ca0")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -8829,7 +8855,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/1d1e3ad9-e943-4857-972e-cebe1ccf0eb2")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -8966,7 +8992,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/4879175f-f014-4a72-b34b-e8d4dbfa5828")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -9103,7 +9129,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/6af02d23-5be8-484a-a95e-b672066a86dd")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -9240,7 +9266,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/db297448-be21-4692-81e9-f34a1428b6c9")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -9377,7 +9403,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/f0c9944e-3979-409d-987e-8f69f58238a5")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -9514,7 +9540,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/c86b4e97-574c-4bb1-81e8-9d772c0efc35")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)
@@ -9651,7 +9677,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/94b3b4f8-385a-4b3f-8ee5-f8a3571378dd")
 		(sheetname "/")
-		(sheetfile "doorman_slot.kicad_sch")
+		(sheetfile "doorman_smart_slot.kicad_sch")
 		(attr exclude_from_pos_files exclude_from_bom)
 		(fp_circle
 			(center 0 0)

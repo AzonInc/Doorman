@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 2,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -20,7 +20,7 @@
       "footprints": true,
       "graphics": true,
       "keepouts": true,
-      "lockedItems": true,
+      "lockedItems": false,
       "otherItems": true,
       "pads": true,
       "text": true,
@@ -50,7 +50,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "ffffffff_ffffffff_fffffffd_ffffffff",
+    "visible_layers": "ffffffff_ffffffff_fffffff7_ffffffff",
     "zone_display_mode": 0
   },
   "git": {
@@ -60,7 +60,7 @@
     "ssh_key": ""
   },
   "meta": {
-    "filename": "doorman_audio_extension.kicad_prl",
+    "filename": "doorman_core_board.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
@@ -93,18 +93,18 @@
       11
     ],
     "col_widths": [
-      104,
-      94,
-      58,
-      46,
-      58,
-      64,
-      58,
-      49,
-      58,
-      58,
-      58,
-      58
+      163,
+      148,
+      91,
+      73,
+      91,
+      100,
+      91,
+      76,
+      91,
+      91,
+      91,
+      91
     ],
     "custom_group_rules": [],
     "expanded_rows": [],

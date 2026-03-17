@@ -272,9 +272,9 @@ namespace esphome::tc_bus
             this->door_readiness_active_ = true;
 
             #ifdef USE_BINARY_SENSOR
-            if (this->door_opener_readiness_sensor_ != nullptr)
+            if (this->door_readiness_binary_sensor_ != nullptr)
             {
-                this->door_opener_readiness_sensor_->publish_state(true);
+                this->door_readiness_binary_sensor_->publish_state(true);
             }
             #endif
         }
@@ -288,9 +288,9 @@ namespace esphome::tc_bus
             this->door_readiness_active_ = false;
 
             #ifdef USE_BINARY_SENSOR
-            if (this->door_opener_readiness_sensor_ != nullptr)
+            if (this->door_readiness_binary_sensor_ != nullptr)
             {
-                this->door_opener_readiness_sensor_->publish_state(false);
+                this->door_readiness_binary_sensor_->publish_state(false);
             }
             #endif
         }
@@ -299,9 +299,9 @@ namespace esphome::tc_bus
             this->door_readiness_active_ = false;
 
             #ifdef USE_BINARY_SENSOR
-            if (this->door_opener_readiness_sensor_ != nullptr)
+            if (this->door_readiness_binary_sensor_ != nullptr)
             {
-                this->door_opener_readiness_sensor_->publish_state(false);
+                this->door_readiness_binary_sensor_->publish_state(false);
             }
             #endif
         }
@@ -310,9 +310,9 @@ namespace esphome::tc_bus
             this->door_readiness_active_ = false;
 
             #ifdef USE_BINARY_SENSOR
-            if (this->door_opener_readiness_sensor_ != nullptr)
+            if (this->door_readiness_binary_sensor_ != nullptr)
             {
-                this->door_opener_readiness_sensor_->publish_state(false);
+                this->door_readiness_binary_sensor_->publish_state(false);
             }
             #endif
         }

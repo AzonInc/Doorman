@@ -79,9 +79,15 @@
 <br><br>
 <div align="justify">
 
-  The repository contains the complete files required to produce the core board, including PCB design files, schematics and bill of materials (BOM). These resources allow manufacturers or developers to fabricate the board, source the required components, and assemble the device according to the reference design.
+  The repository contains all the files required to produce the core board, including PCB design files, schematics, and the bill of materials (BOM). These resources enable manufacturers or developers to fabricate the board, source the necessary components, and assemble the device according to the reference design.
 
   You can find all the necessary files for manufacturing the **Doorman Core Board** [here](https://github.com/azoninc/doorman/tree/master/hardware/core_board).
+
+  From my experience working with [PCBWay](https://www.pcbway.com/project/shareproject/Doorman_S3_5bdfd0fb.html), the manufacturing process was smooth and the quality exceeded expectations—especially the clean finish and vibrant PCB colors. Component sourcing was straightforward, and they even included two extra unpopulated PCBs. I soldered the ESP32 modules myself using a heating plate, since I already had modules available at home.
+
+  Communication throughout the process was excellent. Whenever questions came up, they were addressed quickly and professionally. A special thanks goes to Liam and Lynne for their continuous support and patience, even as I made multiple changes along the way. It was genuinely a pleasure working with them.
+
+  If you're looking for a reliable, high-quality one-stop manufacturer, I can definitely recommend [PCBWay](https://www.pcbway.com/project/shareproject/Doorman_S3_5bdfd0fb.html).
 
 </div>
 

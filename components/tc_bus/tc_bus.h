@@ -116,12 +116,18 @@ namespace esphome::tc_bus
     };
 #endif
 
-    class TCBusRemoteListener {
+    class TCBusRemoteListener
+    {
         public:
             virtual bool on_receive(TelegramData data, bool received) = 0;
+            void set_listener_id(uint8_t listener_id) { this->listener_id_ = listener_id; }
+
+        protected:
+            uint8_t listener_id_{0};
     };
 
-    struct PrioritizedListener {
+    struct PrioritizedListener
+    {
         TCBusRemoteListener *listener;
         uint8_t priority;
     };
@@ -154,7 +160,9 @@ namespace esphome::tc_bus
         void dump_config() override;
         void loop() override;
 
-        void register_remote_listener(TCBusRemoteListener *listener, uint8_t priority = 0) {
+        void register_remote_listener(TCBusRemoteListener *listener, uint8_t priority = 0)
+        {
+            listener->set_listener_id(++remote_listener_count_);
             PrioritizedListener entry{listener, priority};
             auto it = std::lower_bound(remote_listeners_.begin(), remote_listeners_.end(), entry,
                 [](const PrioritizedListener &a, const PrioritizedListener &b) {
@@ -217,6 +225,8 @@ namespace esphome::tc_bus
         CallbackManager<void(TelegramData)> received_telegram_callback_{};
 
         // Misc
+        uint8_t remote_listener_count_{0};
+
         bool programming_mode_{false};
         uint8_t selected_device_group_{2};
         bool door_readiness_active_{false};

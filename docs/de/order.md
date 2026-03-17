@@ -65,6 +65,7 @@ const allCountries = [
     { value: 'CH', label: 'Schweiz' },
     { value: 'RS', label: 'Serbien' },
     { value: 'CN', label: 'China' },
+    { value: 'IS', label: 'Island' },
 ];
 
 export default {
@@ -255,7 +256,7 @@ export default {
                         }
                     ],
                     countries: [
-                        'RS','CN'
+                        'RS','CN','IS'
                     ],
                     defaultCountry: 'RS'
                 }

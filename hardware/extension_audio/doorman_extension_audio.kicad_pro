@@ -508,7 +508,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "doorman_audio_extension.kicad_pro",
+    "filename": "doorman_extension_audio.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -649,7 +649,7 @@
       "plot": "manufacturing/",
       "pos_files": "manufacturing/",
       "specctra_dsn": "",
-      "step": "doorman_audio_extension.step",
+      "step": "doorman_extension_audio.step",
       "svg": "",
       "vrml": ""
     },

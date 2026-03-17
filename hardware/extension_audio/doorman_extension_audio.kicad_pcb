@@ -10,7 +10,7 @@
 	(title_block
 		(title "Doorman S3 Audio Extension Board")
 		(date "2026-03-09")
-		(rev "2.0")
+		(rev "2.0.0")
 	)
 	(layers
 		(0 "F.Cu" jumper)
@@ -393,7 +393,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/6e8e6bc3-1a0c-42d9-a8f0-75148cc8b49b")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -695,7 +695,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/543c030f-31f1-4044-83d5-3e9699cd63d0")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -995,7 +995,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/bb3e36bd-f3de-4840-945d-1d2c9e9ed92f")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.14058 -0.51)
@@ -1293,7 +1293,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/54c8f4ed-654b-4eb3-a9ee-dd476903d390")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -1594,7 +1594,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/0092928d-7df3-4bc9-8d89-c4905d67c846")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -1892,7 +1892,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/8988ce5e-5265-4b79-9367-fd79f897241c")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.711252 -0.91)
@@ -2192,7 +2192,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/9d624d0f-e949-4d5a-9364-f2870e4cd0fe")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -2492,7 +2492,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/e3b9946e-38ea-4f7f-9750-646183d92990")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -2699,7 +2699,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/8f15cf75-a00f-46ef-963a-82cb837ab24f")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr through_hole dnp)
 		(fp_poly
 			(pts
@@ -3034,7 +3034,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/79304b5b-3ad4-4184-930a-e2e0fd1c49b5")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -3269,10 +3269,23 @@
 				)
 			)
 		)
+		(property "Package" "SOD-323"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1573a6e6-cf68-48e7-8afd-6c514432a0bf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "*DSN1608?2*")
 		(path "/5f434347-57b0-4e71-9c87-79aff3ce6914")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.61 0.85)
@@ -3701,7 +3714,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/9c2056f7-2cfa-45d1-be17-896a839535b9")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.727064 0.91)
@@ -3991,10 +4004,23 @@
 				)
 			)
 		)
+		(property "Package" "SOD-323"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bc567b21-7123-49f1-80d2-965e33f0618f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "*DSN1608?2*")
 		(path "/f942d604-934f-46dd-8ad9-512b8ca0d9c8")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.61 -0.85)
@@ -4423,7 +4449,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/2cfb7d6f-77a7-429f-835c-9210c02d400d")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -4723,7 +4749,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/af0c6e83-c6ca-4fa5-962b-505df3070366")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -5023,7 +5049,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/57bdaf92-26db-4b6d-8238-8f56256b4e56")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -5232,7 +5258,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/92ceea02-4fcd-4bfb-8f66-8c24b508ad01")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr through_hole dnp)
 		(fp_poly
 			(pts
@@ -5567,7 +5593,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/6477bb02-2b6b-4136-a102-586f099ba69d")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -5696,7 +5722,7 @@
 				)
 			)
 		)
-		(property "Description" "-40℃~+105℃ 0uA 1.8V~3.3V QFN-20-EP(3x3) Signal Switches, Multiplexers, Decoders ROHS"
+		(property "Description" "ES8311 -40°C ~ +125°C. QFN-20 Low Power Mono Audio CODEC"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -5747,9 +5773,22 @@
 				)
 			)
 		)
+		(property "Package" "QFN-20"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "75f87fa5-066c-4e34-bb78-7341d44ff2c6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(path "/83255be6-27fa-4c05-b90e-b2e13c939c54")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_circle
 			(center -1.875 -1.4)
@@ -6289,7 +6328,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/9c71d7d6-16d2-4731-90da-87a386bd95e9")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -6590,7 +6629,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/fa859216-ce4c-4770-921c-0e0cefa7ba08")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 0.36)
@@ -6890,7 +6929,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/499ed033-45a7-41a3-9fc3-3e392d7525d7")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -7138,7 +7177,7 @@
 		(property ki_fp_filters "Connector*:*_2x??_*")
 		(path "/72b13697-d95a-4947-8cf2-d77474d9e595")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start 2.11 -7.11)
@@ -8736,7 +8775,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/688da329-3bb1-4b26-afd6-5e51fa6067a6")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -9037,7 +9076,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/b9b4ecf6-6c8d-4452-8599-e9d3562b6e12")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -9338,7 +9377,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/8e0d591b-9f9e-4e7f-b4a9-22f94f839ea2")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -9573,10 +9612,23 @@
 				)
 			)
 		)
+		(property "Package" "SOD-323"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e7daf9f2-700d-47b1-a0b4-731a4f623656")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "*DSN1608?2*")
 		(path "/99e78eda-072f-413c-8851-1b19c1388f35")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.61 -0.85)
@@ -10005,7 +10057,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/cfaaa85e-d70f-4f79-86eb-1b27f7b41abb")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -10306,7 +10358,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/61ac6c95-c348-4671-bb79-35e649f30c35")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -10607,7 +10659,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/39a5f027-4fea-4148-95b3-01469b2f0218")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.107836 -0.36)
@@ -10907,7 +10959,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/b2ff4ea9-fbd7-4394-8e17-78684856cf4e")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.727064 0.91)
@@ -11141,10 +11193,23 @@
 				)
 			)
 		)
+		(property "Package" "SOD-323"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "177b5ca8-bc4f-4569-a515-3bd9314bf613")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "*DSN1608?2*")
 		(path "/8de4f5eb-d59f-473a-8a83-e0669594cc48")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -1.61 -0.85)
@@ -11573,7 +11638,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/11557d41-edd1-464a-9e9f-50275b0839a4")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -11871,7 +11936,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/3d26ae3b-1c4c-4441-9971-5129fe24b4a9")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -12171,7 +12236,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/31354004-5397-4b13-9645-e154170bbce5")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.711252 -0.91)
@@ -12527,7 +12592,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/ef0cec88-d740-47cb-ab55-516eb0913793")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.711252 -0.91)
@@ -12883,7 +12948,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/76e72837-3628-47d8-ad04-1c4f05dc9a04")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 0.51)
@@ -13183,7 +13248,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/fc5d04d0-db2a-4571-be52-c2752a4a6341")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 -0.5225)
@@ -13484,7 +13549,7 @@
 		(property ki_fp_filters "R_*")
 		(path "/ef7ef087-8bc2-43e8-aae6-b0ba7f23d256")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.237258 0.5225)
@@ -13784,7 +13849,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/3e996036-a6d7-4581-a788-d61a16e0a75d")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -14084,7 +14149,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/a73a7fa4-f7eb-4d50-9f99-6fc8410e6aa6")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.711252 -0.91)
@@ -14384,7 +14449,7 @@
 		(property ki_fp_filters "C_*")
 		(path "/53e198a6-700e-4235-92a6-b2f806ea6182")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr smd)
 		(fp_line
 			(start -0.140581 -0.51)
@@ -15029,7 +15094,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/7a63ff39-0fa8-48f2-bc43-4fe96da6cd17")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15138,7 +15203,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/566353d5-d773-4c01-8aa6-0d4a42bafa07")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15247,7 +15312,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/357cf8be-77cc-46d2-ac64-c3772ace59fc")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15356,7 +15421,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/85c6b5e0-abcc-47b6-a734-d3c40f6724a7")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15454,7 +15519,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/dcdc177f-9995-4e76-8970-76c760245654")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15563,7 +15628,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/a64a5abf-ee41-40e3-baf9-166af4cdce3a")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15672,7 +15737,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/f86681dc-562f-4323-8246-b11300b8c236")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15781,7 +15846,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/cc634c90-0525-4752-81e7-e15a3e7ea850")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -15958,7 +16023,7 @@
 		(property ki_fp_filters "Connector*:*_1x??_*")
 		(path "/783cc744-ddd7-4247-af57-d594f7be3ee6")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr through_hole exclude_from_bom dnp)
 		(fp_poly
 			(pts
@@ -16132,7 +16197,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/be9edbc7-0a0d-4042-98a1-3ee31561981d")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -16241,7 +16306,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/9bd73df6-8215-4929-947e-9a9a45f7af32")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -16688,7 +16753,7 @@
 		(property ki_fp_filters "Pin* Test*")
 		(path "/6be7be2b-71e4-4986-95c4-7f9f9a399dc0")
 		(sheetname "/")
-		(sheetfile "doorman_audio_extension.kicad_sch")
+		(sheetfile "doorman_extension_audio.kicad_sch")
 		(attr exclude_from_pos_files dnp)
 		(fp_circle
 			(center 0 0)
@@ -17331,7 +17396,7 @@
 		)
 	)
 	(gr_text "V${REVISION}"
-		(at 99.85 61.73 0)
+		(at 100.89 61.79 0)
 		(layer "B.SilkS" knockout)
 		(uuid "966cf22c-eff1-4479-ad10-5c1f04055604")
 		(effects

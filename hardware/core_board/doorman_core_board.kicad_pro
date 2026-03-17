@@ -508,7 +508,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "doorman.kicad_pro",
+    "filename": "doorman_core_board.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -640,7 +640,7 @@
       "plot": "manufacturing/",
       "pos_files": "manufacturing/",
       "specctra_dsn": "",
-      "step": "doorman.step",
+      "step": "doorman_core_board.step",
       "svg": "",
       "vrml": ""
     },
