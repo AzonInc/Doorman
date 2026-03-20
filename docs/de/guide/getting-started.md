@@ -18,6 +18,14 @@ Eine unsachgemäße Installation kann zu **Fehlfunktionen oder Schäden an deine
 Dies ist **kein offizielles oder zertifiziertes Produkt**. Es basiert auf Reverse Engineering und wird **ohne Garantie auf Kompatibilität, Sicherheit oder Funktionalität** bereitgestellt.
 :::
 
+## Benötigte Werkzeuge und Materialien
+Einige Werkzeuge und Materialien sind nicht in jedem Haushalt vorhanden. Um Doorman reibungslos einzurichten, stelle sicher, dass Du Folgendes hast:
+- Einen kleinen Schlitz-Schraubendreher (~2 mm)
+- 2-3 Verbindungs-Kabel (jeweils 15-30cm)
+- Strom 🦖
+
+Hast du alles? Super! Dann [RTFM](https://de.wikipedia.org/wiki/RTFM)!!
+
 ## Firmware flashen
 Wenn du ein **vorgeflashtes Doorman-Board** gekauft hast, kannst du diesen Schritt einfach überspringen — du bist startklar! 🎉
 
@@ -29,15 +37,17 @@ Sonst sitzt du da und wunderst dich, warum nichts passiert. 😄
 ## Kabel anschließen
 Öffne als Erstes das Gehäuse deiner Innenstation. Bei den meisten Modellen findest du Schraubklemmen mit der Beschriftung `a`, `b`, `E` und `P`.
 
-Du benötigst **einen kleinen Schraubendreher**, um Doorman an deiner Innenstation anzuschließen.
-
 Der Doorman wird — wie jedes andere Gerät — **parallel zum Bus** angeschlossen.
 
-::: danger VORSICHT
-**Schließe NIEMALS eine externe Stromquelle an die TC:BUS-Terminale an!**
+::: danger VORSICHT IST BESSER ALS NACHSICHT
+**Schließe NIEMALS irgendeine Stromquelle an die BUS-Terminals\* an.  
+Dazu zählt auch die `P`-Leitung.** Und nein Patrick, Mayonaise ist kein Instrument.
 
-Dies kann zu **erheblichen Schäden** führen.  
-Bitte überprüfe alle Verbindungen stets sorgfältig und mehrmals, bevor du etwas anschließt.
+Sobald Doorman versucht, Daten auf dem Bus zu senden, **kann das richtig üble und vielleicht irreversible Schäden verursachen.**
+
+Bitte **überprüfe alle Verbindungen stets sorgfältig und mehrmals**, bevor du etwas anschließt.
+
+*Die Benennung kann je nach Revision variieren: A+B, TCS:BUS oder TC:BUS.
 :::
 
 ### Stromversorgungsoptionen:
@@ -48,7 +58,7 @@ Bitte überprüfe alle Verbindungen stets sorgfältig und mehrmals, bevor du etw
 > Die Stromversorgung der Türsprechanlage muss **mindestens 60 mA** liefern können – das ist in der Regel der Fall.
 > Da die verfügbare Leistung jedoch begrenzt ist, kann das **direkte Anschließen zusätzlicher Geräte wie des Doorman S3 an den Bus zu Instabilitäten im System führen**.
 
-Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss an.
+Schließe die `b`-Leitung (Ground) an den mit `B` gekennzeichneten Bus-Anschluss deines Doorman an und die `a`-Leitung (24 V Bus) an den mit `A` gekennzeichneten Anschluss. In älteren Revisionen entsprach dies dem `TCS:BUS` bzw. `TC:BUS` (über zwei Anschlüsse geführt).
 
 Verbinde anschließend die `P`-Leitung (+24V) mit dem `P`-Terminal an deinem Doorman.
 
@@ -66,7 +76,7 @@ Beispiel:
 > Die Stromversorgung der Türsprechanlage muss **mindestens 60 mA** liefern können – das ist in der Regel der Fall.
 > Da die verfügbare Leistung jedoch begrenzt ist, kann das **direkte Anschließen zusätzlicher Geräte wie des Doorman S3 an den Bus zu Instabilitäten im System führen**.
 
-Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss an.
+Schließe die `b`-Leitung (Ground) an den mit `B` gekennzeichneten Bus-Anschluss deines Doorman an und die `a`-Leitung (24 V Bus) an den mit `A` gekennzeichneten Anschluss. In älteren Revisionen entsprach dies dem `TCS:BUS` bzw. `TC:BUS` (über zwei Anschlüsse geführt).
 
 Setze anschließend die Jumper-Kappe auf `BUS PWR`, um die Stromversorgung zu aktivieren.
 
@@ -82,7 +92,7 @@ Beispiel:
 > Du könntest Probleme beim Empfangen von Telegrammen bekommen. Wenn das passiert, brauchst du ein isoliertes Netzteil, um Störungen durch Erdrauschen zu vermeiden.  
 > Das Problem entsteht, weil die Stromversorgung von Doorman nicht galvanisch getrennt ist – dadurch können zwei unterschiedliche Masseverbindungen (Grounds) miteinander gekoppelt werden.
 
-Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss an.
+Schließe die `b`-Leitung (Ground) an den mit `B` gekennzeichneten Bus-Anschluss deines Doorman an und die `a`-Leitung (24 V Bus) an den mit `A` gekennzeichneten Anschluss. In älteren Revisionen entsprach dies dem `TCS:BUS` bzw. `TC:BUS` (über zwei Anschlüsse geführt).
 
 Verbinde die externe Stromversorgung mit deinem Doorman über die Schraubklemmen `P` (+5V bis +30V) und `G` (Ground).
 
@@ -98,7 +108,7 @@ Beispiel:
 > Du könntest Probleme beim Empfangen von Telegrammen bekommen. Wenn das passiert, brauchst du einen USB-Isolator (zum Beispiel [diesen hier](https://amzn.eu/d/fYaZGTp)), um Störungen durch Erdrauschen zu vermeiden.  
 > Das Problem entsteht, weil die Stromversorgung von Doorman nicht galvanisch getrennt ist – dadurch können zwei unterschiedliche Masseverbindungen (Grounds) miteinander gekoppelt werden.
 
-Schließe die `b`-Leitung (Ground) an einen der TC:BUS-Anschlüsse deines Doorman und die `a`-Leitung (24V Bus) an den anderen TC:BUS-Anschluss an.
+Schließe die `b`-Leitung (Ground) an den mit `B` gekennzeichneten Bus-Anschluss deines Doorman an und die `a`-Leitung (24 V Bus) an den mit `A` gekennzeichneten Anschluss. In älteren Revisionen entsprach dies dem `TCS:BUS` bzw. `TC:BUS` (über zwei Anschlüsse geführt).
 
 Verbinde anschließend die externe Stromversorgung über den USB-C-Anschluss.
 

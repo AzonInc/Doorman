@@ -59,6 +59,9 @@ namespace esphome::tc_bus
         uint32_t payload;
     };
 
+    constexpr uint8_t FLAG_CALL_DUPLEX = (1 << 3); // bit 4
+    constexpr uint8_t FLAG_RINGTONE_MUTED = (1 << 1); // bit 2
+
     TelegramData buildTelegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
     TelegramData parseTelegram(uint32_t telegram, bool is_long = true, bool is_response = false, bool is_retransmission = false);
 

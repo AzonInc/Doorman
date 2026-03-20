@@ -62,6 +62,7 @@
         "qrcode": "^1.5.4",
         "three": "^0.167.1",
         "tweakpane": "^4.0.4",
+        "vitepress-plugin-codeblocks-fold": "^1.2.35",
         "vitepress-plugin-group-icons": "^1.5.2",
         "vitepress-plugin-image-viewer": "^1.1.6",
         "vitepress-plugin-tabs": "^0.7.1"

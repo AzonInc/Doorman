@@ -291,15 +291,15 @@ esphome run <yamlfile.yaml>
 ## Board Konfigurationsdateien
 
 ### Standard GPIO Belegung
-| Component      | ESP32-S3 | ESP32    |
-| -------------- | :------: | :------: |
-| TC:BUS RX      | GPIO 9   | GPIO 22  |
-| TC:BUS TX      | GPIO 8   | GPIO 23  |
-| Status LED     | GPIO 1   | GPIO 2   |
-| RGB Status LED | GPIO 2   | GPIO 4   |
-| Relay          | GPIO 42  | GPIO 21  |
-| External Button| GPIO 41  | GPIO 20  |
-| ADC Input      | GPIO 10  | GPIO 36  |
+| Component      | Doorman 2.x.x | Doorman 1.x.x | ESP32-S3 | ESP32    |
+| -------------- | :-----------: | :-----------: | :------: | :------: |
+| TC:BUS RX      | GPIO 9        | GPIO 9        | GPIO 9   | GPIO 22  |
+| TC:BUS TX      | GPIO 8        | GPIO 8        | GPIO 8   | GPIO 23  |
+| Status LED     | GPIO 1        | GPIO 1        | GPIO 1   | GPIO 2   |
+| RGB Status LED | GPIO 2        | GPIO 2        | GPIO 2   | GPIO 4   |
+| Relay          | GPIO 42       | GPIO 42       | GPIO 42  | GPIO 21  |
+| External Button| GPIO 41       | GPIO 41       | GPIO 41  | GPIO 20  |
+| ADC Input      | /             | GPIO 10       | GPIO 10  | GPIO 36  |
 
 ### Standard Firmware
 ::: details Doorman S3 (2.0+)
@@ -318,7 +318,7 @@ esphome run <yamlfile.yaml>
 ```
 :::
 
-::: details Doorman S3 (2.0+) + Audio Extension Board
+::: details Doorman S3 (2.0+) + Audio Erweiterung
 ::: code-group
 ```yaml [Home Assistant]
 <!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.ha.standard.master.yaml-->

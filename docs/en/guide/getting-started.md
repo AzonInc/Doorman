@@ -20,6 +20,14 @@ If you are uncertain about any part of the setup or wiring, please consult a qua
 This is **not an official or certified product**. It is the result of a reverse engineering effort and is provided **as-is**, with **no guarantee of compatibility, safety, or functionality**.
 :::
 
+## Required Tools and Materials
+Some tools and materials aren't usually found in every household. To set up Doorman smoothly, make sure you have:
+- A small flathead screwdriver (~2 mm)
+- 2–3 connecting cables (approx. 15–30 cm each)
+- Electricity 🦖
+
+Got everything? Great! Now [RTFM](https://wikipedia.org/wiki/RTFM)!!
+
 ## Flashing the Firmware
 If you bought a **pre-flashed Doorman PCB**, you're good to go — skip this step! 🎉
 
@@ -31,17 +39,19 @@ Otherwise, you'll be staring at a very quiet device while wondering why nothing 
 ## Connect the Wires
 Start by opening your indoor station's enclosure. On most models, you'll find screw terminals labeled `a`, `b`, `E`, and `P`.
 
-You'll need **a small screwdriver** to connect Doorman to your indoor station.
-
 The Doorman connects **in parallel** to the bus — just like any other device.
 
 Before proceeding, review the power supply options below and choose the one that best suits your setup.
 
 ::: danger CAUTION
-**NEVER connect an external power source to the TC:BUS terminals!**
+**NEVER connect ANY POWER SOURCE to the BUS terminals\*.  
+This includes the `P` line from the intercom.** And no, Patrick, Mayonnaise is not an instrument.
 
-Doing so can cause **serious damage**.  
-Always double-check all connections carefully before plugging anything in.
+As soon as Doorman attempts to transmit data on the bus, **serious and potentially irreversible damage will occur**.
+
+Always **double-check every connection** before plugging anything in.
+
+*The labeling on the board may vary depending on the revision: A+B, TCS:BUS, or TC:BUS.
 :::
 
 ### Power supply options:
@@ -52,7 +62,8 @@ Always double-check all connections carefully before plugging anything in.
 > The intercom's power supply must provide **at least 60 mA**, which is usually the case.  
 > However, since the available power is limited, **connecting additional devices like the Doorman S3 directly to the bus may cause instability** in the system.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Then connect the `P` line (+24V) to the `P` terminal on your Doorman.
 
@@ -70,7 +81,8 @@ Example:
 > The intercom's power supply must provide **at least 60 mA**, which is usually the case.  
 > However, since the available power is limited, **connecting additional devices like the Doorman S3 directly to the bus may cause instability** in the system.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Once connected, place a jumper cap on `BUS PWR` to enable power from the bus.
 
@@ -86,7 +98,8 @@ Example:
 > You may encounter issues receiving telegrams. If this happens, you'll need an isolated power supply to eliminate ground noise.  
 > The problem occurs because Doorman's power supply is not electrically isolated, which can cause ground loops when two different grounds are connected.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Then connect the external power supply to your Doorman using the `P` (+5V to +30V) and `G` (Ground) screw terminals.
 
@@ -102,7 +115,8 @@ Example:
 > You may encounter issues receiving telegrams. If this happens, you'll need a USB isolator (or example, [this one](https://amzn.eu/d/fYaZGTp)) to eliminate ground noise.  
 > The problem occurs because Doorman's power supply is not electrically isolated, which can cause ground loops when two different grounds are connected.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Then, power your Doorman using the USB-C port.
 

@@ -562,14 +562,15 @@ namespace esphome::tc_bus
                     if(this->call_state_ == CallState::OUT_RINGING && this->call_address_ == telegram_data.serial_number)
                     {
                         // out: acknowledge talk
-                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001); // full duplex
+                        uint8_t flags = FLAG_CALL_DUPLEX;
+                        this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, flags);
                         this->call_state_ = CallState::CONNECTED;
 
                         // reset ack timeouts
                         this->cancel_timeout("wait_for_call_ack");
                         this->cancel_timeout("wait_for_talking_ack");
 
-                        ESP_LOGD(TAG, "Connected to indoor station (full duplex)");
+                        ESP_LOGD(TAG, "VIS + IS >> Connected in full duplex mode");
 
                         #ifdef USE_CALL_STARTED_CALLBACK
                         this->call_started_callback_.call(telegram_data);
@@ -605,7 +606,7 @@ namespace esphome::tc_bus
                         // reset call ack timeout
                         this->cancel_timeout("wait_for_call_ack");
 
-                        bool ringtone_muted = telegram_data.raw & (1 << 1);
+                        bool ringtone_muted = (telegram_data.raw & FLAG_RINGTONE_MUTED) != 0;
 
                         ESP_LOGD(TAG, "Indoor Station acknowledged (%s), waiting for start talking", ringtone_muted ? "ringtone muted" : "ringing");
 
@@ -627,9 +628,8 @@ namespace esphome::tc_bus
 
                         this->call_state_ = CallState::CONNECTED;
 
-                        bool full_duplex = telegram_data.raw & (1 << 3);
-
-                        ESP_LOGD(TAG, "Talking acknowledged: %s duplex", full_duplex ? "full" : "half");
+                        bool full_duplex = (telegram_data.raw & FLAG_CALL_DUPLEX) != 0;
+                        ESP_LOGD(TAG, "VIS + %s >> Connected in %s duplex mode", (this->call_internal_ ? "IS" : "AS"), (full_duplex ? "full" : "half"));
 
                         #ifdef USE_CALL_STARTED_CALLBACK
                         TelegramData telegram_data_cb;
@@ -690,10 +690,11 @@ namespace esphome::tc_bus
                         else
                         {
                             // out: acknowledge talk
-                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 0x001); // full duplex
+                            uint8_t flags = FLAG_CALL_DUPLEX;
+                            this->tc_bus_->send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, flags);
                             this->call_state_ = CallState::CONNECTED;
 
-                            ESP_LOGD(TAG, "Connected to indoor station (full duplex)");
+                            ESP_LOGD(TAG, "VIS + IS >> Connected in full duplex mode");
 
                             // reset ack timeouts
                             this->cancel_timeout("wait_for_call_ack");
@@ -718,6 +719,9 @@ namespace esphome::tc_bus
                                     #endif
                                 });
                             }
+
+                            // Normally end of door readiness timeout is also started after
+                            // initiating a call from the indoor station to the outdoor station
                         }
                     }
                     else
@@ -739,7 +743,7 @@ namespace esphome::tc_bus
                         // reset call ack timeout
                         this->cancel_timeout("wait_for_call_ack");
 
-                        bool ringtone_muted = telegram_data.raw & (1 << 1);
+                        bool ringtone_muted = (telegram_data.raw & FLAG_RINGTONE_MUTED) != 0;
 
                         ESP_LOGD(TAG, "Indoor Station acknowledged (%s), waiting for start talking", ringtone_muted ? "ringtone muted" : "ringing");
                         

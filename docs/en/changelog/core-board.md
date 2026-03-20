@@ -5,6 +5,12 @@ description: Explore the complete history of PCB revisions, including new featur
 # Core Board Changelog
 This page highlights the new features, improvements, and changes made in each revision.
 
+## 2.1.0 <Badge type="info" text="POC" />
+- Added D9 to protect Q1B
+- Removed GPIO41 from screw terminal
+- Changed R5 to 59K and R12 to 10K to support `SIEDLE:1+N` systems
+- Added voltage divider circuit as `ET` to screw terminal to detect `SIEDLE:1+N` ETR signals
+
 ## 2.0.0 <Badge type="warning" text="Next" />
 - Removed footprints for optional audio components
 - Redesigned `TC:BUS` communication circuit
@@ -19,7 +25,7 @@ This page highlights the new features, improvements, and changes made in each re
 - Replaced Terminal Pin 5 with 3.3V
 - Replaced Terminal Pin 6 with GPIO40
 - Replaced Terminal Pin 7 with GPIO41
-- Removed BTN resistor  from GPIO41 (use internal ESP resistor)
+- Removed BTN resistor from GPIO41 (use internal ESP resistor)
 - Extended ground plane around power supply section
 - Changed Voltage Divider to 1M + 147K (allow up to 28V Bus signals)
 - Moved diode after the resistor of BUSPWR jumper

@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Doorman S3 Audio Extension Board")
-		(date "2026-03-16")
-		(rev "2.0")
+		(date "2026-03-19")
+		(rev "2.0.1")
 	)
 	(lib_symbols
 		(symbol "+3.3V_2"

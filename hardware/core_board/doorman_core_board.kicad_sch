@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "Doorman S3")
-		(date "2026-03-16")
-		(rev "2.0.0")
+		(date "2026-03-18")
+		(rev "2.1.0")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
 		(comment 4 "Intercom Gateway")
@@ -7534,9 +7534,9 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "In-Home-Bus Data"
+	(text "In-Home-Bus Data (Idle 27-30V)\nLow 2V, High 7V"
 		(exclude_from_sim no)
-		(at 168.656 175.006 0)
+		(at 164.338 224.79 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7567,9 +7567,9 @@
 		)
 		(uuid "15f5ecc2-aef8-470d-842e-60abce96026c")
 	)
-	(text "TC:BUS & In-Home-Bus Carrier"
+	(text "TC:BUS Data(Idle ~22-24V)\nLow 8V, High 24V\n\nIn-Home-Bus Carrier (Idle ~27-30V)\nLow 3V, High 30V(max)\n\n1+n (Idle ~15V)\nLow ~15V, High ~24V"
 		(exclude_from_sim no)
-		(at 114.808 175.006 0)
+		(at 114.808 236.22 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7710,7 +7710,7 @@
 		)
 		(uuid "ae573206-2aff-4eeb-acbe-5cdbca6f1de7")
 	)
-	(text "BUS RX"
+	(text "BUS RX / SIGNAL DETECTION"
 		(exclude_from_sim no)
 		(at 110.236 169.926 0)
 		(effects
@@ -7743,6 +7743,17 @@
 		)
 		(uuid "cf3883f3-4527-4d22-8278-b95ba656f835")
 	)
+	(text "1+n (Idle 0V)\nLow 0V, High ~24V"
+		(exclude_from_sim no)
+		(at 163.322 263.144 0)
+		(effects
+			(font
+				(size 1.15 1.15)
+			)
+			(justify left bottom)
+		)
+		(uuid "decfb6f2-59d8-42f2-8ee2-bddb05faa3f6")
+	)
 	(text "POWER FLAGS"
 		(exclude_from_sim no)
 		(at 18.796 217.17 0)
@@ -7756,7 +7767,7 @@
 	)
 	(text "Inverted"
 		(exclude_from_sim no)
-		(at 140.208 203.708 0)
+		(at 144.018 198.628 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7767,7 +7778,7 @@
 	)
 	(text "Inverted"
 		(exclude_from_sim no)
-		(at 186.436 203.2 0)
+		(at 194.056 198.12 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -7806,7 +7817,13 @@
 		(uuid "227dab47-a3d0-4767-9b41-c09c4c02f793")
 	)
 	(junction
-		(at 120.65 198.12)
+		(at 158.75 251.46)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2aa8d64d-0c9b-426d-a6e1-f89cff2170fb")
+	)
+	(junction
+		(at 124.46 193.04)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "428c1046-4f1d-4fca-80e9-af42faf21929")
@@ -7824,7 +7841,7 @@
 		(uuid "4d5d175d-48aa-4c6b-ab38-3970014ade78")
 	)
 	(junction
-		(at 184.15 205.74)
+		(at 191.77 200.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5511bfbb-d3d6-4fae-96b0-57c7c19bd964")
@@ -7842,7 +7859,7 @@
 		(uuid "5f42dfdf-6702-43dd-8e3f-e39fd51c742d")
 	)
 	(junction
-		(at 168.91 198.12)
+		(at 176.53 193.04)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "604bcf34-068a-4da4-8082-c4104ed4f727")
@@ -7860,7 +7877,7 @@
 		(uuid "6f807447-95ce-4757-8c71-4b6ce2159fd9")
 	)
 	(junction
-		(at 135.89 205.74)
+		(at 139.7 200.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "71fddaad-1da7-434c-a6b8-9a989a901161")
@@ -7964,15 +7981,11 @@
 		(uuid "483b0949-cca2-4437-af7d-78142f42542e")
 	)
 	(no_connect
-		(at 52.07 78.74)
-		(uuid "527ccaac-f96c-487a-b032-21cd645c3d8a")
-	)
-	(no_connect
 		(at 82.55 86.36)
 		(uuid "53124bf5-e36b-40ed-a443-42ce6f512148")
 	)
 	(no_connect
-		(at 201.93 181.61)
+		(at 242.57 210.82)
 		(uuid "565f9293-bf5e-4c97-a519-f36c0f1b8daa")
 	)
 	(no_connect
@@ -7980,7 +7993,7 @@
 		(uuid "66164f2e-3e3e-4b58-9b92-92375d7385ac")
 	)
 	(no_connect
-		(at 194.31 186.69)
+		(at 234.95 215.9)
 		(uuid "730ef7c8-e3b2-47da-961f-1cdda650e15c")
 	)
 	(no_connect
@@ -7992,7 +8005,7 @@
 		(uuid "9218e786-779f-486c-a37e-008e2705819f")
 	)
 	(no_connect
-		(at 201.93 191.77)
+		(at 242.57 220.98)
 		(uuid "a0e4bf2d-2e87-4e09-b637-6fb0d67b01ca")
 	)
 	(no_connect
@@ -8030,6 +8043,10 @@
 	(no_connect
 		(at 82.55 91.44)
 		(uuid "de87d953-78ff-46f2-8029-8e33de4d441d")
+	)
+	(no_connect
+		(at 82.55 101.6)
+		(uuid "eeed7129-bed9-4d95-a690-3477a3adca2a")
 	)
 	(no_connect
 		(at 82.55 83.82)
@@ -8207,7 +8224,7 @@
 	)
 	(wire
 		(pts
-			(xy 267.97 77.47) (xy 267.97 78.74)
+			(xy 266.7 77.47) (xy 266.7 78.74)
 		)
 		(stroke
 			(width 0)
@@ -8247,7 +8264,7 @@
 	)
 	(polyline
 		(pts
-			(xy 213.36 162.56) (xy 213.36 234.95)
+			(xy 213.36 162.56) (xy 213.36 280.67)
 		)
 		(stroke
 			(width 0)
@@ -8257,7 +8274,7 @@
 	)
 	(polyline
 		(pts
-			(xy 107.95 162.56) (xy 107.95 234.95)
+			(xy 107.95 162.56) (xy 107.95 280.67)
 		)
 		(stroke
 			(width 0)
@@ -8327,7 +8344,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 198.12) (xy 168.91 208.28)
+			(xy 176.53 193.04) (xy 176.53 203.2)
 		)
 		(stroke
 			(width 0)
@@ -8437,6 +8454,16 @@
 	)
 	(wire
 		(pts
+			(xy 115.57 212.09) (xy 115.57 210.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b0a119a-b4f0-46ed-a407-f592669e1dd3")
+	)
+	(wire
+		(pts
 			(xy 46.99 41.91) (xy 46.99 52.07)
 		)
 		(stroke
@@ -8487,7 +8514,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 215.9) (xy 120.65 217.17)
+			(xy 124.46 210.82) (xy 124.46 212.09)
 		)
 		(stroke
 			(width 0)
@@ -8537,7 +8564,7 @@
 	)
 	(polyline
 		(pts
-			(xy 213.36 234.95) (xy 107.95 234.95)
+			(xy 213.36 280.67) (xy 107.95 280.67)
 		)
 		(stroke
 			(width 0)
@@ -8577,7 +8604,7 @@
 	)
 	(wire
 		(pts
-			(xy 275.59 74.93) (xy 267.97 74.93)
+			(xy 274.32 74.93) (xy 266.7 74.93)
 		)
 		(stroke
 			(width 0)
@@ -8607,7 +8634,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 205.74) (xy 135.89 205.74)
+			(xy 137.16 200.66) (xy 139.7 200.66)
 		)
 		(stroke
 			(width 0)
@@ -8657,7 +8684,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 217.17) (xy 168.91 215.9)
+			(xy 176.53 212.09) (xy 176.53 210.82)
 		)
 		(stroke
 			(width 0)
@@ -8697,7 +8724,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 205.74) (xy 138.43 205.74)
+			(xy 139.7 200.66) (xy 142.24 200.66)
 		)
 		(stroke
 			(width 0)
@@ -8777,7 +8804,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 182.88) (xy 168.91 184.15)
+			(xy 176.53 177.8) (xy 176.53 179.07)
 		)
 		(stroke
 			(width 0)
@@ -8797,7 +8824,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 182.88) (xy 120.65 184.15)
+			(xy 124.46 177.8) (xy 124.46 179.07)
 		)
 		(stroke
 			(width 0)
@@ -8847,7 +8874,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 77.47) (xy 260.35 77.47)
+			(xy 257.81 77.47) (xy 259.08 77.47)
 		)
 		(stroke
 			(width 0)
@@ -8867,7 +8894,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 203.2) (xy 135.89 205.74)
+			(xy 139.7 198.12) (xy 139.7 200.66)
 		)
 		(stroke
 			(width 0)
@@ -8894,6 +8921,16 @@
 			(type default)
 		)
 		(uuid "725c9357-57b8-4813-9073-1acdf7ba2df4")
+	)
+	(wire
+		(pts
+			(xy 158.75 251.46) (xy 158.75 254)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "739d177e-dcc0-42de-8335-f00b7c8d2a4d")
 	)
 	(polyline
 		(pts
@@ -8935,6 +8972,16 @@
 		)
 		(uuid "7b0ce87b-6274-4aaa-ae48-8a9c32f51e1d")
 	)
+	(wire
+		(pts
+			(xy 115.57 203.2) (xy 115.57 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b1663c6-26d7-49bc-84e1-a6713f63f893")
+	)
 	(polyline
 		(pts
 			(xy 16.51 16.51) (xy 16.51 125.73)
@@ -8947,7 +8994,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 217.17) (xy 135.89 215.9)
+			(xy 139.7 212.09) (xy 139.7 210.82)
 		)
 		(stroke
 			(width 0)
@@ -9025,6 +9072,16 @@
 		)
 		(uuid "836cafe8-b4f8-4dfc-a326-1e325db69325")
 	)
+	(wire
+		(pts
+			(xy 115.57 193.04) (xy 124.46 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "870f4b1e-df60-4767-95d5-79dd28e73cf9")
+	)
 	(polyline
 		(pts
 			(xy 213.36 16.51) (xy 107.95 16.51)
@@ -9034,6 +9091,16 @@
 			(type dash)
 		)
 		(uuid "893cd47f-9711-4157-a5b1-783869adbc18")
+	)
+	(wire
+		(pts
+			(xy 158.75 251.46) (xy 161.29 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8cbc79e7-bcfb-4785-a598-c4531ccc84f2")
 	)
 	(wire
 		(pts
@@ -9057,7 +9124,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 217.17) (xy 184.15 215.9)
+			(xy 191.77 212.09) (xy 191.77 210.82)
 		)
 		(stroke
 			(width 0)
@@ -9127,7 +9194,17 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 191.77) (xy 120.65 198.12)
+			(xy 146.05 251.46) (xy 148.59 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9c39dd16-b380-46d8-b295-d0b02486f53b")
+	)
+	(wire
+		(pts
+			(xy 124.46 186.69) (xy 124.46 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9147,7 +9224,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 182.88) (xy 135.89 193.04)
+			(xy 139.7 177.8) (xy 139.7 187.96)
 		)
 		(stroke
 			(width 0)
@@ -9257,7 +9334,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 198.12) (xy 120.65 208.28)
+			(xy 124.46 193.04) (xy 124.46 203.2)
 		)
 		(stroke
 			(width 0)
@@ -9297,7 +9374,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 198.12) (xy 176.53 198.12)
+			(xy 176.53 193.04) (xy 184.15 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9317,6 +9394,16 @@
 	)
 	(wire
 		(pts
+			(xy 156.21 251.46) (xy 158.75 251.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4ab9cb6-343d-44a1-82fc-0455a053edea")
+	)
+	(wire
+		(pts
 			(xy 153.67 46.99) (xy 153.67 49.53)
 		)
 		(stroke
@@ -9327,7 +9414,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 198.12) (xy 120.65 198.12)
+			(xy 132.08 193.04) (xy 124.46 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9387,7 +9474,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 205.74) (xy 184.15 205.74)
+			(xy 194.31 200.66) (xy 191.77 200.66)
 		)
 		(stroke
 			(width 0)
@@ -9557,7 +9644,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 182.88) (xy 184.15 193.04)
+			(xy 191.77 177.8) (xy 191.77 187.96)
 		)
 		(stroke
 			(width 0)
@@ -9577,7 +9664,7 @@
 	)
 	(wire
 		(pts
-			(xy 168.91 191.77) (xy 168.91 198.12)
+			(xy 176.53 186.69) (xy 176.53 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9587,7 +9674,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 203.2) (xy 184.15 205.74)
+			(xy 191.77 198.12) (xy 191.77 200.66)
 		)
 		(stroke
 			(width 0)
@@ -9647,7 +9734,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 208.28) (xy 158.75 198.12)
+			(xy 166.37 203.2) (xy 166.37 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9677,7 +9764,7 @@
 	)
 	(wire
 		(pts
-			(xy 257.81 74.93) (xy 260.35 74.93)
+			(xy 257.81 74.93) (xy 259.08 74.93)
 		)
 		(stroke
 			(width 0)
@@ -9687,7 +9774,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 198.12) (xy 168.91 198.12)
+			(xy 166.37 193.04) (xy 176.53 193.04)
 		)
 		(stroke
 			(width 0)
@@ -9717,7 +9804,7 @@
 	)
 	(wire
 		(pts
-			(xy 184.15 205.74) (xy 184.15 208.28)
+			(xy 191.77 200.66) (xy 191.77 203.2)
 		)
 		(stroke
 			(width 0)
@@ -9757,7 +9844,7 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 217.17) (xy 158.75 215.9)
+			(xy 166.37 212.09) (xy 166.37 210.82)
 		)
 		(stroke
 			(width 0)
@@ -9797,7 +9884,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 205.74) (xy 135.89 208.28)
+			(xy 139.7 200.66) (xy 139.7 203.2)
 		)
 		(stroke
 			(width 0)
@@ -9807,7 +9894,7 @@
 	)
 	(wire
 		(pts
-			(xy 275.59 78.74) (xy 275.59 74.93)
+			(xy 274.32 78.74) (xy 274.32 74.93)
 		)
 		(stroke
 			(width 0)
@@ -9817,7 +9904,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 205.74) (xy 184.15 205.74)
+			(xy 189.23 200.66) (xy 191.77 200.66)
 		)
 		(stroke
 			(width 0)
@@ -9904,28 +9991,6 @@
 			(justify left bottom)
 		)
 		(uuid "c62f0461-5161-4825-b016-3b1dcec6a36c")
-	)
-	(global_label "IO41"
-		(shape bidirectional)
-		(at 82.55 101.6 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "02a38ca5-7564-4a1d-9f27-9316a58e9d4b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 91.0008 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
 	)
 	(global_label "IO7"
 		(shape bidirectional)
@@ -10039,7 +10104,7 @@
 	)
 	(global_label "BUS_RX"
 		(shape input)
-		(at 138.43 205.74 0)
+		(at 142.24 200.66 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10049,7 +10114,7 @@
 		)
 		(uuid "2ffaa3e3-1e33-4c0f-8922-df59c1739342")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 148.6723 205.74 0)
+			(at 152.4823 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10270,28 +10335,6 @@
 		(uuid "4e02f6e9-a739-43b6-9005-a1ea94ec23f0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 268.7175 187.96 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "IO41"
-		(shape bidirectional)
-		(at 243.84 143.51 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "5511bb95-5b2d-4182-b7ae-c47a191b293e")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 252.2908 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10675,6 +10718,28 @@
 			)
 		)
 	)
+	(global_label "ERT_DETECT"
+		(shape input)
+		(at 161.29 251.46 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bab8cd85-0a13-472d-bde2-4b82189fec1b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 175.4026 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "I2C_DAT"
 		(shape bidirectional)
 		(at 255.27 175.26 0)
@@ -10710,6 +10775,28 @@
 		(uuid "cad5d19f-53ab-4194-998c-220cb32a0120")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 161.631 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "ERT_DETECT"
+		(shape input)
+		(at 52.07 78.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cb306b33-7bb6-4a1f-ba19-02f80240b932")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 37.9574 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10807,6 +10894,50 @@
 			)
 		)
 	)
+	(global_label "ERT"
+		(shape input)
+		(at 146.05 251.46 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d3da98b3-f58e-452a-8f82-c27556fa7ae9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 139.6782 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "ERT"
+		(shape input)
+		(at 243.84 143.51 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d8b0dc49-a96b-4cfe-b13e-fd9db7a9d79f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 250.2118 143.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "BUS_RX_IHB"
 		(shape input)
 		(at 52.07 93.98 180)
@@ -10831,7 +10962,7 @@
 	)
 	(global_label "BUS_RX_IHB"
 		(shape input)
-		(at 186.69 205.74 0)
+		(at 194.31 200.66 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10841,7 +10972,7 @@
 		)
 		(uuid "e3f72c22-234f-483d-a806-52961eef94c8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 201.1052 205.74 0)
+			(at 208.7252 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11104,6 +11235,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 185.42 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "32c6d625-22bf-43fc-9bf5-9c4c7f308840")
 		)
@@ -11208,6 +11447,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 242.57 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 242.57 85.09 0)
 			(effects
 				(font
@@ -11542,7 +11889,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 132.08 205.74 90)
+		(at 137.16 200.66 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -11550,7 +11897,7 @@
 		(dnp yes)
 		(uuid "07e1541a-bf8d-4a97-bdf0-b6d5baf7dd42")
 		(property "Reference" "J7"
-			(at 129.54 209.042 0)
+			(at 134.62 203.962 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11558,7 +11905,7 @@
 			)
 		)
 		(property "Value" "BUS RX Test Pad"
-			(at 128.016 213.36 0)
+			(at 133.096 208.28 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11566,7 +11913,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 132.08 200.66 0)
+			(at 137.16 195.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11575,7 +11922,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 132.08 200.66 0)
+			(at 137.16 195.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11584,7 +11931,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11593,7 +11940,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11602,7 +11949,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11611,7 +11958,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11620,7 +11967,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11629,7 +11976,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11638,7 +11985,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11647,7 +11994,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11656,7 +12003,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11665,7 +12012,7 @@
 			)
 		)
 		(property "Sim.Device" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11674,7 +12021,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11683,7 +12030,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 132.08 205.74 0)
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 137.16 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 137.16 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11705,7 +12160,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
-		(at 133.35 198.12 0)
+		(at 137.16 193.04 0)
 		(mirror x)
 		(unit 2)
 		(exclude_from_sim no)
@@ -11714,7 +12169,7 @@
 		(dnp no)
 		(uuid "093bee44-f99a-40ed-9408-752c8ccbf174")
 		(property "Reference" "Q1"
-			(at 137.922 197.3579 0)
+			(at 141.732 192.2779 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11723,7 +12178,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 137.922 198.882 0)
+			(at 141.732 193.802 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11732,7 +12187,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 138.43 200.66 0)
+			(at 142.24 195.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11741,7 +12196,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11750,7 +12205,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11759,7 +12214,7 @@
 			)
 		)
 		(property "MPN" "BC847BPN,115 "
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11768,7 +12223,7 @@
 			)
 		)
 		(property "LCSC" "C8655"
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11777,7 +12232,7 @@
 			)
 		)
 		(property "Package" "SOT-363"
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11786,7 +12241,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11795,7 +12250,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 133.35 198.12 0)
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 137.16 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 137.16 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11919,6 +12482,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 165.1 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 165.1 49.53 0)
 			(effects
 				(font
@@ -12113,6 +12784,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 147.32 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 147.32 107.95 0)
 			(effects
 				(font
@@ -12372,6 +13151,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 114.3 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "9b6ccd81-045d-4403-a29d-18af6343aae0")
 		)
@@ -12389,7 +13276,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 181.61 205.74 90)
+		(at 189.23 200.66 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -12397,7 +13284,7 @@
 		(dnp yes)
 		(uuid "1b0271a3-5aa7-41cc-b7d5-134a47007f5a")
 		(property "Reference" "J5"
-			(at 179.07 209.042 0)
+			(at 186.69 203.962 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12405,7 +13292,7 @@
 			)
 		)
 		(property "Value" "Siedle BUS RX Test Pad"
-			(at 177.546 213.36 0)
+			(at 185.166 210.566 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -12413,7 +13300,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 181.61 200.66 0)
+			(at 189.23 195.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12422,7 +13309,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 181.61 200.66 0)
+			(at 189.23 195.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12431,7 +13318,7 @@
 			)
 		)
 		(property "Description" "test point"
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12440,7 +13327,7 @@
 			)
 		)
 		(property "Height" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12449,7 +13336,7 @@
 			)
 		)
 		(property "Mouser Part Number" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12458,7 +13345,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12467,7 +13354,7 @@
 			)
 		)
 		(property "Price" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12476,7 +13363,7 @@
 			)
 		)
 		(property "Manufacturer_Name" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12485,7 +13372,7 @@
 			)
 		)
 		(property "Manufacturer_Part_Number" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12494,7 +13381,7 @@
 			)
 		)
 		(property "Cheap Version" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12503,7 +13390,7 @@
 			)
 		)
 		(property "Expensive Version" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12512,7 +13399,7 @@
 			)
 		)
 		(property "Sim.Device" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12521,7 +13408,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12530,7 +13417,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 181.61 205.74 0)
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 189.23 200.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 189.23 200.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12618,7 +13613,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 135.89 212.09 0)
+		(at 139.7 207.01 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12627,7 +13622,7 @@
 		(dnp no)
 		(uuid "202bac98-08a4-486c-b757-faa9b0444cd1")
 		(property "Reference" "R12"
-			(at 140.208 212.344 0)
+			(at 144.018 207.264 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12635,8 +13630,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47K5"
-			(at 135.89 212.09 90)
+		(property "Value" "10K"
+			(at 139.7 207.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12644,7 +13639,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 137.668 212.09 90)
+			(at 141.478 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12653,7 +13648,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 135.89 212.09 0)
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12661,8 +13656,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 47.5kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 135.89 212.09 0)
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12670,8 +13665,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C23061"
-			(at 135.89 212.09 0)
+		(property "LCSC" "C25804"
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12679,8 +13674,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF4752T5E"
-			(at 135.89 212.09 0)
+		(property "MPN" "0603WAF1002T5E"
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12689,7 +13684,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 135.89 212.09 0)
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12698,7 +13693,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 135.89 212.09 0)
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12707,7 +13702,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 135.89 212.09 0)
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 139.7 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 139.7 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12800,7 +13903,7 @@
 	(symbol
 		(lib_name "+3.3V_3")
 		(lib_id "power:+3.3V")
-		(at 184.15 182.88 0)
+		(at 191.77 177.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12808,7 +13911,7 @@
 		(dnp no)
 		(uuid "21998875-0489-4b17-8d25-d31711fca5e4")
 		(property "Reference" "#PWR047"
-			(at 184.15 186.69 0)
+			(at 191.77 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12817,7 +13920,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 184.15 178.816 0)
+			(at 191.77 173.736 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12825,7 +13928,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 184.15 182.88 0)
+			(at 191.77 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12834,7 +13937,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 184.15 182.88 0)
+			(at 191.77 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12843,7 +13946,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 184.15 182.88 0)
+			(at 191.77 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12962,6 +14065,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "4b905f7a-53b5-4266-983d-5a2bdb9bc434")
 		)
@@ -12979,7 +14190,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 120.65 182.88 0)
+		(at 124.46 177.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12987,7 +14198,7 @@
 		(dnp no)
 		(uuid "281795cb-d882-4be1-8b1d-ad3abd49f952")
 		(property "Reference" "#PWR038"
-			(at 120.65 186.69 0)
+			(at 124.46 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12996,7 +14207,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 120.65 178.816 0)
+			(at 124.46 173.736 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13004,7 +14215,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 120.65 182.88 0)
+			(at 124.46 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13013,7 +14224,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 182.88 0)
+			(at 124.46 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13022,7 +14233,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 120.65 182.88 0)
+			(at 124.46 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13037,120 +14248,6 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "#PWR038")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 184.15 212.09 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "28441949-841e-4655-ab58-a9dd1b44ede9")
-		(property "Reference" "R18"
-			(at 188.722 212.09 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1K"
-			(at 184.15 212.09 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 185.928 212.09 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "-55℃~+155℃ 1kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC" "C11702"
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MPN" "0402WGF1001TCE"
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Package" "0402"
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "LCSC Part" ""
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Pins" ""
-			(at 184.15 212.09 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3c95d382-af28-42e0-a01b-f4690ce53fd1")
-		)
-		(pin "2"
-			(uuid "a5cbc830-bbbe-499a-8085-f0c27aabf4a2")
-		)
-		(instances
-			(project "doorman"
-				(path "/2048a046-8e00-475d-aeec-41a343368725"
-					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -13373,6 +14470,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 201.93 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b16a667a-a7bf-44d5-8b5e-e28bbf58ad01")
 		)
@@ -13429,7 +14634,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±400ppm/℃ ±5% 0805 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
 			(at 147.32 123.19 0)
 			(effects
 				(font
@@ -13438,7 +14643,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C5140149"
+		(property "LCSC" "C17381"
 			(at 147.32 123.19 0)
 			(effects
 				(font
@@ -13447,7 +14652,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "SCR0805J1R2"
+		(property "MPN" "0805W8F120KT5E"
 			(at 147.32 123.19 0)
 			(effects
 				(font
@@ -13475,6 +14680,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 147.32 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 147.32 123.19 0)
 			(effects
 				(font
@@ -13596,6 +14909,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 241.3 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "3b6e2c9f-d25a-46e5-92cf-52ecbab75e76")
 		)
@@ -13612,6 +15033,228 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "D2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 191.77 207.01 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "31131d31-e57d-49aa-9f5e-d6e74807784a")
+		(property "Reference" "R18"
+			(at 196.342 207.264 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10K"
+			(at 191.77 207.01 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 193.548 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25804"
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "0603WAF1002T5E"
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0603"
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 191.77 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "98936287-0218-478f-8a5f-62af14a0d62c")
+		)
+		(pin "2"
+			(uuid "635d0131-2348-4544-833b-3bb440d97518")
+		)
+		(instances
+			(project "doorman_core_board"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -13706,6 +15349,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 39.37 157.48 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 39.37 157.48 90)
 			(effects
 				(font
@@ -13865,6 +15616,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 67.31 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 67.31 88.9 0)
 			(effects
 				(font
@@ -14243,6 +16102,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 198.12 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "41d018a4-99a9-4254-add7-48b3df718277")
 		)
@@ -14327,7 +16294,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 120.65 217.17 0)
+		(at 124.46 212.09 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14335,7 +16302,7 @@
 		(dnp no)
 		(uuid "408a403e-9f1b-471a-96dd-1074553e94e3")
 		(property "Reference" "#PWR023"
-			(at 120.65 223.52 0)
+			(at 124.46 218.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14344,7 +16311,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 120.65 221.234 0)
+			(at 124.46 216.154 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14352,7 +16319,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 120.65 217.17 0)
+			(at 124.46 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14361,7 +16328,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 217.17 0)
+			(at 124.46 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14370,7 +16337,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 120.65 217.17 0)
+			(at 124.46 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14541,6 +16508,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 88.9 66.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "16c1fd31-6459-4795-902a-734ce834ae58")
 		)
@@ -14556,7 +16631,7 @@
 	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
-		(at 267.97 78.74 0)
+		(at 266.7 78.74 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14564,7 +16639,7 @@
 		(dnp no)
 		(uuid "45cc30d2-4c51-40bf-8be9-ab99004c72f0")
 		(property "Reference" "#PWR018"
-			(at 267.97 85.09 0)
+			(at 266.7 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14573,7 +16648,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 271.526 79.248 0)
+			(at 270.256 79.248 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14581,7 +16656,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 267.97 78.74 0)
+			(at 266.7 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14590,7 +16665,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 267.97 78.74 0)
+			(at 266.7 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14599,7 +16674,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 267.97 78.74 0)
+			(at 266.7 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14719,6 +16794,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "5a7d6741-9e3b-44a5-b9d6-6fff70fe9613")
 		)
@@ -14748,7 +16931,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 168.91 187.96 0)
+		(at 176.53 182.88 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14757,7 +16940,7 @@
 		(dnp no)
 		(uuid "4dcdf145-a103-44ef-91ef-f7b139c99645")
 		(property "Reference" "R16"
-			(at 173.482 188.214 0)
+			(at 181.102 183.134 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14766,7 +16949,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 168.91 187.96 90)
+			(at 176.53 182.88 90)
 			(effects
 				(font
 					(size 1 1)
@@ -14774,7 +16957,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 170.688 187.96 90)
+			(at 178.308 182.88 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14783,7 +16966,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14792,7 +16975,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14801,7 +16984,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14810,7 +16993,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14819,7 +17002,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14828,7 +17011,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14837,7 +17020,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 168.91 187.96 0)
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 176.53 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 176.53 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14862,7 +17153,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 120.65 212.09 0)
+		(at 124.46 207.01 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14871,7 +17162,7 @@
 		(dnp no)
 		(uuid "4e82eefb-2966-44b0-a36f-8b5d1db9bc5d")
 		(property "Reference" "R6"
-			(at 123.952 212.09 0)
+			(at 127.762 207.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14880,7 +17171,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 120.65 212.09 90)
+			(at 124.46 207.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -14888,7 +17179,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 122.428 212.09 90)
+			(at 126.238 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14897,7 +17188,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14906,7 +17197,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14915,7 +17206,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14924,7 +17215,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14933,7 +17224,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14942,7 +17233,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14951,7 +17242,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 120.65 212.09 0)
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 124.46 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 124.46 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14982,6 +17381,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+		(fields_autoplaced yes)
 		(uuid "4fae9448-1c51-4519-82ce-53e94a86f043")
 		(property "Reference" "C3"
 			(at 131.572 52.832 0)
@@ -15065,6 +17465,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 129.54 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 129.54 53.34 0)
 			(effects
 				(font
@@ -15157,7 +17665,7 @@
 	(symbol
 		(lib_name "GND_7")
 		(lib_id "power:GND")
-		(at 275.59 78.74 0)
+		(at 274.32 78.74 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15165,7 +17673,7 @@
 		(dnp no)
 		(uuid "52f804b1-97c6-47e1-b2a8-27639aa62804")
 		(property "Reference" "#PWR045"
-			(at 275.59 85.09 0)
+			(at 274.32 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15174,7 +17682,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 279.146 79.248 0)
+			(at 277.876 79.248 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15182,7 +17690,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 275.59 78.74 0)
+			(at 274.32 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15191,7 +17699,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 275.59 78.74 0)
+			(at 274.32 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15200,7 +17708,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 275.59 78.74 0)
+			(at 274.32 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15386,6 +17894,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 195.58 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "dc18ca88-ef67-4e31-b735-2d15453820bc")
 		)
@@ -15493,6 +18109,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 33.02 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 33.02 41.91 90)
 			(effects
 				(font
@@ -15621,6 +18345,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 179.07 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "5d398b08-a7d5-4a59-af2f-f16fa36b520f")
 		)
@@ -15725,6 +18557,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 44.45 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 44.45 193.04 0)
 			(effects
 				(font
@@ -15913,6 +18853,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 46.99 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "b3063e38-dfe9-4eb6-ac77-bd4876c7b66c")
 		)
@@ -16031,6 +19079,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 187.96 46.99 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "0d16f50f-0cad-4a6a-84f2-639f88d90432")
 		)
@@ -16120,31 +19276,33 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 264.16 77.47 90)
+		(at 152.4 251.46 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "6dac6f3d-c48f-482d-8940-be391cafd031")
-		(property "Reference" "R3"
-			(at 264.16 72.644 90)
+		(uuid "6832aee8-0307-4f5f-8eb2-8a55dcaf07ac")
+		(property "Reference" "R19"
+			(at 154.178 253.492 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1M"
+			(at 152.4 251.46 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Value" "5K1"
-			(at 264.16 77.47 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 264.16 79.248 90)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 152.4 249.682 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16152,8 +19310,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
-			(at 264.16 77.47 0)
+		(property "Datasheet" ""
+			(at 152.4 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16161,8 +19319,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 264.16 77.47 0)
+		(property "Description" "-55℃~+155℃ 100mW 1MΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+			(at 152.4 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16170,8 +19328,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C25905"
-			(at 264.16 77.47 90)
+		(property "LCSC" "C22935"
+			(at 152.4 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16179,8 +19337,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402WGF5101TCE"
-			(at 264.16 77.47 90)
+		(property "MPN" "0603WAF1004T5E"
+			(at 152.4 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16188,8 +19346,8 @@
 				(hide yes)
 			)
 		)
-		(property "Package" "0402"
-			(at 264.16 77.47 90)
+		(property "Package" "0603"
+			(at 152.4 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16198,7 +19356,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 264.16 77.47 90)
+			(at 152.4 251.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16207,7 +19365,335 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 264.16 77.47 90)
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 152.4 251.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "63537c18-a1a9-4b2a-be57-12e12e412a2e")
+		)
+		(pin "2"
+			(uuid "a0ebdbe1-acd9-4b9d-9424-68e9250b8c13")
+		)
+		(instances
+			(project "doorman_core_board"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 262.89 77.47 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6dac6f3d-c48f-482d-8940-be391cafd031")
+		(property "Reference" "R3"
+			(at 262.89 72.644 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "5K1"
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 262.89 79.248 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
+			(at 262.89 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
+			(at 262.89 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25905"
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "0402WGF5101TCE"
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0402"
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 262.89 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 262.89 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16385,6 +19871,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 33.02 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 33.02 52.07 0)
 			(effects
 				(font
@@ -16580,6 +20174,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 238.76 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "a5aea6de-ed68-429f-b809-5bfa782eea52")
 		)
@@ -16720,6 +20422,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 247.65 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "7"
 			(uuid "b9ab50e2-53cb-477f-83d8-2c9f8da3ee95")
 		)
@@ -16840,7 +20650,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 184.15 217.17 0)
+		(at 191.77 212.09 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -16848,7 +20658,7 @@
 		(dnp no)
 		(uuid "74f1d091-dda8-4001-b249-7f8aa4988891")
 		(property "Reference" "#PWR049"
-			(at 184.15 223.52 0)
+			(at 191.77 218.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16857,7 +20667,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 184.15 221.234 0)
+			(at 191.77 216.154 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16865,7 +20675,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 184.15 217.17 0)
+			(at 191.77 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16874,7 +20684,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 184.15 217.17 0)
+			(at 191.77 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16883,7 +20693,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 184.15 217.17 0)
+			(at 191.77 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17187,6 +20997,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 151.13 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e603e959-9cb9-4ab0-a5e5-bdb6056a7d56")
 		)
@@ -17430,6 +21348,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 130.81 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a1482566-f967-4a5a-8acc-fd36fce79eb6")
 		)
@@ -17536,6 +21562,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 201.93 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 201.93 54.61 0)
 			(effects
 				(font
@@ -17853,6 +21987,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 121.92 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "6595ce14-7793-48c8-8988-1416ff6de45a")
 		)
@@ -17870,7 +22112,7 @@
 	)
 	(symbol
 		(lib_id "Diode:BZV55C6V2")
-		(at 158.75 212.09 90)
+		(at 166.37 207.01 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -17879,7 +22121,7 @@
 		(dnp no)
 		(uuid "96694814-ff56-426c-b9ce-3f7bdde94f73")
 		(property "Reference" "D3"
-			(at 162.56 211.582 90)
+			(at 170.18 206.502 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17887,8 +22129,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "5.1V"
-			(at 163.322 213.106 90)
+		(property "Value" "4.3V"
+			(at 170.942 208.026 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -17897,7 +22139,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-123"
-			(at 163.195 212.09 0)
+			(at 170.815 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17906,7 +22148,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 158.75 212.09 0)
+			(at 166.37 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17914,8 +22156,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-65℃~+150℃ 1.6kΩ 17Ω 370mW 4.85V~5.36V 5.1V 5uA@2V Independent SOD-123 Zener Diodes ROHS"
-			(at 158.75 212.09 0)
+		(property "Description" "-55℃~+150℃ 1 Independent 350mW 3uA 4.09V~4.52V 4.3V 600Ω 90Ω SOD-123 Zener Diodes ROHS"
+			(at 166.37 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17923,8 +22165,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C85181"
-			(at 158.75 212.09 90)
+		(property "LCSC" "C19077399"
+			(at 166.37 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17932,8 +22174,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "MMSZ5231B-7-F"
-			(at 158.75 212.09 90)
+		(property "MPN" "BZT52C4V3"
+			(at 166.37 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17942,7 +22184,7 @@
 			)
 		)
 		(property "Package" "SOD-123"
-			(at 158.75 212.09 90)
+			(at 166.37 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17951,7 +22193,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 158.75 212.09 90)
+			(at 166.37 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17960,7 +22202,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 158.75 212.09 90)
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 166.37 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 166.37 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18146,6 +22496,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 142.24 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "48931e88-20d5-49a5-94bf-627def4334ca")
 		)
@@ -18168,7 +22626,7 @@
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "993fb52d-8981-4a0c-8ecc-8a3fae334f31")
 		(property "Reference" "J6"
 			(at 226.06 32.004 90)
@@ -18304,6 +22762,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 229.87 35.56 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 229.87 35.56 90)
 			(effects
 				(font
@@ -18479,6 +23045,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 129.54 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 129.54 41.91 90)
 			(effects
 				(font
@@ -18700,7 +23374,7 @@
 	)
 	(symbol
 		(lib_id "power:VBUS")
-		(at 168.91 182.88 0)
+		(at 176.53 177.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18708,7 +23382,7 @@
 		(dnp no)
 		(uuid "a0fe7c41-c57f-46bc-801b-6c39ff29cfe5")
 		(property "Reference" "#PWR051"
-			(at 168.91 186.69 0)
+			(at 176.53 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18717,7 +23391,7 @@
 			)
 		)
 		(property "Value" "VBUS"
-			(at 168.91 178.816 0)
+			(at 176.53 173.736 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18725,7 +23399,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 168.91 182.88 0)
+			(at 176.53 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18734,7 +23408,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 168.91 182.88 0)
+			(at 176.53 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18743,7 +23417,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VBUS\""
-			(at 168.91 182.88 0)
+			(at 176.53 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18765,7 +23439,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
-		(at 199.39 186.69 0)
+		(at 240.03 215.9 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18773,7 +23447,7 @@
 		(dnp no)
 		(uuid "a1c18903-306c-49ae-9a51-5649b2abe0a5")
 		(property "Reference" "Q6"
-			(at 204.47 185.928 0)
+			(at 245.11 215.138 0)
 			(effects
 				(font
 					(size 1 1)
@@ -18782,7 +23456,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 204.47 187.4521 0)
+			(at 245.11 216.6621 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -18791,7 +23465,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 204.47 184.15 0)
+			(at 245.11 213.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18800,7 +23474,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18809,7 +23483,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18818,7 +23492,7 @@
 			)
 		)
 		(property "LCSC" "C8655"
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18827,7 +23501,7 @@
 			)
 		)
 		(property "MPN" "BC847BPN,115 "
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18836,7 +23510,7 @@
 			)
 		)
 		(property "Package" "SOT-363"
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18845,7 +23519,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18854,7 +23528,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 199.39 186.69 0)
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 240.03 215.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 240.03 215.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18989,6 +23771,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 195.58 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "3"
 			(uuid "81eafd21-db19-482a-8281-8c5c16708c7d")
 		)
@@ -19009,7 +23899,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 264.16 74.93 90)
+		(at 262.89 74.93 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19017,7 +23907,7 @@
 		(dnp no)
 		(uuid "ab9fce4e-49b4-4e58-8a20-ec83e8f30e87")
 		(property "Reference" "R22"
-			(at 264.16 79.756 90)
+			(at 262.89 79.756 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19025,7 +23915,7 @@
 			)
 		)
 		(property "Value" "5K1"
-			(at 264.16 74.93 90)
+			(at 262.89 74.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19033,7 +23923,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 264.16 76.708 90)
+			(at 262.89 76.708 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19042,7 +23932,7 @@
 			)
 		)
 		(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF5101TCE_C25905.pdf"
-			(at 264.16 74.93 0)
+			(at 262.89 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19051,7 +23941,7 @@
 			)
 		)
 		(property "Description" "62.5mW Thick Film Resistors ±100ppm/℃ ±1% 5.1kΩ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 264.16 74.93 0)
+			(at 262.89 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19060,7 +23950,7 @@
 			)
 		)
 		(property "LCSC" "C25905"
-			(at 264.16 74.93 90)
+			(at 262.89 74.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19069,7 +23959,7 @@
 			)
 		)
 		(property "MPN" "0402WGF5101TCE"
-			(at 264.16 74.93 90)
+			(at 262.89 74.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19078,7 +23968,7 @@
 			)
 		)
 		(property "Package" "0402"
-			(at 264.16 74.93 90)
+			(at 262.89 74.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19087,7 +23977,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 264.16 74.93 90)
+			(at 262.89 74.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19096,7 +23986,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 264.16 74.93 90)
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 262.89 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 262.89 74.93 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19121,7 +24119,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 168.91 212.09 0)
+		(at 176.53 207.01 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -19130,7 +24128,7 @@
 		(dnp no)
 		(uuid "abd88c70-4f89-4266-baa8-8a8bcae111a3")
 		(property "Reference" "R17"
-			(at 173.482 212.344 0)
+			(at 181.102 207.264 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19139,7 +24137,7 @@
 			)
 		)
 		(property "Value" "10K"
-			(at 168.91 212.09 90)
+			(at 176.53 207.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19147,7 +24145,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 170.688 212.09 90)
+			(at 178.308 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19156,7 +24154,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19165,7 +24163,7 @@
 			)
 		)
 		(property "Description" "-55℃~+155℃ 100mW 10kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19174,7 +24172,7 @@
 			)
 		)
 		(property "LCSC" "C25804"
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19183,7 +24181,7 @@
 			)
 		)
 		(property "MPN" "0603WAF1002T5E"
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19192,7 +24190,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19201,7 +24199,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19210,7 +24208,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 168.91 212.09 0)
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 176.53 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 176.53 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19507,6 +24613,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
+		(fields_autoplaced yes)
 		(uuid "b2c18b44-7c81-438f-a299-8fe37b1f439a")
 		(property "Reference" "C4"
 			(at 144.272 52.8258 0)
@@ -19590,6 +24697,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 142.24 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 142.24 53.34 0)
 			(effects
 				(font
@@ -19710,6 +24925,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 114.3 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "142f130a-538c-4cbf-8a7b-d25b204a9b75")
 		)
@@ -19720,6 +25043,229 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "D6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:BZV55C6V2")
+		(at 115.57 207.01 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b7f3fd9a-44ef-40b4-af68-940d85613982")
+		(property "Reference" "D9"
+			(at 119.38 206.502 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "4.3V"
+			(at 120.142 208.026 90)
+			(effects
+				(font
+					(size 0.8 0.8)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123"
+			(at 120.015 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 115.57 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-55℃~+150℃ 1 Independent 350mW 3uA 4.09V~4.52V 4.3V 600Ω 90Ω SOD-123 Zener Diodes ROHS"
+			(at 115.57 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C19077399"
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BZT52C4V3"
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "SOD-123"
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 115.57 207.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b146f2dd-d367-4094-a519-1f2fb408eaa6")
+		)
+		(pin "2"
+			(uuid "f0882ec0-f2fa-4115-a8c0-35d75d5d0aab")
+		)
+		(instances
+			(project "doorman_core_board"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "D9")
 					(unit 1)
 				)
 			)
@@ -19859,7 +25405,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_BJT:BC847BPN")
-		(at 181.61 198.12 0)
+		(at 189.23 193.04 0)
 		(mirror x)
 		(unit 2)
 		(exclude_from_sim no)
@@ -19868,7 +25414,7 @@
 		(dnp no)
 		(uuid "bbd77e1f-02ce-4301-b3ad-65572e7090a9")
 		(property "Reference" "Q6"
-			(at 186.436 197.3579 0)
+			(at 194.056 192.2779 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19877,7 +25423,7 @@
 			)
 		)
 		(property "Value" "BC847BPN"
-			(at 186.436 198.882 0)
+			(at 194.056 193.802 0)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -19886,7 +25432,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at 186.69 200.66 0)
+			(at 194.31 195.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19895,7 +25441,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/BC847BPN.pdf"
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19904,7 +25450,7 @@
 			)
 		)
 		(property "Description" "-65℃~+150℃ 1 NPN + 1 PNP 100MHz 100mA 100mV 15nA 200 220mW 45V 5V NPN+PNP TSSOP-6(SOT-363) Bipolar (BJT) ROHS"
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19913,7 +25459,7 @@
 			)
 		)
 		(property "LCSC" "C8655"
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19922,7 +25468,7 @@
 			)
 		)
 		(property "MPN" "BC847BPN,115 "
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19931,7 +25477,7 @@
 			)
 		)
 		(property "Package" "SOT-363"
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19940,7 +25486,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19949,7 +25495,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 181.61 198.12 0)
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 189.23 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 189.23 193.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20185,7 +25839,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 120.65 187.96 0)
+		(at 124.46 182.88 0)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -20194,7 +25848,7 @@
 		(dnp no)
 		(uuid "d07aa84e-d678-4a7c-8b95-7c68e173e271")
 		(property "Reference" "R5"
-			(at 121.92 187.96 0)
+			(at 125.73 182.88 0)
 			(effects
 				(font
 					(size 1 1)
@@ -20202,8 +25856,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "47K5"
-			(at 120.65 187.96 90)
+		(property "Value" "59K"
+			(at 124.46 182.88 90)
 			(effects
 				(font
 					(size 1 1)
@@ -20211,7 +25865,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 118.872 187.96 90)
+			(at 122.682 182.88 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20220,7 +25874,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 187.96 0)
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20228,8 +25882,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 100mW 47.5kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
-			(at 120.65 187.96 0)
+		(property "Description" "-55℃~+155℃ 100mW 59kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20237,8 +25891,8 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C23061"
-			(at 120.65 187.96 0)
+		(property "LCSC" "C23085"
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20246,8 +25900,8 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0603WAF4752T5E"
-			(at 120.65 187.96 0)
+		(property "MPN" "0603WAF5902T5E"
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20256,7 +25910,7 @@
 			)
 		)
 		(property "Package" "0603"
-			(at 120.65 187.96 0)
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20265,7 +25919,7 @@
 			)
 		)
 		(property "LCSC Part" ""
-			(at 120.65 187.96 0)
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20274,7 +25928,115 @@
 			)
 		)
 		(property "Sim.Pins" ""
-			(at 120.65 187.96 0)
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 124.46 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 124.46 182.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20386,6 +26148,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 36.83 193.04 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 36.83 193.04 90)
 			(effects
 				(font
@@ -20574,6 +26444,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 33.02 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "22c0b198-a1bd-4c59-acbf-d6f002bdd3ad")
 		)
@@ -20598,7 +26576,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 135.89 217.17 0)
+		(at 139.7 212.09 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20606,7 +26584,7 @@
 		(dnp no)
 		(uuid "d58c1fd7-fe8f-44d8-b71b-250b6414ef55")
 		(property "Reference" "#PWR029"
-			(at 135.89 223.52 0)
+			(at 139.7 218.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20615,7 +26593,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 135.89 221.234 0)
+			(at 139.7 216.154 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20623,7 +26601,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 135.89 217.17 0)
+			(at 139.7 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20632,7 +26610,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 135.89 217.17 0)
+			(at 139.7 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20641,7 +26619,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 135.89 217.17 0)
+			(at 139.7 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20751,6 +26729,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 55.88 149.86 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 55.88 149.86 0)
 			(effects
 				(font
@@ -20931,6 +27017,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 88.9 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "a59c948b-5956-4c4a-bf2d-0462cc7d249d")
 		)
@@ -20946,7 +27140,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 158.75 217.17 0)
+		(at 166.37 212.09 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20954,7 +27148,7 @@
 		(dnp no)
 		(uuid "de91b412-8e3a-46f5-b5db-312badff0cce")
 		(property "Reference" "#PWR052"
-			(at 158.75 223.52 0)
+			(at 166.37 218.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20963,7 +27157,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 158.75 221.234 0)
+			(at 166.37 216.154 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20971,7 +27165,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 158.75 217.17 0)
+			(at 166.37 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20980,7 +27174,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 158.75 217.17 0)
+			(at 166.37 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20989,7 +27183,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 158.75 217.17 0)
+			(at 166.37 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21174,6 +27368,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 185.42 139.7 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "e17a3ea2-7f1d-4d8b-ae57-b408877196e4")
 		)
@@ -21299,7 +27601,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±400ppm/℃ ±5% 0805 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 1.2Ω 125mW 150V Thick Film Resistor ±1% ±200ppm/℃ 0805 Chip Resistor - Surface Mount ROHS"
 			(at 149.86 123.19 0)
 			(effects
 				(font
@@ -21308,7 +27610,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C5140149"
+		(property "LCSC" "C17381"
 			(at 149.86 123.19 0)
 			(effects
 				(font
@@ -21317,7 +27619,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "SCR0805J1R2"
+		(property "MPN" "0805W8F120KT5E"
 			(at 149.86 123.19 0)
 			(effects
 				(font
@@ -21353,6 +27655,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 149.86 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "dc633dc8-e52d-463d-8298-a0fd3a3b7ca3")
 		)
@@ -21363,6 +27773,294 @@
 			(project "doorman"
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "R11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_1")
+		(lib_id "power:GND")
+		(at 158.75 261.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e5d46894-21e4-4f84-93f5-00d71de85525")
+		(property "Reference" "#PWR055"
+			(at 158.75 267.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 158.75 265.684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 158.75 261.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 158.75 261.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 158.75 261.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2f27e5e1-4d7d-4407-9e59-5f6bc8fa8768")
+		)
+		(instances
+			(project "doorman_core_board"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 158.75 257.81 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e6093df0-e1ab-41a3-8a4c-68d8e90cf2f3")
+		(property "Reference" "R20"
+			(at 163.322 258.064 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "120K"
+			(at 158.75 257.81 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 160.528 257.81 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "-55℃~+155℃ 100mW 120kΩ 75V Thick Film Resistor ±1% ±100ppm/℃ 0603 Chip Resistor - Surface Mount ROHS"
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25808"
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "0603WAF1203T5E"
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Package" "0603"
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 158.75 257.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cac6e09e-9fe7-4628-94e5-da5a7d8bfa03")
+		)
+		(pin "2"
+			(uuid "240f6197-b43c-45f1-ab29-8e526702bc17")
+		)
+		(instances
+			(project "doorman_core_board"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "R20")
 					(unit 1)
 				)
 			)
@@ -21525,6 +28223,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 196.85 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 196.85 54.61 0)
 			(effects
 				(font
@@ -21751,7 +28557,7 @@
 	(symbol
 		(lib_name "GND_1")
 		(lib_id "power:GND")
-		(at 168.91 217.17 0)
+		(at 176.53 212.09 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -21759,7 +28565,7 @@
 		(dnp no)
 		(uuid "f362ffac-e941-441d-9dd7-ff53ebd9c1cd")
 		(property "Reference" "#PWR050"
-			(at 168.91 223.52 0)
+			(at 176.53 218.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21768,7 +28574,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 168.91 221.234 0)
+			(at 176.53 216.154 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21776,7 +28582,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 168.91 217.17 0)
+			(at 176.53 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21785,7 +28591,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 168.91 217.17 0)
+			(at 176.53 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21794,7 +28600,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 168.91 217.17 0)
+			(at 176.53 212.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21903,6 +28709,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 73.66 41.91 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 73.66 41.91 90)
 			(effects
 				(font
@@ -22026,6 +28940,114 @@
 				(hide yes)
 			)
 		)
+		(property "Attrition Qty" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
+			(at 149.86 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "439b06bc-9958-43a6-9953-d8e63c867eef")
 		)
@@ -22036,6 +29058,72 @@
 			(project ""
 				(path "/2048a046-8e00-475d-aeec-41a343368725"
 					(reference "D7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_1")
+		(lib_id "power:GND")
+		(at 115.57 212.09 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f5bf617e-a87e-44ec-86f1-5952a8227359")
+		(property "Reference" "#PWR054"
+			(at 115.57 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 115.57 216.154 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 115.57 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 115.57 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 115.57 212.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9645c50a-43d3-41cd-bf19-17f2241b6ace")
+		)
+		(instances
+			(project "doorman_core_board"
+				(path "/2048a046-8e00-475d-aeec-41a343368725"
+					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -22110,7 +29198,7 @@
 	(symbol
 		(lib_name "+3.3V_3")
 		(lib_id "power:+3.3V")
-		(at 135.89 182.88 0)
+		(at 139.7 177.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22118,7 +29206,7 @@
 		(dnp no)
 		(uuid "fb5f2e15-02c8-4027-828b-b166b84c1b97")
 		(property "Reference" "#PWR016"
-			(at 135.89 186.69 0)
+			(at 139.7 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22127,7 +29215,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 135.89 178.816 0)
+			(at 139.7 173.736 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22135,7 +29223,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 135.89 182.88 0)
+			(at 139.7 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22144,7 +29232,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 135.89 182.88 0)
+			(at 139.7 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22153,7 +29241,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 135.89 182.88 0)
+			(at 139.7 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22262,6 +29350,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 86.36 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 86.36 193.04 0)
 			(effects
 				(font
@@ -22388,6 +29584,114 @@
 			)
 		)
 		(property "Sim.Pins" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Attrition Qty" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Capacitance" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Category" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Class" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Minimum Qty" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Part" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Process" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Stock" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Temperature Coefficient" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Tolerance" ""
+			(at 114.3 33.02 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Voltage Rated" ""
 			(at 114.3 33.02 90)
 			(effects
 				(font
