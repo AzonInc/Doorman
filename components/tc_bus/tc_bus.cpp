@@ -25,6 +25,22 @@ namespace esphome::tc_bus
 
         global_tc_bus = this;
 
+        uint32_t hash = fnv1_hash("tc_bus");
+        this->pref_ = global_preferences->make_preference<TCBusSettings>(hash, true);
+
+        // Restore settings
+        TCBusSettings recovered{};
+        if (!this->pref_.load(&recovered))
+        {
+            // No settings available
+            ESP_LOGW(TAG, "Unable to recover preferences");
+        }
+        else
+        {
+            this->entrance_address_ = recovered.entrance_address;
+            this->second_entrance_address_ = recovered.second_entrance_address;
+        }
+
         this->rx_pin_->setup();
         this->tx_pin_->setup();
         this->tx_pin_->digital_write(false);
@@ -59,6 +75,17 @@ namespace esphome::tc_bus
             }
         #endif
 
+        #ifdef USE_NUMBER
+        if (this->entrance_address_number_ != nullptr)
+        {
+            this->entrance_address_number_->publish_state(this->entrance_address_);
+        }
+        if (this->second_entrance_address_number_ != nullptr)
+        {
+            this->second_entrance_address_number_->publish_state(this->second_entrance_address_);
+        }
+        #endif
+
         this->high_freq_.start();
     }
 
@@ -78,13 +105,12 @@ namespace esphome::tc_bus
     void TCBusComponent::loop()
     {
         // Process received Telegrams
-
         TelegramData telegram;
         while (xQueueReceive(this->telegram_receive_queue, &telegram, 0) == pdTRUE)
         {
             bool is_echo = false;
             
-            if (this->store_.expect_echo && telegram.raw == this->store_.echo_raw)
+            if (this->store_.expect_echo && telegram.raw == this->store_.last_telegram_raw)
             {
                 this->store_.expect_echo = false;
                 is_echo = true;
@@ -93,7 +119,7 @@ namespace esphome::tc_bus
             if (!is_echo)
             {
                 TelegramData telegram_data = parseTelegram(telegram.raw, telegram.is_long, telegram.is_response, telegram.is_retransmission);
-                this->handle_telegram(telegram_data);
+                this->handle_telegram(telegram_data, TelegramSource::BUS_RECEIVED);
             }
             else
             {
@@ -101,9 +127,20 @@ namespace esphome::tc_bus
             }
         }
 
-        // Process Sensors
         uint32_t now_millis = millis();
 
+        // Process retransmission if pending
+        if (this->store_.retransmit_needed)
+        {
+            uint32_t elapsed_us = micros() - this->retransmit_wait_start_us_;
+            if (elapsed_us >= RETRANSMISSION_GAP_US)
+            {
+                this->store_.retransmit_needed = false;
+                this->transmit_telegram(this->retransmit_telegram_, this->retransmit_sender_listener_id_);
+            }
+        }
+
+        // Process Sensors
         #ifdef USE_BINARY_SENSOR
         // Turn off binary sensor after ... milliseconds
         for (auto &listener : listeners_)
@@ -130,6 +167,18 @@ namespace esphome::tc_bus
         #endif
     }
 
+    void TCBusComponent::save_preferences()
+    {
+        TCBusSettings settings{};
+        settings.entrance_address = this->entrance_address_;
+        settings.second_entrance_address = this->second_entrance_address_;
+
+        if (!this->pref_.save(&settings))
+        {
+            ESP_LOGW(TAG, "Failed to save settings to flash memory.");
+        }
+    }
+
     void TCBusComponent::process_telegram_queue()
     {
         if (!this->telegram_transmit_queue.empty())
@@ -153,26 +202,46 @@ namespace esphome::tc_bus
                     }
                 }
 
-                this->transmit_telegram(queue_item.telegram_data);
+                this->transmit_telegram(queue_item.telegram_data, queue_item.sender_listener_id);
                 this->telegram_transmit_queue.pop();
             }
         }
     }
 
-    void TCBusComponent::handle_telegram(TelegramData telegram_data, bool received)
+    void TCBusComponent::notify_peer_listeners(TelegramData telegram_data, uint8_t sender_listener_id)
     {
+        for (auto &entry : this->remote_listeners_)
+        {
+            if (entry.listener->get_listener_id() == sender_listener_id)
+            {
+                entry.listener->on_receive(telegram_data, TelegramSource::LOCAL_SENT);
+            }
+            else
+            {
+                entry.listener->on_receive(telegram_data, TelegramSource::PEER_SENT);
+            }
+        }
+    }
+
+    void TCBusComponent::handle_telegram(TelegramData telegram_data, TelegramSource source)
+    {
+        const bool received = (source == TelegramSource::BUS_RECEIVED);
+
         if (received)
         {
             // From receiver
-            ESP_LOGI(TAG,
-                "Received Telegram: %s (%i-bit, 0x%08X, %s, %s)\n"
-                "  Address: %i\n"
-                "  Payload: 0x%X\n"
-                "  Serial-Number: %i",
-                telegram_type_to_string(telegram_data.type), (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, telegram_data.is_retransmission ? "retransmission" : "first", 
-                telegram_data.address, 
-                telegram_data.payload, 
-                telegram_data.serial_number);
+            ESP_LOGI(TAG, "Received: %s (%i-bit, 0x%s, %s)",
+                          telegram_type_to_string(telegram_data.type),
+                          (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.hex, telegram_data.is_retransmission ? "retransmission" : "first");
+            if(telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
+            {
+                ESP_LOGD(TAG,   "  Address: %i\n"
+                                "  Payload: 0x%X\n"
+                                "  Serial-Number: %i",
+                                telegram_data.address, 
+                                telegram_data.payload, 
+                                telegram_data.serial_number);
+            }
 
             if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES)
             {
@@ -190,6 +259,65 @@ namespace esphome::tc_bus
                 mac[2] = telegram_data.payload & 0xFF;
 
                 ESP_LOGI(TAG, "  Discovered Doorman MAC: %02X:%02X:%02X", mac[0], mac[1], mac[2]);
+            }
+            else if(telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD8)
+            {
+                this->error_protocol_pending_ = true;
+            }
+            else if(this->error_protocol_pending_ && telegram_data.type == TELEGRAM_TYPE_ACK_DATA)
+            {
+                this->error_protocol_pending_ = false;
+
+                uint8_t error_type = (telegram_data.raw >> 24) & 0xF;
+                uint8_t device_group = (telegram_data.raw >> 20) & 0xF;
+
+                ESP_LOGD(TAG,   "  Description: Error protocol data\n"
+                                "    Device Group: %d", device_group);
+
+                switch(error_type)
+                {
+                    case 1:
+                        if(device_group == 2)
+                        {
+                            uint8_t sub_type = (telegram_data.raw >> 8) & 0xF;
+                            uint8_t key_x = (telegram_data.raw >> 4) & 0xF;
+                            uint8_t key_y = telegram_data.raw & 0xF;
+
+                            if(sub_type == 0)
+                            {
+                                ESP_LOGD(TAG,   "    Message: Key stuck\n"
+                                                "    Key: %d;%d", key_x, key_y);
+                            }
+                            else
+                            {
+                                ESP_LOGD(TAG,   "    Message: Key stuck\n"
+                                                "    Extension: %d\n"
+                                                "    Key: %d;%d", sub_type, key_x, key_y);
+                            }
+                        }
+                        else
+                        {
+                            uint16_t key = telegram_data.raw & 0xFFF;
+                            ESP_LOGD(TAG,   "    Message: Key stuck\n"
+                                            "    Key: %d", key);
+                        }
+                        break;
+                    case 2:
+                        ESP_LOGD(TAG,   "    Message: EEPROM misplaced");
+                        break;
+                    case 3:
+                        ESP_LOGD(TAG,   "    Message: Key extension error");
+                        break;
+                    case 5:
+                        ESP_LOGD(TAG,   "    Message: Interface error");
+                        break;
+                    case 6:
+                        ESP_LOGD(TAG,   "    Message: Subsystem error");
+                        break;
+                    default:
+                        ESP_LOGD(TAG,   "    Message: Unknown Error");
+                        break;
+                }
             }
 
             // Fire Callback
@@ -228,7 +356,7 @@ namespace esphome::tc_bus
                 // Trigger listener binary sensor if match found
                 if (allow_publish)
                 {
-                    listener->turn_on(&listener->timer_, listener->auto_off_);
+                    listener->turn_on(&listener->timer_, listener->auto_reset_);
                 }
             }
             #endif
@@ -240,22 +368,56 @@ namespace esphome::tc_bus
         {
             // From transmitter
             ESP_LOGI(TAG,
-                "Sending Telegram: %s (%i-bit, 0x%08X, %s, %s)\n"
-                "  Address: %i\n"
-                "  Payload: 0x%X\n"
-                "  Serial-Number: %i",
+                "Sending: %s (%i-bit, 0x%s, %s)",
                 telegram_type_to_string(telegram_data.type), 
-                (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.raw, telegram_data.hex, telegram_data.is_retransmission ? "retransmission" : "first", 
-                telegram_data.address, 
-                telegram_data.payload, 
-                telegram_data.serial_number);
+                (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)),
+                telegram_data.hex,
+                telegram_data.is_retransmission ? "retransmission" : "first");
+
+            if(telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
+            {
+                ESP_LOGD(TAG,   "  Address: %i\n"
+                                "  Payload: 0x%X\n"
+                                "  Serial-Number: %i",
+                                telegram_data.address, 
+                                telegram_data.payload, 
+                                telegram_data.serial_number);
+            }
         }
 
         // Sent or received - no response to identification and read memory process
         
         if(telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK)
         {
-            ESP_LOGD(TAG, "  Description: Read 4 memory blocks, from %i to %i.", (telegram_data.address * 4), (telegram_data.address * 4) + 4);
+            ESP_LOGD(TAG, "  Description: Read 4 bytes, from address %i to %i.", telegram_data.address, telegram_data.address + 4);
+        }
+        else if(telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION)
+        {
+            switch(telegram_data.payload)
+            {
+                case 0xC9:
+                    ESP_LOGD(TAG, "  Description: Reading confirmation");
+                    break;
+                case 0xCA:
+                    ESP_LOGD(TAG, "  Description: Synchronization of parallel devices");
+                    break;
+                case 0xCF:
+                    ESP_LOGD(TAG, "  Description: Internal call sender serial number");
+                    break;
+                case 0xD7:
+                    ESP_LOGD(TAG, "  Description: Individual device reset");
+                    break;
+                case 0xD8:
+                    this->error_protocol_pending_ = true;
+                    ESP_LOGD(TAG, "  Description: Error protocol");
+                    break;
+                case 0xEE:
+                    ESP_LOGD(TAG, "  Description: Switch on video screen");
+                    break;
+                default:
+                    ESP_LOGD(TAG, "  Description: Control function %d", telegram_data.payload);
+                    break;
+            }
         }
         else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL)
         {
@@ -326,11 +488,75 @@ namespace esphome::tc_bus
             ESP_LOGV(TAG, "Save device group: %d", telegram_data.payload);
             this->selected_device_group_ = (uint8_t)telegram_data.payload;
         }
-
-        // Call remote listeners
-        for (auto &entry : this->remote_listeners_)
+        else if(telegram_data.type == TELEGRAM_TYPE_FOUND_DEVICE && this->system_discovery_active_)
         {
-            entry.listener->on_receive(telegram_data, received);
+            uint32_t* arr = nullptr;
+            uint8_t*  cnt = nullptr;
+            uint8_t   max = 0;
+
+            switch(this->selected_device_group_)
+            {
+                case 0: arr = system_discovery_is_classic_; cnt = &system_discovery_is_classic_cnt_; max = 50; break;
+                case 1: arr = system_discovery_is_handsfree_; cnt = &system_discovery_is_handsfree_cnt_; max = 50; break;
+                case 2: arr = system_discovery_as_;  cnt = &system_discovery_as_cnt_;  max = 5;  break;
+                case 4: arr = system_discovery_ctr_; cnt = &system_discovery_ctr_cnt_; max = 5;  break;
+                case 6: arr = system_discovery_ext_; cnt = &system_discovery_ext_cnt_; max = 5;  break;
+                case 11: arr = system_discovery_acc_; cnt = &system_discovery_acc_cnt_; max = 5;  break;
+                default: return;
+            }
+
+            for(uint8_t i = 0; i < *cnt; i++)
+            {
+                if(arr[i] == telegram_data.serial_number)
+                {
+                    return;
+                }
+            }
+
+            if(*cnt < max)
+            {
+                arr[(*cnt)++] = telegram_data.serial_number;
+            }
+
+            this->cancel_timeout(0xDD);
+            this->set_timeout(0xDD, 4000, [this]()
+            {
+                if(this->system_discovery_full_scan_)
+                {
+                    uint8_t next_group = 255;
+                    switch(this->selected_device_group_)
+                    {
+                        case 0: next_group = 1; break;
+                        case 1: next_group = 2; break;
+                        case 2: next_group = 4; break;
+                        case 4: next_group = 6; break;
+                        case 6: next_group = 11; break;
+                    }
+
+                    if(next_group == 255)
+                    {
+                        ESP_LOGD(TAG, "Finished scanning device groups.");
+                        finish_system_discovery();
+                    }
+                    else
+                    {
+                        ESP_LOGD(TAG, "Finished scanning device group %d, next group: %d.", this->selected_device_group_, next_group);
+                        discover_system_devices(next_group);
+                    }
+                }
+                else
+                {
+                    finish_system_discovery();
+                }
+            });
+        }
+
+        if (source != TelegramSource::LOCAL_SENT)
+        {
+            for (auto &entry : this->remote_listeners_)
+            {
+                entry.listener->on_receive(telegram_data, source);
+            }
         }
 
         #ifdef USE_LOCK
@@ -341,7 +567,7 @@ namespace esphome::tc_bus
             {
                 if(telegram_data.address == listener->address_.value_or(0) || listener->address_.value_or(0) == 255)
                 {
-                    listener->unlock(&listener->timer_, listener->auto_lock_);
+                    listener->unlock(&listener->timer_, listener->auto_reset_);
                 }
             }
         }
@@ -398,6 +624,7 @@ namespace esphome::tc_bus
         if (us > ACK_TIMEOUT_US)
         {
             wait_for_response = false;
+            arg->expect_echo_isr = false;
         }
 
         // Save potential retransmission gap
@@ -418,6 +645,16 @@ namespace esphome::tc_bus
             telegram_is_response = false;
             bit_index = 0;
             state = 1;
+
+            if (arg->expect_echo_isr)
+            {
+                arg->expect_echo_isr = false;
+            }
+            else if (arg->retransmit_needed)
+            {
+                arg->retransmit_needed = false;
+            }
+
             return;
         }
 
@@ -462,7 +699,14 @@ namespace esphome::tc_bus
                 t.raw = telegram;
                 t.is_long = telegram_is_long;
                 t.is_response = telegram_is_response;
-                t.is_retransmission = telegram_is_retransmission;
+
+                if(arg->last_telegram_raw == telegram && telegram_is_retransmission)
+                {
+                    t.is_retransmission = true;
+                }
+
+                arg->last_telegram_raw = telegram;
+                telegram_is_retransmission = false; // reset
 
                 BaseType_t higher = pdFALSE;
                 xQueueSendFromISR(global_tc_bus->telegram_receive_queue, &t, &higher);
@@ -475,14 +719,14 @@ namespace esphome::tc_bus
     }
 
     #ifdef USE_BINARY_SENSOR
-    void TCBusComponent::register_listener(TCBusListener *listener)
+    void TCBusComponent::register_listener(TCBusBinarySensorListener *listener)
     {
         this->listeners_.push_back(listener);
     }
     #endif
 
     #ifdef USE_LOCK
-    void TCBusComponent::register_lock_listener(TCBusLockListener *listener)
+    void TCBusComponent::register_listener(TCBusLockListener *listener)
     {
         this->lock_listeners_.push_back(listener);
     }
@@ -510,7 +754,13 @@ namespace esphome::tc_bus
         return send_telegram(telegram_data, wait_duration);
     }
 
-    TelegramData TCBusComponent::send_telegram(TelegramData telegram_data, uint32_t wait_duration)
+    TelegramData TCBusComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration, uint8_t sender_listener_id)
+    {
+        TelegramData telegram_data = buildTelegram(type, address, payload, serial_number);
+        return send_telegram(telegram_data, wait_duration, sender_listener_id);
+    }
+
+    TelegramData TCBusComponent::send_telegram(TelegramData telegram_data, uint32_t wait_duration, uint8_t sender_listener_id)
     {
         if (telegram_data.raw == 0  && telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
         {
@@ -518,7 +768,7 @@ namespace esphome::tc_bus
             return telegram_data;
         }
 
-        if (!this->telegram_transmit_queue.push({telegram_data, wait_duration}))
+        if (!this->telegram_transmit_queue.push({telegram_data, wait_duration, sender_listener_id}))
         {
             ESP_LOGW(TAG, "Telegram queue full, dropping telegram 0x%08X", telegram_data.raw);
         }
@@ -529,7 +779,7 @@ namespace esphome::tc_bus
         return telegram_data;
     }
 
-    void TCBusComponent::transmit_telegram(TelegramData telegram_data)
+    void TCBusComponent::transmit_telegram(TelegramData telegram_data, uint8_t sender_listener_id)
     {   
         if (this->store_.sending)
         {
@@ -539,11 +789,12 @@ namespace esphome::tc_bus
         {
             uint32_t start_us = micros();
             uint32_t time_between = start_us - this->store_.last_bit_change;
-            ESP_LOGD(TAG, "transmit: Last bit %i us ago", time_between);
+            ESP_LOGV(TAG, "Last bit %i us ago", time_between);
 
             this->store_.sending = true;
-            this->store_.echo_raw = telegram_data.raw;
+            this->store_.last_telegram_raw = telegram_data.raw;
             this->store_.expect_echo = true;
+            this->store_.expect_echo_isr = true;
 
             // Calculate length based on telegram type
             // Status Acknowledge telegrams only have 4 bits
@@ -576,8 +827,156 @@ namespace esphome::tc_bus
             this->tx_pin_->digital_write(false);
 
             this->store_.sending = false;
+
+            if (!telegram_data.is_retransmission && telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
+            {
+                this->store_.retransmit_needed = true;
+                this->retransmit_wait_start_us_ = micros();
+                this->retransmit_telegram_ = telegram_data;
+                this->retransmit_telegram_.is_retransmission = true;
+                this->retransmit_sender_listener_id_ = sender_listener_id;
+            }
+
+            this->handle_telegram(telegram_data, TelegramSource::LOCAL_SENT);
+
+            if (sender_listener_id != 0)
+            {
+                this->notify_peer_listeners(telegram_data, sender_listener_id);
+            }
+            else
+            {
+                for (auto &entry : this->remote_listeners_)
+                {
+                    entry.listener->on_receive(telegram_data, TelegramSource::BUS_RECEIVED);
+                }
+            }
+        }
+    }
+
+    void TCBusComponent::discover_system_devices(uint8_t device_group)
+    {
+        if(device_group == 255)
+        {
+            this->system_discovery_full_scan_ = true;
+            device_group = 0; // full scan starts with 0
+        }
+        else
+        {
+            if(device_group != 0 && device_group != 1 && device_group != 2 && device_group != 4 && device_group != 6 && device_group != 11)
+            {
+                ESP_LOGE(TAG, "Unsupported device group %d for system discovery, aborting.", device_group);
+                return;
+            }
         }
 
-        this->handle_telegram(telegram_data, false);
+        if(this->system_discovery_active_ == false)
+        {
+            if(this->system_discovery_full_scan_)
+            {
+                ESP_LOGI(TAG, "Start system discovery: All Device Groups");
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Start system discovery: Device Group %d", device_group);
+            }
+
+            this->system_discovery_active_ = true;
+        }
+        else
+        {
+            ESP_LOGI(TAG, "Continue system discovery: Device Group %d", device_group);
+        }
+
+        // 0 = Indoor stations 0
+        // 1 = Indoor stations 1
+        // 2 = Outdoor stations
+        // 3 = Doorbell button extension (at least one known)
+        // 4 = Controllers (Power supply)
+        // 7 = Bell
+        // 6 = Extra modules
+        // 7 = Gateways/interfaces
+        // 8 = reserved
+        // 9 = Guard stations
+        // A = tcp3 (?)
+        // B = Access control devices
+
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, device_group, 0, 280);
+        send_telegram(TELEGRAM_TYPE_SEARCH_DEVICES, 0, 0);
+
+        this->cancel_timeout(0xDD);
+        this->set_timeout(0xDD, 4000, [this]()
+        {
+            if(this->system_discovery_full_scan_)
+            {
+                uint8_t next_group = 255;
+                switch(this->selected_device_group_)
+                {
+                    case 0: next_group = 1; break;
+                    case 1: next_group = 2; break;
+                    case 2: next_group = 4; break;
+                    case 4: next_group = 6; break;
+                    case 6: next_group = 11; break;
+                }
+
+                if(next_group == 255)
+                {
+                    finish_system_discovery();
+                }
+                else
+                {
+                    discover_system_devices(next_group);
+                }
+            }
+            else
+            {
+                finish_system_discovery();
+            }
+        });
+    }
+
+    void TCBusComponent::finish_system_discovery()
+    {
+        this->system_discovery_active_ = false;
+        this->system_discovery_full_scan_ = false;
+
+        this->cancel_timeout(0xDD);
+
+        ESP_LOGI(TAG, "System discovery completed. Found devices:");
+
+        log_device_list("Indoor stations (Classic)", system_discovery_is_classic_, system_discovery_is_classic_cnt_);
+        ESP_LOGI(TAG, "  ");
+
+        log_device_list("Indoor stations (Handsfree)", system_discovery_is_handsfree_, system_discovery_is_handsfree_cnt_);
+        ESP_LOGI(TAG, "  ");
+
+        log_device_list("Outdoor stations", system_discovery_as_, system_discovery_as_cnt_);
+        ESP_LOGI(TAG, "  ");
+
+        log_device_list("Controllers (Power Supply)", system_discovery_ctr_, system_discovery_ctr_cnt_);
+        ESP_LOGI(TAG, "  ");
+        
+        log_device_list("Functional extensions", system_discovery_ext_, system_discovery_ext_cnt_);
+        ESP_LOGI(TAG, "  ");
+
+        log_device_list("Access control", system_discovery_acc_, system_discovery_acc_cnt_);
+
+        this->system_discovery_complete_callback_.call();
+    }
+
+    void TCBusComponent::log_device_list(const char* name, const uint32_t* list, uint8_t count)
+    {
+        ESP_LOGI(TAG, "%s: %d", name, count);
+
+        if(count > 0)
+        {
+            for (uint8_t i = 0; i < count; i++)
+            {
+                ESP_LOGI(TAG, "  %i", list[i]);
+            }
+        }
+        else
+        {
+            ESP_LOGI(TAG, "  No devices found");
+        }
     }
 }

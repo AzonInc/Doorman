@@ -65,7 +65,7 @@ async def to_code(config):
             telegram_payload = await cg.templatable(config[CONF_PAYLOAD], [], cg.uint32)
             cg.add(var.set_payload(telegram_payload))
         
-        cg.add(var.set_auto_off(config[CONF_AUTO_OFF]))
+        cg.add(var.set_auto_reset(config[CONF_AUTO_OFF]))
         cg.add(tc_bus_device.register_listener(var))
 
     elif sensor_type == "virtual_door_opener":

@@ -5,16 +5,19 @@ description: Stay up to date with Doorman's latest features, improvements, and i
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2026.3.0 <Badge type="warning" text="Next" />
+## 2026.5.0 <Badge type="warning" text="Next" />
 ### 🚨 IMPORTANT
 Please carefully review the breaking changes listed below before updating!  
 This release **will impact your current setup** and **requires** you to go through the **setup process again**.
 
 ### 🚀 What's New?
 - **Virtual Bus Devices**  
-   The `tc_bus_device` can now create virtual bus devices that can be used in the same way as physical bus devices. For example, you can create an outdoor station or an indoor station.
+   The `tc_bus_device` component can now create virtual bus devices that can be used in the same way as physical bus devices. For example, you can create an indoor or outdoor station which can react to calls but also call other devices.
 
 ### ✨ Improvements
+- **Refactored Status LED Logic**  
+   The RGB Status LED now properly works as expected when transitioning between multiple states ans respects several toggles.
+
 - **Protocol Decoder Rewrite**  
    After rewriting the protocol decoder, the bus protocol is now implemented more accurately, enabling both the transmission of acknowledge telegrams and their correct detection.
 
@@ -34,7 +37,7 @@ This release **will impact your current setup** and **requires** you to go throu
    The telegram builder now supports building `found_device`, `initialize_door_station`, `end_of_ringtone`, `end_of_door_readiness`, `door_closed`, `door_opened` telegrams.
 
 - **Door readiness tracking**  
-   The `tc_bus` component now keeps track of the current door readiness state. You can access the state with `is_door_readiness_active()`.
+   The `tc_bus` component now keeps track of the current door readiness state. You can access the state with `is_door_readiness_active()`. There is also a new Door Readiness Binary Sensor available.
 
 - **send_telegram() return value**  
    Every `send_telegram()` function now returns the sent telegram as `TelegramData`. This will be the actual sent telegram after any modifications by the telegram builder.

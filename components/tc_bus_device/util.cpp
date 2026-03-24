@@ -17,7 +17,7 @@ namespace esphome::tc_bus
         {SETTING_AS_ADDRESS_DIVIDER, "AS_ADDRESS_DIVIDER"},
         {SETTING_VAS_ADDRESS_DIVIDER, "VAS_ADDRESS_DIVIDER"},
         {SETTING_USE_LONG_DOOR_OPENER_PROTOCOL, "USE_LONG_DOOR_OPENER_PROTOCOL"},
-        {SETTING_NO_AMBIENT_LIGHT_IN_STANDBY, "NO_AMBIENT_LIGHT_IN_STANDBY"},
+        {SETTING_AMBIENT_LIGHT_IN_STANDBY, "AMBIENT_LIGHT_IN_STANDBY"},
         {SETTING_RINGTONE_MUTE, "RINGTONE_MUTE"},
         {SETTING_DOOR_OPENER_DURATION, "DOOR_OPENER_DURATION"},
         {SETTING_ADDRESS, "ADDRESS"},
@@ -110,191 +110,202 @@ namespace esphome::tc_bus
 
     static const ModelEntry MODEL_TABLE[] = {
         // Group 0
-        { 0x000, 0, 0,   UINT16_MAX , MODEL_IS_ISH3030       },
-        { 0x001, 0, 0,   UINT16_MAX , MODEL_IS_ISH3230       },
-        { 0x002, 0, 0,   UINT16_MAX , MODEL_IS_ISH3022       },
-        { 0x003, 0, 0,   UINT16_MAX , MODEL_IS_ISH3130       },
-        { 0x800, 0, 0,   UINT16_MAX , MODEL_IS_IVH3222       },
-        { 0x900, 0, 0,   UINT16_MAX , MODEL_IS_IVH4222       },
-        { 0xB00, 0, 0,   UINT16_MAX , MODEL_IS_IMM1000       },
-        { 0xC01, 0, 0,   UINT16_MAX , MODEL_IS_VMH           },
-        { 0xC00, 0, 0,   UINT16_MAX , MODEL_IS_VML           },
-        { 0xC02, 0, 0,   UINT16_MAX , MODEL_IS_VMF           },
-        { 0x281, 0, 512, UINT16_MAX , MODEL_IS_TC40V2        },
-        { 0x281, 0, 0,   511,         MODEL_IS_TC40          },
-        { 0x180, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x181, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x182, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x183, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x184, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x185, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x186, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x187, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x188, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x189, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x18A, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x18B, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x18C, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x18D, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x18E, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x18F, 0, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { MODEL_IS_ISH3030,         0x000, 0, UINT16_MAX, 0 },
+        { MODEL_IS_ISH3230,         0x001, 0, UINT16_MAX, 0 },
+        { MODEL_IS_ISH3022,         0x002, 0, UINT16_MAX, 0 },
+        { MODEL_IS_ISH3130,         0x003, 0, UINT16_MAX, 0 },
+        { MODEL_IS_IVH3222,         0x800, 0, UINT16_MAX, 0 },
+        { MODEL_IS_IVH4222,         0x900, 0, UINT16_MAX, 0 },
+        { MODEL_IS_IMM1000,         0xB00, 0, UINT16_MAX, 0 },
+        { MODEL_IS_VMH,             0xC01, 0, UINT16_MAX, 0 },
+        { MODEL_IS_VML,             0xC00, 0, UINT16_MAX, 0 },
+        { MODEL_IS_VMF,             0xC02, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x180, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x181, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x182, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x183, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x184, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x185, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x186, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x187, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x188, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x189, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18A, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18B, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18C, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18D, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18E, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18F, 0, UINT16_MAX, 0 },
 
         // Group 1
-        { 0x010, 1, 0, UINT16_MAX , MODEL_IS_ISW3030         },
-        { 0x011, 1, 0, UINT16_MAX , MODEL_IS_ISW3230         },
-        { 0x013, 1, 0, UINT16_MAX , MODEL_IS_ISW3130         },
-        { 0x015, 1, 0, UINT16_MAX , MODEL_IS_ISW3330         },
-        { 0x017, 1, 0, UINT16_MAX , MODEL_IS_ISW3340         },
-        { 0x194, 1, 0, UINT16_MAX , MODEL_IS_IVW9030         },
-        { 0x400, 1, 0, UINT16_MAX , MODEL_IS_ISW42X0         },
-        { 0x410, 1, 0, UINT16_MAX , MODEL_IS_TKIS            },
-        { 0x420, 1, 0, UINT16_MAX , MODEL_IS_TKISV           },
-        { 0x200, 1, 0, UINT16_MAX , MODEL_IS_ISW4100         },
-        { 0x201, 1, 0, UINT16_MAX , MODEL_IS_IMM2100         },
-        { 0x208, 1, 0, UINT16_MAX , MODEL_IS_CAIXXXX         },
-        { 0x280, 1, 512, UINT16_MAX , MODEL_IS_VTC42V2       },
-        { 0x280, 1, 0,   511,         MODEL_IS_VTC40         },
-        { 0x800, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
-        { 0x805, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
-        { 0x807, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
-        { 0x809, 1, 0, UINT16_MAX , MODEL_IS_CAI2000         },
-        { 0x80C, 1, 0, UINT16_MAX , MODEL_IS_ECOOS           },
-        { 0x810, 1, 0, UINT16_MAX , MODEL_IS_IVW2220         },
-        { 0x815, 1, 0, UINT16_MAX , MODEL_IS_IVW2221         },
-        { 0x820, 1, 0, UINT16_MAX , MODEL_IS_IVW3011         },
-        { 0x830, 1, 0, UINT16_MAX , MODEL_IS_IVW3012         },
-        { 0x1E8, 1, 0, UINT16_MAX , MODEL_IS_IVW9010         },
-        { 0x1EA, 1, 0, UINT16_MAX , MODEL_IS_IVW9110         },
-        { 0x1E9, 1, 0, UINT16_MAX , MODEL_IS_IVW9011         },
-        { 0x1B3, 1, 0, UINT16_MAX , MODEL_IS_IVE70           },
-        { 0x1B4, 1, 0, UINT16_MAX , MODEL_IS_IVE70           },
-        { 0x1B5, 1, 0, UINT16_MAX , MODEL_IS_IVE70           },
-        { 0x020, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x021, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x022, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x023, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x024, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x025, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x026, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x027, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x030, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x031, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x032, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x033, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x034, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x035, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x036, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x037, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x028, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x02B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x02F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x068, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x06F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x060, 1, 0, UINT16_MAX , MODEL_IS_TASTA_AUDIO     },
-        { 0x038, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x039, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x03A, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x03B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x03C, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x03D, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x03E, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x03F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_VIDEO     },
-        { 0x070, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x071, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x072, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x073, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x074, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x075, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x076, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x077, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x078, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x079, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x07A, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x07B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x07C, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x07D, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x07E, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x07F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_AUDIO },
-        { 0x080, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x081, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x082, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x083, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x084, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x085, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x086, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x087, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0x088, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x089, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x08A, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x08B, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x08C, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x08D, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x08E, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x08F, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0x058, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x059, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x05A, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x05B, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x05C, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x05D, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x05E, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0x05F, 1, 0, UINT16_MAX , MODEL_IS_TASTA_PRO_VIDEO },
-        { 0xC70, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC71, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC72, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC73, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC74, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC75, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC76, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC77, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC90, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC91, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC92, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC93, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC94, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC95, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC96, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC97, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_AUDIO },
-        { 0xC80, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC81, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC82, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC83, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC84, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC85, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC86, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
-        { 0xC87, 1, 0, UINT16_MAX , MODEL_IS_SENSO_PRO_VIDEO },
+        { MODEL_IS_ISW3030,         0x010, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3230,         0x011, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3130,         0x013, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3330,         0x015, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3340,         0x017, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9030,         0x194, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW42X0,         0x400, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TKM_IS,          0x410, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TKM_ISV,         0x420, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW4100,         0x200, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IMM2100,         0x201, 0, UINT16_MAX, 1 },
+        { MODEL_IS_CAIXXXX,         0x208, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TC40V2,          0x280, 512, UINT16_MAX, 1 },
+        { MODEL_IS_TC40,            0x280, 0,  511,         1 },
+        { MODEL_IS_VTC42V2,         0x281, 512, UINT16_MAX, 1 },
+        { MODEL_IS_VTC40,           0x281, 0,  511,         1 },
+        { MODEL_IS_ECOOS,           0x800, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ECOOS,           0x805, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ECOOS,           0x807, 0, UINT16_MAX, 1 },
+        { MODEL_IS_CAI2000,         0x809, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ECOOS,           0x80C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW2220,         0x810, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW2221,         0x815, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW3011,         0x820, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW3012,         0x830, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9010,         0x1E8, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9110,         0x1EA, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9011,         0x1E9, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVE70,           0x1B3, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVE70,           0x1B4, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVE70,           0x1B5, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x020, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x021, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x022, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x023, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x024, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x025, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x026, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x027, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x030, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x031, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x032, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x033, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x034, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x035, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x036, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x037, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x028, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x02B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x02F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x068, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x06F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x060, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x038, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x039, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x070, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x071, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x072, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x073, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x074, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x075, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x076, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x077, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x078, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x079, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x080, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x081, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x082, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x083, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x084, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x085, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x086, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x087, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x088, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x089, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x058, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x059, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC70, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC71, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC72, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC73, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC74, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC75, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC76, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC77, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC90, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC91, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC92, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC93, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC94, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC95, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC96, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC97, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC80, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC81, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC82, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC83, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC84, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC85, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC86, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC87, 0, UINT16_MAX, 1 },
 
         // Group 2
-        { 0x420, 2,    0, 2623,        MODEL_AS_PUK         },
-        { 0x420, 2, 2624, UINT16_MAX , MODEL_AS_PDS0X       },
-        { 0x430, 2, 2656, UINT16_MAX , MODEL_AS_PES         },
-        { 0x4E0, 2,    0, UINT16_MAX , MODEL_AS_PUK_DSP     },
-        { 0x400, 2,    0, UINT16_MAX , MODEL_AS_PAKV2       },
-        { 0x280, 2,    0, UINT16_MAX , MODEL_AS_PAKV3       },
-        { 0x270, 2,    0, UINT16_MAX , MODEL_AS_PAKV3       },
-        { 0xC00, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC01, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC02, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC03, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC04, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC05, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC06, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC09, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xD09, 2,    0, UINT16_MAX , MODEL_AS_TCU3        },
-        { 0xC20, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
-        { 0xC21, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
-        { 0xC22, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
-        { 0xC23, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
-        { 0xC24, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
-        { 0xC25, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
-        { 0xC26, 2,    0, UINT16_MAX , MODEL_AS_TCU4        },
+        { MODEL_AS_PUK,            0x420,    0, 2623,       2 },
+        { MODEL_AS_PDS0X,          0x420, 2624, UINT16_MAX, 2 },
+        { MODEL_AS_PES,            0x430, 2656, UINT16_MAX, 2 },
+        { MODEL_AS_PUK_DSP,        0x4E0,    0, UINT16_MAX, 2 },
+        { MODEL_AS_PAKV2,          0x400,    0, UINT16_MAX, 2 },
+        { MODEL_AS_PAKV3,          0x280,    0, UINT16_MAX, 2 },
+        { MODEL_AS_PAKV3,          0x270,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3,           0xC00,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX1,       0xC01,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX2,       0xC02,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX3,       0xC03,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX4,       0xC04,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX5,       0xC05,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX6,       0xC06,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3,           0xC09,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3,           0xD09,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4,           0xC20,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX1,       0xC21,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX2,       0xC22,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX3,       0xC23,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX4,       0xC24,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX5,       0xC25,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX6,       0xC26,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TKM_AS,         0x480,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TKM_ASV,        0x4C0,    0, UINT16_MAX, 2 },
 
         // Group 4
-        { 0x008, 4, 0, UINT16_MAX , MODEL_CTRL_BVS30        },
-        { 0x010, 4, 0, UINT16_MAX , MODEL_CTRL_NBV3210      },
-        { 0x009, 4, 0, UINT16_MAX , MODEL_CTRL_VBVS30       },
-        { 0xD2D, 4, 0, UINT16_MAX , MODEL_CTRL_NBV2600      },
-        { 0x000, 4, 0, UINT16_MAX , MODEL_CTRL_VBVS05       },
+        { MODEL_CTRL_BVS30,        0x008, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_NBV3210,      0x010, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_VBVS30,       0x009, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_NBV2600,      0xD2D, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_VBVS05,       0x000, 0, UINT16_MAX, 4 },
+
+        // Group 6
+        { MODEL_EXT_BRE2_SG,      0x300, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_BRE2_EB,      0x400, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_TRE2,         0x500, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_TOER2_EB,     0x510, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_FFL1000,      0x520, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_FAA1200,      0x530, 0, UINT16_MAX, 6 },
+        
     };
 
     Model identifier_to_model(uint8_t device_group, uint16_t model_key, uint8_t hw_version, uint16_t fw_version)
@@ -365,8 +376,8 @@ namespace esphome::tc_bus
         {MODEL_IS_VMH, "TCS VMH / Koch VMH"},
         {MODEL_IS_VML, "TCS VML / Koch VML"},
         {MODEL_IS_VMF, "TCS VMF / Koch VMF"},
-        {MODEL_IS_TKIS, "Jung TKIS"},
-        {MODEL_IS_TKISV, "Jung TKISV"},
+        {MODEL_IS_TKM_IS, "Jung TKM IS"},
+        {MODEL_IS_TKM_ISV, "Jung TKM ISV"},
         {MODEL_IS_CAIXXXX, "TCS CAIXXXX / Koch CAIXXXX"},
         {MODEL_IS_CAI2000, "TCS CAI2000 / Koch Carus"},
         {MODEL_IS_ISW42X0, "TCS ISW42X0"},
@@ -375,8 +386,8 @@ namespace esphome::tc_bus
         {MODEL_IS_IVW9110, "TCS IVW9110"},
         {MODEL_IS_IVW9030, "TCS IVW9030 / Scantron SLIM50T"},
         {MODEL_IS_IVE70, "TCS IVE70"},
-        {MODEL_IS_DEBUG_0, "DEBUG IS0"},
-        {MODEL_IS_DEBUG_1, "DEBUG IS1"},
+        {MODEL_IS_DEBUG_0, "DEBUG IS Classic"},
+        {MODEL_IS_DEBUG_1, "DEBUG IS Handsfree"},
         {MODEL_AS_DEBUG, "DEBUG AS"},
         {MODEL_AS_PUK, "TCS PUK"},
         {MODEL_AS_PUK_DSP, "TCS PUK-DSP"},
@@ -387,7 +398,21 @@ namespace esphome::tc_bus
         {MODEL_AS_PES, "TCS PES"},
         {MODEL_AS_TCU2, "TCS TCU2"},
         {MODEL_AS_TCU3, "TCS TCU3"},
+        {MODEL_AS_TCU3_EX1, "TCS TCU3 + TCKE3 (1)"},
+        {MODEL_AS_TCU3_EX2, "TCS TCU3 + TCKE3 (2)"},
+        {MODEL_AS_TCU3_EX3, "TCS TCU3 + TCKE3 (3)"},
+        {MODEL_AS_TCU3_EX4, "TCS TCU3 + TCKE3 (4)"},
+        {MODEL_AS_TCU3_EX5, "TCS TCU3 + TCKE3 (5)"},
+        {MODEL_AS_TCU3_EX6, "TCS TCU3 + TCKE3 (6)"},
         {MODEL_AS_TCU4, "TCS TCU4"},
+        {MODEL_AS_TCU4_EX1, "TCS TCU4 + TCKE3 (1)"},
+        {MODEL_AS_TCU4_EX2, "TCS TCU4 + TCKE3 (2)"},
+        {MODEL_AS_TCU4_EX3, "TCS TCU4 + TCKE3 (3)"},
+        {MODEL_AS_TCU4_EX4, "TCS TCU4 + TCKE3 (4)"},
+        {MODEL_AS_TCU4_EX5, "TCS TCU4 + TCKE3 (5)"},
+        {MODEL_AS_TCU4_EX6, "TCS TCU4 + TCKE3 (6)"},
+        {MODEL_AS_TKM_AS, "Jung TKM AS"},
+        {MODEL_AS_TKM_ASV, "Jung TKM ASV"},
         {MODEL_CTRL_BVS20, "TCS BVS20"},
         {MODEL_CTRL_BVS30, "TCS BVS30"},
         {MODEL_CTRL_NBV3210, "TCS NBV3210"},
@@ -395,7 +420,12 @@ namespace esphome::tc_bus
         {MODEL_CTRL_NBV2600, "TCS NBV2600"},
         {MODEL_CTRL_VBVS05, "TCS VBVS05"},
         {MODEL_CTRL_DEBUG, "DEBUG CONTROLLER"},
+        {MODEL_EXT_BRE2_SG, "TCS BRE2-SG"},
+        {MODEL_EXT_BRE2_EB, "TCS BRE2-EB"},
         {MODEL_EXT_TRE2, "TCS TRE2"},
+        {MODEL_EXT_TOER2_EB, "TCS TOER2-EB"},
+        {MODEL_EXT_FFL1000, "TCS FFL1000"},
+        {MODEL_EXT_FAA1200, "TCS FAA1200"},
         {MODEL_EXT_DEBUG, "DEBUG EXTENSION"}
     };
 
@@ -509,7 +539,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
-                modelData.capabilities |= CAP_NO_AMBIENT_LIGHT_IN_STANDBY;
+                modelData.capabilities |= CAP_AMBIENT_LIGHT_IN_STANDBY;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
@@ -531,7 +561,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
-                modelData.capabilities |= CAP_NO_AMBIENT_LIGHT_IN_STANDBY;
+                modelData.capabilities |= CAP_AMBIENT_LIGHT_IN_STANDBY;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_INDIVIDUAL_RESET;
                 modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
@@ -632,6 +662,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
@@ -647,6 +678,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
                 modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
@@ -660,7 +692,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                // not available in v1
+                //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
@@ -676,7 +709,8 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                // not available in v1
+                //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
                 modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
@@ -769,9 +803,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_CALL_TIME_UNLIMITED;
                 modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
                 break;
-            case MODEL_IS_TKIS:
+            case MODEL_IS_TKM_IS:
                 modelData.device_group = 1;
-                modelData.memory_size = 64;
+                modelData.memory_size = 40;
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
                 modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
@@ -782,8 +816,9 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
+                modelData.capabilities |= CAP_AMBIENT_LIGHT_IN_STANDBY;
                 break;
-            case MODEL_IS_TKISV:
+            case MODEL_IS_TKM_ISV:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
@@ -797,6 +832,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 modelData.capabilities |= CAP_PARALLEL_SERIAL_NUMBER;
                 modelData.capabilities |= CAP_AUTO_ANSWER_CALL;
+                modelData.capabilities |= CAP_AMBIENT_LIGHT_IN_STANDBY;
                 break;
             case MODEL_IS_CAI2000:
                 modelData.device_group = 1;
@@ -1152,13 +1188,23 @@ namespace esphome::tc_bus
 
                 modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
                 
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
             case MODEL_AS_TCU3:
+            case MODEL_AS_TCU3_EX1:
+            case MODEL_AS_TCU3_EX2:
+            case MODEL_AS_TCU3_EX3:
+            case MODEL_AS_TCU3_EX4:
+            case MODEL_AS_TCU3_EX5:
+            case MODEL_AS_TCU3_EX6:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
+                modelData.memory_size_side = 192;
+                modelData.sides = model_to_identifier(model) & 0xF;
+
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
                 modelData.capabilities |= CAP_CALL_TIME_DURATION;
@@ -1168,6 +1214,7 @@ namespace esphome::tc_bus
 
                 modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
                 
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
@@ -1175,6 +1222,9 @@ namespace esphome::tc_bus
             case MODEL_AS_TCU4:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
+                modelData.memory_size_side = 192;
+                modelData.sides = model_to_identifier(model) & 0xF;
+
                 modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
                 modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
                 modelData.capabilities |= CAP_CALL_TIME_DURATION;
@@ -1184,7 +1234,26 @@ namespace esphome::tc_bus
 
                 modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
 
+                modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
+                break;
+
+            case MODEL_AS_TKM_AS:
+            case MODEL_AS_TKM_ASV:
+                modelData.device_group = 2;
+                modelData.memory_size = 128;
+                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_ADDRESS;
+                modelData.capabilities |= CAP_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -1211,8 +1280,17 @@ namespace esphome::tc_bus
 
             // Group 6
             case MODEL_EXT_TRE2:
+            case MODEL_EXT_TOER2_EB:
+            case MODEL_EXT_FFL1000:
+            case MODEL_EXT_FAA1200:
                 modelData.device_group = 6;
-                modelData.memory_size = 0;
+                modelData.memory_size = 8;
+                break;
+
+            case MODEL_EXT_BRE2_SG:
+            case MODEL_EXT_BRE2_EB:
+                modelData.device_group = 6;
+                modelData.memory_size = 64;
                 break;
 
             case MODEL_EXT_DEBUG:
@@ -1249,6 +1327,8 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
             else if (setting == SETTING_RINGTONE_INTERNAL_CALL && (model_data.capabilities & CAP_RINGTONE_INTERNAL_CALL))
             {
@@ -1264,6 +1344,8 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
             else if (setting == SETTING_RINGTONE_FLOOR_CALL && (model_data.capabilities & CAP_RINGTONE_FLOOR_CALL))
             {
@@ -1279,6 +1361,8 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
             else if (setting == SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL))
             {
@@ -1294,68 +1378,145 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
             else if (setting == SETTING_VOLUME_RINGTONE && (model_data.capabilities & CAP_VOLUME_RINGTONE))
             {
-                data.index = 20;
-                data.start_bit = 7;
-                data.length = 8;
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 28;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                else if(model == MODEL_IS_ISW42X0)
+                {
+                    data.index = 20;
+                    data.start_bit = 1;
+                    data.length = 2;
+                }
+                else
+                {
+                    data.index = 20;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                
+                data.valid = true;
             }
             else if (setting == SETTING_VOLUME_HANDSET_DOOR_CALL && (model_data.capabilities & CAP_VOLUME_HANDSET_DOOR_CALL))
             {
                 data.index = 21;
-                data.start_bit = 3;
-                data.length = 4;
+                if(model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                else
+                {
+                    data.start_bit = 3;
+                    data.length = 4;
+                }
+                data.valid = true;
             }
             else if (setting == SETTING_VOLUME_HANDSET_INTERNAL_CALL && (model_data.capabilities & CAP_VOLUME_HANDSET_INTERNAL_CALL))
             {
                 data.index = 21;
                 data.start_bit = 7;
                 data.length = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_AS_ADDRESS_DIVIDER && (model_data.capabilities & CAP_AS_ADDRESS_DIVIDER))
             {
-                data.index = 22;
-                data.start_bit = 7;
-                data.length = 8;
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 16;
+                    data.start_bit = 5;
+                    data.length = 6;
+                }
+                else
+                {
+                    data.index = 22;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                data.valid = true;
             }
             else if (setting == SETTING_VAS_ADDRESS_DIVIDER && (model_data.capabilities & CAP_VAS_ADDRESS_DIVIDER))
             {
-                data.index = 2;
-                data.start_bit = 7;
-                data.length = 8;
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 32;
+                    data.start_bit = 5;
+                    data.length = 6;
+                }
+                else
+                {
+                    data.index = 2;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                data.valid = true;
             }
             else if (setting == SETTING_USE_LONG_DOOR_OPENER_PROTOCOL && (model_data.capabilities & CAP_USE_LONG_DOOR_OPENER_PROTOCOL))
             {
-                data.index = 23;
-                data.start_bit = 4;
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 15;
+                    data.start_bit = 1;
+                }
+                else
+                {
+                    data.index = 23;
+                    data.start_bit = 4;
+                }
+                data.valid = true;
             }
-            else if (setting == SETTING_NO_AMBIENT_LIGHT_IN_STANDBY && (model_data.capabilities & CAP_NO_AMBIENT_LIGHT_IN_STANDBY))
+            else if (setting == SETTING_AMBIENT_LIGHT_IN_STANDBY && (model_data.capabilities & CAP_AMBIENT_LIGHT_IN_STANDBY))
             {
-                data.index = 23;
+                if(model == MODEL_IS_TKM_IS || model == MODEL_IS_TKM_ISV)
+                {
+                    data.index = 15;
+                }
+                else
+                {
+                    data.index = 23;
+                }
                 data.start_bit = 1;
+                data.valid = true;
             }
             else if (setting == SETTING_RINGTONE_MUTE && (model_data.capabilities & CAP_RINGTONE_MUTE))
             {
+                if (model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 ||
+                    model == MODEL_IS_VTC42V2 || model == MODEL_IS_TKM_IS || model == MODEL_IS_TKM_ISV)
+                {
+                    data.start_bit = 1;
+                }
+                else
+                {
+                    data.start_bit = 0;
+                }
                 data.index = 12;
-                data.start_bit = 3;
-                data.length = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_AUTO_ANSWER_CALL && (model_data.capabilities & CAP_AUTO_ANSWER_CALL))
             {
                 data.index = 15;
                 data.start_bit = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_CALL_TIME_UNLIMITED && (model_data.capabilities & CAP_CALL_TIME_UNLIMITED))
             {
                 data.index = 23;
                 data.start_bit = 0;
+                data.valid = true;
             }
             else if (setting == SETTING_PARALLEL_SERIAL_NUMBER && (model_data.capabilities & CAP_PARALLEL_SERIAL_NUMBER))
             {
                 data.index = 9;
                 data.start_bit = 3;
                 data.length = 20;
+                data.valid = true;
             }
         }
         else if(model_data.device_group == 2)
@@ -1366,56 +1527,66 @@ namespace esphome::tc_bus
                 data.index = 0;
                 data.start_bit = 6;
                 data.length = 7;
+                data.valid = true;
             }
             else if (setting == SETTING_ADDRESS_LOCK && (model_data.capabilities & CAP_ADDRESS_LOCK))
             {
                 data.index = 0;
                 data.start_bit = 7;
+                data.valid = true;
             }
             else if (setting == SETTING_CALLING_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_CALLING_REQUIRES_DOOR_READINESS))
             {
                 data.index = 4;
                 data.start_bit = 5;
+                data.valid = true;
             }
             else if (setting == SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS))
             {
                 data.index = 4;
                 data.start_bit = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL && (model_data.capabilities & CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL))
             {
                 data.index = 4;
                 data.start_bit = 3;
+                data.valid = true;
             }
             else if (setting == SETTING_DOOR_OPENER_DURATION && (model_data.capabilities & CAP_DOOR_OPENER_DURATION))
             {
                 data.index = 1;
                 data.start_bit = 7;
                 data.length = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_CALL_TIME_DURATION && (model_data.capabilities & CAP_CALL_TIME_DURATION))
             {
                 data.index = 2;
                 data.start_bit = 3;
                 data.length = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_DOOR_READINESS_DURATION && (model_data.capabilities & CAP_DOOR_READINESS_DURATION))
             {
                 data.index = 2;
                 data.start_bit = 7;
                 data.length = 4;
+                data.valid = true;
             }
             else if (setting == SETTING_BUTTON_ROWS && (model_data.capabilities & CAP_BUTTON_ROWS))
             {
                 data.index = 124;
                 data.start_bit = 7;
                 data.length = 8;
+                data.valid = true;
             }
             else if (setting == SETTING_HAS_CODE_LOCK && (model_data.capabilities & CAP_HAS_CODE_LOCK))
             {
                 data.index = 125;
                 data.start_bit = 7;
                 data.length = 8;
+                data.valid = true;
             }
         }
 
@@ -1452,6 +1623,110 @@ namespace esphome::tc_bus
     {
         if (ringtone > 12) ringtone = 0;
         return ringtones[ringtone];
+    }
+
+    uint32_t translate_setting_to_memory(SettingType type, Model model, uint32_t value)
+    {
+        switch(type)
+        {
+            case SETTING_AS_ADDRESS_DIVIDER:
+            case SETTING_VAS_ADDRESS_DIVIDER:
+                if(value > 63)
+                {
+                    value = 63;
+                }
+                break;
+
+            case SETTING_VOLUME_RINGTONE:
+                if(model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // 0 -> 2, 1 -> 4, 2 -> 6, 3 -> 8, >3 -> 2
+                    value = (value >= 0 && value <= 3) ? value * 2 + 2 : 2;
+                }
+                else if(model == MODEL_IS_ISW42X0)
+                {
+                    // 0 -> 0, 1 -> 1, 2 -> 2, 3 -> 3, >3 -> 0
+                    value = (value >= 0 && value <= 3) ? value : 0;
+                }
+                break;
+
+            case SETTING_VOLUME_HANDSET_DOOR_CALL:
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // 0  -> 32, 1  -> 33, 2  -> 34, 3  -> 35, >3 -> 32
+                    value = (value >= 0 && value <= 3) ? value + 32 : 32;
+                }
+                break;
+
+            case SETTING_AMBIENT_LIGHT_IN_STANDBY:
+                if(model == MODEL_IS_TKM_IS || model == MODEL_IS_TKM_ISV)
+                {
+                    value = value;
+                }
+                else
+                {
+                    // Invert the value
+                    value = value ? 0 : 1;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return value;
+    }
+
+    uint32_t translate_memory_to_setting(SettingType type, Model model, uint32_t value)
+    {
+        switch(type)
+        {
+            case SETTING_AS_ADDRESS_DIVIDER:
+            case SETTING_VAS_ADDRESS_DIVIDER:
+                if(value > 63)
+                {
+                    value = 63;
+                }
+                break;
+
+            case SETTING_VOLUME_RINGTONE:
+                if(model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // 2 -> 32, 4 -> 33, 6 -> 34, 8 -> 35, >8 -> 32, !%2 -> 32
+                    value = (value >= 2 && value <= 8 && value % 2 == 0) ? value / 2 - 1 : 0;
+                }
+                else if(model == MODEL_IS_ISW42X0)
+                {
+                    // 0 -> 0, 1 -> 1, 2 -> 2, 3 -> 3, >3 -> 0
+                    value = (value >= 0 && value <= 3) ? value : 0;
+                }
+                break;
+
+            case SETTING_VOLUME_HANDSET_DOOR_CALL:
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // <32 -> 0, 32  -> 0, 33 -> 1, 34 -> 2, 35 -> 3, >35 -> 0
+                    value = (value >= 32 && value <= 35) ? value - 32 : 0;
+                }
+                break;
+
+            case SETTING_AMBIENT_LIGHT_IN_STANDBY:
+                if(model == MODEL_IS_TKM_IS || model == MODEL_IS_TKM_ISV)
+                {
+                    value = value;
+                }
+                else
+                {
+                    // Invert the value
+                    value = value ? 0 : 1; 
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return value;
     }
 
 }

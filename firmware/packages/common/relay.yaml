@@ -1,0 +1,73 @@
+switch:
+  - platform: gpio
+    id: doorman_relay
+    name: "Relay"
+    icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
+    disabled_by_default: true
+    pin: ${relay_pin}
+    web_server:
+      sorting_group_id: sorting_group_controls
+      sorting_weight: 6
+
+select:
+  - platform: template
+    id: relay_mode
+    name: "Relay Mode"
+    icon: "mdi:progress-star-four-points"
+    optimistic: true
+    options:
+      - "Standalone"
+      - "Entrance Door Opener"
+      - "Second Entrance Door Opener"
+      - "Any Door Opener"
+    initial_option: "Standalone"
+    restore_value: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_settings_advanced
+      sorting_weight: -75
+
+lock:
+  - id: !extend entrance_door
+    after_unlock_action:
+      # Turn on internal relay
+      - if:
+          condition:
+            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Entrance Door Opener";
+          then:
+            - switch.turn_on: doorman_relay
+    lock_action:
+      # Turn off internal relay
+      - if:
+          condition:
+            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Entrance Door Opener";
+          then:
+            - switch.turn_off: doorman_relay
+
+  - id: !extend second_entrance_door
+    after_unlock_action:
+      # Turn on internal relay
+      - if:
+          condition:
+            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Second Entrance Door Opener";
+          then:
+            - switch.turn_on: doorman_relay
+    lock_action:
+      # Turn off internal relay
+      - if:
+          condition:
+            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Second Entrance Door Opener";
+          then:
+            - switch.turn_off: doorman_relay
+
+script:
+  - id: !extend boot_component_init
+    then:
+      # Always turn off relay on boot if not used standalone
+      - if:
+          condition:
+            - lambda: return id(relay_mode)->current_option() != "Standalone";
+          then:
+            - switch.turn_off: doorman_relay

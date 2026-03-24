@@ -11,6 +11,7 @@ substitutions:
   tx_pin: "GPIO23"
   led_pin: "GPIO2"
   rgb_led_pin: "GPIO4"
+  rgb_led_type: "ws2812"
   relay_pin: "GPIO21"
   external_button_pin: "GPIO20"
   adc_input_pin: "GPIO36"

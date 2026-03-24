@@ -23,7 +23,7 @@ namespace esphome::tc_bus
                 }
                 else
                 {
-                    if(this->is_long_.value(x...) == false)
+                    if(!this->is_long_.value(x...))
                     {
                         this->parent_->send_telegram(this->telegram_.value(x...));
                     }
@@ -50,6 +50,13 @@ namespace esphome::tc_bus
         public:
             explicit ReceivedTelegramTrigger(TCBusComponent *parent) {
                 parent->add_received_telegram_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+
+    class SystemDiscoveryCompleteTrigger : public Trigger<> {
+        public:
+            explicit SystemDiscoveryCompleteTrigger(TCBusComponent *parent) {
+                parent->add_system_discovery_complete_callback([this]() { this->trigger(); });
             }
     };
 }

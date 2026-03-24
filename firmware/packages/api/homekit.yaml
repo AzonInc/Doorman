@@ -1,58 +1,40 @@
 # API: HomeKit
 
-script:
-  - id: !extend boot_state
-    then:
-      # WiFi already connected
-      - if:
-          condition:
-            homekit.connected:
-          then:
-            - logger.log: "LED: HomeKit already connected"
-          else:
-            - logger.log: "LED: Waiting for HomeKit"
-            - delay: 2s
+wifi:
+  on_connect:
+    - if:
+        condition:
+          homekit.connected:
+        then:
+          - logger.log: "LED: HomeKit already connected"
+        else:
+          - logger.log: "LED: Waiting for HomeKit"
+          - delay: 2s
 
-            # Check if is already paired with HomeKit
-            - if:
-                condition: homekit.paired
-                then:
-                  - logger.log: "LED: Wait for HomeKit connection..."
-                  # Regular blue pulse while connecting
-                  - light.turn_on:
-                      id: doorman_rgb_status_led
-                      effect: slow_pulse
-                      red: 0%
-                      green: 22%
-                      blue: 100%
-                else:
-                  # Red/Blue pulse because homekit is not paired
-                  - light.turn_on:
-                      id: doorman_rgb_status_led
-                      effect: error_api
-                  - logger.log: "LED: Wait for HomeKit pairing..."
-                  - wait_until:
-                      condition: homekit.paired
-                  - logger.log: "LED: Paired, wait for HomeKit connection..."
-                  
-            - wait_until:
-                condition: homekit.connected
+          # Check if is already paired with HomeKit
+          - if:
+              condition: homekit.paired
+              then:
+                - logger.log: "LED: Wait for HomeKit connection..."
+                - status.push: api_connecting
+              else:
+                - status.push: api_wait_for_configuration
+                - logger.log: "LED: Wait for HomeKit pairing..."
+                - wait_until:
+                    condition: homekit.paired
+                - logger.log: "LED: Paired, wait for HomeKit connection..."
+                - status.push: api_configured
+                
+          - wait_until:
+              condition: homekit.connected
 
-            - logger.log: "LED: HomeKit connected!"
+          - logger.log: "LED: HomeKit connected!"
 
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: none
-                red: 0%
-                green: 22%
-                blue: 100%
-                #transition_length: 1s
-                brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
-
-            - delay: 3s
-
-      # Update LED state
-      - script.execute: update_led
+    - status.push: api_connected
+    - delay: 3s
+    - status.pop:
+        group: api
+    - script.execute: boot_after_api
 
 esp32:
   framework:

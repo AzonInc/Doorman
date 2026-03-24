@@ -2,19 +2,15 @@
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
-  min_version: "2026.2.0"
+  min_version: "2026.4.0"
   project:
     name: AzonInc.Doorman Standard
-    version: 2026.3.0
+    version: 2026.5.0
   name_add_mac_suffix: false
   on_boot:
     - priority: 500.0
       then:
         - script.execute: boot_component_init
-    - priority: 375.0
-      then:
-        # RGB status LED boot sequence
-        - script.execute: boot_state
     - priority: 350.0
       then:
         - script.execute: set_unused_entities_internal
@@ -29,12 +25,12 @@ esphome:
 # Enable logging
 logger:
   id: esphome_logger
-  level: INFO
+  level: DEBUG
   initial_level: INFO
   runtime_tag_levels: true
 
 web_server:
-  js_url: "${ 'https://dev.doorman.azon.ai/firmware/esphome-webserver/www.js' if branch == 'dev' else 'https://doorman.azon.ai/firmware/esphome-webserver/www.js' }"
+  js_url: "${ 'https://doorman.azon.ai/firmware/esphome-webserver/www.js' if branch == 'master' else 'https://dev.doorman.azon.ai/firmware/esphome-webserver/www.js' if branch.startswith('dev') or branch == 'local' else 'https://experimental.doorman.azon.ai/firmware/esphome-webserver/www.js' }"
   version: 3
   sorting_groups:
     - id: sorting_group_controls
@@ -84,7 +80,10 @@ improv_serial:
 tc_bus:
   id: tc_bus_id
   rx_pin: ${rx_pin}
-  tx_pin: ${tx_pin}
+  tx_pin:
+    number: ${tx_pin}
+    drive_strength: 40mA
+    mode: OUTPUT
   on_telegram:
     - if:
         condition:
@@ -105,16 +104,45 @@ number:
     icon: "mdi:brightness-7"
     mode : slider
     restore_value: true
-    initial_value: '1'
-    max_value: 1
-    min_value: 0.1
-    step: 0.1
+    initial_value: '100'
+    max_value: 100
+    min_value: 10
+    step: 1
     optimistic: true
     disabled_by_default: true
     entity_category: CONFIG
     web_server:
       sorting_group_id: sorting_group_system
       sorting_weight: 2
+
+  - platform: tc_bus
+    id: tc_bus_numbers
+    tc_bus_id: tc_bus_id
+    entrance_address:
+      id: entrance_door_station_address
+      device_id: tc_bus_general
+      name: "Entrance Station Address"
+      icon: "mdi:counter"
+      disabled_by_default: true
+      entity_category: CONFIG
+      on_value:
+        - script.execute: set_unused_entities_internal
+      web_server:
+        sorting_group_id: sorting_group_settings
+        sorting_weight: -99
+
+    second_entrance_address:
+      id: second_entrance_door_station_address
+      device_id: tc_bus_general
+      name: "Second Entrance Station Address"
+      icon: "mdi:counter"
+      disabled_by_default: true
+      entity_category: CONFIG
+      on_value:
+        - script.execute: set_unused_entities_internal
+      web_server:
+        sorting_group_id: sorting_group_settings
+        sorting_weight: -98
 
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
@@ -123,50 +151,9 @@ number:
       device_id: tc_bus_is
       name: "Serial Number"
       icon: "mdi:barcode-scan"
-      #disabled_by_default: true
       web_server:
         sorting_group_id: sorting_group_indoor_station_settings
         sorting_weight: -100
-
-  - platform: template
-    id: entrance_door_station_address
-    device_id: tc_bus_general
-    name: "Entrance Station Address"
-    icon: "mdi:counter"
-    mode: box
-    restore_value: true
-    initial_value: '63'
-    max_value: 63
-    min_value: 0
-    step: 1
-    optimistic: true
-    disabled_by_default: true
-    entity_category: CONFIG
-    on_value:
-      - script.execute: set_unused_entities_internal
-    web_server:
-      sorting_group_id: sorting_group_settings
-      sorting_weight: -99
-
-  - platform: template
-    id: second_entrance_door_station_address
-    device_id: tc_bus_general
-    name: "Second Entrance Station Address"
-    icon: "mdi:counter"
-    mode: box
-    restore_value: true
-    initial_value: '63'
-    max_value: 63
-    min_value: 0
-    step: 1
-    optimistic: true
-    disabled_by_default: true
-    entity_category: CONFIG
-    on_value:
-      - script.execute: set_unused_entities_internal
-    web_server:
-      sorting_group_id: sorting_group_settings
-      sorting_weight: -98
 
 text:
   - platform: template
@@ -238,6 +225,7 @@ text_sensor:
     name: "ESPHome Version"
     icon: mdi:information-box
     hide_timestamp: true
+    hide_hash: true
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
@@ -269,17 +257,6 @@ switch:
       web_server:
         sorting_group_id: sorting_group_settings_advanced
         sorting_weight: -50
-
-  - platform: gpio
-    id: doorman_relay
-    name: "Relay"
-    icon: mdi:electric-switch
-    restore_mode: RESTORE_DEFAULT_OFF
-    disabled_by_default: true
-    pin: ${relay_pin}
-    web_server:
-      sorting_group_id: sorting_group_controls
-      sorting_weight: 6
 
   - platform: template
     id: doorman_status_led_bus_activity
@@ -315,8 +292,11 @@ button:
       sorting_group_id: sorting_group_system
       sorting_weight: 12
 
-
 output:
+  - platform: ledc
+    pin: ${led_pin}
+    id: led_output
+    
   - platform: template
     type: binary
     id: hallway_light_output
@@ -325,19 +305,29 @@ output:
           condition:
             lambda: !lambda return state;
           then:
-            - tc_bus_device.send:
-                id: tc_bus_indoor_station
+            - tc_bus.send:
                 type: light
             - delay: 5s
             - light.turn_off: hallway_light
 
 # Onboard Status LEDs
 light:
-  - platform: status_led
+  #- platform: status_led
+  #  id: doorman_status_led
+  #  name: Status LED
+  #  icon: "mdi:led-on"
+  #  pin: ${led_pin}
+  #  restore_mode: RESTORE_DEFAULT_OFF
+  #  entity_category: CONFIG
+  #  web_server:
+  #    sorting_group_id: sorting_group_system
+  #    sorting_weight: 1
+
+  - platform: monochromatic
+    output: led_output
     id: doorman_status_led
     name: Status LED
     icon: "mdi:led-on"
-    pin: ${led_pin}
     restore_mode: RESTORE_DEFAULT_OFF
     entity_category: CONFIG
     web_server:
@@ -589,27 +579,9 @@ lock:
     auto_lock: 5s
     address: !lambda "return id(entrance_door_station_address).state;"
     before_unlock_action:
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() == "Standalone";
-          then:
-            - script.execute:
-                id: send_telegram_chain
-                telegram_list: !lambda "return id(entrance_door_before_open_cmds).state;"
-    after_unlock_action:
-      # Turn on internal relay
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Entrance Door Opener";
-          then:
-            - switch.turn_on: doorman_relay
-    lock_action:
-      # Turn off internal relay
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Entrance Door Opener";
-          then:
-            - switch.turn_off: doorman_relay
+      - script.execute:
+          id: send_telegram_chain
+          telegram_list: !lambda "return id(entrance_door_before_open_cmds).state;"
     web_server:
       sorting_group_id: sorting_group_controls
       sorting_weight: 1
@@ -622,27 +594,9 @@ lock:
     auto_lock: 5s
     address: !lambda "return id(second_entrance_door_station_address).state;"
     before_unlock_action:
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() == "Standalone";
-          then:
-            - script.execute:
-                id: send_telegram_chain
-                telegram_list: !lambda "return id(second_entrance_door_before_open_cmds).state;"
-    after_unlock_action:
-      # Turn on internal relay
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Second Entrance Door Opener";
-          then:
-            - switch.turn_on: doorman_relay
-    lock_action:
-      # Turn off internal relay
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() == "Any Door Opener" || id(relay_mode)->current_option() == "Second Entrance Door Opener";
-          then:
-            - switch.turn_off: doorman_relay
+      - script.execute:
+          id: send_telegram_chain
+          telegram_list: !lambda "return id(second_entrance_door_before_open_cmds).state;"
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_controls
@@ -659,6 +613,8 @@ select:
       - "Error"
       - "Warning"
       - "Info"
+      - "Configuration"
+      - "Debug"
     initial_option: "Info"
     restore_value: true
     entity_category: CONFIG
@@ -669,24 +625,6 @@ select:
     web_server:
       sorting_group_id: sorting_group_system
       sorting_weight: 5
-      
-  - platform: template
-    id: relay_mode
-    name: "Relay Mode"
-    icon: "mdi:progress-star-four-points"
-    optimistic: true
-    options:
-      - "Standalone"
-      - "Entrance Door Opener"
-      - "Second Entrance Door Opener"
-      - "Any Door Opener"
-    initial_option: "Standalone"
-    restore_value: true
-    entity_category: CONFIG
-    disabled_by_default: true
-    web_server:
-      sorting_group_id: sorting_group_settings_advanced
-      sorting_weight: -75
 
 event:
   - platform: template
@@ -767,32 +705,25 @@ event:
       sorting_weight: 99
 
 script:
-  - id: after_wifi_connection
-    then:
-      - logger.log: "Running after_wifi_connection script"
-
   - id: boot_component_init
     then:
       - logger.log: "Running boot_component_init script"
 
-      # Always turn off relay on boot if not used standalone
-      - if:
-          condition:
-            - lambda: return id(relay_mode)->current_option() != "Standalone";
-          then:
-            - switch.turn_off: doorman_relay
+  - id: boot_after_api
+    then:
+      - logger.log: "Running boot_after_api script"
 
   - id: set_unused_entities_internal
     then:
       - logger.log: "Running set_unused_entities_internal script"
 
       # Set second entrance door internal if not used
-      #- lambda: |-
-      #    bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
-      #    id(second_entrance_door)->set_internal(internal);
-      #    id(second_entrance_door_before_open_cmds)->set_internal(internal);
-      #    id(second_entrance_doorbell)->set_internal(internal);
-      #    id(second_entrance_doorbell_pattern)->set_internal(internal);
+      - lambda: |-
+          bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+          id(second_entrance_door)->set_internal(internal);
+          id(second_entrance_door_before_open_cmds)->set_internal(internal);
+          id(second_entrance_doorbell)->set_internal(internal);
+          id(second_entrance_doorbell_pattern)->set_internal(internal);
 
   - id: blink_status_led
     mode: restart
@@ -856,56 +787,80 @@ script:
               }
           }
 
-  - id: boot_state
+status_indicator:
+  on_turn_off:
     then:
-      # Boot Status LED
-      - logger.log: "LED: Waiting for WiFi connection or provisioning"
+      - logger.log: "SI: LED OFF"
+      - light.turn_off:
+          id: doorman_rgb_status_led
+          transition_length: 1s
+  on_wifi_ap_enabled:
+    then:
+      - logger.log: "SI: WiFi AP Enabled"
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+  on_wifi_ap_disabled:
+    then:
+      - logger.log: "SI: WiFi AP Disabled"
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: slow_pulse
           red: 100%
           green: 65%
           blue: 0%
-      # Wait until wifi is connected or ap is active
-      - wait_until:
-          condition:
-            - lambda: return id(wifi_id).is_connected() || id(wifi_id).is_ap_active();
-      # Check if connected or AP active
-      - if:
-          condition: wifi.ap_active
-          then:
-            # AP active
-            - logger.log: "LED: Waiting for WiFi configuration (AP Mode)"
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: pulse
-                red: 100%
-                green: 65%
-                blue: 0%
-            # Wait until AP is deactivated
-            - wait_until:
-                condition:
-                  - lambda: return id(wifi_id).is_ap_active() == false;
-            - logger.log: "LED: Waiting for WiFi connection after AP"
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: slow_pulse
-                red: 100%
-                green: 65%
-                blue: 0%
-            # Wait until wifi is really connected
-            - wait_until:
-                condition: wifi.connected
-      # WiFi connected
-      - logger.log: "LED: WiFi connected, waiting for API"
-
-      - script.execute: after_wifi_connection
-
-  - id: update_led
+  on_network_disconnected:
     then:
-      - logger.log: "Conditionally set LED State"
-      - light.turn_off:
+      - logger.log: "SI: Network Disconnected"
+      - light.turn_on:
           id: doorman_rgb_status_led
-          transition_length: 1s
-      # TODO: Restore specific state conditionally
-      # Extended by addons
+          effect: slow_pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+  on_custom_status:
+    - trigger_id: api_connecting
+      priority: 550
+      group: api
+      then:
+        - logger.log: "SI: API connecting"
+        # Regular blue pulse while connecting
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            effect: slow_pulse
+            red: 0%
+            green: 22%
+            blue: 100%
+
+    - trigger_id: api_wait_for_configuration
+      priority: 551
+      group: api
+      then:
+        - logger.log: "SI: API wait for configuration"
+        # Red/Blue pulse because broker data is not set
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            effect: error_api
+
+    - trigger_id: api_configured
+      priority: 552
+      group: api
+      then:
+        - logger.log: "SI: API configured"
+
+    - trigger_id: api_connected
+      priority: 553
+      group: api
+      then:
+        - logger.log: "SI: API connected"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            effect: none
+            red: 0%
+            green: 22%
+            blue: 100%
+            #transition_length: 1s
+            brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100;

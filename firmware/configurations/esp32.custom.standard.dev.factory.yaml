@@ -21,18 +21,16 @@ esphome:
   friendly_name: "${friendly_name}"
 
 packages:
-  host: !include ../packages/host/esp32.yaml
-  rgb_status_led: !include ../packages/common/rgb-status-led.ws2812b.yaml
-  rgb_status_led_effects: !include ../packages/common/rgb-status-led.effects.yaml
+  host: !include ../packages/host/${host_platform}.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.yaml
   external_components: !include ../packages/common/external-components.yaml
   base: !include ../packages/common/base.yaml
   wifi: !include ../packages/common/wifi.yaml
-  bluedroid_ble: !include ../packages/common/bluedroid-ble.yaml
   ota_update_esphome: !include ../packages/ota/esphome.yaml
   ota_update_http: !include ../packages/ota/http.yaml
   api: !include ../packages/api/custom.yaml
+  bluedroid_ble: !include ../packages/common/bluedroid-ble.yaml
   debug_utilities: !include ../packages/debug/debug-utilities.yaml
-  debug_component: !include ../packages/debug/debug-component.yaml
   pattern_events: !include ../packages/pattern_events/pattern-events.yaml
   ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
   indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml

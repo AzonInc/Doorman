@@ -23,6 +23,16 @@ The `tc_bus` hub serves as the central component enabling bus communication. It 
 | `tx_pin`                  | GPIO pin for transmitting data to the TC:BUS. Should be connected to the transistor.                                              | | `GPIO08` |
 | `on_telegram`             | Defines actions to be triggered when a telegram is received from the TC:BUS. Returns a `TelegramData` struct as the `x` variable. | | |
 
+
+## Number Inputs
+The `tc_bus_device` Number Input platform offers the following configuration options:
+
+| Option                         | Description                                                                                                   | Required | Default       |
+|--------------------------------|---------------------------------------------------------------------------------------------------------------|----------|---------------|
+| `tc_bus_device_id`             | ID of the related `tc_bus_device` instance.                                                                   | ✅ | |
+| `entrance_address`                      | Address Number Input to set the address for the entrance outdoor station.                                              | | `63` |
+| `second_entrance_address`                      | Address Number Input to set the address for the second entrance outdoor station.                                              | | `63` |
+
 ## Text Sensors
 The `tc_bus` Text Sensor component offers the following configuration options:
 

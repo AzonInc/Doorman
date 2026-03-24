@@ -185,19 +185,23 @@ tc_bus:
           root["payload"] = x.payload;
           root["serial_number"] = x.serial_number;
 
-script:
-  - id: !extend boot_state
-    then:
-      # WiFi already connected
-      - if:
-          condition:
-            mqtt.connected:
-          then:
-            - logger.log: "LED: MQTT already connected"
-          else:
-            - logger.log: "LED: Waiting for MQTT connection"
-            - script.execute: mqtt_connect
+wifi:
+  on_connect:
+    - if:
+        condition:
+          mqtt.connected:
+        then:
+          - logger.log: "LED: MQTT already connected"
+          - status.push: api_connected
+          - delay: 3s
+          - status.pop:
+              group: api
+          - script.execute: boot_after_api
+        else:
+          - logger.log: "LED: Waiting for MQTT connection"
+          - script.execute: mqtt_connect
 
+script:
   - id: mqtt_connect
     mode: restart
     then:
@@ -206,13 +210,7 @@ script:
           condition:
              - lambda: return id(mqtt_broker_address).state != "";
           then:
-            # Regular blue pulse while connecting
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: slow_pulse
-                red: 0%
-                green: 22%
-                blue: 100%
+            - status.push: api_connecting
 
             - logger.log: "Set MQTT credentials..."
             
@@ -231,25 +229,16 @@ script:
             - mqtt.enable:
           
           else:
-            # Red/Blue pulse because broker data is not set
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: error_api
+            - status.push: api_wait_for_configuration
 
       - logger.log: "Wait for MQTT connection..."
       - wait_until:
           condition: mqtt.connected
 
       - logger.log: "MQTT connected!"
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          effect: none
-          red: 0%
-          green: 22%
-          blue: 100%
-          #transition_length: 1s
-          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
 
+      - status.push: api_connected
       - delay: 3s
-
-      - script.execute: update_led
+      - status.pop:
+          group: api
+      - script.execute: boot_after_api

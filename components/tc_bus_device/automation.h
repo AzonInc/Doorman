@@ -94,6 +94,15 @@ namespace esphome::tc_bus
     };
 
     template<typename... Ts>
+    class TCBusDeviceOpenDoorAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->open_door();
+            }
+    };
+
+    template<typename... Ts>
     class TCBusDeviceCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
     {
         TEMPLATABLE_VALUE(uint32_t, address)
@@ -125,28 +134,28 @@ namespace esphome::tc_bus
 
     // Callbacks
     #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
-    class ReadMemoryCompleteTrigger : public Trigger<std::vector<uint8_t>> {
+    class ReadMemoryCompleteTrigger : public Trigger<> {
         public:
             explicit ReadMemoryCompleteTrigger(TCBusDeviceComponent *parent) {
-                parent->add_read_memory_complete_callback([this](const std::vector<uint8_t> &value) { this->trigger(value); });
+                parent->add_read_memory_complete_callback([this]() { this->trigger(); });
             }
     };
     #endif
 
-    #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
+    #ifdef USE_READ_MEMORY_FAILED_CALLBACK
     class ReadMemoryTimeoutTrigger : public Trigger<> {
         public:
             explicit ReadMemoryTimeoutTrigger(TCBusDeviceComponent *parent) {
-                parent->add_read_memory_timeout_callback([this]() { this->trigger(); });
+                parent->add_read_memory_failed_callback([this]() { this->trigger(); });
             }
     };
     #endif
 
-    #ifdef USE_IDENTIFY_TIMEOUT_CALLBACK
+    #ifdef USE_IDENTIFY_FAILED_CALLBACK
     class IdentifyTimeoutTrigger : public Trigger<> {
         public:
             explicit IdentifyTimeoutTrigger(TCBusDeviceComponent *parent) {
-                parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                parent->add_identify_failed_callback([this]() { this->trigger(); });
             }
     };
     #endif
@@ -155,7 +164,7 @@ namespace esphome::tc_bus
     class IdentifyUnknownTrigger : public Trigger<> {
         public:
             explicit IdentifyUnknownTrigger(TCBusDeviceComponent *parent) {
-                parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                parent->add_identify_failed_callback([this]() { this->trigger(); });
             }
     };
     #endif

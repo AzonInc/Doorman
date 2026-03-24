@@ -17,19 +17,23 @@ esphome:
   friendly_name: "${friendly_name}"
 
 dashboard_import:
-  package_import_url: github://azoninc/doorman/firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml@master
+  package_import_url: github://azoninc/doorman/firmware/configurations/${host_platform}.${api_variant}.${firmware_type}.${branch}.yaml@${branch}
   import_full_config: true
 
 packages:
-  host: !include ../packages/host/doorman-s3-rev2.yaml
-  rgb_status_led: !include ../packages/common/rgb-status-led.sk6812b.yaml
-  rgb_status_led_effects: !include ../packages/common/rgb-status-led.effects.yaml
+  host: !include ../packages/host/${host_platform}.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.yaml
+  solid_state_relay: !include ../packages/common/relay.yaml
+  extension_board: !include ../packages/extension_boards/common.yaml
   external_components: !include ../packages/common/external-components.yaml
   base: !include ../packages/common/base.yaml
   wifi: !include ../packages/common/wifi.yaml
+  wifi_psram: !include ../packages/common/wifi.psram.yaml
   ota_update_esphome: !include ../packages/ota/esphome.yaml
   ota_update_http: !include ../packages/ota/http.yaml
   api: !include ../packages/api/homeassistant.yaml
+  bluedroid_ble: !include ../packages/common/bluedroid-ble.yaml
+  bluedroid_ble_psram: !include ../packages/common/bluedroid-ble.psram.yaml
   pattern_events: !include ../packages/pattern_events/pattern-events.yaml
   ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
   indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml

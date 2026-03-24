@@ -347,7 +347,7 @@ namespace esphome::tc_bus
 
                 data.raw |= (8 << 12); // 8
                 data.raw |= (4 << 8);  // 4
-                data.raw |= ((address * 4) & 0xFF); // 00
+                data.raw |= (address & 0xFF); // 00
                 break;
 
             case TELEGRAM_TYPE_WRITE_MEMORY:
@@ -620,7 +620,7 @@ namespace esphome::tc_bus
 
                         case 4:
                             data.type = TELEGRAM_TYPE_READ_MEMORY_BLOCK;
-                            data.address = (raw & 0xFF) / 4;
+                            data.address = (raw & 0xFF);
                             break;
                     }
                 }

@@ -58,8 +58,8 @@ namespace esphome::tc_bus
         MODEL_IS_VMH,
         MODEL_IS_VML,
         MODEL_IS_VMF,
-        MODEL_IS_TKIS,
-        MODEL_IS_TKISV,
+        MODEL_IS_TKM_IS,
+        MODEL_IS_TKM_ISV,
         MODEL_IS_CAIXXXX,
         MODEL_IS_CAI2000,
         MODEL_IS_ISW42X0,
@@ -81,7 +81,21 @@ namespace esphome::tc_bus
         MODEL_AS_PES,
         MODEL_AS_TCU2,
         MODEL_AS_TCU3,
+        MODEL_AS_TCU3_EX1,
+        MODEL_AS_TCU3_EX2,
+        MODEL_AS_TCU3_EX3,
+        MODEL_AS_TCU3_EX4,
+        MODEL_AS_TCU3_EX5,
+        MODEL_AS_TCU3_EX6,
         MODEL_AS_TCU4,
+        MODEL_AS_TCU4_EX1,
+        MODEL_AS_TCU4_EX2,
+        MODEL_AS_TCU4_EX3,
+        MODEL_AS_TCU4_EX4,
+        MODEL_AS_TCU4_EX5,
+        MODEL_AS_TCU4_EX6,
+        MODEL_AS_TKM_AS,
+        MODEL_AS_TKM_ASV,
 
         MODEL_CTRL_BVS20,
         MODEL_CTRL_BVS30,
@@ -91,7 +105,12 @@ namespace esphome::tc_bus
         MODEL_CTRL_VBVS05,
         MODEL_CTRL_DEBUG,
 
+        MODEL_EXT_BRE2_SG,
+        MODEL_EXT_BRE2_EB,
         MODEL_EXT_TRE2,
+        MODEL_EXT_TOER2_EB,
+        MODEL_EXT_FFL1000,
+        MODEL_EXT_FAA1200,
         MODEL_EXT_DEBUG
     };
 
@@ -101,11 +120,11 @@ namespace esphome::tc_bus
     };
 
     struct ModelEntry {
+        Model    model;
         uint16_t model_key;
-        uint8_t  device_group;
         uint16_t fw_min;
         uint16_t fw_max;
-        Model    model;
+        uint8_t  device_group;
     };
 
     enum SettingType {
@@ -120,7 +139,7 @@ namespace esphome::tc_bus
         SETTING_AS_ADDRESS_DIVIDER,
         SETTING_VAS_ADDRESS_DIVIDER,
         SETTING_USE_LONG_DOOR_OPENER_PROTOCOL,
-        SETTING_NO_AMBIENT_LIGHT_IN_STANDBY,
+        SETTING_AMBIENT_LIGHT_IN_STANDBY,
         SETTING_RINGTONE_MUTE,
         SETTING_DOOR_OPENER_DURATION,
         SETTING_ADDRESS,
@@ -143,9 +162,11 @@ namespace esphome::tc_bus
     };
 
     struct SettingCellData {
+        bool valid = false;
         uint8_t index = 0;
         uint8_t start_bit = 0;
         uint8_t length = 1;
+        uint8_t page = 0;
     };
 
     enum DoorbellButtonAction {
@@ -163,10 +184,12 @@ namespace esphome::tc_bus
     struct DoorbellButtonConfig {
         static constexpr uint32_t DOORBELL_BUTTON_UNASSIGNED = 0xFFFFF;
 
-        DoorbellButtonAction primary_action = DOORBELL_BUTTON_ACTION_NONE;
         uint32_t primary_payload = DOORBELL_BUTTON_UNASSIGNED;
-        DoorbellButtonAction secondary_action = DOORBELL_BUTTON_ACTION_NONE;
         uint32_t secondary_payload = DOORBELL_BUTTON_UNASSIGNED;
+        
+        DoorbellButtonAction primary_action = DOORBELL_BUTTON_ACTION_NONE;
+        DoorbellButtonAction secondary_action = DOORBELL_BUTTON_ACTION_NONE;
+        
     };
 
     enum ModelCapabilities {
@@ -180,7 +203,7 @@ namespace esphome::tc_bus
         CAP_AS_ADDRESS_DIVIDER = (1 << 7),
         CAP_VAS_ADDRESS_DIVIDER = (1 << 8),
         CAP_USE_LONG_DOOR_OPENER_PROTOCOL = (1 << 9),
-        CAP_NO_AMBIENT_LIGHT_IN_STANDBY = (1 << 10),
+        CAP_AMBIENT_LIGHT_IN_STANDBY = (1 << 10),
         CAP_RINGTONE_MUTE = (1 << 11),
         CAP_DOOR_OPENER_DURATION = (1 << 12),
         CAP_DOOR_READINESS_DURATION = (1 << 13),
@@ -203,13 +226,15 @@ namespace esphome::tc_bus
     struct ModelData {
         Model model = MODEL_NONE;
         uint32_t firmware_version = 0;
+        uint32_t capabilities = 0;
         uint8_t firmware_major = 0;
         uint8_t firmware_minor = 0;
         uint8_t firmware_patch = 0;
         uint8_t hardware_version = 0; 
         uint8_t device_group = 0;
         uint8_t memory_size = 0;
-        uint32_t capabilities = 0;
+        uint8_t memory_size_side = 0;
+        uint8_t sides = 0;
     };
 
     const char* setting_type_to_string(SettingType type);
@@ -231,4 +256,7 @@ namespace esphome::tc_bus
 
     uint8_t ringtone_to_int(const char* str);
     const char* int_to_ringtone(uint8_t ringtone);
+
+    uint32_t translate_setting_to_memory(SettingType type, Model model, uint32_t value);
+    uint32_t translate_memory_to_setting(SettingType type, Model model, uint32_t value);
 }

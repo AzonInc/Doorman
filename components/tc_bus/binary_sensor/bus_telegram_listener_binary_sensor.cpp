@@ -2,10 +2,10 @@
 
 namespace esphome::tc_bus
 {
-    void BusTelegramListenerBinarySensor::turn_on(uint32_t *timer, uint16_t auto_off)
+    void BusTelegramListenerBinarySensor::turn_on(uint32_t *timer, uint16_t auto_reset)
     {
         this->publish_state(true);
-        if (auto_off > 0) *timer = millis() + auto_off;
+        if (auto_reset > 0) *timer = millis() + auto_reset;
     }
 
     void BusTelegramListenerBinarySensor::turn_off(uint32_t *timer)

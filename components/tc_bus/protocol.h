@@ -45,22 +45,16 @@ namespace esphome::tc_bus
     };
     
     struct TelegramData {
-        uint32_t raw;
-
-        bool is_long;
-        bool is_response;
-        bool is_retransmission;
-
+        uint32_t raw = 0;
+        uint32_t serial_number = 0;
+        uint32_t payload = 0;
+        TelegramType type = TELEGRAM_TYPE_UNKNOWN;
         char hex[9];
-
-        TelegramType type;
-        uint8_t address;
-        uint32_t serial_number;
-        uint32_t payload;
+        uint8_t address = 0;
+        bool is_long = false;
+        bool is_response = false;
+        bool is_retransmission = false;
     };
-
-    constexpr uint8_t FLAG_CALL_DUPLEX = (1 << 3); // bit 4
-    constexpr uint8_t FLAG_RINGTONE_MUTED = (1 << 1); // bit 2
 
     TelegramData buildTelegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
     TelegramData parseTelegram(uint32_t telegram, bool is_long = true, bool is_response = false, bool is_retransmission = false);

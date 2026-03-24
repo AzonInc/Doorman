@@ -8,6 +8,7 @@ from esphome.const import (
 )
 from .. import CONF_TC_BUS_DEVICE_ID, TCBusDeviceComponent, tc_bus_ns
 
+SidesNumber = tc_bus_ns.class_("SidesNumber", number.Number, cg.Component)
 SerialNumberNumber = tc_bus_ns.class_("SerialNumberNumber", number.Number, cg.Component)
 ParallelSerialNumberNumber = tc_bus_ns.class_("ParallelSerialNumberNumber", number.Number, cg.Component)
 AddressNumber = tc_bus_ns.class_("AddressNumber", number.Number, cg.Component)
@@ -21,6 +22,7 @@ DoorReadinessDurationNumber = tc_bus_ns.class_("DoorReadinessDurationNumber", nu
 CallTimeDurationNumber = tc_bus_ns.class_("CallTimeDurationNumber", number.Number, cg.Component)
 DoorOpenerDurationNumber = tc_bus_ns.class_("DoorOpenerDurationNumber", number.Number, cg.Component)
 
+CONF_SIDES = "sides"
 CONF_SERIAL_NUMBER = "serial_number"
 CONF_PARALLEL_SERIAL_NUMBER = "parallel_serial_number"
 CONF_ADDRESS = "address"
@@ -40,12 +42,12 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_SERIAL_NUMBER): number.number_schema(
             SerialNumberNumber,
             entity_category=ENTITY_CATEGORY_CONFIG,
-            icon="mdi:numeric"
+            icon="mdi:barcode-scan"
         ).extend({ cv.Optional(CONF_MODE, default="BOX"): cv.enum(NUMBER_MODES, upper=True), }),
         cv.Optional(CONF_PARALLEL_SERIAL_NUMBER): number.number_schema(
             ParallelSerialNumberNumber,
             entity_category=ENTITY_CATEGORY_CONFIG,
-            icon="mdi:numeric"
+            icon="mdi:barcode-scan"
         ).extend({ cv.Optional(CONF_MODE, default="BOX"): cv.enum(NUMBER_MODES, upper=True), }),
         cv.Optional(CONF_ADDRESS): number.number_schema(
             AddressNumber,

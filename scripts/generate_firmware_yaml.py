@@ -25,7 +25,6 @@ def get_host_architectures():
 
 def get_packages(host, api_variant, firmware, branch, factory=False):
     # Define packages in exact order with their conditions
-    is_esp32 = 'esp32' in host.lower()
     has_psram = host in [
         'esp32-s2',
         'esp32-s3',
@@ -35,39 +34,67 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         'doorman-s3-rev2-audio'
     ]
 
+    is_doorman_s3 = "doorman-s3" in host
+
+    is_doorman_s3_rev_2 = host in [
+        'doorman-s3-rev2',
+        'doorman-s3-rev2-audio'
+    ]
+
     packages_config = [
         # Setup Hardware
-        ('host', f'host/{host}.yaml', True),
-        # RGB Status LED
-        # Doorman S3 rev 2.x.x SK6812B
-        ('rgb_status_led', 'common/rgb-status-led.sk6812b.yaml', host == 'doorman-s3-rev2'),
-        # Doorman S3 rev 1.x.x / ESP32-S3 / ESP32-S3 WS2812B
-        ('rgb_status_led', 'common/rgb-status-led.ws2812b.yaml', host != 'doorman-s3-rev2'),
-        ('rgb_status_led_effects', 'common/rgb-status-led.effects.yaml', True),
+        
+        ## RGB Status LED
+        ('rgb_status_led', 'common/rgb-status-led.yaml', True),
+
+        ## Solid State Relay
+        ('solid_state_relay', 'common/relay.yaml', is_doorman_s3),
+
+        ## Extension Board Connector (Doorman S3 rev 2.x.x)
+        ### Basic configuration
+        ('extension_board', 'extension_boards/common.yaml', is_doorman_s3_rev_2),
+        ### Audio Extension Board
+        #('extension_board_audio', 'extension_boards/audio.yaml', host == 'doorman-s3-rev2-audio'),
+        ('extension_board_audio', 'extension_boards/audio-intercom.yaml', host == 'doorman-s3-rev2-audio'),
+
 
         # Setup Software
+
+        ## External Components
         ('external_components', 'common/external-components.yaml', branch != 'local'),
         ('external_components', 'common/external-components.local.yaml', branch == 'local'),
+        
+        ## Doorman Base
         ('base', 'common/base.yaml', True),
+
+        ## WiFi
         ('wifi', 'common/wifi.yaml', True),
-        # ES8311 Audio (requires Doorman S3 rev 2.x.x with Audio Extension Board)
-        ('audio', 'audio/es8311.yaml', host == 'doorman-s3-rev2-audio'),
-        # Improv BLE (not compatible with Nuki Bridge firmware)
-        ('bluedroid_ble', 'common/bluedroid-ble.yaml', is_esp32 and firmware != 'nuki-bridge'),
-        # OTA
+        ('wifi_psram', 'common/wifi.psram.yaml', has_psram),
+
+        ## OTA
+        ### ESPHome
         ('ota_update_esphome', 'ota/esphome.yaml', True),
-        # HTTP OTA for factory config
+        ### HTTP OTA for factory config
         ('ota_update_http', 'ota/http.yaml', factory),
-        # API integration
+
+        ## API integration
         ('api', 'api/homeassistant.yaml', api_variant == 'ha'),
         ('api', 'api/mqtt.yaml', api_variant == 'mqtt'),
         ('api', 'api/homekit.yaml', api_variant == 'homekit'),
         ('api', 'api/custom.yaml', api_variant == 'custom'),
-        # Debug utilities
+
+        ## Improv BLE (not compatible with Nuki Bridge firmware)
+        ## Needs to be here in order to not block on_connect due to the 5s delay
+        ## DO NOT MOVE
+        ('bluedroid_ble', 'common/bluedroid-ble.yaml', firmware != 'nuki-bridge'),
+        ('bluedroid_ble_psram', 'common/bluedroid-ble.psram.yaml', firmware != 'nuki-bridge' and has_psram),
+
+        ## Debug utilities
         ('debug_utilities', 'debug/debug-utilities.yaml', branch == 'dev' or branch == 'local'),
-        ('debug_component', 'debug/debug-component.yaml', branch == 'dev' or branch == 'local'),
-        ('debug_component_psram', 'debug/debug-component.psram.yaml', (branch == 'dev' or branch == 'local') and has_psram),
-        # Other features
+        #('debug_component', 'debug/debug-component.yaml', branch == 'dev' or branch == 'local'),
+        #('debug_component_psram', 'debug/debug-component.psram.yaml', (branch == 'dev' or branch == 'local') and has_psram),
+
+        ## Other features
         ('pattern_events', 'pattern_events/pattern-events.yaml', True),
         ('ring_to_open', 'ring_to_open/ring-to-open.yaml', True),
         ('ring_to_open_homekit', 'ring_to_open/ring-to-open.homekit.yaml', api_variant == 'homekit'),
@@ -75,13 +102,15 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ('indoor_station_settings', 'bus_devices/indoor-station-settings.yaml', True),
         ('addon_nuki_bridge', 'nuki/nuki-bridge.yaml', firmware == 'nuki-bridge'),
         ('interactive_setup', 'bus_devices/interactive-setup.yaml', True),
-        # Add outdoor station for local tests
-        ('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
         
-        # Experimental Features
-        # Virtual devices
-        ('virtual_devices', 'bus_devices/virtual-devices.yaml', branch == 'local'),
-        # Configo component for serial interface
+        ## Add outdoor station for local tests
+        #('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
+        
+        ## Experimental Features
+        ### Virtual devices
+        #('virtual_indoor_station', 'bus_devices/virtual-indoor-station.yaml', branch == 'local'),
+        ('virtual_outdoor_station', 'bus_devices/virtual-outdoor-station.yaml', branch == 'local'),
+        ### Configo component for serial interface
         # ('configo', 'serial_interface/configo.yaml', branch == 'local'),
     ]
     
@@ -140,7 +169,7 @@ def generate_yaml_content(host, api_variant, firmware, branch, factory=False):
             content += [
                 '',
                 'dashboard_import:',
-                f'  package_import_url: github://azoninc/doorman/firmware/configurations/{host}.{api_variant}.{firmware}.{branch}.yaml@{branch}',
+                f'  package_import_url: github://azoninc/doorman/firmware/configurations/${{host_platform}}.${{api_variant}}.${{firmware_type}}.${{branch}}.yaml@${{branch}}',
                 '  import_full_config: true',
             ]
     else:
@@ -159,18 +188,13 @@ def generate_yaml_content(host, api_variant, firmware, branch, factory=False):
     ]
     
     if branch == 'local' or factory:
+        content.append('  host: !include ../packages/host/${host_platform}.yaml')
         for name, path in packages:
             content.append(f'  {name}: !include ../packages/{path}')
     else:
-        content += [
-            '  remote_package_files:',
-            '    url: https://github.com/azoninc/doorman',
-            f'    ref: {branch}',
-            '    refresh: 0s',
-            '    files:',
-        ]
+        content.append('  host: github://azoninc/doorman/firmware/packages/host/${host_platform}.yaml@${branch}')
         for name, path in packages:
-            content.append(f'      - path: firmware/packages/{path}')
+            content.append(f'  {name}: github://azoninc/doorman/firmware/packages/{path}@${{branch}}')
     
     return '\n'.join(content)
 

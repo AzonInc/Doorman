@@ -48,6 +48,12 @@ TCBusDeviceIdentifyAction = tc_bus_ns.class_(
     cg.Parented.template(TCBusDeviceComponent)
 )
 
+TCBusDeviceOpenDoorAction = tc_bus_ns.class_(
+    "TCBusDeviceOpenDoorAction",
+    automation.Action,
+    cg.Parented.template(TCBusDeviceComponent)
+)
+
 TCBusDeviceAnswerCallAction = tc_bus_ns.class_(
     "TCBusDeviceAnswerCallAction",
     automation.Action,
@@ -129,7 +135,7 @@ SETTING_TYPES = {
     "as_address_divider": SETTING_TYPE.SETTING_AS_ADDRESS_DIVIDER,
     "vas_address_divider": SETTING_TYPE.SETTING_VAS_ADDRESS_DIVIDER,
     "use_long_door_opener_protocol": SETTING_TYPE.SETTING_USE_LONG_DOOR_OPENER_PROTOCOL,
-    "no_ambient_light_in_standby": SETTING_TYPE.SETTING_NO_AMBIENT_LIGHT_IN_STANDBY,
+    "ambient_light_in_standby": SETTING_TYPE.SETTING_AMBIENT_LIGHT_IN_STANDBY,
     "ringtone_mute": SETTING_TYPE.SETTING_RINGTONE_MUTE,
     "door_opener_duration": SETTING_TYPE.SETTING_DOOR_OPENER_DURATION,
     "address": SETTING_TYPE.SETTING_ADDRESS,
@@ -205,8 +211,8 @@ CONF_MODEL_IS = [
     "TCS VMH / Koch VMH",
     "TCS VML / Koch VML",
     "TCS VMF / Koch VMF",
-    "Jung TKIS",
-    "Jung TKISV",
+    "Jung TKM IS",
+    "Jung TKM ISV",
     "TCS CAIXXXX / Koch CAIXXXX",
     "TCS CAI2000 / Koch Carus",
     "TCS ISW42X0",
@@ -215,8 +221,8 @@ CONF_MODEL_IS = [
     "TCS IVW9110",
     "TCS IVW9030 / Scantron SLIM50T",
     "TCS IVE70",
-    "DEBUG IS0",
-    "DEBUG IS1",
+    "DEBUG IS Classic",
+    "DEBUG IS Handsfree",
 ]
 
 CONF_MODEL_AS = [
@@ -230,7 +236,21 @@ CONF_MODEL_AS = [
     "TCS PES",
     "TCS TCU2",
     "TCS TCU3",
+    "TCS TCU3 + TCKE3 (1)",
+    "TCS TCU3 + TCKE3 (2)",
+    "TCS TCU3 + TCKE3 (3)",
+    "TCS TCU3 + TCKE3 (4)",
+    "TCS TCU3 + TCKE3 (5)",
+    "TCS TCU3 + TCKE3 (6)",
     "TCS TCU4",
+    "TCS TCU4 + TCKE3 (1)",
+    "TCS TCU4 + TCKE3 (2)",
+    "TCS TCU4 + TCKE3 (3)",
+    "TCS TCU4 + TCKE3 (4)",
+    "TCS TCU4 + TCKE3 (5)",
+    "TCS TCU4 + TCKE3 (6)",
+    "Jung TKM AS",
+    "Jung TKM ASV"
 ]
 
 CONF_MODEL_CTRL = [
@@ -244,7 +264,12 @@ CONF_MODEL_CTRL = [
 ]
 
 CONF_MODEL_EXT = [
+    "TCS BRE2",
+    "TCS BRE2-EB",
     "TCS TRE2",
+    "TCS TOER2-EB",
+    "TCS FFL1000",
+    "TCS FAA1200",
     "DEBUG EXTENSION",
 ]
 
@@ -285,10 +310,10 @@ CONF_SECONDARY_ACTION = "secondary_action"
 CONF_SECONDARY_PAYLOAD = "secondary_payload"
 
 CONF_ON_READ_MEMORY_COMPLETE = "on_read_memory_complete"
-CONF_ON_READ_MEMORY_TIMEOUT = "on_read_memory_timeout"
+CONF_ON_READ_MEMORY_FAILED = "on_read_memory_failed"
 CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
 CONF_ON_IDENTIFY_UNKNOWN = "on_identify_unknown"
-CONF_ON_IDENTIFY_TIMEOUT = "on_identify_timeout"
+CONF_ON_IDENTIFY_FAILED = "on_identify_failed"
 
 CONF_ON_INCOMING_CALL = "on_incoming_call"
 CONF_ON_CALL_STARTED = "on_call_started"
@@ -320,8 +345,8 @@ def validate_config(config):
             path=[CONF_VIRTUAL]
         )
 
-    for key in [CONF_AUTO_CONFIGURATION, CONF_ON_READ_MEMORY_COMPLETE, CONF_ON_READ_MEMORY_TIMEOUT,
-                CONF_ON_IDENTIFY_COMPLETE, CONF_ON_IDENTIFY_UNKNOWN, CONF_ON_IDENTIFY_TIMEOUT]:
+    for key in [CONF_AUTO_CONFIGURATION, CONF_ON_READ_MEMORY_COMPLETE, CONF_ON_READ_MEMORY_FAILED,
+                CONF_ON_IDENTIFY_COMPLETE, CONF_ON_IDENTIFY_UNKNOWN, CONF_ON_IDENTIFY_FAILED]:
         if key in config:
             raise cv.Invalid(f"'{key}' is not compatible with virtual devices.", path=[key])
 
@@ -344,7 +369,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryCompleteTrigger),
             }
         ),
-        cv.Optional(CONF_ON_READ_MEMORY_TIMEOUT): automation.validate_automation(
+        cv.Optional(CONF_ON_READ_MEMORY_FAILED): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryTimeoutTrigger),
             }
@@ -359,7 +384,7 @@ CONFIG_SCHEMA = cv.Schema(
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyUnknownTrigger),
             }
         ),
-        cv.Optional(CONF_ON_IDENTIFY_TIMEOUT): automation.validate_automation(
+        cv.Optional(CONF_ON_IDENTIFY_FAILED): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyTimeoutTrigger),
             }
@@ -414,11 +439,11 @@ async def to_code(config):
         cg.add_define("USE_READ_MEMORY_COMPLETE_CALLBACK")
         for conf in config.get(CONF_ON_READ_MEMORY_COMPLETE, []):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-            await automation.build_automation(trigger, [(cg.std_vector.template(cg.uint8), "x")], conf)
+            await automation.build_automation(trigger, [], conf)
 
-    if CONF_ON_READ_MEMORY_TIMEOUT in config:
-        cg.add_define("USE_READ_MEMORY_TIMEOUT_CALLBACK")
-        for conf in config.get(CONF_ON_READ_MEMORY_TIMEOUT, []):
+    if CONF_ON_READ_MEMORY_FAILED in config:
+        cg.add_define("USE_READ_MEMORY_FAILED_CALLBACK")
+        for conf in config.get(CONF_ON_READ_MEMORY_FAILED, []):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             await automation.build_automation(trigger, [], conf)
 
@@ -434,9 +459,9 @@ async def to_code(config):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             await automation.build_automation(trigger, [], conf)
 
-    if CONF_ON_IDENTIFY_TIMEOUT in config:
-        cg.add_define("USE_IDENTIFY_TIMEOUT_CALLBACK")
-        for conf in config.get(CONF_ON_IDENTIFY_TIMEOUT, []):
+    if CONF_ON_IDENTIFY_FAILED in config:
+        cg.add_define("USE_IDENTIFY_FAILED_CALLBACK")
+        for conf in config.get(CONF_ON_IDENTIFY_FAILED, []):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             await automation.build_automation(trigger, [], conf)
 
@@ -586,6 +611,7 @@ async def tc_bus_device_read_memory_to_code(config, action_id, template_args, ar
     
     return var
 
+
 @automation.register_action(
     "tc_bus_device.identify",
     TCBusDeviceIdentifyAction,
@@ -597,6 +623,23 @@ async def tc_bus_device_read_memory_to_code(config, action_id, template_args, ar
     synchronous=True
 )
 async def tc_bus_device_request_version_to_code(config, action_id, template_args, args):
+    var = cg.new_Pvariable(action_id, template_args)
+    await cg.register_parented(var, config[CONF_ID])
+    
+    return var
+
+
+@automation.register_action(
+    "tc_bus_device.open_door",
+    TCBusDeviceOpenDoorAction,
+    automation.maybe_simple_id(
+        {
+            cv.GenerateID(CONF_ID): cv.use_id(TCBusDeviceComponent)
+        }
+    ),
+    synchronous=True
+)
+async def tc_bus_device_open_door_to_code(config, action_id, template_args, args):
     var = cg.new_Pvariable(action_id, template_args)
     await cg.register_parented(var, config[CONF_ID])
     

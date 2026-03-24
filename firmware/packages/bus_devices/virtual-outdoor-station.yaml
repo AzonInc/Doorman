@@ -1,0 +1,92 @@
+web_server:
+  sorting_groups:
+    - id: sorting_group_virtual_outdoor_station
+      name: "Settings - TC:BUS V-Outdoor Station"
+      sorting_weight: -78
+
+esphome:
+  devices:
+    - id: tc_bus_vos
+      name: "TC:BUS V-Outdoor Station"
+
+
+tc_bus_device:
+  - id: virtual_outdoor_station
+    type: outdoor_station
+    virtual: true
+    on_incoming_call:
+      - logger.log: INCOMING CALL FROM IS
+    on_call_started:
+      - logger.log: CALL STARTED, AUDIO MODE
+    on_call_ended:
+      - logger.log: CALL ENDED
+    on_call_failed:
+      - logger.log: CALL FAILED
+
+
+binary_sensor:
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_outdoor_station
+    sensor_type: virtual_door_opener
+    device_id: tc_bus_vos
+    id: door_opener_active
+    name: "Door Opener Active"
+    on_press:
+      - logger.log: Turn on door opener
+    on_release:
+      - logger.log: Turn off door opener
+    web_server:
+      sorting_group_id: sorting_group_virtual_outdoor_station
+      sorting_weight: -80
+
+
+number:
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_outdoor_station
+    serial_number:
+      id: virtual_outdoor_station_serial_number
+      device_id: tc_bus_vos
+      name: "Serial Number"
+      web_server:
+        sorting_group_id: sorting_group_virtual_outdoor_station
+        sorting_weight: -100
+    address:
+      id: virtual_outdoor_station_address
+      device_id: tc_bus_vos
+      name: "Address"
+      web_server:
+        sorting_group_id: sorting_group_virtual_outdoor_station
+        sorting_weight: -99
+
+select:
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_outdoor_station
+    model:
+      device_id: tc_bus_vos
+      name: "Model"
+      web_server:
+        sorting_group_id: sorting_group_virtual_outdoor_station
+        sorting_weight: -98
+
+button:
+  - platform: template
+    device_id: tc_bus_vos
+    name: "End Call"
+    on_press:
+      - tc_bus_device.end_call:
+          id: virtual_outdoor_station
+    web_server:
+      sorting_group_id: sorting_group_virtual_outdoor_station
+      sorting_weight: -90
+
+  - platform: template
+    device_id: tc_bus_vos
+    name: "Call Physical Indoor Station"
+    on_press:
+      - tc_bus_device.call:
+          id: virtual_outdoor_station
+          address: !lambda "return id(indoor_station_serial_number).state;"
+          internal: true
+    web_server:
+      sorting_group_id: sorting_group_virtual_outdoor_station
+      sorting_weight: -89

@@ -1,5 +1,5 @@
 #include "tc_bus_device_switch.h"
-
+#include "../util.h"
 namespace esphome::tc_bus
 {
     void UseLongDoorOpenerProtocolSwitch::write_state(bool value)

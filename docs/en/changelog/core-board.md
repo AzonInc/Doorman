@@ -5,31 +5,36 @@ description: Explore the complete history of PCB revisions, including new featur
 # Core Board Changelog
 This page highlights the new features, improvements, and changes made in each revision.
 
-## 2.1.0 <Badge type="info" text="POC" />
+## 2.1.0 <Badge type="warning" text="Next" />
 - Added D9 to protect Q1B
-- Removed GPIO41 from screw terminal
+- Added voltage divider circuit as `ET` to screw terminal to detect `SIEDLE:1+N` ETR signals with GPIO4
+- Added voltage detection circuit to read the current bus voltage with GPIO10
 - Changed R5 to 59K and R12 to 10K to support `SIEDLE:1+N` systems
-- Added voltage divider circuit as `ET` to screw terminal to detect `SIEDLE:1+N` ETR signals
+- Changed R2 to 1K
+- Changed R13 to 500mW rated resistor
+- Changed R15 to 750mW rated resistor
+- Changed Extension Board Connector Pin 11 to VBUS
+- Removed GPIO41 from screw terminal
 
-## 2.0.0 <Badge type="warning" text="Next" />
-- Removed footprints for optional audio components
-- Redesigned `TC:BUS` communication circuit
+## 2.0.0 <Badge type="tip" text="Current" />
 - Added `SIEDLE:IN-HOME-BUS` communication circuit
-- Replaced ESP32-S3-WROOM-1-N8R8 with ESP32-S3-MINI-1-N4R2
-- Added a 2x7-pin extension board connector exposing selected GPIOs, GND and Bus lines
+- Added a 2x7-pin extension board connector exposing selected GPIOs, 3.3V, GND and Bus lines
+- Redesigned `TC:BUS` communication circuit
+- Changed ESP32-S3-WROOM-1-N8R8 to ESP32-S3-MINI-1-N4R2
+- Removed footprints for optional audio components
 
 ## 1.6.1
 - Added some optional component footprints for audio PoC
 
-## 1.6.0 <Badge type="tip" text="Current" />
+## 1.6.0
+- Improved Schematics
+- Changed Voltage Divider to 1M + 147K (allow up to 28V Bus signals)
 - Replaced Terminal Pin 5 with 3.3V
 - Replaced Terminal Pin 6 with GPIO40
 - Replaced Terminal Pin 7 with GPIO41
-- Removed BTN resistor from GPIO41 (use internal ESP resistor)
 - Extended ground plane around power supply section
-- Changed Voltage Divider to 1M + 147K (allow up to 28V Bus signals)
 - Moved diode after the resistor of BUSPWR jumper
-- Improved Schematics
+- Removed BTN resistor from GPIO41 (use internal ESP resistor)
 
 ## 1.5.0
 - Power supply redesign based on the reference design

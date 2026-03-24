@@ -1,0 +1,192 @@
+# Audio Addon
+
+external_components:
+  - source: github://n-IA-hane/esphome-intercom
+    components: [intercom_api, i2s_audio_duplex, esp_aec]
+
+network:
+  enable_high_performance: true
+
+script:
+  - id: !extend boot_component_init
+    then:
+      # Configure ES8311 for digital feedback AEC
+      # Register 0x44 bits[6:4] = ADCDAT_SEL: 4 = DACL + ADC
+      # This makes ASDOUT output stereo: L=DAC loopback (reference), R=ADC (mic)
+      - lambda: |-
+          ESP_LOGI("es8311", "Configuring ES8311 register 0x44 for digital feedback...");
+          // ES8311 I2C address is 0x19
+          // First read current value
+          uint8_t reg = 0x44;
+          uint8_t current_val = 0;
+          id(i2c_bus).write(0x19, &reg, 1);
+          id(i2c_bus).read(0x19, &current_val, 1);
+          ESP_LOGI("es8311", "Register 0x44 current value: 0x%02X", current_val);
+
+          // Write new value: bits[6:4]=4 (DACL+ADC)
+          uint8_t data[2] = {0x44, 0x48};
+          auto err = id(i2c_bus).write(0x19, data, 2);
+          if (err == esphome::i2c::ERROR_OK) {
+            ESP_LOGI("es8311", "Wrote register 0x44=0x48 for digital feedback AEC");
+            // Verify
+            id(i2c_bus).write(0x19, &reg, 1);
+            id(i2c_bus).read(0x19, &current_val, 1);
+            ESP_LOGI("es8311", "Register 0x44 after write: 0x%02X", current_val);
+          } else {
+            ESP_LOGE("es8311", "Failed to write register 0x44: error %d", (int)err);
+          }
+
+      # Restore ES8311 volume
+      - lambda: |-
+          float vol = 0.15 + (id(speaker_volume).state / 100.0) * 0.60;
+          id(es8311_dac).set_volume(vol);
+
+# Setup ES8311
+audio_dac:
+  - platform: es8311
+    id: es8311_dac
+    i2c_id: i2c_bus
+    bits_per_sample: 16bit
+    sample_rate: 16000
+    use_microphone: false # Default false = analog mic input (MIC1P/MIC1N)
+    mic_gain: 24DB # Default 42DB is too hot. Try 24DB first.
+    address: 0x19
+
+# Setup AEC
+esp_aec:
+  id: aec_processor
+  sample_rate: 16000
+  filter_length: 4
+  mode: sr_low_cost
+
+# Setup I²S
+i2s_audio_duplex:
+  id: i2s_duplex
+
+  i2s_mclk_pin: GPIO7 #10
+  i2s_lrclk_pin: GPIO18 #8
+  i2s_dout_pin: GPIO16 #5
+  i2s_din_pin: GPIO15 #6
+  i2s_bclk_pin: GPIO17 #7
+
+  sample_rate: 48000
+  output_sample_rate: 16000
+
+  aec_id: aec_processor
+
+  use_stereo_aec_reference: true
+
+  slot_bit_width: 32
+  correct_dc_offset: true
+  buffers_in_psram: true
+
+
+# Setup Microphone
+microphone:
+  - platform: i2s_audio_duplex
+    id: mic_main
+    i2s_audio_duplex_id: i2s_duplex
+
+# Setup Speaker
+speaker:
+  - platform: i2s_audio_duplex
+    id: hw_speaker
+    i2s_audio_duplex_id: i2s_duplex
+    sample_rate: 48000
+
+  - platform: resampler
+    id: intercom_speaker
+    output_speaker: hw_speaker
+    bits_per_sample: 16
+
+# Setup Intercom API
+intercom_api:
+  id: intercom
+  mode: simple
+  microphone: mic_main
+  speaker: intercom_speaker
+  dc_offset_removal: false
+
+
+
+
+button:
+  # Smart Call button: idle→call, ringing→answer, streaming→hangup
+  - platform: template
+    id: call_button
+    name: "Call"
+    icon: "mdi:phone"
+    on_press:
+      - intercom_api.call_toggle:
+          id: intercom
+
+  # Decline incoming call
+  - platform: template
+    id: decline_button
+    name: "Decline"
+    icon: "mdi:phone-hangup"
+    on_press:
+      - intercom_api.decline_call:
+          id: intercom
+
+
+select:
+  - platform: template
+    name: AEC Mode
+    id: aec_mode_select
+    icon: mdi:tune-vertical
+    options:
+      - "sr_low_cost"
+      - "sr_high_perf"
+      - "voip_low_cost"
+      - "voip_high_perf"
+    initial_option: "sr_low_cost"
+    optimistic: true
+    restore_value: true
+    set_action:
+      - if:
+          condition:
+            not:
+              intercom_api.is_idle: intercom
+          then:
+            - logger.log:
+                level: WARN
+                format: "Cannot switch AEC mode during active intercom call"
+          else:
+            - logger.log:
+                format: "Switching AEC mode to %s"
+                args: ['x.c_str()']
+            - i2s_audio_duplex.stop: i2s_duplex
+            - esp_aec.set_mode:
+                id: aec_processor
+                mode: !lambda 'return x;'
+            - i2s_audio_duplex.start: i2s_duplex
+
+switch:
+  - platform: intercom_api
+    intercom_api_id: intercom
+    auto_answer:
+      id: auto_answer_switch
+      name: Auto Answer
+      icon: mdi:phone-in-talk
+      restore_mode: RESTORE_DEFAULT_OFF
+
+  - platform: i2s_audio_duplex
+    i2s_audio_duplex_id: i2s_duplex
+    aec:
+      id: aec_switch
+      name: Echo Cancellation
+      icon: mdi:ear-hearing
+      restore_mode: RESTORE_DEFAULT_ON
+
+number:
+  - platform: i2s_audio_duplex
+    i2s_audio_duplex_id: i2s_duplex
+    speaker_volume:
+      id: speaker_volume
+      name: Speaker Volume
+    mic_gain:
+      name: Mic Gain
+    mic_gain_pre_aec:
+      name: Mic Gain Pre-AEC
+      pre_aec: true

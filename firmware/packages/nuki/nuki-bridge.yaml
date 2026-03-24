@@ -490,33 +490,40 @@ lock:
         sorting_weight: 7
 
     on_pairing_mode_on_action:
-      - script.execute: update_led
+      - status.push: nuki_bridge_pairing_mode
 
     on_pairing_mode_off_action:
-      - script.execute: update_led
+      - status.pop: nuki_bridge_pairing_mode
     
     on_paired_action:
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          red: 100%
-          green: 0%
-          blue: 100%
-          effect: none
-          #transition_length: 1s
-          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
+      - status.push: nuki_bridge_paired
       - delay: 3s
-      - script.execute: update_led
+      - status.pop: nuki_bridge_paired
 
-script:
-  - id: !extend update_led
-    then:
-      - if:
-          condition:
-            - switch.is_on: nuki_pairing_mode
-          then:
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 100%
-                green: 0%
-                blue: 100%
-                effect: pulse
+status_indicator:
+  on_custom_status:
+    - trigger_id: nuki_bridge_pairing_mode
+      priority: 200
+      group: nuki_bridge
+      then:
+        - logger.log: "SI: Nuki Bridge pairing mode"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 100%
+            effect: pulse
+ 
+    - trigger_id: nuki_bridge_paired
+      priority: 201
+      group: nuki_bridge
+      then:
+        - logger.log: "SI: Nuki Bridge paired"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 100%
+            effect: none
+            #transition_length: 1s
+            brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100;

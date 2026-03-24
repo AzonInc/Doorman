@@ -1,0 +1,105 @@
+web_server:
+  sorting_groups:
+    - id: sorting_group_virtual_indoor_station
+      name: "Settings - TC:BUS V-Indoor Station"
+      sorting_weight: -79
+
+esphome:
+  devices:
+    - id: tc_bus_vis
+      name: "TC:BUS V-Indoor Station"
+
+tc_bus_device:
+  - id: virtual_indoor_station
+    type: indoor_station
+    virtual: true
+    on_incoming_call:
+      - logger.log: VIS:INCOMING CALL FROM AS / IA
+    on_call_started:
+      - logger.log: VIS:CALL STARTED, AUDIO MODE
+    on_call_ended:
+      - logger.log: VIS:CALL ENDED
+    on_call_failed:
+      - logger.log: VIS:CALL FAILED
+
+number:
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_indoor_station
+    serial_number:
+      device_id: tc_bus_vis
+      name: "Serial Number"
+      web_server:
+        sorting_group_id: sorting_group_virtual_indoor_station
+        sorting_weight: -100
+
+    parallel_serial_number:
+      device_id: tc_bus_vis
+      name: "Parallel Serial Number"
+      web_server:
+        sorting_group_id: sorting_group_virtual_indoor_station
+        sorting_weight: -99
+
+select:
+  - platform: tc_bus_device
+    tc_bus_device_id: virtual_indoor_station
+    model:
+      device_id: tc_bus_vis
+      name: "Model"
+      web_server:
+        sorting_group_id: sorting_group_virtual_indoor_station
+        sorting_weight: -98
+
+button:
+  - platform: template
+    device_id: tc_bus_vis
+    name: "Answer Call"
+    on_press:
+      - tc_bus_device.answer_call:
+          id: virtual_indoor_station
+    web_server:
+      sorting_group_id: sorting_group_virtual_indoor_station
+      sorting_weight: -90
+
+  - platform: template
+    device_id: tc_bus_vis
+    name: "End Call"
+    on_press:
+      - tc_bus_device.end_call:
+          id: virtual_indoor_station
+    web_server:
+      sorting_group_id: sorting_group_virtual_indoor_station
+      sorting_weight: -89
+
+  - platform: template
+    device_id: tc_bus_vis
+    name: "Call Physical Indoor Station"
+    on_press:
+      - tc_bus_device.call:
+          id: virtual_indoor_station
+          address: !lambda "return id(indoor_station_serial_number).state;"
+          internal: true
+    web_server:
+      sorting_group_id: sorting_group_virtual_indoor_station
+      sorting_weight: -80
+
+  - platform: template
+    device_id: tc_bus_vis
+    name: "Talk to Second Entrance Door"
+    on_press:
+      - tc_bus_device.call:
+          id: virtual_indoor_station
+          address: !lambda "return id(second_entrance_door_station_address).state;"
+    web_server:
+      sorting_group_id: sorting_group_virtual_indoor_station
+      sorting_weight: -79
+
+  - platform: template
+    device_id: tc_bus_vis
+    name: "Talk to Entrance Door"
+    on_press:
+      - tc_bus_device.call:
+          id: virtual_indoor_station
+          address: !lambda "return id(entrance_door_station_address).state;"
+    web_server:
+      sorting_group_id: sorting_group_virtual_indoor_station
+      sorting_weight: -78

@@ -18,10 +18,10 @@ The `tc_bus_device` component offers the following configuration options:
 | **Physical Device**       | | | |
 | `auto_configuration`      | When enabled, the component [automatically identifies](#automatic-configuration) the device using the serial number and reads device memory based on the device model. | | `False` |
 | `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | | |
-| `on_read_memory_timeout`  | Defines actions to be triggered when the memory reading times out.                                                                            | | |
+| `on_read_memory_failed`  | Defines actions to be triggered when the memory reading times out.                                                                            | | |
 | `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | | |
 | `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                   | | |
-| `on_identify_timeout`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | | |
+| `on_identify_failed`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | | |
 | **Virtual Device**        | | | |
 | `on_incoming_call`        | Defines actions to be triggered when the virtual device receives a call. Returns a `TelegramData` object as the `x` variable.                 | | |
 | `on_call_started`         | Defines actions to be triggered when the virtual device is connected to a call. Returns a `TelegramData` object as the `x` variable.          | | |
@@ -124,11 +124,11 @@ on_read_memory_complete:
       ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
 ```
 
-### Read Memory Timeout <Badge type="tip" text="on_read_memory_timeout" /> <Badge type="warning" text="Only physical" />
+### Read Memory Timeout <Badge type="tip" text="on_read_memory_failed" /> <Badge type="warning" text="Only physical" />
 This callback allows you to detect a failed memory reading. Most probably when a model doesn't support the related telegrams.
 
 ```yaml
-on_read_memory_timeout:
+on_read_memory_failed:
   - logger.log: "Failed to read Memory"
 ```
 
@@ -151,11 +151,11 @@ on_identify_unknown:
   - logger.log: "Failed to identify device - unknown model!"
 ```
 
-### Device Identification Timeout <Badge type="tip" text="on_identify_timeout" /> <Badge type="warning" text="Only physical" />
+### Device Identification Timeout <Badge type="tip" text="on_identify_failed" /> <Badge type="warning" text="Only physical" />
 This callback allows you to detect a failed identification of the device. Most probably when a model is too old doesn't support this process.
 
 ```yaml
-on_identify_timeout:
+on_identify_failed:
   - logger.log: "Failed to identify device!"
 ```
 
@@ -296,6 +296,15 @@ on_...:
 ```
 :::
 
+### Open Door <Badge type="tip" text="tc_bus_device.open_door" />
+This action allows you to activate the door opener for **virtual outdoor stations** and automatically send the appropriate door opener command to indoor stations, based on the current door readiness state and the associated outdoor station address.
+
+```yaml
+on_...:
+  - tc_bus_device.open_door:
+      id: my_tc_bus_indoor_station_device
+```
+
 ### Answer Call <Badge type="tip" text="tc_bus_device.answer_call" /> <Badge type="warning" text="Only virtual" />
 This action allows you to answer an incoming call.
 
@@ -381,7 +390,7 @@ tc_bus_device:
       - lambda: |-
           std::string hexString = str_upper_case(format_hex(x));
           ESP_LOGI("tc_bus", "Memory reading completed. Data: %s", hexString.c_str());
-    on_read_memory_timeout:
+    on_read_memory_failed:
       - logger.log:
           format: "Memory reading timed out! No memory block received in time."
           level: ERROR
@@ -392,7 +401,7 @@ tc_bus_device:
           level: INFO
     on_identify_unknown:
       - logger.log: "Setup: Unable to identify the Indoor Station, unknown model."
-    on_identify_timeout:
+    on_identify_failed:
       - logger.log:
           format: "Failed to identify the Indoor Station. Please select it manually."
           level: ERROR
@@ -725,7 +734,7 @@ Here are the available setting types you can use to update the settings of your 
 - as_address_divider <Badge type="tip" text="SETTING_AS_ADDRESS_DIVIDER" />
 - vas_address_divider <Badge type="tip" text="SETTING_VAS_ADDRESS_DIVIDER" />
 - use_long_door_opener_protocol <Badge type="tip" text="SETTING_USE_LONG_DOOR_OPENER_PROTOCOL" />
-- no_ambient_light_in_standby <Badge type="tip" text="SETTING_NO_AMBIENT_LIGHT_IN_STANDBY" />
+- ambient_light_in_standby <Badge type="tip" text="SETTING_AMBIENT_LIGHT_IN_STANDBY" />
 - call_time_unlimited <Badge type="tip" text="SETTING_CALL_TIME_UNLIMITED" />
 - auto_answer_call <Badge type="tip" text="SETTING_AUTO_ANSWER_CALL" />
 
@@ -761,10 +770,10 @@ Below is a list of available settings for specific indoor station models:
 | TCS IVH3222 / Koch VTCH50 / Scantron VLux | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `parallel_serial_number` |
 | TCS IVH4222 / Koch VTCH50/2D | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `parallel_serial_number` |
 | TCS ISW3330 / Koch TC50 BW   | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `as_address_divider`, `parallel_serial_number`, `auto_answer_call` |
-| TCS TASTA Audio / Koch 60 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS TASTA Video / Koch 60 Series Video / Scantron VIVO | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS TASTA PRO Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
-| TCS TASTA PRO Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `no_ambient_light_in_standby` |
+| TCS TASTA Audio / Koch 60 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `ambient_light_in_standby` |
+| TCS TASTA Video / Koch 60 Series Video / Scantron VIVO | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `ambient_light_in_standby` |
+| TCS TASTA PRO Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `ambient_light_in_standby` |
+| TCS TASTA PRO Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol`, `ambient_light_in_standby` |
 | TCS SENSO PRO Audio / Koch 70 Series Audio | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol` |
 | TCS SENSO PRO Video / Koch 70 Series Video | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `volume_handset_door_call`, `volume_handset_internal_call`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call`, `use_long_door_opener_protocol` |
 | TCS ECOOS / Koch ecoos / Scantron SLIM60T | `ringtone_floor_call`, `ringtone_entrance_door_call`, `ringtone_second_entrance_door_call`, `ringtone_internal_call`, `ringtone_mute`, `volume_ringtone`, `as_address_divider`, `vas_address_divider`, `parallel_serial_number`, `call_time_unlimited`, `auto_answer_call` |

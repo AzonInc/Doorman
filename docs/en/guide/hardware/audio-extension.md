@@ -18,7 +18,7 @@ The board is built around the [ES8311](http://www.everest-semi.com/pdf/ES8311%20
 </div>
 
 ::: danger LIMITATIONS
-The extension board connector on the Doorman core board was introduced in revision `2.0.0` and is unfortunately not available on earlier versions. A Doorman core board of revision `2.0.0` or later is required in order to connect extension boards.
+The extension board connector on the Doorman core board was introduced with revision `2.0.0` and is unfortunately not available on earlier versions. A Doorman core board of revision `2.x.x` is required in order to connect extension boards.
 :::
 
 ## Assembly

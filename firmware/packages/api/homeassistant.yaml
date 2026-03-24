@@ -69,6 +69,14 @@ api:
             password: !lambda 'return password;'
             save: true
 
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+sensor:
+  - id: !extend doorman_uptime
+    type: timestamp
+
 tc_bus:
   on_telegram:
     - homeassistant.event:
@@ -89,38 +97,25 @@ tc_bus:
           payload: !lambda return x.payload;
           serial_number: !lambda return x.serial_number;
 
-script:
-  - id: !extend boot_state
-    then:
-      # WiFi already connected
-      - if:
-          condition:
-            api.connected:
-              state_subscription_only: true
-          then:
-            - logger.log: "LED: Home Assistant API already connected"
-          else:
-            - logger.log: "LED: Waiting for Home Assistant API connection"
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: slow_pulse
-                red: 0%
-                green: 22%
-                blue: 100%
-            - wait_until:
-                condition:
-                  api.connected:
-                    state_subscription_only: true
-            - logger.log: "LED: API connected"
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                effect: none
-                red: 0%
-                green: 22%
-                blue: 100%
-                #transition_length: 1s
-                brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
-            - delay: 3s
+wifi:
+  on_connect:
+    - status.push: api_connecting
 
-      # Update LED state
-      - script.execute: update_led
+    - if:
+        condition:
+          api.connected:
+            state_subscription_only: true
+        then:
+          - logger.log: "LED: Home Assistant API already connected"
+        else:
+          - logger.log: "LED: Waiting for Home Assistant API connection"
+          - wait_until:
+              condition:
+                api.connected:
+                  state_subscription_only: true
+
+    - status.push: api_connected
+    - delay: 3s
+    - status.pop:
+        group: api
+    - script.execute: boot_after_api

@@ -6,7 +6,7 @@ switch:
     device_id: tc_bus_is
     name: Setup Mode
     icon: mdi:account-cog
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_OFF
     entity_category: CONFIG
     optimistic: true
     on_turn_on:
@@ -29,10 +29,11 @@ switch:
           format: "Setup Step 1: Waiting for door or floor call."
           level: INFO
       - script.execute: update_setup_sensors
-      - script.execute: update_led
+      - status.push: setup_mode_active
     on_turn_off:
       - script.execute: update_setup_sensors
-      - script.execute: update_led
+      - status.pop:
+          group: setup_mode
     web_server:
       sorting_group_id: sorting_group_setup_status
       sorting_weight: -1
@@ -100,7 +101,7 @@ text_sensor:
     name: "Setup: Indoor Station Memory"
     icon: "mdi:database"
     lambda: |-
-      if(id(tc_bus_indoor_station).memory_buffer_empty() != true)
+      if(id(tc_bus_indoor_station).memory_buffer_ready())
       {
         return {"Complete"};
       }
@@ -202,12 +203,14 @@ text_sensor:
 
 # Update setup state on changes
 number:
-  - id: !extend entrance_door_station_address
-    on_value:
-      - script.execute: update_setup_sensors
-  - id: !extend second_entrance_door_station_address
-    on_value:
-      - script.execute: update_setup_sensors
+  - id: !extend tc_bus_numbers
+    entrance_address:
+      on_value:
+        - script.execute: update_setup_sensors
+
+    second_entrance_address:
+      on_value:
+        - script.execute: update_setup_sensors
 
 
 # Extend TC:BUS Component
@@ -228,7 +231,7 @@ tc_bus_device:
           then:
             - script.execute: complete_setup
 
-    on_identify_timeout:
+    on_identify_failed:
       - if:
           condition:
             - switch.is_on: doorman_setup_mode
@@ -238,7 +241,7 @@ tc_bus_device:
     on_read_memory_complete:
       - script.execute: update_setup_sensors
     
-    on_read_memory_timeout:
+    on_read_memory_failed:
       - script.execute: update_setup_sensors
 
 tc_bus:
@@ -280,7 +283,7 @@ tc_bus:
           - script.execute: update_setup_sensors
 
 script:
-  - id: !extend boot_component_init
+  - id: !extend boot_after_api
     then:
       # Turn on setup mode if serial number is 0 on boot
       - if:
@@ -305,35 +308,41 @@ script:
   - id: complete_setup
     then:
       - switch.turn_off: doorman_setup_mode
-
       - script.execute: update_setup_sensors
-
-      - light.turn_on:
-          id: doorman_rgb_status_led
-          red: 0%
-          green: 100%
-          blue: 10%
-          effect: none
-          #transition_length: 1s
-          brightness: !lambda return id(doorman_rgb_status_led_brightness).state;
-
-      - delay: 3s
-      
-      - script.execute: update_led
 
       - logger.log:
           format: "Setup completed. You can now continue with the Doorbells."
           level: INFO
 
-  - id: !extend update_led
-    then:
-      - if:
-          condition:
-            - switch.is_on: doorman_setup_mode
-          then:
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 0%
-                green: 100%
-                blue: 10%
-                effect: pulse
+      - status.push: setup_mode_finished
+      - delay: 3s
+      - status.pop:
+          group: setup_mode
+
+status_indicator:
+  on_custom_status:
+    - trigger_id: setup_mode_active
+      priority: 300
+      group: setup_mode
+      then:
+        - logger.log: "SI: Active Setup Mode"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 0%
+            green: 100%
+            blue: 10%
+            effect: pulse
+
+    - trigger_id: setup_mode_finished
+      priority: 301
+      group: setup_mode
+      then:
+        - logger.log: "SI: Finished Setup Mode"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 0%
+            green: 100%
+            blue: 10%
+            effect: none
+            #transition_length: 1s
+            brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100;

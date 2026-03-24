@@ -1,31 +1,24 @@
 # Board Setup
 esp32:
   variant: esp32s3
-  flash_size: 8MB
+  flash_size: 4MB
+  cpu_frequency: 240MHz
   framework:
     type: esp-idf
     version: recommended
     sdkconfig_options:
-      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
       CONFIG_ESP32S3_INSTRUCTION_CACHE_32KB: "y"
 
-      #CONFIG_SPIRAM_USE_MALLOC: "y"
       CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY: "y"
       CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP: "y"
 
-      CONFIG_BT_ALLOCATION_FROM_SPIRAM_FIRST: "y"
-      CONFIG_BT_BLE_DYNAMIC_ENV_MEMORY: "y"
-
-      # Moves instructions and read only data from flash into PSRAM on boot.
-      # Both enabled allows instructions to execute while a flash operation is in progress without needing to be placed in IRAM.
-      # Considerably speeds up mWW at the cost of using more PSRAM.
-      CONFIG_SPIRAM_RODATA: "y"
-      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: "y"
-
       CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
-      CONFIG_MBEDTLS_SSL_PROTO_TLS1_3: "y" # TLS1.3 support isn't enabled by default in IDF 5.1.5
+
+      CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL: "65536"
+    advanced:
+      execute_from_psram: true
 
 esphome:
   platformio_options:
@@ -35,24 +28,12 @@ psram:
   mode: quad
   speed: 80MHz
 
-wifi:
-  output_power: 8.5
-  enable_btm: true
-  enable_rrm: true
-  use_psram: true
-
 substitutions:
   rx_pin: "GPIO9"
   tx_pin: "GPIO8"
   led_pin: "GPIO1"
   rgb_led_pin: "GPIO2"
+  rgb_led_type: "sk6812"
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
   adc_input_pin: "GPIO10"
-
-# Extension Board i2c
-i2c:
-  id: i2c_bus
-  sda: GPIO13
-  scl: GPIO12
-  scan: true

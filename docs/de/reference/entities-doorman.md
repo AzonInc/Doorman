@@ -4,7 +4,7 @@ On this page, you can view all the entities related to Doorman.
 ## Sensors
 
 ### Uptime <Badge type="tip" text="doorman_uptime" /> <Badge type="info" text="Disabled by default" />
-Reports the uptime in seconds.
+Reports the uptime in seconds. If you flashed the `Home Assistant` Smart Home integration, it will report the timestamp.
 
 ### WiFi Signal <Badge type="tip" text="doorman_wifi_signal" /> <Badge type="info" text="Disabled by default" />
 Reports the wifi signal in percent.

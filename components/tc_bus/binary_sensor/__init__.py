@@ -97,7 +97,7 @@ async def to_code(config):
             telegram_serial_number = await cg.templatable(config[CONF_SERIAL_NUMBER], [], cg.uint32)
             cg.add(var.set_serial_number(telegram_serial_number))
 
-        cg.add(var.set_auto_off(config[CONF_AUTO_OFF]))
+        cg.add(var.set_auto_reset(config[CONF_AUTO_OFF]))
         cg.add(tc_bus.register_listener(var))
 
     elif sensor_type == CONF_DOOR_READINESS:

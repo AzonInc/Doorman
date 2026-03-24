@@ -146,18 +146,18 @@ button:
         sorting_group_id: sorting_group_indoor_station_settings
         sorting_weight: -95
 
-#script:
-  #- id: !extend set_unused_entities_internal
-  #  then:
-  #    - lambda: |-
-  #        id(indoor_station_ringtone_mute)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_MUTE));
-  #        id(indoor_station_ringtone_entrance_door_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL));
-  #
-  #        bool no_second_station = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
-  #        id(indoor_station_ringtone_second_entrance_door_call)->set_internal(no_second_station || !id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL));
-  #
-  #        id(indoor_station_ringtone_floor_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_FLOOR_CALL));
-  #        id(indoor_station_ringtone_internal_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_INTERNAL_CALL));
-  #        id(indoor_station_volume_ringtone)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_VOLUME_RINGTONE));
-  #        id(indoor_station_volume_handset_door_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
-  #        id(indoor_station_volume_handset_internal_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
+script:
+  - id: !extend set_unused_entities_internal
+    then:
+      - lambda: |-
+          id(indoor_station_ringtone_mute)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_MUTE));
+          id(indoor_station_ringtone_entrance_door_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_ENTRANCE_DOOR_CALL));
+  
+          bool no_second_station = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+          id(indoor_station_ringtone_second_entrance_door_call)->set_internal(no_second_station || !id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL));
+  
+          id(indoor_station_ringtone_floor_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_FLOOR_CALL));
+          id(indoor_station_ringtone_internal_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_RINGTONE_INTERNAL_CALL));
+          id(indoor_station_volume_ringtone)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_VOLUME_RINGTONE));
+          id(indoor_station_volume_handset_door_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+          id(indoor_station_volume_handset_internal_call)->set_internal(!id(tc_bus_indoor_station).supports_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));

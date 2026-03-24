@@ -363,9 +363,9 @@ switch:
           id: rto_entrance_door_timer_remaining
           value: '0'
     on_turn_on:
-      - script.execute: update_led
+      - script.execute: update_rto_status
     on_turn_off:
-      - script.execute: update_led
+      - script.execute: update_rto_status
     web_server:
       sorting_group_id: sorting_group_rto_settings
       sorting_weight: -80
@@ -391,9 +391,9 @@ switch:
           id: rto_second_entrance_door_timer_remaining
           value: '0'
     on_turn_on:
-      - script.execute: update_led
+      - script.execute: update_rto_status
     on_turn_off:
-      - script.execute: update_led
+      - script.execute: update_rto_status
     web_server:
       sorting_group_id: sorting_group_rto_settings
       sorting_weight: -70
@@ -420,9 +420,9 @@ switch:
           id: rto_apartment_door_timer_remaining
           value: '0'
     on_turn_on:
-      - script.execute: update_led
+      - script.execute: update_rto_status
     on_turn_off:
-      - script.execute: update_led
+      - script.execute: update_rto_status
     web_server:
       sorting_group_id: sorting_group_rto_settings
       sorting_weight: -50
@@ -451,6 +451,10 @@ switch:
     optimistic: true
     entity_category: CONFIG
     disabled_by_default: true
+    on_turn_on:
+      - script.execute: update_rto_status
+    on_turn_off:
+      - script.execute: update_rto_status
     web_server:
       sorting_group_id: sorting_group_rto_settings
       sorting_weight: -99
@@ -724,6 +728,10 @@ select:
       sorting_weight: -90
 
 script:
+  - id: !extend boot_component_init
+    then:
+      - script.execute: update_rto_status
+
   - id: rto_entrance_door_action
     then:
       - logger.log: "RTO: Execute Entrance Door Action"
@@ -738,29 +746,112 @@ script:
     then:
       - logger.log: "RTO: Execute Apartment Door Action"
 
-  #- id: !extend set_unused_entities_internal
-  #  then:
-  #    # Set second entrance door entities to internal if not used
-  #    - lambda: |-
-  #        bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
-  #        id(rto_second_entrance_door)->set_internal(internal);
-  #        id(rto_second_entrance_door_delay)->set_internal(internal);
-  #        id(rto_second_entrance_door_timeout_mode)->set_internal(internal);
-  #        id(rto_second_entrance_door_pattern_condition)->set_internal(internal);
+  - id: !extend set_unused_entities_internal
+    then:
+      # Set second entrance door entities to internal if not used
+      - lambda: |-
+          bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+          id(rto_second_entrance_door)->set_internal(internal);
+          id(rto_second_entrance_door_delay)->set_internal(internal);
+          id(rto_second_entrance_door_timeout_mode)->set_internal(internal);
+          id(rto_second_entrance_door_pattern_condition)->set_internal(internal);
 
-  - id: !extend update_led
+  - id: update_rto_status
     then:
       - if:
           condition:
-            - lambda: |-
-                return id(rto_entrance_door).state || id(rto_second_entrance_door).state || id(rto_apartment_door).state;
             - switch.is_on: rto_led_status
           then:
-            # TODO: improve status by using multiple colors / effects
-            #       to indicate each RTO status
-            - light.turn_on:
-                id: doorman_rgb_status_led
-                red: 100%
-                green: 70%
-                blue: 0%
-                effect: ring_to_open
+            - if:
+                condition:
+                  - lambda: |-
+                      return id(rto_apartment_door).state && (id(rto_entrance_door).state || id(rto_second_entrance_door).state);
+                then:
+                  - status.push: rto_active_apartment_and_entrance
+                  - status.pop: rto_active_both_entrance_doors
+                  - status.pop: rto_active_entrance_door
+                  - status.pop: rto_active_apartment_door
+                else:
+                  - status.pop: rto_active_apartment_and_entrance
+                  - if:
+                      condition:
+                        - lambda: |-
+                            return id(rto_entrance_door).state && id(rto_second_entrance_door).state;
+                      then:
+                        - status.push: rto_active_both_entrance_doors
+                        - status.pop: rto_active_entrance_door
+                        - status.pop: rto_active_apartment_door
+                      else:
+                        - status.pop: rto_active_both_entrance_doors
+                        - if:
+                            condition:
+                              - lambda: |-
+                                  return id(rto_entrance_door).state || id(rto_second_entrance_door).state;
+                            then:
+                              - status.push: rto_active_entrance_door
+                              - status.pop: rto_active_apartment_door
+                            else:
+                              - status.pop: rto_active_entrance_door
+                              - if:
+                                  condition:
+                                    - lambda: |-
+                                        return id(rto_apartment_door).state;
+                                  then:
+                                    - status.push: rto_active_apartment_door
+                                  else:
+                                    - status.pop: rto_active_apartment_door
+          else:
+            - status.pop: rto_active_entrance_door
+            - status.pop: rto_active_both_entrance_doors
+            - status.pop: rto_active_apartment_door
+            - status.pop: rto_active_apartment_and_entrance
+
+status_indicator:
+  on_custom_status:
+    - trigger_id: rto_active_entrance_door
+      priority: 70
+      group: rto
+      then:
+        - logger.log: "SI: Active Entrance Door"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 70%
+            blue: 0%
+            effect: ring_to_open
+
+    - trigger_id: rto_active_both_entrance_doors
+      priority: 71
+      group: rto
+      then:
+        - logger.log: "SI: Active Both Entrance Doors"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 70%
+            blue: 0%
+            effect: ring_to_open
+
+    - trigger_id: rto_active_apartment_door
+      priority: 72
+      group: rto
+      then:
+        - logger.log: "SI: Active Apartment Door"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 20%
+            effect: ring_to_open
+
+    - trigger_id: rto_active_apartment_and_entrance
+      priority: 73
+      group: rto
+      then:
+        - logger.log: "SI: Active Apartment and Entrance Doors"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 70%
+            blue: 20%
+            effect: ring_to_open

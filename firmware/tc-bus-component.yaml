@@ -36,7 +36,7 @@ tc_bus_device:
           std::string hexString = str_upper_case(format_hex(x));
           ESP_LOGI("tc_bus", "Memory reading completed. Data: %s", hexString.c_str());
     
-    on_read_memory_timeout:
+    on_read_memory_failed:
       - logger.log:
           format: "Memory reading timed out! No memory block received in time."
           level: ERROR
@@ -50,7 +50,7 @@ tc_bus_device:
     on_identify_unknown:
       - logger.log: "Setup: Unable to identify the Indoor Station, unknown model."
     
-    on_identify_timeout:
+    on_identify_failed:
       - logger.log:
           format: "Failed to identify the Indoor Station. Please select it manually."
           level: ERROR

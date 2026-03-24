@@ -12,13 +12,13 @@ Thanks to the wide voltage converter, the Doorman S3 can operate with a supply v
 The following tables outline the power consumption of different firmware variants when operating with a **24 V DC-input**.
 
 ::: tip NOTE
-The integrated RGB status LED draws approximately **4 mA** when active. This is in addition to the values shown below.
+The integrated RGB status LED draws approximately **4-7 mA** when active. This is in addition to the values shown below.
 :::
 
 ### Standard Firmware
 | Integration | Power Consumption |
 | :----- | :-----: |
-| Home Assistant | TBD |
+| Home Assistant | 15-20mA |
 | MQTT | TBD |
 | HomeKit | TBD |
 | Custom | TBD |
@@ -26,7 +26,7 @@ The integrated RGB status LED draws approximately **4 mA** when active. This i
 ### Nuki-Bridge Firmware
 | Integration | Power Consumption |
 | :----- | :-----: |
-| Home Assistant | 20-22mA |
+| Home Assistant | TBD |
 | Custom | TBD |
 
 ## Relay

@@ -46,7 +46,8 @@ namespace esphome::tc_bus
         FLOW_NONE,
         FLOW_READ_MEMORY,
         FLOW_READ_MEMORY_UPDATE,
-        FLOW_IDENTIFY_DEVICE
+        FLOW_IDENTIFY_DEVICE,
+        FLOW_ERROR_PROTOCOL
     };
 
     enum class CallState : uint8_t {
@@ -67,13 +68,13 @@ namespace esphome::tc_bus
         template<typename T> void set_address(T address) { this->address_ = address; }
         template<typename T> void set_payload(T payload) { this->payload_ = payload; }
 
-        void set_auto_off(uint16_t auto_off) { this->auto_off_ = auto_off; }
+        void set_auto_reset(uint16_t auto_reset) { this->auto_reset_ = auto_reset; }
 
-        virtual void turn_on(uint32_t *timer, uint16_t auto_off) {};
+        virtual void turn_on(uint32_t *timer, uint16_t auto_reset) {};
         virtual void turn_off(uint32_t *timer) {};
 
         uint32_t timer_;
-        uint16_t auto_off_;
+        uint16_t auto_reset_;
 
         TemplatableValue<TelegramType> type_{};
         TemplatableValue<uint8_t> address_{};
@@ -156,14 +157,16 @@ namespace esphome::tc_bus
 
         void set_current_flow(FlowType type) { this->current_flow_ = type; }
 
+        ModelData get_model_data() { return this->model_data_; };
+
         float get_setup_priority() const override { return setup_priority::BUS - 1.0f; }
         void setup() override;
         void dump_config() override;
         void loop() override;
 
         // Telegram handling
-        bool on_receive(TelegramData telegram_data, bool received) override;
-        TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t wait_duration = 250);
+        bool on_receive(TelegramData telegram_data, TelegramSource source) override;
+        TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250);
 
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR
@@ -176,6 +179,9 @@ namespace esphome::tc_bus
         void end_call();
         bool reset_call();
 
+        // Door opener
+        void open_door();
+
         // Flow Queue Management
         static void process_flow_queue();
         static void enqueue_flow(FlowType type, TCBusDeviceComponent *component, uint8_t index = 0);
@@ -185,25 +191,43 @@ namespace esphome::tc_bus
         void read_memory();
         void read_memory_update(uint8_t index);
         void read_selected_memory_block();
+        void read_selected_memory_page();
         bool write_memory();
-        bool memory_buffer_empty() { return this->memory_buffer_.empty(); }
+
+        uint32_t get_memory_bits(uint8_t index, uint8_t start_bit, uint8_t length = 8, uint8_t side = 0);
+        uint8_t get_memory_byte(uint8_t index, uint8_t side = 0);
+        uint8_t set_memory_bits(uint8_t index, uint8_t start_bit, uint8_t length, uint32_t value, uint8_t side = 0);
+        bool get_memory_bit(uint8_t index, uint8_t start_bit, uint8_t side = 0);
+        bool reallocate_memory_buffer();
+        bool clear_memory_buffer();
+        bool memory_buffer_ready() { return this->memory_buffer_ready_; }
+        void print_memory_buffer();
 
         // Flow: Identify model
         void identify_device();
 
         // Bus Device Settings
         bool supports_setting(SettingType type);
-        uint32_t get_setting(SettingType type);
-        bool update_setting(SettingType type, uint32_t new_value);
+        uint32_t get_setting(SettingType type, bool translate = true);
+        bool update_setting(SettingType type, uint32_t new_value, bool reset = true, bool translate = true);
         void publish_settings();
 
-        uint8_t get_memory_byte(uint8_t index);
-
-        uint8_t get_doorbell_button_memory_index(uint8_t row, uint8_t col);
+        uint8_t get_doorbell_button_memory_index(uint8_t row, uint8_t col, uint8_t side = 0);
         DoorbellButtonConfig get_doorbell_button(uint8_t row);
-        DoorbellButtonConfig get_doorbell_button(uint8_t row, uint8_t col);
-        bool update_doorbell_button(uint8_t row, DoorbellButtonConfig data);
-        bool update_doorbell_button(uint8_t row, uint8_t col, DoorbellButtonConfig data);
+        DoorbellButtonConfig get_doorbell_button(uint8_t row, uint8_t col, uint8_t side = 0);
+        bool update_doorbell_button(uint8_t row, DoorbellButtonConfig data, uint8_t side = 0);
+        bool update_doorbell_button(uint8_t row, uint8_t col, DoorbellButtonConfig data, uint8_t side = 0);
+        void log_doorbell_button(DoorbellButtonConfig btn, uint8_t row, uint8_t col);
+
+        size_t get_page_offset(uint8_t side)
+        {
+            if (side == 0)
+            {
+                return 0;
+            }
+
+            return this->model_data_.memory_size + (side - 1) * this->model_data_.memory_size_side;
+        }
 
         // Preferences
         void save_preferences();
@@ -215,16 +239,16 @@ namespace esphome::tc_bus
 
         // Automation Callbacks
         #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
-        void add_read_memory_complete_callback(std::function<void(std::vector<uint8_t>)> &&callback)
+        void add_read_memory_complete_callback(std::function<void()> &&callback)
         {
             this->read_memory_complete_callback_.add(std::move(callback));
         }
         #endif
 
-        #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
-        void add_read_memory_timeout_callback(std::function<void()> &&callback)
+        #ifdef USE_READ_MEMORY_FAILED_CALLBACK
+        void add_read_memory_failed_callback(std::function<void()> &&callback)
         {
-            this->read_memory_timeout_callback_.add(std::move(callback));
+            this->read_memory_failed_callback_.add(std::move(callback));
         }
         #endif
 
@@ -242,10 +266,10 @@ namespace esphome::tc_bus
         }
         #endif
 
-        #ifdef USE_IDENTIFY_TIMEOUT_CALLBACK
-        void add_identify_timeout_callback(std::function<void()> &&callback)
+        #ifdef USE_IDENTIFY_FAILED_CALLBACK
+        void add_identify_failed_callback(std::function<void()> &&callback)
         {
-            this->identify_timeout_callback_.add(std::move(callback));
+            this->identify_failed_callback_.add(std::move(callback));
         }
         #endif
 
@@ -307,30 +331,38 @@ namespace esphome::tc_bus
         uint8_t door_opener_duration_{4}; // 0 - 15s
 
         // Call handling
-        bool call_internal_{false};
-        bool call_from_parallel_sn_{false};
         uint32_t call_address_{0};
         CallState call_state_{CallState::IDLE};
+        bool call_internal_{false};
+        bool call_from_parallel_sn_{false};
+
+        // Door readiness
+        bool door_readiness_active_{false};
+        uint8_t door_readiness_address_{0};
 
         // Flow Queue Management
         FlowType current_flow_{FLOW_NONE};
 
         // Memory reading
-        bool memory_mode_{false};
-        std::vector<uint8_t> memory_buffer_;
+        uint16_t memory_buffer_size_{0};
+        uint8_t *memory_buffer_{nullptr};
         uint8_t reading_memory_count_{0};
         uint8_t reading_memory_try_{0};
         uint8_t reading_memory_max_{0};
+        uint8_t reading_memory_current_page_{0};
+        uint8_t reading_memory_max_page_{0};
+        bool memory_mode_{false};
+        bool memory_buffer_ready_{false};
 
         // Preferences
         ESPPreferenceObject pref_;
 
         // Automation Callbacks
         #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
-        CallbackManager<void(std::vector<uint8_t>)> read_memory_complete_callback_{};
+        CallbackManager<void()> read_memory_complete_callback_{};
         #endif
-        #ifdef USE_READ_MEMORY_TIMEOUT_CALLBACK
-        CallbackManager<void()> read_memory_timeout_callback_{};
+        #ifdef USE_READ_MEMORY_FAILED_CALLBACK
+        CallbackManager<void()> read_memory_failed_callback_{};
         #endif
         #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
         CallbackManager<void(ModelData)> identify_complete_callback_{};
@@ -338,8 +370,8 @@ namespace esphome::tc_bus
         #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
         CallbackManager<void()> identify_unknown_callback_{};
         #endif
-        #ifdef USE_IDENTIFY_TIMEOUT_CALLBACK
-        CallbackManager<void()> identify_timeout_callback_{};
+        #ifdef USE_IDENTIFY_FAILED_CALLBACK
+        CallbackManager<void()> identify_failed_callback_{};
         #endif
 
         #ifdef USE_INCOMING_CALL_CALLBACK

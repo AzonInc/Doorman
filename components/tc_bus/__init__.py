@@ -22,6 +22,7 @@ TCBusProgrammingModeAction = tc_bus_ns.class_(
 TelegramData = tc_bus_ns.struct("TelegramData")
 
 ReceivedTelegramTrigger = tc_bus_ns.class_("ReceivedTelegramTrigger", automation.Trigger.template())
+SystemDiscoveryCompleteTrigger = tc_bus_ns.class_("SystemDiscoveryCompleteTrigger", automation.Trigger.template())
 
 TELEGRAM_TYPE = tc_bus_ns.enum("TelegramType")
 TELEGRAM_TYPES = {
@@ -71,6 +72,7 @@ CONF_PAYLOAD = "payload"
 CONF_SERIAL_NUMBER = "serial_number"
 
 CONF_ON_TELEGRAM = "on_telegram"
+CONF_ON_SYSTEM_DISCOVERY_COMPLETE = "on_system_discovery_complete"
 
 CONF_PROGRAMMING_MODE = "programming_mode"
 
@@ -85,6 +87,11 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_ON_TELEGRAM): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReceivedTelegramTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_SYSTEM_DISCOVERY_COMPLETE): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(SystemDiscoveryCompleteTrigger),
             }
         ),
     }
@@ -109,6 +116,10 @@ async def to_code(config):
     for conf in config.get(CONF_ON_TELEGRAM, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+
+    for conf in config.get(CONF_ON_SYSTEM_DISCOVERY_COMPLETE, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
 
 
 def validate(config):
