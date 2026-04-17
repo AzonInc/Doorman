@@ -119,6 +119,7 @@ namespace esphome::tc_bus
             else if (strcmp(model_key, "800") == 0) return MODEL_IS_IVH3222;
             else if (strcmp(model_key, "900") == 0) return MODEL_IS_IVH4222;
             else if (strcmp(model_key, "B00") == 0) return MODEL_IS_IMM1000;
+            else if (strcmp(model_key, "100") == 0) return MODEL_IS_IMM1500;
             else if (strcmp(model_key, "200") == 0) return MODEL_IS_ISW4100;
             else if (strcmp(model_key, "201") == 0) return MODEL_IS_IMM2100;
 
@@ -269,7 +270,7 @@ namespace esphome::tc_bus
         {MODEL_IS_IMM1000, "TCS IMM1000 / Koch TCH30"},
         {MODEL_IS_IMM1100, "TCS IMM1100 / Koch TCHE30"},
         {MODEL_IS_IMM1300, "TCS IMM1300 / Koch VTCH30"},
-        {MODEL_IS_IMM1500, "TCS IMM1500"},
+        {MODEL_IS_IMM1500, "TCS IMM1500 / Koch TC30"},
         {MODEL_IS_IMM1310, "TCS IMM1310 / Koch VTCHE30"},
         {MODEL_IS_IMM1110, "TCS IMM1110 / Koch TCHEE30"},
         {MODEL_IS_IVH3222, "TCS IVH3222 / Koch VTCH50 / Scantron VLux"},

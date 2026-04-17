@@ -150,7 +150,7 @@ CONF_MODEL_IS = [
     "TCS IMM1000 / Koch TCH30",
     "TCS IMM1100 / Koch TCHE30",
     "TCS IMM1300 / Koch VTCH30",
-    "TCS IMM1500",
+    "TCS IMM1500 / Koch TC30",
     "TCS IMM1310 / Koch VTCHE30",
     "TCS IMM1110 / Koch TCHEE30",
     "TCS IVH3222 / Koch VTCH50 / Scantron VLux",
