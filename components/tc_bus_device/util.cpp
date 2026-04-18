@@ -781,7 +781,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_RINGTONE_MUTE;
                 break;
             case MODEL_IS_IMM1500:
-                modelData.device_group = 0;
+                modelData.device_group = 1;
                 modelData.memory_size = 32;
                 modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
