@@ -37,6 +37,7 @@ packages:
   ota_update_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
   api: github://azoninc/doorman/firmware/packages/api/custom.yaml@${branch}
   debug_utilities: github://azoninc/doorman/firmware/packages/debug/debug-utilities.yaml@${branch}
+  debug_component: github://azoninc/doorman/firmware/packages/debug/debug-component.yaml@${branch}
   pattern_events: github://azoninc/doorman/firmware/packages/pattern_events/pattern-events.yaml@${branch}
   ring_to_open: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.yaml@${branch}
   ring_to_open_nuki: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open-nuki.yaml@${branch}

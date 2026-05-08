@@ -91,7 +91,7 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
 
         ## Debug utilities
         ('debug_utilities', 'debug/debug-utilities.yaml', branch == 'dev' or branch == 'local'),
-        #('debug_component', 'debug/debug-component.yaml', branch == 'dev' or branch == 'local'),
+        ('debug_component', 'debug/debug-component.yaml', branch == 'dev' or branch == 'local'),
         #('debug_component_psram', 'debug/debug-component.psram.yaml', (branch == 'dev' or branch == 'local') and has_psram),
 
         ## Other features

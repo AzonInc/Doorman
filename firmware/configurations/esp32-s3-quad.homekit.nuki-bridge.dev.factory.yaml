@@ -31,6 +31,7 @@ packages:
   ota_update_http: !include ../packages/ota/http.yaml
   api: !include ../packages/api/homekit.yaml
   debug_utilities: !include ../packages/debug/debug-utilities.yaml
+  debug_component: !include ../packages/debug/debug-component.yaml
   pattern_events: !include ../packages/pattern_events/pattern-events.yaml
   ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
   ring_to_open_homekit: !include ../packages/ring_to_open/ring-to-open.homekit.yaml

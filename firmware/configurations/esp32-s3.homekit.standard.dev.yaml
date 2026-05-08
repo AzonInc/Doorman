@@ -36,6 +36,7 @@ packages:
   bluedroid_ble: github://azoninc/doorman/firmware/packages/common/bluedroid-ble.yaml@${branch}
   bluedroid_ble_psram: github://azoninc/doorman/firmware/packages/common/bluedroid-ble.psram.yaml@${branch}
   debug_utilities: github://azoninc/doorman/firmware/packages/debug/debug-utilities.yaml@${branch}
+  debug_component: github://azoninc/doorman/firmware/packages/debug/debug-component.yaml@${branch}
   pattern_events: github://azoninc/doorman/firmware/packages/pattern_events/pattern-events.yaml@${branch}
   ring_to_open: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.yaml@${branch}
   ring_to_open_homekit: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.homekit.yaml@${branch}
