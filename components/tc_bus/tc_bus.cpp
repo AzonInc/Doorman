@@ -230,6 +230,11 @@ namespace esphome::tc_bus
 
     void TCBusComponent::process_telegram_queue()
     {
+        if (this->store_.retransmission_pending)
+        {
+            return;
+        }
+
         if (!this->telegram_transmit_queue.empty())
         {
             TCBusTelegramQueueItem &queue_item = this->telegram_transmit_queue.front();
