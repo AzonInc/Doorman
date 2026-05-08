@@ -150,8 +150,8 @@ namespace esphome::tc_bus
         volatile bool expect_echo_isr{false};
         ISRInternalGPIOPin rx_pin;
 
-        volatile uint32_t debug_buffer[255];
-        volatile uint8_t debug_buffer_index{0};
+        /*volatile uint32_t debug_buffer[255];
+        volatile uint8_t debug_buffer_index{0};*/
     };
 
     struct TCBusSettings

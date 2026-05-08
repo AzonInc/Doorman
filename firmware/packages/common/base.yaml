@@ -113,7 +113,7 @@ number:
     entity_category: CONFIG
     web_server:
       sorting_group_id: sorting_group_system
-      sorting_weight: 2
+      sorting_weight: 1
 
   - platform: template
     id: doorman_red_status_led_brightness

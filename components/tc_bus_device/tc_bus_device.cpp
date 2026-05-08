@@ -1031,7 +1031,7 @@ namespace esphome::tc_bus
                     {
                         uint8_t percent = ((reading_memory_count_ + 1) * 100) / reading_memory_max_;
 
-                        ESP_LOGI(TAG,   "Read %s memory:\n"
+                        ESP_LOGI(TAG,   "Read memory of %s:\n"
                                         "  Progress: %i%%",
                                         device_group_to_string(this->model_data_.device_group), percent);
 
@@ -1085,7 +1085,7 @@ namespace esphome::tc_bus
                             {
                                 this->memory_buffer_ready_ = true;
 
-                                ESP_LOGI(TAG, "Read %s memory:\n"
+                                ESP_LOGI(TAG, "Read memory of %s:\n"
                                               "  Progress: Done\n"
                                               "  Size: %i Bytes",
                                               device_group_to_string(this->model_data_.device_group),
@@ -2307,7 +2307,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::execute_read_memory()
     {
-        ESP_LOGI(TAG,   "Read %s memory:\n"
+        ESP_LOGI(TAG,   "Read memory of %s:\n"
                         "  Model: %s\n"
                         "  Serial Number: %i\n"
                         "  Sides: %i",
@@ -2374,7 +2374,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::execute_read_memory_update(uint8_t index)
     {
-        ESP_LOGI(TAG,   "Read %s memory after update:\n"
+        ESP_LOGI(TAG,   "Read memory of %s after update:\n"
                         "  Model: %s\n"
                         "  Serial Number: %i\n"
                         "  Sides: %i",

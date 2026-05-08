@@ -168,7 +168,7 @@ namespace esphome::tc_bus
         }
         #endif
 
-        uint8_t size = 0;
+        /*uint8_t size = 0;
         {
             InterruptLock lock;
             size = this->store_.debug_buffer_index;
@@ -213,7 +213,7 @@ namespace esphome::tc_bus
             {
                 ESP_LOGD(TAG, "%s", buffer);
             }
-        }
+        }*/
     }
 
     void TCBusComponent::save_preferences()
@@ -664,10 +664,10 @@ namespace esphome::tc_bus
             return;
         }
 
-        if (arg->debug_buffer_index < 255)
+        /*if (arg->debug_buffer_index < 255)
         {
             arg->debug_buffer[arg->debug_buffer_index++] = us;
-        }
+        }*/
 
         // Save last bit timestamp
         last_us = now_us;
