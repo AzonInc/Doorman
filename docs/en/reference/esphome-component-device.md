@@ -5,7 +5,7 @@ description: Complete documentation for the TC:BUS Device ESPHome component, inc
 # TC:BUS Device Component <Badge type="tip" text="tc_bus_device" />
 This component extends the [TC:BUS](./esphome-component) base component and simplifies communication with individual devices on the bus. It allows you to identify devices, access their memory, and read or modify their settings. See the section on [supported models and settings](#model-setting-availability) for details.
 
-The component also supports creating **virtual bus devices**. Note that virtual devices hosted on the same microcontroller cannot communicate with each other.
+The component also supports creating **virtual bus devices**.
 
 ## Configuration
 The `tc_bus_device` component offers the following configuration options:
@@ -17,8 +17,8 @@ The `tc_bus_device` component offers the following configuration options:
 | `virtual`                 | Enables the virtual device mode, assigning it a unique serial number/address based on the host MAC address so it can emulate or interact with other devices on the TC:BUS. | | `False` |
 | **Physical Device**       | | | |
 | `auto_configuration`      | When enabled, the component [automatically identifies](#automatic-configuration) the device using the serial number and reads device memory based on the device model. | | `False` |
-| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. Returns a `std::vector<uint8_t>` buffer as the `x` variable.             | | |
-| `on_read_memory_failed`  | Defines actions to be triggered when the memory reading times out.                                                                            | | |
+| `on_read_memory_complete` | Defines actions to be triggered when the memory reading is complete. | | |
+| `on_read_memory_failed`  | Defines actions to be triggered when the memory reading fails. | | |
 | `on_identify_complete`    | Defines actions to be triggered when the identification of the indoor station is complete. Returns a `ModelData` object as the `x` variable.  | | |
 | `on_identify_unknown`     | Defines actions to be triggered when the identification of the indoor station completes with unknown model.                                   | | |
 | `on_identify_failed`     | Defines actions to be triggered when the identification of the indoor station times out.                                                      | | |
@@ -114,17 +114,14 @@ It allows you to trigger a relay connected to a buzzer or door release mechanism
 
 ## Callbacks
 ### Read Memory Complete <Badge type="tip" text="on_read_memory_complete" /> <Badge type="warning" text="Only physical" />
-This callback allows you to work with the memory buffer, accessible as the `x` variable.
+This callback allows you to detect a successful memory reading.
 
 ```yaml
 on_read_memory_complete:
   - logger.log: "Completed memory reading!"
-  - lambda: |-
-      std::string hexString = str_upper_case(format_hex(x));
-      ESP_LOGI("tc_bus", "Memory Dump: %s", hexString.c_str());
 ```
 
-### Read Memory Timeout <Badge type="tip" text="on_read_memory_failed" /> <Badge type="warning" text="Only physical" />
+### Read Memory Failed <Badge type="tip" text="on_read_memory_failed" /> <Badge type="warning" text="Only physical" />
 This callback allows you to detect a failed memory reading. Most probably when a model doesn't support the related telegrams.
 
 ```yaml
@@ -151,8 +148,8 @@ on_identify_unknown:
   - logger.log: "Failed to identify device - unknown model!"
 ```
 
-### Device Identification Timeout <Badge type="tip" text="on_identify_failed" /> <Badge type="warning" text="Only physical" />
-This callback allows you to detect a failed identification of the device. Most probably when a model is too old doesn't support this process.
+### Device Identification Failed <Badge type="tip" text="on_identify_failed" /> <Badge type="warning" text="Only physical" />
+This callback allows you to detect a failed identification of the device. Most probably when a model is too old and doesn't support this process.
 
 ```yaml
 on_identify_failed:
@@ -387,12 +384,10 @@ tc_bus_device:
     auto_configuration: true
     # Optional
     on_read_memory_complete:
-      - lambda: |-
-          std::string hexString = str_upper_case(format_hex(x));
-          ESP_LOGI("tc_bus", "Memory reading completed. Data: %s", hexString.c_str());
+      - logger.log: "Memory reading successful!"
     on_read_memory_failed:
       - logger.log:
-          format: "Memory reading timed out! No memory block received in time."
+          format: "Memory reading failed!"
           level: ERROR
     on_identify_complete:
       - logger.log:
