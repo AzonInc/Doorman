@@ -119,7 +119,6 @@ namespace esphome::tc_bus
             if (!is_echo)
             {
                 this->store_.retransmission_pending = false;
-                this->store_.retransmission_forced = false;
 
                 TelegramData telegram_data = parseTelegram(telegram.raw, telegram.is_long, telegram.is_response, telegram.is_retransmission);
                 this->handle_telegram(telegram_data, TelegramSource::BUS_RECEIVED);
@@ -139,7 +138,6 @@ namespace esphome::tc_bus
             if (elapsed_us >= RETRANSMISSION_GAP_US)
             {
                 this->store_.retransmission_pending = false;
-                this->store_.retransmission_forced = false;
                 this->transmit_telegram(this->retransmit_telegram_, this->retransmit_sender_listener_id_);
             }
         }
@@ -711,10 +709,9 @@ namespace esphome::tc_bus
             {
                 arg->expect_echo_isr = false;
             }
-            else if (arg->retransmission_pending && !arg->retransmission_forced)
+            else if (arg->retransmission_pending)
             {
                 arg->retransmission_pending = false;
-                arg->retransmission_forced = false;
             }
             return;
         }
@@ -856,11 +853,6 @@ namespace esphome::tc_bus
             this->store_.last_telegram_raw = telegram_data.raw;
             this->store_.expect_echo = true;
             this->store_.expect_echo_isr = true;
-
-            /*if(telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
-            {
-                this->store_.retransmission_forced = true;
-            }*/
 
             // Calculate length based on telegram type
             // Status Acknowledge telegrams only have 4 bits

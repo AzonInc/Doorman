@@ -145,7 +145,6 @@ namespace esphome::tc_bus
         volatile uint32_t last_bit_change{0};
         volatile uint32_t last_telegram_raw{0};
         volatile bool retransmission_pending{false};
-        volatile bool retransmission_forced{false};
         volatile bool sending{false};
         volatile bool expect_echo{false};
         volatile bool expect_echo_isr{false};
