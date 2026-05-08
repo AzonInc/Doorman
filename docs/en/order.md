@@ -298,7 +298,8 @@ export default {
             result_title: '',
             result_text: '',
             available_units: -1,
-            available_timestamp: 0
+            available_timestamp: 0,
+            availability_extra_text: ''
         }
     },
     created() {
@@ -470,6 +471,7 @@ export default {
 
                 this.available_units = res.data.available_units;
                 this.available_timestamp = res.data.available_timestamp;
+                this.availability_extra_text = res.data.availability_extra_text;
 
                 // merge into products
                 if (res.data.products) {
@@ -744,6 +746,7 @@ Availability is limited and occurs **without a fixed schedule**. Any notificatio
     <p class="custom-block-title">CURRENTLY UNAVAILABLE</p>
     <p v-html="availability_time_text"></p>
     <p>You can send your inquiry anyway, and I'll make sure to reserve one for you as soon as they arrive.</p>
+    <p v-html="availability_extra_text"></p>
 </div>
 
 <hr />

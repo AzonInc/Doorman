@@ -300,7 +300,8 @@ export default {
             result_title: '',
             result_text: '',
             available_units: -1,
-            available_timestamp: 0
+            available_timestamp: 0,
+            availability_extra_text: ''
         }
     },
     created() {
@@ -472,6 +473,7 @@ export default {
 
                 this.available_units = res.data.available_units;
                 this.available_timestamp = res.data.available_timestamp;
+                this.availability_extra_text = res.data.availability_extra_text;
 
                 // merge into products
                 if (res.data.products) {
@@ -747,6 +749,7 @@ Die Verfügbarkeit ist **begrenzt und erfolgt ohne festen Zeitplan**. Benachrich
     <p class="custom-block-title">DERZEIT NICHT VERFÜGBAR</p>
     <p v-html="availability_time_text"></p>
     <p>Du kannst deine Anfrage trotzdem schonmal senden, dann reserviere ich dir einen.</p>
+    <p v-html="availability_extra_text"></p>
 </div>
 
 <hr />

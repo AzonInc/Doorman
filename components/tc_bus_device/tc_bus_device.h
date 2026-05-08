@@ -307,17 +307,16 @@ namespace esphome::tc_bus
         std::vector<TCBusDeviceListener *> listeners_{};
         #endif
 
-        bool auto_configuration_{false};
-
         // General device data
         Model model_{MODEL_NONE};
         ModelData model_data_;
         uint32_t serial_number_{0};
         uint32_t parallel_serial_number_{1000000};
-        uint8_t address_{0};
-        DeviceGroup device_group_{DEVICE_GROUP_INDOOR_STATION};
+        uint8_t address_{1};
+        DeviceGroup device_group_{DEVICE_GROUP_INDOOR_STATION_CLASSIC};
         bool virtual_{false};
-        
+        bool auto_configuration_{false};
+
         bool address_lock_{false};
         bool use_long_door_opener_protocol_{false};
         bool auto_answer_call_{false};

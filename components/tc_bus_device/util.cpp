@@ -95,8 +95,10 @@ namespace esphome::tc_bus
 
     const char* device_group_to_string(uint8_t device_group)
     {
-        if(device_group == 0 || device_group == DEVICE_GROUP_INDOOR_STATION) {
-            return "Indoor Station";
+        if(device_group == DEVICE_GROUP_INDOOR_STATION_CLASSIC) {
+            return "Classic Indoor Station";
+        } else if(device_group == DEVICE_GROUP_INDOOR_STATION_HANDSFREE) {
+            return "Handsfree Indoor Station";
         } else if(device_group == DEVICE_GROUP_OUTDOOR_STATION) {
             return "Outdoor Station";
         } else if(device_group == DEVICE_GROUP_CONTROLLER) {

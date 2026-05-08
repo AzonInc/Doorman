@@ -205,7 +205,7 @@ namespace esphome::tc_bus
                 ESP_LOGD(TAG, "Rebuild Memory Buffer");
                 this->memory_buffer_ready_ = true;
 
-                if(this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+                if(this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
                 {
                     update_setting(SETTING_PARALLEL_SERIAL_NUMBER, this->parallel_serial_number_);
                     update_setting(SETTING_RINGTONE_MUTE, 0);
@@ -411,7 +411,7 @@ namespace esphome::tc_bus
     void TCBusDeviceComponent::dump_config()
     {
         ESP_LOGCONFIG(TAG, this->virtual_ ? "Virtual TC:BUS Device:" : "TC:BUS Device:");
-        ESP_LOGCONFIG(TAG, "  Group: %s", device_group_to_string(this->device_group_));
+        ESP_LOGCONFIG(TAG, "  Group: %s", device_group_to_string(this->model_data_.device_group));
         ESP_LOGCONFIG(TAG, "  Model: %s", model_to_string(this->model_));
         ESP_LOGCONFIG(TAG, "  Serial Number: %i", this->serial_number_);
 
@@ -422,17 +422,17 @@ namespace esphome::tc_bus
             ESP_LOGCONFIG(TAG, "  Door Opener Duration: %i sec.", this->door_opener_duration_ * 8);
         }
 
-        if (this->virtual_ && this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if (this->virtual_ && (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE))
         {
             ESP_LOGCONFIG(TAG, "  Address Divider: %i", this->address_divider_);
         }
 
-        if (this->virtual_ && (this->device_group_ == DEVICE_GROUP_INDOOR_STATION || this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION))
+        if (this->virtual_ && (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE || this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION))
         {
             ESP_LOGCONFIG(TAG, "  Call Time Duration: %i sec.", this->call_time_duration_ * 8);
         }
 
-        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             ESP_LOGCONFIG(TAG, "  Parallel Serial Number: %i", this->parallel_serial_number_);
             ESP_LOGCONFIG(TAG, "  Always use long door opener protocol: %s", YESNO(this->use_long_door_opener_protocol_));
@@ -517,7 +517,7 @@ namespace esphome::tc_bus
             // General
             if (telegram_data.type == TELEGRAM_TYPE_SELECT_DEVICE_GROUP)
             {
-                /*if (telegram_data.payload == this->device_group_)
+                /*if (telegram_data.payload == this->model_data_.device_group)
                 {
                     // workaround - remove later 
                     // Has issues when multiple devices of this group are connected
@@ -533,7 +533,7 @@ namespace esphome::tc_bus
             }
             else if (telegram_data.type == TELEGRAM_TYPE_SEARCH_DEVICES)
             {
-                if (this->tc_bus_->get_selected_device_group() == this->device_group_)
+                if (this->tc_bus_->get_selected_device_group() == this->model_data_.device_group)
                 {
                     // workaround - remove later 
                     // Has issues when multiple devices of this group are connected
@@ -601,7 +601,7 @@ namespace esphome::tc_bus
             }
 
             // Device specific
-            if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+            if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
             {
                 if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL && (telegram_data.serial_number == this->serial_number_ || telegram_data.serial_number == this->parallel_serial_number_))
                 {
@@ -871,7 +871,7 @@ namespace esphome::tc_bus
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
                 {
-                    if (this->tc_bus_->get_selected_device_group() == this->device_group_ || telegram_data.serial_number == this->serial_number_)
+                    if (this->tc_bus_->get_selected_device_group() == this->model_data_.device_group || telegram_data.serial_number == this->serial_number_)
                     {
                         this->reset_call();
                         this->door_readiness_address_ = 0;
@@ -1006,7 +1006,7 @@ namespace esphome::tc_bus
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
                 {
-                    if (this->tc_bus_->get_selected_device_group() == this->device_group_ || telegram_data.serial_number == this->serial_number_)
+                    if (this->tc_bus_->get_selected_device_group() == this->model_data_.device_group || telegram_data.serial_number == this->serial_number_)
                     {
                         this->door_readiness_address_ = 0;
                         this->door_readiness_active_ = false;
@@ -1033,7 +1033,7 @@ namespace esphome::tc_bus
 
                         ESP_LOGI(TAG,   "Read %s memory:\n"
                                         "  Progress: %i%%",
-                                        device_group_to_string(this->device_group_), percent);
+                                        device_group_to_string(this->model_data_.device_group), percent);
 
                         ESP_LOGD(TAG,   "  Address: %i to %i\n"
                                         "  Block Data: %s",
@@ -1088,7 +1088,7 @@ namespace esphome::tc_bus
                                 ESP_LOGI(TAG, "Read %s memory:\n"
                                               "  Progress: Done\n"
                                               "  Size: %i Bytes",
-                                              device_group_to_string(this->device_group_),
+                                              device_group_to_string(this->model_data_.device_group),
                                               this->model_data_.memory_size + (this->model_data_.sides * this->model_data_.memory_size_side));
 
                                 print_memory_buffer();
@@ -1324,7 +1324,7 @@ namespace esphome::tc_bus
             }
 
             // Device specific
-            if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+            if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
             {
                 if (telegram_data.type == TELEGRAM_TYPE_END_OF_DOOR_READINESS)
                 {
@@ -1333,7 +1333,7 @@ namespace esphome::tc_bus
                 }
                 else if (telegram_data.type == TELEGRAM_TYPE_RESET || (telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD7 && telegram_data.serial_number == this->serial_number_))
                 {
-                    if (this->tc_bus_->get_selected_device_group() == this->device_group_ || telegram_data.serial_number == this->serial_number_)
+                    if (this->tc_bus_->get_selected_device_group() == this->model_data_.device_group || telegram_data.serial_number == this->serial_number_)
                     {
                         this->reset_call();
                         this->door_readiness_address_ = 0;
@@ -1457,7 +1457,7 @@ namespace esphome::tc_bus
                 #endif
             });
         }
-        else if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        else if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             // Indoor Stations
 
@@ -1515,7 +1515,7 @@ namespace esphome::tc_bus
 
         this->call_address_ = destination;
 
-        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             if (internal)
             {
@@ -1585,7 +1585,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::answer_call()
     {
-        if (!this->virtual_ && this->device_group_ != DEVICE_GROUP_INDOOR_STATION)
+        if (!this->virtual_ && (this->device_group_ != DEVICE_GROUP_INDOOR_STATION_CLASSIC && this->device_group_ != DEVICE_GROUP_INDOOR_STATION_HANDSFREE))
         {
             ESP_LOGW(TAG, "This method is only available for indoor stations and virtual outdoor stations");
             return;
@@ -1623,7 +1623,7 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::end_call()
     {
-        if (!this->virtual_ && this->device_group_ != DEVICE_GROUP_INDOOR_STATION)
+        if (!this->virtual_ && (this->device_group_ != DEVICE_GROUP_INDOOR_STATION_CLASSIC && this->device_group_ != DEVICE_GROUP_INDOOR_STATION_HANDSFREE))
         {
             ESP_LOGW(TAG, "This method is only available for indoor stations and virtual outdoor stations");
             return;
@@ -1637,7 +1637,7 @@ namespace esphome::tc_bus
 
         TelegramData telegram_data;
 
-        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             if (this->call_internal_)
             {
@@ -1674,9 +1674,9 @@ namespace esphome::tc_bus
         ESP_LOGI(TAG,   this->virtual_ ? "Virtual %s Settings:\n" : "%s Settings:\n"
                         "  Model: %s\n"
                         "  Serial Number: %i",
-                       device_group_to_string(this->device_group_),  model_to_string(this->model_), this->serial_number_);
+                       device_group_to_string(this->model_data_.device_group),  model_to_string(this->model_), this->serial_number_);
 
-        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             if (supports_setting(SETTING_PARALLEL_SERIAL_NUMBER))
             {
@@ -2129,14 +2129,14 @@ namespace esphome::tc_bus
         this->cancel_timeout("wait_for_identification_group_1");
         this->cancel_timeout("wait_for_identification_other");
 
-        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION)
+        if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             // Indoor Stations
 
             // First try with group 0
-            ESP_LOGI(TAG,   "Identify %s (Classic):\n"
+            ESP_LOGI(TAG,   "Identify %s:\n"
                             "  Serial Number: %i",
-                            device_group_to_string(DEVICE_GROUP_INDOOR_STATION), this->serial_number_);
+                            device_group_to_string(DEVICE_GROUP_INDOOR_STATION_CLASSIC), this->serial_number_);
 
             send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 0, 0, 280); // group 0
             send_telegram(TELEGRAM_TYPE_REQUEST_VERSION);
@@ -2145,9 +2145,9 @@ namespace esphome::tc_bus
             {
                 // Didn't receive identify result of group 0
                 // Second try with group 1
-                ESP_LOGI(TAG,   "Identify %s (Handsfree):\n"
+                ESP_LOGI(TAG,   "Identify %s:\n"
                                 "  Serial Number: %i",
-                                device_group_to_string(DEVICE_GROUP_INDOOR_STATION), this->serial_number_);
+                                device_group_to_string(DEVICE_GROUP_INDOOR_STATION_HANDSFREE), this->serial_number_);
 
                 send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1, 0, 280); // group 1
                 send_telegram(TELEGRAM_TYPE_REQUEST_VERSION);
@@ -2311,7 +2311,7 @@ namespace esphome::tc_bus
                         "  Model: %s\n"
                         "  Serial Number: %i\n"
                         "  Sides: %i",
-                        device_group_to_string(this->device_group_), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
+                        device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
 
@@ -2378,7 +2378,7 @@ namespace esphome::tc_bus
                         "  Model: %s\n"
                         "  Serial Number: %i\n"
                         "  Sides: %i",
-                        device_group_to_string(this->device_group_), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
+                        device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
         send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
@@ -2609,9 +2609,9 @@ namespace esphome::tc_bus
             return button;
         }
 
-        if (this->model_ == MODEL_NONE || this->model_data_.device_group != 2)
+        if (this->model_ == MODEL_NONE || this->model_data_.device_group != DEVICE_GROUP_OUTDOOR_STATION)
         {
-            ESP_LOGE(TAG, "This device is not an outdoor station and unsupported!");
+            ESP_LOGE(TAG, "This device is not an outdoor station or not unsupported!");
             return button;
         }
 
@@ -2666,9 +2666,9 @@ namespace esphome::tc_bus
             return false;
         }
 
-        if (this->model_ == MODEL_NONE || this->model_data_.device_group != 2)
+        if (this->model_ == MODEL_NONE || this->model_data_.device_group != DEVICE_GROUP_OUTDOOR_STATION)
         {
-            ESP_LOGE(TAG, "This device is not an outdoor station and unsupported!");
+            ESP_LOGE(TAG, "This device is not an outdoor station or not unsupported!");
             return false;
         }
 
@@ -2973,7 +2973,7 @@ namespace esphome::tc_bus
 
         if (this->model_ == MODEL_NONE)
         {
-            ESP_LOGV(TAG, "Model is not specified (NONE). Returning 0.");
+            ESP_LOGVV(TAG, "Model is not specified (NONE). Returning 0.");
             return 0;
         }
 
@@ -3128,7 +3128,7 @@ namespace esphome::tc_bus
                             "  Serial Number: %i\n"
                             "  Setting: %s\n"
                             "  Value: %X",
-                            device_group_to_string(this->device_group_), model_to_string(this->model_), this->serial_number_, setting_type_to_string(type), new_value);
+                            device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, setting_type_to_string(type), new_value);
 
             // Prepare Transmission
             // Select device group
@@ -3209,11 +3209,11 @@ namespace esphome::tc_bus
             return false;
         }
 
-        ESP_LOGI(TAG,   "Write memory buffer to %s:\n"
+        ESP_LOGI(TAG,   "Write complete memory to %s:\n"
                         "  Model: %s\n"
                         "  Serial Number: %i\n"
                         "  Size: %i Bytes",
-                        device_group_to_string(this->device_group_),
+                        device_group_to_string(this->model_data_.device_group),
                         model_to_string(this->model_),
                         this->serial_number_,
                         this->model_data_.memory_size + (this->model_data_.sides * this->model_data_.memory_size_side));

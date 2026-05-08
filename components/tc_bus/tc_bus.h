@@ -144,8 +144,8 @@ namespace esphome::tc_bus
         static void gpio_intr(TCBusComponentStore *arg);
         volatile uint32_t last_bit_change{0};
         volatile uint32_t last_telegram_raw{0};
-        volatile bool retransmit_needed{false};
-        volatile bool retransmit_forced{false};
+        volatile bool retransmission_pending{false};
+        volatile bool retransmission_forced{false};
         volatile bool sending{false};
         volatile bool expect_echo{false};
         volatile bool expect_echo_isr{false};

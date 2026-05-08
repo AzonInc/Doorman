@@ -118,8 +118,8 @@ namespace esphome::tc_bus
 
             if (!is_echo)
             {
-                this->store_.retransmit_needed = false;
-                this->store_.retransmit_forced = false;
+                this->store_.retransmission_pending = false;
+                this->store_.retransmission_forced = false;
 
                 TelegramData telegram_data = parseTelegram(telegram.raw, telegram.is_long, telegram.is_response, telegram.is_retransmission);
                 this->handle_telegram(telegram_data, TelegramSource::BUS_RECEIVED);
@@ -133,13 +133,13 @@ namespace esphome::tc_bus
         uint32_t now_millis = millis();
 
         // Process retransmission if pending
-        if (this->store_.retransmit_needed)
+        if (this->store_.retransmission_pending)
         {
             uint32_t elapsed_us = micros() - this->retransmit_wait_start_us_;
             if (elapsed_us >= RETRANSMISSION_GAP_US)
             {
-                this->store_.retransmit_needed = false;
-                this->store_.retransmit_forced = false;
+                this->store_.retransmission_pending = false;
+                this->store_.retransmission_forced = false;
                 this->transmit_telegram(this->retransmit_telegram_, this->retransmit_sender_listener_id_);
             }
         }
@@ -170,19 +170,50 @@ namespace esphome::tc_bus
         }
         #endif
 
-        uint8_t index = 0;
+        uint8_t size = 0;
         {
             InterruptLock lock;
-            index = this->store_.debug_buffer_index;
+            size = this->store_.debug_buffer_index;
             this->store_.debug_buffer_index = 0;
         }
 
-        if(index > 0)
+        if(size > 0)
         {
-            ESP_LOGI(TAG, "Timings:");
-            for (uint8_t i = 0; i < index; i++)
+            char buffer[256];
+            size_t pos = buf_append_printf(buffer, sizeof(buffer), 0, "Received Raw: ");
+
+            for (uint8_t i = 0; i < size; i++)
             {
-                ESP_LOGI(TAG, "Timing: %i", this->store_.debug_buffer[i]);
+                const int32_t value = this->store_.debug_buffer[i];
+                size_t prev_pos = pos;
+
+                if (i + 1 < size)
+                {
+                    pos = buf_append_printf(buffer, sizeof(buffer), pos, "%" PRId32 ", ", value);
+                }
+                else
+                {
+                    pos = buf_append_printf(buffer, sizeof(buffer), pos, "%" PRId32, value);
+                }
+
+                if (pos >= sizeof(buffer) - 1)
+                {
+                    // buffer full, flush and continue
+                    buffer[prev_pos] = '\0';
+                    ESP_LOGI(TAG, "%s", buffer);
+                    if (i + 1 < size)
+                    {
+                        pos = buf_append_printf(buffer, sizeof(buffer), 0, "  %" PRId32 ", ", value);
+                    }
+                    else
+                    {
+                        pos = buf_append_printf(buffer, sizeof(buffer), 0, "  %" PRId32, value);
+                    }
+                }
+            }
+            if (pos != 0)
+            {
+                ESP_LOGI(TAG, "%s", buffer);
             }
         }
     }
@@ -680,10 +711,10 @@ namespace esphome::tc_bus
             {
                 arg->expect_echo_isr = false;
             }
-            else if (arg->retransmit_needed && !arg->retransmit_forced)
+            else if (arg->retransmission_pending && !arg->retransmission_forced)
             {
-                arg->retransmit_needed = false;
-                arg->retransmit_forced = false;
+                arg->retransmission_pending = false;
+                arg->retransmission_forced = false;
             }
             return;
         }
@@ -826,10 +857,10 @@ namespace esphome::tc_bus
             this->store_.expect_echo = true;
             this->store_.expect_echo_isr = true;
 
-            if(telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
+            /*if(telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
             {
-                this->store_.retransmit_forced = true;
-            }
+                this->store_.retransmission_forced = true;
+            }*/
 
             // Calculate length based on telegram type
             // Status Acknowledge telegrams only have 4 bits
@@ -865,7 +896,7 @@ namespace esphome::tc_bus
 
             if (!telegram_data.is_retransmission && telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
             {
-                this->store_.retransmit_needed = true;
+                this->store_.retransmission_pending = true;
                 this->retransmit_wait_start_us_ = micros();
                 this->retransmit_telegram_ = telegram_data;
                 this->retransmit_telegram_.is_retransmission = true;
