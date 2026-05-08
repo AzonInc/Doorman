@@ -104,12 +104,12 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ('interactive_setup', 'bus_devices/interactive-setup.yaml', True),
         
         ## Add outdoor station for local tests
-        #('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
+        ('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
         
         ## Experimental Features
         ### Virtual devices
         #('virtual_indoor_station', 'bus_devices/virtual-indoor-station.yaml', branch == 'local'),
-        ('virtual_outdoor_station', 'bus_devices/virtual-outdoor-station.yaml', branch == 'local'),
+        #('virtual_outdoor_station', 'bus_devices/virtual-outdoor-station.yaml', branch == 'local'),
         ### Configo component for serial interface
         # ('configo', 'serial_interface/configo.yaml', branch == 'local'),
     ]
@@ -144,7 +144,7 @@ def generate_yaml_content(host, api_variant, firmware, branch, factory=False):
             '# ESPHome Dashboard import is not supported in this',
             '# firmware, as it requires the API.',
             '# Available only via the Home Assistant API integration.',
-        ] if api_variant is "mqtt" else []),
+        ] if api_variant == "mqtt" else []),
         '',
         '# You can change a few options here.',
         'substitutions:',
