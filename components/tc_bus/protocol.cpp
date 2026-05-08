@@ -236,7 +236,7 @@ namespace esphome::tc_bus
                 break;
 
             case TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES:
-                data.is_long = false;  
+                data.is_long = false;
 
                 data.raw = 0x7FFF;
                 break;

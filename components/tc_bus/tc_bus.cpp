@@ -198,7 +198,7 @@ namespace esphome::tc_bus
                 {
                     // buffer full, flush and continue
                     buffer[prev_pos] = '\0';
-                    ESP_LOGI(TAG, "%s", buffer);
+                    ESP_LOGD(TAG, "%s", buffer);
                     if (i + 1 < size)
                     {
                         pos = buf_append_printf(buffer, sizeof(buffer), 0, "  %" PRId32 ", ", value);
@@ -211,7 +211,7 @@ namespace esphome::tc_bus
             }
             if (pos != 0)
             {
-                ESP_LOGI(TAG, "%s", buffer);
+                ESP_LOGD(TAG, "%s", buffer);
             }
         }
     }
