@@ -145,10 +145,14 @@ namespace esphome::tc_bus
         volatile uint32_t last_bit_change{0};
         volatile uint32_t last_telegram_raw{0};
         volatile bool retransmit_needed{false};
+        volatile bool retransmit_forced{false};
         volatile bool sending{false};
         volatile bool expect_echo{false};
         volatile bool expect_echo_isr{false};
         ISRInternalGPIOPin rx_pin;
+
+        volatile uint32_t debug_buffer[255];
+        volatile uint8_t debug_buffer_index{0};
     };
 
     struct TCBusSettings

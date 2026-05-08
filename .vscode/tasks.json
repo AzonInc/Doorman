@@ -15,6 +15,19 @@
             "problemMatcher": []
         },
         {
+            "label": "ESPHome: Logs - Doorman-S3 2.x.x HA Standard",
+            "command": "esphome",
+            "args": [
+                "logs",
+                "doorman-s3-rev2.ha.standard.local.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/configurations/"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "ESPHome: Compile & Upload - Doorman-S3 2.x.x Audio HA Standard",
             "command": "esphome",
             "args": [

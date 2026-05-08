@@ -118,6 +118,9 @@ namespace esphome::tc_bus
 
             if (!is_echo)
             {
+                this->store_.retransmit_needed = false;
+                this->store_.retransmit_forced = false;
+
                 TelegramData telegram_data = parseTelegram(telegram.raw, telegram.is_long, telegram.is_response, telegram.is_retransmission);
                 this->handle_telegram(telegram_data, TelegramSource::BUS_RECEIVED);
             }
@@ -136,6 +139,7 @@ namespace esphome::tc_bus
             if (elapsed_us >= RETRANSMISSION_GAP_US)
             {
                 this->store_.retransmit_needed = false;
+                this->store_.retransmit_forced = false;
                 this->transmit_telegram(this->retransmit_telegram_, this->retransmit_sender_listener_id_);
             }
         }
@@ -165,6 +169,22 @@ namespace esphome::tc_bus
             }
         }
         #endif
+
+        uint8_t index = 0;
+        {
+            InterruptLock lock;
+            index = this->store_.debug_buffer_index;
+            this->store_.debug_buffer_index = 0;
+        }
+
+        if(index > 0)
+        {
+            ESP_LOGI(TAG, "Timings:");
+            for (uint8_t i = 0; i < index; i++)
+            {
+                ESP_LOGI(TAG, "Timing: %i", this->store_.debug_buffer[i]);
+            }
+        }
     }
 
     void TCBusComponent::save_preferences()
@@ -424,6 +444,11 @@ namespace esphome::tc_bus
             bool door_readiness_state = telegram_data.payload == 1;
             ESP_LOGI(TAG, "  Door readiness: %s", YESNO(door_readiness_state));
         }
+        else if (telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
+        {
+            bool door_readiness_state = telegram_data.payload == 1;
+            ESP_LOGI(TAG, "  Door readiness: %s", YESNO(door_readiness_state));
+        }
         else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING)
         {
             bool talk_mode = telegram_data.payload == 1;
@@ -605,6 +630,11 @@ namespace esphome::tc_bus
             return;
         }
 
+        if (arg->debug_buffer_index < 255)
+        {
+            arg->debug_buffer[arg->debug_buffer_index++] = us;
+        }
+
         // Save last bit timestamp
         last_us = now_us;
         arg->last_bit_change = now_us;
@@ -650,11 +680,11 @@ namespace esphome::tc_bus
             {
                 arg->expect_echo_isr = false;
             }
-            else if (arg->retransmit_needed)
+            else if (arg->retransmit_needed && !arg->retransmit_forced)
             {
                 arg->retransmit_needed = false;
+                arg->retransmit_forced = false;
             }
-
             return;
         }
 
@@ -795,6 +825,11 @@ namespace esphome::tc_bus
             this->store_.last_telegram_raw = telegram_data.raw;
             this->store_.expect_echo = true;
             this->store_.expect_echo_isr = true;
+
+            if(telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
+            {
+                this->store_.retransmit_forced = true;
+            }
 
             // Calculate length based on telegram type
             // Status Acknowledge telegrams only have 4 bits
