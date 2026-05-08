@@ -125,18 +125,52 @@ export default {
             ],
             products: [
                 {
-                    key: 'pcb',
-                    name: 'Doorman S3',
-                    image: '/pcb.png',
-                    details: 'Nur die Platine – ideal, wenn du sie in eine bestehende Wandbox oder deine Innenstation einbauen kannst.',
-                    price: 0
+                    key: 'core_board',
+                    name: 'Core Board',
+                    image: '/base-board.png',
+                    details: 'Core Board only. For mounting inside a wall box or indoor station enclosure.',
+                    price: 0,
+                    available: false
                 },
                 {
-                    key: 'bundle',
-                    name: 'Doorman S3 - Bundle',
-                    image: '/enclosure.png',
-                    details: 'Beinhaltet Platine und Gehäuse – perfekt, wenn du deinen Doorman sichtbar anbringen möchtest.',
-                    price: 0
+                    key: 'audio_extension',
+                    name: 'Audio Extension',
+                    image: '/audio-extension.png',
+                    details: 'Audio Extension only - upgrade your Doorman.<br><i>*Requires Core Board revision 2.0.0 or newer.</i>',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'enclosure',
+                    name: 'Protective Enclosure',
+                    image: '/enclosure-only.png',
+                    details: 'The Enclosure for everything - perfect for visible installations. Replacement or spare.',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'core_board_enclosure',
+                    name: 'Starter Pack',
+                    image: '/enclosure-base-board.png',
+                    details: 'Core Board and Enclosure. Ideal for visible and surface-mounted installations in your home.',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'core_board_audio_extension',
+                    name: 'Audio Essentials Pack',
+                    image: '/base-board-audio-extension.png',
+                    details: 'Core Board and Audio Extension. For mounting inside a wall box or indoor station enclosure.',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'core_board_audio_extension_enclosure',
+                    name: 'All inclusive Pack',
+                    image: '/enclosure-audio-extension.png',
+                    details: 'Core Board, Audio Extension, and Enclosure. This is everything you will ever need.',
+                    price: 0,
+                    available: false
                 }
             ],
             shipping_regions: [
@@ -298,11 +332,11 @@ export default {
             if (!destination) return [];
             this.form.country = destination.defaultCountry;
         },
-        'form.fullname'(val) {
-            this.errors.fullname = !val;
-        },
         'form.name'(val) {
             this.errors.name = !val;
+        },
+        'form.fullname'(val) {
+            this.errors.fullname = !val;
         },
         'form.email'(val) {
             // Simple email regex validation
@@ -335,7 +369,7 @@ export default {
         'form.shipping_region'(newRegion, oldRegion) {
             const shipping_region = this.shipping_regions.find(d => d.key === this.form.shipping_region);
             const shipping_option = shipping_region.options.find(d => d.key === this.form.shipping_method);
-            
+
             if(!shipping_option) {
                 this.form.shipping_method = 'standard';
             }
@@ -443,7 +477,7 @@ export default {
                 if (res.data.products) {
                     this.products = this.products.map(p => {
                         const override = res.data.products.find(x => x.key === p.key);
-                        return override ? { ...p, price: override.price } : p;
+                        return override ? { ...p, price: override.price, available: override.available } : p;
                     });
                 }
 
@@ -811,12 +845,12 @@ Die Verfügbarkeit ist **begrenzt und erfolgt ohne festen Zeitplan**. Benachrich
         <h5 class="firmware_title_row">Wähle dein Doorman-Paket</h5>
         <div class="firmware_option_row" :class="{ half: products.length <= 2 }">
             <label class="firmware_option" v-for="product in products" :key="product.key">
-                <input type="radio" class="reset_default" v-model="form.product" :value="product.key">
+                <input type="radio" class="reset_default" v-model="form.product" :value="product.key" :disabled="!product.available">
                 <span class="checkmark">
                     <div class="image" v-if="product.image">
                         <img :src="product.image" />
                     </div>
-                    <div class="title">{{ product.name }} <Badge type="tip">{{ product.price.toFixed(2) }} €</Badge></div>
+                    <div class="title">{{ product.name }} <Badge type="tip">{{ product.available ? (product.price.toFixed(2) + "€") : "Nicht verfügbar" }}</Badge></div>
                     <div class="details" v-html="product.details"></div>
                     <div class="amount-control" v-if="form.product == product.key">
                         <VPButton theme="alt" type="button" text="-" @click="form.amount = Math.max(1, form.amount - 1)" />
