@@ -47,6 +47,11 @@ script:
             - text_sensor.template.publish:
                 id: doorman_extension_board
                 state: "Audio Extension Board"
+          else:
+            - light.turn_on:
+                id: doorman_red_status_led
+                transition_length: 0s
+                brightness: !lambda return id(doorman_red_status_led_brightness).state / 100;
 
 # Setup ES8311
 audio_dac:

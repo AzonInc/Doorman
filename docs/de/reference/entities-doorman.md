@@ -1,3 +1,7 @@
+---
+description: Reference guide for all Doorman entities, detailing their functions, usage, and configuration.
+---
+
 # Doorman Entities
 On this page, you can view all the entities related to Doorman.
 
@@ -30,8 +34,8 @@ Reports the Doorman hardware revision.
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 Controls the built-in relay.
 
-### Status LED: Show Bus Activity <Badge type="tip" text="doorman_status_led_bus_activity" /> <Badge type="info" text="Disabled by default" />
-When enabled, the status LED will briefly blink to indicate activity on the bus — useful for debugging or just keeping an eye on communication.
+### RED Status LED: Show Bus Activity <Badge type="tip" text="doorman_red_status_led_bus_activity" /> <Badge type="info" text="Disabled by default" />
+When enabled, the red status LED will briefly blink to indicate activity on the bus — useful for debugging or just keeping an eye on communication.
 
 ### Experimental Firmware <Badge type="tip" text="dev_firmware" />
 Enables experimental updates, allowing you to easily switch between the master and dev branches to check for the latest changes.
@@ -52,6 +56,15 @@ All credentials, global variables, counters, and saved states stored in non-vola
 
 If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
 :::
+
+
+## Numbers
+
+### Red Status LED: Brightness <Badge type="tip" text="doorman_red_status_led_brightness" />
+Controls the brightness of the red status LED.
+
+### RGB Status LED: Brightness <Badge type="tip" text="doorman_rgb_status_led_brightness" />
+Controls the brightness of the RGB status LED.
 
 
 ## Selects
@@ -105,12 +118,10 @@ Shows if an doorman firmware update is available and offers installation via the
 
 ## Lights
 
-### Status LED <Badge type="danger" text="Red" /> <Badge type="tip" text="doorman_status_led" />
-A small LED on the Doorman's PCB controlled by the ESPHome [Status LED](https://esphome.io/components/light/status_led.html) component.  By default, this LED remains on when everything is functioning properly but will blink if there are issues.
+### Red Status LED <Badge type="tip" text="doorman_red_status_led" />
+A small LED on the Doorman's PCB indicating errors or bus communication.
 
-You can turn off the LED if it becomes annoying. Even when turned off, it will still retain its functionality and blink to signal any issues.
-
-### Status LED <Badge type="warning" text="RGB" /> <Badge type="tip" text="doorman_rgb_status_led" />
+### RGB Status LED <Badge type="tip" text="doorman_rgb_status_led" />
 A small WS2812B/SK6812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
 
 ##### Event Types

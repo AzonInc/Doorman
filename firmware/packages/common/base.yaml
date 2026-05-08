@@ -87,9 +87,9 @@ tc_bus:
   on_telegram:
     - if:
         condition:
-          - switch.is_on: doorman_status_led_bus_activity
+          - switch.is_on: doorman_red_status_led_bus_activity
         then:
-          - script.execute: blink_status_led
+          - script.execute: blink_red_status_led
 
 # Setup TC:BUS Device Component
 tc_bus_device:
@@ -100,9 +100,26 @@ tc_bus_device:
 number:
   - platform: template
     id: doorman_rgb_status_led_brightness
-    name: "Status LED: Brightness"
+    name: "RGB Status LED: Brightness"
     icon: "mdi:brightness-7"
-    mode : slider
+    mode: slider
+    restore_value: true
+    initial_value: '100'
+    max_value: 100
+    min_value: 10
+    step: 1
+    optimistic: true
+    disabled_by_default: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: 2
+
+  - platform: template
+    id: doorman_red_status_led_brightness
+    name: "RED Status LED: Brightness"
+    icon: "mdi:brightness-7"
+    mode: slider
     restore_value: true
     initial_value: '100'
     max_value: 100
@@ -259,8 +276,8 @@ switch:
         sorting_weight: -50
 
   - platform: template
-    id: doorman_status_led_bus_activity
-    name: "Status LED: Show Bus Activity"
+    id: doorman_red_status_led_bus_activity
+    name: "RED Status LED: Show Bus Activity"
     icon: "mdi:swap-vertical"
     restore_mode: RESTORE_DEFAULT_OFF
     entity_category: CONFIG
@@ -295,7 +312,7 @@ button:
 output:
   - platform: ledc
     pin: ${led_pin}
-    id: led_output
+    id: doorman_red_status_led_output
     
   - platform: template
     type: binary
@@ -312,21 +329,11 @@ output:
 
 # Onboard Status LEDs
 light:
-  #- platform: status_led
-  #  id: doorman_status_led
-  #  name: Status LED
-  #  icon: "mdi:led-on"
-  #  pin: ${led_pin}
-  #  restore_mode: RESTORE_DEFAULT_OFF
-  #  entity_category: CONFIG
-  #  web_server:
-  #    sorting_group_id: sorting_group_system
-  #    sorting_weight: 1
-
   - platform: monochromatic
-    output: led_output
-    id: doorman_status_led
-    name: Status LED
+    output: doorman_red_status_led_output
+    id: doorman_red_status_led
+    name: "RED Status LED"
+    internal: true
     icon: "mdi:led-on"
     restore_mode: RESTORE_DEFAULT_OFF
     entity_category: CONFIG
@@ -725,13 +732,20 @@ script:
           id(second_entrance_doorbell)->set_internal(internal);
           id(second_entrance_doorbell_pattern)->set_internal(internal);
 
-  - id: blink_status_led
+  - id: blink_red_status_led
     mode: restart
     then:
-      - light.turn_off: doorman_status_led
-      - light.turn_on: doorman_status_led
-      - delay: 100ms
-      - light.turn_off: doorman_status_led
+      - light.turn_off:
+          id: doorman_red_status_led
+          transition_length: 0s
+      - light.turn_on:
+          id: doorman_red_status_led
+          transition_length: 0s
+          brightness: !lambda return id(doorman_red_status_led_brightness).state / 100;
+      - delay: 60ms
+      - light.turn_off:
+          id: doorman_red_status_led
+          transition_length: 0s
 
   - id: send_telegram_chain
     parameters:
