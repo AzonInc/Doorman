@@ -140,6 +140,9 @@ namespace esphome::tc_bus
                 data.raw |= (1 << 12); // 1
                 data.raw |= (1 << 8); // 1
 
+                // 0x1100 (door readiness inactive)
+                // 0x1180 (door readiness active bitmask 0000000010000000)
+
                 // Flags
                 if(payload > 0)
                 {
@@ -149,7 +152,9 @@ namespace esphome::tc_bus
                 {
                     data.raw &= ~(1 << 7); // door readiness inactive
                 }
-                //data.raw |= (1 << 6);
+
+                // Unknown Bit 0000000001000000
+                // data.raw |= (1 << 6);
 
                 data.raw |= (address & 0x3F); // 0
                 break;
@@ -166,6 +171,9 @@ namespace esphome::tc_bus
                     data.raw |= (1 << 12); // 1
                     data.raw |= (1 << 8); // 1
 
+                    // 0x1100 (door readiness inactive)
+                    // 0x1180 (door readiness active bitmask 0000000010000000)
+
                     // Flags
                     if(payload > 0)
                     {
@@ -175,7 +183,9 @@ namespace esphome::tc_bus
                     {
                         data.raw &= ~(1 << 7); // door readiness inactive
                     }
-                    //data.raw |= (1 << 6);
+
+                    // Unknown Bit 0000000001000000
+                    // data.raw |= (1 << 6);
 
                     data.raw |= (address & 0x3F); // 0
                 }
@@ -188,7 +198,7 @@ namespace esphome::tc_bus
                     data.raw |= (1 << 28);  // 1
                     data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
                     
-                    data.raw |= (1 << 7);
+                    data.raw |= (1 << 7); // xxxxxxxxxxxxxxxxxxxxxxxx1xxxxxxx
 
                     // Flags
                     if(payload > 0)
@@ -435,6 +445,15 @@ namespace esphome::tc_bus
                         }
                         break;
 
+                    case 2:
+                        // Not implemented
+                        // 200000XX audio measurement
+                        // 2000008X audio measurement (door readiness)
+                        
+                        // 28XXXXXX camera control
+                        break;
+
+
                     case 3:
                         data.type = (raw & (1 << 6)) != 0 ? TELEGRAM_TYPE_START_TALKING : TELEGRAM_TYPE_START_TALKING_DOOR_CALL;
                         data.address = raw & 0x3F;
@@ -532,8 +551,11 @@ namespace esphome::tc_bus
                         data.type = TELEGRAM_TYPE_OPEN_DOOR;
                         data.address = raw & 0x3F;
 
+                        // 0x1100 (door readiness inactive)
+                        // 0x1180 (door readiness active bitmask 0000000010000000)
+
                         // Door readiness
-                        data.payload = (raw & (1 << 6)) != 0;
+                        data.payload = (raw & (1 << 7)) != 0;
 
                     }
                     else if (second == 2)
