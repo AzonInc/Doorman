@@ -37,7 +37,8 @@ namespace esphome::tc_bus
 
             this->parent_->send_telegram(
                 TELEGRAM_TYPE_OPEN_DOOR,
-                this->address_.value_or(0)
+                this->address_.value_or(0),
+                this->parent_->is_door_readiness_active() ? 1 : 0
             );
 
             this->after_unlock_callback_.call();
