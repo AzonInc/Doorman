@@ -1,6 +1,6 @@
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
-import { data } from '../contributors.data.js'
+import { data } from '../loader/contributors.data.js'
 
 const members = [
   {

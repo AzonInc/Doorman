@@ -1,11 +1,11 @@
 ---
-description: Check if your intercom system is compatible with Doorman, including TCS, Koch, Scantron, and some rebranded Niko and older Jung models.
+description: Check if your intercom system is compatible with Doorman, including TCS, Koch, Scantron, and some rebranded Niko and older Jung TKM models.
 ---
 
 # Can I use Doorman?
 If your [TCS](https://www.tcsag.de/), [Koch](https://www.kochag.ch/) or [Scantron](https://scantron.dk/) indoor station has `a`, `b`, and `P` labeled screw terminals and operates on 24V DC, it's likely compatible.
 
-Some rebranded [Niko](https://www.niko.eu/) and older [Jung](https://www.jung-group.com/) indoor stations, which are counterparts to the TCS and Koch models, may also be compatible.
+Some rebranded [Niko](https://www.niko.eu/) and older [Jung](https://www.jung-group.com/) TKM indoor stations, which are counterparts to the TCS and Koch models, may also be compatible.
 
 :::warning TCS:IP
 The TCS:IP series is not supported! Please make sure your system is a bus-system.

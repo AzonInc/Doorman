@@ -1,7 +1,7 @@
 # Kann ich Doorman benutzen?
 Wenn deine [TCS](https://www.tcsag.de/), [Koch](https://www.kochag.ch/) oder [Scantron](https://scantron.dk/) Innenstation die Anschlussklemmen `a`, `b` und `P` hat und mit 24V DC betrieben wird, ist sie wahrscheinlich kompatibel.
 
-Einige umgelabelte [Niko](https://www.niko.eu/) und ältere [Jung](https://www.jung-group.com/) Innenstationen, die den TCS- und Koch-Modellen entsprechen, könnten ebenfalls passen.
+Einige umgelabelte [Niko](https://www.niko.eu/) und ältere [Jung](https://www.jung-group.com/) TKM Innenstationen, die den TCS- und Koch-Modellen entsprechen, könnten ebenfalls passen.
 
 :::warning TCS:IP
 Die TCS:IP Serie wird nicht unterstützt! Bitte prüfe ob dein System ein Bus-System ist.

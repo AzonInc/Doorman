@@ -1,6 +1,6 @@
 # Was ist Doorman?
 
-Doorman ermöglicht es dir, deine [TCS TC:BUS](https://www.tcsag.de/), [Koch TC:BUS](https://www.kochag.ch/) oder [SIEDLE In-Home-Bus](https://www.siedle.de/) Gegensprechanlage mit jedem Heimautomatisierungssystem zu verbinden. Zusätzlich sind einige umgebrandete [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) und ältere [Jung](https://www.jung-group.com/) Gegensprechanlagen Gegenstücke zu den TCS- und Koch-Modellen.
+Doorman ermöglicht es dir, deine [TCS TC:BUS](https://www.tcsag.de/), [Koch TC:BUS](https://www.kochag.ch/) oder [SIEDLE In-Home-Bus](https://www.siedle.de/) Gegensprechanlage mit jedem Heimautomatisierungssystem zu verbinden. Zusätzlich sind einige umgebrandete [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) und ältere [Jung](https://www.jung-group.com/) TKM Gegensprechanlagen Gegenstücke zu den TCS- und Koch-Modellen.
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
    <div style="min-width:260px;flex: 1 1 260px;" markdown>

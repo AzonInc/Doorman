@@ -1,10 +1,10 @@
 ---
-description: Doorman is an open source intercom gateway that lets you connect TCS or Koch intercoms (and some rebranded Niko, Scantron, and older Jung models) to any home automation system.
+description: Doorman is an open source intercom gateway that lets you connect TCS or Koch intercoms (and some rebranded Niko, Scantron, and older Jung TKM models) to any home automation system.
 ---
 
 # What is Doorman?
 
-Doorman allows you to connect your [TCS TC:BUS](https://www.tcsag.de/), [Koch TC:BUS](https://www.kochag.ch/) or [SIEDLE IN-HOME-BUS](https://www.siedle.de/) intercom to any home automation system. Additionally, some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) intercoms are counterparts to the TCS and Koch models.
+Doorman allows you to connect your [TCS TC:BUS](https://www.tcsag.de/), [Koch TC:BUS](https://www.kochag.ch/) or [SIEDLE IN-HOME-BUS](https://www.siedle.de/) intercom to any home automation system. Additionally, some rebranded [Niko](https://www.niko.eu/), [Scantron](https://scantron.dk/) and older [Jung](https://www.jung-group.com/) TKM intercoms are counterparts to the TCS and Koch models.
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
    <div style="min-width:260px;flex: 1 1 260px;" markdown>
