@@ -45,12 +45,10 @@ namespace esphome::tc_bus
         this->tx_pin_->setup();
         this->tx_pin_->digital_write(false);
         
-        size_t queue_size = 16;
-
-        this->telegram_receive_queue = xQueueCreate(16, sizeof(TCBusTelegramQueueItem));
+        this->telegram_receive_queue = xQueueCreate(RECEIVE_QUEUE_SIZE, sizeof(TCBusTelegramQueueItem));
         if (this->telegram_receive_queue == nullptr)
         {
-            ESP_LOGE(TAG, "Failed to create telegram receive queue of size %" PRIu32, (uint32_t) queue_size);
+            ESP_LOGE(TAG, "Failed to create telegram receive queue of size %d", RECEIVE_QUEUE_SIZE);
             this->mark_failed(LOG_STR("Failed to create telegram receiver queue!"));
             return;
         }
@@ -64,6 +62,12 @@ namespace esphome::tc_bus
             for (auto &listener : listeners_)
             {
                 listener->turn_off(&listener->timer_);
+            }
+
+            // Reset door readiness sensor
+            if(this->door_readiness_binary_sensor_ != nullptr)
+            {
+                this->door_readiness_binary_sensor_->publish_state(false);
             }
         #endif
 
@@ -262,7 +266,7 @@ namespace esphome::tc_bus
         }
     }
 
-    void TCBusComponent::notify_peer_listeners(TelegramData telegram_data, uint8_t sender_listener_id)
+    void TCBusComponent::notify_peer_listeners(const TelegramData& telegram_data, uint8_t sender_listener_id)
     {
         for (auto &entry : this->remote_listeners_)
         {
@@ -277,16 +281,32 @@ namespace esphome::tc_bus
         }
     }
 
-    void TCBusComponent::handle_telegram(TelegramData telegram_data, TelegramSource source)
+    void TCBusComponent::handle_telegram(const TelegramData& telegram_data, TelegramSource source)
     {
         const bool received = (source == TelegramSource::BUS_RECEIVED);
 
         if (received)
         {
             // From receiver
-            ESP_LOGI(TAG, "Received: %s (%i-bit, 0x%s, %s)",
-                          telegram_type_to_string(telegram_data.type),
-                          (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)), telegram_data.hex, telegram_data.is_retransmission ? "retransmission" : "first");
+            if(telegram_data.type == TELEGRAM_TYPE_ACK_STATUS)
+            {
+                ESP_LOGI(TAG, "Received: %s (%i-bit, b%c%c%c%c%s)",
+                              telegram_type_to_string(telegram_data.type), 4,
+                              (telegram_data.raw >> 3) & 1 ? '1' : '0',
+                              (telegram_data.raw >> 2) & 1 ? '1' : '0',
+                              (telegram_data.raw >> 1) & 1 ? '1' : '0',
+                              (telegram_data.raw >> 0) & 1 ? '1' : '0',
+                              telegram_data.is_retransmission ? ", retransmission" : "");
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Received: %s (%i-bit, 0x%s%s)",
+                              telegram_type_to_string(telegram_data.type),
+                              telegram_data.is_long ? 32 : 16,
+                              telegram_data.hex,
+                              telegram_data.is_retransmission ? ", retransmission" : "");
+            }
+
             if(telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
             {
                 ESP_LOGD(TAG,   "  Address: %i\n"
@@ -421,12 +441,24 @@ namespace esphome::tc_bus
         else
         {
             // From transmitter
-            ESP_LOGI(TAG,
-                "Sending: %s (%i-bit, 0x%s, %s)",
-                telegram_type_to_string(telegram_data.type), 
-                (telegram_data.is_long ? 32 : (telegram_data.type == TELEGRAM_TYPE_ACK_STATUS ? 4 : 16)),
-                telegram_data.hex,
-                telegram_data.is_retransmission ? "retransmission" : "first");
+            if(telegram_data.type == TELEGRAM_TYPE_ACK_STATUS)
+            {
+                ESP_LOGI(TAG, "Sending: %s (%i-bit, b%c%c%c%c%s)",
+                              telegram_type_to_string(telegram_data.type), 4,
+                              (telegram_data.raw >> 3) & 1 ? '1' : '0',
+                              (telegram_data.raw >> 2) & 1 ? '1' : '0',
+                              (telegram_data.raw >> 1) & 1 ? '1' : '0',
+                              (telegram_data.raw >> 0) & 1 ? '1' : '0',
+                              telegram_data.is_retransmission ? ", retransmission" : "");
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Sending: %s (%i-bit, 0x%s%s)",
+                              telegram_type_to_string(telegram_data.type),
+                              telegram_data.is_long ? 32 : 16,
+                              telegram_data.hex,
+                              telegram_data.is_retransmission ? ", retransmission" : "");
+            }
 
             if(telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
             {
@@ -795,35 +827,7 @@ namespace esphome::tc_bus
     }
     #endif
 
-    TelegramData TCBusComponent::send_telegram(uint32_t telegram, uint32_t wait_duration)
-    {
-        // Determine length of telegram
-        // Not reliable as its based on the 32 bit integer itself
-        bool is_long = (telegram > 0xFFFF);
-
-        TelegramData telegram_data = parseTelegram(telegram, is_long);
-        return send_telegram(telegram_data, wait_duration);
-    }
-
-    TelegramData TCBusComponent::send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration)
-    {
-        TelegramData telegram_data = parseTelegram(telegram, is_long);
-        return send_telegram(telegram_data, wait_duration);
-    }
-
-    TelegramData TCBusComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration)
-    {
-        TelegramData telegram_data = buildTelegram(type, address, payload, serial_number);
-        return send_telegram(telegram_data, wait_duration);
-    }
-
-    TelegramData TCBusComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration, uint8_t sender_listener_id)
-    {
-        TelegramData telegram_data = buildTelegram(type, address, payload, serial_number);
-        return send_telegram(telegram_data, wait_duration, sender_listener_id);
-    }
-
-    TelegramData TCBusComponent::send_telegram(TelegramData telegram_data, uint32_t wait_duration, uint8_t sender_listener_id)
+    TelegramData TCBusComponent::send_telegram(const TelegramData& telegram_data, uint32_t wait_duration, uint8_t sender_listener_id)
     {
         if (telegram_data.raw == 0  && telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
         {
@@ -842,7 +846,7 @@ namespace esphome::tc_bus
         return telegram_data;
     }
 
-    void TCBusComponent::transmit_telegram(TelegramData telegram_data, uint8_t sender_listener_id)
+    void TCBusComponent::transmit_telegram(const TelegramData& telegram_data, uint8_t sender_listener_id)
     {   
         if (this->store_.sending)
         {

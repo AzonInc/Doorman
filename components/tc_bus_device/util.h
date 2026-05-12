@@ -194,34 +194,34 @@ namespace esphome::tc_bus
     };
 
     enum ModelCapabilities {
-        CAP_RINGTONE_ENTRANCE_DOOR_CALL = (1 << 0),
-        CAP_RINGTONE_INTERNAL_CALL = (1 << 1),
-        CAP_RINGTONE_FLOOR_CALL = (1 << 2),
-        CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL = (1 << 3),
-        CAP_VOLUME_RINGTONE = (1 << 4),
-        CAP_VOLUME_HANDSET_DOOR_CALL = (1 << 5),
-        CAP_VOLUME_HANDSET_INTERNAL_CALL = (1 << 6),
-        CAP_AS_ADDRESS_DIVIDER = (1 << 7),
-        CAP_VAS_ADDRESS_DIVIDER = (1 << 8),
-        CAP_USE_LONG_DOOR_OPENER_PROTOCOL = (1 << 9),
-        CAP_AMBIENT_LIGHT_IN_STANDBY = (1 << 10),
-        CAP_RINGTONE_MUTE = (1 << 11),
-        CAP_DOOR_OPENER_DURATION = (1 << 12),
-        CAP_DOOR_READINESS_DURATION = (1 << 13),
-        CAP_CALL_TIME_DURATION = (1 << 14),
-        CAP_ADDRESS = (1 << 15),
-        CAP_ADDRESS_LOCK = (1 << 16),
-        CAP_CALLING_REQUIRES_DOOR_READINESS = (1 << 17),
-        CAP_DOOR_OPENER_REQUIRES_DOOR_READINESS = (1 << 18),
-        CAP_DOOR_OPENER_REQUIRES_ACTIVE_CALL = (1 << 19),
-        CAP_BUTTON_ROWS = (1 << 20),
-        CAP_HAS_CODE_LOCK = (1 << 21),
+        CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL = (1 << 0),
+        CAP_SETTING_RINGTONE_INTERNAL_CALL = (1 << 1),
+        CAP_SETTING_RINGTONE_FLOOR_CALL = (1 << 2),
+        CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL = (1 << 3),
+        CAP_SETTING_VOLUME_RINGTONE = (1 << 4),
+        CAP_SETTING_VOLUME_HANDSET_DOOR_CALL = (1 << 5),
+        CAP_SETTING_VOLUME_HANDSET_INTERNAL_CALL = (1 << 6),
+        CAP_SETTING_AS_ADDRESS_DIVIDER = (1 << 7),
+        CAP_SETTING_VAS_ADDRESS_DIVIDER = (1 << 8),
+        CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL = (1 << 9),
+        CAP_SETTING_AMBIENT_LIGHT_IN_STANDBY = (1 << 10),
+        CAP_SETTING_RINGTONE_MUTE = (1 << 11),
+        CAP_SETTING_DOOR_OPENER_DURATION = (1 << 12),
+        CAP_SETTING_DOOR_READINESS_DURATION = (1 << 13),
+        CAP_SETTING_CALL_TIME_DURATION = (1 << 14),
+        CAP_SETTING_ADDRESS = (1 << 15),
+        CAP_SETTING_ADDRESS_LOCK = (1 << 16),
+        CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS = (1 << 17),
+        CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS = (1 << 18),
+        CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL = (1 << 19),
+        CAP_SETTING_BUTTON_ROWS = (1 << 20),
+        CAP_SETTING_HAS_CODE_LOCK = (1 << 21),
         CAP_UPDATE_DOORBELL_BUTTON = (1 << 22),
         CAP_ALT_RINGTONE_ADDRESS = (1 << 23),
         CAP_INDIVIDUAL_RESET = (1 << 24),
-        CAP_AUTO_ANSWER_CALL = (1 << 25),
-        CAP_CALL_TIME_UNLIMITED = (1 << 26),
-        CAP_PARALLEL_SERIAL_NUMBER = (1 << 27),
+        CAP_SETTING_AUTO_ANSWER_CALL = (1 << 25),
+        CAP_SETTING_CALL_TIME_UNLIMITED = (1 << 26),
+        CAP_SETTING_PARALLEL_SERIAL_NUMBER = (1 << 27),
     };
 
     struct ModelData {
@@ -247,6 +247,7 @@ namespace esphome::tc_bus
     const char* device_group_to_string(uint8_t device_group);
 
     SettingCellData getSettingCellData(SettingType setting, Model model);
+    SettingCellData getSettingCellData(SettingType setting, const ModelData& model_data);
     ModelData getModelData(Model model = MODEL_NONE);
 
     const char* model_to_string(Model model = MODEL_NONE);
@@ -255,8 +256,27 @@ namespace esphome::tc_bus
     uint16_t model_to_identifier(Model model);
     Model identifier_to_model(uint8_t device_group, uint16_t model_key, uint8_t hw_version = 0, uint16_t fw_version = 0);
 
+    static constexpr const char* const ringtones[] = {
+        "Ringtone 1",
+        "Ringtone 2",
+        "Ringtone 3",
+        "Ringtone 4",
+        "Ringtone 5",
+        "Ringtone 6",
+        "Ringtone 7",
+        "Ringtone 8",
+        "Ringtone 9",
+        "Ringtone 10",
+        "Ringtone 11",
+        "Ringtone 12",
+        "Ringtone 13"
+    };
+
     uint8_t ringtone_to_int(const char* str);
-    const char* int_to_ringtone(uint8_t ringtone);
+    inline const char* int_to_ringtone(uint8_t ringtone)
+    {
+        return ringtones[ringtone > 12 ? 0 : ringtone];
+    }
 
     uint32_t translate_setting_to_memory(SettingType type, Model model, uint32_t value);
     uint32_t translate_memory_to_setting(SettingType type, Model model, uint32_t value);

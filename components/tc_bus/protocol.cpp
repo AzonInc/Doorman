@@ -6,6 +6,17 @@
 
 namespace esphome::tc_bus
 {
+    static inline void fill_hex(TelegramData& data)
+    {
+        size_t pos = 0;
+        size_t len = data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
+        for (int i = static_cast<int>(len); i >= 0; --i) {
+            uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
+            data.hex[pos++] = "0123456789ABCDEF"[nibble];
+        }
+        data.hex[pos] = '\0';
+    }
+
     TelegramData buildTelegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number)
     {
         TelegramData data{};
@@ -162,32 +173,7 @@ namespace esphome::tc_bus
             case TELEGRAM_TYPE_OPEN_DOOR_LONG:
                 if(serial_number == 0)
                 {
-                    // Convert to short door opener telegram
-                    data.type = TELEGRAM_TYPE_OPEN_DOOR;
-                    data.address = address;
-                    data.payload = payload;
-                    data.is_long = false;
-
-                    data.raw |= (1 << 12); // 1
-                    data.raw |= (1 << 8); // 1
-
-                    // 0x1100 (door readiness inactive)
-                    // 0x1180 (door readiness active bitmask 0000000010000000)
-
-                    // Flags
-                    if(payload > 0)
-                    {
-                        data.raw |= (1 << 7); // door readiness active
-                    }
-                    else
-                    {
-                        data.raw &= ~(1 << 7); // door readiness inactive
-                    }
-
-                    // Unknown Bit 0000000001000000
-                    // data.raw |= (1 << 6);
-
-                    data.raw |= (address & 0x3F); // 0
+                    return buildTelegram(TELEGRAM_TYPE_OPEN_DOOR, address, payload, 0);
                 }
                 else
                 {
@@ -385,12 +371,7 @@ namespace esphome::tc_bus
         }
 
         // Generate telegram HEX
-        size_t pos = 0;
-        size_t len =  data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
-        for (int i = len; i >= 0; --i) {
-            uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
-            data.hex[pos++] = "0123456789ABCDEF"[nibble];
-        }
+        fill_hex(data);
 
         return data;
     }
@@ -449,7 +430,7 @@ namespace esphome::tc_bus
                         // Not implemented
                         // 200000XX audio measurement
                         // 2000008X audio measurement (door readiness)
-                        
+
                         // 28XXXXXX camera control
                         break;
 
@@ -650,12 +631,7 @@ namespace esphome::tc_bus
         }
 
         // Generate telegram HEX
-        size_t pos = 0;
-        size_t len = data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
-        for (int i = len; i >= 0; --i) {
-            uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
-            data.hex[pos++] = "0123456789ABCDEF"[nibble];
-        }
+        fill_hex(data);
 
         return data;
     }
@@ -696,8 +672,10 @@ namespace esphome::tc_bus
     
     const char* telegram_type_to_string(TelegramType type)
     {
-        for (const auto& mapping : telegram_mappings) {
-            if (mapping.type == type) {
+        for (const auto& mapping : telegram_mappings)
+        {
+            if (mapping.type == type)
+            {
                 return mapping.name;
             }
         }
@@ -706,21 +684,33 @@ namespace esphome::tc_bus
 
     TelegramType string_to_telegram_type(const char* str)
     {
-        if (str == nullptr) return TELEGRAM_TYPE_UNKNOWN;
+        if (str == nullptr)
+        {
+            return TELEGRAM_TYPE_UNKNOWN;
+        }
 
-        for (const auto& mapping : telegram_mappings) {
-            // Compare lengths first
-            if (strlen(str) == strlen(mapping.name)) {
-                bool match = true;
-                for (size_t i = 0; i < strlen(str); ++i) {
-                    if (toupper(str[i]) != toupper(mapping.name[i])) {
-                        match = false;
-                        break;
-                    }
+        const size_t str_len = strlen(str);
+
+        for (const auto& mapping : telegram_mappings)
+        {
+            if (str_len != strlen(mapping.name))
+            {
+                continue;
+            }
+
+            bool match = true;
+            for (size_t i = 0; i < str_len; ++i)
+            {
+                if (toupper((unsigned char)str[i]) != mapping.name[i])
+                {
+                    match = false;
+                    break;
                 }
-                if (match) {
-                    return mapping.type;
-                }
+            }
+
+            if (match)
+            {
+                return mapping.type;
             }
         }
 

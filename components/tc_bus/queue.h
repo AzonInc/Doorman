@@ -36,8 +36,8 @@ namespace esphome::tc_bus
 
         private:
             T buffer_[N];
-            size_t head_ = 0;
-            size_t tail_ = 0;
+            uint8_t head_ = 0;
+            uint8_t tail_ = 0;
     };
 
 }

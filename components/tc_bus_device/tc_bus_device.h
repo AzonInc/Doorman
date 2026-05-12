@@ -157,7 +157,7 @@ namespace esphome::tc_bus
 
         void set_current_flow(FlowType type) { this->current_flow_ = type; }
 
-        ModelData get_model_data() { return this->model_data_; };
+        const ModelData& get_model_data() const { return this->model_data_; };
 
         float get_setup_priority() const override { return setup_priority::BUS - 1.0f; }
         void setup() override;
@@ -165,7 +165,7 @@ namespace esphome::tc_bus
         void loop() override;
 
         // Telegram handling
-        bool on_receive(TelegramData telegram_data, TelegramSource source) override;
+        bool on_receive(const TelegramData& telegram_data, TelegramSource source) override;
         TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250);
 
         // Telegram binary listeners
@@ -213,11 +213,11 @@ namespace esphome::tc_bus
         void publish_settings();
 
         uint8_t get_doorbell_button_memory_index(uint8_t row, uint8_t col, uint8_t side = 0);
-        DoorbellButtonConfig get_doorbell_button(uint8_t row);
+        DoorbellButtonConfig get_doorbell_button(uint8_t row) { return get_doorbell_button(row, 1, 0); }
         DoorbellButtonConfig get_doorbell_button(uint8_t row, uint8_t col, uint8_t side = 0);
-        bool update_doorbell_button(uint8_t row, DoorbellButtonConfig data, uint8_t side = 0);
-        bool update_doorbell_button(uint8_t row, uint8_t col, DoorbellButtonConfig data, uint8_t side = 0);
-        void log_doorbell_button(DoorbellButtonConfig btn, uint8_t row, uint8_t col);
+        bool update_doorbell_button(uint8_t row, const DoorbellButtonConfig& data, uint8_t side = 0) { return update_doorbell_button(row, 1, data, side); }
+        bool update_doorbell_button(uint8_t row, uint8_t col, const DoorbellButtonConfig& data, uint8_t side = 0);
+        void log_doorbell_button(const DoorbellButtonConfig& btn, uint8_t row, uint8_t col);
 
         size_t get_page_offset(uint8_t side)
         {
@@ -343,6 +343,7 @@ namespace esphome::tc_bus
         FlowType current_flow_{FLOW_NONE};
 
         // Memory reading
+        uint32_t reading_memory_timeout_ = 0;
         uint16_t memory_buffer_size_{0};
         uint8_t *memory_buffer_{nullptr};
         uint8_t reading_memory_count_{0};

@@ -482,9 +482,10 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::loop()
     {
+        uint32_t now_millis = millis();
+
         #ifdef USE_BINARY_SENSOR
         // Turn off binary sensor after ... milliseconds
-        uint32_t now_millis = millis();
         for (auto &listener : listeners_)
         {
             if (listener->timer_ && now_millis > listener->timer_)
@@ -494,6 +495,13 @@ namespace esphome::tc_bus
         }
         #endif
 
+        if (reading_memory_timeout_ != 0 && now_millis > reading_memory_timeout_)
+        {
+            reading_memory_timeout_ = 0; // Reset
+            ESP_LOGW(TAG, "Memory reading stuck - retry #%i", reading_memory_try_);
+            read_selected_memory_block();
+        }
+
         // Process flows for physical devices only
         if (!this->virtual_)
         {
@@ -501,7 +509,7 @@ namespace esphome::tc_bus
         }
     }
 
-    bool TCBusDeviceComponent::on_receive(tc_bus::TelegramData telegram_data, TelegramSource source)
+    bool TCBusDeviceComponent::on_receive(const tc_bus::TelegramData& telegram_data, TelegramSource source)
     {
         const bool received = (source == TelegramSource::BUS_RECEIVED || source == TelegramSource::PEER_SENT);
 
@@ -603,49 +611,58 @@ namespace esphome::tc_bus
             // Device specific
             if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
             {
-                if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL && (telegram_data.serial_number == this->serial_number_ || telegram_data.serial_number == this->parallel_serial_number_))
+                if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL)
                 {
-                    // 1. receive door call from outdoor station
-                    // 2. send ACK STATUS
-
-                    // 3. send start talking to outdoor station with answer_call()
-                    // 4. receive acknowledge from outdoor station to initiate call
-
-                    // Door call from outdoor station
-                    if(telegram_data.serial_number == this->parallel_serial_number_)
+                    if(telegram_data.serial_number == this->serial_number_ || telegram_data.serial_number == this->parallel_serial_number_)
                     {
-                        this->call_from_parallel_sn_ = true;
-                        ESP_LOGW(TAG, "Virtual device: Incoming door call for parallel device");
+                        // 1. receive door call from outdoor station
+                        // 2. send ACK STATUS
 
-                        // ack timeout
-                        this->set_timeout("wait_for_call_ack", ACK_TIMEOUT_MS, [this]() {
-                            this->reset_call();
-                            ESP_LOGE(TAG, "Call failed - parallel device did not acknowledge");
+                        // 3. send start talking to outdoor station with answer_call()
+                        // 4. receive acknowledge from outdoor station to initiate call
 
-                            #ifdef USE_CALL_FAILED_CALLBACK
-                            this->call_failed_callback_.call();
-                            #endif
-                        });
+                        // Door call from outdoor station
+                        if(telegram_data.serial_number == this->parallel_serial_number_)
+                        {
+                            this->call_from_parallel_sn_ = true;
+                            ESP_LOGW(TAG, "Virtual device: Incoming door call for parallel device");
+
+                            // ack timeout
+                            this->set_timeout("wait_for_call_ack", ACK_TIMEOUT_MS, [this]() {
+                                this->reset_call();
+                                ESP_LOGE(TAG, "Call failed - parallel device did not acknowledge");
+
+                                #ifdef USE_CALL_FAILED_CALLBACK
+                                this->call_failed_callback_.call();
+                                #endif
+                            });
+                        }
+                        else
+                        {
+                            // Aknowledge call (device available)
+                            send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+                            
+                            this->call_from_parallel_sn_ = false;
+                            ESP_LOGW(TAG, "Virtual device: Incoming door call for this device");
+                        }
+
+                        this->call_internal_ = false;
+                        this->call_address_ = telegram_data.address;
+                        this->call_state_ = CallState::IN_RINGING;
+
+                        this->door_readiness_address_ = telegram_data.address;
+                        this->door_readiness_active_ = true;
+
+                        #ifdef USE_INCOMING_CALL_CALLBACK
+                        this->incoming_call_callback_.call(telegram_data);
+                        #endif
                     }
                     else
                     {
-                        // Aknowledge call (device available)
-                        send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
-                        
-                        this->call_from_parallel_sn_ = false;
-                        ESP_LOGW(TAG, "Virtual device: Incoming door call for this device");
+                        // Reset door readiness if call was for another device
+                        this->door_readiness_address_ = 0;
+                        this->door_readiness_active_ = false;
                     }
-
-                    this->call_internal_ = false;
-                    this->call_address_ = telegram_data.address;
-                    this->call_state_ = CallState::IN_RINGING;
-
-                    this->door_readiness_address_ = telegram_data.address;
-                    this->door_readiness_active_ = true;
-
-                    #ifdef USE_INCOMING_CALL_CALLBACK
-                    this->incoming_call_callback_.call(telegram_data);
-                    #endif
                 }
                 else if(telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xCF)
                 {
@@ -1041,7 +1058,7 @@ namespace esphome::tc_bus
                                         format_hex_pretty(telegram_data.raw, ' ', false).c_str());
 
                         // Reset counter & timeout
-                        this->cancel_timeout("wait_for_memory_block");
+                        reading_memory_timeout_ = 0;
                         reading_memory_try_ = 0;
 
                         // Save Data to memory buffer
@@ -1133,7 +1150,7 @@ namespace esphome::tc_bus
                                         format_hex_pretty(telegram_data.raw, ' ', false).c_str());
 
                         // Reset counter & timeout
-                        this->cancel_timeout("wait_for_memory_block");
+                        reading_memory_timeout_ = 0;
                         reading_memory_try_ = 0;
 
                         // Save Data to memory Store
@@ -1282,6 +1299,7 @@ namespace esphome::tc_bus
                             ModelData m = getModelData(device.model);
                             device.memory_size = m.memory_size;
                             device.memory_size_side = m.memory_size_side;
+                            device.sides = m.sides;
 
                             ESP_LOGI(TAG,   "%s identified\n"
                                             "  Model: %s\n"
@@ -1326,7 +1344,21 @@ namespace esphome::tc_bus
             // Device specific
             if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
             {
-                if (telegram_data.type == TELEGRAM_TYPE_END_OF_DOOR_READINESS)
+                if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL)
+                {
+                    if(telegram_data.serial_number == this->serial_number_ || telegram_data.serial_number == this->parallel_serial_number_)
+                    {
+                        this->door_readiness_address_ = telegram_data.address;
+                        this->door_readiness_active_ = true;
+                    }
+                    else
+                    {
+                        // Reset door readiness if call was for another device
+                        this->door_readiness_address_ = 0;
+                        this->door_readiness_active_ = false;
+                    }
+                }
+                else if (telegram_data.type == TELEGRAM_TYPE_END_OF_DOOR_READINESS)
                 {
                     this->door_readiness_address_ = 0;
                     this->door_readiness_active_ = false;
@@ -1393,8 +1425,6 @@ namespace esphome::tc_bus
 
     void TCBusDeviceComponent::read_selected_memory_block()
     {
-        this->cancel_timeout("wait_for_memory_block");
-
         if (reading_memory_try_ == 3)
         {
             // Timeout - reset
@@ -1414,19 +1444,13 @@ namespace esphome::tc_bus
 
             // Complete this request and process next in queue
             this->complete_current_flow();
-        }
-        else
-        {
-            this->set_timeout("wait_for_memory_block", 2000, [this]()
-            {
-                // Retry reading the same block
-                ESP_LOGW(TAG, "Memory reading stuck - retry #%i", reading_memory_try_);
-                read_selected_memory_block();
-            });
 
-            send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, (reading_memory_count_ * 4), 0, this->serial_number_, 260);
-            reading_memory_try_++;
+            return;
         }
+
+        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, (reading_memory_count_ * 4), 0, this->serial_number_, 260);
+        reading_memory_try_++;
+        reading_memory_timeout_ = millis() + 2000;
     }
 
     void TCBusDeviceComponent::open_door()
@@ -2041,7 +2065,7 @@ namespace esphome::tc_bus
         }
     }
 
-    void TCBusDeviceComponent::log_doorbell_button(DoorbellButtonConfig btn, uint8_t row, uint8_t col)
+    void TCBusDeviceComponent::log_doorbell_button(const DoorbellButtonConfig& btn, uint8_t row, uint8_t col)
     {
         ESP_LOGI(TAG, "    Button [%i,%i]:", row, col);
         
@@ -2594,11 +2618,6 @@ namespace esphome::tc_bus
         return 255;
     }
 
-    DoorbellButtonConfig TCBusDeviceComponent::get_doorbell_button(uint8_t row)
-    {
-        return get_doorbell_button(row, 1);
-    }
-
     DoorbellButtonConfig TCBusDeviceComponent::get_doorbell_button(uint8_t row, uint8_t col, uint8_t side)
     {
         DoorbellButtonConfig button{};
@@ -2653,12 +2672,7 @@ namespace esphome::tc_bus
         return button;
     }
 
-    bool TCBusDeviceComponent::update_doorbell_button(uint8_t row, DoorbellButtonConfig button, uint8_t side)
-    {
-        return update_doorbell_button(row, 1, button, side);
-    }
-
-    bool TCBusDeviceComponent::update_doorbell_button(uint8_t row, uint8_t col, DoorbellButtonConfig button, uint8_t side)
+    bool TCBusDeviceComponent::update_doorbell_button(uint8_t row, uint8_t col, const DoorbellButtonConfig& button, uint8_t side)
     {
         if (!this->memory_buffer_ready_)
         {
@@ -2896,7 +2910,7 @@ namespace esphome::tc_bus
         }
 
         // Get Setting Cell Data by Model
-        SettingCellData cellData = getSettingCellData(type, this->model_);
+        const SettingCellData& cellData = getSettingCellData(type, this->model_data_);
         if (!cellData.valid)
         {
             return false;
@@ -2978,7 +2992,7 @@ namespace esphome::tc_bus
         }
 
         // Get Setting Cell Data by Model
-        SettingCellData cellData = getSettingCellData(type, this->model_);
+        const SettingCellData& cellData = getSettingCellData(type, this->model_data_);
         if (!cellData.valid)
         {
             ESP_LOGV(TAG, "The setting '%s' is not available for model '%s'.", setting_type_to_string(type), model_to_string(this->model_));
@@ -3102,7 +3116,7 @@ namespace esphome::tc_bus
         }
 
         // Get Setting Cell Data by Model
-        SettingCellData cellData = getSettingCellData(type, this->model_);
+        const SettingCellData& cellData = getSettingCellData(type, this->model_data_);
         if (!cellData.valid)
         {
             if (!this->virtual_)

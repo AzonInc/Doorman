@@ -47,7 +47,7 @@ namespace esphome::tc_bus
         uint32_t wait_duration;
         uint8_t sender_listener_id;
     };
-    
+
     static constexpr uint16_t PULSE_FILTER              = 1500;
     static constexpr uint16_t PULSE_START               = 6000;
     static constexpr uint16_t PULSE_START_MIN_US        = 5700;
@@ -61,11 +61,13 @@ namespace esphome::tc_bus
     static constexpr uint16_t PULSE_BIT_1_MIN_US        = 3850;
     static constexpr uint16_t PULSE_BIT_1_MAX_US        = 4800;
 
-    static constexpr uint32_t RETRANSMISSION_GAP_US     = 19900;
+    static constexpr uint16_t RETRANSMISSION_GAP_US     = 19900;
     static constexpr uint16_t RETRANSMISSION_GAP_MIN_US = 19900;
     static constexpr uint16_t RETRANSMISSION_GAP_MAX_US = 22800;
 
     static constexpr uint16_t ACK_TIMEOUT_US            = 7000;
+
+    static constexpr uint8_t RECEIVE_QUEUE_SIZE = 16;
 
     enum class TelegramSource : uint8_t
     {
@@ -125,7 +127,7 @@ namespace esphome::tc_bus
     class TCBusRemoteListener
     {
         public:
-            virtual bool on_receive(TelegramData data, TelegramSource source) = 0;
+            virtual bool on_receive(const TelegramData& data, TelegramSource source) = 0;
             void set_listener_id(uint8_t listener_id) { this->listener_id_ = listener_id; }
             uint8_t get_listener_id() { return this->listener_id_; }
 
@@ -199,16 +201,33 @@ namespace esphome::tc_bus
             remote_listeners_.insert(it, entry);
         }
 
-        TelegramData send_telegram(uint32_t telegram, uint32_t wait_duration = 250);
-        TelegramData send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 250);
-        TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250);
-        TelegramData send_telegram(TelegramData telegram_data, uint32_t wait_duration = 250, uint8_t sender_listener_id = 0);
-        TelegramData send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration, uint8_t sender_listener_id);
+
+        inline TelegramData send_telegram(uint32_t telegram, uint32_t wait_duration = 250)
+        {
+            return send_telegram(parseTelegram(telegram, (telegram > 0xFFFF)), wait_duration);
+        }
+
+        inline TelegramData send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 250)
+        {
+            return send_telegram(parseTelegram(telegram, is_long), wait_duration);
+        }
+
+        inline TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250)
+        {
+            return send_telegram(buildTelegram(type, address, payload, serial_number), wait_duration);
+        }
+
+        inline TelegramData send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration, uint8_t sender_listener_id)
+        {
+            return send_telegram(buildTelegram(type, address, payload, serial_number), wait_duration, sender_listener_id);
+        }
+
+        TelegramData send_telegram(const TelegramData& telegram_data, uint32_t wait_duration = 250, uint8_t sender_listener_id = 0);
 
         void process_telegram_queue();
-        void transmit_telegram(TelegramData telegram_data, uint8_t sender_listener_id = 0);
-        void handle_telegram(TelegramData telegram_data, TelegramSource source = TelegramSource::BUS_RECEIVED);
-        void notify_peer_listeners(TelegramData telegram_data, uint8_t sender_listener_id);
+        void transmit_telegram(const TelegramData& telegram_data, uint8_t sender_listener_id = 0);
+        void handle_telegram(const TelegramData& telegram_data, TelegramSource source = TelegramSource::BUS_RECEIVED);
+        void notify_peer_listeners(const TelegramData& telegram_data, uint8_t sender_listener_id);
 
         void discover_system_devices(uint8_t device_group = 255);
         void finish_system_discovery();
