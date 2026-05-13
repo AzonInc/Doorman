@@ -1,6 +1,7 @@
 #include "status_indicator.h"
 #include "esphome/core/log.h"
 #include "esphome/core/application.h"
+#include "esphome/components/network/util.h"
 
 #ifdef USE_ETHERNET
 #include "esphome/components/ethernet/ethernet_component.h"
@@ -55,25 +56,6 @@ namespace esphome::status_indicator
     #endif
     #ifdef USE_WIFI
     if (wifi::global_wifi_component != nullptr) return true;
-    #endif
-    #ifdef USE_HOST
-    return true;
-    #endif
-    return false;
-  }
-
-  ESPHOME_ALWAYS_INLINE static bool is_connected()
-  {
-    #ifdef USE_ETHERNET
-    if (ethernet::global_eth_component != nullptr && ethernet::global_eth_component->is_connected()) return true;
-    #endif
-    #ifdef USE_MODEM
-    if (modem::global_modem_component != nullptr)
-      return modem::global_modem_component->is_connected();
-    #endif
-    #ifdef USE_WIFI
-    if (wifi::global_wifi_component != nullptr)
-      return wifi::global_wifi_component->is_connected();
     #endif
     #ifdef USE_HOST
     return true;
@@ -153,7 +135,7 @@ namespace esphome::status_indicator
       #endif
       #endif
 
-      if (status[0] == '\0' && !is_connected())
+      if (status[0] == '\0' && !network::is_connected())
       {
         if (has_trigger(S_NET_DISCONNECTED))
         {
