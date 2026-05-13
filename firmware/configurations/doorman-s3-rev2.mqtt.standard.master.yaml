@@ -35,8 +35,6 @@ packages:
   wifi_psram: github://azoninc/doorman/firmware/packages/common/wifi.psram.yaml@${branch}
   ota_update_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
   api: github://azoninc/doorman/firmware/packages/api/mqtt.yaml@${branch}
-  bluedroid_ble: github://azoninc/doorman/firmware/packages/common/bluedroid-ble.yaml@${branch}
-  bluedroid_ble_psram: github://azoninc/doorman/firmware/packages/common/bluedroid-ble.psram.yaml@${branch}
   pattern_events: github://azoninc/doorman/firmware/packages/pattern_events/pattern-events.yaml@${branch}
   ring_to_open: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.yaml@${branch}
   indoor_station_settings: github://azoninc/doorman/firmware/packages/bus_devices/indoor-station-settings.yaml@${branch}

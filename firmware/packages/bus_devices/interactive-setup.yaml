@@ -1,5 +1,11 @@
 # Interactive Setup Addon
 
+globals:
+  - id: setup_mode_step
+    type: int
+    restore_value: no
+    initial_value: '0'
+
 switch:
   - platform: template
     id: doorman_setup_mode
@@ -26,11 +32,20 @@ switch:
           id: second_entrance_door_station_address
           value: 63
       - logger.log:
-          format: "Setup Step 1: Waiting for door or floor call."
+          format: "Setup Step 1: Discovering Outdoor Station addresses. Please wait..."
           level: INFO
+      # Step 1: Outdoor station address discovery
+      - status.push: setup_mode_address_discovery
+      - globals.set:
+          id: setup_mode_step
+          value: '1'
       - script.execute: update_setup_sensors
-      - status.push: setup_mode_active
+      - tc_bus.discover_outdoor_station_addresses:
+
     on_turn_off:
+      - globals.set:
+          id: setup_mode_step
+          value: '1'
       - script.execute: update_setup_sensors
       - status.pop:
           group: setup_mode
@@ -40,169 +55,124 @@ switch:
 
 text_sensor:
   - platform: template
-    id: setup_status_serial_number
-    name: "Setup: Serial Number"
-    icon: "mdi:numeric"
+    id: setup_status_outdoor_station_address
+    name: "Setup: Outdoor Stations"
+    icon: "mdi:doorbell"
     lambda: |-
-      if(id(indoor_station_serial_number).state != 0)
+      bool has_entrance = id(entrance_door_station_address).state != 63;
+      bool has_second_entrance = id(second_entrance_door_station_address).state != 63;
+
+      if (has_entrance || has_second_entrance)
       {
         return {"Complete"};
       }
-      else
+      if (id(doorman_setup_mode).state && id(setup_mode_step) == 1)
       {
-        if(id(doorman_setup_mode).state == true)
-        {
-          return {"Press Apartment or Entrance Doorbell"};
-        }
-        else
-        {
-          return {"Pending"};
-        }
+        return {"Discovering"};
       }
+      if (id(doorman_setup_mode).state && id(setup_mode_step) > 1)
+      {
+        return {"Failed"};
+      }
+      if (id(doorman_setup_mode).state)
+      {
+        return {"Pending"};
+      }
+      return {"Not configured"};
     entity_category: DIAGNOSTIC
     web_server:
       sorting_group_id: sorting_group_setup_status
       sorting_weight: 1
 
   - platform: template
-    id: setup_status_indoor_station_model
-    name: "Setup: Indoor Station Model"
-    icon: "mdi:doorbell-video"
+    id: setup_status_serial_number
+    name: "Setup: Serial Number"
+    icon: "mdi:numeric"
     lambda: |-
-      if(id(indoor_station_model)->current_option() != "None")
+      if (id(indoor_station_serial_number).state != 0)
       {
         return {"Complete"};
       }
-      else
+      if (id(doorman_setup_mode).state && id(setup_mode_step) == 2)
       {
-        if(id(doorman_setup_mode).state == true)
-        {
-          if(id(indoor_station_serial_number).state != 0)
-          {
-            return {"Identifying..."};
-          }
-          else
-          {
-            return {"Pending"};
-          }
-        }
-        else
-        {
-          return {"Pending"};
-        }
+        return {"Press your Doorbell"};
       }
+      if (id(doorman_setup_mode).state && id(setup_mode_step) > 2)
+      {
+        return {"Failed"};
+      }
+      if (id(doorman_setup_mode).state)
+      {
+        return {"Pending"};
+      }
+      return {"Not configured"};
     entity_category: DIAGNOSTIC
     web_server:
       sorting_group_id: sorting_group_setup_status
       sorting_weight: 2
 
   - platform: template
-    id: setup_status_indoor_station_memory
-    name: "Setup: Indoor Station Memory"
-    icon: "mdi:database"
+    id: setup_status_indoor_station_model
+    name: "Setup: Indoor Station Model"
+    icon: "mdi:doorbell-video"
     lambda: |-
-      if(id(tc_bus_indoor_station).memory_buffer_ready())
+      if (id(indoor_station_model)->current_option() != "None")
       {
         return {"Complete"};
       }
-      else
+      if (id(doorman_setup_mode).state && id(setup_mode_step) == 3)
       {
-        if(id(doorman_setup_mode).state == true)
-        {
-          if(id(indoor_station_model)->current_option() != "None")
-          {
-            return {"Reading memory..."};
-          }
-          else
-          {
-            return {"Pending"};
-          }
-        }
-        else
-        {
-          return {"Pending"};
-        }
+        return {"Identifying"};
       }
+      if (id(doorman_setup_mode).state && id(setup_mode_step) > 3)
+      {
+        return {"Failed"};
+      }
+      if (id(doorman_setup_mode).state)
+      {
+        return {"Pending"};
+      }
+      return {"Not configured"};
     entity_category: DIAGNOSTIC
-    disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_setup_status
       sorting_weight: 3
 
   - platform: template
-    id: setup_status_entrance_door_address
-    name: "Setup: Entrance Doorbell"
-    icon: "mdi:doorbell"
+    id: setup_status_indoor_station_memory
+    name: "Setup: Indoor Station Memory"
+    icon: "mdi:database"
     lambda: |-
-      if(id(entrance_door_station_address).state != 63)
+      if (id(tc_bus_indoor_station).memory_buffer_ready())
       {
         return {"Complete"};
       }
-      else
+      if (id(doorman_setup_mode).state && id(setup_mode_step) == 4)
       {
-        if(id(doorman_setup_mode).state == true)
-        {
-          return {"Pending"};
-        }
-        else
-        {
-          if(id(indoor_station_serial_number).state == 0)
-          {
-            return {"Pending"};
-          }
-          else
-          {
-            return {"Press Entrance Doorbell"};
-          }
-        }
+        return {"Reading memory"};
       }
-    entity_category: DIAGNOSTIC
-    web_server:
-      sorting_group_id: sorting_group_setup_status
-      sorting_weight: 4
-
-  - platform: template
-    id: setup_status_second_entrance_door_address
-    name: "Setup: Second Entrance Doorbell"
-    icon: "mdi:doorbell"
-    lambda: |-
-      if(id(second_entrance_door_station_address).state != 63)
+      if (id(doorman_setup_mode).state && id(setup_mode_step) > 4)
       {
-        return {"Complete"};
+        return {"Failed"};
       }
-      else
+      if (id(doorman_setup_mode).state)
       {
-        if(id(doorman_setup_mode).state == true)
-        {
-          return {"Pending"};
-        }
-        else
-        {
-          if(id(indoor_station_serial_number).state == 0)
-          {
-            return {"Pending"};
-          }
-          else
-          {
-            if(id(entrance_door_station_address).state == 63)
-            {
-              return {"Pending"};
-            }
-            else
-            {
-              return {"Press Second Entrance Doorbell (optional)"};
-            }
-          }
-        }
+        return {"Pending"};
       }
+      return {"Not configured"};
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_setup_status
-      sorting_weight: 5
+      sorting_weight: 4
 
 # Update setup state on changes
 number:
+  - id: !extend tc_bus_is_numbers
+    serial_number:
+      on_value:
+        - script.execute: update_setup_sensors
+
   - id: !extend tc_bus_numbers
     entrance_address:
       on_value:
@@ -212,37 +182,102 @@ number:
       on_value:
         - script.execute: update_setup_sensors
 
+select:
+  - id: !extend tc_bus_is_selects
+    model:
+      on_value:
+        - script.execute: update_setup_sensors
 
 # Extend TC:BUS Component
 tc_bus_device:
   - id: !extend tc_bus_indoor_station
     on_identify_complete:
-      - script.execute: update_setup_sensors
       - if:
           condition:
             - switch.is_on: doorman_setup_mode
+            - lambda: "return id(setup_mode_step) == 3;"
           then:
-            - script.execute: complete_setup
+            - logger.log: "identify complete, proceed with memory reading"
+
+            # Step 4: Read memory
+            - logger.log:
+                format: "Setup Step 4: Reading indoor station memory, please wait..."
+                level: INFO
+            - globals.set:
+                id: setup_mode_step
+                value: '4'
+            - script.execute: update_setup_sensors
+            - status.push: setup_mode_read_memory
+          else:
+            - script.execute: update_setup_sensors
 
     on_identify_unknown:
       - if:
           condition:
             - switch.is_on: doorman_setup_mode
+            - lambda: "return id(setup_mode_step) == 3;"
           then:
-            - script.execute: complete_setup
+            - logger.log: "identify unknown, setup complete"
+            - status.push: setup_mode_identify_error
+            - logger.log:
+                format: "Setup cancelled: Unknown indoor station model. Please select model manually."
+                level: WARN
+            - script.execute: update_setup_sensors
+            - delay: 3s
+            - switch.turn_off: doorman_setup_mode
+          else:
+            - script.execute: update_setup_sensors
 
     on_identify_failed:
       - if:
           condition:
             - switch.is_on: doorman_setup_mode
+            - lambda: "return id(setup_mode_step) == 3;"
           then:
-            - script.execute: complete_setup
+            - logger.log: "identify failed, setup complete"
+            - status.push: setup_mode_identify_error
+            - logger.log:
+                format: "Setup cancelled: Failed to identify indoor station. Please select model manually."
+                level: WARN
+            - script.execute: update_setup_sensors
+            - delay: 3s
+            - switch.turn_off: doorman_setup_mode
+          else:
+            - script.execute: update_setup_sensors
 
     on_read_memory_complete:
-      - script.execute: update_setup_sensors
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+            - lambda: "return id(setup_mode_step) == 4;"
+          then:
+            - logger.log: "read memory complete, setup complete"
+            - status.push: setup_mode_complete
+            - logger.log:
+                format: "Setup completed."
+                level: INFO
+            - script.execute: update_setup_sensors
+            - delay: 3s
+            - switch.turn_off: doorman_setup_mode
+          else:
+            - script.execute: update_setup_sensors
     
     on_read_memory_failed:
-      - script.execute: update_setup_sensors
+      - if:
+          condition:
+            - switch.is_on: doorman_setup_mode
+            - lambda: "return id(setup_mode_step) == 4;"
+          then:
+            - logger.log: "read memory failed, setup complete"
+            - status.push: setup_mode_read_memory_error
+            - logger.log:
+                format: "Setup cancelled: Failed to read memory"
+                level: ERROR
+            - script.execute: update_setup_sensors
+            - delay: 3s
+            - switch.turn_off: doorman_setup_mode
+          else:
+            - script.execute: update_setup_sensors
 
 tc_bus:
   on_telegram:
@@ -250,6 +285,7 @@ tc_bus:
     - if:
         condition:
           - switch.is_on: doorman_setup_mode
+          - lambda: "return id(setup_mode_step) == 2;"
           - lambda: "return x.type == TELEGRAM_TYPE_FLOOR_CALL || x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_INTERNAL_CALL;"
         then:
           # Save Serial Number
@@ -257,87 +293,165 @@ tc_bus:
               id: indoor_station_serial_number
               value: !lambda "return x.serial_number;"
 
+          - logger.log: "serial number detected, proceed with identification"
+
+          # Step 3: Identify indoor station and read memory
+          - logger.log:
+              format: "Setup Step 3: Identifying indoor station model"
+              level: INFO
+          - globals.set:
+              id: setup_mode_step
+              value: '3'
+          - script.execute: update_setup_sensors
+          - status.push: setup_mode_identify
+
+  on_address_discovery_complete:
+    - if:
+        condition:
+          - switch.is_on: doorman_setup_mode
+          - lambda: "return id(setup_mode_step) == 1;"
+        then:
           - script.execute: update_setup_sensors
 
-    # If no door station id is set, wait for one
-    - if:
-        condition:
-          - lambda: return id(entrance_door_station_address).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_address).state;
-        then:
-          - number.set:
-              id: entrance_door_station_address
-              value: !lambda "return x.address;"
-          - script.execute: update_setup_sensors
-              
-    # If no second door station id is set, wait for one
-    - if:
-        condition:
-          - lambda: return id(second_entrance_door_station_address).state == 63 && (x.type == TELEGRAM_TYPE_DOOR_CALL || x.type == TELEGRAM_TYPE_OPEN_DOOR) && x.address != id(entrance_door_station_address).state;
-        then:
-          - number.set:
-              id: second_entrance_door_station_address
-              value: !lambda "return x.address;"
-          - logger.log:
-              format: "The second door is now enabled! If any related entities are missing, restart Doorman to regenerate them."
-              level: WARN
-          - script.execute: update_setup_sensors
+          - if:
+              condition:
+                - lambda: "return x > 0;"
+              then:
+                - if:
+                    condition:
+                      - lambda: "return x > 1;"
+                    then:
+                      - logger.log:
+                          format: "The second door is now enabled! If any related entities are missing, restart Doorman to regenerate them."
+                          level: WARN
+
+                - logger.log: "address discovery complete, proceed with serial number detection"
+
+                # Step 2: Detect indoor station serial number
+                - logger.log:
+                    format: "Setup Step 2: Please press your apartment or entrance doorbell button"
+                    level: INFO
+                - globals.set:
+                    id: setup_mode_step
+                    value: '2'
+                - script.execute: update_setup_sensors
+                - status.push: setup_mode_detect_serial_number
+              else:
+                - status.push: setup_mode_address_discovery_error
+                - logger.log:
+                    format: "Setup cancelled: No Outdoor stations found"
+                    level: ERROR
+                - script.execute: update_setup_sensors
+                - delay: 3s
+                - switch.turn_off: doorman_setup_mode
 
 script:
   - id: !extend boot_after_api
     then:
-      # Turn on setup mode if serial number is 0 on boot
+      # Turn on setup mode if serial number is 0 or both as addresses are 63 on boot
       - if:
           condition:
-            - lambda: return id(indoor_station_serial_number).state == 0;
+            - lambda: return id(indoor_station_serial_number).state == 0 || (id(entrance_door_station_address).state == 63 && id(second_entrance_door_station_address).state == 63);
             - switch.is_off: doorman_setup_mode
           then:
             - switch.turn_on: doorman_setup_mode
             - logger.log:
-                format: "Entering setup mode automatically because no Indoor Station serial number is set."
+                format: "Entering setup mode automatically because no Indoor Station serial number or Outdoor Station address is set."
                 level: INFO
 
   - id: update_setup_sensors
     then:
       - lambda: |-
+          id(setup_status_outdoor_station_address).update();
           id(setup_status_serial_number).update();
           id(setup_status_indoor_station_model).update();
           id(setup_status_indoor_station_memory).update();
-          id(setup_status_entrance_door_address).update();
-          id(setup_status_second_entrance_door_address).update();
-
-  - id: complete_setup
-    then:
-      - switch.turn_off: doorman_setup_mode
-      - script.execute: update_setup_sensors
-
-      - logger.log:
-          format: "Setup completed. You can now continue with the Doorbells."
-          level: INFO
-
-      - status.push: setup_mode_finished
-      - delay: 3s
-      - status.pop:
-          group: setup_mode
 
 status_indicator:
   on_custom_status:
-    - trigger_id: setup_mode_active
+    # Step 1
+    - trigger_id: setup_mode_address_discovery
       priority: 300
       group: setup_mode
       then:
-        - logger.log: "SI: Active Setup Mode"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 0%
             green: 100%
             blue: 10%
             effect: pulse
-
-    - trigger_id: setup_mode_finished
+    - trigger_id: setup_mode_address_discovery_error
       priority: 301
       group: setup_mode
       then:
-        - logger.log: "SI: Finished Setup Mode"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 0%
+            effect: none
+
+    # Step 2
+    - trigger_id: setup_mode_detect_serial_number
+      priority: 302
+      group: setup_mode
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 0%
+            green: 100%
+            blue: 10%
+            effect: slow_pulse
+
+    # Step 3
+    - trigger_id: setup_mode_identify
+      priority: 303
+      group: setup_mode
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 0%
+            green: 100%
+            blue: 10%
+            effect: pulse
+    - trigger_id: setup_mode_identify_error
+      priority: 304
+      group: setup_mode
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 0%
+            effect: none
+
+    # Step 4
+    - trigger_id: setup_mode_read_memory
+      priority: 305
+      group: setup_mode
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 0%
+            green: 100%
+            blue: 10%
+            effect: pulse
+    - trigger_id: setup_mode_read_memory_error
+      priority: 306
+      group: setup_mode
+      then:
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 0%
+            effect: none
+
+    - trigger_id: setup_mode_complete
+      priority: 307
+      group: setup_mode
+      then:
+        #- logger.log: "SI: Finished Setup Mode"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 0%

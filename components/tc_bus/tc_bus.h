@@ -229,6 +229,7 @@ namespace esphome::tc_bus
         void handle_telegram(const TelegramData& telegram_data, TelegramSource source = TelegramSource::BUS_RECEIVED);
         void notify_peer_listeners(const TelegramData& telegram_data, uint8_t sender_listener_id);
 
+        void discover_outdoor_station_addresses();
         void discover_system_devices(uint8_t device_group = 255);
         void finish_system_discovery();
 
@@ -251,15 +252,24 @@ namespace esphome::tc_bus
         }
 
         // Automation Callbacks
+        #ifdef USE_RECEIVED_TELEGRAM_CALLBACK
         void add_received_telegram_callback(std::function<void(TelegramData)> &&callback)
         {
             this->received_telegram_callback_.add(std::move(callback));
         }
-
-        void add_system_discovery_complete_callback(std::function<void()> &&callback)
+        #endif
+        #ifdef USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK
+        void add_system_discovery_complete_callback(std::function<void(uint16_t)> &&callback)
         {
             this->system_discovery_complete_callback_.add(std::move(callback));
         }
+        #endif
+        #ifdef USE_ADDRESS_DISCOVERY_COMPLETE_CALLBACK
+        void add_address_discovery_complete_callback(std::function<void(uint8_t)> &&callback)
+        {
+            this->address_discovery_complete_callback_.add(std::move(callback));
+        }
+        #endif
 
         QueueHandle_t telegram_receive_queue{nullptr};
         FixedQueue<TCBusTelegramQueueItem, 16> telegram_transmit_queue;
@@ -294,8 +304,15 @@ namespace esphome::tc_bus
         ESPPreferenceObject pref_;
 
         // Automation Callbacks
+        #ifdef USE_RECEIVED_TELEGRAM_CALLBACK
         CallbackManager<void(TelegramData)> received_telegram_callback_{};
-        CallbackManager<void()> system_discovery_complete_callback_{};
+        #endif
+        #ifdef USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK
+        CallbackManager<void(uint16_t)> system_discovery_complete_callback_{};
+        #endif
+        #ifdef USE_ADDRESS_DISCOVERY_COMPLETE_CALLBACK
+        CallbackManager<void(uint8_t)> address_discovery_complete_callback_{};
+        #endif
 
         // Misc
         uint32_t system_discovery_as_[5] = {0};
@@ -304,6 +321,10 @@ namespace esphome::tc_bus
         uint32_t system_discovery_ext_[5] = {0};
         uint32_t system_discovery_ctr_[5] = {0};
         uint32_t system_discovery_acc_[5] = {0};
+
+        uint32_t address_discovery_timeout_ = 0;
+        uint8_t address_discovery_as_[5] = {0};
+        uint8_t address_discovery_as_cnt_{0};
 
         uint8_t system_discovery_as_cnt_{0};
         uint8_t system_discovery_is_classic_cnt_{0};
@@ -319,6 +340,7 @@ namespace esphome::tc_bus
         bool programming_mode_{false};
         bool door_readiness_active_{false};
         bool error_protocol_pending_{false};
+        bool address_discovery_active_{false};
         bool system_discovery_active_{false};
         bool system_discovery_full_scan_{false};
 

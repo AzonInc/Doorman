@@ -812,7 +812,7 @@ status_indicator:
       priority: 70
       group: rto
       then:
-        - logger.log: "SI: Active Entrance Door"
+        #- logger.log: "SI: Active Entrance Door"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%
@@ -824,7 +824,7 @@ status_indicator:
       priority: 71
       group: rto
       then:
-        - logger.log: "SI: Active Both Entrance Doors"
+        #- logger.log: "SI: Active Both Entrance Doors"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%
@@ -836,7 +836,7 @@ status_indicator:
       priority: 72
       group: rto
       then:
-        - logger.log: "SI: Active Apartment Door"
+        #- logger.log: "SI: Active Apartment Door"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%
@@ -848,7 +848,7 @@ status_indicator:
       priority: 73
       group: rto
       then:
-        - logger.log: "SI: Active Apartment and Entrance Doors"
+        #- logger.log: "SI: Active Apartment and Entrance Doors"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%

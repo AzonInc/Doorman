@@ -258,7 +258,7 @@ Diesen Schritt kannst du überspringen, wenn du nicht die Firmware mit `HomeKit`
 Wenn du deinen Doorman zum ersten Mal mit Home Assistant verbindest,\
 befindet er sich bereits im `Setup Mode` für die interaktive Einrichtung.
 
-Du musst den Modus nicht manuell aktivieren; er wird bei jedem Neustart automatisch gestartet, solange der Einrichtungsprozess nicht abgeschlossen oder abgebrochen wurde.
+Du musst den Modus nicht manuell aktivieren; er wird bei jedem Neustart automatisch gestartet, solange der Einrichtungsprozess nicht abgeschlossen wurde.
 :::
 
 ::: warning BEVOR DU WEITERMACHST
@@ -269,39 +269,59 @@ Deine Innenstation **muss angeschlossen sein**, damit die Einrichtung abgeschlos
 Öffne die Einstellungen entweder über die Weboberfläche deines Doormans oder besuche die [ESPHome Integrationsseite](https://my.home-assistant.io/redirect/integration/?domain=esphome) und wähle das Doorman S3-Gerät aus.
 
 ### 2. Aktiviere den Setup-Modus
-Geh zum Bereich `Konfiguration` (Home Assistant) bzw. `Setup` (Doorman-Weboberfläche) und schalte den `Setup-Modus` ein, um mit der interaktiven Einrichtung zu beginnen.  
-Sobald der Setup-Prozess beginnt, wird die RGB-Status-LED grün-türkis pulsieren.
+Geh zum Bereich `Konfiguration` (Home Assistant) bzw. `Setup` (Doorman-Weboberfläche) und schalte den `Setup Mode` ein, um mit der interaktiven Einrichtung zu beginnen.
 
 ::: tip
-Geh' auf die Doorman-Weboberfläche zu und navigiere zum Abschnitt `Setup`, um den aktuellen Einrichtungsstatus zu sehen.
+Geh' auf die Doorman-Weboberfläche und navigiere zum Abschnitt `Setup`, um den aktuellen Einrichtungsstatus zu sehen.
 
 Folge den dort angezeigten Anweisungen, um die Einrichtung abzuschließen.
 :::
 
 ![setup-ui](/en/guide/images/setup.png)
 
-### 3. Warte, bis du auf die Klingel drückst
-Wenn du die Klingel an deiner Wohnungstür oder am Eingang drückst, speichert das System als erstes die Seriennummer deiner Innenstation und versucht dann das Modell zu erkennen.
+### 3. Außenstation wird gesucht
+Sobald der Setup-Modus aktiviert ist, pulsiert die RGB-Status-LED grün-türkis und das System sucht automatisch nach Außenstationen.  
 
-Sobald das Modell erfolgreich erkannt wurde, wird der Speicher deiner Innenstation ausgelesen.  
-**Hinweis:** Der gesamte Prozess kann **bis zu 30 Sekunden** dauern.
+🕒 Dieser Vorgang kann **bis zu 30 Sekunden** dauern.
 
-Wenn das Modell erfolgreich erkannt wurde oder die Zeit abläuft, wird die Einrichtung abgeschlossen.
+::: danger SUCHE FEHLGESCHLAGEN
+Wenn keine Außenstationen gefunden wurden, leuchtet die LED 3 Sekunden lang dauerhaft rot und der Einrichtungsmodus wird automatisch beendet.
 
-:::info BITTE BEACHTE
-Die Firmware versucht alle Außenstationen automatisch zu erkennen.
-
-Damit die **Türklingel(n)** erkannt werden und du die **Tür(en) öffnen** kannst, musst du **einmal jede Türklingel drücken** oder **die Türöffnertaste jeder Tür manuell betätigen** — aber **erst, nachdem die Einrichtung abgeschlossen ist**.
-
-⚠️ **Die Reihenfolge ist wichtig:** Fang mit der Klingel am Haupteingang an und dann die zweite. So erkennt das System alles richtig.
-
-🕒 Warte etwa **eine Minute nach der Einrichtung**, bevor du das machst, damit die Adresse der zweiten Tür korrekt gespeichert wird.
-
-⚠️ Entitäten für die zweite Eingangstür werden erst nach der Adresskonfiguration angezeigt. Gleiches gilt für die Innenstationseinstellungen, die erst nach Festlegung des Modells verfügbar sind. Falls Du beides bereits konfiguriert hast, aber die Entitäten trotzdem unsichtbar/nicht verfügbar bleiben, starte Doorman neu oder lade die ESPHome-Integration in Home Assistant neu.
+Stelle sicher, dass alles korrekt verkabelt, eine Außenstation angeschlossen und eingeschaltet ist, und aktiviere `Setup Mode` erneut.
 :::
 
-### 4. Einrichtung abgeschlossen
-Die LED leuchtet 3 Sekunden lang grün-türkis und geht dann aus, der Setup-Modus wird deaktiviert. Die Einrichtung ist abgeschlossen.
+### 4. Klingel betätigen
+Nachdem die Außenstationen gefunden wurden, pulsiert die LED **langsam** grün-türkis, während das System auf das betätigen des Klingeltasters wartet.
+
+Drücke den Klingeltaster an deiner Wohnungs- oder Eingangstür. Das System speichert die Seriennummer deiner Innenstation und versucht anschließend sofort, das Modell zu erkennen.
+
+### 5. Innenstation wird identifiziert
+Nach betätigen des Klingeltasters pulsiert die LED wieder grün-türkis, während das Modell der Innenstation erkannt wird.
+
+::: warning IDENTIFIKATION FEHLGESCHLAGEN
+Wenn das Modell nicht erkannt werden konnte, leuchtet die LED 3 Sekunden lang dauerhaft rot und der Einrichtungsmodus wird automatisch beendet.
+
+Du kannst das Modell anschließend **manuell auswählen**.  
+Die Einrichtung gilt in diesem Fall trotzdem als abgeschlossen.
+:::
+
+### 6. Speicher wird ausgelesen
+Sobald das Modell der Innenstation erkannt wurde, versucht das System, den Speicher auszulesen.  
+
+🕒 Dieser Vorgang kann **bis zu 30 Sekunden** dauern.
+
+::: warning SPEICHER AUSLESEN FEHLGESCHLAGEN
+Wenn das Auslesen des Speichers fehlschlägt, leuchtet die LED 3 Sekunden lang dauerhaft rot und der Einrichtungsmodus wird automatisch beendet.
+
+Dies ist unkritisch — die Einrichtung gilt trotzdem als abgeschlossen. Du kannst `Setup Mode` bei Bedarf erneut aktivieren, um es nochmals zu versuchen.
+:::
+
+### 7. Setup abgeschlossen
+Die LED leuchtet 3 Sekunden lang dauerhaft grün-türkis, erlischt dann und der Setup-Modus wird automatisch deaktiviert.
+
+:::info BITTE BEACHTE
+Die Eingangstür-Entitäten werden erst angezeigt, wenn die Adresse konfiguriert ist. Die Einstellungen der Innenstation erfordern zunächst eine Modellauswahl. Falls Entitäten nach der Konfiguration noch fehlen, starte Doorman neu oder lade die ESPHome-Integration in Home Assistant neu.
+:::
 
 ## Nächste Schritte
 Du möchtest deinen Doorman konfigurieren? Öffne dafür die Weboberfläche von Doorman oder das [Geräte-Dashboard](https://my.home-assistant.io/redirect/integration/?domain=esphome) in Home Assistant.

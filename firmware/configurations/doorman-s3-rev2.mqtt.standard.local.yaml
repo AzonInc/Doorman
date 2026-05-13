@@ -35,8 +35,6 @@ packages:
   wifi_psram: !include ../packages/common/wifi.psram.yaml
   ota_update_esphome: !include ../packages/ota/esphome.yaml
   api: !include ../packages/api/mqtt.yaml
-  bluedroid_ble: !include ../packages/common/bluedroid-ble.yaml
-  bluedroid_ble_psram: !include ../packages/common/bluedroid-ble.psram.yaml
   debug_utilities: !include ../packages/debug/debug-utilities.yaml
   debug_component: !include ../packages/debug/debug-component.yaml
   pattern_events: !include ../packages/pattern_events/pattern-events.yaml

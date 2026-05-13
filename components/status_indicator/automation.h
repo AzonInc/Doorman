@@ -13,7 +13,7 @@ namespace esphome::status_indicator
   {
   public:
     StatusCondition(StatusIndicator *parent, bool state) : parent_(parent), state_(state) {}
-    bool check(Ts... x) override { return (this->parent_->status_.setter == 0) == this->state_; }
+    bool check(const Ts &...x) override { return (this->parent_->status_.setter == 0) == this->state_; }
 
   protected:
     StatusIndicator *parent_;
@@ -27,7 +27,7 @@ namespace esphome::status_indicator
     void set_trigger(StatusTrigger *trigger) { this->trigger_ = trigger; }
     void set_group(std::string_view group) { this->group_ = group; }
 
-    void play(Ts... x) override
+    void play(const Ts &...x) override
     {
       if (this->state_)
       {

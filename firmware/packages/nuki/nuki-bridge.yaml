@@ -506,7 +506,7 @@ status_indicator:
       priority: 200
       group: nuki_bridge
       then:
-        - logger.log: "SI: Nuki Bridge pairing mode"
+        #- logger.log: "SI: Nuki Bridge pairing mode"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%
@@ -518,7 +518,7 @@ status_indicator:
       priority: 201
       group: nuki_bridge
       then:
-        - logger.log: "SI: Nuki Bridge paired"
+        #- logger.log: "SI: Nuki Bridge paired"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%

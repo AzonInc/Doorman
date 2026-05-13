@@ -259,6 +259,13 @@ namespace esphome::tc_bus
         }
         #endif
 
+        #ifdef USE_IDENTIFY_CALLBACK
+        void add_identify_callback(std::function<void()> &&callback)
+        {
+            this->identify_callback_.add(std::move(callback));
+        }
+        #endif
+
         #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
         void add_identify_unknown_callback(std::function<void()> &&callback)
         {
@@ -363,6 +370,9 @@ namespace esphome::tc_bus
         #endif
         #ifdef USE_READ_MEMORY_FAILED_CALLBACK
         CallbackManager<void()> read_memory_failed_callback_{};
+        #endif
+        #ifdef USE_IDENTIFY_CALLBACK
+        CallbackManager<void()> identify_callback_{};
         #endif
         #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
         CallbackManager<void(ModelData)> identify_complete_callback_{};

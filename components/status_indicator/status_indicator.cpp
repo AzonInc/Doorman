@@ -247,6 +247,16 @@ namespace esphome::status_indicator
       else
       {
         // Idle
+        if (this->turn_off_pending_since_ == 0)
+        {
+            this->turn_off_pending_since_ = millis();
+            return;
+        }
+        if (millis() - this->turn_off_pending_since_ < TURN_OFF_DELAY_MS)
+        {
+            return;
+        }
+        this->turn_off_pending_since_ = 0;
         this->current_trigger_ = get_trigger(S_TURN_OFF);
         status = S_TURN_OFF;
       }

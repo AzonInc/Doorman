@@ -86,8 +86,8 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ## Improv BLE (not compatible with Nuki Bridge firmware)
         ## Needs to be here in order to not block on_connect due to the 5s delay
         ## DO NOT MOVE
-        ('bluedroid_ble', 'common/bluedroid-ble.yaml', firmware != 'nuki-bridge'),
-        ('bluedroid_ble_psram', 'common/bluedroid-ble.psram.yaml', firmware != 'nuki-bridge' and has_psram),
+        #('bluedroid_ble', 'common/bluedroid-ble.yaml', firmware != 'nuki-bridge'),
+        #('bluedroid_ble_psram', 'common/bluedroid-ble.psram.yaml', firmware != 'nuki-bridge' and has_psram),
 
         ## Debug utilities
         ('debug_utilities', 'debug/debug-utilities.yaml', branch == 'dev' or branch == 'local'),

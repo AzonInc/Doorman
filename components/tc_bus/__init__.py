@@ -19,10 +19,19 @@ TCBusProgrammingModeAction = tc_bus_ns.class_(
     "TCBusProgrammingModeAction", automation.Action, cg.Parented.template(TCBusComponent)
 )
 
+TCBusSystemDiscoveryAction = tc_bus_ns.class_(
+    "TCBusSystemDiscoveryAction", automation.Action, cg.Parented.template(TCBusComponent)
+)
+
+TCBusAddressDiscoveryAction = tc_bus_ns.class_(
+    "TCBusAddressDiscoveryAction", automation.Action, cg.Parented.template(TCBusComponent)
+)
+
 TelegramData = tc_bus_ns.struct("TelegramData")
 
 ReceivedTelegramTrigger = tc_bus_ns.class_("ReceivedTelegramTrigger", automation.Trigger.template())
 SystemDiscoveryCompleteTrigger = tc_bus_ns.class_("SystemDiscoveryCompleteTrigger", automation.Trigger.template())
+AddressDiscoveryCompleteTrigger = tc_bus_ns.class_("AddressDiscoveryCompleteTrigger", automation.Trigger.template())
 
 TELEGRAM_TYPE = tc_bus_ns.enum("TelegramType")
 TELEGRAM_TYPES = {
@@ -73,8 +82,10 @@ CONF_SERIAL_NUMBER = "serial_number"
 
 CONF_ON_TELEGRAM = "on_telegram"
 CONF_ON_SYSTEM_DISCOVERY_COMPLETE = "on_system_discovery_complete"
+CONF_ON_ADDRESS_DISCOVERY_COMPLETE = "on_address_discovery_complete"
 
 CONF_PROGRAMMING_MODE = "programming_mode"
+CONF_DEVICE_GROUP = "device_group"
 
 def validate_config(config):
     return config
@@ -92,6 +103,11 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_ON_SYSTEM_DISCOVERY_COMPLETE): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(SystemDiscoveryCompleteTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_ADDRESS_DISCOVERY_COMPLETE): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(AddressDiscoveryCompleteTrigger),
             }
         ),
     }
@@ -113,14 +129,23 @@ async def to_code(config):
     tx_pin = await cg.gpio_pin_expression(config[CONF_TX_PIN])
     cg.add(var.set_tx_pin(tx_pin))
 
-    for conf in config.get(CONF_ON_TELEGRAM, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [(TelegramData, "x")], conf)
+    if CONF_ON_TELEGRAM in config:
+        cg.add_define("USE_RECEIVED_TELEGRAM_CALLBACK")
+        for conf in config.get(CONF_ON_TELEGRAM, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(TelegramData, "x")], conf)
 
-    for conf in config.get(CONF_ON_SYSTEM_DISCOVERY_COMPLETE, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
-        await automation.build_automation(trigger, [], conf)
+    if CONF_ON_SYSTEM_DISCOVERY_COMPLETE in config:
+        cg.add_define("USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK")
+        for conf in config.get(CONF_ON_SYSTEM_DISCOVERY_COMPLETE, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(cg.uint16, "x")], conf)
 
+    if CONF_ON_ADDRESS_DISCOVERY_COMPLETE in config:
+        cg.add_define("USE_ADDRESS_DISCOVERY_COMPLETE_CALLBACK")
+        for conf in config.get(CONF_ON_ADDRESS_DISCOVERY_COMPLETE, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [(cg.uint8, "x")], conf)
 
 def validate(config):
     config = config.copy()
@@ -200,4 +225,42 @@ async def tc_bus_set_programming_mode_to_code(config, action_id, template_args, 
     programming_mode_template_ = await cg.templatable(config[CONF_PROGRAMMING_MODE], args, cg.bool_)
     cg.add(var.set_programming_mode(programming_mode_template_))
     
+    return var
+
+
+@automation.register_action(
+    "tc_bus.discover_system_devices",
+    TCBusSystemDiscoveryAction,
+    automation.maybe_simple_id(
+        {
+            cv.GenerateID(): cv.use_id(TCBusComponent),
+            cv.Optional(CONF_DEVICE_GROUP, default=255): cv.templatable(cv.uint8_t)
+        }
+    ),
+    synchronous=True
+)
+async def tc_bus_discover_system_devices_to_code(config, action_id, template_args, args):
+    var = cg.new_Pvariable(action_id, template_args)
+    await cg.register_parented(var, config[CONF_ID])
+
+    device_group_template_ = await cg.templatable(config[CONF_DEVICE_GROUP], args, cg.uint8)
+    cg.add(var.set_device_group(device_group_template_))
+    
+    return var
+
+
+@automation.register_action(
+    "tc_bus.discover_outdoor_station_addresses",
+    TCBusAddressDiscoveryAction,
+    automation.maybe_simple_id(
+        {
+            cv.GenerateID(): cv.use_id(TCBusComponent)
+        }
+    ),
+    synchronous=True
+)
+async def tc_bus_discover_outdoor_station_addresses_to_code(config, action_id, template_args, args):
+    var = cg.new_Pvariable(action_id, template_args)
+    await cg.register_parented(var, config[CONF_ID])
+
     return var

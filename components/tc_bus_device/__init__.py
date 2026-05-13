@@ -73,6 +73,11 @@ TCBusDeviceCallAction = tc_bus_ns.class_(
 )
 
 
+IdentifyTrigger = tc_bus_ns.class_(
+    "IdentifyTrigger",
+    automation.Trigger.template()
+)
+
 IdentifyCompleteTrigger = tc_bus_ns.class_(
     "IdentifyCompleteTrigger",
     automation.Trigger.template()
@@ -311,6 +316,7 @@ CONF_SECONDARY_PAYLOAD = "secondary_payload"
 
 CONF_ON_READ_MEMORY_COMPLETE = "on_read_memory_complete"
 CONF_ON_READ_MEMORY_FAILED = "on_read_memory_failed"
+CONF_ON_IDENTIFY = "on_identify"
 CONF_ON_IDENTIFY_COMPLETE = "on_identify_complete"
 CONF_ON_IDENTIFY_UNKNOWN = "on_identify_unknown"
 CONF_ON_IDENTIFY_FAILED = "on_identify_failed"
@@ -346,7 +352,7 @@ def validate_config(config):
         )
 
     for key in [CONF_AUTO_CONFIGURATION, CONF_ON_READ_MEMORY_COMPLETE, CONF_ON_READ_MEMORY_FAILED,
-                CONF_ON_IDENTIFY_COMPLETE, CONF_ON_IDENTIFY_UNKNOWN, CONF_ON_IDENTIFY_FAILED]:
+                CONF_ON_IDENTIFY, CONF_ON_IDENTIFY_COMPLETE, CONF_ON_IDENTIFY_UNKNOWN, CONF_ON_IDENTIFY_FAILED]:
         if key in config:
             raise cv.Invalid(f"'{key}' is not compatible with virtual devices.", path=[key])
 
@@ -372,6 +378,11 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_ON_READ_MEMORY_FAILED): automation.validate_automation(
             {
                 cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(ReadMemoryTimeoutTrigger),
+            }
+        ),
+        cv.Optional(CONF_ON_IDENTIFY): automation.validate_automation(
+            {
+                cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(IdentifyTrigger),
             }
         ),
         cv.Optional(CONF_ON_IDENTIFY_COMPLETE): automation.validate_automation(
@@ -452,6 +463,12 @@ async def to_code(config):
         for conf in config.get(CONF_ON_IDENTIFY_COMPLETE, []):
             trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
             await automation.build_automation(trigger, [(ModelData, "x")], conf)
+
+    if CONF_ON_IDENTIFY in config:
+        cg.add_define("USE_IDENTIFY_CALLBACK")
+        for conf in config.get(CONF_ON_IDENTIFY, []):
+            trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+            await automation.build_automation(trigger, [], conf)
 
     if CONF_ON_IDENTIFY_UNKNOWN in config:
         cg.add_define("USE_IDENTIFY_UNKNOWN_CALLBACK")

@@ -162,6 +162,7 @@ number:
         sorting_weight: -98
 
   - platform: tc_bus_device
+    id: tc_bus_is_numbers
     tc_bus_device_id: tc_bus_indoor_station
     serial_number:
       id: indoor_station_serial_number
@@ -804,13 +805,13 @@ script:
 status_indicator:
   on_turn_off:
     then:
-      - logger.log: "SI: LED OFF"
+      #- logger.log: "SI: LED OFF"
       - light.turn_off:
           id: doorman_rgb_status_led
           transition_length: 1s
   on_wifi_ap_enabled:
     then:
-      - logger.log: "SI: WiFi AP Enabled"
+      #- logger.log: "SI: WiFi AP Enabled"
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: pulse
@@ -819,7 +820,7 @@ status_indicator:
           blue: 0%
   on_wifi_ap_disabled:
     then:
-      - logger.log: "SI: WiFi AP Disabled"
+      #- logger.log: "SI: WiFi AP Disabled"
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: slow_pulse
@@ -828,7 +829,7 @@ status_indicator:
           blue: 0%
   on_network_disconnected:
     then:
-      - logger.log: "SI: Network Disconnected"
+      #- logger.log: "SI: Network Disconnected"
       - light.turn_on:
           id: doorman_rgb_status_led
           effect: slow_pulse
@@ -840,7 +841,7 @@ status_indicator:
       priority: 550
       group: api
       then:
-        - logger.log: "SI: API connecting"
+        #- logger.log: "SI: API connecting"
         # Regular blue pulse while connecting
         - light.turn_on:
             id: doorman_rgb_status_led
@@ -853,7 +854,7 @@ status_indicator:
       priority: 551
       group: api
       then:
-        - logger.log: "SI: API wait for configuration"
+        #- logger.log: "SI: API wait for configuration"
         # Red/Blue pulse because broker data is not set
         - light.turn_on:
             id: doorman_rgb_status_led
@@ -863,13 +864,13 @@ status_indicator:
       priority: 552
       group: api
       then:
-        - logger.log: "SI: API configured"
+        #- logger.log: "SI: API configured"
 
     - trigger_id: api_connected
       priority: 553
       group: api
       then:
-        - logger.log: "SI: API connected"
+        #- logger.log: "SI: API connected"
         - light.turn_on:
             id: doorman_rgb_status_led
             effect: none

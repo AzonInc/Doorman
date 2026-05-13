@@ -128,6 +128,17 @@ button:
       sorting_group_id: sorting_group_debug_tools
 
   - platform: template
+    id: debug_address_discovery
+    device_id: tc_bus_debug
+    name: "Address Discovery"
+    icon: mdi:search
+    on_press:
+      - status.push: address_discovery_active
+      - tc_bus.discover_outdoor_station_addresses:
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
     id: debug_floor_call
     device_id: tc_bus_debug
     name: "Test Floor Call"
@@ -143,10 +154,11 @@ button:
 tc_bus:
   on_system_discovery_complete:
     - status.push: system_discovery_finished
+    - lambda: |-
+        ESP_LOGD("TAG", "System discovery complete. Device count: %d", x);
     - delay: 3s
     - status.pop:
         group: system_discovery
-
 
 status_indicator:
   on_custom_status:
@@ -154,7 +166,7 @@ status_indicator:
       priority: 400
       group: system_discovery
       then:
-        - logger.log: "SI: System discovery active"
+        #- logger.log: "SI: System discovery active"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%
@@ -166,12 +178,38 @@ status_indicator:
       priority: 401
       group: system_discovery
       then:
-        - logger.log: "SI: System discovery finished"
+        #- logger.log: "SI: System discovery finished"
         - light.turn_on:
             id: doorman_rgb_status_led
             red: 100%
             green: 45%
             blue: 83%
+            effect: none
+            #transition_length: 1s
+            brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100;
+
+    - trigger_id: address_discovery_active
+      priority: 403
+      group: address_discovery
+      then:
+        #- logger.log: "SI: System discovery active"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 50%
+            green: 45%
+            blue: 100%
+            effect: pulse
+
+    - trigger_id: address_discovery_finished
+      priority: 404
+      group: address_discovery
+      then:
+        #- logger.log: "SI: System discovery finished"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 50%
+            green: 45%
+            blue: 100%
             effect: none
             #transition_length: 1s
             brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100;

@@ -67,6 +67,9 @@ namespace esphome::status_indicator
     // Points to a compile-time string literal → zero heap, zero copy.
     const char    *current_status_{""};
 
+    uint32_t turn_off_pending_since_{0};
+    static constexpr uint32_t TURN_OFF_DELAY_MS = 50;
+
     // unordered_map: O(1) lookups vs O(log n) for std::map.
     // CStrHash/CStrEqual allow lookup by string_view with no key allocation.
     std::unordered_map<const char *, StatusTrigger *, CStrHash, CStrEqual> triggers_{};

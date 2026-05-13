@@ -16,6 +16,7 @@ switch:
 
 select:
   - platform: tc_bus_device
+    id: tc_bus_is_selects
     tc_bus_device_id: tc_bus_indoor_station
 
     model:

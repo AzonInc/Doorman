@@ -190,6 +190,14 @@ namespace esphome::tc_bus
             this->save_preferences();
         }
 
+        // Update Entities
+        #ifdef USE_SELECT
+        if (this->model_select_ != nullptr)
+        {
+            this->model_select_->publish_state(model_to_string(model));
+        }
+        #endif
+
         // Memory buffer allocation / deallocation
         if(reallocate_memory_buffer())
         {
@@ -279,14 +287,6 @@ namespace esphome::tc_bus
         {
             ESP_LOGE(TAG, "Failed to reallocate memory buffer!");
         }
-
-        // Update Entities
-        #ifdef USE_SELECT
-        if (this->model_select_ != nullptr)
-        {
-            this->model_select_->publish_state(model_to_string(model));
-        }
-        #endif
     }
 
 
@@ -1102,9 +1102,7 @@ namespace esphome::tc_bus
                             {
                                 this->memory_buffer_ready_ = true;
 
-                                ESP_LOGI(TAG, "Read memory of %s:\n"
-                                              "  Progress: Done\n"
-                                              "  Size: %i Bytes",
+                                ESP_LOGD(TAG, "  Total size: %i Bytes",
                                               device_group_to_string(this->model_data_.device_group),
                                               this->model_data_.memory_size + (this->model_data_.sides * this->model_data_.memory_size_side));
 
@@ -1416,7 +1414,7 @@ namespace esphome::tc_bus
 
                 line[pos] = '\0';
 
-                ESP_LOGI(TAG, "  Page %i [%03u]: %s", current_page, i, line);
+                ESP_LOGI(TAG, "  [%i][%03u]: %s", current_page, i, line);
             }
 
             offset += page_size;

@@ -169,6 +169,15 @@ namespace esphome::tc_bus
     };
     #endif
 
+    #ifdef USE_IDENTIFY_CALLBACK
+    class IdentifyCompleteTrigger : public Trigger<> {
+        public:
+            explicit IdentifyCompleteTrigger(TCBusDeviceComponent *parent) {
+                parent->add_identify_callback([this]() { this->trigger(); });
+            }
+    };
+    #endif
+
     #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
     class IdentifyCompleteTrigger : public Trigger<ModelData> {
         public:

@@ -266,7 +266,7 @@ You can skip this step if you haven't flashed the `HomeKit` Smart Home integrati
 ::: tip
 When you first connect your Doorman to Home Assistant, it will be in `Setup Mode` for interactive setup already.
 
-You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed or canceled.
+You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed.
 :::
 
 ::: warning BEFORE YOU PROCEED
@@ -277,8 +277,7 @@ The indoor station **must be connected**, to complete the setup process.
 Open the settings either through your Doorman's web interface or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the Doorman S3 device.
 
 ### 2. Activate Setup Mode
-Go to the `Configuration` (Home Assistant) or `Setup` (Doorman web interface) section and enable `Setup Mode` to begin the interactive setup.  
-Once the setup process begins, the RGB status LED will pulse green-turquoise.
+Go to the `Configuration` (Home Assistant) or `Setup` (Doorman web interface) section and enable `Setup Mode` to begin the interactive setup.
 
 ::: tip
 Access the Doorman web interface and navigate to the `Setup` section to see your current setup state.
@@ -288,28 +287,49 @@ Follow the instructions there to complete the setup.
 
 ![setup-ui](/en/guide/images/setup.png)
 
-### 3. Wait until you ring the doorbell
-When you press the doorbell button at your apartment or entrance, the system will first save your indoor station's serial number and attempt to detect the model.
+### 3. Outdoor Station Discovery
+Once setup mode is activated, the RGB status LED will pulse green-turquoise and the system will automatically scan for outdoor stations.  
 
-Once the model is successfully detected, the system will read the memory of your indoor station.
-**Note:** This entire process can take **up to 30 seconds**.
+🕒 This process can take **up to 30 seconds**.
 
-If the model detection is successful or if it times out, the setup will be considered finished.
+::: danger Discovery Failed
+If no outdoor stations are found, the LED will turn solid red and setup mode will be disabled automatically.
 
-:::info PLEASE NOTE
-The firmware will attempt to detect all outdoor stations automatically.
-
-To enable detection of the **doorbell(s)** and allow unlocking of the **door(s)**, you must **press each doorbell** or **manually press the unlock button** on each door **at least once** — but only **after setup is complete**.
-
-⚠️ **Order matters:** Start with the main entrance doorbell, then proceed to the second entrance. This ensures the stations are detected correctly.
-
-🕒 Wait about **one minute after setup finishes** before doing this, so the system can correctly store the second door's address.
-
-⚠️ The second entrance door entities require address configuration before they'll appear. Similarly, indoor station settings need the model to be set first. If you've configured both but entities are still invisible/unavailable, restart Doorman or reload the ESPHome integration in Home Assistant.
+Make sure your outdoor station is connected and powered, then re-activate Setup Mode to try again.
 :::
 
-### 4. Setup complete
-The LED will remain green-turquoise for 3 seconds, then turn off, and the setup mode will be turned off. The setup is complete.
+### 4. Ring the Doorbell
+After the outdoor stations are found, the LED will pulse green-turquoise **slowly** while the system waits for a doorbell press.
+
+Press the doorbell button at your apartment or entrance. The system will save your indoor station's serial number and immediately attempt to identify the model.
+
+### 5. Indoor Station Identification
+After pressing the doorbell, the LED will pulse green-turquoise again while the indoor station model is being identified.
+
+::: warning Identification Failed
+If the model could not be identified, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
+
+You can **select the model manually** afterwards.  
+The setup is still considered complete in this case.
+:::
+
+### 6. Memory Read
+Once the indoor station model is identified, the system will attempt to read its memory.  
+
+🕒 This process can take **up to 30 seconds**.
+
+::: warning Memory Read Failed
+If reading the memory fails, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
+
+This is non-critical — the setup is still considered complete. You can re-activate Setup Mode to try again if needed.
+:::
+
+### 7. Setup complete
+The LED will remain solid green-turquoise for 3 seconds, then turn off, and Setup Mode will be disabled automatically.
+
+:::info PLEASE NOTE
+The entrance door entities require address configuration before they appear. Indoor station settings require the model to be set first. If entities are still missing after configuration, restart Doorman or reload the ESPHome integration in Home Assistant.
+:::
 
 ## Next Steps
 You're probably looking to configure your Doorman. To get started, open the Doorman web interface or the Home Assistant [device dashboard](https://my.home-assistant.io/redirect/integration/?domain=esphome).

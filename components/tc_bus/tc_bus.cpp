@@ -146,6 +146,48 @@ namespace esphome::tc_bus
             }
         }
 
+        // Address discovery complete
+        if (this->address_discovery_timeout_ != 0 && now_millis > this->address_discovery_timeout_)
+        {
+            this->address_discovery_active_ = false;
+            this->address_discovery_timeout_ = 0; // Reset
+
+            std::sort(this->address_discovery_as_, this->address_discovery_as_ + this->address_discovery_as_cnt_);
+
+            if(this->address_discovery_as_cnt_ > 0)
+            {
+                ESP_LOGI(TAG, "Outdoor station address discovery complete: %i outdoor stations found", this->address_discovery_as_cnt_);
+                if(this->address_discovery_as_cnt_ > 2)
+                {
+                    ESP_LOGW(TAG, "Please check the addresses and set them manually if needed (found more than 2).");
+                }
+
+                if(this->address_discovery_as_cnt_ == 1)
+                {
+                    this->entrance_address_ = this->address_discovery_as_[0];
+                    this->entrance_address_number_->publish_state(this->entrance_address_);
+
+                    this->second_entrance_address_ = 63; // Reset to default invalid address
+                    this->second_entrance_address_number_->publish_state(this->second_entrance_address_);
+                }
+                else if(this->address_discovery_as_cnt_ >= 2)
+                {
+                    this->entrance_address_ = this->address_discovery_as_[0];
+                    this->entrance_address_number_->publish_state(this->entrance_address_);
+
+                    this->second_entrance_address_ = this->address_discovery_as_[1];
+                    this->second_entrance_address_number_->publish_state(this->second_entrance_address_);
+                }
+                save_preferences();
+            }
+            else
+            {
+                ESP_LOGE(TAG, "Outdoor station discovery complete: No outdoor stations found");
+            }
+
+            this->address_discovery_complete_callback_.call(this->address_discovery_as_cnt_);
+        }
+
         // Process Sensors
         #ifdef USE_BINARY_SENSOR
         // Turn off binary sensor after ... milliseconds
@@ -290,8 +332,8 @@ namespace esphome::tc_bus
             // From receiver
             if(telegram_data.type == TELEGRAM_TYPE_ACK_STATUS)
             {
-                ESP_LOGI(TAG, "Received: %s (%i-bit, b%c%c%c%c%s)",
-                              telegram_type_to_string(telegram_data.type), 4,
+                ESP_LOGI(TAG, "Received: %s (b%c%c%c%c%s)",
+                              telegram_type_to_string(telegram_data.type),
                               (telegram_data.raw >> 3) & 1 ? '1' : '0',
                               (telegram_data.raw >> 2) & 1 ? '1' : '0',
                               (telegram_data.raw >> 1) & 1 ? '1' : '0',
@@ -300,9 +342,8 @@ namespace esphome::tc_bus
             }
             else
             {
-                ESP_LOGI(TAG, "Received: %s (%i-bit, 0x%s%s)",
+                ESP_LOGI(TAG, "Received: %s (0x%s%s)",
                               telegram_type_to_string(telegram_data.type),
-                              telegram_data.is_long ? 32 : 16,
                               telegram_data.hex,
                               telegram_data.is_retransmission ? ", retransmission" : "");
             }
@@ -323,7 +364,7 @@ namespace esphome::tc_bus
                 get_mac_address_raw(mac);
                 uint32_t mac_addr = (mac[3] << 16) | (mac[4] << 8) | mac[5];
 
-                send_telegram(TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr, 0);
+                send_telegram(TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE, 0, mac_addr);
             }
             else if (telegram_data.type == TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE)
             {
@@ -334,63 +375,65 @@ namespace esphome::tc_bus
 
                 ESP_LOGI(TAG, "  Discovered Doorman MAC: %02X:%02X:%02X", mac[0], mac[1], mac[2]);
             }
-            else if(telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION && telegram_data.payload == 0xD8)
+            else if(telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION)
             {
-                this->error_protocol_pending_ = true;
-            }
-            else if(this->error_protocol_pending_ && telegram_data.type == TELEGRAM_TYPE_ACK_DATA)
-            {
-                this->error_protocol_pending_ = false;
-
-                uint8_t error_type = (telegram_data.raw >> 24) & 0xF;
-                uint8_t device_group = (telegram_data.raw >> 20) & 0xF;
-
-                ESP_LOGD(TAG,   "  Description: Error protocol data\n"
-                                "    Device Group: %d", device_group);
-
-                switch(error_type)
+                if(telegram_data.payload == 0xD8)
                 {
-                    case 1:
-                        if(device_group == 2)
-                        {
-                            uint8_t sub_type = (telegram_data.raw >> 8) & 0xF;
-                            uint8_t key_x = (telegram_data.raw >> 4) & 0xF;
-                            uint8_t key_y = telegram_data.raw & 0xF;
+                    this->error_protocol_pending_ = true;
+                }
+            }
+            else if(telegram_data.type == TELEGRAM_TYPE_ACK_DATA)
+            {
+                if(this->error_protocol_pending_)
+                {
+                    this->error_protocol_pending_ = false;
 
-                            if(sub_type == 0)
+                    uint8_t error_type = (telegram_data.raw >> 24) & 0xF;
+                    uint8_t device_group = (telegram_data.raw >> 20) & 0xF;
+
+                    ESP_LOGD(TAG,   "  Description: Error protocol data\n"
+                                    "    Device Group: %d", device_group);
+
+                    switch(error_type)
+                    {
+                        case 1:
+                            if(device_group == 2)
                             {
-                                ESP_LOGD(TAG,   "    Message: Key stuck\n"
-                                                "    Key: %d;%d", key_x, key_y);
+                                uint8_t sub_type = (telegram_data.raw >> 8) & 0xF;
+                                uint8_t key_x = (telegram_data.raw >> 4) & 0xF;
+                                uint8_t key_y = telegram_data.raw & 0xF;
+
+                                if(sub_type == 0)
+                                {
+                                    ESP_LOGD(TAG,   "    Message: Key %d;%d stuck", key_x, key_y);
+                                }
+                                else
+                                {
+                                    ESP_LOGD(TAG,   "    Message: Key %d;%d of extension %d stuck", key_x, key_y, sub_type);
+                                }
                             }
                             else
                             {
-                                ESP_LOGD(TAG,   "    Message: Key stuck\n"
-                                                "    Extension: %d\n"
-                                                "    Key: %d;%d", sub_type, key_x, key_y);
+                                uint16_t key = telegram_data.raw & 0xFFF;
+                                ESP_LOGD(TAG,   "    Message: Key %d stuck", key);
                             }
-                        }
-                        else
-                        {
-                            uint16_t key = telegram_data.raw & 0xFFF;
-                            ESP_LOGD(TAG,   "    Message: Key stuck\n"
-                                            "    Key: %d", key);
-                        }
-                        break;
-                    case 2:
-                        ESP_LOGD(TAG,   "    Message: EEPROM misplaced");
-                        break;
-                    case 3:
-                        ESP_LOGD(TAG,   "    Message: Key extension error");
-                        break;
-                    case 5:
-                        ESP_LOGD(TAG,   "    Message: Interface error");
-                        break;
-                    case 6:
-                        ESP_LOGD(TAG,   "    Message: Subsystem error");
-                        break;
-                    default:
-                        ESP_LOGD(TAG,   "    Message: Unknown Error");
-                        break;
+                            break;
+                        case 2:
+                            ESP_LOGD(TAG,   "    Message: EEPROM misplaced");
+                            break;
+                        case 3:
+                            ESP_LOGD(TAG,   "    Message: Key extension error");
+                            break;
+                        case 5:
+                            ESP_LOGD(TAG,   "    Message: Interface error");
+                            break;
+                        case 6:
+                            ESP_LOGD(TAG,   "    Message: Subsystem error");
+                            break;
+                        default:
+                            ESP_LOGD(TAG,   "    Message: Unknown Error");
+                            break;
+                    }
                 }
             }
 
@@ -443,8 +486,8 @@ namespace esphome::tc_bus
             // From transmitter
             if(telegram_data.type == TELEGRAM_TYPE_ACK_STATUS)
             {
-                ESP_LOGI(TAG, "Sending: %s (%i-bit, b%c%c%c%c%s)",
-                              telegram_type_to_string(telegram_data.type), 4,
+                ESP_LOGI(TAG, "Sending: %s (b%c%c%c%c%s)",
+                              telegram_type_to_string(telegram_data.type),
                               (telegram_data.raw >> 3) & 1 ? '1' : '0',
                               (telegram_data.raw >> 2) & 1 ? '1' : '0',
                               (telegram_data.raw >> 1) & 1 ? '1' : '0',
@@ -453,9 +496,8 @@ namespace esphome::tc_bus
             }
             else
             {
-                ESP_LOGI(TAG, "Sending: %s (%i-bit, 0x%s%s)",
+                ESP_LOGI(TAG, "Sending: %s (0x%s%s)",
                               telegram_type_to_string(telegram_data.type),
-                              telegram_data.is_long ? 32 : 16,
                               telegram_data.hex,
                               telegram_data.is_retransmission ? ", retransmission" : "");
             }
@@ -507,18 +549,15 @@ namespace esphome::tc_bus
         }
         else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL)
         {
-            bool door_readiness_state = telegram_data.payload == 1;
-            ESP_LOGI(TAG, "  Door readiness: %s", YESNO(door_readiness_state));
+            ESP_LOGD(TAG, "  Door readiness: %s", YESNO(telegram_data.payload));
         }
         else if (telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR || telegram_data.type == TELEGRAM_TYPE_OPEN_DOOR_LONG)
         {
-            bool door_readiness_state = telegram_data.payload == 1;
-            ESP_LOGI(TAG, "  Door readiness: %s", YESNO(door_readiness_state));
+            ESP_LOGD(TAG, "  Door readiness: %s", YESNO(telegram_data.payload));
         }
         else if (telegram_data.type == TELEGRAM_TYPE_START_TALKING)
         {
-            bool talk_mode = telegram_data.payload == 1;
-            ESP_LOGI(TAG, "  Talk mode: %s", talk_mode ? "Full duplex" : "Half duplex");
+            ESP_LOGD(TAG, "  Talk mode: %s", telegram_data.payload == 1 ? "Full duplex" : "Half duplex");
         }
         else if (telegram_data.type == TELEGRAM_TYPE_DOOR_CALL)
         {
@@ -568,10 +607,29 @@ namespace esphome::tc_bus
                 this->door_readiness_binary_sensor_->publish_state(false);
             }
             #endif
+
+            // Add AS address to discovery if active
+            if(this->address_discovery_active_)
+            {
+                this->address_discovery_timeout_ = millis() + 10000;
+
+                for(uint8_t i = 0; i < this->address_discovery_as_cnt_; i++)
+                {
+                    if(this->address_discovery_as_[i] == telegram_data.address)
+                    {
+                        return;
+                    }
+                }
+
+                if(this->address_discovery_as_cnt_ < 5)
+                {
+                    this->address_discovery_as_[this->address_discovery_as_cnt_++] = telegram_data.address;
+                }
+            }
         }
         else if (telegram_data.type == TELEGRAM_TYPE_PROGRAMMING_MODE)
         {
-            ESP_LOGI(TAG, "  Programming Mode: %s", YESNO(telegram_data.payload == 1));
+            ESP_LOGD(TAG, "  Programming Mode: %s", ONOFF(telegram_data.payload));
             this->programming_mode_ = telegram_data.payload == 1;
         }
         else if (telegram_data.type == TELEGRAM_TYPE_SELECT_DEVICE_GROUP || telegram_data.type == TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET)
@@ -920,6 +978,16 @@ namespace esphome::tc_bus
         }
     }
 
+    void TCBusComponent::discover_outdoor_station_addresses()
+    {
+        ESP_LOGI(TAG, "Start outdoor station address discovery");
+
+        this->address_discovery_active_ = true;
+        this->address_discovery_timeout_ = millis() + 20000;
+
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET, 0, 2, 0, 280);
+    }
+
     void TCBusComponent::discover_system_devices(uint8_t device_group)
     {
         if(device_group == 255)
@@ -1008,37 +1076,39 @@ namespace esphome::tc_bus
 
         this->cancel_timeout(0xDD);
 
-        ESP_LOGI(TAG, "System discovery completed. Found devices:");
+        uint16_t device_cnt = system_discovery_is_classic_cnt_ + system_discovery_is_handsfree_cnt_ + system_discovery_as_cnt_ + system_discovery_ctr_cnt_ + system_discovery_ext_cnt_ + system_discovery_acc_cnt_;
 
-        log_device_list("Indoor stations (Classic)", system_discovery_is_classic_, system_discovery_is_classic_cnt_);
+        ESP_LOGI(TAG, "System discovery complete. Found %i devices:", device_cnt);
+
+        log_device_list("Classic Indoor Stations", system_discovery_is_classic_, system_discovery_is_classic_cnt_);
         ESP_LOGI(TAG, "  ");
 
-        log_device_list("Indoor stations (Handsfree)", system_discovery_is_handsfree_, system_discovery_is_handsfree_cnt_);
+        log_device_list("Handsfree Indoor Stations", system_discovery_is_handsfree_, system_discovery_is_handsfree_cnt_);
         ESP_LOGI(TAG, "  ");
 
-        log_device_list("Outdoor stations", system_discovery_as_, system_discovery_as_cnt_);
+        log_device_list("Outdoor Stations", system_discovery_as_, system_discovery_as_cnt_);
         ESP_LOGI(TAG, "  ");
 
         log_device_list("Controllers (Power Supply)", system_discovery_ctr_, system_discovery_ctr_cnt_);
         ESP_LOGI(TAG, "  ");
         
-        log_device_list("Functional extensions", system_discovery_ext_, system_discovery_ext_cnt_);
+        log_device_list("Functional Extensions", system_discovery_ext_, system_discovery_ext_cnt_);
         ESP_LOGI(TAG, "  ");
 
-        log_device_list("Access control", system_discovery_acc_, system_discovery_acc_cnt_);
+        log_device_list("Access Control", system_discovery_acc_, system_discovery_acc_cnt_);
 
-        this->system_discovery_complete_callback_.call();
+        this->system_discovery_complete_callback_.call(device_cnt);
     }
 
     void TCBusComponent::log_device_list(const char* name, const uint32_t* list, uint8_t count)
     {
-        ESP_LOGI(TAG, "%s: %d", name, count);
+        ESP_LOGI(TAG, "  %s: %d", name, count);
 
         if(count > 0)
         {
             for (uint8_t i = 0; i < count; i++)
             {
-                ESP_LOGI(TAG, "  %i", list[i]);
+                ESP_LOGI(TAG, "    %i", list[i]);
             }
         }
         else
