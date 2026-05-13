@@ -1400,6 +1400,8 @@ namespace esphome::tc_bus
             const size_t chunk_size = 16;
             const uint8_t* page_ptr = memory_buffer_ + offset;
 
+            ESP_LOGD(TAG, "  Page: %i", current_page);
+
             for (size_t i = 0; i < page_size; i += chunk_size)
             {
                 char line[3 * chunk_size + 1];
@@ -1412,7 +1414,7 @@ namespace esphome::tc_bus
 
                 line[pos] = '\0';
 
-                ESP_LOGD(TAG, "  [%i][%03u]: %s", current_page, i, line);
+                ESP_LOGD(TAG, "    %03u: %s", current_page, i, line);
             }
 
             offset += page_size;

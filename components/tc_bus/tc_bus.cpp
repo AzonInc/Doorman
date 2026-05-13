@@ -185,7 +185,9 @@ namespace esphome::tc_bus
                 ESP_LOGE(TAG, "Outdoor station discovery complete: No outdoor stations found");
             }
 
+            #ifdef USE_ADDRESS_DISCOVERY_COMPLETE_CALLBACK
             this->address_discovery_complete_callback_.call(this->address_discovery_as_cnt_);
+            #endif
         }
 
         // Process Sensors
@@ -438,7 +440,9 @@ namespace esphome::tc_bus
             }
 
             // Fire Callback
+            #ifdef USE_RECEIVED_TELEGRAM_CALLBACK
             this->received_telegram_callback_.call(telegram_data);
+            #endif
 
             #ifdef USE_BINARY_SENSOR
             // Fire Binary Sensors
@@ -1097,7 +1101,9 @@ namespace esphome::tc_bus
 
         log_device_list("Access Control", system_discovery_acc_, system_discovery_acc_cnt_);
 
+        #ifdef USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK
         this->system_discovery_complete_callback_.call(device_cnt);
+        #endif
     }
 
     void TCBusComponent::log_device_list(const char* name, const uint32_t* list, uint8_t count)
