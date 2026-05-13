@@ -1102,9 +1102,7 @@ namespace esphome::tc_bus
                             {
                                 this->memory_buffer_ready_ = true;
 
-                                ESP_LOGD(TAG, "  Total size: %i Bytes",
-                                              device_group_to_string(this->model_data_.device_group),
-                                              this->model_data_.memory_size + (this->model_data_.sides * this->model_data_.memory_size_side));
+                                ESP_LOGD(TAG, "  Total size: %i Bytes", this->model_data_.memory_size + (this->model_data_.sides * this->model_data_.memory_size_side));
 
                                 print_memory_buffer();
 
@@ -1414,7 +1412,7 @@ namespace esphome::tc_bus
 
                 line[pos] = '\0';
 
-                ESP_LOGI(TAG, "  [%i][%03u]: %s", current_page, i, line);
+                ESP_LOGD(TAG, "  [%i][%03u]: %s", current_page, i, line);
             }
 
             offset += page_size;
@@ -1526,12 +1524,20 @@ namespace esphome::tc_bus
         if (!this->virtual_)
         {
             ESP_LOGW(TAG, "This method is only available for virtual devices");
+
+            #ifdef USE_CALL_FAILED_CALLBACK
+            this->call_failed_callback_.call();
+            #endif
             return;
         }
 
         if (this->call_state_ != CallState::IDLE)
         {
             ESP_LOGE(TAG, "Line is busy");
+
+            #ifdef USE_CALL_FAILED_CALLBACK
+            this->call_failed_callback_.call();
+            #endif
             return;
         }
 
@@ -1603,13 +1609,27 @@ namespace esphome::tc_bus
                 #endif
             });
         }
+        else
+        {
+            ESP_LOGE(TAG, "Device group not supported!");
+
+            #ifdef USE_CALL_FAILED_CALLBACK
+            this->call_failed_callback_.call();
+            #endif
+        }
     }
 
     void TCBusDeviceComponent::answer_call()
     {
-        if (!this->virtual_ && (this->device_group_ != DEVICE_GROUP_INDOOR_STATION_CLASSIC && this->device_group_ != DEVICE_GROUP_INDOOR_STATION_HANDSFREE))
+        if (!this->virtual_)
         {
-            ESP_LOGW(TAG, "This method is only available for indoor stations and virtual outdoor stations");
+            ESP_LOGW(TAG, "This method is only available for virtual devices");
+            return;
+        }
+
+        if (this->device_group_ != DEVICE_GROUP_INDOOR_STATION_CLASSIC && this->device_group_ != DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
+        {
+            ESP_LOGW(TAG, "This method is only available for indoor stations");
             return;
         }
 
