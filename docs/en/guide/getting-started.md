@@ -239,7 +239,7 @@ Follow the instructions there to complete the setup.
 ![setup-ui](/en/guide/images/setup.png)
 
 ### 3. Outdoor Station Discovery
-Once setup mode is activated, the RGB status LED will pulse green-turquoise and the system will automatically scan for outdoor stations.  
+Once setup mode is activated, the RGB status LED will pulse green-turquoise **slowly** and the system will automatically scan for outdoor stations.  
 
 🕒 This process can take **up to 30 seconds**.
 
@@ -250,12 +250,12 @@ Make sure your outdoor station is connected and powered, then re-activate Setup 
 :::
 
 ### 4. Ring the Doorbell
-After the outdoor stations are found, the LED will pulse green-turquoise **slowly** while the system waits for a doorbell press.
+After the outdoor stations are found, the LED will pulse green-turquoise **fast** while the system waits for a doorbell press.
 
 Press the doorbell button at your apartment or entrance. The system will save your indoor station's serial number and immediately attempt to identify the model.
 
 ### 5. Indoor Station Identification
-After pressing the doorbell, the LED will pulse green-turquoise again while the indoor station model is being identified.
+After pressing the doorbell, the LED will pulse green-turquoise **slowly** again while the indoor station model is being identified.
 
 ::: warning IDENTIFICATION FAILED
 If the model could not be identified, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
@@ -265,7 +265,7 @@ The setup is still considered complete in this case.
 :::
 
 ### 6. Memory Read
-Once the indoor station model is identified, the system will attempt to read its memory.  
+Once the indoor station model is identified, the LED will pulse green-turquoise **slowly** while the system attempts to read its memory.  
 
 🕒 This process can take **up to 30 seconds**.
 

@@ -124,15 +124,24 @@ A small LED on the Doorman's PCB indicating errors or bus communication.
 ### RGB Status LED <Badge type="tip" text="doorman_rgb_status_led" />
 A small WS2812B/SK6812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
 
-##### Event Types
-- **Waiting for WiFi** <Badge type="tip" text="Slow yellow/orange pulse" />
-- **Setup Access Point enabled** <Badge type="tip" text="Fast yellow/orange pulse" />
-- **Waiting for Home Assistant / MQTT / HomeKit to Connect** <Badge type="tip" text="Slow blue pulse" />
-- **Home Assistant / MQTT / HomeKit Connected** <Badge type="tip" text="Solid blue light (for 3 seconds)" />
-- **MQTT setup required** <Badge type="tip" text="Red-blue pulse" /> <Badge type="info" text="MQTT integration only" />
-- **HomeKit pairing required** <Badge type="tip" text="Red-blue pulse" /> <Badge type="info" text="HomeKit integration only" />
-- **Setup Mode is Active** <Badge type="tip" text="Fast green-turquoise pulse" />
-- **Setup Mode completed** <Badge type="tip" text="Solid green-turquoise (for 3 seconds)" />
-- **Ring To Open is Active** <Badge type="tip" text="Slow orange pulse" />
-- **Nuki Bridge Pairing Mode is Active** <Badge type="tip" text="Slow purple pulse" /> <Badge type="info" text="Nuki Bridge only" />
-- **Nuki Bridge Paired Successfully** <Badge type="tip" text="Solid purple light (for 3 seconds)" /> <Badge type="info" text="Nuki Bridge only" />
+##### Status Descriptions
+
+| Component | Description | Preview |
+|---|---|:---:|
+| WiFi | Connecting | <LEDBadge color="#FFA600" type="pulse-slow" /> |
+| WiFi | Access Point Mode (Setup) | <LEDBadge color="#FFA600" type="pulse-fast" /> |
+| API | Waiting for connection (Home Assistant / MQTT / HomeKit) | <LEDBadge color="#0087ff" type="pulse-slow" /> |
+| API | Connected (Home Assistant / MQTT / HomeKit) | <LEDBadge color="#0087ff" type="solid-fade-out" /> |
+| API | Configuration required (MQTT Broker / HomeKit Pairing) | <LEDBadge color="#0087ff" type="pulse-error" /> |
+| Setup Mode | Outdoor Station Discovery | <LEDBadge color="#43ff8e" type="pulse-slow" /> |
+| Setup Mode | Waiting for Doorbell Button Press | <LEDBadge color="#43ff8e" type="pulse-fast" /> |
+| Setup Mode | Indoor Station Identification | <LEDBadge color="#43ff8e" type="pulse-slow" /> |
+| Setup Mode | Indoor Station Memory Read | <LEDBadge color="#43ff8e" type="pulse-slow" /> |
+| Setup Mode | Complete | <LEDBadge color="#43ff8e" type="solid-fade-out" /> |
+| Setup Mode | Error | <LEDBadge color="#ff0000" type="solid-fade-out" /> |
+| Ring To Open | Entrance Door | <LEDBadge color="#FFB300" type="pulse-slow" /> |
+| Ring To Open | Both Entrance Doors | <LEDBadge color="#FFB300" type="pulse-slow" /> |
+| Ring To Open | Apartment Door | <LEDBadge color="#FF0033" type="pulse-slow" /> |
+| Ring To Open | Apartment Door & Entrance Door(s) | <LEDBadge color="#FFB333" type="pulse-slow" /> |
+| Nuki Bridge | Pairing Mode | <LEDBadge color="#8000ff" type="pulse-slow" /> |
+| Nuki Bridge | Paired successfully | <LEDBadge color="#8000ff" type="solid-fade-out" /> |

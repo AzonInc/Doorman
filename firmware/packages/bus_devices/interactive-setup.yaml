@@ -379,7 +379,7 @@ status_indicator:
             red: 0%
             green: 100%
             blue: 10%
-            effect: pulse
+            effect: slow_pulse
     - trigger_id: setup_mode_address_discovery_error
       priority: 301
       group: setup_mode
@@ -401,7 +401,7 @@ status_indicator:
             red: 0%
             green: 100%
             blue: 10%
-            effect: slow_pulse
+            effect: pulse
 
     # Step 3
     - trigger_id: setup_mode_identify
@@ -413,7 +413,7 @@ status_indicator:
             red: 0%
             green: 100%
             blue: 10%
-            effect: pulse
+            effect: slow_pulse
     - trigger_id: setup_mode_identify_error
       priority: 304
       group: setup_mode
@@ -435,7 +435,7 @@ status_indicator:
             red: 0%
             green: 100%
             blue: 10%
-            effect: pulse
+            effect: slow_pulse
     - trigger_id: setup_mode_read_memory_error
       priority: 306
       group: setup_mode

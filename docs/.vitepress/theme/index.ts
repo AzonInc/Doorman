@@ -3,6 +3,7 @@ import Layout from './Layout.vue'
 import OrderPage from './OrderPage.vue'
 
 import ContactModal from './components/ContactModal.vue'
+import LEDBadge from './components/LEDBadge.vue'
 
 //import { useData, useRoute } from 'vitepress';
 //import codeblocksFold from 'vitepress-plugin-codeblocks-fold'; // import method
@@ -20,6 +21,7 @@ export default {
     // injects the slots
     Layout: Layout,
     enhanceApp({ app }) {
+        app.component('LEDBadge', LEDBadge)
         app.component('ContactModal', ContactModal)
         app.component('orderpage', OrderPage)
 

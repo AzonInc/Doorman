@@ -230,7 +230,7 @@ Folge den dort angezeigten Anweisungen, um die Einrichtung abzuschließen.
 ![setup-ui](/en/guide/images/setup.png)
 
 ### 3. Außenstation wird gesucht
-Sobald der Setup-Modus aktiviert ist, pulsiert die RGB-Status-LED grün-türkis und das System sucht automatisch nach Außenstationen.  
+Sobald der Setup-Modus aktiviert ist, pulsiert die RGB-Status-LED **langsam** grün-türkis und das System sucht automatisch nach Außenstationen.  
 
 🕒 Dieser Vorgang kann **bis zu 30 Sekunden** dauern.
 
@@ -241,12 +241,12 @@ Stelle sicher, dass alles korrekt verkabelt, eine Außenstation angeschlossen un
 :::
 
 ### 4. Klingel betätigen
-Nachdem die Außenstationen gefunden wurden, pulsiert die LED **langsam** grün-türkis, während das System auf das betätigen des Klingeltasters wartet.
+Nachdem die Außenstationen gefunden wurden, pulsiert die LED **schnell** grün-türkis, während das System auf das betätigen des Klingeltasters wartet.
 
 Drücke den Klingeltaster an deiner Wohnungs- oder Eingangstür. Das System speichert die Seriennummer deiner Innenstation und versucht anschließend sofort, das Modell zu erkennen.
 
 ### 5. Innenstation wird identifiziert
-Nach betätigen des Klingeltasters pulsiert die LED wieder grün-türkis, während das Modell der Innenstation erkannt wird.
+Nach betätigen des Klingeltasters pulsiert die LED wieder **langsam** grün-türkis, während das Modell der Innenstation erkannt wird.
 
 ::: warning IDENTIFIKATION FEHLGESCHLAGEN
 Wenn das Modell nicht erkannt werden konnte, leuchtet die LED 3 Sekunden lang dauerhaft rot und der Einrichtungsmodus wird automatisch beendet.
@@ -256,7 +256,7 @@ Die Einrichtung gilt in diesem Fall trotzdem als abgeschlossen.
 :::
 
 ### 6. Speicher wird ausgelesen
-Sobald das Modell der Innenstation erkannt wurde, versucht das System, den Speicher auszulesen.  
+Sobald das Modell der Innenstation erkannt wurde, pulsiert die LED **langsam** grün-türkis während das System versucht, den Speicher auszulesen.  
 
 🕒 Dieser Vorgang kann **bis zu 30 Sekunden** dauern.
 
