@@ -54,7 +54,7 @@ Restarts the Doorman unit and loads factory defaults.
 ::: danger USE WITH GREAT CAUTION
 All credentials, global variables, counters, and saved states stored in non-volatile memory will be lost with no chance of recovery. Even raw reading of flash memory with esptool will not help, as data is physically erased from flash memory.
 
-If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
+If you configured WiFi using the captive portal or Improv Serial, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
 :::
 
 

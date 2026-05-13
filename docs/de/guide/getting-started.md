@@ -121,8 +121,7 @@ Beispiel:
 Wenn du deinen **Doorman S3** zum ersten Mal einschaltest, beginnt die LED **schnell gelb/orange zu blinken** — das bedeutet, er ist bereit für die WLAN-Einrichtung!
 
 Du kannst ihn auf eine von drei Arten mit dem WLAN verbinden:  
-**Access Point**, **Improv Serial (USB)** oder **Improv Bluetooth**.
-
+**Access Point** oder **Improv Serial (USB)**.
 
 ### Access Point
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
@@ -153,55 +152,6 @@ Du kannst ihn auf eine von drei Arten mit dem WLAN verbinden:
       <img style="" src="./images/ap.png">
    </div>
 </div>
-
-### Improv Bluetooth <Badge type="tip" text="Home Assistant" />
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
-   <div style="min-width:250px;flex: 1 1 250px;" markdown>
-
-   1. Stelle sicher, dass dein **Home Assistant** auf dem neuesten Stand ist — so ist die volle Kompatibilität mit deinem **Doorman** gewährleistet.
-
-   2. Öffne die **Home Assistant**-App auf deinem Mobilgerät.
-
-   3. Gehe zu **Einstellungen → Geräte & Dienste**.
-
-   4. Suche nach einem neuen Gerät namens **`doorman-s3` (Improv via BLE)** und tippe auf **Hinzufügen**.
-
-   5. Gib die **WLAN-Zugangsdaten** für das Netzwerk ein, mit dem dein Doorman verbunden werden soll.
-
-   6. Sobald die Meldung **„Wi-Fi connected successfully“** erscheint, bist du fertig — du kannst das Popup schließen.
-
-   7. Dein **Doorman** ist jetzt bereit, über die **ESPHome-Integration** in Home Assistant hinzugefügt zu werden.
-
-   </div>
-   <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
-      <img style="" src="./images/discovery_ble.png">
-   </div>
-</div>
-
-### Improv Bluetooth
-Du kannst deinen Doorman auch über Bluetooth mit dem WLAN verbinden. Das ist eine schnelle und einfache Möglichkeit — besonders praktisch, wenn du ein Handy oder einen Laptop mit Bluetooth nutzt.
-
-Stelle sicher, dass dein Doorman eingeschaltet und in der Nähe ist, und klicke dann auf den Button unten, um zu starten:
-
-<improv-wifi-launch-button>
-   <button slot="activate">
-         <div class="custom-layout">
-            <a class="btn">Verbinde Doorman mit dem WLAN</a>
-         </div>
-   </button>
-   <div slot="unsupported">
-         <div class="danger custom-block">
-            <p class="custom-block-title">OH NEIN!</p>
-            <p>Diese Funktion wird von deinem Browser nicht unterstützt :( Bitte verwende einen Chromium-basierten Browser.</p>
-         </div>
-   </div>
-   <div slot="not-allowed">
-         <div class="danger custom-block">
-            <p class="custom-block-title">OH NEIN!</p>
-            <p>Das funktioniert mit HTTP nicht :(</p>
-         </div>
-   </div>
-</improv-wifi-launch-button>
 
 ### Improv Serial <Badge type="tip" text="USB Verbindung" />
 Wenn dein Doorman nicht automatisch angezeigt wird oder du ihn zum ersten Mal einrichtest, ist diese Methode eine super Alternative.

@@ -129,7 +129,7 @@ Example:
 When you power on your **Doorman S3** for the first time, the LED will **blink rapidly in yellow/orange**, indicating that it's ready to connect to Wi-Fi.
 
 You can connect it to Wi-Fi using one of three methods:  
-**Access Point**, **Improv Serial (USB)**, or **Improv Bluetooth**.
+**Access Point** or **Improv Serial (USB)**.
 
 ### Access Point
 
@@ -161,55 +161,6 @@ You can connect it to Wi-Fi using one of three methods:
       <img style="" src="./images/ap.png">
    </div>
 </div>
-
-### Improv Bluetooth <Badge type="tip" text="Home Assistant" />
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
-   <div style="min-width:250px;flex: 1 1 250px;" markdown>
-
-   1. Make sure your **Home Assistant** is updated to the latest version — this ensures full compatibility with your **Doorman** device.
-
-   2. Open the **Home Assistant** app on your mobile device.
-
-   3. Go to **Settings → Devices & Services**.
-
-   4. Look for a new device named **`doorman-s3` (Improv via BLE)** and tap **Add**.
-
-   5. Enter the **Wi-Fi credentials** for the network you want the device to connect to.
-
-   6. When you see **“Wi-Fi connected successfully”**, you're all set — you can close the prompt.
-
-   7. Your **Doorman** is now ready to be added to Home Assistant using the **ESPHome integration**.
-
-   </div>
-   <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
-      <img style="" src="./images/discovery_ble.png">
-   </div>
-</div>
-
-### Improv Bluetooth
-You can also connect your Doorman to Wi-Fi using Bluetooth. This is a quick and easy option — especially if you're using a phone or laptop with Bluetooth support.
-
-Make sure your Doorman is powered on and nearby, then click the button below to start:
-
-<improv-wifi-launch-button>
-   <button slot="activate">
-         <div class="custom-layout">
-            <a class="btn">Connect Doorman to Wi-Fi</a>
-         </div>
-   </button>
-   <div slot="unsupported">
-         <div class="danger custom-block">
-            <p class="custom-block-title">OH SNAP!</p>
-            <p>Your browser does not support provisioning :( Please use a Chromium-based browser instead.</p>
-         </div>
-   </div>
-   <div slot="not-allowed">
-         <div class="danger custom-block">
-            <p class="custom-block-title">OH SNAP!</p>
-            <p>You are not allowed to use this on HTTP :(</p>
-         </div>
-   </div>
-</improv-wifi-launch-button>
 
 ### Improv Serial <Badge type="tip" text="USB Connection" />
 If your device isn't showing up automatically, or you're setting it up for the first time, this method is a great alternative.
@@ -292,7 +243,7 @@ Once setup mode is activated, the RGB status LED will pulse green-turquoise and 
 
 🕒 This process can take **up to 30 seconds**.
 
-::: danger Discovery Failed
+::: danger DISCOVERY FAILED
 If no outdoor stations are found, the LED will turn solid red and setup mode will be disabled automatically.
 
 Make sure your outdoor station is connected and powered, then re-activate Setup Mode to try again.
@@ -306,7 +257,7 @@ Press the doorbell button at your apartment or entrance. The system will save yo
 ### 5. Indoor Station Identification
 After pressing the doorbell, the LED will pulse green-turquoise again while the indoor station model is being identified.
 
-::: warning Identification Failed
+::: warning IDENTIFICATION FAILED
 If the model could not be identified, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
 
 You can **select the model manually** afterwards.  
@@ -318,7 +269,7 @@ Once the indoor station model is identified, the system will attempt to read its
 
 🕒 This process can take **up to 30 seconds**.
 
-::: warning Memory Read Failed
+::: warning MEMORY READ FAILED
 If reading the memory fails, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
 
 This is non-critical — the setup is still considered complete. You can re-activate Setup Mode to try again if needed.
