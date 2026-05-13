@@ -29,12 +29,12 @@ packages:
   rgb_status_led: github://azoninc/doorman/firmware/packages/common/rgb-status-led.yaml@${branch}
   solid_state_relay: github://azoninc/doorman/firmware/packages/common/relay.yaml@${branch}
   extension_board: github://azoninc/doorman/firmware/packages/extension_boards/common.yaml@${branch}
-  extension_board_audio: github://azoninc/doorman/firmware/packages/extension_boards/audio-intercom.yaml@${branch}
+  extension_board_audio: github://azoninc/doorman/firmware/packages/extension_boards/audio.yaml@${branch}
   external_components: github://azoninc/doorman/firmware/packages/common/external-components.yaml@${branch}
   base: github://azoninc/doorman/firmware/packages/common/base.yaml@${branch}
   wifi: github://azoninc/doorman/firmware/packages/common/wifi.yaml@${branch}
   wifi_psram: github://azoninc/doorman/firmware/packages/common/wifi.psram.yaml@${branch}
-  ota_update_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
+  ota_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
   api: github://azoninc/doorman/firmware/packages/api/homekit.yaml@${branch}
   debug_utilities: github://azoninc/doorman/firmware/packages/debug/debug-utilities.yaml@${branch}
   debug_component: github://azoninc/doorman/firmware/packages/debug/debug-component.yaml@${branch}

@@ -29,7 +29,7 @@ packages:
   base: github://azoninc/doorman/firmware/packages/common/base.yaml@${branch}
   wifi: github://azoninc/doorman/firmware/packages/common/wifi.yaml@${branch}
   wifi_psram: github://azoninc/doorman/firmware/packages/common/wifi.psram.yaml@${branch}
-  ota_update_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
+  ota_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
   api: github://azoninc/doorman/firmware/packages/api/homeassistant.yaml@${branch}
   debug_utilities: github://azoninc/doorman/firmware/packages/debug/debug-utilities.yaml@${branch}
   debug_component: github://azoninc/doorman/firmware/packages/debug/debug-component.yaml@${branch}

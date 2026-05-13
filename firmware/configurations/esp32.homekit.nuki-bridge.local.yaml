@@ -30,7 +30,7 @@ packages:
   external_components: !include ../packages/common/external-components.local.yaml
   base: !include ../packages/common/base.yaml
   wifi: !include ../packages/common/wifi.yaml
-  ota_update_esphome: !include ../packages/ota/esphome.yaml
+  ota_esphome: !include ../packages/ota/esphome.yaml
   api: !include ../packages/api/homekit.yaml
   debug_utilities: !include ../packages/debug/debug-utilities.yaml
   debug_component: !include ../packages/debug/debug-component.yaml
@@ -41,4 +41,4 @@ packages:
   indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
   addon_nuki_bridge: !include ../packages/nuki/nuki-bridge.yaml
   interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml
-  outdoor_station: !include ../packages/bus_devices/outdoor-station.yaml
+  virtual_indoor_station: !include ../packages/bus_devices/virtual-indoor-station.yaml

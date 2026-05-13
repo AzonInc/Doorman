@@ -27,8 +27,8 @@ packages:
   base: !include ../packages/common/base.yaml
   wifi: !include ../packages/common/wifi.yaml
   wifi_psram: !include ../packages/common/wifi.psram.yaml
-  ota_update_esphome: !include ../packages/ota/esphome.yaml
-  ota_update_http: !include ../packages/ota/http.yaml
+  ota_esphome: !include ../packages/ota/esphome.yaml
+  ota_http: !include ../packages/ota/http.yaml
   api: !include ../packages/api/homeassistant.yaml
   pattern_events: !include ../packages/pattern_events/pattern-events.yaml
   ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml

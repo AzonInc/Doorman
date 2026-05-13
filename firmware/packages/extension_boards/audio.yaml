@@ -98,22 +98,3 @@ media_player:
     announcement_pipeline:
         speaker: announcement_spk_resampling_input
         num_channels: 1
-
-button:
-  - platform: template
-    id: testbtn
-    name: "Start Talking"
-    on_press:
-      - tc_bus_device.send:
-          id: tc_bus_indoor_station
-          type: start_talking_door_call
-          address: 0
-
-  - platform: template
-    id: testbtn2
-    name: "Stop Talking"
-    on_press:
-      - tc_bus_device.send:
-          id: tc_bus_indoor_station
-          type: stop_talking_door_call
-          address: 0

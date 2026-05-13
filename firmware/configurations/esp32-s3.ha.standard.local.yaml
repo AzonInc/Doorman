@@ -27,7 +27,7 @@ packages:
   base: !include ../packages/common/base.yaml
   wifi: !include ../packages/common/wifi.yaml
   wifi_psram: !include ../packages/common/wifi.psram.yaml
-  ota_update_esphome: !include ../packages/ota/esphome.yaml
+  ota_esphome: !include ../packages/ota/esphome.yaml
   api: !include ../packages/api/homeassistant.yaml
   debug_utilities: !include ../packages/debug/debug-utilities.yaml
   debug_component: !include ../packages/debug/debug-component.yaml
@@ -35,4 +35,4 @@ packages:
   ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
   indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
   interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml
-  outdoor_station: !include ../packages/bus_devices/outdoor-station.yaml
+  virtual_indoor_station: !include ../packages/bus_devices/virtual-indoor-station.yaml

@@ -35,11 +35,7 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
     ]
 
     is_doorman_s3 = "doorman-s3" in host
-
-    is_doorman_s3_rev_2 = host in [
-        'doorman-s3-rev2',
-        'doorman-s3-rev2-audio'
-    ]
+    is_doorman_s3_rev_2 = "doorman-s3-rev2" in host
 
     packages_config = [
         # Setup Hardware
@@ -54,8 +50,8 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ### Basic configuration
         ('extension_board', 'extension_boards/common.yaml', is_doorman_s3_rev_2),
         ### Audio Extension Board
-        #('extension_board_audio', 'extension_boards/audio.yaml', host == 'doorman-s3-rev2-audio'),
-        ('extension_board_audio', 'extension_boards/audio-intercom.yaml', host == 'doorman-s3-rev2-audio'),
+        ('extension_board_audio', 'extension_boards/audio.yaml', host == 'doorman-s3-rev2-audio'),
+        #('extension_board_audio', 'extension_boards/audio-intercom.yaml', host == 'doorman-s3-rev2-audio'),
 
 
         # Setup Software
@@ -73,9 +69,9 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
 
         ## OTA
         ### ESPHome
-        ('ota_update_esphome', 'ota/esphome.yaml', True),
+        ('ota_esphome', 'ota/esphome.yaml', True),
         ### HTTP OTA for factory config
-        ('ota_update_http', 'ota/http.yaml', factory),
+        ('ota_http', 'ota/http.yaml', factory),
 
         ## API integration
         ('api', 'api/homeassistant.yaml', api_variant == 'ha'),
@@ -84,6 +80,7 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ('api', 'api/custom.yaml', api_variant == 'custom'),
 
         ## Improv BLE (not compatible with Nuki Bridge firmware)
+        ## Removed due to memory contraints in combination with audio
         ## Needs to be here in order to not block on_connect due to the 5s delay
         ## DO NOT MOVE
         #('bluedroid_ble', 'common/bluedroid-ble.yaml', firmware != 'nuki-bridge'),
@@ -104,11 +101,11 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ('interactive_setup', 'bus_devices/interactive-setup.yaml', True),
         
         ## Add outdoor station for local tests
-        ('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
+        #('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
         
         ## Experimental Features
         ### Virtual devices
-        #('virtual_indoor_station', 'bus_devices/virtual-indoor-station.yaml', branch == 'local'),
+        ('virtual_indoor_station', 'bus_devices/virtual-indoor-station.yaml', branch == 'local'),
         #('virtual_outdoor_station', 'bus_devices/virtual-outdoor-station.yaml', branch == 'local'),
         ### Configo component for serial interface
         # ('configo', 'serial_interface/configo.yaml', branch == 'local'),

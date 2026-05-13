@@ -30,7 +30,7 @@ packages:
   external_components: github://azoninc/doorman/firmware/packages/common/external-components.yaml@${branch}
   base: github://azoninc/doorman/firmware/packages/common/base.yaml@${branch}
   wifi: github://azoninc/doorman/firmware/packages/common/wifi.yaml@${branch}
-  ota_update_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
+  ota_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
   api: github://azoninc/doorman/firmware/packages/api/custom.yaml@${branch}
   pattern_events: github://azoninc/doorman/firmware/packages/pattern_events/pattern-events.yaml@${branch}
   ring_to_open: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.yaml@${branch}
