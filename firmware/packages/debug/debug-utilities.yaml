@@ -42,23 +42,6 @@ select:
       sorting_group_id: sorting_group_debug_tools
       sorting_weight: -5
 
-
-binary_sensor:
-  - platform: template
-    id: debug_bus_connected
-    device_id: tc_bus_debug
-    name: "Connection Status"
-    icon: "mdi:connection"
-    lambda: |-
-      if (id(debug_bus_voltage).state >= 2.45) {
-        return true;
-      } else {
-        return false;
-      }
-    entity_category: DIAGNOSTIC
-    web_server:
-      sorting_group_id: sorting_group_debug_tools
-
 text:
   - platform: template
     id: debug_send_telegram
