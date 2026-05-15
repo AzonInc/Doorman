@@ -30,6 +30,7 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         'esp32-s3',
         'esp32-s3-quad',
         'doorman-s3',
+        'doorman-s3-quad',
         'doorman-s3-rev2',
         'doorman-s3-rev2-audio'
     ]
@@ -120,12 +121,14 @@ def generate_yaml_content(host, api_variant, firmware, branch, factory=False):
         "homekit": "HomeKit",
     }.get(api_variant, "Custom")
     
+    is_doorman_s3 = "doorman-s3" in host
+
     if branch == "local":
-        device_name = "doorman-s3-local-dev"
-        device_friendly_name = "Doorman S3 (Development)"
+        device_name = "doorman-s3-local-dev" if is_doorman_s3 else "doorman-local-dev"
+        device_friendly_name = "Doorman S3 (Development)" if is_doorman_s3 else "Doorman (Development)"
     else:
-        device_name = "doorman-s3"
-        device_friendly_name = "Doorman S3"
+        device_name = "doorman-s3" if is_doorman_s3 else "doorman"
+        device_friendly_name = "Doorman S3" if is_doorman_s3 else "Doorman"
 
     content = [
         f'# Doorman {"Nuki Bridge" if firmware == "nuki-bridge" else "Standard"} Firmware ({api_variant_desc})',

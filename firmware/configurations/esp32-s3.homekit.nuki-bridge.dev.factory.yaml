@@ -7,8 +7,8 @@
 
 # You can change a few options here.
 substitutions:
-  name: "doorman-s3"
-  friendly_name: "Doorman S3"
+  name: "doorman"
+  friendly_name: "Doorman"
   ap_password: "Op3n-Sesame!"
   # DO NOT CHANGE - INTERNALLY USED
   branch: "dev"

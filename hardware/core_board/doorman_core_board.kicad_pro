@@ -869,7 +869,7 @@
         }
       ],
       "filter_string": "",
-      "group_symbols": true,
+      "group_symbols": false,
       "include_excluded_from_bom": false,
       "name": "",
       "sort_asc": true,

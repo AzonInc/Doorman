@@ -5,7 +5,13 @@ description: Explore the complete history of PCB revisions, including new featur
 # Core Board Changelog
 This page highlights the new features, improvements, and changes made in each revision.
 
-## 2.1.0 <Badge type="warning" text="Next" />
+## 2.2.0 <Badge type="warning" text="Next" />
+- Changed R10 to 500mW rated resistor
+- Redesigned the `SIEDLE:IN-HOME-BUS` RX circuit
+- Merged voltage detection circuit with `SIEDLE:IN-HOME-BUS` RX circuit to save components
+- Removed D9
+
+## 2.1.0 <Badge type="danger" text="Fail" />
 - Added D9 to protect Q1B
 - Added voltage divider circuit as `ET` to screw terminal to detect `SIEDLE:1+N` ETR signals with GPIO4
 - Added voltage detection circuit to read the current bus voltage with GPIO10
@@ -15,6 +21,10 @@ This page highlights the new features, improvements, and changes made in each re
 - Changed R15 to 750mW rated resistor
 - Changed Extension Board Connector Pin 11 to VBUS
 - Removed GPIO41 from screw terminal
+
+#### Note
+D9 causes issues reading bus data. After removing D9 reading works as expected.
+The `SIEDLE:IN-HOME-BUS` RX circuit is not stable enough.
 
 ## 2.0.0 <Badge type="tip" text="Current" />
 - Added `SIEDLE:IN-HOME-BUS` communication circuit

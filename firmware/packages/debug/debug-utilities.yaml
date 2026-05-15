@@ -59,28 +59,6 @@ binary_sensor:
     web_server:
       sorting_group_id: sorting_group_debug_tools
 
-sensor:
-  - platform: adc
-    id: debug_bus_voltage
-    device_id: tc_bus_debug
-    name: "Bus Voltage"
-    icon: "mdi:current-dc"
-    pin: ${adc_input_pin}
-    update_interval: 5s
-    attenuation: 12dB
-    entity_category: DIAGNOSTIC
-    filters:
-      - calibrate_linear:
-         method: least_squares
-         datapoints:
-          - 0.9 -> 10.0
-          - 2.1 -> 24.0
-          - 2.7 -> 30.0
-          - 3.1 -> 35.0
-    web_server:
-      sorting_group_id: sorting_group_debug_tools
-      sorting_weight: -5
-
 text:
   - platform: template
     id: debug_send_telegram

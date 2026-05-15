@@ -6,7 +6,7 @@ description: Discover Doorman's GPIO pinout and connections for integrating butt
 
 The Doorman S3 uses certain GPIO pins for specific functions and provides additional GPIO pins for your own sensors and devices.
 
-## Revision 1.3 - 1.4
+## Revision 1.3.x - 1.4.x
 | GPIO | Purpose |
 | :----- | :-----|
 | GPIO01 | Red Status LED |
@@ -18,7 +18,7 @@ The Doorman S3 uses certain GPIO pins for specific functions and provides additi
 | GPIO42 | Relay for Analog Door Opener or Light |
 | GPIO48 | Free I/O |
 
-## Revision 1.5
+## Revision 1.5.x
 | GPIO | Purpose |
 | :----- | :-----|
 | GPIO01 | Red Status LED |
@@ -31,7 +31,7 @@ The Doorman S3 uses certain GPIO pins for specific functions and provides additi
 | GPIO42 | Relay for Analog Door Opener or Light |
 | GPIO48 | Free I/O |
 
-## Revision 1.6
+## Revision 1.6.x
 | GPIO | Purpose |
 | :----- | :-----|
 | GPIO01 | Red Status LED |
@@ -43,7 +43,7 @@ The Doorman S3 uses certain GPIO pins for specific functions and provides additi
 | GPIO41 | External Button |
 | GPIO42 | Relay for Analog Door Opener or Light |
 
-## Revision 2.0
+## Revision 2.0.x
 | GPIO | Purpose |
 | :----- | :-----|
 | GPIO01 | Red Status LED |
@@ -63,4 +63,27 @@ The Doorman S3 uses certain GPIO pins for specific functions and provides additi
 | GPIO18 | Free I/O via Extension Board Connector |
 | GPIO40 | Free I/O via Screw Terminal |
 | GPIO41 | External Button / Free I/O via Screw Terminal |
+| GPIO42 | Relay for Analog Door Opener or Light |
+
+## Revision 2.1.x
+| GPIO | Purpose |
+| :----- | :-----|
+| GPIO01 | Red Status LED |
+| GPIO02 | SK6812B RGB Status LED |
+| GPIO04 | SIEDLE:1+n Apartment Doorbell Button |
+| GPIO05 | SIEDLE:IN-HOME-BUS TX Carrier |
+| GPIO06 | SIEDLE:IN-HOME-BUS TX Data |
+| GPIO07 | Free I/O via Extension Board Connector |
+| GPIO08 | TC:BUS TX |
+| GPIO09 | TC:BUS RX / SIEDLE:IN-HOME-BUS RX Carrier / SIEDLE:1+n Call Line |
+| GPIO10 | Bus Voltage (Factor 11) |
+| GPIO11 | SIEDLE:IN-HOME-BUS RX Data |
+| GPIO12 | Free I/O via Extension Board Connector |
+| GPIO13 | I²C CLK via Extension Board Connector |
+| GPIO14 | I²C DAT via Extension Board Connector |
+| GPIO15 | Free I/O via Extension Board Connector |
+| GPIO16 | Free I/O via Extension Board Connector |
+| GPIO17 | Free I/O via Extension Board Connector |
+| GPIO18 | Free I/O via Extension Board Connector |
+| GPIO40 | Free I/O via Screw Terminal |
 | GPIO42 | Relay for Analog Door Opener or Light |
