@@ -11,7 +11,7 @@ You can easily add custom binary sensors for any TC Telegram, in addition to the
 
 ::: code-group
 ```yaml [Telegram Builder]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - platform: tc_bus # [!code ++] [!code focus]
@@ -22,7 +22,7 @@ binary_sensor: # [!code ++] [!code focus]
       sorting_group_id: sorting_group_listeners # [!code ++] [!code focus]
 ```
 ```yaml [32-Bit Telegrams]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - platform: tc_bus # [!code ++] [!code focus]
@@ -36,7 +36,7 @@ binary_sensor: # [!code ++] [!code focus]
 ## Control the internal RGB Status LED
 To control the onboard RGB LED with a button (for example), just reference the light entity with the internal id: `doorman_rgb_status_led`.
 ```yaml
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 button: # [!code ++] [!code focus]
   - platform: template # [!code ++] [!code focus]
@@ -54,7 +54,7 @@ If you want to use the external button to trigger automations, extend either the
 
 ::: code-group
 ```yaml [Binary Sensor]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - id: !extend doorman_external_button # [!code ++] [!code focus]
@@ -62,7 +62,7 @@ binary_sensor: # [!code ++] [!code focus]
       - logger.log: "External button pressed!" # [!code ++] [!code focus]
 ```
 ```yaml [Event]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 event: # [!code ++] [!code focus]
   - id: !extend doorman_external_button_event # [!code ++] [!code focus]
@@ -77,7 +77,7 @@ If you want to add sensors via the I²C bus, you can use the two available GPIO 
 
 ::: code-group
 ```yaml [Doorman up to rev. 1.5]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 i2c: # [!code ++] [!code focus]
   sda: GPIO40 # [!code ++] [!code focus]
@@ -85,8 +85,8 @@ i2c: # [!code ++] [!code focus]
   scan: true # [!code ++] [!code focus]
   id: i2c_bus # [!code ++] [!code focus]
 ```
-```yaml [Doorman rev. 1.6 and newer]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+```yaml [Doorman rev. 1.6 and 1.6.1]
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 i2c: # [!code ++] [!code focus]
   sda: GPIO40 # [!code ++] [!code focus]
@@ -100,11 +100,15 @@ i2c: # [!code ++] [!code focus]
 Beginning with Doorman revision 1.6, the external button must be removed from your configuration YAML.
 :::
 
+:::warning REVISION 2.x.x
+Beginning with Doorman revision 2.0, I²C is generally available via the extension board connector.
+:::
+
 ## Create Your Own Doorbell Pattern
 If you want to create a custom doorbell pattern, you can easily extend the existing doorbell entities. For more information about patterns, refer to the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 
 ```yaml
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 # Extend the doorbell_pattern event entity // [!code ++] [!code focus]
 # Add a new special event type // [!code ++] [!code focus]
@@ -151,7 +155,7 @@ You can easily set up an automation to turn on the light whenever someone rings 
 
 ::: code-group
 ```yaml [Basic]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - id: !extend entrance_doorbell # [!code ++] [!code focus]
@@ -160,7 +164,7 @@ binary_sensor: # [!code ++] [!code focus]
           type: "light" # [!code ++] [!code focus]
 ```
 ```yaml [Based on sun's elevation]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 # Import the Home Assistant sun elevation sensor // [!code ++] [!code focus]
 sensor: # [!code ++] [!code focus]

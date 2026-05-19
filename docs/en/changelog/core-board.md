@@ -7,7 +7,7 @@ This page highlights the new features, improvements, and changes made in each re
 
 ## 2.2.0 <Badge type="warning" text="Next" />
 - Changed R10 to 500mW rated resistor
-- Redesigned the `SIEDLE:IN-HOME-BUS` RX circuit
+- Redesigned the `SIEDLE:IN-HOME-BUS` RX and TX circuits
 - Merged voltage detection circuit with `SIEDLE:IN-HOME-BUS` RX circuit to save components
 - Removed D9
 
@@ -32,6 +32,9 @@ The `SIEDLE:IN-HOME-BUS` RX circuit is not stable enough.
 - Redesigned `TC:BUS` communication circuit
 - Changed ESP32-S3-WROOM-1-N8R8 to ESP32-S3-MINI-1-N4R2
 - Removed footprints for optional audio components
+
+#### Note
+The `SIEDLE:IN-HOME-BUS` RX circuit is not stable enough.
 
 ## 1.6.1
 - Added some optional component footprints for audio PoC

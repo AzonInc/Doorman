@@ -7,7 +7,7 @@ Du kannst problemlos benutzerdefinierte Binärsensoren für jeden TC-Befehl hinz
 
 ::: code-group
 ```yaml [Telegram Builder]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - platform: tc_bus # [!code ++] [!code focus]
@@ -18,7 +18,7 @@ binary_sensor: # [!code ++] [!code focus]
       sorting_group_id: sorting_group_listeners # [!code ++] [!code focus]
 ```
 ```yaml [32-Bit Telegramme]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - platform: tc_bus # [!code ++] [!code focus]
@@ -33,7 +33,7 @@ binary_sensor: # [!code ++] [!code focus]
 Um die Onboard-RGB-LED mit einem Button (zum Beispiel) zu steuern, kannst du einfach die Licht-Entität mit der internen ID: `doorman_rgb_status_led` referenzieren.
 
 ```yaml
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 button: # [!code ++] [!code focus]
   - platform: template # [!code ++] [!code focus]
@@ -51,7 +51,7 @@ Wenn du den externen Button zur Auslösung von Automationen verwenden möchtest,
 
 ::: code-group
 ```yaml [Binärer Sensor]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - id: !extend doorman_external_button # [!code ++] [!code focus]
@@ -59,7 +59,7 @@ binary_sensor: # [!code ++] [!code focus]
       - logger.log: "External button pressed!" # [!code ++] [!code focus]
 ```
 ```yaml [Ereignis]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 event: # [!code ++] [!code focus]
   - id: !extend doorman_external_button_event # [!code ++] [!code focus]
@@ -74,7 +74,7 @@ Falls du Sensoren über den I²C-Bus hinzufügen möchtest, kannst du die beiden
 
 ::: code-group
 ```yaml [Doorman bis rev. 1.5]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 i2c: # [!code ++] [!code focus]
   sda: GPIO40 # [!code ++] [!code focus]
@@ -83,7 +83,7 @@ i2c: # [!code ++] [!code focus]
   id: i2c_bus # [!code ++] [!code focus]
 ```
 ```yaml [Doorman ab rev. 1.6]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 i2c: # [!code ++] [!code focus]
   sda: GPIO40 # [!code ++] [!code focus]
@@ -101,7 +101,7 @@ Ab Doorman Revision 1.6 muss der externe Button aus der Konfigurations-YAML entf
 Wenn du ein benutzerdefiniertes Klingelmuster erstellen möchtest, kannst du die vorhandenen Klingel-Entities ganz einfach erweitern. Weitere Informationen zu Mustern findest du in der [ESPHome-Dokumentation](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 
 ```yaml
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 # Erweitere die Klingelmuster-Event-Entität // [!code ++] [!code focus]
 # Füge einen neuen speziellen Ereignistyp hinzu // [!code ++] [!code focus]
@@ -148,7 +148,7 @@ Du kannst eine Automatisierung einrichten, die das Licht einschaltet, wenn jeman
 
 ::: code-group
 ```yaml [Basic]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - id: !extend entrance_doorbell # [!code ++] [!code focus]
@@ -157,7 +157,7 @@ binary_sensor: # [!code ++] [!code focus]
           type: "light" # [!code ++] [!code focus]
 ```
 ```yaml [Basierend auf der Sonnenhöhe]
-<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 # Importiere den Home Assistant-Sonnenhöhen-Sensor // [!code ++] [!code focus]
 sensor: # [!code ++] [!code focus]
