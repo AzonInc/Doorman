@@ -87,7 +87,7 @@
         "silk_text_thickness": 0.1,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.3
+          "min_clearance": 0.5
         }
       },
       "diff_pair_dimensions": [
@@ -97,7 +97,12 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "courtyards_overlap|90535000|56770000|9dbb2e4f-ad38-4d5c-be0c-846133acd829|c16c4643-e569-4bff-8fa2-00481465951f",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -533,7 +538,7 @@
       },
       {
         "bus_width": 12,
-        "clearance": 0.19,
+        "clearance": 0.3,
         "diff_pair_gap": 0.25,
         "diff_pair_width": 0.2,
         "line_style": 0,
@@ -543,7 +548,7 @@
         "pcb_color": "rgb(255, 255, 0)",
         "priority": 0,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 1.0,
+        "track_width": 0.95,
         "via_diameter": 0.9,
         "via_drill": 0.5,
         "wire_width": 6
@@ -608,10 +613,6 @@
     "netclass_patterns": [
       {
         "netclass": "+24V Bus",
-        "pattern": "+24V Bus"
-      },
-      {
-        "netclass": "+24V Bus",
         "pattern": "BUS_WIRE1"
       },
       {
@@ -628,7 +629,11 @@
       },
       {
         "netclass": "+24V Bus",
-        "pattern": "IO10"
+        "pattern": "VBUS"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "/VCC_IN"
       }
     ]
   },
@@ -866,10 +871,52 @@
           "label": "Capacitance",
           "name": "Capacitance",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Forward Voltage (Vf@If)",
+          "name": "Forward Voltage (Vf@If)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Operating Temperature",
+          "name": "Operating Temperature",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Peak Forward Surge Current",
+          "name": "Peak Forward Surge Current",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Reverse Voltage (Vr)",
+          "name": "Reverse Voltage (Vr)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Rectified Current",
+          "name": "Rectified Current",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Reverse Leakage Current (Ir)",
+          "name": "Reverse Leakage Current (Ir)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Average Rectified Current (Io)",
+          "name": "Average Rectified Current (Io)",
+          "show": false
         }
       ],
       "filter_string": "",
-      "group_symbols": false,
+      "group_symbols": true,
       "include_excluded_from_bom": false,
       "name": "",
       "sort_asc": true,

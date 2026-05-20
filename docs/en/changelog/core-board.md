@@ -23,8 +23,8 @@ This page highlights the new features, improvements, and changes made in each re
 - Removed GPIO41 from screw terminal
 
 #### Note
-D9 causes issues reading bus data. After removing D9 reading works as expected.
-The `SIEDLE:IN-HOME-BUS` RX circuit is not stable enough.
+Using D9 together with D3 causes issues when reading bus data. After removing D9, bus data can be read reliably again.
+Removing D4 as well significantly improves the bus signal quality; however, it also introduces severe instability in the `SIEDLE:IN-HOME-BUS` RX circuit.
 
 ## 2.0.0 <Badge type="tip" text="Current" />
 - Added `SIEDLE:IN-HOME-BUS` communication circuit
@@ -34,7 +34,8 @@ The `SIEDLE:IN-HOME-BUS` RX circuit is not stable enough.
 - Removed footprints for optional audio components
 
 #### Note
-The `SIEDLE:IN-HOME-BUS` RX circuit is not stable enough.
+The `SIEDLE:IN-HOME-BUS` RX circuit is currently not stable enough.
+D3 introduces slight distortion to the bus signal during data reception.
 
 ## 1.6.1
 - Added some optional component footprints for audio PoC
