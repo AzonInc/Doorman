@@ -1,5 +1,5 @@
 ---
-description: Schritt-für-Schritt-Anleitung zur Installation oder Aktualisierung der Doorman-Firmware, inklusive Web Serial, Web-Oberfläche und Home Assistant Integration.
+description: Step-by-step guide for installing or updating the Doorman firmware, including Web Serial, the web interface, and Home Assistant integration.
 ---
 
 <script setup>
@@ -11,7 +11,6 @@ import pkg from '../../../package.json';
 export default {
     data() {
         return {
-            test: '',
             baseUrl: '../../firmware/release/',
             platform: '',
             extension: '',
