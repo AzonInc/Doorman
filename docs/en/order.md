@@ -63,13 +63,14 @@ const allCountries = [
     { value: 'CH', label: 'Switzerland' },
     { value: 'RS', label: 'Serbia' },
     { value: 'CN', label: 'China' },
+    { value: 'IS', label: 'Iceland' },
 ];
 
 export default {
     data() {
         const envelopeTrackingDetails = 'This option is similar to Parcel but intended for smaller, low-quantity orders.';
-        const parcelTrackingDetails = 'Choose this option if you are comfortable with not being able to track the shipment. Lost packages cannot be refunded or replaced.';
-        const packageTrackingDetails = 'Recommended for reliable delivery and shipment visibility with <u>tracking</u>. Lost packages may be eligible for investigation or claim.';
+        const parcelTrackingDetails = 'Choose this option if you are comfortable with not being able to track the shipment.<br>Lost or damaged packages cannot be refunded or replaced.';
+        const packageTrackingDetails = 'Recommended for reliable delivery and shipment visibility with <u>tracking</u>.<br>Lost or damaged packages may be eligible for investigation or claim.';
 
         return {
             errors: {
@@ -122,18 +123,52 @@ export default {
             ],
             products: [
                 {
-                    key: 'pcb',
-                    name: 'Doorman S3',
-                    image: '/pcb.png',
-                    details: 'PCB only – ideal if you can mount it inside a wallbox or the indoor station enclosure.',
-                    price: 0
+                    key: 'core_board',
+                    name: 'Core Board',
+                    image: '/base-board.png',
+                    details: 'Core Board only. For mounting inside a wall box or indoor station enclosure.',
+                    price: 0,
+                    available: false
                 },
                 {
-                    key: 'bundle',
-                    name: 'Doorman S3 - Bundle',
-                    image: '/enclosure.png',
-                    details: 'Includes PCB and case – perfect when the device is installed in a visible spot.',
-                    price: 0
+                    key: 'audio_extension',
+                    name: 'Audio Extension',
+                    image: '/audio-extension.png',
+                    details: 'Audio Extension only - upgrade your Doorman.<br><i>*Requires Core Board revision 2.0.0 or newer.</i>',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'enclosure',
+                    name: 'Protective Enclosure',
+                    image: '/enclosure-only.png',
+                    details: 'The Enclosure for everything - perfect for visible installations. Replacement or spare.',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'core_board_enclosure',
+                    name: 'Starter Pack',
+                    image: '/enclosure-base-board.png',
+                    details: 'Core Board and Enclosure. Ideal for visible and surface-mounted installations in your home.',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'core_board_audio_extension',
+                    name: 'Audio Essentials Pack',
+                    image: '/base-board-audio-extension.png',
+                    details: 'Core Board and Audio Extension. For mounting inside a wall box or indoor station enclosure.',
+                    price: 0,
+                    available: false
+                },
+                {
+                    key: 'core_board_audio_extension_enclosure',
+                    name: 'All inclusive Pack',
+                    image: '/enclosure-audio-extension.png',
+                    details: 'Core Board, Audio Extension, and Enclosure. This is everything you will ever need.',
+                    price: 0,
+                    available: false
                 }
             ],
             shipping_regions: [
@@ -253,7 +288,7 @@ export default {
                         }
                     ],
                     countries: [
-                        'RS','CN'
+                        'RS','CN','IS'
                     ],
                     defaultCountry: 'RS'
                 }
@@ -263,7 +298,8 @@ export default {
             result_title: '',
             result_text: '',
             available_units: -1,
-            available_timestamp: 0
+            available_timestamp: 0,
+            availability_extra_text: ''
         }
     },
     created() {
@@ -435,12 +471,13 @@ export default {
 
                 this.available_units = res.data.available_units;
                 this.available_timestamp = res.data.available_timestamp;
+                this.availability_extra_text = res.data.availability_extra_text;
 
                 // merge into products
                 if (res.data.products) {
                     this.products = this.products.map(p => {
                         const override = res.data.products.find(x => x.key === p.key);
-                        return override ? { ...p, price: override.price } : p;
+                        return override ? { ...p, price: override.price, available: override.available } : p;
                     });
                 }
 
@@ -709,6 +746,7 @@ Availability is limited and occurs **without a fixed schedule**. Any notificatio
     <p class="custom-block-title">CURRENTLY UNAVAILABLE</p>
     <p v-html="availability_time_text"></p>
     <p>You can send your inquiry anyway, and I'll make sure to reserve one for you as soon as they arrive.</p>
+    <p v-html="availability_extra_text"></p>
 </div>
 
 <hr />
@@ -807,12 +845,12 @@ Availability is limited and occurs **without a fixed schedule**. Any notificatio
         <h5 class="firmware_title_row">Choose your Doorman package</h5>
         <div class="firmware_option_row" :class="{ half: products.length <= 2 }">
             <label class="firmware_option" v-for="product in products" :key="product.key">
-                <input type="radio" class="reset_default" v-model="form.product" :value="product.key">
+                <input type="radio" class="reset_default" v-model="form.product" :value="product.key" :disabled="!product.available">
                 <span class="checkmark">
                     <div class="image" v-if="product.image">
                         <img :src="product.image" />
                     </div>
-                    <div class="title">{{ product.name }} <Badge type="tip">{{ product.price.toFixed(2) }} €</Badge></div>
+                    <div class="title">{{ product.name }} <Badge type="tip">{{ product.available ? (product.price.toFixed(2) + "€") : "Unavailable" }}</Badge></div>
                     <div class="details" v-html="product.details"></div>
                     <div class="amount-control" v-if="form.product == product.key">
                         <VPButton theme="alt" type="button" text="-" @click="form.amount = Math.max(1, form.amount - 1)" />

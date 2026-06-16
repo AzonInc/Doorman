@@ -122,6 +122,12 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
+      text: 'Hardware',
+      items: [
+        { text: 'Audio Extension', link: 'audio-extension', base: '/guide/hardware/' }
+      ]
+    },
+    {
       text: 'Enclosure',
       items: [
         { text: '3D printing', link: '3d-printing', base: '/guide/enclosure/' }
@@ -176,10 +182,16 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 function sidebarChangelog(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Changelog',
+      text: 'Hardware',
       items: [
-        { text: 'Firmware', link: 'firmware' },
-        { text: 'Hardware', link: 'hardware' }
+        { text: 'Doorman S3', link: 'core-board' },
+        { text: 'Audio Extension', link: 'extension-audio' }
+      ]
+    },
+    {
+      text: 'Firmware',
+      items: [
+        { text: 'ESPHome Firmware', link: 'firmware' }
       ]
     }
   ];

@@ -1,0 +1,36 @@
+# Doorman Standard Firmware (Home Assistant)
+# Base Board ESP32-S3-QUAD
+
+# You can change a few options here.
+substitutions:
+  name: "doorman"
+  friendly_name: "Doorman"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
+  branch: "master"
+  firmware_type: "standard"
+  api_variant: "ha"
+  host_platform: "esp32-s3-quad"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+
+dashboard_import:
+  package_import_url: github://azoninc/doorman/firmware/configurations/${host_platform}.${api_variant}.${firmware_type}.${branch}.yaml@${branch}
+  import_full_config: true
+
+packages:
+  host: !include ../packages/host/${host_platform}.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.yaml
+  external_components: !include ../packages/common/external-components.yaml
+  base: !include ../packages/common/base.yaml
+  wifi: !include ../packages/common/wifi.yaml
+  wifi_psram: !include ../packages/common/wifi.psram.yaml
+  ota_esphome: !include ../packages/ota/esphome.yaml
+  ota_http: !include ../packages/ota/http.yaml
+  api: !include ../packages/api/homeassistant.yaml
+  pattern_events: !include ../packages/pattern_events/pattern-events.yaml
+  ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
+  indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
+  interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml

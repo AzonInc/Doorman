@@ -69,7 +69,7 @@ async def to_code(config):
         telegram_address = await cg.templatable(config[CONF_ADDRESS], [], cg.uint8)
         cg.add(var.set_address(telegram_address))
 
-    cg.add(var.set_auto_lock(config[CONF_AUTO_LOCK]))
+    cg.add(var.set_auto_reset(config[CONF_AUTO_LOCK]))
 
     for conf in config.get(CONF_ON_BEFORE_UNLOCK, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
@@ -84,6 +84,6 @@ async def to_code(config):
         await automation.build_automation(trigger, [], conf)
 
     tc_bus = await cg.get_variable(config[CONF_TC_BUS_ID])
-    cg.add(tc_bus.register_lock_listener(var))
+    cg.add(tc_bus.register_listener(var))
 
     await cg.register_parented(var, config[CONF_TC_BUS_ID])

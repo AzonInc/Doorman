@@ -6,8 +6,8 @@ namespace esphome::tc_bus
 {
     enum TelegramType {
         TELEGRAM_TYPE_UNKNOWN,
-        TELEGRAM_TYPE_ACK,
-        TELEGRAM_TYPE_DATA,
+        TELEGRAM_TYPE_ACK_STATUS,
+        TELEGRAM_TYPE_ACK_DATA,
         TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES,
         TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE,
         TELEGRAM_TYPE_DOOR_CALL,
@@ -45,21 +45,19 @@ namespace esphome::tc_bus
     };
     
     struct TelegramData {
-        uint32_t raw;
+        uint32_t raw = 0;
+        uint32_t serial_number = 0;
+        uint32_t payload = 0;
+        TelegramType type = TELEGRAM_TYPE_UNKNOWN;
         char hex[9];
-
-        TelegramType type;
-        uint8_t address;
-        uint32_t serial_number;
-        uint32_t payload;
-        
-        bool is_long;
-        bool is_response;
-        bool is_data;
+        uint8_t address = 0;
+        bool is_long = false;
+        bool is_response = false;
+        bool is_retransmission = false;
     };
 
     TelegramData buildTelegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0);
-    TelegramData parseTelegram(uint32_t telegram, bool is_long = true, bool is_response = false, bool is_data = false);
+    TelegramData parseTelegram(uint32_t telegram, bool is_long = true, bool is_response = false, bool is_retransmission = false);
 
     const char* telegram_type_to_string(TelegramType type);
     TelegramType string_to_telegram_type(const char* str);

@@ -1,0 +1,40 @@
+# Doorman Nuki Bridge Firmware (HomeKit)
+# Base Board ESP32
+
+# ESPHome Dashboard import and remote logging are not
+# supported in this firmware, as they require the API.
+# Available only via the Home Assistant API integration.
+
+# You can change a few options here.
+substitutions:
+  name: "doorman"
+  friendly_name: "Doorman"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
+  branch: "dev"
+  firmware_type: "nuki-bridge"
+  api_variant: "homekit"
+  host_platform: "esp32"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+
+packages:
+  host: !include ../packages/host/${host_platform}.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.yaml
+  external_components: !include ../packages/common/external-components.yaml
+  base: !include ../packages/common/base.yaml
+  wifi: !include ../packages/common/wifi.yaml
+  ota_esphome: !include ../packages/ota/esphome.yaml
+  ota_http: !include ../packages/ota/http.yaml
+  api: !include ../packages/api/homekit.yaml
+  debug_utilities: !include ../packages/debug/debug-utilities.yaml
+  debug_component: !include ../packages/debug/debug-component.yaml
+  pattern_events: !include ../packages/pattern_events/pattern-events.yaml
+  ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
+  ring_to_open_homekit: !include ../packages/ring_to_open/ring-to-open.homekit.yaml
+  ring_to_open_nuki: !include ../packages/ring_to_open/ring-to-open-nuki.yaml
+  indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
+  addon_nuki_bridge: !include ../packages/nuki/nuki-bridge.yaml
+  interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml

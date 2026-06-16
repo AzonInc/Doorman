@@ -1,0 +1,137 @@
+# RMT Light Status LED Addon
+
+light:
+  - platform: esp32_rmt_led_strip
+    id: doorman_rgb_status_led
+    name: RGB Status LED
+    icon: "mdi:led-on"
+    internal: true
+    restore_mode: ALWAYS_OFF
+    rgb_order: GRB
+    pin: ${rgb_led_pin}
+    num_leds: 1
+    chipset: ${rgb_led_type}
+    use_psram: true
+    rmt_symbols: 144
+    gamma_correct: 1
+    default_transition_length: 1s
+    effects:
+      - lambda:
+          name: pulse
+          update_interval: 250ms
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+            
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(250);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: slow_pulse
+          update_interval: 2s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+            
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(2500);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: ring_to_open
+          update_interval: 2s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+            
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+            
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(4000);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: error_api
+          update_interval: 1s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state / 100);
+
+            call.set_transition_length(1000);
+
+            on_ = !on_;
+
+            if (on_) {
+              call.set_rgb(1.0, 0, 0);
+            } else {
+              call.set_rgb(0, 0.22, 1.0);
+            }
+
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: error_wifi
+          update_interval: 1s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state / 100);
+
+            call.set_transition_length(1000);
+
+            on_ = !on_;
+
+            if (on_) {
+              call.set_rgb(1.0, 0, 0);
+            } else {
+              call.set_rgb(1, 0.65, 0);
+            }
+
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();

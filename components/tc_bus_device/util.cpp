@@ -17,30 +17,41 @@ namespace esphome::tc_bus
         {SETTING_AS_ADDRESS_DIVIDER, "AS_ADDRESS_DIVIDER"},
         {SETTING_VAS_ADDRESS_DIVIDER, "VAS_ADDRESS_DIVIDER"},
         {SETTING_USE_LONG_DOOR_OPENER_PROTOCOL, "USE_LONG_DOOR_OPENER_PROTOCOL"},
-        {SETTING_AMBIENT_LIGHT, "AMBIENT_LIGHT"},
+        {SETTING_AMBIENT_LIGHT_IN_STANDBY, "AMBIENT_LIGHT_IN_STANDBY"},
         {SETTING_RINGTONE_MUTE, "RINGTONE_MUTE"},
         {SETTING_DOOR_OPENER_DURATION, "DOOR_OPENER_DURATION"},
-        {SETTING_AS_ADDRESS, "AS_ADDRESS"},
-        {SETTING_AS_ADDRESS_LOCK, "AS_ADDRESS_LOCK"},
-        {SETTING_TALKING_REQUIRES_DOOR_READINESS, "TALKING_REQUIRES_DOOR_READINESS"},
+        {SETTING_ADDRESS, "ADDRESS"},
+        {SETTING_ADDRESS_LOCK, "ADDRESS_LOCK"},
+        {SETTING_CALLING_REQUIRES_DOOR_READINESS, "CALLING_REQUIRES_DOOR_READINESS"},
+        {SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS, "DOOR_OPENER_REQUIRES_DOOR_READINESS"},
+        {SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL, "DOOR_OPENER_REQUIRES_ACTIVE_CALL"},
         {SETTING_DOOR_READINESS_DURATION, "DOOR_READINESS_DURATION"},
-        {SETTING_CALLING_DURATION, "CALLING_DURATION"},
+        {SETTING_CALL_TIME_DURATION, "CALL_TIME_DURATION"},
         {SETTING_BUTTON_ROWS, "BUTTON_ROWS"},
         {SETTING_HAS_CODE_LOCK, "HAS_CODE_LOCK"},
+        {SETTING_AUTO_ANSWER_CALL, "AUTO_ANSWER_CALL"},
+        {SETTING_CALL_TIME_UNLIMITED, "CALL_TIME_UNLIMITED"},
+        {SETTING_PARALLEL_SERIAL_NUMBER, "PARALLEL_SERIAL_NUMBER"},
     };
 
     SettingType string_to_setting_type(const char* str)
     {
         if (!str) return SETTING_UNKNOWN;
 
-        for (const auto& mapping : setting_mappings) {
+        for (const auto& mapping : setting_mappings)
+        {
             const char* a = str;
             const char* b = mapping.name;
-            while (*a && *b) {
-                if (toupper(*a) != toupper(*b)) break;
+            while (*a && *b)
+            {
+                if (toupper(*a) != toupper(*b))
+                {
+                    break;
+                }
                 ++a; ++b;
             }
-            if (*a == '\0' && *b == '\0') {
+            if (*a == '\0' && *b == '\0')
+            {
                 return mapping.type;
             }
         }
@@ -49,8 +60,12 @@ namespace esphome::tc_bus
 
     const char* setting_type_to_string(SettingType type)
     {
-        for (const auto& mapping : setting_mappings) {
-            if (mapping.type == type) return mapping.name;
+        for (const auto& mapping : setting_mappings)
+        {
+            if (mapping.type == type)
+            {
+                return mapping.name;
+            }
         }
         return "UNKNOWN";
     }
@@ -64,16 +79,25 @@ namespace esphome::tc_bus
 
     DoorbellButtonAction string_to_doorbell_button_action(const char* str)
     {
-        if (!str) return DOORBELL_BUTTON_ACTION_NONE;
+        if (!str)
+        {
+            return DOORBELL_BUTTON_ACTION_NONE;
+        }
 
-        for (const auto& mapping : doorbell_button_action_mappings) {
+        for (const auto& mapping : doorbell_button_action_mappings)
+        {
             const char* a = str;
             const char* b = mapping.name;
-            while (*a && *b) {
-                if (toupper(*a) != toupper(*b)) break;
+            while (*a && *b)
+            {
+                if (toupper(*a) != toupper(*b))
+                {
+                    break;
+                }
                 ++a; ++b;
             }
-            if (*a == '\0' && *b == '\0') {
+            if (*a == '\0' && *b == '\0')
+            {
                 return mapping.action;
             }
         }
@@ -82,159 +106,266 @@ namespace esphome::tc_bus
 
     const char* doorbell_button_action_to_string(DoorbellButtonAction action)
     {
-        for (const auto& mapping : doorbell_button_action_mappings) {
-            if (mapping.action == action) return mapping.name;
+        for (const auto& mapping : doorbell_button_action_mappings)
+        {
+            if (mapping.action == action)
+            {
+                return mapping.name;
+            }
         }
         return "NONE";
     }
 
     const char* device_group_to_string(uint8_t device_group)
     {
-        if(device_group == 0 || device_group == DEVICE_GROUP_INDOOR_STATION) {
-            return "Indoor Station";
-        } else if(device_group == DEVICE_GROUP_OUTDOOR_STATION) {
+        if(device_group == DEVICE_GROUP_INDOOR_STATION_CLASSIC)
+        {
+            return "Classic Indoor Station";
+        }
+        else if(device_group == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
+        {
+            return "Handsfree Indoor Station";
+        }
+        else if(device_group == DEVICE_GROUP_OUTDOOR_STATION)
+        {
             return "Outdoor Station";
-        } else if(device_group == DEVICE_GROUP_CONTROLLER) {
+        }
+        else if(device_group == DEVICE_GROUP_CONTROLLER)
+        {
             return "Controller";
-        } else if(device_group == DEVICE_GROUP_EXTENSION) {
+        }
+        else if(device_group == DEVICE_GROUP_EXTENSION)
+        {
             return "Extension";
-        } else {
+        }
+        else
+        {
             return "Unknown";
         }
     }
 
-    Model identifier_string_to_model(const uint8_t& device_group, const char* model_key, const uint8_t& hw_version, const uint32_t& fw_version)
-    {
-        if(device_group == 0 || device_group == 1)
-        {
-            if (strcmp(model_key, "000") == 0) return MODEL_IS_ISH3030;
-            else if (strcmp(model_key, "010") == 0) return MODEL_IS_ISW3030;
-            else if (strcmp(model_key, "001") == 0) return MODEL_IS_ISH3230;
-            else if (strcmp(model_key, "011") == 0) return MODEL_IS_ISW3230;
-            else if (strcmp(model_key, "003") == 0) return MODEL_IS_ISH3130;
-            else if (strcmp(model_key, "013") == 0) return MODEL_IS_ISW3130;
-            else if (strcmp(model_key, "015") == 0) return MODEL_IS_ISW3330;
-            else if (strcmp(model_key, "002") == 0) return MODEL_IS_ISH3022;
-            else if (strcmp(model_key, "017") == 0) return MODEL_IS_ISW3340;
-            else if (strcmp(model_key, "800") == 0) return MODEL_IS_IVH3222;
-            else if (strcmp(model_key, "900") == 0) return MODEL_IS_IVH4222;
-            else if (strcmp(model_key, "B00") == 0) return MODEL_IS_IMM1000;
-            else if (strcmp(model_key, "200") == 0) return MODEL_IS_ISW4100;
-            else if (strcmp(model_key, "201") == 0) return MODEL_IS_IMM2100;
+    static const ModelEntry MODEL_TABLE[] = {
+        // Group 0
+        { MODEL_IS_ISH3030,         0x000, 0, UINT16_MAX, 0 },
+        { MODEL_IS_ISH3230,         0x001, 0, UINT16_MAX, 0 },
+        { MODEL_IS_ISH3022,         0x002, 0, UINT16_MAX, 0 },
+        { MODEL_IS_ISH3130,         0x003, 0, UINT16_MAX, 0 },
+        { MODEL_IS_IVH3222,         0x800, 0, UINT16_MAX, 0 },
+        { MODEL_IS_IVH4222,         0x900, 0, UINT16_MAX, 0 },
+        { MODEL_IS_IMM1000,         0xB00, 0, UINT16_MAX, 0 },
+        { MODEL_IS_VMH,             0xC01, 0, UINT16_MAX, 0 },
+        { MODEL_IS_VML,             0xC00, 0, UINT16_MAX, 0 },
+        { MODEL_IS_VMF,             0xC02, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x180, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x181, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x182, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x183, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x184, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x185, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x186, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x187, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x188, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x189, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18A, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18B, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18C, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18D, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18E, 0, UINT16_MAX, 0 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x18F, 0, UINT16_MAX, 0 },
 
-            else if (strcmp(model_key, "020") == 0 || strcmp(model_key, "021") == 0 || strcmp(model_key, "022") == 0 || strcmp(model_key, "023") == 0 || strcmp(model_key, "024") == 0 || strcmp(model_key, "025") == 0 || strcmp(model_key, "026") == 0 || strcmp(model_key, "027") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5010
+        // Group 1
+        { MODEL_IS_ISW3030,         0x010, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3230,         0x011, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3130,         0x013, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3330,         0x015, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW3340,         0x017, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9030,         0x194, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW42X0,         0x400, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TKM_IS,          0x410, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TKM_ISV,         0x420, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ISW4100,         0x200, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IMM2100,         0x201, 0, UINT16_MAX, 1 },
+        { MODEL_IS_CAIXXXX,         0x208, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TC40V2,          0x280, 512, UINT16_MAX, 1 },
+        { MODEL_IS_TC40,            0x280, 0,  511,         1 },
+        { MODEL_IS_VTC42V2,         0x281, 512, UINT16_MAX, 1 },
+        { MODEL_IS_VTC40,           0x281, 0,  511,         1 },
+        { MODEL_IS_ECOOS,           0x800, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ECOOS,           0x805, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ECOOS,           0x807, 0, UINT16_MAX, 1 },
+        { MODEL_IS_CAI2000,         0x809, 0, UINT16_MAX, 1 },
+        { MODEL_IS_ECOOS,           0x80C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW2220,         0x810, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW2221,         0x815, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW3011,         0x820, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW3012,         0x830, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9010,         0x1E8, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9110,         0x1EA, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVW9011,         0x1E9, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVE70,           0x1B3, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVE70,           0x1B4, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IVE70,           0x1B5, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x020, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x021, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x022, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x023, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x024, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x025, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x026, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x027, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x030, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x031, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x032, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x033, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x034, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x035, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x036, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x037, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x028, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x02B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x02F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x068, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x06F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_AUDIO,     0x060, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x038, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x039, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_VIDEO,     0x03F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x070, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x071, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x072, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x073, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x074, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x075, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x076, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x077, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x078, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x079, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_AUDIO, 0x07F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x080, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x081, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x082, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x083, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x084, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x085, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x086, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0x087, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x088, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x089, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0x08F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x058, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x059, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05A, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05B, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05C, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05D, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05E, 0, UINT16_MAX, 1 },
+        { MODEL_IS_TASTA_PRO_VIDEO, 0x05F, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC70, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC71, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC72, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC73, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC74, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC75, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC76, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC77, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC90, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC91, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC92, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC93, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC94, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC95, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC96, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_AUDIO, 0xC97, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC80, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC81, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC82, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC83, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC84, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC85, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC86, 0, UINT16_MAX, 1 },
+        { MODEL_IS_SENSO_PRO_VIDEO, 0xC87, 0, UINT16_MAX, 1 },
 
-            else if (strcmp(model_key, "028") == 0 || strcmp(model_key, "02B") == 0 || strcmp(model_key, "02F") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5020
+        // Group 2
+        { MODEL_AS_PUK,            0x420,    0, 2623,       2 },
+        { MODEL_AS_PDS0X,          0x420, 2624, UINT16_MAX, 2 },
+        { MODEL_AS_PES,            0x430, 2656, UINT16_MAX, 2 },
+        { MODEL_AS_PUK_DSP,        0x4E0,    0, UINT16_MAX, 2 },
+        { MODEL_AS_PAKV2,          0x400,    0, UINT16_MAX, 2 },
+        { MODEL_AS_PAKV3,          0x280,    0, UINT16_MAX, 2 },
+        { MODEL_AS_PAKV3,          0x270,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3,           0xC00,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX1,       0xC01,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX2,       0xC02,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX3,       0xC03,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX4,       0xC04,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX5,       0xC05,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3_EX6,       0xC06,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3,           0xC09,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU3,           0xD09,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4,           0xC20,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX1,       0xC21,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX2,       0xC22,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX3,       0xC23,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX4,       0xC24,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX5,       0xC25,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TCU4_EX6,       0xC26,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TKM_AS,         0x480,    0, UINT16_MAX, 2 },
+        { MODEL_AS_TKM_ASV,        0x4C0,    0, UINT16_MAX, 2 },
 
-            else if (strcmp(model_key, "030") == 0 || strcmp(model_key, "031") == 0 || strcmp(model_key, "032") == 0 || strcmp(model_key, "033") == 0 || strcmp(model_key, "034") == 0 || strcmp(model_key, "035") == 0 || strcmp(model_key, "036") == 0 || strcmp(model_key, "037") == 0)
-                return MODEL_IS_TASTA_VIDEO; // IVW511X
+        // Group 4
+        { MODEL_CTRL_BVS30,        0x008, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_NBV3210,      0x010, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_VBVS30,       0x009, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_NBV2600,      0xD2D, 0, UINT16_MAX, 4 },
+        { MODEL_CTRL_VBVS05,       0x000, 0, UINT16_MAX, 4 },
 
-            else if (strcmp(model_key, "038") == 0 || strcmp(model_key, "039") == 0 || strcmp(model_key, "03A") == 0 || strcmp(model_key, "03B") == 0 || strcmp(model_key, "03C") == 0 || strcmp(model_key, "03D") == 0 || strcmp(model_key, "03E") == 0 || strcmp(model_key, "03F") == 0)
-                return MODEL_IS_TASTA_VIDEO; // IVW521X
-
-            else if (strcmp(model_key, "058") == 0 || strcmp(model_key, "059") == 0 || strcmp(model_key, "05A") == 0 || strcmp(model_key, "05B") == 0 || strcmp(model_key, "05C") == 0 || strcmp(model_key, "05D") == 0 || strcmp(model_key, "05E") == 0 || strcmp(model_key, "05F") == 0)
-                return MODEL_IS_TASTA_PRO_VIDEO; // IVW6511 (+ smart stick)
-
-            else if (strcmp(model_key, "060") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5033
-
-            else if (strcmp(model_key, "068") == 0 || strcmp(model_key, "06F") == 0)
-                return MODEL_IS_TASTA_AUDIO; // ISW5030 / ISW5031
-
-            else if (strcmp(model_key, "070") == 0 || strcmp(model_key, "071") == 0 || strcmp(model_key, "072") == 0 || strcmp(model_key, "073") == 0 || strcmp(model_key, "074") == 0 || strcmp(model_key, "075") == 0 || strcmp(model_key, "076") == 0 || strcmp(model_key, "077") == 0)
-                return MODEL_IS_TASTA_PRO_AUDIO; // ISW6031 (+ smart stick)
-
-            else if (strcmp(model_key, "078") == 0 || strcmp(model_key, "079") == 0 || strcmp(model_key, "07A") == 0 || strcmp(model_key, "07B") == 0 || strcmp(model_key, "07C") == 0 || strcmp(model_key, "07D") == 0 || strcmp(model_key, "07E") == 0 || strcmp(model_key, "07F") == 0)
-                return MODEL_IS_TASTA_PRO_AUDIO; // ISW6010 (+ smart stick)
-
-            else if (strcmp(model_key, "080") == 0 || strcmp(model_key, "081") == 0 || strcmp(model_key, "082") == 0 || strcmp(model_key, "083") == 0 || strcmp(model_key, "084") == 0 || strcmp(model_key, "085") == 0 || strcmp(model_key, "086") == 0 || strcmp(model_key, "087") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISW7030 / TC70
-
-            else if (strcmp(model_key, "088") == 0 || strcmp(model_key, "089") == 0 || strcmp(model_key, "08A") == 0 || strcmp(model_key, "08B") == 0 || strcmp(model_key, "08C") == 0 || strcmp(model_key, "08D") == 0 || strcmp(model_key, "08E") == 0 || strcmp(model_key, "08F") == 0)
-                return MODEL_IS_SENSO_PRO_VIDEO; // IVW7510 (+ smart stick)
-
-            else if (strcmp(model_key, "180") == 0 || strcmp(model_key, "181") == 0 || strcmp(model_key, "182") == 0 || strcmp(model_key, "183") == 0 || strcmp(model_key, "184") == 0 || strcmp(model_key, "185") == 0 || strcmp(model_key, "186") == 0 || strcmp(model_key, "187") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISH7030
-
-            else if (strcmp(model_key, "188") == 0 || strcmp(model_key, "189") == 0 || strcmp(model_key, "18A") == 0 || strcmp(model_key, "18B") == 0 || strcmp(model_key, "18C") == 0 || strcmp(model_key, "18D") == 0 || strcmp(model_key, "18E") == 0 || strcmp(model_key, "18F") == 0)
-                return MODEL_IS_SENSO_PRO_VIDEO; // IVH7510
-
-            else if (strcmp(model_key, "C70") == 0 || strcmp(model_key, "C71") == 0 || strcmp(model_key, "C72") == 0 || strcmp(model_key, "C73") == 0 || strcmp(model_key, "C74") == 0 || strcmp(model_key, "C75") == 0 || strcmp(model_key, "C76") == 0 || strcmp(model_key, "C77") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISW7030 / TC70 (+ smart stick)
-
-            else if (strcmp(model_key, "C90") == 0 || strcmp(model_key, "C91") == 0 || strcmp(model_key, "C92") == 0 || strcmp(model_key, "C93") == 0 || strcmp(model_key, "C94") == 0 || strcmp(model_key, "C95") == 0 || strcmp(model_key, "C96") == 0 || strcmp(model_key, "C97") == 0)
-                return MODEL_IS_SENSO_PRO_AUDIO; // ISWM7000 (+ smart stick)
-
-            else if (strcmp(model_key, "C80") == 0 || strcmp(model_key, "C81") == 0 || strcmp(model_key, "C82") == 0 || strcmp(model_key, "C83") == 0 || strcmp(model_key, "C84") == 0 || strcmp(model_key, "C85") == 0 || strcmp(model_key, "C86") == 0 || strcmp(model_key, "C87") == 0)
-                return MODEL_IS_SENSO_PRO_VIDEO; // IVWM7000 (+ smart stick)
-
-            else if (strcmp(model_key, "800") == 0 || strcmp(model_key, "805") == 0)
-                return MODEL_IS_ECOOS; // IVW2210
-
-            else if (strcmp(model_key, "807") == 0)
-                return MODEL_IS_ECOOS; // IVW2211
-
-            else if (strcmp(model_key, "80C") == 0)
-                return MODEL_IS_ECOOS; // IVW2212
-
-            else if (strcmp(model_key, "810") == 0) return MODEL_IS_IVW2220;
-            else if (strcmp(model_key, "815") == 0) return MODEL_IS_IVW2221;
-            else if (strcmp(model_key, "820") == 0) return MODEL_IS_IVW3011;
-            else if (strcmp(model_key, "830") == 0) return MODEL_IS_IVW3012;
-
-            else if (strcmp(model_key, "C01") == 0) return MODEL_IS_VMH;
-            else if (strcmp(model_key, "C00") == 0) return MODEL_IS_VML;
-            else if (strcmp(model_key, "C02") == 0) return MODEL_IS_VMF;
-            else if (strcmp(model_key, "400") == 0) return MODEL_IS_ISW42X0;
-            else if (strcmp(model_key, "410") == 0) return MODEL_IS_TKIS;
-            else if (strcmp(model_key, "420") == 0) return MODEL_IS_TKISV;
-            else if (strcmp(model_key, "208") == 0) return MODEL_IS_CAIXXXX;
-            else if (strcmp(model_key, "809") == 0) return MODEL_IS_CAI2000;
-            else if (strcmp(model_key, "280") == 0) {
-                return (fw_version >= 512) ? MODEL_IS_VTC42V2 : MODEL_IS_VTC40;
-            }
-            else if (strcmp(model_key, "281") == 0) {
-                return (fw_version >= 512) ? MODEL_IS_TC40V2 : MODEL_IS_TC40;
-            }
+        // Group 6
+        { MODEL_EXT_BRE2_SG,      0x300, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_BRE2_EB,      0x400, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_TRE2,         0x500, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_TOER2_EB,     0x510, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_FFL1000,      0x520, 0, UINT16_MAX, 6 },
+        { MODEL_EXT_FAA1200,      0x530, 0, UINT16_MAX, 6 },
         
-            else if (strcmp(model_key, "194") == 0) return MODEL_IS_IVW9030;
-            else if (strcmp(model_key, "1E8") == 0) return MODEL_IS_IVW9010;
-            else if (strcmp(model_key, "1EA") == 0) return MODEL_IS_IVW9110;
-            else if (strcmp(model_key, "1E9") == 0) return MODEL_IS_IVW9011;
-            else if (strcmp(model_key, "1B3") == 0 || strcmp(model_key, "1B4") == 0 || strcmp(model_key, "1B5") == 0)
-                return MODEL_IS_IVE70;
-        }
-        else if(device_group == 2)
-        {
-            if (strcmp(model_key, "420") == 0 && fw_version < 2624) return MODEL_AS_PUK;
-            else if (strcmp(model_key, "4E0") == 0) return MODEL_AS_PUK_DSP;
+    };
 
-            else if ((strcmp(model_key, "420") == 0 && fw_version >= 2624)) return MODEL_AS_PDS0X;
-            else if ((strcmp(model_key, "430") == 0 && fw_version >= 2656)) return MODEL_AS_PES;
-
-            else if (strcmp(model_key, "400") == 0) return MODEL_AS_PAKV2;
-            else if (strcmp(model_key, "280") == 0 || strcmp(model_key, "270") == 0) return MODEL_AS_PAKV3;
-            else if (strcmp(model_key, "C00") == 0 || strcmp(model_key, "C00") == 0 || strcmp(model_key, "C01") == 0 || strcmp(model_key, "C02") == 0 || strcmp(model_key, "C03") == 0 || strcmp(model_key, "C04") == 0 || strcmp(model_key, "C05") == 0 || strcmp(model_key, "C06") == 0 || strcmp(model_key, "C09") == 0 || strcmp(model_key, "D09") == 0)
-                return MODEL_AS_TCU3;
-            else if (strcmp(model_key, "C20") == 0 || strcmp(model_key, "C21") == 0 || strcmp(model_key, "C22") == 0 || strcmp(model_key, "C23") == 0 || strcmp(model_key, "C24") == 0 || strcmp(model_key, "C25") == 0 || strcmp(model_key, "C26") == 0)
-                return MODEL_AS_TCU4;
-        }
-        else if(device_group == 4)
+    Model identifier_to_model(uint8_t device_group, uint16_t model_key, uint8_t hw_version, uint16_t fw_version)
+    {
+        for (const ModelEntry& e : MODEL_TABLE)
         {
-            if (strcmp(model_key, "008") == 0) return MODEL_CTRL_BVS30;
-            else if (strcmp(model_key, "010") == 0) return MODEL_CTRL_NBV3210;
-            else if (strcmp(model_key, "009") == 0) return MODEL_CTRL_VBVS30;
-            else if (strcmp(model_key, "D2D") == 0) return MODEL_CTRL_NBV2600;
+            if (e.device_group == device_group && e.model_key == model_key && fw_version >= e.fw_min && fw_version <= e.fw_max)
+            {
+                return e.model;
+            }
         }
-        else
-        {
-            // Other device groups
-            // Not implemented
-        }
-
         return MODEL_NONE;
+    }
+
+    uint16_t model_to_identifier(Model model)
+    {
+        for (const ModelEntry& e : MODEL_TABLE)
+        {
+            if (e.model == model)
+            {
+                return e.model_key;
+            }
+        }
+        return 0x000;
     }
 
     const ModelMapping model_mappings[] = {
@@ -281,8 +412,8 @@ namespace esphome::tc_bus
         {MODEL_IS_VMH, "TCS VMH / Koch VMH"},
         {MODEL_IS_VML, "TCS VML / Koch VML"},
         {MODEL_IS_VMF, "TCS VMF / Koch VMF"},
-        {MODEL_IS_TKIS, "Jung TKIS"},
-        {MODEL_IS_TKISV, "Jung TKISV"},
+        {MODEL_IS_TKM_IS, "Jung TKM IS"},
+        {MODEL_IS_TKM_ISV, "Jung TKM ISV"},
         {MODEL_IS_CAIXXXX, "TCS CAIXXXX / Koch CAIXXXX"},
         {MODEL_IS_CAI2000, "TCS CAI2000 / Koch Carus"},
         {MODEL_IS_ISW42X0, "TCS ISW42X0"},
@@ -291,8 +422,8 @@ namespace esphome::tc_bus
         {MODEL_IS_IVW9110, "TCS IVW9110"},
         {MODEL_IS_IVW9030, "TCS IVW9030 / Scantron SLIM50T"},
         {MODEL_IS_IVE70, "TCS IVE70"},
-        {MODEL_IS_DEBUG_0, "DEBUG IS0"},
-        {MODEL_IS_DEBUG_1, "DEBUG IS1"},
+        {MODEL_IS_DEBUG_0, "DEBUG IS Classic"},
+        {MODEL_IS_DEBUG_1, "DEBUG IS Handsfree"},
         {MODEL_AS_DEBUG, "DEBUG AS"},
         {MODEL_AS_PUK, "TCS PUK"},
         {MODEL_AS_PUK_DSP, "TCS PUK-DSP"},
@@ -303,31 +434,60 @@ namespace esphome::tc_bus
         {MODEL_AS_PES, "TCS PES"},
         {MODEL_AS_TCU2, "TCS TCU2"},
         {MODEL_AS_TCU3, "TCS TCU3"},
+        {MODEL_AS_TCU3_EX1, "TCS TCU3 + TCKE3 (1)"},
+        {MODEL_AS_TCU3_EX2, "TCS TCU3 + TCKE3 (2)"},
+        {MODEL_AS_TCU3_EX3, "TCS TCU3 + TCKE3 (3)"},
+        {MODEL_AS_TCU3_EX4, "TCS TCU3 + TCKE3 (4)"},
+        {MODEL_AS_TCU3_EX5, "TCS TCU3 + TCKE3 (5)"},
+        {MODEL_AS_TCU3_EX6, "TCS TCU3 + TCKE3 (6)"},
         {MODEL_AS_TCU4, "TCS TCU4"},
+        {MODEL_AS_TCU4_EX1, "TCS TCU4 + TCKE3 (1)"},
+        {MODEL_AS_TCU4_EX2, "TCS TCU4 + TCKE3 (2)"},
+        {MODEL_AS_TCU4_EX3, "TCS TCU4 + TCKE3 (3)"},
+        {MODEL_AS_TCU4_EX4, "TCS TCU4 + TCKE3 (4)"},
+        {MODEL_AS_TCU4_EX5, "TCS TCU4 + TCKE3 (5)"},
+        {MODEL_AS_TCU4_EX6, "TCS TCU4 + TCKE3 (6)"},
+        {MODEL_AS_TKM_AS, "Jung TKM AS"},
+        {MODEL_AS_TKM_ASV, "Jung TKM ASV"},
         {MODEL_CTRL_BVS20, "TCS BVS20"},
         {MODEL_CTRL_BVS30, "TCS BVS30"},
         {MODEL_CTRL_NBV3210, "TCS NBV3210"},
         {MODEL_CTRL_VBVS30, "TCS VBVS30"},
         {MODEL_CTRL_NBV2600, "TCS NBV2600"},
+        {MODEL_CTRL_VBVS05, "TCS VBVS05"},
         {MODEL_CTRL_DEBUG, "DEBUG CONTROLLER"},
+        {MODEL_EXT_BRE2_SG, "TCS BRE2-SG"},
+        {MODEL_EXT_BRE2_EB, "TCS BRE2-EB"},
         {MODEL_EXT_TRE2, "TCS TRE2"},
+        {MODEL_EXT_TOER2_EB, "TCS TOER2-EB"},
+        {MODEL_EXT_FFL1000, "TCS FFL1000"},
+        {MODEL_EXT_FAA1200, "TCS FAA1200"},
         {MODEL_EXT_DEBUG, "DEBUG EXTENSION"}
     };
 
-    Model string_to_model(const char* str) {
-        if (!str) return MODEL_NONE;
+    Model string_to_model(const char* str)
+    {
+        if (!str)
+        {
+            return MODEL_NONE;
+        }
 
-        for (const auto& mapping : model_mappings) {
-            if (strcmp(str, mapping.name) == 0) {
+        for (const auto& mapping : model_mappings)
+        {
+            if (strcmp(str, mapping.name) == 0)
+            {
                 return mapping.model;
             }
         }
         return MODEL_NONE;
     }
 
-    const char* model_to_string(Model model) {
-        for (const auto& mapping : model_mappings) {
-            if (mapping.model == model) {
+    const char* model_to_string(Model model)
+    {
+        for (const auto& mapping : model_mappings)
+        {
+            if (mapping.model == model)
+            {
                 return mapping.name;
             }
         }
@@ -346,537 +506,636 @@ namespace esphome::tc_bus
             case MODEL_IS_ISW3030: /* TC50 */
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3130: /* TC50P */
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3230: /* TC50 GFA */
                 modelData.device_group = 1;
                 modelData.memory_size = 40;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3330: /* TC50 BW */
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW3340:
                 modelData.device_group = 1;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TASTA_AUDIO: /* Koch 60 Series Audio */
             case MODEL_IS_TASTA_PRO_AUDIO:
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
-                modelData.capabilities |= CAP_AMBIENT_LIGHT;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL;
+                modelData.capabilities |= CAP_SETTING_AMBIENT_LIGHT_IN_STANDBY;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TASTA_VIDEO: /* Koch 60 Series Video */
             case MODEL_IS_TASTA_PRO_VIDEO:
                 modelData.device_group = 1;
                 modelData.memory_size = 48;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_USE_LONG_DOOR_OPENER_PROTOCOL;
-                modelData.capabilities |= CAP_AMBIENT_LIGHT;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL;
+                modelData.capabilities |= CAP_SETTING_AMBIENT_LIGHT_IN_STANDBY;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_SENSO_PRO_AUDIO:  /* Koch 70 Series Audio */
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_SENSO_PRO_VIDEO:  /* Koch 70 Series Video */
                 modelData.device_group = 1;
                 modelData.memory_size = 48;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_INTERNAL_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_INDIVIDUAL_RESET;
+                modelData.capabilities |= CAP_ALT_RINGTONE_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ECOOS:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 // Supported? Not documented
-                //modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
+                //modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
                 break;
             case MODEL_IS_ISW4100: /* TC31 */
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IMM2100: /* TCE31 */
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_VTC42V2:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TC40V2:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_VTC40:
                 modelData.device_group = 1;
                 modelData.memory_size = 40;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                // not available in v1
+                //modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TC40:
                 modelData.device_group = 1;
                 modelData.memory_size = 40;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                // not available in v1
+                //modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_TC2000:
                 modelData.device_group = 1;
                 modelData.memory_size = 16;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TC20P:
                 modelData.device_group = 1;
                 modelData.memory_size = 16;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TC20F:
                 modelData.device_group = 1;
                 modelData.memory_size = 16;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IVW2220:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IVW2221:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IVW3011:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_IVW3012:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
-            case MODEL_IS_TKIS:
+            case MODEL_IS_TKM_IS:
+                modelData.device_group = 1;
+                modelData.memory_size = 40;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
+                modelData.capabilities |= CAP_SETTING_AMBIENT_LIGHT_IN_STANDBY;
+                break;
+            case MODEL_IS_TKM_ISV:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
-                break;
-            case MODEL_IS_TKISV:
-                modelData.device_group = 1;
-                modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
+                modelData.capabilities |= CAP_SETTING_AMBIENT_LIGHT_IN_STANDBY;
                 break;
             case MODEL_IS_CAI2000:
                 modelData.device_group = 1;
                 modelData.memory_size = 64;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_CAIXXXX:
                 modelData.device_group = 1;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
             case MODEL_IS_ISW42X0:
                 modelData.device_group = 1;
                 modelData.memory_size = 40;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
+                modelData.capabilities |= CAP_SETTING_AUTO_ANSWER_CALL;
                 break;
 
             // Group 0
             case MODEL_IS_ISH3022:
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                // Volume is set directly on hardware
-                // Might not be supported
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_ISH3130: /* TCH50P */
                 modelData.device_group = 0;
                 modelData.memory_size = 40;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
                 break;
             case MODEL_IS_ISH3230: /* TCH50 GFA */
                 modelData.device_group = 0;
                 modelData.memory_size = 40;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
                 break;
             case MODEL_IS_ISH3030: /* TCH50 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_UNLIMITED;
                 break;
             case MODEL_IS_ISH1030: /* TTS25 */
                 modelData.device_group = 0;
                 modelData.memory_size = 16;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TTCXX:
                 modelData.device_group = 0;
                 modelData.memory_size = 16;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_TTSXX:
                 modelData.device_group = 0;
                 modelData.memory_size = 16;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1000: /* TCH30 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1100: /* TCHE30 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1300: /* VTCH30 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1500:
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1310: /* VTCHE30 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1110: /* TCHEE30 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IVH3222: /* VTCH50 */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                // Has Hardware Switch, might not be supported
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IVH4222: /* VTCH50/2D */
                 modelData.device_group = 0;
                 modelData.memory_size = 32;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                // Has Hardware Switch, might not be supported
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_VMH:
                 modelData.device_group = 0;
                 modelData.memory_size = 24;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_VML:
                 modelData.device_group = 0;
                 modelData.memory_size = 24;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_VMF:
                 modelData.device_group = 0;
                 modelData.memory_size = 24;
-                modelData.capabilities |= CAP_RINGTONE_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_INTERNAL_CALL;
-                modelData.capabilities |= CAP_RINGTONE_FLOOR_CALL;
-                modelData.capabilities |= CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
-                modelData.capabilities |= CAP_VOLUME_RINGTONE;
-                modelData.capabilities |= CAP_VOLUME_HANDSET_DOOR_CALL;
-                modelData.capabilities |= CAP_AS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_VAS_ADDRESS_DIVIDER;
-                modelData.capabilities |= CAP_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_FLOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_VOLUME_RINGTONE;
+                modelData.capabilities |= CAP_SETTING_VOLUME_HANDSET_DOOR_CALL;
+                modelData.capabilities |= CAP_SETTING_AS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_VAS_ADDRESS_DIVIDER;
+                modelData.capabilities |= CAP_SETTING_RINGTONE_MUTE;
+                modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
 
             case MODEL_IS_IVW9010:
@@ -907,13 +1166,18 @@ namespace esphome::tc_bus
             case MODEL_AS_PAKV3:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
-                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
-                modelData.capabilities |= CAP_BUTTON_ROWS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
+                modelData.capabilities |= CAP_SETTING_BUTTON_ROWS;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -921,13 +1185,18 @@ namespace esphome::tc_bus
             case MODEL_AS_PUK_DSP:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
-                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
-                modelData.capabilities |= CAP_BUTTON_ROWS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
+                modelData.capabilities |= CAP_SETTING_BUTTON_ROWS;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -936,50 +1205,106 @@ namespace esphome::tc_bus
             case MODEL_AS_PES:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
-                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
-                modelData.capabilities |= CAP_BUTTON_ROWS;
-                modelData.capabilities |= CAP_HAS_CODE_LOCK;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
+                modelData.capabilities |= CAP_SETTING_BUTTON_ROWS;
+                modelData.capabilities |= CAP_SETTING_HAS_CODE_LOCK;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
             case MODEL_AS_TCU2:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
-                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
             case MODEL_AS_TCU3:
+            case MODEL_AS_TCU3_EX1:
+            case MODEL_AS_TCU3_EX2:
+            case MODEL_AS_TCU3_EX3:
+            case MODEL_AS_TCU3_EX4:
+            case MODEL_AS_TCU3_EX5:
+            case MODEL_AS_TCU3_EX6:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
-                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.memory_size_side = 192;
+                modelData.sides = model_to_identifier(model) & 0xF;
+
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
             case MODEL_AS_TCU4:
+            case MODEL_AS_TCU4_EX1:
+            case MODEL_AS_TCU4_EX2:
+            case MODEL_AS_TCU4_EX3:
+            case MODEL_AS_TCU4_EX4:
+            case MODEL_AS_TCU4_EX5:
+            case MODEL_AS_TCU4_EX6:
                 modelData.device_group = 2;
                 modelData.memory_size = 128;
-                modelData.capabilities |= CAP_DOOR_OPENER_DURATION;
-                modelData.capabilities |= CAP_AS_ADDRESS;
-                modelData.capabilities |= CAP_AS_ADDRESS_LOCK;
-                modelData.capabilities |= CAP_TALKING_REQUIRES_DOOR_READINESS;
-                modelData.capabilities |= CAP_DOOR_READINESS_DURATION;
-                modelData.capabilities |= CAP_CALLING_DURATION;
+                modelData.memory_size_side = 192;
+                modelData.sides = model_to_identifier(model) & 0xF;
+
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+
+                modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
+                break;
+
+            case MODEL_AS_TKM_AS:
+            case MODEL_AS_TKM_ASV:
+                modelData.device_group = 2;
+                modelData.memory_size = 128;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
+                
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
                 break;
 
@@ -992,6 +1317,7 @@ namespace esphome::tc_bus
             case MODEL_CTRL_NBV3210:
             case MODEL_CTRL_VBVS30:
             case MODEL_CTRL_NBV2600:
+            case MODEL_CTRL_VBVS05:
                 modelData.device_group = 4;
                 modelData.memory_size = 0;
                 break;
@@ -1005,8 +1331,17 @@ namespace esphome::tc_bus
 
             // Group 6
             case MODEL_EXT_TRE2:
+            case MODEL_EXT_TOER2_EB:
+            case MODEL_EXT_FFL1000:
+            case MODEL_EXT_FAA1200:
                 modelData.device_group = 6;
-                modelData.memory_size = 0;
+                modelData.memory_size = 8;
+                break;
+
+            case MODEL_EXT_BRE2_SG:
+            case MODEL_EXT_BRE2_EB:
+                modelData.device_group = 6;
+                modelData.memory_size = 64;
                 break;
 
             case MODEL_EXT_DEBUG:
@@ -1023,24 +1358,19 @@ namespace esphome::tc_bus
 
     SettingCellData getSettingCellData(SettingType setting, Model model)
     {
+        return getSettingCellData(setting, getModelData(model));
+    }
+
+    SettingCellData getSettingCellData(SettingType setting, const ModelData& model_data)
+    {
         SettingCellData data{};
-        ModelData model_data = getModelData(model);
 
         if(model_data.device_group == 0 || model_data.device_group == 1)
         {
-            bool next_gen_model = (
-                model == MODEL_IS_TASTA_AUDIO ||
-                model == MODEL_IS_TASTA_VIDEO ||
-                model == MODEL_IS_TASTA_PRO_AUDIO ||
-                model == MODEL_IS_TASTA_PRO_VIDEO ||
-                model == MODEL_IS_SENSO_PRO_AUDIO ||
-                model == MODEL_IS_SENSO_PRO_VIDEO
-            );
-
             // IS
-            if (setting == SETTING_RINGTONE_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_ENTRANCE_DOOR_CALL))
+            if (setting == SETTING_RINGTONE_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 24;
                     data.start_bit = 7;
@@ -1052,10 +1382,12 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
-            else if (setting == SETTING_RINGTONE_INTERNAL_CALL && (model_data.capabilities & CAP_RINGTONE_INTERNAL_CALL))
+            else if (setting == SETTING_RINGTONE_INTERNAL_CALL && (model_data.capabilities & CAP_SETTING_RINGTONE_INTERNAL_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 25;
                     data.start_bit = 7;
@@ -1067,10 +1399,12 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
-            else if (setting == SETTING_RINGTONE_FLOOR_CALL && (model_data.capabilities & CAP_RINGTONE_FLOOR_CALL))
+            else if (setting == SETTING_RINGTONE_FLOOR_CALL && (model_data.capabilities & CAP_SETTING_RINGTONE_FLOOR_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 26;
                     data.start_bit = 7;
@@ -1082,10 +1416,12 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
-            else if (setting == SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_RINGTONE_SECOND_ENTRANCE_DOOR_CALL))
+            else if (setting == SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL && (model_data.capabilities & CAP_SETTING_RINGTONE_SECOND_ENTRANCE_DOOR_CALL))
             {
-                if(next_gen_model)
+                if(model_data.capabilities & CAP_ALT_RINGTONE_ADDRESS)
                 {
                     data.index = 27;
                     data.start_bit = 7;
@@ -1097,138 +1433,332 @@ namespace esphome::tc_bus
                     data.start_bit = 7;
                     data.length = 4;
                 }
+
+                data.valid = true;
             }
-            else if (setting == SETTING_VOLUME_RINGTONE && (model_data.capabilities & CAP_VOLUME_RINGTONE))
+            else if (setting == SETTING_VOLUME_RINGTONE && (model_data.capabilities & CAP_SETTING_VOLUME_RINGTONE))
             {
-                data.index = 20;
-                data.start_bit = 7;
-                data.length = 8;
+                if(model_data.model == MODEL_IS_TC40 || model_data.model == MODEL_IS_VTC40 || model_data.model == MODEL_IS_TC40V2 || model_data.model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 28;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                else if(model_data.model == MODEL_IS_ISW42X0)
+                {
+                    data.index = 20;
+                    data.start_bit = 1;
+                    data.length = 2;
+                }
+                else
+                {
+                    data.index = 20;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                
+                data.valid = true;
             }
-            else if (setting == SETTING_VOLUME_HANDSET_DOOR_CALL && (model_data.capabilities & CAP_VOLUME_HANDSET_DOOR_CALL))
+            else if (setting == SETTING_VOLUME_HANDSET_DOOR_CALL && (model_data.capabilities & CAP_SETTING_VOLUME_HANDSET_DOOR_CALL))
             {
                 data.index = 21;
-                data.start_bit = 3;
-                data.length = 4;
+                if(model_data.model == MODEL_IS_TC40V2 || model_data.model == MODEL_IS_VTC42V2)
+                {
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                else
+                {
+                    data.start_bit = 3;
+                    data.length = 4;
+                }
+                data.valid = true;
             }
-            else if (setting == SETTING_VOLUME_HANDSET_INTERNAL_CALL && (model_data.capabilities & CAP_VOLUME_HANDSET_INTERNAL_CALL))
+            else if (setting == SETTING_VOLUME_HANDSET_INTERNAL_CALL && (model_data.capabilities & CAP_SETTING_VOLUME_HANDSET_INTERNAL_CALL))
             {
                 data.index = 21;
                 data.start_bit = 7;
                 data.length = 4;
+                data.valid = true;
             }
-            else if (setting == SETTING_AS_ADDRESS_DIVIDER && (model_data.capabilities & CAP_AS_ADDRESS_DIVIDER))
+            else if (setting == SETTING_AS_ADDRESS_DIVIDER && (model_data.capabilities & CAP_SETTING_AS_ADDRESS_DIVIDER))
             {
-                data.index = 22;
-                data.start_bit = 7;
-                data.length = 8;
+                if(model_data.model == MODEL_IS_TC40 || model_data.model == MODEL_IS_VTC40 || model_data.model == MODEL_IS_TC40V2 || model_data.model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 16;
+                    data.start_bit = 5;
+                    data.length = 6;
+                }
+                else
+                {
+                    data.index = 22;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                data.valid = true;
             }
-            else if (setting == SETTING_VAS_ADDRESS_DIVIDER && (model_data.capabilities & CAP_VAS_ADDRESS_DIVIDER))
+            else if (setting == SETTING_VAS_ADDRESS_DIVIDER && (model_data.capabilities & CAP_SETTING_VAS_ADDRESS_DIVIDER))
             {
-                data.index = 2;
-                data.start_bit = 7;
-                data.length = 8;
+                if(model_data.model == MODEL_IS_TC40 || model_data.model == MODEL_IS_VTC40 || model_data.model == MODEL_IS_TC40V2 || model_data.model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 32;
+                    data.start_bit = 5;
+                    data.length = 6;
+                }
+                else
+                {
+                    data.index = 2;
+                    data.start_bit = 7;
+                    data.length = 8;
+                }
+                data.valid = true;
             }
-            else if (setting == SETTING_USE_LONG_DOOR_OPENER_PROTOCOL && (model_data.capabilities & CAP_USE_LONG_DOOR_OPENER_PROTOCOL))
+            else if (setting == SETTING_USE_LONG_DOOR_OPENER_PROTOCOL && (model_data.capabilities & CAP_SETTING_USE_LONG_DOOR_OPENER_PROTOCOL))
             {
-                data.index = 23;
-                data.start_bit = 4;
+                if(model_data.model == MODEL_IS_TC40 || model_data.model == MODEL_IS_VTC40 || model_data.model == MODEL_IS_TC40V2 || model_data.model == MODEL_IS_VTC42V2)
+                {
+                    data.index = 15;
+                    data.start_bit = 1;
+                }
+                else
+                {
+                    data.index = 23;
+                    data.start_bit = 4;
+                }
+                data.valid = true;
             }
-            else if (setting == SETTING_AMBIENT_LIGHT && (model_data.capabilities & CAP_AMBIENT_LIGHT))
+            else if (setting == SETTING_AMBIENT_LIGHT_IN_STANDBY && (model_data.capabilities & CAP_SETTING_AMBIENT_LIGHT_IN_STANDBY))
             {
-                data.index = 23;
+                if(model_data.model == MODEL_IS_TKM_IS || model_data.model == MODEL_IS_TKM_ISV)
+                {
+                    data.index = 15;
+                }
+                else
+                {
+                    data.index = 23;
+                }
                 data.start_bit = 1;
+                data.valid = true;
             }
-            else if (setting == SETTING_RINGTONE_MUTE && (model_data.capabilities & CAP_RINGTONE_MUTE))
+            else if (setting == SETTING_RINGTONE_MUTE && (model_data.capabilities & CAP_SETTING_RINGTONE_MUTE))
             {
+                if (model_data.model == MODEL_IS_TC40    || model_data.model == MODEL_IS_VTC40  || model_data.model == MODEL_IS_TC40V2 ||
+                    model_data.model == MODEL_IS_VTC42V2 || model_data.model == MODEL_IS_TKM_IS || model_data.model == MODEL_IS_TKM_ISV)
+                {
+                    data.start_bit = 1;
+                }
+                else
+                {
+                    data.start_bit = 0;
+                }
                 data.index = 12;
+                data.valid = true;
+            }
+            else if (setting == SETTING_AUTO_ANSWER_CALL && (model_data.capabilities & CAP_SETTING_AUTO_ANSWER_CALL))
+            {
+                data.index = 15;
+                data.start_bit = 4;
+                data.valid = true;
+            }
+            else if (setting == SETTING_CALL_TIME_UNLIMITED && (model_data.capabilities & CAP_SETTING_CALL_TIME_UNLIMITED))
+            {
+                data.index = 23;
+                data.start_bit = 0;
+                data.valid = true;
+            }
+            else if (setting == SETTING_PARALLEL_SERIAL_NUMBER && (model_data.capabilities & CAP_SETTING_PARALLEL_SERIAL_NUMBER))
+            {
+                data.index = 9;
                 data.start_bit = 3;
-                data.length = 4;
+                data.length = 20;
+                data.valid = true;
             }
         }
         else if(model_data.device_group == 2)
         {
             // AS
-            if (setting == SETTING_AS_ADDRESS && (model_data.capabilities & CAP_AS_ADDRESS))
+            if (setting == SETTING_ADDRESS && (model_data.capabilities & CAP_SETTING_ADDRESS))
             {
                 data.index = 0;
                 data.start_bit = 6;
                 data.length = 7;
+                data.valid = true;
             }
-            else if (setting == SETTING_AS_ADDRESS_LOCK && (model_data.capabilities & CAP_AS_ADDRESS_LOCK))
+            else if (setting == SETTING_ADDRESS_LOCK && (model_data.capabilities & CAP_SETTING_ADDRESS_LOCK))
             {
                 data.index = 0;
                 data.start_bit = 7;
+                data.valid = true;
             }
-            else if (setting == SETTING_DOOR_OPENER_DURATION && (model_data.capabilities & CAP_DOOR_OPENER_DURATION))
+            else if (setting == SETTING_CALLING_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS))
+            {
+                data.index = 4;
+                data.start_bit = 5;
+                data.valid = true;
+            }
+            else if (setting == SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS))
+            {
+                data.index = 4;
+                data.start_bit = 4;
+                data.valid = true;
+            }
+            else if (setting == SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL && (model_data.capabilities & CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL))
+            {
+                data.index = 4;
+                data.start_bit = 3;
+                data.valid = true;
+            }
+            else if (setting == SETTING_DOOR_OPENER_DURATION && (model_data.capabilities & CAP_SETTING_DOOR_OPENER_DURATION))
             {
                 data.index = 1;
                 data.start_bit = 7;
                 data.length = 4;
+                data.valid = true;
             }
-            else if (setting == SETTING_TALKING_REQUIRES_DOOR_READINESS && (model_data.capabilities & CAP_TALKING_REQUIRES_DOOR_READINESS))
+            else if (setting == SETTING_CALL_TIME_DURATION && (model_data.capabilities & CAP_SETTING_CALL_TIME_DURATION))
             {
-                data.index = 4;
-                data.start_bit = 5;
-            }
-            else if (setting == SETTING_CALLING_DURATION && (model_data.capabilities & CAP_CALLING_DURATION))
-            {
-                data.index = 3;
-                data.start_bit = 7;
+                data.index = 2;
+                data.start_bit = 3;
                 data.length = 4;
+                data.valid = true;
             }
-            else if (setting == SETTING_DOOR_READINESS_DURATION && (model_data.capabilities & CAP_DOOR_READINESS_DURATION))
+            else if (setting == SETTING_DOOR_READINESS_DURATION && (model_data.capabilities & CAP_SETTING_DOOR_READINESS_DURATION))
             {
                 data.index = 2;
                 data.start_bit = 7;
                 data.length = 4;
+                data.valid = true;
             }
-            else if (setting == SETTING_BUTTON_ROWS && (model_data.capabilities & CAP_BUTTON_ROWS))
+            else if (setting == SETTING_BUTTON_ROWS && (model_data.capabilities & CAP_SETTING_BUTTON_ROWS))
             {
                 data.index = 124;
                 data.start_bit = 7;
                 data.length = 8;
+                data.valid = true;
             }
-            else if (setting == SETTING_HAS_CODE_LOCK && (model_data.capabilities & CAP_HAS_CODE_LOCK))
+            else if (setting == SETTING_HAS_CODE_LOCK && (model_data.capabilities & CAP_SETTING_HAS_CODE_LOCK))
             {
                 data.index = 125;
                 data.start_bit = 7;
                 data.length = 8;
+                data.valid = true;
             }
         }
 
         return data;
     }
 
-    const char* const ringtones[] = {
-        "Ringtone 1",
-        "Ringtone 2",
-        "Ringtone 3",
-        "Ringtone 4",
-        "Ringtone 5",
-        "Ringtone 6",
-        "Ringtone 7",
-        "Ringtone 8",
-        "Ringtone 9",
-        "Ringtone 10",
-        "Ringtone 11",
-        "Ringtone 12",
-        "Ringtone 13"
-    };
-
     uint8_t ringtone_to_int(const char* str)
     {
-        for (uint8_t i = 0; i < sizeof(ringtones) / sizeof(ringtones[0]); ++i) {
-            if (strcmp(str, ringtones[i]) == 0) {
+        for (uint8_t i = 0; i < sizeof(ringtones) / sizeof(ringtones[0]); ++i)
+        {
+            if (strcmp(str, ringtones[i]) == 0)
+            {
                 return i;
             }
         }
         return 0;
     }
 
-    const char* int_to_ringtone(uint8_t ringtone)
+    uint32_t translate_setting_to_memory(SettingType type, Model model, uint32_t value)
     {
-        if (ringtone > 12) ringtone = 0;
-        return ringtones[ringtone];
+        switch(type)
+        {
+            case SETTING_AS_ADDRESS_DIVIDER:
+            case SETTING_VAS_ADDRESS_DIVIDER:
+                if(value > 63)
+                {
+                    value = 63;
+                }
+                break;
+
+            case SETTING_VOLUME_RINGTONE:
+                if(model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // 0 -> 2, 1 -> 4, 2 -> 6, 3 -> 8, >3 -> 2
+                    value = (value >= 0 && value <= 3) ? value * 2 + 2 : 2;
+                }
+                else if(model == MODEL_IS_ISW42X0)
+                {
+                    // 0 -> 0, 1 -> 1, 2 -> 2, 3 -> 3, >3 -> 0
+                    value = (value >= 0 && value <= 3) ? value : 0;
+                }
+                break;
+
+            case SETTING_VOLUME_HANDSET_DOOR_CALL:
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // 0  -> 32, 1  -> 33, 2  -> 34, 3  -> 35, >3 -> 32
+                    value = (value >= 0 && value <= 3) ? value + 32 : 32;
+                }
+                break;
+
+            case SETTING_AMBIENT_LIGHT_IN_STANDBY:
+                if(model == MODEL_IS_TKM_IS || model == MODEL_IS_TKM_ISV)
+                {
+                    value = value;
+                }
+                else
+                {
+                    // Invert the value
+                    value = value ? 0 : 1;
+                }
+                break;
+
+            default:
+                break;
+        }
+        return value;
     }
 
+    uint32_t translate_memory_to_setting(SettingType type, Model model, uint32_t value)
+    {
+        switch(type)
+        {
+            case SETTING_AS_ADDRESS_DIVIDER:
+            case SETTING_VAS_ADDRESS_DIVIDER:
+                if(value > 63)
+                {
+                    value = 63;
+                }
+                break;
+
+            case SETTING_VOLUME_RINGTONE:
+                if(model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // 2 -> 32, 4 -> 33, 6 -> 34, 8 -> 35, >8 -> 32, !%2 -> 32
+                    value = (value >= 2 && value <= 8 && value % 2 == 0) ? value / 2 - 1 : 0;
+                }
+                else if(model == MODEL_IS_ISW42X0)
+                {
+                    // 0 -> 0, 1 -> 1, 2 -> 2, 3 -> 3, >3 -> 0
+                    value = (value >= 0 && value <= 3) ? value : 0;
+                }
+                break;
+
+            case SETTING_VOLUME_HANDSET_DOOR_CALL:
+                if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
+                {
+                    // <32 -> 0, 32  -> 0, 33 -> 1, 34 -> 2, 35 -> 3, >35 -> 0
+                    value = (value >= 32 && value <= 35) ? value - 32 : 0;
+                }
+                break;
+
+            case SETTING_AMBIENT_LIGHT_IN_STANDBY:
+                if(model == MODEL_IS_TKM_IS || model == MODEL_IS_TKM_ISV)
+                {
+                    value = value;
+                }
+                else
+                {
+                    // Invert the value
+                    value = value ? 0 : 1; 
+                }
+                break;
+
+            default:
+                break;
+        }
+        return value;
+    }
 }

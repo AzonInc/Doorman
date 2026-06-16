@@ -1,0 +1,83 @@
+# Debug Component Addon
+
+debug:
+  update_interval: 5s
+
+esphome:
+  devices:
+    - id: doorman_debug
+      name: "Doorman Debug Tools"
+
+text_sensor:
+  - platform: debug
+    reset_reason:
+      id: debug_restart_reason
+      device_id: doorman_debug
+      name: "Reset Reason"
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_debug_tools
+
+sensor:
+  - platform: template
+    name: "Free Heap"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return esp_get_free_heap_size() / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    name: "Free PSRAM"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    name: "Free Internal"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return heap_caps_get_free_size(MALLOC_CAP_INTERNAL) / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    name: "Internal Heap Minimum"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL) / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    name: "PSRAM Heap Minimum"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+
+  - platform: template
+    name: "Internal Largest Block"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL) / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools
+      
+  - platform: template
+    name: "PSRAM Largest Block"
+    update_interval: 10s
+    unit_of_measurement: KB
+    lambda: 'return heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024.0f;'
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_debug_tools

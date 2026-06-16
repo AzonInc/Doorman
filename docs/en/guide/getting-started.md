@@ -20,6 +20,14 @@ If you are uncertain about any part of the setup or wiring, please consult a qua
 This is **not an official or certified product**. It is the result of a reverse engineering effort and is provided **as-is**, with **no guarantee of compatibility, safety, or functionality**.
 :::
 
+## Required Tools and Materials
+Some tools and materials aren't usually found in every household. To set up Doorman smoothly, make sure you have:
+- A small flathead screwdriver (~2 mm)
+- 2–3 connecting cables (approx. 15–30 cm each)
+- Electricity 🦖
+
+Got everything? Great! Now [RTFM](https://wikipedia.org/wiki/RTFM)!!
+
 ## Flashing the Firmware
 If you bought a **pre-flashed Doorman PCB**, you're good to go — skip this step! 🎉
 
@@ -31,17 +39,19 @@ Otherwise, you'll be staring at a very quiet device while wondering why nothing 
 ## Connect the Wires
 Start by opening your indoor station's enclosure. On most models, you'll find screw terminals labeled `a`, `b`, `E`, and `P`.
 
-You'll need **a small screwdriver** to connect Doorman to your indoor station.
-
 The Doorman connects **in parallel** to the bus — just like any other device.
 
 Before proceeding, review the power supply options below and choose the one that best suits your setup.
 
 ::: danger CAUTION
-**NEVER connect an external power source to the TC:BUS terminals!**
+**NEVER connect ANY POWER SOURCE to the BUS terminals\*.  
+This includes the `P` line from the intercom.** And no, Patrick, Mayonnaise is not an instrument.
 
-Doing so can cause **serious damage**.  
-Always double-check all connections carefully before plugging anything in.
+As soon as Doorman attempts to transmit data on the bus, **serious and potentially irreversible damage will occur**.
+
+Always **double-check every connection** before plugging anything in.
+
+*The labeling on the board may vary depending on the revision: A+B, TCS:BUS, or TC:BUS.
 :::
 
 ### Power supply options:
@@ -52,7 +62,8 @@ Always double-check all connections carefully before plugging anything in.
 > The intercom's power supply must provide **at least 60 mA**, which is usually the case.  
 > However, since the available power is limited, **connecting additional devices like the Doorman S3 directly to the bus may cause instability** in the system.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Then connect the `P` line (+24V) to the `P` terminal on your Doorman.
 
@@ -70,7 +81,8 @@ Example:
 > The intercom's power supply must provide **at least 60 mA**, which is usually the case.  
 > However, since the available power is limited, **connecting additional devices like the Doorman S3 directly to the bus may cause instability** in the system.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Once connected, place a jumper cap on `BUS PWR` to enable power from the bus.
 
@@ -86,7 +98,8 @@ Example:
 > You may encounter issues receiving telegrams. If this happens, you'll need an isolated power supply to eliminate ground noise.  
 > The problem occurs because Doorman's power supply is not electrically isolated, which can cause ground loops when two different grounds are connected.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Then connect the external power supply to your Doorman using the `P` (+5V to +30V) and `G` (Ground) screw terminals.
 
@@ -102,7 +115,8 @@ Example:
 > You may encounter issues receiving telegrams. If this happens, you'll need a USB isolator (or example, [this one](https://amzn.eu/d/fYaZGTp)) to eliminate ground noise.  
 > The problem occurs because Doorman's power supply is not electrically isolated, which can cause ground loops when two different grounds are connected.
 
-Connect the `b` line (Ground) and the `a` line (24V Bus) to the TC:BUS terminals on your Doorman—one line per terminal.
+Connect the `b` wire (ground) to the bus terminal labeled `B` on your Doorman, and the `a` wire (24 V bus) to the terminal labeled `B`.
+In older revisions, these corresponded to the `TCS:BUS` or `TC:BUS` terminals (spanning two pins).
 
 Then, power your Doorman using the USB-C port.
 
@@ -115,7 +129,7 @@ Example:
 When you power on your **Doorman S3** for the first time, the LED will **blink rapidly in yellow/orange**, indicating that it's ready to connect to Wi-Fi.
 
 You can connect it to Wi-Fi using one of three methods:  
-**Access Point**, **Improv Serial (USB)**, or **Improv Bluetooth**.
+**Access Point** or **Improv Serial (USB)**.
 
 ### Access Point
 
@@ -147,55 +161,6 @@ You can connect it to Wi-Fi using one of three methods:
       <img style="" src="./images/ap.png">
    </div>
 </div>
-
-### Improv Bluetooth <Badge type="tip" text="Home Assistant" />
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 20px;align-items: center;" markdown>
-   <div style="min-width:250px;flex: 1 1 250px;" markdown>
-
-   1. Make sure your **Home Assistant** is updated to the latest version — this ensures full compatibility with your **Doorman** device.
-
-   2. Open the **Home Assistant** app on your mobile device.
-
-   3. Go to **Settings → Devices & Services**.
-
-   4. Look for a new device named **`doorman-s3` (Improv via BLE)** and tap **Add**.
-
-   5. Enter the **Wi-Fi credentials** for the network you want the device to connect to.
-
-   6. When you see **“Wi-Fi connected successfully”**, you're all set — you can close the prompt.
-
-   7. Your **Doorman** is now ready to be added to Home Assistant using the **ESPHome integration**.
-
-   </div>
-   <div style="min-width: 185px;max-width:200px;flex: 1 1 185px;" markdown>
-      <img style="" src="./images/discovery_ble.png">
-   </div>
-</div>
-
-### Improv Bluetooth
-You can also connect your Doorman to Wi-Fi using Bluetooth. This is a quick and easy option — especially if you're using a phone or laptop with Bluetooth support.
-
-Make sure your Doorman is powered on and nearby, then click the button below to start:
-
-<improv-wifi-launch-button>
-   <button slot="activate">
-         <div class="custom-layout">
-            <a class="btn">Connect Doorman to Wi-Fi</a>
-         </div>
-   </button>
-   <div slot="unsupported">
-         <div class="danger custom-block">
-            <p class="custom-block-title">OH SNAP!</p>
-            <p>Your browser does not support provisioning :( Please use a Chromium-based browser instead.</p>
-         </div>
-   </div>
-   <div slot="not-allowed">
-         <div class="danger custom-block">
-            <p class="custom-block-title">OH SNAP!</p>
-            <p>You are not allowed to use this on HTTP :(</p>
-         </div>
-   </div>
-</improv-wifi-launch-button>
 
 ### Improv Serial <Badge type="tip" text="USB Connection" />
 If your device isn't showing up automatically, or you're setting it up for the first time, this method is a great alternative.
@@ -252,7 +217,7 @@ You can skip this step if you haven't flashed the `HomeKit` Smart Home integrati
 ::: tip
 When you first connect your Doorman to Home Assistant, it will be in `Setup Mode` for interactive setup already.
 
-You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed or canceled.
+You don't need to manually activate this mode; it will start automatically at each reboot as long as the setup process has not been completed.
 :::
 
 ::: warning BEFORE YOU PROCEED
@@ -263,8 +228,7 @@ The indoor station **must be connected**, to complete the setup process.
 Open the settings either through your Doorman's web interface or visit the [ESPHome Integration page](https://my.home-assistant.io/redirect/integration/?domain=esphome) and select the Doorman S3 device.
 
 ### 2. Activate Setup Mode
-Go to the `Configuration` (Home Assistant) or `Setup` (Doorman web interface) section and enable `Setup Mode` to begin the interactive setup.  
-Once the setup process begins, the RGB status LED will pulse green-turquoise.
+Go to the `Configuration` (Home Assistant) or `Setup` (Doorman web interface) section and enable `Setup Mode` to begin the interactive setup.
 
 ::: tip
 Access the Doorman web interface and navigate to the `Setup` section to see your current setup state.
@@ -274,28 +238,49 @@ Follow the instructions there to complete the setup.
 
 ![setup-ui](/en/guide/images/setup.png)
 
-### 3. Wait until you ring the doorbell
-When you press the doorbell button at your apartment or entrance, the system will first save your indoor station's serial number and attempt to detect the model.
+### 3. Outdoor Station Discovery
+Once setup mode is activated, the RGB status LED will pulse green-turquoise **slowly** and the system will automatically scan for outdoor stations.  
 
-Once the model is successfully detected, the system will read the memory of your indoor station.
-**Note:** This entire process can take **up to 30 seconds**.
+🕒 This process can take **up to 30 seconds**.
 
-If the model detection is successful or if it times out, the setup will be considered finished.
+::: danger DISCOVERY FAILED
+If no outdoor stations are found, the LED will turn solid red and setup mode will be disabled automatically.
 
-:::info PLEASE NOTE
-The firmware will attempt to detect all outdoor stations automatically.
-
-To enable detection of the **doorbell(s)** and allow unlocking of the **door(s)**, you must **press each doorbell** or **manually press the unlock button** on each door **at least once** — but only **after setup is complete**.
-
-⚠️ **Order matters:** Start with the main entrance doorbell, then proceed to the second entrance. This ensures the stations are detected correctly.
-
-🕒 Wait about **one minute after setup finishes** before doing this, so the system can correctly store the second door's address.
-
-⚠️ The second entrance door entities require address configuration before they'll appear. Similarly, indoor station settings need the model to be set first. If you've configured both but entities are still invisible/unavailable, restart Doorman or reload the ESPHome integration in Home Assistant.
+Make sure your outdoor station is connected and powered, then re-activate Setup Mode to try again.
 :::
 
-### 4. Setup complete
-The LED will remain green-turquoise for 3 seconds, then turn off, and the setup mode will be turned off. The setup is complete.
+### 4. Ring the Doorbell
+After the outdoor stations are found, the LED will pulse green-turquoise **fast** while the system waits for a doorbell press.
+
+Press the doorbell button at your apartment or entrance. The system will save your indoor station's serial number and immediately attempt to identify the model.
+
+### 5. Indoor Station Identification
+After pressing the doorbell, the LED will pulse green-turquoise **slowly** again while the indoor station model is being identified.
+
+::: warning IDENTIFICATION FAILED
+If the model could not be identified, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
+
+You can **select the model manually** afterwards.  
+The setup is still considered complete in this case.
+:::
+
+### 6. Memory Read
+Once the indoor station model is identified, the LED will pulse green-turquoise **slowly** while the system attempts to read its memory.  
+
+🕒 This process can take **up to 30 seconds**.
+
+::: warning MEMORY READ FAILED
+If reading the memory fails, the LED will turn solid red for 3 seconds and setup mode will be disabled automatically.
+
+This is non-critical — the setup is still considered complete. You can re-activate Setup Mode to try again if needed.
+:::
+
+### 7. Setup complete
+The LED will remain solid green-turquoise for 3 seconds, then turn off, and Setup Mode will be disabled automatically.
+
+:::info PLEASE NOTE
+The entrance door entities require address configuration before they appear. Indoor station settings require the model to be set first. If entities are still missing after configuration, restart Doorman or reload the ESPHome integration in Home Assistant.
+:::
 
 ## Next Steps
 You're probably looking to configure your Doorman. To get started, open the Doorman web interface or the Home Assistant [device dashboard](https://my.home-assistant.io/redirect/integration/?domain=esphome).

@@ -1,0 +1,100 @@
+# Audio Addon
+
+external_components:
+  - source: github://n-IA-hane/esphome-intercom
+    components: [intercom_api, i2s_audio_duplex, esp_aec]
+
+network:
+  enable_high_performance: true
+
+script:
+  - id: !extend boot_component_init
+    then:
+      # Configure ES8311 for digital feedback AEC
+      # Register 0x44 bits[6:4] = ADCDAT_SEL: 4 = DACL + ADC
+      # This makes ASDOUT output stereo: L=DAC loopback (reference), R=ADC (mic)
+      - lambda: |-
+          ESP_LOGI("es8311", "Configuring ES8311 register 0x44 for digital feedback...");
+          // ES8311 I2C address is 0x19
+          // First read current value
+          uint8_t reg = 0x44;
+          uint8_t current_val = 0;
+          id(i2c_bus).write(0x19, &reg, 1);
+          id(i2c_bus).read(0x19, &current_val, 1);
+          ESP_LOGI("es8311", "Register 0x44 current value: 0x%02X", current_val);
+
+          // Write new value: bits[6:4]=4 (DACL+ADC)
+          uint8_t data[2] = {0x44, 0x48};
+          auto err = id(i2c_bus).write(0x19, data, 2);
+          if (err == esphome::i2c::ERROR_OK) {
+            ESP_LOGI("es8311", "Wrote register 0x44=0x48 for digital feedback AEC");
+            // Veify
+            id(i2c_bus).write(0x19, &reg, 1);
+            id(i2c_bus).read(0x19, &current_val, 1);
+            ESP_LOGI("es8311", "Register 0x44 after write: 0x%02X", current_val);
+          } else {
+            ESP_LOGE("es8311", "Failed to write register 0x44: error %d", (int)err);
+          }
+
+          // volume
+          // uint8_t data2[2] = {0x32, 0xD3};
+          // id(i2c_bus).write(0x19, data2, 2);
+
+      - if:
+          condition:
+            lambda: 'return !id(es8311_dac).is_failed();'
+          then:
+            - text_sensor.template.publish:
+                id: doorman_extension_board
+                state: "Audio Extension Board"
+
+# Setup ES8311
+audio_dac:
+  - platform: es8311
+    id: es8311_dac
+    i2c_id: i2c_bus
+    bits_per_sample: 16bit
+    sample_rate: 16000
+    use_microphone: false # analog mic input (MIC1P/MIC1N)
+    mic_gain: 24DB # Default 42DB is too hot. Try 24DB first.
+    address: 0x19
+
+i2s_audio:
+  i2s_mclk_pin: GPIO7 #10
+  i2s_lrclk_pin: GPIO18 #8
+  i2s_bclk_pin: GPIO17 #7
+
+speaker:
+  - platform: i2s_audio
+    id: speaker_id
+    dac_type: external
+    i2s_dout_pin: GPIO16 #5
+    sample_rate: 48000
+
+  - platform: mixer
+    id: mixer_speaker_id
+    output_speaker: speaker_id
+    source_speakers:
+      - id: announcement_spk_mixer_input
+      - id: media_spk_mixer_input
+
+  - platform: resampler
+    id: media_spk_resampling_input
+    output_speaker: media_spk_mixer_input
+
+  - platform: resampler
+    id: announcement_spk_resampling_input
+    output_speaker: announcement_spk_mixer_input
+
+media_player:
+  - platform: speaker
+    name: "Speaker Media Player"
+    id: speaker_media_player_id
+    task_stack_in_psram: true
+    buffer_size: 10000
+    media_pipeline:
+        speaker: media_spk_resampling_input
+        num_channels: 1
+    announcement_pipeline:
+        speaker: announcement_spk_resampling_input
+        num_channels: 1

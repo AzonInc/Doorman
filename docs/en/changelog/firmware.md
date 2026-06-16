@@ -5,6 +5,55 @@ description: Stay up to date with Doorman's latest features, improvements, and i
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
+## 2026.5.0 <Badge type="warning" text="Next" />
+### 🚨 IMPORTANT
+Please carefully review the breaking changes listed below before updating!  
+This release **will impact your current setup** and **requires** you to go through the **setup process again**.
+
+### 🚀 What's New?
+- **Virtual Bus Devices**  
+   The `tc_bus_device` component can now create virtual bus devices that can be used in the same way as physical bus devices. For example, you can create an indoor or outdoor station which can react to calls but also call other devices.
+
+### ✨ Improvements
+- **Refactored Status LED Logic**  
+   The RGB Status LED now properly works as expected when transitioning between multiple states ans respects several toggles.
+
+- **Protocol Decoder Rewrite**  
+   After rewriting the protocol decoder, the bus protocol is now implemented more accurately, enabling both the transmission of acknowledge telegrams and their correct detection.
+
+- **More Device Settings**  
+   The `tc_bus_device` component now provides additional options for creating entities for specific device settings. These were introduced for the new virtual devices but will also enhance support for physical devices.
+
+- **Restore RTO Timeout**  
+   An active [Ring To Open](https://doorman.azon.ai/guide/features/ring-to-open) timeout is now preserved across restarts. Previously, the timeout was temporary and reset whenever the system restarted.
+
+- **Read Memory Retry Logic**  
+   If a device does not respond during memory reads, the request is now retried up to two times per block. If it still fails, the operation times out instead of blocking subsequent read operations.
+
+- **Support multi-block memory writes**  
+   The component now allows writing data larger than 8 bits by using multiple write commands, supporting sizes of up to 32 bits.
+
+- **Telegram Builder extension**  
+   The telegram builder now supports building `found_device`, `initialize_door_station`, `end_of_ringtone`, `end_of_door_readiness`, `door_closed`, `door_opened` telegrams.
+
+- **Door readiness tracking**  
+   The `tc_bus` component now keeps track of the current door readiness state. You can access the state with `is_door_readiness_active()`. There is also a new Door Readiness Binary Sensor available.
+
+- **send_telegram() return value**  
+   Every `send_telegram()` function now returns the sent telegram as `TelegramData`. This will be the actual sent telegram after any modifications by the telegram builder.
+
+### 🚨 Breaking Changes
+- **Interrupt based protocol Decoding**  
+   Following the introduction of RMT-backed protocol decoding in 2026.1.0, the system has reverted to interrupt-based decoding.  
+   This allows precise, real-time responses to protocol events and removes the need for `remote_transmitter` and `remote_receiver`. Instead, `rx_pin` and `tx_pin` will now be used.
+
+- **Renamed keys**  
+   The `force_long_door_opener_protocol` key has been renamed to `use_long_door_opener_protocol`.
+
+- **Renamed telegram types**  
+   The `ack` telegram type has been renamed to `ack_status` and the `data` telegram type has been renamed to `ack_data`.
+
+
 ## 2026.1.1 <Badge type="tip" text="Stable" />
 
 ### ✨ Improvements
@@ -87,9 +136,6 @@ This release **will impact your current setup** and **requires** you to go throu
 
 - **Outdoor Station Button Configuration**  
    Added methods to read and write the doorbell button configuration of the outdoor station.
-
-- **Added Support for Acknowledgment Messages**  
-   Acknowledgment messages are now properly handled, following additional investigation into previously unsupported cases.
 
 - **Added Support for next gen Nuki smart locks**  
    Nuki Smart Locks Ultra / Go / 5th gen are now supported by the Nuki component.
@@ -198,7 +244,7 @@ This release **will impact your current setup** and **requires** you to go throu
    The setup mode now attempts to automatically identify the indoor station model. However, this process is not compatible with all models, as some do not support automatic detection.
 
 - **Introduced a button to identify your indoor station model**  
-   You can now effortlessly determine the correct model for your settings by simply pressing the "Identify Indoor Station" button, perfect for cases where you're unsure which model you own.
+   You can now effortlessly determine the correct model for your settings by simply pressing the "Identify" button, perfect for cases where you're unsure which model you own.
 
 - **Expand Support for Model Settings**  
    Implemented settings compatibility for TCS TASTA (Koch TC60) IVW5xxx and ISW5xxx models.

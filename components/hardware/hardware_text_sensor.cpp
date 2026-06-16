@@ -90,7 +90,7 @@ namespace esphome::hardware
             #ifdef USE_ESP32
             if(revision[0] > 0)
             {
-                char revision_str[32];
+                char revision_str[12];
                 snprintf(revision_str, sizeof(revision_str), "%u.%u.%u", revision[0], revision[1], revision[2]);
                 ESP_LOGI(TAG, "Revision: %s", revision_str);
                 this->revision_->publish_state(revision_str);

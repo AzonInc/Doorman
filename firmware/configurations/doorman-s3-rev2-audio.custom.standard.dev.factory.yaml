@@ -1,0 +1,41 @@
+# Doorman Standard Firmware (Custom)
+# Base Board DOORMAN-S3-REV2-AUDIO
+
+# ESPHome Dashboard import and remote logging are not
+# supported in this firmware, as they require the API.
+# Available only via the Home Assistant API integration.
+
+# You can change a few options here.
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
+  branch: "dev"
+  firmware_type: "standard"
+  api_variant: "custom"
+  host_platform: "doorman-s3-rev2-audio"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+
+packages:
+  host: !include ../packages/host/${host_platform}.yaml
+  rgb_status_led: !include ../packages/common/rgb-status-led.yaml
+  solid_state_relay: !include ../packages/common/relay.yaml
+  extension_board: !include ../packages/extension_boards/common.yaml
+  extension_board_audio: !include ../packages/extension_boards/audio.yaml
+  external_components: !include ../packages/common/external-components.yaml
+  base: !include ../packages/common/base.yaml
+  wifi: !include ../packages/common/wifi.yaml
+  wifi_psram: !include ../packages/common/wifi.psram.yaml
+  ota_esphome: !include ../packages/ota/esphome.yaml
+  ota_http: !include ../packages/ota/http.yaml
+  api: !include ../packages/api/custom.yaml
+  debug_utilities: !include ../packages/debug/debug-utilities.yaml
+  debug_component: !include ../packages/debug/debug-component.yaml
+  pattern_events: !include ../packages/pattern_events/pattern-events.yaml
+  ring_to_open: !include ../packages/ring_to_open/ring-to-open.yaml
+  indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
+  interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml

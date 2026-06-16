@@ -1,0 +1,26 @@
+{
+  "name": "@esphome-webserver/captive-portal",
+  "version": "2.0.0",
+  "main": "main.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "vite",
+    "build": "vite build && npm run deploy",
+    "serve": "vite preview",
+    "deploy": "bash -c './make_header.sh ./dist captive_index.h captive_portal \"\" ../../../components/captive_portal'"
+  },
+  "dependencies": {
+    "rollup-plugin-generate-html-template": "^1.7.0",
+    "rollup-plugin-gzip": "^2.5.0",
+    "rollup-plugin-minify-html-template-literals": "^1.2.0",
+    "vite-plugin-html": "^2.1.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@types/node": "^15.12.1",
+    "typescript": "^4.1.3",
+    "vite": "^2.6.14",
+    "vite-plugin-singlefile": "^0.5.1"
+  }
+}

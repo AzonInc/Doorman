@@ -2,7 +2,7 @@
 
 Mit Doorman kannst du deine Innenstation ganz nach deinen Bedürfnissen und deiner Umgebung anpassen. Egal ob Klingeltöne für unterschiedliche Klingelarten oder die Feinabstimmung der Lautstärke – Doorman bietet eine einfache Möglichkeit, deine Innenstation zu personalisieren.
 
-Die Einstellungen werden automatisch verfügbar, sobald deine Innenstation erfolgreich erkannt wurde. Falls die automatische Erkennung fehlschlägt, kannst du den Vorgang manuell über die Schaltfläche `Identify Indoor Station` starten.
+Die Einstellungen werden automatisch verfügbar, sobald deine Innenstation erfolgreich erkannt wurde. Falls die automatische Erkennung fehlschlägt, kannst du den Vorgang manuell über die Schaltfläche `Identify` starten.
 
 ## Verfügbare Einstellungen
 

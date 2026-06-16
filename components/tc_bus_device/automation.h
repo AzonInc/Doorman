@@ -29,7 +29,7 @@ namespace esphome::tc_bus
     class TCBusDeviceUpdateSettingAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
     {
         TEMPLATABLE_VALUE(SettingType, type)
-        TEMPLATABLE_VALUE(uint8_t, value)
+        TEMPLATABLE_VALUE(uint16_t, value)
 
         public:
             void play(const Ts &...x) override {
@@ -93,37 +93,133 @@ namespace esphome::tc_bus
             }
     };
 
-    // Callbacks
-    class ReadMemoryCompleteTrigger : public Trigger<std::vector<uint8_t>> {
+    template<typename... Ts>
+    class TCBusDeviceOpenDoorAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
         public:
-            explicit ReadMemoryCompleteTrigger(TCBusDeviceComponent *parent) {
-                parent->add_read_memory_complete_callback([this](const std::vector<uint8_t> &value) { this->trigger(value); });
+            void play(const Ts &...x) override {
+                this->parent_->open_door();
             }
     };
 
+    template<typename... Ts>
+    class TCBusDeviceCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        TEMPLATABLE_VALUE(uint32_t, address)
+        TEMPLATABLE_VALUE(bool, internal)
+
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->call(this->address_.value(x...), this->internal_.value(x...));
+            }
+    };
+
+    template<typename... Ts>
+    class TCBusDeviceAnswerCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->answer_call();
+            }
+    };
+
+    template<typename... Ts>
+    class TCBusDeviceEndCallAction : public Action<Ts...>, public Parented<TCBusDeviceComponent>
+    {
+        public:
+            void play(const Ts &...x) override {
+                this->parent_->end_call();
+            }
+    };
+
+    // Callbacks
+    #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
+    class ReadMemoryCompleteTrigger : public Trigger<> {
+        public:
+            explicit ReadMemoryCompleteTrigger(TCBusDeviceComponent *parent) {
+                parent->add_read_memory_complete_callback([this]() { this->trigger(); });
+            }
+    };
+    #endif
+
+    #ifdef USE_READ_MEMORY_FAILED_CALLBACK
     class ReadMemoryTimeoutTrigger : public Trigger<> {
         public:
             explicit ReadMemoryTimeoutTrigger(TCBusDeviceComponent *parent) {
-                parent->add_read_memory_timeout_callback([this]() { this->trigger(); });
+                parent->add_read_memory_failed_callback([this]() { this->trigger(); });
             }
     };
+    #endif
 
+    #ifdef USE_IDENTIFY_FAILED_CALLBACK
     class IdentifyTimeoutTrigger : public Trigger<> {
         public:
             explicit IdentifyTimeoutTrigger(TCBusDeviceComponent *parent) {
-                parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                parent->add_identify_failed_callback([this]() { this->trigger(); });
             }
     };
+    #endif
+    
+    #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
     class IdentifyUnknownTrigger : public Trigger<> {
         public:
             explicit IdentifyUnknownTrigger(TCBusDeviceComponent *parent) {
-                parent->add_identify_timeout_callback([this]() { this->trigger(); });
+                parent->add_identify_failed_callback([this]() { this->trigger(); });
             }
     };
+    #endif
+
+    #ifdef USE_IDENTIFY_CALLBACK
+    class IdentifyCompleteTrigger : public Trigger<> {
+        public:
+            explicit IdentifyCompleteTrigger(TCBusDeviceComponent *parent) {
+                parent->add_identify_callback([this]() { this->trigger(); });
+            }
+    };
+    #endif
+
+    #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
     class IdentifyCompleteTrigger : public Trigger<ModelData> {
         public:
             explicit IdentifyCompleteTrigger(TCBusDeviceComponent *parent) {
                 parent->add_identify_complete_callback([this](const ModelData &value) { this->trigger(value); });
             }
     };
+    #endif
+
+    #ifdef USE_INCOMING_CALL_CALLBACK
+    class IncomingCallTrigger : public Trigger<TelegramData> {
+        public:
+            explicit IncomingCallTrigger(TCBusDeviceComponent *parent) {
+                parent->add_incoming_call_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+    #endif
+
+    #ifdef USE_CALL_STARTED_CALLBACK
+    class CallStartedTrigger : public Trigger<TelegramData> {
+        public:
+            explicit CallStartedTrigger(TCBusDeviceComponent *parent) {
+                parent->add_call_started_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+    #endif
+
+    #ifdef USE_CALL_ENDED_CALLBACK
+    class CallEndedTrigger : public Trigger<TelegramData> {
+        public:
+            explicit CallEndedTrigger(TCBusDeviceComponent *parent) {
+                parent->add_call_ended_callback([this](const TelegramData &value) { this->trigger(value); });
+            }
+    };
+    #endif
+
+    #ifdef USE_CALL_FAILED_CALLBACK
+    class CallFailedTrigger : public Trigger<> {
+        public:
+            explicit CallFailedTrigger(TCBusDeviceComponent *parent) {
+                parent->add_call_failed_callback([this]() { this->trigger(); });
+            }
+    };
+    #endif
 }

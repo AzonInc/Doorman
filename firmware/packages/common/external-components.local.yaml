@@ -1,0 +1,12 @@
+# Local external components Addon
+# For local development purposes only
+
+external_components:
+  - source:
+      type: local
+      path: "../../components"
+
+  # Temporary fix for ESPHome 2026.4.x
+  - source: github://pr#15967
+    components: [web_server_idf]
+    refresh: 5min

@@ -1,5 +1,5 @@
 ---
-description: Schritt-für-Schritt-Anleitung zur Installation oder Aktualisierung der Doorman-Firmware, inklusive Web Serial, Web-Oberfläche und Home Assistant Integration.
+description: Step-by-step guide for installing or updating the Doorman firmware, including Web Serial, the web interface, and Home Assistant integration.
 ---
 
 <script setup>
@@ -11,32 +11,74 @@ import pkg from '../../../package.json';
 export default {
     data() {
         return {
-            test: '',
             baseUrl: '../../firmware/release/',
             platform: '',
+            extension: '',
             integration: '',
             variant: '',
             platform_options: [
+                {
+                    key: 'doorman-s3-rev2',
+                    name: 'Doorman S3 <span class="VPBadge tip">2.x.x</span>',
+                    icon: '',
+                    iconColor: '',
+                    details: 'Recommended for the <b>Doorman S3</b> revision <code>2.0.0</code> or later with the extension board connector.',
+                    extensions: [
+                        {
+                            key: 'none',
+                            name: 'No Extension',
+                            icon: '',
+                            iconColor: '',
+                            details: 'Only the Doorman Core Board.',
+                        },
+                        {
+                            key: 'audio',
+                            name: 'Audio Extension',
+                            icon: '',
+                            iconColor: '',
+                            details: 'I have an Audio Extension Board installed.',
+                        }
+                    ]
+                },
+                {
+                    key: 'doorman-s3',
+                    name: 'Doorman S3 <span class="VPBadge tip">1.x.x</span>',
+                    icon: '',
+                    iconColor: '',
+                    details: 'Recommended for the <b>Doorman S3</b> revison <code>1.x.x</code> except <code>1.4.0</code>.',
+                    extensions: null
+                },
+                {
+                    key: 'doorman-s3-quad',
+                    name: 'Doorman S3 <span class="VPBadge tip">1.4.0</span>',
+                    icon: '',
+                    iconColor: '',
+                    details: 'Recommended for <b>Doorman S3</b> revision <code>1.4.0</code> only.',
+                    extensions: null
+                },
                 {
                     key: 'esp32-s3',
                     name: 'ESP32-S3 <span class="VPBadge tip">Octal</span>',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for the <b>Doorman S3</b> and all ESP32-S3 boards with at least 8&nbsp;MB PSRAM.',
+                    details: 'Recommended for all ESP32-S3 boards with at least 8&nbsp;MB PSRAM.',
+                    extensions: null
                 },
                 {
                     key: 'esp32-s3-quad',
                     name: 'ESP32-S3 <span class="VPBadge tip">Quad</span>',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for <b>Doorman S3 (Revision 1.4)</b> and all ESP32-S3 boards with up to 4&nbsp;MB PSRAM.',
+                    details: 'Recommended for all ESP32-S3 boards with up to 4&nbsp;MB PSRAM.',
+                    extensions: null
                 },
                 {
                     key: 'esp32',
                     name: 'ESP32',
                     icon: '',
                     iconColor: '',
-                    details: 'Recommended for <b>all ESP32 boards without PSRAM</b>.',
+                    details: 'Recommended for <b>all ESP32 boards (no variant) without PSRAM</b>.',
+                    extensions: null
                 },
             ],
             integration_options: [
@@ -83,13 +125,21 @@ export default {
                     icon: '',
                     iconColor: '',
                     details: 'I also want to control my Nuki Smart Lock and use Ring to Open with the apartment doorbell.',
-                },
+                }
             ],
         }
     },
     watch: {
         platform(newPlatform, oldPlatform) {
             localStorage.setItem("fw_platform", newPlatform);
+
+            const selectedPlatform = this.platform_options.find(p => p.key === newPlatform);
+
+            if (!selectedPlatform?.extensions) {
+                this.extension = 'none';
+            } else if (!selectedPlatform.extensions.find(e => e.key === this.extension)) {
+                this.extension = 'none';
+            }
         },
         integration(newIntegration, oldIntegration) {
             localStorage.setItem("fw_integration", newIntegration);
@@ -108,8 +158,25 @@ export default {
         }
     },
     computed: {
+        selected_platform() {
+            return this.platform_options.find(p => p.key === this.platform);
+        },
+        platform_extensions() {
+            return this.selected_platform?.extensions || null;
+        },
+        platform_string() {
+            if (!this.extension || this.extension === 'none') {
+                return this.platform;
+            }
+
+            return `${this.platform}-${this.extension}`;
+        },
         fw_string() {
-            return [this.platform, this.integration, this.variant].join('.');
+            return [
+                this.platform_string,
+                this.integration,
+                this.variant
+            ].join('.');
         },
         manifest_file() {
             return this.baseUrl + this.fw_string + '/manifest.json';
@@ -202,6 +269,19 @@ This guided process ensures seamless integration with the Home Assistant API and
             </span>
         </label>
     </div>
+    <div v-if="platform_extensions">
+        <h5 class="firmware_title_row"><icon-mdi-package-variant-plus /> Do you have an extension board?</h5>
+        <div class="firmware_option_row">
+            <label class="firmware_option" v-for="fw_extension in platform_extensions" :key="fw_extension.key">
+                <input type="radio" class="reset_default" v-model="extension" :value="fw_extension.key">
+                <span class="checkmark">
+                    <div class="icon" v-if="fw_extension.icon" v-html="fw_extension.icon"></div>
+                    <div class="title" v-html="fw_extension.name"></div>
+                    <div class="details" v-html="fw_extension.details"></div>
+                </span>
+            </label>
+        </div>
+    </div>
     <div v-if="platform">
         <h5 class="firmware_title_row"><icon-ic-round-other-houses /> Do you use any smart home system?</h5>
         <div class="firmware_option_row">
@@ -275,9 +355,13 @@ If you want full customization and the ability to add your own sensors, automati
 ### ESPHome Dashboard
 You can adopt Doorman to your [ESPHome Dashboard](https://my.home-assistant.io/redirect/supervisor_ingress/?addon=5c53de3b_esphome) and flash a customized firmware variant.
 
+::: warning RESTRICTION
+The Dashboard import does only work if you have flashed the `Home Assistant` Smart Home integration firmware.
+:::
+
 The adopted configuration could look like this:
 ```yaml
-<!--@include: ../firmware/minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 ```
 
 ### ESPHome CLI
@@ -292,93 +376,202 @@ esphome run <yamlfile.yaml>
 ## Board Configuration Files
 
 ### Default GPIO configuration
-| Component      | ESP32-S3 | ESP32    |
-| -------------- | :------: | :------: |
-| TC:BUS RX      | GPIO 9   | GPIO 22  |
-| TC:BUS TX      | GPIO 8   | GPIO 23  |
-| Status LED     | GPIO 1   | GPIO 2   |
-| RGB Status LED | GPIO 2   | GPIO 4   |
-| Relay          | GPIO 42  | GPIO 21  |
-| External Button| GPIO 41  | GPIO 20  |
-| ADC Input      | GPIO 10  | GPIO 36  |
+| Component      | Doorman 2.x.x | Doorman 1.x.x | ESP32-S3 | ESP32    |
+| -------------- | :-----------: | :-----------: | :------: | :------: |
+| Status LED     | GPIO 1        | GPIO 1        | GPIO 1   | GPIO 2   |
+| RGB Status LED | GPIO 2        | GPIO 2        | GPIO 2   | GPIO 4   |
+| SIEDLE ERT     | GPIO 4        | /             | /        | /        |
+| SIEDLE:IHB TX Carrier | GPIO 5        | /             | /        | /        |
+| SIEDLE:IHB TX Data    | GPIO 6        | /             | /        | /        |
+| TC:BUS TX      | GPIO 8        | GPIO 8        | GPIO 8   | GPIO 23  |
+| TC:BUS RX      | GPIO 9        | GPIO 9        | GPIO 9   | GPIO 22  |
+| ADC Input      | GPIO 10       | GPIO 10       | GPIO 10  | GPIO 36  |
+| SIEDLE:IHB RX Data | GPIO 11        | /             | /        | /        |
+| Relay          | GPIO 42       | GPIO 42       | GPIO 42  | GPIO 21  |
+| External Button| GPIO 40       | GPIO 41       | GPIO 41  | GPIO 20  |
+
 
 ### Standard Firmware
-::: details ESP32-S3 (Octal PSRAM) / Doorman S3 (1.5+)
+::: details Doorman S3 (2.0+)
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3.ha.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 ```
 ```yaml [MQTT]
-<!--@include: ../../../../firmware/examples/esp32-s3.mqtt.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.mqtt.standard.master.yaml-->
 ```
 ```yaml [HomeKit]
-<!--@include: ../../../../firmware/examples/esp32-s3.homekit.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.homekit.standard.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3.custom.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.custom.standard.master.yaml-->
 ```
 :::
 
-::: details ESP32-S3 (Quad PSRAM) / Doorman S3 (1.4)
+::: details Doorman S3 (2.0+) + Audio Extension Board
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.ha.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.ha.standard.master.yaml-->
 ```
 ```yaml [MQTT]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.mqtt.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.mqtt.standard.master.yaml-->
 ```
 ```yaml [HomeKit]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.homekit.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.homekit.standard.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.custom.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.custom.standard.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.5+)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/doorman-s3.ha.standard.master.yaml-->
+```
+```yaml [MQTT]
+<!--@include: ../../../../firmware/configurations/doorman-s3.mqtt.standard.master.yaml-->
+```
+```yaml [HomeKit]
+<!--@include: ../../../../firmware/configurations/doorman-s3.homekit.standard.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/doorman-s3.custom.standard.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.4)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/doorman-s3-quad.ha.standard.master.yaml-->
+```
+```yaml [MQTT]
+<!--@include: ../../../../firmware/configurations/doorman-s3-quad.mqtt.standard.master.yaml-->
+```
+```yaml [HomeKit]
+<!--@include: ../../../../firmware/configurations/doorman-s3-quad.homekit.standard.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/doorman-s3-quad.custom.standard.master.yaml-->
+```
+:::
+
+::: details ESP32-S3 (Octal PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3.ha.standard.master.yaml-->
+```
+```yaml [MQTT]
+<!--@include: ../../../../firmware/configurations/esp32-s3.mqtt.standard.master.yaml-->
+```
+```yaml [HomeKit]
+<!--@include: ../../../../firmware/configurations/esp32-s3.homekit.standard.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3.custom.standard.master.yaml-->
+```
+:::
+
+::: details ESP32-S3 (Quad PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.ha.standard.master.yaml-->
+```
+```yaml [MQTT]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.mqtt.standard.master.yaml-->
+```
+```yaml [HomeKit]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.homekit.standard.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.custom.standard.master.yaml-->
 ```
 :::
 
 ::: details Generic ESP32
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32.ha.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.ha.standard.master.yaml-->
 ```
 ```yaml [MQTT]
-<!--@include: ../../../../firmware/examples/esp32.mqtt.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.mqtt.standard.master.yaml-->
 ```
 ```yaml [HomeKit]
-<!--@include: ../../../../firmware/examples/esp32.homekit.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.homekit.standard.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32.custom.standard.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.custom.standard.master.yaml-->
 ```
 :::
 
 ### Nuki Bridge Firmware
-::: details ESP32-S3 (Octal PSRAM) / Doorman S3 (1.5+)
+::: details Doorman S3 (2.0+)
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3.ha.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.nuki-bridge.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3.custom.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.custom.nuki-bridge.master.yaml-->
 ```
 :::
 
-::: details ESP32-S3 (Quad PSRAM) / Doorman S3 (1.4)
+::: details Doorman S3 (2.0+) + Audio Extension Board
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.ha.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.ha.nuki-bridge.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32-s3-quad.custom.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.custom.nuki-bridge.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.5+)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/doorman-s3.ha.nuki-bridge.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/doorman-s3.custom.nuki-bridge.master.yaml-->
+```
+:::
+
+::: details Doorman S3 (1.4)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/doorman-s3-quad.ha.nuki-bridge.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/doorman-s3-quad.custom.nuki-bridge.master.yaml-->
+```
+:::
+
+::: details ESP32-S3 (Octal PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3.ha.nuki-bridge.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3.custom.nuki-bridge.master.yaml-->
+```
+:::
+
+::: details ESP32-S3 (Quad PSRAM)
+::: code-group
+```yaml [Home Assistant]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.ha.nuki-bridge.master.yaml-->
+```
+```yaml [Custom]
+<!--@include: ../../../../firmware/configurations/esp32-s3-quad.custom.nuki-bridge.master.yaml-->
 ```
 :::
 
 ::: details Generic ESP32
 ::: code-group
 ```yaml [Home Assistant]
-<!--@include: ../../../../firmware/examples/esp32.ha.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.ha.nuki-bridge.master.yaml-->
 ```
 ```yaml [Custom]
-<!--@include: ../../../../firmware/examples/esp32.custom.nuki-bridge.master.example.yaml-->
+<!--@include: ../../../../firmware/configurations/esp32.custom.nuki-bridge.master.yaml-->
 ```
 :::
 

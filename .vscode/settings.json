@@ -88,5 +88,6 @@
     "conventionalCommits.scopes": [
         "order",
         "changelog"
-    ]
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

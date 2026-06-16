@@ -10,7 +10,7 @@ namespace esphome::tc_bus
         public:
             void setup() override;
             
-            void unlock(uint32_t *timer, uint16_t auto_lock) override;
+            void unlock(uint32_t *timer, uint16_t auto_reset) override;
             void lock(uint32_t *timer) override;
             void open() override;
 

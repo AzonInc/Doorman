@@ -1,0 +1,10 @@
+# API: Custom
+
+wifi:
+  on_connect:
+    - logger.log: "LED: All good, custom api version"
+    - status.push: api_connected
+    - delay: 3s
+    - status.pop:
+        group: api
+    - script.execute: boot_after_api

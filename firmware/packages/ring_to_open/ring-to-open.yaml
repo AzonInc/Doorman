@@ -1,0 +1,857 @@
+# Ring To Open Addon
+
+globals:
+  - id: rto_entrance_door_timer_remaining
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+  - id: rto_second_entrance_door_timer_remaining
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+  - id: rto_apartment_door_timer_remaining
+    type: int
+    restore_value: true
+    initial_value: '0'
+
+interval:
+  - interval: 10s
+    then:
+      - lambda: |-
+          if(!id(rto_entrance_door).state || id(rto_entrance_door_timer_remaining) <= 0)
+          {
+            return;
+          }
+          id(rto_entrance_door_timer_remaining) -= 10;
+          if(id(rto_entrance_door_timer_remaining) % 60 == 0)
+          {
+            ESP_LOGD("RTO", "Entrance Door timer: %d minutes remaining", id(rto_entrance_door_timer_remaining) / 60);
+          }
+          if(id(rto_entrance_door_timer_remaining) <= 0)
+          {
+            ESP_LOGD("RTO", "Entrance Door timer elapsed");
+            id(rto_entrance_door).turn_off();
+          }
+
+      - lambda: |-
+          if(!id(rto_second_entrance_door).state || id(rto_second_entrance_door_timer_remaining) <= 0)
+          {
+            return;
+          }
+          id(rto_second_entrance_door_timer_remaining) -= 10;
+          if(id(rto_second_entrance_door_timer_remaining) % 60 == 0)
+          {
+            ESP_LOGD("RTO", "Second Entrance Door timer: %d minutes remaining", id(rto_second_entrance_door_timer_remaining) / 60);
+          }
+          if(id(rto_second_entrance_door_timer_remaining) <= 0)
+          {
+            ESP_LOGD("RTO", "Second Entrance Door timer elapsed");
+            id(rto_second_entrance_door).turn_off();
+          }
+
+      - lambda: |-
+          if(!id(rto_apartment_door).state || id(rto_apartment_door_timer_remaining) <= 0)
+          {
+            return;
+          }
+          id(rto_apartment_door_timer_remaining) -= 10;
+          if(id(rto_apartment_door_timer_remaining) % 60 == 0)
+          {
+            ESP_LOGD("RTO", "Apartment Door timer: %d minutes remaining", id(rto_apartment_door_timer_remaining) / 60);
+          }
+          if(id(rto_apartment_door_timer_remaining) <= 0)
+          {
+            ESP_LOGD("RTO", "Apartment Door timer elapsed");
+            id(rto_apartment_door).turn_off();
+          }
+
+web_server:
+  sorting_groups:
+    - id: sorting_group_rto_settings
+      name: "Settings - Ring To Open"
+      sorting_weight: -80
+
+binary_sensor:
+  - id: !extend entrance_doorbell
+    on_press:
+      - if:
+          condition:
+            - switch.is_on: rto_entrance_door
+            - lambda: !lambda 'return id(rto_entrance_door_pattern_condition)->current_option() == "single";'
+          then:
+            # Deactivate Ring To Open when Ring once is selected
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_entrance_door_timeout_mode)->current_option() == "Ring once";'
+                then:
+                  - switch.turn_off: rto_entrance_door
+
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_entrance_door_delay)->current_option() == "Random";'
+                then:
+                  - delay: !lambda "return 5000 + (rand() % 10000);"
+                else:
+                  - delay: !lambda |-
+                      int milliseconds = std::stoi(id(rto_entrance_door_delay)->current_option()) * 1000;
+                      return std::max(milliseconds, 300);
+
+            - script.execute: rto_entrance_door_action
+
+  - id: !extend second_entrance_doorbell
+    on_press:
+      - if:
+          condition:
+            - switch.is_on: rto_second_entrance_door
+            - lambda: !lambda 'return id(rto_second_entrance_door_pattern_condition)->current_option() == "single";'
+          then:
+            # Deactivate Ring To Open when Ring once is selected
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_second_entrance_door_timeout_mode)->current_option() == "Ring once";'
+                then:
+                  - switch.turn_off: rto_second_entrance_door
+
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_second_entrance_door_delay)->current_option() == "Random";'
+                then:
+                  - delay: !lambda "return 5000 + (rand() % 10000);"
+                else:
+                  - delay: !lambda |-
+                      int milliseconds = std::stoi(id(rto_second_entrance_door_delay)->current_option()) * 1000;
+                      return std::max(milliseconds, 300);
+
+            - script.execute: rto_second_entrance_door_action
+
+  - id: !extend apartment_doorbell
+    on_press:
+      - if:
+          condition:
+            - switch.is_on: rto_apartment_door
+            - lambda: !lambda 'return id(rto_apartment_door_pattern_condition)->current_option() == "single";'
+          then:
+            # Deactivate Ring To Open when Ring once is selected
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_apartment_door_timeout_mode)->current_option() == "Ring once";'
+                then:
+                  - switch.turn_off: rto_apartment_door
+
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_apartment_door_delay)->current_option() == "Random";'
+                then:
+                  - delay: !lambda "return 5000 + (rand() % 10000);"
+                else:
+                  - delay: !lambda |-
+                      int milliseconds = std::stoi(id(rto_second_entrance_door_delay)->current_option()) * 1000;
+                      return std::max(milliseconds, 0);
+
+            - script.execute: rto_apartment_door_action
+
+  - id: !extend doorman_external_button
+    on_press:
+      - if:
+          condition:
+            - lambda: !lambda 'return id(rto_toggle_trigger)->current_option() == "External Button";'
+          then:
+            - switch.toggle: rto_central
+            - delay: 300ms
+
+            # Confirm Ring To Open activation
+            # Ring Apartment Doorbell once
+            - if: 
+                condition:
+                  - switch.is_on: rto_central
+                  - switch.is_on: rto_confirmation
+                then:
+                  - tc_bus_device.send:
+                      id: tc_bus_indoor_station
+                      type: floor_call
+
+  - id: !extend function_button
+    on_press:
+      - if:
+          condition:
+            - lambda: !lambda 'return id(rto_toggle_trigger)->current_option() == "Function Button";'
+          then:
+            - switch.toggle: rto_central
+            - delay: 300ms
+
+            # Confirm Ring To Open activation
+            # Ring Apartment Doorbell once
+            - if: 
+                condition:
+                  - switch.is_on: rto_central
+                  - switch.is_on: rto_confirmation
+                then:
+                  - tc_bus_device.send:
+                      id: tc_bus_indoor_station
+                      type: floor_call
+
+            # Reset outdoor stations
+            # to prevent address conflict
+            - tc_bus.send:
+                type: select_device_group_reset
+                payload: 2
+
+
+event:
+  - id: !extend entrance_doorbell_pattern
+    on_event:
+      # Ring To Open Action
+      - if:
+          condition:
+            - switch.is_on: rto_entrance_door
+            - lambda: !lambda 'return event_type.c_str() != "single";'
+            - lambda: !lambda 'return event_type.c_str() == id(rto_entrance_door_pattern_condition)->current_option();'
+          then:
+            # Deactivate Ring To Open when Ring once is selected
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_entrance_door_timeout_mode)->current_option() == "Ring once";'
+                then:
+                  - switch.turn_off: rto_entrance_door
+
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_entrance_door_delay)->current_option() == "Random";'
+                then:
+                  - delay: !lambda "return 5000 + (rand() % 10000);"
+                else:
+                  - delay: !lambda |-
+                      int seconds = std::stoi(id(rto_entrance_door_delay)->current_option());
+                      return (std::max(seconds, 2) - 2) * 1000;
+
+            - script.execute: rto_entrance_door_action
+
+
+  - id: !extend second_entrance_doorbell_pattern
+    on_event:
+      # Ring To Open Action
+      - if:
+          condition:
+            - switch.is_on: rto_second_entrance_door
+            - lambda: !lambda 'return event_type.c_str() != "single";'
+            - lambda: !lambda 'return event_type.c_str() == id(rto_second_entrance_door_pattern_condition)->current_option();'
+          then:
+            # Deactivate Ring To Open when Ring once is selected
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_second_entrance_door_timeout_mode)->current_option() == "Ring once";'
+                then:
+                  - switch.turn_off: rto_second_entrance_door
+
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_second_entrance_door_delay)->current_option() == "Random";'
+                then:
+                  - delay: !lambda "return 5000 + (rand() % 10000);"
+                else:
+                  - delay: !lambda |-
+                      int seconds = std::stoi(id(rto_second_entrance_door_delay)->current_option());
+                      return (std::max(seconds, 2) - 2) * 1000;
+
+            - script.execute: rto_second_entrance_door_action
+
+  - id: !extend apartment_doorbell_pattern
+    on_event:
+      # Ring To Open Action
+      - if:
+          condition:
+            - switch.is_on: rto_apartment_door
+            - lambda: !lambda 'return event_type.c_str() != "single";'
+            - lambda: !lambda 'return event_type.c_str() == id(rto_apartment_door_pattern_condition)->current_option();'
+          then:
+            # Deactivate Ring To Open when Ring once is selected
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_apartment_door_timeout_mode)->current_option() == "Ring once";'
+                then:
+                  - switch.turn_off: rto_apartment_door
+
+            - if:
+                condition:
+                  - lambda: !lambda 'return id(rto_apartment_door_delay)->current_option() == "Random";'
+                then:
+                  - delay: !lambda "return 5000 + (rand() % 10000);"
+                else:
+                  - delay: !lambda |-
+                      int seconds = std::stoi(id(rto_apartment_door_delay)->current_option());
+                      return (std::max(seconds, 2) - 2) * 1000;
+
+            - script.execute: rto_apartment_door_action
+
+switch:
+  # Global Setting
+  - platform: template
+    id: rto_central
+    device_id: tc_bus_is
+    name: "Ring To Open"
+    icon: "mdi:checkbox-marked-circle-auto-outline"
+    restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      if(id(rto_central_doors)->current_option() == "Entrance") {
+        return id(rto_entrance_door).state;
+      } else if(id(rto_central_doors)->current_option() == "Second Entrance") {
+        return id(rto_second_entrance_door).state;
+      } else if(id(rto_central_doors)->current_option() == "Any Entrance") {
+        return id(rto_entrance_door).state || id(rto_second_entrance_door).state;
+      } else if(id(rto_central_doors)->current_option() == "Apartment") {
+        return id(rto_apartment_door).state;
+      } else if(id(rto_central_doors)->current_option() == "Any Entrance & Apartment") {
+        return id(rto_entrance_door).state || id(rto_second_entrance_door).state || id(rto_apartment_door).state;
+      }
+      return false;
+    turn_on_action:
+      - lambda: |-
+          if(id(rto_central_doors)->current_option() == "Entrance") {
+            id(rto_entrance_door).turn_on();
+          } else if(id(rto_central_doors)->current_option() == "Second Entrance") {
+            id(rto_second_entrance_door).turn_on();
+          } else if(id(rto_central_doors)->current_option() == "Any Entrance") {
+            id(rto_entrance_door).turn_on();
+            id(rto_second_entrance_door).turn_on();
+          } else if(id(rto_central_doors)->current_option() == "Apartment") {
+            id(rto_apartment_door).turn_on();
+          } else if(id(rto_central_doors)->current_option() == "Any Entrance & Apartment") {
+            id(rto_entrance_door).turn_on();
+            id(rto_second_entrance_door).turn_on();
+            id(rto_apartment_door).turn_on();
+          }
+    turn_off_action:
+      - lambda: |-
+          if(id(rto_central_doors)->current_option() == "Entrance") {
+            id(rto_entrance_door).turn_off();
+          } else if(id(rto_central_doors)->current_option() == "Second Entrance") {
+            id(rto_second_entrance_door).turn_off();
+          } else if(id(rto_central_doors)->current_option() == "Any Entrance") {
+            id(rto_entrance_door).turn_off();
+            id(rto_second_entrance_door).turn_off();
+          } else if(id(rto_central_doors)->current_option() == "Apartment") {
+            id(rto_apartment_door).turn_off();
+          } else if(id(rto_central_doors)->current_option() == "Any Entrance & Apartment") {
+            id(rto_entrance_door).turn_off();
+            id(rto_second_entrance_door).turn_off();
+            id(rto_apartment_door).turn_off();
+          }
+    web_server:
+      sorting_group_id: sorting_group_controls
+      sorting_weight: 5
+
+  # Setting for each Door - Entrance Door
+  - platform: template
+    id: rto_entrance_door
+    device_id: tc_bus_is
+    name: "RTO: Entrance Door"
+    icon: "mdi:checkbox-marked-circle-auto-outline"
+    restore_mode: RESTORE_DEFAULT_OFF
+    disabled_by_default: true
+    optimistic: true
+    turn_on_action:
+      - lambda: |-
+          std::string opt = id(rto_entrance_door_timeout_mode)->current_option();
+          if (opt == "Never" || opt == "Ring once") return;
+          int minutes = std::stoi(opt);
+          id(rto_entrance_door_timer_remaining) = minutes * 60;
+          ESP_LOGD("RTO", "Apartment timer set: %d minutes", minutes);
+    turn_off_action:
+      - globals.set:
+          id: rto_entrance_door_timer_remaining
+          value: '0'
+    on_turn_on:
+      - script.execute: update_rto_status
+    on_turn_off:
+      - script.execute: update_rto_status
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -80
+
+  # Setting for each Door - Second Entrance Door
+  - platform: template
+    id: rto_second_entrance_door
+    device_id: tc_bus_is
+    name: "RTO: Second Entrance Door"
+    icon: "mdi:checkbox-marked-circle-auto-outline"
+    restore_mode: RESTORE_DEFAULT_OFF
+    disabled_by_default: true
+    optimistic: true
+    turn_on_action:
+      - lambda: |-
+          std::string opt = id(rto_second_entrance_door_timeout_mode)->current_option();
+          if (opt == "Never" || opt == "Ring once") return;
+          int minutes = std::stoi(opt);
+          id(rto_second_entrance_door_timer_remaining) = minutes * 60;
+          ESP_LOGD("RTO", "Apartment timer set: %d minutes", minutes);
+    turn_off_action:
+      - globals.set:
+          id: rto_second_entrance_door_timer_remaining
+          value: '0'
+    on_turn_on:
+      - script.execute: update_rto_status
+    on_turn_off:
+      - script.execute: update_rto_status
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -70
+
+  # Setting for each Door - Apartment Door
+  - platform: template
+    id: rto_apartment_door
+    device_id: tc_bus_is
+    name: "RTO: Apartment Door"
+    icon: "mdi:checkbox-marked-circle-auto-outline"
+    disabled_by_default: true
+    internal: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    turn_on_action:
+      - lambda: |-
+          std::string opt = id(rto_apartment_door_timeout_mode)->current_option();
+          if (opt == "Never" || opt == "Ring once") return;
+          int minutes = std::stoi(opt);
+          id(rto_apartment_door_timer_remaining) = minutes * 60;
+          ESP_LOGD("RTO", "Apartment timer set: %d minutes", minutes);
+    turn_off_action:
+      - globals.set:
+          id: rto_apartment_door_timer_remaining
+          value: '0'
+    on_turn_on:
+      - script.execute: update_rto_status
+    on_turn_off:
+      - script.execute: update_rto_status
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -50
+
+  # Global Setting for all Doors
+  - platform: template
+    id: rto_confirmation
+    device_id: tc_bus_is
+    name: "RTO: Confirmation"
+    icon: "mdi:bell-check"
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -100
+
+  # Global Setting for all Doors
+  - platform: template
+    id: rto_led_status
+    device_id: tc_bus_is
+    name: "RTO: Display Status"
+    icon: "mdi:led-on"
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    on_turn_on:
+      - script.execute: update_rto_status
+    on_turn_off:
+      - script.execute: update_rto_status
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -99
+
+select:
+  - platform: template
+    id: rto_central_doors
+    device_id: tc_bus_is
+    name: "RTO: Central Toggle - Door Selection"
+    icon: "mdi:door"
+    optimistic: true
+    options:
+      - "Entrance"
+      - "Second Entrance"
+      - "Any Entrance"
+      - "Apartment"
+      - "Any Entrance & Apartment"
+    initial_option: "Entrance"
+    restore_value: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -89
+
+  - platform: template
+    id: rto_entrance_door_delay
+    device_id: tc_bus_is
+    name: "RTO: Entrance Door - Delay"
+    icon: "mdi:clock-end"
+    optimistic: true
+    options:
+      - "0 seconds"
+      - "1 second"
+      - "2 seconds"
+      - "3 seconds"
+      - "4 seconds"
+      - "5 seconds"
+      - "10 seconds"
+      - "15 seconds"
+      - "20 seconds"
+      - "25 seconds"
+      - "Random"
+    initial_option: "2 seconds"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -78
+
+  - platform: template
+    id: rto_second_entrance_door_delay
+    device_id: tc_bus_is
+    name: "RTO: Second Entrance Door - Delay"
+    icon: "mdi:clock-end"
+    disabled_by_default: true
+    optimistic: true
+    options:
+      - "0 seconds"
+      - "1 second"
+      - "2 seconds"
+      - "3 seconds"
+      - "4 seconds"
+      - "5 seconds"
+      - "10 seconds"
+      - "15 seconds"
+      - "20 seconds"
+      - "25 seconds"
+      - "Random"
+    initial_option: "2 seconds"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -68
+
+  - platform: template
+    id: rto_apartment_door_delay
+    device_id: tc_bus_is
+    name: "RTO: Apartment Door - Delay"
+    icon: "mdi:clock-end"
+    internal: true
+    disabled_by_default: true
+    optimistic: true
+    options:
+      - "0 seconds"
+      - "1 second"
+      - "2 seconds"
+      - "3 seconds"
+      - "4 seconds"
+      - "5 seconds"
+      - "10 seconds"
+      - "15 seconds"
+      - "20 seconds"
+      - "25 seconds"
+      - "Random"
+    initial_option: "2 seconds"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -48
+
+  # Setting for each Door - Entrance Door
+  - platform: template
+    id: rto_entrance_door_timeout_mode
+    device_id: tc_bus_is
+    name: "RTO: Entrance Door - Timeout"
+    icon: "mdi:clock-fast"
+    optimistic: true
+    options:
+      - "Never"
+      - "Ring once"
+      - "5 minutes"
+      - "10 minutes"
+      - "15 minutes"
+      - "20 minutes"
+      - "25 minutes"
+      - "30 minutes"
+      - "35 minutes"
+      - "40 minutes"
+      - "45 minutes"
+      - "50 minutes"
+      - "55 minutes"
+      - "60 minutes"
+    initial_option: "Never"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -77
+
+  # Setting for each Door - Second Entrance Door
+  - platform: template
+    id: rto_second_entrance_door_timeout_mode
+    device_id: tc_bus_is
+    name: "RTO: Second Entrance Door - Timeout"
+    icon: "mdi:clock-fast"
+    disabled_by_default: true
+    optimistic: true
+    options:
+      - "Never"
+      - "Ring once"
+      - "5 minutes"
+      - "10 minutes"
+      - "15 minutes"
+      - "20 minutes"
+      - "25 minutes"
+      - "30 minutes"
+      - "35 minutes"
+      - "40 minutes"
+      - "45 minutes"
+      - "50 minutes"
+      - "55 minutes"
+      - "60 minutes"
+    initial_option: "Never"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -67
+
+  # Setting for each Door - Apartment Door
+  - platform: template
+    id: rto_apartment_door_timeout_mode
+    device_id: tc_bus_is
+    name: "RTO: Apartment Door - Timeout"
+    icon: "mdi:clock-fast"
+    internal: true
+    disabled_by_default: true
+    optimistic: true
+    options:
+      - "Never"
+      - "Ring once"
+      - "5 minutes"
+      - "10 minutes"
+      - "15 minutes"
+      - "20 minutes"
+      - "25 minutes"
+      - "30 minutes"
+      - "35 minutes"
+      - "40 minutes"
+      - "45 minutes"
+      - "50 minutes"
+      - "55 minutes"
+      - "60 minutes"
+    initial_option: "Never"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -47
+
+  # Setting for each Door - Entrance Door
+  - platform: template
+    id: rto_entrance_door_pattern_condition
+    device_id: tc_bus_is
+    name: "RTO: Entrance Door - Pattern"
+    icon: "mdi:gesture-tap-button"
+    optimistic: true
+    options:
+      - "single"
+      - "double"
+      - "triple"
+      - "quadruple"
+    initial_option: "single"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -79
+
+  # Setting for each Door - Second Entrance Door
+  - platform: template
+    id: rto_second_entrance_door_pattern_condition
+    device_id: tc_bus_is
+    name: "RTO: Second Entrance Door - Pattern"
+    icon: "mdi:gesture-tap-button"
+    disabled_by_default: true
+    optimistic: true
+    options:
+      - "single"
+      - "double"
+      - "triple"
+      - "quadruple"
+    initial_option: "single"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -69
+
+  # Setting for each Door - Apartment Door
+  - platform: template
+    id: rto_apartment_door_pattern_condition
+    device_id: tc_bus_is
+    name: "RTO: Apartment Door - Pattern"
+    icon: "mdi:gesture-tap-button"
+    internal: true
+    disabled_by_default: true
+    optimistic: true
+    options:
+      - "single"
+      - "double"
+      - "triple"
+      - "quadruple"
+    initial_option: "single"
+    restore_value: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -49
+
+  # Global Setting
+  - platform: template
+    id: rto_toggle_trigger
+    device_id: tc_bus_is
+    name: "RTO: Central Toggle - Trigger"
+    icon: "mdi:circle-outline"
+    optimistic: true
+    options:
+      - "Manual"
+      - "Function Button"
+      - "External Button"
+    initial_option: "Manual"
+    restore_value: true
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_rto_settings
+      sorting_weight: -90
+
+script:
+  - id: !extend boot_component_init
+    then:
+      - script.execute: update_rto_status
+
+  - id: rto_entrance_door_action
+    then:
+      - logger.log: "RTO: Execute Entrance Door Action"
+      - lock.unlock: entrance_door
+
+  - id: rto_second_entrance_door_action
+    then:
+      - logger.log: "RTO: Execute Second Entrance Door Action"
+      - lock.unlock: second_entrance_door
+
+  - id: rto_apartment_door_action
+    then:
+      - logger.log: "RTO: Execute Apartment Door Action"
+
+  - id: !extend set_unused_entities_internal
+    then:
+      # Set second entrance door entities to internal if not used
+      - lambda: |-
+          bool internal = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+          id(rto_second_entrance_door)->set_internal(internal);
+          id(rto_second_entrance_door_delay)->set_internal(internal);
+          id(rto_second_entrance_door_timeout_mode)->set_internal(internal);
+          id(rto_second_entrance_door_pattern_condition)->set_internal(internal);
+
+  - id: update_rto_status
+    then:
+      - if:
+          condition:
+            - switch.is_on: rto_led_status
+          then:
+            - if:
+                condition:
+                  - lambda: |-
+                      return id(rto_apartment_door).state && (id(rto_entrance_door).state || id(rto_second_entrance_door).state);
+                then:
+                  - status.push: rto_active_apartment_and_entrance
+                  - status.pop: rto_active_both_entrance_doors
+                  - status.pop: rto_active_entrance_door
+                  - status.pop: rto_active_apartment_door
+                else:
+                  - status.pop: rto_active_apartment_and_entrance
+                  - if:
+                      condition:
+                        - lambda: |-
+                            return id(rto_entrance_door).state && id(rto_second_entrance_door).state;
+                      then:
+                        - status.push: rto_active_both_entrance_doors
+                        - status.pop: rto_active_entrance_door
+                        - status.pop: rto_active_apartment_door
+                      else:
+                        - status.pop: rto_active_both_entrance_doors
+                        - if:
+                            condition:
+                              - lambda: |-
+                                  return id(rto_entrance_door).state || id(rto_second_entrance_door).state;
+                            then:
+                              - status.push: rto_active_entrance_door
+                              - status.pop: rto_active_apartment_door
+                            else:
+                              - status.pop: rto_active_entrance_door
+                              - if:
+                                  condition:
+                                    - lambda: |-
+                                        return id(rto_apartment_door).state;
+                                  then:
+                                    - status.push: rto_active_apartment_door
+                                  else:
+                                    - status.pop: rto_active_apartment_door
+          else:
+            - status.pop: rto_active_entrance_door
+            - status.pop: rto_active_both_entrance_doors
+            - status.pop: rto_active_apartment_door
+            - status.pop: rto_active_apartment_and_entrance
+
+status_indicator:
+  on_custom_status:
+    - trigger_id: rto_active_entrance_door
+      priority: 70
+      group: rto
+      then:
+        #- logger.log: "SI: Active Entrance Door"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 70%
+            blue: 0%
+            effect: ring_to_open
+
+    - trigger_id: rto_active_both_entrance_doors
+      priority: 71
+      group: rto
+      then:
+        #- logger.log: "SI: Active Both Entrance Doors"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 70%
+            blue: 0%
+            effect: ring_to_open
+
+    - trigger_id: rto_active_apartment_door
+      priority: 72
+      group: rto
+      then:
+        #- logger.log: "SI: Active Apartment Door"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 0%
+            blue: 20%
+            effect: ring_to_open
+
+    - trigger_id: rto_active_apartment_and_entrance
+      priority: 73
+      group: rto
+      then:
+        #- logger.log: "SI: Active Apartment and Entrance Doors"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            red: 100%
+            green: 70%
+            blue: 20%
+            effect: ring_to_open

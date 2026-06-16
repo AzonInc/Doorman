@@ -8,7 +8,7 @@ hero:
   text: Gateway for TCS and Koch intercoms
   tagline: Made for ESPHome and Home Assistant
   image:
-    src: /enclosure.png
+    src: /enclosure-base-board.png
     alt: Doorman
   actions:
     - theme: brand
@@ -30,7 +30,7 @@ features:
       height: 28px
       width: 28px
     title: Powerful
-    details: Powered by the ESP32-S3, featuring a dual-core CPU, integrated PSRAM, and Bluetooth, making it both powerful and versatile.
+    details: Powered by the ESP32-S3, featuring a dual-core processor, integrated PSRAM, and Bluetooth connectivity for versatile and reliable operation.
 
   - icon:
       src: /icons/fluent-emoji-pinching-hand.png
@@ -38,7 +38,7 @@ features:
       height: 28px
       width: 28px
     title: Perfect Size
-    details: A compact design allows it to fit almost anywhere, making it ideal for a wide range of installation scenarios.
+    details: Its compact design allows it to fit almost anywhere, making it suitable for a wide range of installation scenarios.
 
   - icon:
       src: /icons/fluent-emoji-sparkles.png
@@ -46,7 +46,7 @@ features:
       height: 28px
       width: 28px
     title: Expandable
-    details: Two additional GPIOs and an external button allow for effortless expansion with your own sensors and devices.
+    details: Additional GPIOs are accessible via the screw terminal. Furthermore, an expansion board connector provides access to eight additional GPIOs, as well as the bus lines, 3.3V, and Ground.
 
   - icon:
       src: /icons/fluent-emoji-party-popper.png

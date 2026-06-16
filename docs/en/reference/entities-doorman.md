@@ -8,7 +8,7 @@ On this page, you can view all the entities related to Doorman.
 ## Sensors
 
 ### Uptime <Badge type="tip" text="doorman_uptime" /> <Badge type="info" text="Disabled by default" />
-Reports the uptime in seconds.
+Reports the uptime in seconds. If you flashed the `Home Assistant` Smart Home integration, it will report the timestamp.
 
 ### WiFi Signal <Badge type="tip" text="doorman_wifi_signal" /> <Badge type="info" text="Disabled by default" />
 Reports the wifi signal in percent.
@@ -34,8 +34,8 @@ Reports the Doorman hardware revision.
 ### Relay <Badge type="tip" text="doorman_relay" /> <Badge type="info" text="Disabled by default" />
 Controls the built-in relay.
 
-### Status LED: Show Bus Activity <Badge type="tip" text="doorman_status_led_bus_activity" /> <Badge type="info" text="Disabled by default" />
-When enabled, the status LED will briefly blink to indicate activity on the bus — useful for debugging or just keeping an eye on communication.
+### RED Status LED: Show Bus Activity <Badge type="tip" text="doorman_red_status_led_bus_activity" /> <Badge type="info" text="Disabled by default" />
+When enabled, the red status LED will briefly blink to indicate activity on the bus — useful for debugging or just keeping an eye on communication.
 
 ### Experimental Firmware <Badge type="tip" text="dev_firmware" />
 Enables experimental updates, allowing you to easily switch between the master and dev branches to check for the latest changes.
@@ -54,8 +54,17 @@ Restarts the Doorman unit and loads factory defaults.
 ::: danger USE WITH GREAT CAUTION
 All credentials, global variables, counters, and saved states stored in non-volatile memory will be lost with no chance of recovery. Even raw reading of flash memory with esptool will not help, as data is physically erased from flash memory.
 
-If you configured WiFi using the captive portal, Improv Serial, or Improv BLE, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
+If you configured WiFi using the captive portal or Improv Serial, this will reset WiFi settings as well, making such devices offline. You'll need to reconfigure the device using a built-in WiFi access point and captive portal.
 :::
+
+
+## Numbers
+
+### Red Status LED: Brightness <Badge type="tip" text="doorman_red_status_led_brightness" />
+Controls the brightness of the red status LED.
+
+### RGB Status LED: Brightness <Badge type="tip" text="doorman_rgb_status_led_brightness" />
+Controls the brightness of the RGB status LED.
 
 
 ## Selects
@@ -109,23 +118,30 @@ Shows if an doorman firmware update is available and offers installation via the
 
 ## Lights
 
-### Status LED <Badge type="danger" text="Red" /> <Badge type="tip" text="doorman_status_led" />
-A small LED on the Doorman's PCB controlled by the ESPHome [Status LED](https://esphome.io/components/light/status_led.html) component.  By default, this LED remains on when everything is functioning properly but will blink if there are issues.
+### Red Status LED <Badge type="tip" text="doorman_red_status_led" />
+A small LED on the Doorman's PCB indicating errors or bus communication.
 
-You can turn off the LED if it becomes annoying. Even when turned off, it will still retain its functionality and blink to signal any issues.
+### RGB Status LED <Badge type="tip" text="doorman_rgb_status_led" />
+A small WS2812B/SK6812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
 
-### Status LED <Badge type="warning" text="RGB" /> <Badge type="tip" text="doorman_rgb_status_led" />
-A small WS2812B RGB LED on the Doorman's PCB is used to indicate specific events. The LED can display various colors and patterns to provide visual feedback on different states and actions.
+##### Status Descriptions
 
-##### Event Types
-- **Waiting for WiFi** <Badge type="tip" text="Slow yellow/orange pulse" />
-- **Setup Access Point enabled** <Badge type="tip" text="Fast yellow/orange pulse" />
-- **Waiting for Home Assistant / MQTT / HomeKit to Connect** <Badge type="tip" text="Slow blue pulse" />
-- **Home Assistant / MQTT / HomeKit Connected** <Badge type="tip" text="Solid blue light (for 3 seconds)" />
-- **MQTT setup required** <Badge type="tip" text="Red-blue pulse" /> <Badge type="info" text="MQTT integration only" />
-- **HomeKit pairing required** <Badge type="tip" text="Red-blue pulse" /> <Badge type="info" text="HomeKit integration only" />
-- **Setup Mode is Active** <Badge type="tip" text="Fast green-turquoise pulse" />
-- **Setup Mode completed** <Badge type="tip" text="Solid green-turquoise (for 3 seconds)" />
-- **Ring To Open is Active** <Badge type="tip" text="Slow orange pulse" />
-- **Nuki Bridge Pairing Mode is Active** <Badge type="tip" text="Slow purple pulse" /> <Badge type="info" text="Nuki Bridge only" />
-- **Nuki Bridge Paired Successfully** <Badge type="tip" text="Solid purple light (for 3 seconds)" /> <Badge type="info" text="Nuki Bridge only" />
+| Component | Description | Preview |
+|---|---|:---:|
+| WiFi | Connecting | <LEDBadge color="#FFA600" type="pulse-slow" /> |
+| WiFi | Access Point Mode (Setup) | <LEDBadge color="#FFA600" type="pulse-fast" /> |
+| API | Waiting for connection (Home Assistant / MQTT / HomeKit) | <LEDBadge color="#0087ff" type="pulse-slow" /> |
+| API | Connected (Home Assistant / MQTT / HomeKit) | <LEDBadge color="#0087ff" type="solid-fade-out" /> |
+| API | Configuration required (MQTT Broker / HomeKit Pairing) | <LEDBadge color="#0087ff" type="pulse-error" /> |
+| Setup Mode | Outdoor Station Discovery | <LEDBadge color="#43ff8e" type="pulse-slow" /> |
+| Setup Mode | Waiting for Doorbell Button Press | <LEDBadge color="#43ff8e" type="pulse-fast" /> |
+| Setup Mode | Indoor Station Identification | <LEDBadge color="#43ff8e" type="pulse-slow" /> |
+| Setup Mode | Indoor Station Memory Read | <LEDBadge color="#43ff8e" type="pulse-slow" /> |
+| Setup Mode | Complete | <LEDBadge color="#43ff8e" type="solid-fade-out" /> |
+| Setup Mode | Error | <LEDBadge color="#ff0000" type="solid-fade-out" /> |
+| Ring To Open | Entrance Door | <LEDBadge color="#FFB300" type="pulse-slow" /> |
+| Ring To Open | Both Entrance Doors | <LEDBadge color="#FFB300" type="pulse-slow" /> |
+| Ring To Open | Apartment Door | <LEDBadge color="#FF0033" type="pulse-slow" /> |
+| Ring To Open | Apartment Door & Entrance Door(s) | <LEDBadge color="#FFB333" type="pulse-slow" /> |
+| Nuki Bridge | Pairing Mode | <LEDBadge color="#8000ff" type="pulse-slow" /> |
+| Nuki Bridge | Paired successfully | <LEDBadge color="#8000ff" type="solid-fade-out" /> |

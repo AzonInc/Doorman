@@ -11,7 +11,7 @@ You can easily add custom binary sensors for any TC Telegram, in addition to the
 
 ::: code-group
 ```yaml [Telegram Builder]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - platform: tc_bus # [!code ++] [!code focus]
@@ -22,7 +22,7 @@ binary_sensor: # [!code ++] [!code focus]
       sorting_group_id: sorting_group_listeners # [!code ++] [!code focus]
 ```
 ```yaml [32-Bit Telegrams]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - platform: tc_bus # [!code ++] [!code focus]
@@ -36,7 +36,7 @@ binary_sensor: # [!code ++] [!code focus]
 ## Control the internal RGB Status LED
 To control the onboard RGB LED with a button (for example), just reference the light entity with the internal id: `doorman_rgb_status_led`.
 ```yaml
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 button: # [!code ++] [!code focus]
   - platform: template # [!code ++] [!code focus]
@@ -54,7 +54,7 @@ If you want to use the external button to trigger automations, extend either the
 
 ::: code-group
 ```yaml [Binary Sensor]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - id: !extend doorman_external_button # [!code ++] [!code focus]
@@ -62,7 +62,7 @@ binary_sensor: # [!code ++] [!code focus]
       - logger.log: "External button pressed!" # [!code ++] [!code focus]
 ```
 ```yaml [Event]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 event: # [!code ++] [!code focus]
   - id: !extend doorman_external_button_event # [!code ++] [!code focus]
@@ -77,7 +77,7 @@ If you want to add sensors via the I²C bus, you can use the two available GPIO 
 
 ::: code-group
 ```yaml [Doorman up to rev. 1.5]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 i2c: # [!code ++] [!code focus]
   sda: GPIO40 # [!code ++] [!code focus]
@@ -85,8 +85,8 @@ i2c: # [!code ++] [!code focus]
   scan: true # [!code ++] [!code focus]
   id: i2c_bus # [!code ++] [!code focus]
 ```
-```yaml [Doorman rev. 1.6 and newer]
-<!--@include: minimal.example.yaml-->
+```yaml [Doorman rev. 1.6 and 1.6.1]
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 i2c: # [!code ++] [!code focus]
   sda: GPIO40 # [!code ++] [!code focus]
@@ -100,11 +100,15 @@ i2c: # [!code ++] [!code focus]
 Beginning with Doorman revision 1.6, the external button must be removed from your configuration YAML.
 :::
 
+:::warning REVISION 2.x.x
+Beginning with Doorman revision 2.0, I²C is generally available via the extension board connector.
+:::
+
 ## Create Your Own Doorbell Pattern
 If you want to create a custom doorbell pattern, you can easily extend the existing doorbell entities. For more information about patterns, refer to the [ESPHome Docs](https://esphome.io/components/binary_sensor/index.html#on-multi-click).
 
 ```yaml
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 # Extend the doorbell_pattern event entity // [!code ++] [!code focus]
 # Add a new special event type // [!code ++] [!code focus]
@@ -151,7 +155,7 @@ You can easily set up an automation to turn on the light whenever someone rings 
 
 ::: code-group
 ```yaml [Basic]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 binary_sensor: # [!code ++] [!code focus]
   - id: !extend entrance_doorbell # [!code ++] [!code focus]
@@ -160,7 +164,7 @@ binary_sensor: # [!code ++] [!code focus]
           type: "light" # [!code ++] [!code focus]
 ```
 ```yaml [Based on sun's elevation]
-<!--@include: minimal.example.yaml-->
+<!--@include: ../../../../firmware/configurations/doorman-s3-rev2.ha.standard.master.yaml-->
 
 # Import the Home Assistant sun elevation sensor // [!code ++] [!code focus]
 sensor: # [!code ++] [!code focus]
@@ -183,88 +187,5 @@ binary_sensor: # [!code ++] [!code focus]
             # Turn on the light // [!code ++] [!code focus]
             - tc_bus.send: # [!code ++] [!code focus]
                 type: "light" # [!code ++] [!code focus]
-```
-:::
-
-## Mix and Match
-Want to customize the firmware and use only the features you need? Good news!  
-The Doorman firmware is modular, organized into packages that you can easily mix and match.
-
-Don't need a feature, like the indoor station settings? Simply comment it out in your configuration.
-The order of the packages is important because some depend on others.
-
-Check out the example YAML configuration below for guidance:
-
-:::details Example configuration
-```yaml 
-# Doorman S3 DIY Firmware
-
-# You can change a few options here.
-substitutions:
-  name: "doorman-s3"
-  friendly_name: "Doorman S3"
-  
-  # Required for "External Components"
-  branch: "master"
-
-packages:
-  # Device type
-  # Either esp32, esp32-s3 or esp32-s3-quad
-  host: github://azoninc/doorman/firmware/hosts/esp32-s3.yaml@master
-  # host: github://azoninc/doorman/firmware/hosts/esp32-s3-quad.yaml@master
-  # host: github://azoninc/doorman/firmware/hosts/esp32.yaml@master
-
-  # External Components (REQUIRED)
-  external_components: github://azoninc/doorman/firmware/components/external-components.yaml@master
-
-  # RGB Status LED (REQUIRED)
-  rgb_status_led: github://azoninc/doorman/firmware/components/rgb-status-led.yaml@master
-  rgb_status_led_effects: github://azoninc/doorman/firmware/components/rgb-status-led.effects.yaml@master
-
-  # Base Doorman Firmware (REQUIRED)
-  base: github://azoninc/doorman/firmware/base.yaml@master
-
-  # Improv BLE
-  # Incompatible with Nuki Bridge
-  bluedroid_ble: github://azoninc/doorman/firmware/components/bluedroid-ble.yaml@master
-
-  # OTA via Webserver & Device Builder
-  ota_update: github://azoninc/doorman/firmware/components/ota-update.esphome.yaml@master
-
-  # Smart Home Integration
-  # Either homeassistant, mqtt, homekit or custom
-  # Use custom, if you just want to use it via wifi (http requests)
-  api: github://azoninc/doorman/firmware/components/api.homeassistant.yaml@master
-  # api: github://azoninc/doorman/firmware/components/api.mqtt.yaml@master
-  # api: github://azoninc/doorman/firmware/components/api.homekit.yaml@master
-  # api: github://azoninc/doorman/firmware/components/api.custom.yaml@master
-  
-  # TC:BUS debug tools
-  debug_utilities: github://azoninc/doorman/firmware/components/debug-utilities.yaml@master
-
-  # ESPHome debug sensors
-  debug_component: github://azoninc/doorman/firmware/components/debug-component.yaml@master
-  debug_component_psram: github://azoninc/doorman/firmware/components/debug-component.psram.yaml@master
-
-  # Pattern events
-  pattern_events: github://azoninc/doorman/firmware/components/pattern-events.yaml@master
-
-  # Ring To Open automation
-  ring_to_open: github://azoninc/doorman/firmware/components/ring-to-open.yaml@master
-
-  # TC:BUS Device Settings (Indoor Station)
-  # Ringtones, Volume
-  indoor_station_settings: github://azoninc/doorman/firmware/components/indoor-station-settings.yaml@master
-
-  # Nuki Bridge
-  # Incompatible with Improv BLE (bluedroid-ble)
-  # addon_nuki_bridge: !include github://azoninc/doorman/firmware/components/nuki-bridge.yaml@master
-
-  # Interactive Setup Mode
-  interactive_setup: github://azoninc/doorman/firmware/components/interactive-setup.yaml@master
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
 ```
 :::

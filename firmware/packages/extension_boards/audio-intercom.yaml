@@ -1,0 +1,310 @@
+# Audio Addon
+
+external_components:
+  - source: github://n-IA-hane/esphome-intercom
+    components: [intercom_api, i2s_audio_duplex, esp_aec, audio_processor]
+
+network:
+  enable_high_performance: true
+
+script:
+  - id: !extend boot_component_init
+    then:
+      # Configure ES8311 for digital feedback AEC
+      # Register 0x44 bits[6:4] = ADCDAT_SEL: 4 = DACL + ADC
+      # This makes ASDOUT output stereo: L=DAC loopback (reference), R=ADC (mic)
+      - lambda: |-
+          ESP_LOGI("es8311", "Configuring ES8311 register 0x44 for digital feedback...");
+          uint8_t reg = 0x44;
+          uint8_t current_val = 0;
+          id(i2c_bus).write(0x19, &reg, 1);
+          id(i2c_bus).read(0x19, &current_val, 1);
+          ESP_LOGI("es8311", "Register 0x44 current value: 0x%02X", current_val);
+          uint8_t data[2] = {0x44, 0x48};
+          auto err = id(i2c_bus).write(0x19, data, 2);
+          if (err == esphome::i2c::ERROR_OK) {
+            ESP_LOGI("es8311", "Wrote register 0x44=0x48 for digital feedback AEC");
+            // Veify
+            id(i2c_bus).write(0x19, &reg, 1);
+            id(i2c_bus).read(0x19, &current_val, 1);
+            ESP_LOGI("es8311", "Register 0x44 after write: 0x%02X", current_val);
+          } else {
+            ESP_LOGE("es8311", "Failed to write register 0x44: error %d", (int)err);
+          }
+
+          // volume
+          // uint8_t data2[2] = {0x32, 0xD3};
+          // id(i2c_bus).write(0x19, data2, 2);
+
+      - lambda: |-
+          float vol = 0.15 + (id(speaker_volume).state / 100.0) * 0.60;
+          id(es8311_dac).set_volume(vol);
+
+      - if:
+          condition:
+            lambda: 'return !id(es8311_dac).is_failed();'
+          then:
+            - text_sensor.template.publish:
+                id: doorman_extension_board
+                state: "Audio Extension Board"
+          else:
+            - light.turn_on:
+                id: doorman_red_status_led
+                transition_length: 0s
+                brightness: !lambda return id(doorman_red_status_led_brightness).state / 100;
+
+# Setup ES8311
+audio_dac:
+  - platform: es8311
+    id: es8311_dac
+    i2c_id: i2c_bus
+    bits_per_sample: 16bit
+    sample_rate: 48000
+    mic_gain: 24DB # Default 42DB is too hot. Try 24DB first.
+    address: 0x19
+
+esp_aec:
+  id: aec_processor
+  sample_rate: 16000
+  filter_length: 4
+  mode: voip_low_cost
+
+i2s_audio_duplex:
+  id: i2s_duplex
+  i2s_lrclk_pin: GPIO18 #8
+  i2s_bclk_pin: GPIO17 #7
+  i2s_mclk_pin: GPIO7 #10
+  i2s_din_pin: GPIO15 #12
+  i2s_dout_pin: GPIO16 #5
+  sample_rate: 48000             # I2S bus rate (ES8311 native)
+  output_sample_rate: 16000      # Mic/AEC/intercom output rate (FIR decimation x3)
+  processor_id: aec_processor
+  # ES8311 digital feedback: RX is stereo with L=DAC(reference), R=ADC(mic).
+  # Sample-accurate reference; requires ES8311 register 0x44 bits[6:4]=4
+  # (configured in on_boot).
+  use_stereo_aec_reference: true
+
+microphone:
+  - platform: i2s_audio_duplex
+    id: mic_main
+    i2s_audio_duplex_id: i2s_duplex
+
+speaker:
+  - platform: i2s_audio_duplex
+    id: hw_speaker
+    i2s_audio_duplex_id: i2s_duplex
+    sample_rate: 48000
+
+  - platform: mixer
+    id: audio_mixer
+    output_speaker: hw_speaker
+    num_channels: 1
+    source_speakers:
+      - id: intercom_speaker_mix
+        timeout: 10s
+        buffer_duration: 100ms
+
+      - id: ringtone_speaker_mix
+        timeout: 10s
+        buffer_duration: 100ms
+
+  - platform: resampler
+    id: intercom_speaker            # Intercom RX (16kHz) -> 48kHz
+    output_speaker: intercom_speaker_mix
+
+  - platform: resampler
+    id: ringtone_speaker             # Ringtone FLAC -> 48kHz
+    output_speaker: ringtone_speaker_mix
+
+media_player:
+  - platform: speaker
+    id: speaker_media_player
+    name: "Speaker Media Player"
+    # Pin the player chain at unity gain. Default volume_initial=0.5
+    # propagates to hw_speaker.set_volume(0.5) which i2s_audio_duplex
+    # interprets via the Q15 dB curve as ~-25 dB software attenuation,
+    # silencing both ringtone AND intercom RX. Clamping min=max=1.0
+    # makes set_volume_() a no-op and leaves the ES8311 slider as the
+    # only volume control.
+    volume_initial: 1.0
+    volume_min: 1.0
+    volume_max: 1.0
+    announcement_pipeline:
+      speaker: ringtone_speaker
+      format: FLAC
+      sample_rate: 48000
+      num_channels: 1
+
+intercom_api:
+  id: intercom
+  tasks_stack_in_psram: true
+  frame_buffers_in_psram: true # Processor frame buffers (mic/ref/out, ~3 KB) in PSRAM
+  microphone: mic_main
+  speaker: intercom_speaker
+  on_outgoing_call:
+    - logger.log: "Outgoing"
+  on_ringing:
+    - logger.log: "Ringing"
+  on_answered:
+    - logger.log: "Call answered"
+  on_streaming:
+    - logger.log: "Streaming"
+  on_idle:
+    - logger.log: "Idle"
+  on_hangup:
+    - logger.log:
+        format: "Hangup: %s"
+        args: ['reason.c_str()']
+  on_call_failed:
+    - logger.log:
+        format: "Call failed: %s"
+        args: ['reason.c_str()']
+
+button:
+  - platform: template
+    id: testbtn
+    name: "Start Talking"
+    on_press:
+      - tc_bus_device.send:
+          id: tc_bus_indoor_station
+          type: start_talking_door_call
+          address: 0
+
+  - platform: template
+    id: testbtn2
+    name: "Stop Talking"
+    on_press:
+      - tc_bus_device.send:
+          id: tc_bus_indoor_station
+          type: stop_talking_door_call
+          address: 0
+
+  - platform: template
+    name: Call
+    id: call_button
+    icon: mdi:phone
+    on_press:
+      - intercom_api.call_toggle: intercom
+
+  - platform: template
+    name: Decline
+    id: decline_button
+    icon: mdi:phone-hangup
+    on_press:
+      - intercom_api.decline_call: intercom
+
+switch:
+  - platform: template
+    name: Mic Mute
+    id: mute
+    icon: mdi:microphone-off
+    entity_category: config
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - logger.log:
+          level: INFO
+          tag: mute
+          format: "Mic mute ON"
+      - microphone.mute: mic_main
+    on_turn_off:
+      - logger.log:
+          level: INFO
+          tag: mute
+          format: "Mic mute OFF"
+      - microphone.unmute: mic_main
+
+  - platform: template
+    name: Speaker Mute
+    id: speaker_mute
+    icon: mdi:volume-off
+    entity_category: config
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - logger.log:
+          level: INFO
+          tag: mute
+          format: "Speaker mute ON"
+      - speaker.mute_on: hw_speaker
+    on_turn_off:
+      - logger.log:
+          level: INFO
+          tag: mute
+          format: "Speaker mute OFF"
+      - speaker.mute_off: hw_speaker
+
+  - platform: intercom_api
+    intercom_api_id: intercom
+    auto_answer:
+      id: auto_answer_switch
+      name: "Auto Answer"
+      restore_mode: RESTORE_DEFAULT_OFF
+
+  - platform: i2s_audio_duplex
+    i2s_audio_duplex_id: i2s_duplex
+    aec:
+      id: aec_switch
+      name: "Echo Cancellation"
+      icon: mdi:ear-hearing
+      restore_mode: RESTORE_DEFAULT_ON
+
+
+select:
+  - platform: template
+    name: AEC Mode
+    id: aec_mode_select
+    icon: mdi:tune-vertical
+    options:
+      - "voip_low_cost"
+      - "voip_high_perf"
+    initial_option: "voip_low_cost"
+    # Non-optimistic: HA reflects the live component mode, not the value the
+    # user clicked. If the switch is rejected (e.g. internal RAM fragmented)
+    # or the component falls back to the previous mode, the select shows the
+    # actual mode rather than a fictitious one.
+    optimistic: false
+    restore_value: false
+    set_action:
+      - if:
+          condition:
+            not:
+              intercom_api.is_idle: intercom
+          then:
+            - logger.log:
+                level: WARN
+                format: "Cannot switch AEC mode during active intercom call"
+          else:
+            - logger.log:
+                format: "Switching AEC mode to %s"
+                args: ['x.c_str()']
+            - i2s_audio_duplex.stop: i2s_duplex
+            - esp_aec.set_mode:
+                id: aec_processor
+                mode: !lambda 'return x;'
+            - i2s_audio_duplex.start: i2s_duplex
+      - lambda: |-
+          id(aec_mode_select).publish_state(id(aec_processor).get_mode_name());
+
+number:
+  - platform: i2s_audio_duplex
+    i2s_audio_duplex_id: i2s_duplex
+    mic_gain:
+      id: mic_gain
+      name: "Mic Gain"
+
+  - platform: template
+    id: speaker_volume
+    name: "Speaker Volume"
+    icon: "mdi:volume-high"
+    min_value: 0
+    max_value: 100
+    step: 5
+    initial_value: 50
+    optimistic: true
+    restore_value: true
+    unit_of_measurement: "%"
+    set_action:
+      - lambda: |-
+          float es8311_vol = 0.15 + (x / 100.0) * 0.60;
+          id(es8311_dac).set_volume(es8311_vol);

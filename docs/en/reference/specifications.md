@@ -12,13 +12,13 @@ Thanks to the wide voltage converter, the Doorman S3 can operate with a supply v
 The following tables outline the power consumption of different firmware variants when operating with a **24 V DC-input**.
 
 ::: tip NOTE
-The integrated RGB status LED draws approximately **4 mA** when active. This is in addition to the values shown below.
+The integrated RGB status LED draws approximately **4-7 mA** when active. This is in addition to the values shown below.
 :::
 
 ### Standard Firmware
 | Integration | Power Consumption |
 | :----- | :-----: |
-| Home Assistant | TBD |
+| Home Assistant | 15-20mA |
 | MQTT | TBD |
 | HomeKit | TBD |
 | Custom | TBD |
@@ -26,14 +26,8 @@ The integrated RGB status LED draws approximately **4 mA** when active. This i
 ### Nuki-Bridge Firmware
 | Integration | Power Consumption |
 | :----- | :-----: |
-| Home Assistant | 20-22mA |
+| Home Assistant | TBD |
 | Custom | TBD |
-
-## Bridge Rectifier
-The Bridge Rectifier will correct the Bus wire polarity. You don't have to worry about it.
 
 ## Relay
 The relay is a solid-state type, capable of switching loads up to 40V with a maximum current of 2.5A.
-
-## External Button
-It is a pull-up button with a 10 kΩ resistor. You can connect the button to BTN and G screw terminals.

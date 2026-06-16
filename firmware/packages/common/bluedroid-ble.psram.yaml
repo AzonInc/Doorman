@@ -1,0 +1,5 @@
+# BLE Addon - PSRAM
+
+# ESPHome 2026.5.0
+#esp32_ble:
+#  use_psram: true

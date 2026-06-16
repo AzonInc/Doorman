@@ -120,9 +120,9 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
     {
       text: 'Features',
       items: [
-        { text: 'Ring To Open', link: 'ring-to-open', base: '/guide/features/' },
-        { text: 'Innenstation Einstellungen', link: 'intercom-settings', base: '/guide/features/' },
-        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/guide/features/' },
+        { text: 'Ring To Open', link: 'ring-to-open', base: '/de/guide/features/' },
+        { text: 'Innenstation Einstellungen', link: 'intercom-settings', base: '/de/guide/features/' },
+        { text: 'Muster Ereignisse', link: 'pattern-events', base: '/de/guide/features/' },
       ]
     },
     {
@@ -146,6 +146,12 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
           ]
         },
         { text: 'Anpassungen', link: 'customization', base: '/de/guide/firmware/' }
+      ]
+    },
+    {
+      text: 'Hardware',
+      items: [
+        { text: 'Audio Erweiterung', link: 'audio-extension', base: '/de/guide/hardware/' }
       ]
     },
     {
@@ -203,10 +209,16 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 function sidebarChangelog(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Changelog',
+      text: 'Hardware',
       items: [
-        { text: 'Firmware', link: 'firmware' },
-        { text: 'Hardware', link: 'hardware' }
+        { text: 'Doorman S3', link: 'hardware' },
+        { text: 'Audio Extension', link: 'hardware' }
+      ]
+    },
+    {
+      text: 'Firmware',
+      items: [
+        { text: 'ESPHome Firmware', link: 'firmware' }
       ]
     }
   ];

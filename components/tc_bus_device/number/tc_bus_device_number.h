@@ -13,6 +13,22 @@ namespace esphome::tc_bus
         void control(float value) override;
     };
 
+    class ParallelSerialNumberNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        ParallelSerialNumberNumber() = default;
+
+      protected:
+        void control(float value) override;
+    };
+
+    class AddressNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        AddressNumber() = default;
+
+      protected:
+        void control(float value) override;
+    };
+
     class VolumeHandsetDoorCallNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
       public:
         VolumeHandsetDoorCallNumber() = default;
@@ -33,6 +49,38 @@ namespace esphome::tc_bus
       public:
         VolumeRingtoneNumber() = default;
       
+      protected:
+        void control(float value) override;
+    };
+
+    class AddressDividerNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        AddressDividerNumber() = default;
+
+      protected:
+        void control(float value) override;
+    };
+
+    class DoorReadinessDurationNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        DoorReadinessDurationNumber() = default;
+
+      protected:
+        void control(float value) override;
+    };
+
+    class CallTimeDurationNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        CallTimeDurationNumber() = default;
+
+      protected:
+        void control(float value) override;
+    };
+
+    class DoorOpenerDurationNumber final : public number::Number, public Parented<TCBusDeviceComponent> {
+      public:
+        DoorOpenerDurationNumber() = default;
+
       protected:
         void control(float value) override;
     };

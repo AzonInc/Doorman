@@ -2,15 +2,67 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "ESPHome: Compile & Upload - Doorman-S3 2.x.x HA Standard",
+            "command": "esphome",
+            "args": [
+                "run",
+                "doorman-s3-rev2.ha.standard.local.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/configurations/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "ESPHome: Logs - Doorman-S3 2.x.x HA Standard",
+            "command": "esphome",
+            "args": [
+                "logs",
+                "doorman-s3-rev2.ha.standard.local.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/configurations/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "ESPHome: Compile & Upload - Doorman-S3 2.x.x Audio HA Standard",
+            "command": "esphome",
+            "args": [
+                "run",
+                "doorman-s3-rev2-audio.ha.standard.local.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/configurations/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "ESPHome: Compile & Upload - Doorman-S3 2.x.x HA Nuki-Bridge",
+            "command": "esphome",
+            "args": [
+                "run",
+                "doorman-s3-rev2.ha.nuki-bridge.local.yaml"
+            ],
+            "type": "shell",
+            "options": {
+                "cwd": "./firmware/configurations/"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "ESPHome: Compile & Upload - ESP32-S3 HA Standard",
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.ha.standard.local.example.yaml"
+                "esp32-s3.ha.standard.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             },
             "problemMatcher": []
         },
@@ -19,11 +71,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.ha.nuki-bridge.local.example.yaml"
+                "esp32-s3.ha.nuki-bridge.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -31,11 +83,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.mqtt.standard.local.example.yaml"
+                "esp32-s3.mqtt.standard.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -43,11 +95,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.mqtt.nuki-bridge.local.example.yaml"
+                "esp32-s3.mqtt.nuki-bridge.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -55,11 +107,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.homekit.standard.local.example.yaml"
+                "esp32-s3.homekit.standard.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -67,11 +119,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.homekit.nuki-bridge.local.example.yaml"
+                "esp32-s3.homekit.nuki-bridge.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -79,11 +131,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.custom.standard.local.example.yaml"
+                "esp32-s3.custom.standard.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -91,11 +143,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.custom.nuki-bridge.local.example.yaml"
+                "esp32-s3.custom.nuki-bridge.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
         {
@@ -103,11 +155,11 @@
             "command": "esphome",
             "args": [
                 "run",
-                "esp32-s3.homekit.standard.local.example.yaml"
+                "esp32-s3.homekit.standard.local.yaml"
             ],
             "type": "shell",
             "options": {
-                "cwd": "./firmware/examples/"
+                "cwd": "./firmware/configurations/"
             }
         },
     ]

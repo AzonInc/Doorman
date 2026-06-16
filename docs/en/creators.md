@@ -4,7 +4,7 @@ description: Discover the team and minds behind Doorman.
 
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
-import { data } from '../contributors.data.js'
+import { data } from '../loader/contributors.data.js'
 
 const members = [
   {
@@ -34,11 +34,27 @@ const members = [
     ]
   },
   {
+    avatar: 'https://www.github.com/mstirner.png',
+    name: 'mStirner',
+    title: 'Audio Support',
+    links: [
+      { icon: 'github', link: 'https://github.com/mStirner' },
+    ]
+  },
+  {
     avatar: 'https://www.github.com/calibanorg.png',
     name: 'calibanorg',
     title: 'Sponsor PCB Development',
     links: [
       { icon: 'github', link: 'https://github.com/calibanorg' },
+    ]
+  },
+  {
+    avatar: 'https://www.github.com/sektion4.png',
+    name: 'sektion4',
+    title: 'PCB Support',
+    links: [
+      { icon: 'github', link: 'https://github.com/sektion4' },
     ]
   },
   {

@@ -259,3 +259,9 @@
     font-weight: 500;
     color: var(--vp-c-text-2);
 }
+
+video
+{
+    border-radius: 8px;
+    overflow: hidden;
+}

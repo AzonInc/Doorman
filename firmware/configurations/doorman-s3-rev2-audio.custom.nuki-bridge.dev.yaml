@@ -1,0 +1,46 @@
+# Doorman Nuki Bridge Firmware (Custom)
+# Base Board DOORMAN-S3-REV2-AUDIO
+
+# ESPHome Dashboard import and remote logging are not
+# supported in this firmware, as they require the API.
+# Available only via the Home Assistant API integration.
+
+# You can change a few options here.
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+  ap_password: "Op3n-Sesame!"
+  # DO NOT CHANGE - INTERNALLY USED
+  branch: "dev"
+  firmware_type: "nuki-bridge"
+  api_variant: "custom"
+  host_platform: "doorman-s3-rev2-audio"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+packages:
+  host: github://azoninc/doorman/firmware/packages/host/${host_platform}.yaml@${branch}
+  rgb_status_led: github://azoninc/doorman/firmware/packages/common/rgb-status-led.yaml@${branch}
+  solid_state_relay: github://azoninc/doorman/firmware/packages/common/relay.yaml@${branch}
+  extension_board: github://azoninc/doorman/firmware/packages/extension_boards/common.yaml@${branch}
+  extension_board_audio: github://azoninc/doorman/firmware/packages/extension_boards/audio.yaml@${branch}
+  external_components: github://azoninc/doorman/firmware/packages/common/external-components.yaml@${branch}
+  base: github://azoninc/doorman/firmware/packages/common/base.yaml@${branch}
+  wifi: github://azoninc/doorman/firmware/packages/common/wifi.yaml@${branch}
+  wifi_psram: github://azoninc/doorman/firmware/packages/common/wifi.psram.yaml@${branch}
+  ota_esphome: github://azoninc/doorman/firmware/packages/ota/esphome.yaml@${branch}
+  api: github://azoninc/doorman/firmware/packages/api/custom.yaml@${branch}
+  debug_utilities: github://azoninc/doorman/firmware/packages/debug/debug-utilities.yaml@${branch}
+  debug_component: github://azoninc/doorman/firmware/packages/debug/debug-component.yaml@${branch}
+  pattern_events: github://azoninc/doorman/firmware/packages/pattern_events/pattern-events.yaml@${branch}
+  ring_to_open: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.yaml@${branch}
+  ring_to_open_nuki: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open-nuki.yaml@${branch}
+  indoor_station_settings: github://azoninc/doorman/firmware/packages/bus_devices/indoor-station-settings.yaml@${branch}
+  addon_nuki_bridge: github://azoninc/doorman/firmware/packages/nuki/nuki-bridge.yaml@${branch}
+  interactive_setup: github://azoninc/doorman/firmware/packages/bus_devices/interactive-setup.yaml@${branch}

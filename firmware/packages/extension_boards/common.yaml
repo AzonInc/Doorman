@@ -1,0 +1,26 @@
+# Common Extension Board configuration
+
+# Setup I²C
+i2c:
+  id: i2c_bus
+  sda: GPIO14
+  scl: GPIO13
+  scan: true
+
+text_sensor:
+  - platform: template
+    id: doorman_extension_board
+    name: "Extension Board"
+    icon: "mdi:memory"
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_information
+      sorting_weight: -18
+
+script:
+  - id: !extend boot_component_init
+    then:
+      - text_sensor.template.publish:
+          id: doorman_extension_board
+          state: "Not detected"

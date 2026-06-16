@@ -12,6 +12,7 @@ declare module 'vue' {
     IconLineMdUploadingLoop: typeof import('~icons/line-md/uploading-loop')['default']
     IconMdiPackageVariantPlus: typeof import('~icons/mdi/package-variant-plus')['default']
     IconPhCpuBold: typeof import('~icons/ph/cpu-bold')['default']
+    LEDBadge: typeof import('./.vitepress/theme/components/LEDBadge.vue')['default']
     ModelViewer: typeof import('./.vitepress/theme/components/ModelViewer.vue')['default']
     STLLoader: typeof import('./.vitepress/theme/components/STLLoader.vue')['default']
   }

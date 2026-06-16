@@ -1,0 +1,12 @@
+wifi:
+  id: wifi_id
+  output_power: 8.5
+  enable_btm: true
+  enable_rrm: true
+  power_save_mode: none
+  reboot_timeout: 5min
+  ap:
+    ssid: "${friendly_name} Setup"
+    password: "${ap_password}"
+
+captive_portal:

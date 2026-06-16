@@ -16,23 +16,11 @@ external_components:
   - source: github://azoninc/doorman@master
     components: [ tc_bus, tc_bus_serial ]
 
-## RMT configuration
-remote_receiver:
-  pin:
-    number: GPIO9
-    mode: INPUT
-  filter: 1500us
-  idle: 7000us
-
-remote_transmitter:
-  pin:
-    number: GPIO8
-    mode: OUTPUT
-  carrier_duty_percent: 100%
-
 # TC:BUS configuration
 tc_bus:
-
+  rx_pin: GPIO9
+  tx_pin: GPIO8
+  
 # TC:BUS Serial configuration
 tc_bus_serial:
 ```

@@ -1,0 +1,70 @@
+{
+    "export_path": "",
+    "hide_outside_reference_value": true,
+    "frame_pcb": "",
+    "use_frame": 2,
+    "tight": true,
+    "auto_tab": 0,
+    "spacing": 1.6,
+    "max_tab_spacing": 50.0,
+    "cut_method": "vc_or_skip",
+    "mb_diameter": 0.6,
+    "mb_spacing": 0.9,
+    "mb_offset": 0.0,
+    "tab_width": 10.0,
+    "vc_layer": "Cmts.User",
+    "merge_vcuts": true,
+    "merge_vcuts_threshold": 0.4,
+    "frame_width": 70,
+    "frame_height": 70,
+    "frame_top": 5,
+    "frame_bottom": 5,
+    "frame_left": 0,
+    "frame_right": 0,
+    "mill_fillets": 0.5,
+    "export_mill_fillets": 0,
+    "netRenamePattern": "B{n}-{orig}",
+    "refRenamePattern": "B{n}-{orig}",
+    "frame_tooling_holes": true,
+    "frame_tooling_horizontal_offset": 3.5,
+    "frame_tooling_vertical_offset": 3.5,
+    "frame_tooling_diameter": 1.152,
+    "frame_tooling_solder_mask_opening_diameter": 1.3,
+    "fiducials": true,
+    "fiducials_clearance": 3.35,
+    "fiducials_diameter": 1.0,
+    "fiducials_solder_mask_opening_diameter": 2.0,
+    "pcb": [
+        {
+            "file": "D:\\Projekte\\Doorman\\hardware\\core_board\\doorman_core_board.kicad_pcb",
+            "x": 16432556,
+            "y": 15641777.0,
+            "margin_left": 0,
+            "margin_right": 0,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "rotate": 0,
+            "options": {},
+            "flags": [],
+            "tabs": [
+                {
+                    "x": 33766663.707068995,
+                    "y": 18820811.521572143,
+                    "width": 10.0,
+                    "closest": true,
+                    "direction": 0.0
+                },
+                {
+                    "x": 3359318.0043240786,
+                    "y": 18542695.554778747,
+                    "width": 10.0,
+                    "closest": true,
+                    "direction": 0.0
+                }
+            ],
+            "bom": "",
+            "cpl": ""
+        }
+    ],
+    "hole": []
+}
