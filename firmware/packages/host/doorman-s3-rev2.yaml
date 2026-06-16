@@ -40,4 +40,4 @@ sensor:
   - id: !extend doorman_bus_voltage
     filters:
       - multiply: 11.0
-      - offset: 1.26
+      - offset: 2.63

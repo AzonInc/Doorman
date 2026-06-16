@@ -8159,9 +8159,9 @@
 		)
 		(uuid "ef6f9f87-38cb-4588-b33a-28a52f38432e")
 	)
-	(text "Non-Inverted"
+	(text "Inverted"
 		(exclude_from_sim no)
-		(at 198.374 193.802 0)
+		(at 200.152 194.056 0)
 		(effects
 			(font
 				(size 1.15 1.15)
