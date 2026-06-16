@@ -42,7 +42,7 @@ jobs:
           SHA=${{ github.sha }}
 
           CHANGELOG_FILE="docs/en/changelog/firmware.md"
-          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
+          VERSION=$(awk '/project:/, /version:/' firmware/packages/common/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
 
           if [[ "${GITHUB_REF_NAME}" == "dev" ]] || [[ "${GITHUB_REF_NAME}" == dev* ]]; then
             URL="https://dev.doorman.azon.ai/changelog/firmware"

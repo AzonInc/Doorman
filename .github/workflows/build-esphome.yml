@@ -62,10 +62,10 @@ jobs:
       - name: Update version for dev builds
         if: startsWith(github.ref_name, 'dev')
         run: |
-          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
+          VERSION=$(awk '/project:/, /version:/' firmware/packages/common/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
           TIMESTAMP=$(date +%d%H%M)
           DEV_VERSION="${VERSION}-dev.${TIMESTAMP}"
-          sed -i "/^  project:/,/^  platformio_options:/s/^    version: .*/    version: \"${DEV_VERSION}\"/" firmware/base.yaml
+          sed -i "/^  project:/,/^  platformio_options:/s/^    version: .*/    version: \"${DEV_VERSION}\"/" firmware/packages/common/base.yaml
 
       - name: Build ESPHome firmware
         uses: esphome/build-action@v7.1.0

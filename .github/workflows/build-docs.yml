@@ -24,7 +24,7 @@ jobs:
 
       - name: Extract version and prepare environment
         run: |
-          VERSION=$(awk '/project:/, /version:/' firmware/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
+          VERSION=$(awk '/project:/, /version:/' firmware/packages/common/base.yaml | grep 'version:' | awk '{print $2}' | sed 's/[",]//g')
           
           if [[ "${{ github.ref_name }}" == dev* ]]; then
             TIMESTAMP=$(date +%d%H%M)
@@ -49,10 +49,10 @@ jobs:
           sed -i "s/@master/@${{ github.ref_name }}/g" */reference/schematics.md
 
           # Update example references
-          sed -i "s/master\.yaml/dev.yaml/g" */guide/firmware/customization.yaml
-          
+          sed -i "s/master\.yaml/dev.yaml/g" */guide/firmware/customization.md
+
           # Update firmware example references
-          sed -i "s/master\.yaml/dev.yaml/g" */guide/firmware/installation.yaml
+          sed -i "s/master\.yaml/dev.yaml/g" */guide/firmware/installation.md
 
           # Update ESPHome component references
           sed -i "s/@master/@${{ github.ref_name }}/g" */reference/esphome-component*.md
