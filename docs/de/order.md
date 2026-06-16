@@ -328,10 +328,14 @@ export default {
         this.fetchProductData();
     },
     watch: {
-        'form.shipping_region'(new_value) {
-            const destination = this.shipping_regions.find(d => d.key === new_value);
-            if (!destination) return [];
+        'form.shipping_region'(newRegion, oldRegion) {
+            const destination = this.shipping_regions.find(d => d.key === newRegion);
+            if (!destination) return;
             this.form.country = destination.defaultCountry;
+            const shipping_option = destination.options.find(d => d.key === this.form.shipping_method);
+            if (!shipping_option) {
+                this.form.shipping_method = 'standard';
+            }
         },
         'form.name'(val) {
             this.errors.name = !val;
@@ -364,14 +368,6 @@ export default {
             const shipping_option = shipping_region.options.find(d => d.key === this.form.shipping_method);
 
             if (shipping_option.max_items != 0 && newAmount > shipping_option.max_items) {
-                this.form.shipping_method = 'standard';
-            }
-        },
-        'form.shipping_region'(newRegion, oldRegion) {
-            const shipping_region = this.shipping_regions.find(d => d.key === this.form.shipping_region);
-            const shipping_option = shipping_region.options.find(d => d.key === this.form.shipping_method);
-
-            if(!shipping_option) {
                 this.form.shipping_method = 'standard';
             }
         },
