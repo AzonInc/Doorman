@@ -118,7 +118,9 @@ namespace esphome
         hap_add_bridged_accessory(accessory, hap_get_unique_aid(std::to_string(entityPtr->get_object_id_hash()).c_str()));
 
         if (!entityPtr->is_internal())
+        {
           entityPtr->add_on_state_callback([this]() { this->on_entity_update(entityPtr); });
+        }
 
         ESP_LOGI(TAG, "Fan '%s' linked to HomeKit", entityPtr->get_name().c_str());
       }

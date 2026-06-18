@@ -130,7 +130,9 @@ namespace esphome {
                                             hap_get_unique_aid(std::to_string(entityPtr->get_object_id_hash()).c_str()));
                     
                     if (!entityPtr->is_internal())
-                        entityPtr->add_on_state_callback([this]() { this->on_entity_update(entityPtr); });
+                    {
+                      entityPtr->add_on_state_callback([this](lock::LockState state) { this->on_entity_update(entityPtr); });
+                    }
 
                     ESP_LOGI("homekit", "Lock '%s' linked to HomeKit", entityPtr->get_name().c_str());
                 }

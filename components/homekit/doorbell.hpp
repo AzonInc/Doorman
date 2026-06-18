@@ -199,7 +199,7 @@ namespace esphome
               eventPtr->add_on_event_callback([this](std::string event_type) { this->on_event_update(eventPtr, event_type); });
 
           if (lockPtr != nullptr && !lockPtr->is_internal())
-              lockPtr->add_on_state_callback([this]() { this->on_lock_update(lockPtr); });
+              lockPtr->add_on_state_callback([this](lock::LockState state) { this->on_lock_update(lockPtr); });
 
           ESP_LOGI(TAG, "Doorbell Event '%s' linked to HomeKit", eventPtr->get_name().c_str());
           
