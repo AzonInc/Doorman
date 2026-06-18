@@ -17,25 +17,25 @@ namespace esphome::tc_bus
             void control(const esphome::lock::LockCall &call) override;
 
             // Automation Callbacks
-            void add_before_unlock_callback(std::function<void()> &&callback)
+            template<typename F> void add_before_unlock_callback(F &&callback)
             {
-                this->before_unlock_callback_.add(std::move(callback));
+                this->before_unlock_callback_.add(std::forward<F>(callback));
             }
 
-            void add_after_unlock_callback(std::function<void()> &&callback)
+            template<typename F> void add_after_unlock_callback(F &&callback)
             {
-                this->after_unlock_callback_.add(std::move(callback));
+                this->after_unlock_callback_.add(std::forward<F>(callback));
             }
 
-            void add_lock_callback(std::function<void()> &&callback)
+            template<typename F> void add_lock_callback(F &&callback)
             {
-                this->lock_callback_.add(std::move(callback));
+                this->lock_callback_.add(std::forward<F>(callback));
             }
 
         protected:
             // Automation Callbacks
-            CallbackManager<void()> before_unlock_callback_{};
-            CallbackManager<void()> after_unlock_callback_{};
-            CallbackManager<void()> lock_callback_{};
+            LazyCallbackManager<void()> before_unlock_callback_{};
+            LazyCallbackManager<void()> after_unlock_callback_{};
+            LazyCallbackManager<void()> lock_callback_{};
     };
 }

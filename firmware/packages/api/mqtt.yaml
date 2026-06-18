@@ -179,7 +179,8 @@ tc_bus:
     - mqtt.publish_json:
         topic: ${name}/last_telegram
         payload: |-
-          root["telegram"] = x.hex;
+          char hex_buf[9]; format_telegram_hex(x.raw, x.is_long, x.type, hex_buf);
+          root["telegram"] = hex_buf;
           root["type"] = telegram_type_to_string(x.type);
           root["address"] = x.address;
           root["payload"] = x.payload;

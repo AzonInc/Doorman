@@ -344,9 +344,11 @@ namespace esphome::tc_bus
             }
             else
             {
+                char hex_buf[9];
+                format_telegram_hex(telegram_data.raw, telegram_data.is_long, telegram_data.type, hex_buf);
                 ESP_LOGI(TAG, "Received: %s (0x%s%s)",
                               telegram_type_to_string(telegram_data.type),
-                              telegram_data.hex,
+                              hex_buf,
                               telegram_data.is_retransmission ? ", retransmission" : "");
             }
 
@@ -493,9 +495,11 @@ namespace esphome::tc_bus
             }
             else
             {
+                char hex_buf[9];
+                format_telegram_hex(telegram_data.raw, telegram_data.is_long, telegram_data.type, hex_buf);
                 ESP_LOGI(TAG, "Sending: %s (0x%s%s)",
                               telegram_type_to_string(telegram_data.type),
-                              telegram_data.hex,
+                              hex_buf,
                               telegram_data.is_retransmission ? ", retransmission" : "");
             }
 
@@ -723,7 +727,9 @@ namespace esphome::tc_bus
         // Publish Telegram to Last Bus Telegram Sensor
         if (this->bus_telegram_text_sensor_ != nullptr)
         {
-            this->bus_telegram_text_sensor_->publish_state(telegram_data.hex);
+            char hex_buf[9];
+            format_telegram_hex(telegram_data.raw, telegram_data.is_long, telegram_data.type, hex_buf);
+            this->bus_telegram_text_sensor_->publish_state(hex_buf);
         }
         #endif
     }
@@ -860,6 +866,7 @@ namespace esphome::tc_bus
 
                 BaseType_t higher = pdFALSE;
                 xQueueSendFromISR(global_tc_bus->telegram_receive_queue, &t, &higher);
+                portYIELD_FROM_ISR(higher);
 
                 wait_for_response = !telegram_is_response;
             }
@@ -905,7 +912,9 @@ namespace esphome::tc_bus
     {   
         if (this->store_.sending)
         {
-            ESP_LOGW(TAG, "Transmission of telegram %s cancelled, another transmission is in progress!", telegram_data.hex);
+            char hex_buf[9];
+            format_telegram_hex(telegram_data.raw, telegram_data.is_long, telegram_data.type, hex_buf);
+            ESP_LOGW(TAG, "Transmission of telegram %s cancelled, another transmission is in progress!", hex_buf);
         }
         else
         {

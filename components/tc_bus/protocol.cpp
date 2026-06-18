@@ -6,24 +6,22 @@
 
 namespace esphome::tc_bus
 {
-    static inline void fill_hex(TelegramData& data)
+    void format_telegram_hex(uint32_t raw, bool is_long, TelegramType type, char buf[9])
     {
         size_t pos = 0;
-        size_t len = data.is_long ? 7 : (data.type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
+        size_t len = is_long ? 7 : (type == TELEGRAM_TYPE_ACK_STATUS ? 0 : 3);
         for (int i = static_cast<int>(len); i >= 0; --i) {
-            uint8_t nibble = (data.raw >> (i * 4)) & 0xF;
-            data.hex[pos++] = "0123456789ABCDEF"[nibble];
+            uint8_t nibble = (raw >> (i * 4)) & 0xF;
+            buf[pos++] = "0123456789ABCDEF"[nibble];
         }
-        data.hex[pos] = '\0';
+        buf[pos] = '\0';
     }
 
     TelegramData buildTelegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number)
     {
         TelegramData data{};
-        data.raw = 0;
         data.type = type;
         data.is_long = true;
-        data.is_response = false;
 
         switch (type)
         {
@@ -56,17 +54,11 @@ namespace esphome::tc_bus
                 data.serial_number = serial_number;
                 data.address = address;
 
-                data.raw |= (0 << 28);  // 0
                 data.raw |= ((serial_number & 0xFFFFF) << 8); // C30BA
 
-                // Call type
                 if (type == TELEGRAM_TYPE_INTERNAL_CALL)
                 {
                     data.raw |= (1 << 6); // 8
-                }
-                else
-                {
-                    data.raw &= ~(1 << 6); // 0
                 }
 
                 // Flags
@@ -94,16 +86,10 @@ namespace esphome::tc_bus
 
                 // Call type
                 if (type == TELEGRAM_TYPE_START_TALKING_DOOR_CALL) {
-                    data.raw &= ~(1 << 6); // AS
-
                     // Flags: Door readiness
                     if(payload > 0)
                     {
                         data.raw |= (1 << 7); // door readiness active
-                    }
-                    else
-                    {
-                        data.raw &= ~(1 << 7); // door readiness inactive
                     }
                 } else {
                     data.raw |= (1 << 6); // IA
@@ -129,14 +115,9 @@ namespace esphome::tc_bus
 
                 data.raw |= (3 << 12); // 3
 
-                // Flags
                 if (type == TELEGRAM_TYPE_STOP_TALKING)
                 {
                     data.raw |= (1 << 6);  // IA
-                }
-                else
-                {
-                    data.raw &= ~(1 << 6); // AS
                 }
                 //data.payload |= (1 << 7);
 
@@ -154,14 +135,9 @@ namespace esphome::tc_bus
                 // 0x1100 (door readiness inactive)
                 // 0x1180 (door readiness active bitmask 0000000010000000)
 
-                // Flags
                 if(payload > 0)
                 {
                     data.raw |= (1 << 7); // door readiness active
-                }
-                else
-                {
-                    data.raw &= ~(1 << 7); // door readiness inactive
                 }
 
                 // Unknown Bit 0000000001000000
@@ -186,14 +162,9 @@ namespace esphome::tc_bus
                     
                     data.raw |= (1 << 7); // xxxxxxxxxxxxxxxxxxxxxxxx1xxxxxxx
 
-                    // Flags
                     if(payload > 0)
                     {
                         data.raw |= (1 << 6); // door readiness active
-                    }
-                    else
-                    {
-                        data.raw &= ~(1 << 6); // door readiness inactive
                     }
 
                     data.raw |= (address & 0x3F); // 0
@@ -293,7 +264,6 @@ namespace esphome::tc_bus
 
                 data.raw |= (2 << 12); // 2
                 data.raw |= (8 << 8); // 8
-                data.raw |= (0 << 7); // 0
                 data.raw |= (address & 0x3F); // 0
                 break;
 
@@ -303,7 +273,6 @@ namespace esphome::tc_bus
 
                 data.raw |= (2 << 12); // 2
                 data.raw |= (2 << 8); // 2
-                data.raw |= (0 << 7); // 0
                 data.raw |= (address & 0x3F); // 0
                 break;
 
@@ -313,7 +282,6 @@ namespace esphome::tc_bus
 
                 data.raw |= (2 << 12); // 2
                 data.raw |= (4 << 8); // 4
-                data.raw |= (0 << 7); // 0
                 data.raw |= (address & 0x3F); // 0
                 break;
 
@@ -333,7 +301,6 @@ namespace esphome::tc_bus
 
                 data.raw |= (2 << 12); // 2
                 data.raw |= (1 << 8); // 1
-                data.raw &= ~(1 << 7); // 0
                 data.raw |= (address & 0x3F); // 0
                 break;
 
@@ -369,9 +336,6 @@ namespace esphome::tc_bus
             default:
                 break;
         }
-
-        // Generate telegram HEX
-        fill_hex(data);
 
         return data;
     }
@@ -630,78 +594,75 @@ namespace esphome::tc_bus
             }
         }
 
-        // Generate telegram HEX
-        fill_hex(data);
-
         return data;
     }
 
-    const TelegramMapping telegram_mappings[] = {
-        {TELEGRAM_TYPE_SEARCH_DOORMAN_DEVICES, "SEARCH_DOORMAN_DEVICES"},
-        {TELEGRAM_TYPE_FOUND_DOORMAN_DEVICE, "FOUND_DOORMAN_DEVICE"},
-        {TELEGRAM_TYPE_DOOR_CALL, "DOOR_CALL"},
-        {TELEGRAM_TYPE_FLOOR_CALL, "FLOOR_CALL"},
-        {TELEGRAM_TYPE_INTERNAL_CALL, "INTERNAL_CALL"},
-        {TELEGRAM_TYPE_CONTROL_FUNCTION, "CONTROL_FUNCTION"},
-        {TELEGRAM_TYPE_START_TALKING_DOOR_CALL, "START_TALKING_DOOR_CALL"},
-        {TELEGRAM_TYPE_START_TALKING, "START_TALKING"},
-        {TELEGRAM_TYPE_STOP_TALKING_DOOR_CALL, "STOP_TALKING_DOOR_CALL"},
-        {TELEGRAM_TYPE_STOP_TALKING, "STOP_TALKING"},
-        {TELEGRAM_TYPE_OPEN_DOOR, "OPEN_DOOR"},
-        {TELEGRAM_TYPE_OPEN_DOOR_LONG, "OPEN_DOOR_LONG"},
-        {TELEGRAM_TYPE_LIGHT, "LIGHT"},
-        {TELEGRAM_TYPE_DOOR_OPENED, "DOOR_OPENED"},
-        {TELEGRAM_TYPE_DOOR_CLOSED, "DOOR_CLOSED"},
-        {TELEGRAM_TYPE_END_OF_RINGTONE, "END_OF_RINGTONE"},
-        {TELEGRAM_TYPE_END_OF_DOOR_READINESS, "END_OF_DOOR_READINESS"},
-        {TELEGRAM_TYPE_INITIALIZE_DOOR_STATION, "INITIALIZE_DOOR_STATION"},
-        {TELEGRAM_TYPE_RESET, "RESET"},
-        {TELEGRAM_TYPE_SELECT_DEVICE_GROUP, "SELECT_DEVICE_GROUP"},
-        {TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET, "SELECT_DEVICE_GROUP_RESET"},
-        {TELEGRAM_TYPE_SEARCH_DEVICES, "SEARCH_DEVICES"},
-        {TELEGRAM_TYPE_FOUND_DEVICE, "FOUND_DEVICE"},
-        {TELEGRAM_TYPE_FOUND_DEVICE_SUBSYSTEM, "FOUND_DEVICE_SUBSYSTEM"},
-        {TELEGRAM_TYPE_PROGRAMMING_MODE, "PROGRAMMING_MODE"},
-        {TELEGRAM_TYPE_READ_MEMORY_BLOCK, "READ_MEMORY_BLOCK"},
-        {TELEGRAM_TYPE_SELECT_MEMORY_PAGE, "SELECT_MEMORY_PAGE"},
-        {TELEGRAM_TYPE_WRITE_MEMORY, "WRITE_MEMORY"},
-        {TELEGRAM_TYPE_REQUEST_VERSION, "REQUEST_VERSION"},
-        {TELEGRAM_TYPE_ACK_STATUS, "ACK_STATUS"},
-        {TELEGRAM_TYPE_ACK_DATA, "ACK_DATA"},
+    struct TelegramEntry {
+        const char* name;
+        uint8_t len;
     };
-    
+
+    #define TE(s) {s, sizeof(s) - 1}
+    static const TelegramEntry telegram_type_table[] = {
+        TE("UNKNOWN"),                    // 0
+        TE("ACK_STATUS"),                 // 1
+        TE("ACK_DATA"),                   // 2
+        TE("SEARCH_DOORMAN_DEVICES"),     // 3
+        TE("FOUND_DOORMAN_DEVICE"),       // 4
+        TE("DOOR_CALL"),                  // 5
+        TE("FLOOR_CALL"),                 // 6
+        TE("INTERNAL_CALL"),              // 7
+        TE("CONTROL_FUNCTION"),           // 8
+        TE("START_TALKING_DOOR_CALL"),    // 9
+        TE("START_TALKING"),              // 10
+        TE("STOP_TALKING_DOOR_CALL"),     // 11
+        TE("STOP_TALKING"),               // 12
+        TE("OPEN_DOOR"),                  // 13
+        TE("OPEN_DOOR_LONG"),             // 14
+        TE("LIGHT"),                      // 15
+        TE("DOOR_OPENED"),                // 16
+        TE("DOOR_CLOSED"),                // 17
+        TE("END_OF_RINGTONE"),            // 18
+        TE("END_OF_DOOR_READINESS"),      // 19
+        TE("INITIALIZE_DOOR_STATION"),    // 20
+        TE("RESET"),                      // 21
+        TE("SELECT_DEVICE_GROUP"),        // 22
+        TE("SELECT_DEVICE_GROUP_RESET"),  // 23
+        TE("SEARCH_DEVICES"),             // 24
+        TE("FOUND_DEVICE"),               // 25
+        TE("FOUND_DEVICE_SUBSYSTEM"),     // 26
+        TE("PROGRAMMING_MODE"),           // 27
+        TE("READ_MEMORY_BLOCK"),          // 28
+        TE("SELECT_MEMORY_PAGE"),         // 29
+        TE("WRITE_MEMORY"),               // 30
+        TE("REQUEST_VERSION"),            // 31
+    };
+    #undef TE
+
     const char* telegram_type_to_string(TelegramType type)
     {
-        for (const auto& mapping : telegram_mappings)
-        {
-            if (mapping.type == type)
-            {
-                return mapping.name;
-            }
-        }
+        if (static_cast<size_t>(type) < sizeof(telegram_type_table) / sizeof(telegram_type_table[0]))
+            return telegram_type_table[type].name;
         return "UNKNOWN";
     }
 
     TelegramType string_to_telegram_type(const char* str)
     {
         if (str == nullptr)
-        {
             return TELEGRAM_TYPE_UNKNOWN;
-        }
 
         const size_t str_len = strlen(str);
+        constexpr size_t count = sizeof(telegram_type_table) / sizeof(telegram_type_table[0]);
 
-        for (const auto& mapping : telegram_mappings)
+        for (size_t i = 0; i < count; ++i)
         {
-            if (str_len != strlen(mapping.name))
-            {
+            if (telegram_type_table[i].len != str_len)
                 continue;
-            }
 
             bool match = true;
-            for (size_t i = 0; i < str_len; ++i)
+            for (size_t j = 0; j < str_len; ++j)
             {
-                if (toupper((unsigned char)str[i]) != mapping.name[i])
+                if (toupper((unsigned char)str[j]) != telegram_type_table[i].name[j])
                 {
                     match = false;
                     break;
@@ -709,9 +670,7 @@ namespace esphome::tc_bus
             }
 
             if (match)
-            {
-                return mapping.type;
-            }
+                return static_cast<TelegramType>(i);
         }
 
         return TELEGRAM_TYPE_UNKNOWN;

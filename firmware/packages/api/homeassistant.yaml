@@ -90,7 +90,7 @@ tc_bus:
         variables:
           telegram: !lambda |-
             static char buf[9];
-            memcpy(buf, x.hex, 9);
+            format_telegram_hex(x.raw, x.is_long, x.type, buf);
             return buf;
           type: !lambda return telegram_type_to_string(x.type);
           address: !lambda return x.address;

@@ -156,8 +156,10 @@ namespace esphome::tc_bus_serial
         ESP_LOGD(TAG, "TC:BUS telegram received: %04X", telegram_data.raw);
       }
 
-      size_t len = strlen(telegram_data.hex);
-      std::vector<uint8_t> vec(telegram_data.hex, telegram_data.hex + len);
+      char hex_buf[9];
+      format_telegram_hex(telegram_data.raw, telegram_data.is_long, telegram_data.type, hex_buf);
+      size_t len = strlen(hex_buf);
+      std::vector<uint8_t> vec(hex_buf, hex_buf + len);
       vec.insert(vec.begin(), received ? '$' : ' ');
       this->write_data_(vec);
 

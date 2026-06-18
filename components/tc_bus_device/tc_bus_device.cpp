@@ -1317,11 +1317,13 @@ namespace esphome::tc_bus
                         }
                         else
                         {
+                            char hex_buf[9];
+                            format_telegram_hex(telegram_data.raw, telegram_data.is_long, telegram_data.type, hex_buf);
                             ESP_LOGE(TAG,   "Unable to identify %s\n"
                                             "  Response: %s\n"
                                             "  Note: Please open an issue and provide your logs in order to implement support for this device model.",
                                             device_group_to_string(device.device_group),
-                                            telegram_data.hex);
+                                            hex_buf);
 
                             #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
                             this->identify_unknown_callback_.call();
@@ -1446,7 +1448,7 @@ namespace esphome::tc_bus
             return;
         }
 
-        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, (reading_memory_count_ * 4), 0, this->serial_number_, 260);
+        send_telegram(TELEGRAM_TYPE_READ_MEMORY_BLOCK, (reading_memory_count_ * 4), 0, this->serial_number_);
         reading_memory_try_++;
         reading_memory_timeout_ = millis() + 2000;
     }
@@ -2182,7 +2184,7 @@ namespace esphome::tc_bus
                             "  Serial Number: %i",
                             device_group_to_string(DEVICE_GROUP_INDOOR_STATION_CLASSIC), this->serial_number_);
 
-            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 0, 0, 280); // group 0
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 0); // group 0
             send_telegram(TELEGRAM_TYPE_REQUEST_VERSION);
 
             this->set_timeout("wait_for_identification_group_0", 1000, [this]()
@@ -2193,7 +2195,7 @@ namespace esphome::tc_bus
                                 "  Serial Number: %i",
                                 device_group_to_string(DEVICE_GROUP_INDOOR_STATION_HANDSFREE), this->serial_number_);
 
-                send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1, 0, 280); // group 1
+                send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1); // group 1
                 send_telegram(TELEGRAM_TYPE_REQUEST_VERSION);
 
                 this->set_timeout("wait_for_identification_group_1", 1000, [this]()
@@ -2220,7 +2222,7 @@ namespace esphome::tc_bus
                             "  Serial Number: %i",
                             device_group_to_string(this->device_group_), this->serial_number_);
 
-            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, (uint8_t)this->device_group_, 0, 280);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, (uint8_t)this->device_group_);
             send_telegram(TELEGRAM_TYPE_REQUEST_VERSION);
 
             this->set_timeout("wait_for_identification_other", 1000, [this]() {
@@ -2357,7 +2359,7 @@ namespace esphome::tc_bus
                         "  Sides: %i",
                         device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
-        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
         // Clear memory
         clear_memory_buffer();
@@ -2424,7 +2426,7 @@ namespace esphome::tc_bus
                         "  Sides: %i",
                         device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
-        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
         send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
 
         reading_memory_try_ = 0;
@@ -2737,7 +2739,7 @@ namespace esphome::tc_bus
         {
             // Prepare Transmission
             // Select device group
-            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
             // Select memory page %i of serial number %i
             send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, side);
@@ -3166,7 +3168,7 @@ namespace esphome::tc_bus
 
             // Prepare Transmission
             // Select device group
-            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
             // Select memory page %i of serial number %i
             send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, cellData.page);
@@ -3253,7 +3255,7 @@ namespace esphome::tc_bus
                         this->model_data_.memory_size + (this->model_data_.sides * this->model_data_.memory_size_side));
 
         // Prepare Transmission
-        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group, 0, 280);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
         // Write page by page
         size_t offset = 0;

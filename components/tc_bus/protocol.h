@@ -39,17 +39,11 @@ namespace esphome::tc_bus
         TELEGRAM_TYPE_REQUEST_VERSION
     };
 
-    struct TelegramMapping {
-        TelegramType type;
-        const char* name;
-    };
-    
     struct TelegramData {
         uint32_t raw = 0;
         uint32_t serial_number = 0;
         uint32_t payload = 0;
         TelegramType type = TELEGRAM_TYPE_UNKNOWN;
-        char hex[9];
         uint8_t address = 0;
         bool is_long = false;
         bool is_response = false;
@@ -61,4 +55,5 @@ namespace esphome::tc_bus
 
     const char* telegram_type_to_string(TelegramType type);
     TelegramType string_to_telegram_type(const char* str);
+    void format_telegram_hex(uint32_t raw, bool is_long, TelegramType type, char buf[9]);
 }

@@ -54,39 +54,39 @@ namespace homekit {
     static void static_hap_event_handler(hap_event_t event, void *data);
     static int static_identify_handler(hap_acc_t *ha);
 
-    void add_pairing_started_callback(std::function<void()> &&callback)
+    template<typename F> void add_pairing_started_callback(F &&callback)
     {
-        this->pairing_started_callback_.add(std::move(callback));
+        this->pairing_started_callback_.add(std::forward<F>(callback));
     }
 
-    void add_pairing_aborted_callback(std::function<void()> &&callback)
+    template<typename F> void add_pairing_aborted_callback(F &&callback)
     {
-        this->pairing_aborted_callback_.add(std::move(callback));
+        this->pairing_aborted_callback_.add(std::forward<F>(callback));
     }
 
-    void add_pairing_timeout_callback(std::function<void()> &&callback)
+    template<typename F> void add_pairing_timeout_callback(F &&callback)
     {
-        this->pairing_timeout_callback_.add(std::move(callback));
+        this->pairing_timeout_callback_.add(std::forward<F>(callback));
     }
 
-    void add_pairing_completed_callback(std::function<void(std::string)> &&callback)
+    template<typename F> void add_pairing_completed_callback(F &&callback)
     {
-        this->pairing_completed_callback_.add(std::move(callback));
+        this->pairing_completed_callback_.add(std::forward<F>(callback));
     }
 
-    void add_identify_callback(std::function<void()> &&callback)
+    template<typename F> void add_identify_callback(F &&callback)
     {
-        this->identify_callback_.add(std::move(callback));
+        this->identify_callback_.add(std::forward<F>(callback));
     }
 
-    void add_controller_connected_callback(std::function<void(std::string)> &&callback)
+    template<typename F> void add_controller_connected_callback(F &&callback)
     {
-        this->controller_connected_callback_.add(std::move(callback));
+        this->controller_connected_callback_.add(std::forward<F>(callback));
     }
 
-    void add_controller_disconnected_callback(std::function<void(std::string)> &&callback)
+    template<typename F> void add_controller_disconnected_callback(F &&callback)
     {
-        this->controller_disconnected_callback_.add(std::move(callback));
+        this->controller_disconnected_callback_.add(std::forward<F>(callback));
     }
 
   protected:
@@ -100,13 +100,13 @@ namespace homekit {
     const char *model_ = "ESP32 HAP";
     const char *manufacturer_ = "ESPHome";
 
-    CallbackManager<void()> pairing_started_callback_{};
-    CallbackManager<void()> pairing_aborted_callback_{};
-    CallbackManager<void()> pairing_timeout_callback_{};
-    CallbackManager<void(std::string)> pairing_completed_callback_{};
-    CallbackManager<void()> identify_callback_{};
-    CallbackManager<void(std::string)> controller_connected_callback_{};
-    CallbackManager<void(std::string)> controller_disconnected_callback_{};
+    LazyCallbackManager<void()> pairing_started_callback_{};
+    LazyCallbackManager<void()> pairing_aborted_callback_{};
+    LazyCallbackManager<void()> pairing_timeout_callback_{};
+    LazyCallbackManager<void(std::string)> pairing_completed_callback_{};
+    LazyCallbackManager<void()> identify_callback_{};
+    LazyCallbackManager<void(std::string)> controller_connected_callback_{};
+    LazyCallbackManager<void(std::string)> controller_disconnected_callback_{};
   };
 
   static HomeKitBridgeComponent *global_homekit_bridge;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)

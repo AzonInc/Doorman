@@ -143,7 +143,6 @@ namespace esphome::tc_bus
 #endif
 
     public:
-        const char* TAG = "tc_bus_device";
 
         void set_internal_id(const std::string &internal_id) { this->internal_id_.assign(internal_id); }
         void set_tc_bus_component(TCBusComponent *bus) { this->tc_bus_ = bus; }
@@ -239,76 +238,78 @@ namespace esphome::tc_bus
 
         // Automation Callbacks
         #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
-        void add_read_memory_complete_callback(std::function<void()> &&callback)
+        template<typename F> void add_read_memory_complete_callback(F &&callback)
         {
-            this->read_memory_complete_callback_.add(std::move(callback));
+            this->read_memory_complete_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_READ_MEMORY_FAILED_CALLBACK
-        void add_read_memory_failed_callback(std::function<void()> &&callback)
+        template<typename F> void add_read_memory_failed_callback(F &&callback)
         {
-            this->read_memory_failed_callback_.add(std::move(callback));
+            this->read_memory_failed_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
-        void add_identify_complete_callback(std::function<void(ModelData)> &&callback)
+        template<typename F> void add_identify_complete_callback(F &&callback)
         {
-            this->identify_complete_callback_.add(std::move(callback));
+            this->identify_complete_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_IDENTIFY_CALLBACK
-        void add_identify_callback(std::function<void()> &&callback)
+        template<typename F> void add_identify_callback(F &&callback)
         {
-            this->identify_callback_.add(std::move(callback));
+            this->identify_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
-        void add_identify_unknown_callback(std::function<void()> &&callback)
+        template<typename F> void add_identify_unknown_callback(F &&callback)
         {
-            this->identify_unknown_callback_.add(std::move(callback));
+            this->identify_unknown_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_IDENTIFY_FAILED_CALLBACK
-        void add_identify_failed_callback(std::function<void()> &&callback)
+        template<typename F> void add_identify_failed_callback(F &&callback)
         {
-            this->identify_failed_callback_.add(std::move(callback));
+            this->identify_failed_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_INCOMING_CALL_CALLBACK
-        void add_incoming_call_callback(std::function<void(TelegramData)> &&callback)
+        template<typename F> void add_incoming_call_callback(F &&callback)
         {
-            this->incoming_call_callback_.add(std::move(callback));
+            this->incoming_call_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_CALL_STARTED_CALLBACK
-        void add_call_started_callback(std::function<void(TelegramData)> &&callback)
+        template<typename F> void add_call_started_callback(F &&callback)
         {
-            this->call_started_callback_.add(std::move(callback));
+            this->call_started_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_CALL_ENDED_CALLBACK
-        void add_call_ended_callback(std::function<void(TelegramData)> &&callback)
+        template<typename F> void add_call_ended_callback(F &&callback)
         {
-            this->call_ended_callback_.add(std::move(callback));
+            this->call_ended_callback_.add(std::forward<F>(callback));
         }
         #endif
 
         #ifdef USE_CALL_FAILED_CALLBACK
-        void add_call_failed_callback(std::function<void()> &&callback)
+        template<typename F> void add_call_failed_callback(F &&callback)
         {
-            this->call_failed_callback_.add(std::move(callback));
+            this->call_failed_callback_.add(std::forward<F>(callback));
         }
         #endif
         
     protected:
+        static constexpr const char *TAG = "tc_bus_device";
+
         // Telegram binary listeners
         #ifdef USE_BINARY_SENSOR
         std::vector<TCBusDeviceListener *> listeners_{};
@@ -366,35 +367,35 @@ namespace esphome::tc_bus
 
         // Automation Callbacks
         #ifdef USE_READ_MEMORY_COMPLETE_CALLBACK
-        CallbackManager<void()> read_memory_complete_callback_{};
+        LazyCallbackManager<void()> read_memory_complete_callback_{};
         #endif
         #ifdef USE_READ_MEMORY_FAILED_CALLBACK
-        CallbackManager<void()> read_memory_failed_callback_{};
+        LazyCallbackManager<void()> read_memory_failed_callback_{};
         #endif
         #ifdef USE_IDENTIFY_CALLBACK
-        CallbackManager<void()> identify_callback_{};
+        LazyCallbackManager<void()> identify_callback_{};
         #endif
         #ifdef USE_IDENTIFY_COMPLETE_CALLBACK
-        CallbackManager<void(ModelData)> identify_complete_callback_{};
+        LazyCallbackManager<void(ModelData)> identify_complete_callback_{};
         #endif
         #ifdef USE_IDENTIFY_UNKNOWN_CALLBACK
-        CallbackManager<void()> identify_unknown_callback_{};
+        LazyCallbackManager<void()> identify_unknown_callback_{};
         #endif
         #ifdef USE_IDENTIFY_FAILED_CALLBACK
-        CallbackManager<void()> identify_failed_callback_{};
+        LazyCallbackManager<void()> identify_failed_callback_{};
         #endif
 
         #ifdef USE_INCOMING_CALL_CALLBACK
-        CallbackManager<void(TelegramData)> incoming_call_callback_{};
+        LazyCallbackManager<void(TelegramData)> incoming_call_callback_{};
         #endif
         #ifdef USE_CALL_STARTED_CALLBACK
-        CallbackManager<void(TelegramData)> call_started_callback_{};
+        LazyCallbackManager<void(TelegramData)> call_started_callback_{};
         #endif
         #ifdef USE_CALL_ENDED_CALLBACK
-        CallbackManager<void(TelegramData)> call_ended_callback_{};
+        LazyCallbackManager<void(TelegramData)> call_ended_callback_{};
         #endif
         #ifdef USE_CALL_FAILED_CALLBACK
-        CallbackManager<void()> call_failed_callback_{};
+        LazyCallbackManager<void()> call_failed_callback_{};
         #endif
 
         // Misc
@@ -418,7 +419,7 @@ namespace esphome::tc_bus
         uint8_t index; // Only used for READ_MEMORY_UPDATE
     };
 
-    static bool s_running_flow = false;
-    static uint32_t s_last_flow_completion_time = 0;
-    static FixedQueue<TCBusDeviceFlowQueueItem, FLOW_QUEUE_SIZE> s_flow_queue;
+    static bool s_running_flow = false;                                         // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+    static uint32_t s_last_flow_completion_time = 0;                            // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+    static FixedQueue<TCBusDeviceFlowQueueItem, FLOW_QUEUE_SIZE> s_flow_queue;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 }

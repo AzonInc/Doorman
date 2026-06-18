@@ -34,8 +34,6 @@
 #include "esphome/components/lock/lock.h"
 #endif
 
-#include <queue>
-
 namespace esphome::tc_bus
 {
     static const char *const TAG = "tc_bus";
@@ -252,21 +250,21 @@ namespace esphome::tc_bus
 
         // Automation Callbacks
         #ifdef USE_RECEIVED_TELEGRAM_CALLBACK
-        void add_received_telegram_callback(std::function<void(TelegramData)> &&callback)
+        template<typename F> void add_received_telegram_callback(F &&callback)
         {
-            this->received_telegram_callback_.add(std::move(callback));
+            this->received_telegram_callback_.add(std::forward<F>(callback));
         }
         #endif
         #ifdef USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK
-        void add_system_discovery_complete_callback(std::function<void(uint16_t)> &&callback)
+        template<typename F> void add_system_discovery_complete_callback(F &&callback)
         {
-            this->system_discovery_complete_callback_.add(std::move(callback));
+            this->system_discovery_complete_callback_.add(std::forward<F>(callback));
         }
         #endif
         #ifdef USE_ADDRESS_DISCOVERY_COMPLETE_CALLBACK
-        void add_address_discovery_complete_callback(std::function<void(uint8_t)> &&callback)
+        template<typename F> void add_address_discovery_complete_callback(F &&callback)
         {
-            this->address_discovery_complete_callback_.add(std::move(callback));
+            this->address_discovery_complete_callback_.add(std::forward<F>(callback));
         }
         #endif
 
@@ -307,10 +305,10 @@ namespace esphome::tc_bus
         CallbackManager<void(TelegramData)> received_telegram_callback_{};
         #endif
         #ifdef USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK
-        CallbackManager<void(uint16_t)> system_discovery_complete_callback_{};
+        LazyCallbackManager<void(uint16_t)> system_discovery_complete_callback_{};
         #endif
         #ifdef USE_ADDRESS_DISCOVERY_COMPLETE_CALLBACK
-        CallbackManager<void(uint8_t)> address_discovery_complete_callback_{};
+        LazyCallbackManager<void(uint8_t)> address_discovery_complete_callback_{};
         #endif
 
         // Misc
