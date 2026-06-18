@@ -1414,7 +1414,7 @@ namespace esphome::tc_bus
 
                 line[pos] = '\0';
 
-                ESP_LOGD(TAG, "    %03u: %s", current_page, i, line);
+                ESP_LOGD(TAG, "    %03u: %s", i, line);
             }
 
             offset += page_size;
