@@ -1,9 +1,5 @@
 # Audio Addon
 
-external_components:
-  - source: github://n-IA-hane/esphome-intercom
-    components: [intercom_api, i2s_audio_duplex, esp_aec]
-
 network:
   enable_high_performance: true
 
