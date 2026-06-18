@@ -106,8 +106,7 @@ CONFIG_SCHEMA = cv.All(
             }
         ),
     }).extend(cv.COMPONENT_SCHEMA),
-    cv.only_on([PLATFORM_ESP32]),
-    cv.only_with_esp_idf
+    cv.only_on_esp32
 )
 
 async def to_code(config):

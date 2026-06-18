@@ -120,8 +120,7 @@ CONFIG_SCHEMA = cv.All(cv.Schema({
         }),
     }),
 }).extend(cv.COMPONENT_SCHEMA),
-cv.only_on([PLATFORM_ESP32]),
-cv.only_with_esp_idf)
+cv.only_on_esp32)
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
