@@ -185,6 +185,7 @@ namespace esphome::tc_bus
         { MODEL_IS_TKM_ISV,         0x420, 0, UINT16_MAX, 1 },
         { MODEL_IS_ISW4100,         0x200, 0, UINT16_MAX, 1 },
         { MODEL_IS_IMM2100,         0x201, 0, UINT16_MAX, 1 },
+        { MODEL_IS_IMM1500,         0x100, 0, UINT16_MAX, 1 },
         { MODEL_IS_CAIXXXX,         0x208, 0, UINT16_MAX, 1 },
         { MODEL_IS_TC40V2,          0x280, 512, UINT16_MAX, 1 },
         { MODEL_IS_TC40,            0x280, 0,  511,         1 },
@@ -400,7 +401,7 @@ namespace esphome::tc_bus
         {MODEL_IS_IMM1000, "TCS IMM1000 / Koch TCH30"},
         {MODEL_IS_IMM1100, "TCS IMM1100 / Koch TCHE30"},
         {MODEL_IS_IMM1300, "TCS IMM1300 / Koch VTCH30"},
-        {MODEL_IS_IMM1500, "TCS IMM1500"},
+        {MODEL_IS_IMM1500, "TCS IMM1500 / Koch TC30"},
         {MODEL_IS_IMM1310, "TCS IMM1310 / Koch VTCHE30"},
         {MODEL_IS_IMM1110, "TCS IMM1110 / Koch TCHEE30"},
         {MODEL_IS_IVH3222, "TCS IVH3222 / Koch VTCH50 / Scantron VLux"},
@@ -1035,7 +1036,7 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_SETTING_PARALLEL_SERIAL_NUMBER;
                 break;
             case MODEL_IS_IMM1500:
-                modelData.device_group = 0;
+                modelData.device_group = 1;
                 modelData.memory_size = 32;
                 modelData.capabilities |= CAP_SETTING_RINGTONE_ENTRANCE_DOOR_CALL;
                 modelData.capabilities |= CAP_SETTING_RINGTONE_INTERNAL_CALL;
