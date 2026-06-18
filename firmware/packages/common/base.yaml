@@ -328,15 +328,6 @@ output:
             - delay: 5s
             - light.turn_off: hallway_light
 
-  # Unused Siedle TX GPIOs
-  - platform: gpio
-    pin: GPIO5
-    id: gpio5
-
-  - platform: gpio
-    pin: GPIO6
-    id: gpio6
-
 # Onboard Status LEDs
 light:
   - platform: monochromatic
