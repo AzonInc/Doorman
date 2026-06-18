@@ -44,7 +44,6 @@ namespace esphome::tc_bus
     struct TCBusTelegramQueueItem
     {
         TelegramData telegram_data;
-        uint32_t wait_duration;
         uint8_t sender_listener_id;
     };
 
@@ -202,27 +201,27 @@ namespace esphome::tc_bus
         }
 
 
-        inline TelegramData send_telegram(uint32_t telegram, uint32_t wait_duration = 250)
+        inline TelegramData send_telegram(uint32_t telegram)
         {
-            return send_telegram(parseTelegram(telegram, (telegram > 0xFFFF)), wait_duration);
+            return send_telegram(parseTelegram(telegram, (telegram > 0xFFFF)));
         }
 
-        inline TelegramData send_telegram(uint32_t telegram, bool is_long, uint32_t wait_duration = 250)
+        inline TelegramData send_telegram(uint32_t telegram, bool is_long)
         {
-            return send_telegram(parseTelegram(telegram, is_long), wait_duration);
+            return send_telegram(parseTelegram(telegram, is_long));
         }
 
-        inline TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0, uint32_t wait_duration = 250)
+        inline TelegramData send_telegram(TelegramType type, uint8_t address = 0, uint32_t payload = 0, uint32_t serial_number = 0)
         {
-            return send_telegram(buildTelegram(type, address, payload, serial_number), wait_duration);
+            return send_telegram(buildTelegram(type, address, payload, serial_number));
         }
 
-        inline TelegramData send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration, uint8_t sender_listener_id)
+        inline TelegramData send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint8_t sender_listener_id)
         {
-            return send_telegram(buildTelegram(type, address, payload, serial_number), wait_duration, sender_listener_id);
+            return send_telegram(buildTelegram(type, address, payload, serial_number), sender_listener_id);
         }
 
-        TelegramData send_telegram(const TelegramData& telegram_data, uint32_t wait_duration = 250, uint8_t sender_listener_id = 0);
+        TelegramData send_telegram(const TelegramData& telegram_data, uint8_t sender_listener_id = 0);
 
         void process_telegram_queue();
         void transmit_telegram(const TelegramData& telegram_data, uint8_t sender_listener_id = 0);

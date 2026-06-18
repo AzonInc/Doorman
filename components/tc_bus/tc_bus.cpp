@@ -45,7 +45,7 @@ namespace esphome::tc_bus
         this->tx_pin_->setup();
         this->tx_pin_->digital_write(false);
         
-        this->telegram_receive_queue = xQueueCreate(RECEIVE_QUEUE_SIZE, sizeof(TCBusTelegramQueueItem));
+        this->telegram_receive_queue = xQueueCreate(RECEIVE_QUEUE_SIZE, sizeof(TelegramData));
         if (this->telegram_receive_queue == nullptr)
         {
             ESP_LOGE(TAG, "Failed to create telegram receive queue of size %d", RECEIVE_QUEUE_SIZE);
@@ -376,13 +376,6 @@ namespace esphome::tc_bus
                 mac[2] = telegram_data.payload & 0xFF;
 
                 ESP_LOGI(TAG, "  Discovered Doorman MAC: %02X:%02X:%02X", mac[0], mac[1], mac[2]);
-            }
-            else if(telegram_data.type == TELEGRAM_TYPE_CONTROL_FUNCTION)
-            {
-                if(telegram_data.payload == 0xD8)
-                {
-                    this->error_protocol_pending_ = true;
-                }
             }
             else if(telegram_data.type == TELEGRAM_TYPE_ACK_DATA)
             {
@@ -889,7 +882,7 @@ namespace esphome::tc_bus
     }
     #endif
 
-    TelegramData TCBusComponent::send_telegram(const TelegramData& telegram_data, uint32_t wait_duration, uint8_t sender_listener_id)
+    TelegramData TCBusComponent::send_telegram(const TelegramData& telegram_data, uint8_t sender_listener_id)
     {
         if (telegram_data.raw == 0  && telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
         {
@@ -897,7 +890,7 @@ namespace esphome::tc_bus
             return telegram_data;
         }
 
-        if (!this->telegram_transmit_queue.push({telegram_data, wait_duration, sender_listener_id}))
+        if (!this->telegram_transmit_queue.push({telegram_data, sender_listener_id}))
         {
             ESP_LOGW(TAG, "Telegram queue full, dropping telegram 0x%08X", telegram_data.raw);
         }
@@ -989,7 +982,7 @@ namespace esphome::tc_bus
         this->address_discovery_active_ = true;
         this->address_discovery_timeout_ = millis() + 20000;
 
-        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET, 0, 2, 0, 280);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET, 0, 2, 0);
     }
 
     void TCBusComponent::discover_system_devices(uint8_t device_group)
@@ -1039,7 +1032,7 @@ namespace esphome::tc_bus
         // A = tcp3 (?)
         // B = Access control devices
 
-        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, device_group, 0, 280);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, device_group, 0);
         send_telegram(TELEGRAM_TYPE_SEARCH_DEVICES, 0, 0);
 
         this->cancel_timeout(0xDD);

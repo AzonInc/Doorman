@@ -2111,7 +2111,7 @@ namespace esphome::tc_bus
     }
     #endif
 
-    TelegramData TCBusDeviceComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number, uint32_t wait_duration)
+    TelegramData TCBusDeviceComponent::send_telegram(TelegramType type, uint8_t address, uint32_t payload, uint32_t serial_number)
     {
         // Use 32-bit protocol
         if (type == TELEGRAM_TYPE_OPEN_DOOR)
@@ -2131,7 +2131,7 @@ namespace esphome::tc_bus
             serial_number = this->serial_number_;
         }
 
-        return this->tc_bus_->send_telegram(type, address, payload, serial_number, wait_duration, this->listener_id_);
+        return this->tc_bus_->send_telegram(type, address, payload, serial_number, this->listener_id_);
     }
 
     void TCBusDeviceComponent::identify_device()
