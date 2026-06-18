@@ -473,7 +473,7 @@ binary_sensor:
   - platform: gpio
     id: ert_detect
     pin:
-      number: GPIO4
+      number: ${ert_detect_pin}
     name: "ERT Detection"
 
   - platform: tc_bus_device

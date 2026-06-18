@@ -35,6 +35,7 @@ substitutions:
   relay_pin: "GPIO42"
   external_button_pin: "GPIO41"
   adc_input_pin: "GPIO10"
+  ert_detect_pin: "GPIO4"
 
 sensor:
   - id: !extend doorman_bus_voltage

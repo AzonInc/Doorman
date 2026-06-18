@@ -15,3 +15,4 @@ substitutions:
   relay_pin: "GPIO21"
   external_button_pin: "GPIO20"
   adc_input_pin: "GPIO36"
+  ert_detect_pin: "GPIO32"
