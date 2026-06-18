@@ -68,7 +68,7 @@ jobs:
           sed -i "/^  project:/,/^  platformio_options:/s/^    version: .*/    version: \"${DEV_VERSION}\"/" firmware/packages/common/base.yaml
 
       - name: Build ESPHome firmware
-        uses: esphome/build-action@v7.1.0
+        uses: esphome/build-action@v7.3.0
         id: esphome-build
         with:
           yaml-file: ${{ matrix.file }}
