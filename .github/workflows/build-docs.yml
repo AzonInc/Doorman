@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -20,7 +20,7 @@ jobs:
           cache-dependency-path: docs/package-lock.json
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Extract version and prepare environment
         run: |
@@ -70,7 +70,7 @@ jobs:
         run: npm run lunaria:build
 
       - name: Upload VitePress artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: vitepress-docs
           path: docs/.vitepress/dist

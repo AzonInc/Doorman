@@ -11,23 +11,23 @@ To view the PCB and schematic designs, use the interactive viewers below. If you
 ## Core Board
 ### Schematics Viewer
 
-<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/core_board/doorman.kicad_sch" controls="full"></kicanvas-embed>
+<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/core_board/doorman_core_board.kicad_sch" controls="full"></kicanvas-embed>
 
 ### PCB Viewer
 
-<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/core_board/doorman.kicad_pcb" controls="full"></kicanvas-embed>
+<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/core_board/doorman_core_board.kicad_pcb" controls="full"></kicanvas-embed>
 
 ### Interactive BOM
-Click [here](../ibom.html){target="_self"} to open the interactive BOM viewer.
+Click [here](../core_board_ibom.html){target="_self"} to open the interactive BOM viewer.
 
 ## Audio Extension Board
 ### Schematics Viewer
 
-<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/extension_audio/doorman.kicad_sch" controls="full"></kicanvas-embed>
+<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/extension_audio/doorman_extension_audio.kicad_sch" controls="full"></kicanvas-embed>
 
 ### PCB Viewer
 
-<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/extension_audio/doorman.kicad_pcb" controls="full"></kicanvas-embed>
+<kicanvas-embed src="https://raw.githubusercontent.com/azoninc/doorman/master/hardware/extension_audio/doorman_extension_audio.kicad_pcb" controls="full"></kicanvas-embed>
 
 ### Interactive BOM
-Click [here](../ibom.html){target="_self"} to open the interactive BOM viewer.
+Click [here](../extension_audio_ibom.html){target="_self"} to open the interactive BOM viewer.

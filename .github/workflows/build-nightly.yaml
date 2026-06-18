@@ -25,7 +25,7 @@ jobs:
             integration: homekit
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Build Factory ESPHome firmware
         uses: esphome/build-action@v7.3.0
@@ -41,7 +41,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Build Component Test Firmware
         uses: esphome/build-action@v7.3.0

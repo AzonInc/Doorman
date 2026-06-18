@@ -57,7 +57,7 @@ jobs:
       esphome-build-name: ${{ steps.esphome-build.outputs.name}}
       project-version: ${{ steps.esphome-build.outputs.project-version }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       
       - name: Update version for dev builds
         if: startsWith(github.ref_name, 'dev')
@@ -93,7 +93,7 @@ jobs:
             "$MANIFEST" > "${MANIFEST}.tmp" && mv "${MANIFEST}.tmp" "$MANIFEST"
     
       - name: Upload firmware artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: firmware.${{ inputs.directory_name }}
           path: output

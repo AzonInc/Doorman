@@ -31,7 +31,7 @@ jobs:
       release_url: ${{ steps.generate-summary.outputs.url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -124,7 +124,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   deploy-dev:
     if: startsWith(github.ref_name, 'dev')
@@ -136,7 +136,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Assets
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: asset-bundle
           path: output
@@ -161,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Assets
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: asset-bundle
           path: output

@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Create Output Directories
         run: |
@@ -17,22 +17,24 @@ jobs:
           mkdir -p output/firmware/temp
 
       - name: Download VitePress docs
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: vitepress-docs
           path: output
 
-      - name: Copy interactive BOM
-        run: cp pcb/bom/ibom.html output/
+      - name: Copy interactive BOMs
+        run: |
+          cp hardware/core_board/bom/ibom.html output/core_board_ibom.html
+          cp hardware/extension_audio/bom/ibom.html output/extension_audio_ibom.html
 
       - name: Download Webserver Bundle
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: webserver-bundle
           path: output/firmware/esphome-webserver
         
       - name: Download all firmware artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           pattern: firmware.*
           path: output/firmware/release
@@ -46,13 +48,13 @@ jobs:
 
       - name: Upload Pages artifact
         if: github.ref_name == 'master'
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: output
       
       - name: Upload Assets Bundle
         if: github.ref_name != 'master'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: asset-bundle
           path: output
