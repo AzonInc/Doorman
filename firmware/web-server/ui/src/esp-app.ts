@@ -62,6 +62,7 @@ export default class EspApp extends LitElement {
   @state() ping: number = 0;
   @state() connected: boolean = true;
   @state() lastUpdate: number = 0;
+  @state() infoDismissed: boolean = false;
   private _hasJsonUptime: boolean = false;
   @query("#beat")
   beat!: HTMLSpanElement;
@@ -173,17 +174,20 @@ export default class EspApp extends LitElement {
     setInterval(() => {
       this.connected = !!this.ping && Date.now() - this.lastUpdate < 15000;
     }, 5000);
-    document.addEventListener('entity-tab-header-double-clicked', (e) => {
-      const mainElement = this.shadowRoot?.querySelector('main.flex-grid-half');
-      mainElement?.classList.toggle('expanded_entity');
-    });
-    document.addEventListener('log-tab-header-double-clicked', (e) => {
-      const mainElement = this.shadowRoot?.querySelector('main.flex-grid-half');
-      mainElement?.classList.toggle('expanded_logs');
-    });
+    this.infoDismissed = localStorage.getItem('doorman_infobox_dismissed') === '1';
 
     this.getFirmwareVersion();
     this.getHardwareVersion();
+
+    const header = this.shadowRoot?.querySelector('header');
+    if (header) {
+      const updateHeaderHeight = () => {
+        document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+      };
+      new ResizeObserver(updateHeaderHeight).observe(header);
+      updateHeaderHeight();
+    }
+
   }
 
   schemeDefault() {
@@ -205,53 +209,33 @@ export default class EspApp extends LitElement {
     return `${getRelativeTime(-this.ping || 0)}`;
   }
 
-  renderOta() {
-    if (this.config.ota) {
-      let basePath = getBasePath();
-      return html`<div class="tab-header">OTA Update</div>
-        <div class="tab-container">
-          <div class="description-row">
-            <div>
-              <iconify-icon icon="mdi:update" height="24px"></iconify-icon>
-            </div>
-            <div>
-              Learn more about Doorman firmware updates <a target="_blank" href="https://doorman.azon.ai/guide/firmware/installation">in the guide</a>.
-            </div>
-          </div>
-          <form
-            method="POST"
-            action="${basePath}/update"
-            enctype="multipart/form-data"
-          >
-            <input class="btn" type="file" name="update" accept="application/octet-stream" />
-            <input class="btn" type="submit" value="Update" />
-          </form>
-        </div>`;
-    }
+
+  private _dismissInfo() {
+    this.infoDismissed = true;
+    localStorage.setItem('doorman_infobox_dismissed', '1');
   }
 
   renderNotSupportedHardware() {
+    if (this.infoDismissed) return nothing;
+    const dismissBtn = html`<button class="infobox-dismiss" @click="${this._dismissInfo}" title="Dismiss"><iconify-icon icon="mdi:close" height="16px"></iconify-icon></button>`;
     if (this.hardwareVersion.toLowerCase().includes('unknown') || this.hardwareVersion.toLowerCase().includes('unsupported')) {
       return html`<infobox class="warning">
         <iconify-icon icon="mdi:warning" height="24px"></iconify-icon>
         <span>For optimal performance, the official <a target="_blank" href="https://doorman.azon.ai/guide/what-is-doorman">Doorman S3</a> board is recommended.</span>
+        ${dismissBtn}
       </infobox>`;
     } else {
       return html`<infobox>
         <iconify-icon icon="mdi:file-link" height="24px"></iconify-icon>
         <span>See the <a target="_blank" href="https://doorman.azon.ai/reference/entities">documentation</a> to learn more about each entity and how to configure them. You can also join our <a target="_blank" href="https://discord.gg/t2d34dvmBf">Discord server</a> for assistance and community support.</span>
+        ${dismissBtn}
       </infobox>`;
     }
   }
 
   renderLog() {
     return this.config.log
-      ? html`<section
-          id="col_logs"
-          class="col"
-        >
-          <esp-log rows="100" .scheme="${this.scheme}"></esp-log>
-        </section>`
+      ? html`<esp-log rows="100" .scheme="${this.scheme}"></esp-log>`
       : nothing;
   }
 
@@ -269,9 +253,10 @@ export default class EspApp extends LitElement {
 
   render() {
     return html`
+      <div class="bg-orbs" aria-hidden="true"></div>
       <header>
         <a href="https://doorman.azon.ai" id="logo" title="${this.version}">
-          <esp-logo style="width: 40px; height: 40px;"></esp-logo>
+          <esp-logo style="width: 30px; height: 30px;"></esp-logo>
         </a>
         <div class="title">
           ${this.renderTitle()}
@@ -286,16 +271,8 @@ export default class EspApp extends LitElement {
         </div>
       </header>
       ${this.renderNotSupportedHardware()}
-      <main class="flex-grid-half" @toggle-layout="${this._handleLayoutToggle}">
-        <section
-          id="col_entities"
-          class="col"          
-        >
-          <esp-entity-table .scheme="${this.scheme}"></esp-entity-table>
-          ${this.renderOta()}
-        </section>
-        ${this.renderLog()}
-      </main>
+      <esp-entity-table .scheme="${this.scheme}" .ota="${this.config.ota}"></esp-entity-table>
+      ${this.renderLog()}
     `;
   }
 

@@ -10,6 +10,6 @@ export default class EspLogo extends LitElement {
   }
 
   render() {
-    return html`<img src="${logoUrl}" alt="ESPHome Logo" style="width: 40px; height: 40px;" />`;
+    return html`<img src="${logoUrl}" alt="ESPHome Logo" style="width: 30px; height: 30px;" />`;
   }
 }

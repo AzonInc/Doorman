@@ -125,9 +125,13 @@ interface RestAction {
 export class EntityTable extends LitElement implements RestAction {
   @state() entities: entityConfig[] = [];
   @state() has_controls: boolean = false;
-  @state() show_all: boolean = false;
   @state() show_setup: boolean = false;
+  @state() activeGroup: string = "";
+  @state() searchQuery: string = "";
+  @state() otaFilename: string = "";
+  @property({ type: Boolean }) ota: boolean = false;
 
+  private _userSelectedGroup: boolean = false;
   private _actionRenderer = new ActionRenderer();
   private _basePath = getBasePath();
   private groups: groupConfig[] = [] 
@@ -139,6 +143,20 @@ export class EntityTable extends LitElement implements RestAction {
   ];
 
   private _unknown_state_events: {[key: string]: number} = {};
+
+  protected firstUpdated() {
+    const nav = this.shadowRoot?.querySelector('.nav-group') as HTMLElement | null;
+    if (!nav) return;
+    requestAnimationFrame(() => {
+      const headerHeight = parseFloat(
+        document.documentElement.style.getPropertyValue('--header-height') || '64'
+      );
+      const threshold = Math.max(0, nav.getBoundingClientRect().top + window.scrollY - headerHeight);
+      const check = () => nav.classList.toggle('is-stuck', window.scrollY > threshold);
+      window.addEventListener('scroll', check, { passive: true });
+      check();
+    });
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -308,20 +326,56 @@ export class EntityTable extends LitElement implements RestAction {
     });
   }
 
-  renderShowAll() {
-    if (
-      !this.show_all &&
-      this.entities.find((elem) => elem.is_disabled_by_default)
-    ) {
-      return html`<div class="singlebutton-row">
-        <button
-          class="abutton"
-          @click="${(e: Event) => (this.show_all = true)}"
-        >
-          Show All
-        </button>
-      </div>`;
-    }
+
+  private static _DOMAIN_ICONS: Record<string, string> = {
+    binary_sensor: "mdi:checkbox-blank-circle-outline",
+    sensor:        "mdi:chart-line",
+    switch:        "mdi:toggle-switch-outline",
+    button:        "mdi:gesture-tap",
+    select:        "mdi:format-list-bulleted",
+    number:        "mdi:numeric",
+    text:          "mdi:form-textbox",
+    lock:          "mdi:lock-outline",
+    cover:         "mdi:window-shutter",
+    fan:           "mdi:fan",
+    light:         "mdi:lightbulb-outline",
+    climate:       "mdi:thermostat",
+    date:          "mdi:calendar",
+    time:          "mdi:clock-outline",
+    datetime:      "mdi:calendar-clock",
+    update:        "mdi:update",
+    event:         "mdi:calendar-star",
+    valve:         "mdi:pipe-valve",
+    water_heater:  "mdi:water-boiler",
+    infrared:      "mdi:remote",
+  };
+
+  private _renderEntityRow(component: entityConfig, groupName: string, idx: number) {
+    const icon = component.icon
+      || EntityTable._DOMAIN_ICONS[component.domain]
+      || "mdi:help-circle-outline";
+    return html`
+      <div
+        class="entity-row"
+        .domain="${component.domain}"
+        @click="${this._handleEntityRowClick}"
+      >
+        <div>
+          <iconify-icon icon="${icon}" height="24px"></iconify-icon>
+        </div>
+        <div>${this.formatComponentName(component, groupName, idx)}</div>
+        <div>
+          ${this.has_controls && component.has_action
+            ? this.control(component)
+            : component.domain === "event"
+            ? html`<div>${(component as any).event_type}</div>`
+            : html`<div>${component.state}</div>`}
+        </div>
+        ${component.domain === "sensor"
+          ? html`<esp-entity-chart .chartdata="${component.value_numeric_history}"></esp-entity-chart>`
+          : nothing}
+      </div>
+    `;
   }
 
   render() {
@@ -337,7 +391,7 @@ export class EntityTable extends LitElement implements RestAction {
         ).push(x);
         return rv;
       }, new Map<string, Array<any>>());
-      
+
       const sortedGroupedMap = new Map<string, Array<any>>();
       for (const group of this.groups) {
         const groupName = group.name;
@@ -349,95 +403,158 @@ export class EntityTable extends LitElement implements RestAction {
       return sortedGroupedMap;
     }
 
-    const entities = this.show_all
-      ? this.entities
-      : this.entities.filter((elem) => !elem.is_disabled_by_default);
+    const entities = this.entities;
     const grouped = groupBy(entities, "sorting_group");
     const elems = Array.from(grouped, ([name, value]) => ({ name, value }));
+
+    if (!this._userSelectedGroup && elems.length > 0) {
+      this.activeGroup = elems[0].name;
+    }
+    const activeGroup = elems.find((g) => g.name === this.activeGroup) ?? elems[0];
+
+    const searchQ = this.searchQuery.trim().toLowerCase();
+    const isSearching = searchQ.length > 0;
+    const searchResults = isSearching
+      ? entities.filter((e) => e.name.toLowerCase().includes(searchQ))
+      : [];
+
     return html`
-      <div>
-        ${elems.map(
-          (group) => html`
-            <div 
-              class="tab-header"
-              @dblclick="${this._handleTabHeaderDblClick}"
-            >
-              ${group.name ||
-              EntityTable.ENTITY_UNDEFINED}
-            </div>
+      <div class="layout">
+        <nav class="nav-group">
+          <div class="nav-search-wrap">
+            <iconify-icon icon="mdi:magnify" height="14px" class="nav-search-icon"></iconify-icon>
+            <input
+              class="nav-search-input"
+              type="search"
+              placeholder="Search…"
+              .value="${this.searchQuery}"
+              @input="${(e: Event) => { this.searchQuery = (e.target as HTMLInputElement).value; }}"
+            />
+            ${this.searchQuery ? html`
+              <button class="nav-search-clear" @click="${() => { this.searchQuery = ''; }}">
+                <iconify-icon icon="mdi:close" height="14px"></iconify-icon>
+              </button>
+            ` : nothing}
+          </div>
+          <div class="nav-search-divider"></div>
+          ${elems.map(
+            (group) => html`
+              <button
+                class="nav-item ${!isSearching && this.activeGroup === group.name ? "active" : ""}"
+                @click="${() => { this.activeGroup = group.name; this._userSelectedGroup = true; this.searchQuery = ''; }}"
+              >
+                ${group.name || EntityTable.ENTITY_UNDEFINED}
+              </button>
+            `
+          )}
+        </nav>
+        <div class="content-area">
+          ${isSearching ? html`
             <div class="tab-container">
-              ${this.show_setup && group.name.toLowerCase().includes('setup') ? html`<div class="description-row">
-                <div>
-                  <iconify-icon icon="mdi:clipboard-list" height="24px"></iconify-icon>
-                </div>
-                <div>
-                  The Setup Mode is currently active, please follow the steps below.<br>
-                  <b>Note:</b> Reading the indoor station memory may take up to 30 seconds.<br><br>
-                  You'll be able to setup the doorbells once the regular setup is complete.
-                </div>
-              </div>` : nothing}
-              ${!this.show_setup && group.name.toLowerCase().includes('setup') ? html`<div class="description-row">
-                <div>
-                  <iconify-icon icon="mdi:file-link" height="24px"></iconify-icon>
-                </div>
-                <div>
-                  Learn more about the interactive setup process <a target="_blank" href="https://doorman.azon.ai/guide/getting-started#interactive-setup">in the guide</a>.<br>
-                  Enabling Setup Mode will <u>erase all previously stored setup data</u>.
-                </div>
-              </div>` : nothing}
-              ${group.name.toLowerCase().includes('homekit') ? html`<div class="description-row">
-                <div>
-                  <iconify-icon icon="mdi:file-link" height="24px"></iconify-icon>
-                </div>
-                <div>
-                  Learn more about integrating with Apple HomeKit <a target="_blank" href="https://doorman.azon.ai/guide/firmware/homekit">in the guide</a>.
-                </div>
-              </div>` : nothing}
-              ${group.name.toLowerCase().includes('mqtt') ? html`<div class="description-row">
-                <div>
-                  <iconify-icon icon="mdi:file-link" height="24px"></iconify-icon>
-                </div>
-                <div>
-                  Learn more about integrating with MQTT <a target="_blank" href="https://doorman.azon.ai/guide/firmware/mqtt">in the guide</a>.
-                </div>
-              </div>` : nothing}
-              ${group.value.map(
-                (component, idx) => html`
-                  <div
-                    class="entity-row"
-                    .domain="${component.domain}"
-                    @click="${this._handleEntityRowClick}"
-                  >
-                    <div>
-                      ${component.icon
-                        ? html`<iconify-icon
-                            icon="${component.icon}"
-                            height="24px"
-                          ></iconify-icon>`
-                        : nothing}
-                    </div>
-                    <div>${this.formatComponentName(component, group.name, idx)}</div>
-                    <div>
-                      ${this.has_controls && component.has_action
-                        ? this.control(component)
-                        : component.domain === "event"
-                        ? html`<div>${component.event_type}</div>`
-                        : html`<div>${component.state}</div>`}
-                    </div>
-                    ${component.domain === "sensor"
-                      ? html`<esp-entity-chart
-                          .chartdata="${component.value_numeric_history}"
-                        ></esp-entity-chart>`
-                      : nothing}
-                  </div>
-                `
-              )}
+              ${searchResults.length > 0
+                ? searchResults.map((component, idx) =>
+                    this._renderEntityRow(component, component.sorting_group ?? '', idx)
+                  )
+                : html`<div class="search-empty">
+                    <iconify-icon icon="mdi:magnify-close"></iconify-icon>
+                    <span>No results for "${this.searchQuery}"</span>
+                  </div>`}
             </div>
-            ${this.renderShowAll()}
-          `
-        )}
+          ` : activeGroup ? html`
+            <div class="tab-container">
+              ${this._renderGroupDescription(activeGroup.name, activeGroup.value)}
+              ${activeGroup.value.map((component: entityConfig, idx: number) =>
+                this._renderEntityRow(component, activeGroup.name, idx)
+              )}
+              ${this.ota && (
+                  activeGroup.value.some((c: entityConfig) => c.domain === 'update') ||
+                  activeGroup.name.toLowerCase().includes('firmware') ||
+                  activeGroup.name.toLowerCase().includes('update')
+                )
+                ? this._renderOta()
+                : nothing}
+            </div>
+          ` : nothing}
+        </div>
       </div>
     `;
+  }
+
+  private _renderOta() {
+    return html`
+      <div class="ota-section">
+        <form class="ota-form" method="POST" action="${this._basePath}/update" enctype="multipart/form-data">
+          <label class="ota-upload-label">
+            <input
+              class="ota-file-input"
+              type="file"
+              name="update"
+              accept="application/octet-stream"
+              @change="${(e: Event) => {
+                const files = (e.target as HTMLInputElement).files;
+                this.otaFilename = files?.[0]?.name ?? '';
+              }}"
+            />
+            <iconify-icon icon="${this.otaFilename ? 'mdi:file-check-outline' : 'mdi:upload'}" height="20px"></iconify-icon>
+            <span>${this.otaFilename || 'Choose firmware file (.bin)'}</span>
+          </label>
+          <button type="submit" class="ota-submit-btn" ?disabled="${!this.otaFilename}">
+            <iconify-icon icon="mdi:flash" height="15px"></iconify-icon>
+            Install Update
+          </button>
+        </form>
+      </div>
+    `;
+  }
+
+  private _renderGroupDescription(groupName: string, groupEntities: entityConfig[] = []) {
+    if (this.show_setup && groupName.toLowerCase().includes('setup')) {
+      return html`<div class="description-row">
+        <div><iconify-icon icon="mdi:clipboard-list" height="24px"></iconify-icon></div>
+        <div>
+          The Setup Mode is currently active, please follow the steps below.<br>
+          <b>Note:</b> Reading the indoor station memory may take up to 30 seconds.<br><br>
+          You'll be able to setup the doorbells once the regular setup is complete.
+        </div>
+      </div>`;
+    }
+    if (!this.show_setup && groupName.toLowerCase().includes('setup')) {
+      return html`<div class="description-row">
+        <div><iconify-icon icon="mdi:file-link" height="24px"></iconify-icon></div>
+        <div>
+          Learn more about the interactive setup process <a target="_blank" href="https://doorman.azon.ai/guide/getting-started#interactive-setup">in the guide</a>.<br>
+          Enabling Setup Mode will <u>erase all previously stored setup data</u>.
+        </div>
+      </div>`;
+    }
+    if (groupName.toLowerCase().includes('homekit')) {
+      return html`<div class="description-row">
+        <div><iconify-icon icon="mdi:file-link" height="24px"></iconify-icon></div>
+        <div>
+          Learn more about integrating with Apple HomeKit <a target="_blank" href="https://doorman.azon.ai/guide/firmware/homekit">in the guide</a>.
+        </div>
+      </div>`;
+    }
+    if (groupName.toLowerCase().includes('mqtt')) {
+      return html`<div class="description-row">
+        <div><iconify-icon icon="mdi:file-link" height="24px"></iconify-icon></div>
+        <div>
+          Learn more about integrating with MQTT <a target="_blank" href="https://doorman.azon.ai/guide/firmware/mqtt">in the guide</a>.
+        </div>
+      </div>`;
+    }
+    const hasUpdate = groupEntities.some((e) => e.domain === 'update')
+      || groupName.toLowerCase().includes('firmware')
+      || groupName.toLowerCase().includes('update');
+    if (hasUpdate) {
+      return html`<div class="description-row">
+        <div><iconify-icon icon="mdi:update" height="24px"></iconify-icon></div>
+        <div>
+          Learn more about Doorman firmware updates <a target="_blank" href="https://doorman.azon.ai/guide/firmware/installation">in the guide</a>.
+        </div>
+      </div>`;
+    }
+    return nothing;
   }
 
   formatComponentName(component: entityConfig, groupName: string, index: number): string {
@@ -461,7 +578,7 @@ export class EntityTable extends LitElement implements RestAction {
   }
 
   static get styles() {
-    return [cssReset, cssButton, cssInput, cssEntityTable, cssTab];
+    return [cssReset, cssButton, cssInput, cssTab, cssEntityTable];
   }
 
   _handleEntityRowClick(e: any) {
@@ -472,13 +589,6 @@ export class EntityTable extends LitElement implements RestAction {
         !e.ctrlKey ? undefined : true
       );
     }
-  }
-  _handleTabHeaderDblClick(e: Event) {
-    const doubleClickEvent = new CustomEvent('entity-tab-header-double-clicked', {
-      bubbles: true,
-      composed: true,
-    });
-    e.target?.dispatchEvent(doubleClickEvent);
   }
 }
 
@@ -586,9 +696,8 @@ class ActionRenderer {
   ) {
     if(entity.mode == 1) {
       return html`<div class="range">
-        <label>${min || 0}</label>
         <input
-          type="${entity.mode == 1 ? "number" : "range"}"
+          type="number"
           name="${entity.unique_id}"
           id="${entity.unique_id}"
           step="${step}"
@@ -600,7 +709,10 @@ class ActionRenderer {
             this.actioner?.restAction(entity, `${action}?${opt}=${val}`);
           }}"
         />
-        <label>${max || 100}</label>
+        <div class="range-bounds">
+          <span>${min ?? 0}</span>
+          <span>${max ?? "–"}</span>
+        </div>
       </div>`;      
     } else {
       return html`    
@@ -755,8 +867,7 @@ class ActionRenderer {
   render_light() {
     if (!this.entity) return;
     return [
-      html`<div class="entity" style="
-      width: 100%;">
+      html`<div class="entity">
         ${this._switch(this.entity)}
         ${this.entity.brightness
           ? this._range(
@@ -787,9 +898,31 @@ class ActionRenderer {
 
   render_lock() {
     if (!this.entity) return;
-    return html`${this._actionButton(this.entity, "🔐", "lock", this.entity.state === "LOCKED")}
-    ${this._actionButton(this.entity, "🔓", "unlock", this.entity.state === "UNLOCKED")}
-    ${this._actionButton(this.entity, "Open", "open")} `;
+    const entity = this.entity;
+    const actioner = this.actioner;
+    const isLocked = entity.state === "LOCKED";
+    const isUnlocked = entity.state === "UNLOCKED";
+    return html`
+      <div class="lock-control">
+        <button
+          class="lock-btn ${isLocked ? "lock-btn--on" : ""}"
+          ?disabled="${isLocked}"
+          title="Lock"
+          @click="${() => actioner?.restAction(entity, "lock")}"
+        ><iconify-icon icon="mdi:lock" height="17px"></iconify-icon></button>
+        <button
+          class="lock-btn ${isUnlocked ? "lock-btn--on" : ""}"
+          ?disabled="${isUnlocked}"
+          title="Unlock"
+          @click="${() => actioner?.restAction(entity, "unlock")}"
+        ><iconify-icon icon="mdi:lock-open-variant" height="17px"></iconify-icon></button>
+        <button
+          class="lock-btn"
+          title="Open"
+          @click="${() => actioner?.restAction(entity, "open")}"
+        ><iconify-icon icon="mdi:door-open" height="17px"></iconify-icon></button>
+      </div>
+    `;
   }
 
   render_cover() {
@@ -801,7 +934,13 @@ class ActionRenderer {
 
   render_button() {
     if (!this.entity) return;
-    return html`${this._actionButton(this.entity, "PRESS", "press")}`;
+    const entity = this.entity;
+    const actioner = this.actioner;
+    return html`
+      <button class="press-btn" @click="${() => actioner?.restAction(entity, "press")}">
+        Press
+      </button>
+    `;
   }
 
   render_select() {

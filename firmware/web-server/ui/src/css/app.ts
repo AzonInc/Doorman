@@ -1,80 +1,111 @@
 import { css } from "lit";
 
 export default css`
-  .flex-grid-half {
-    display: grid;
-    grid-template-columns: 700px 2fr;
-  }
-  .flex-grid-half.expanded_entity,
-  .flex-grid-half.expanded_logs {
-    grid-template-columns: 1fr;
-  }
-  .flex-grid-half .col {
-    margin: 8px;
-  }
-  .flex-grid-half .col:nth-child(2) {
-    overflow: hidden;
-  }
-  .flex-grid-half.expanded_logs .col:nth-child(1) {
-    display: none;
-  }
-  .flex-grid-half.expanded_entity .col:nth-child(2) {
-    display: none;
+  :host {
+    display: block;
+    margin: 0;
+    padding: 0;
   }
 
-  @media (max-width: 1024px) {
-    .flex-grid,
-    .flex-grid-half {
-      display: block;
-    }
-    .flex-grid-half .col {
-      /*width: 100% !important;*/
-      /*margin: 0 0 10px 0 !important;*/
-      display: block !important;
-    }
+  .bg-orbs {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
   }
+  .bg-orbs::before {
+    content: '';
+    position: absolute;
+    top: -130px;
+    left: -90px;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: rgba(146, 105, 254, 0.14);
+    filter: blur(80px);
+  }
+  .bg-orbs::after {
+    content: '';
+    position: absolute;
+    top: 90px;
+    left: 200px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(80, 30, 200, 0.09);
+    filter: blur(100px);
+  }
+
 
   * {
     box-sizing: border-box;
   }
-  .flex-grid {
-    margin: 0 0 20px 0;
-  }
   h1 {
-    font-size: 18px;
-    line-height: 1.1em;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2em;
     margin-block: 0;
   }
   header {
-    /*background-color: rgba(127, 127, 127, 0.05);
-    border: 2px solid rgba(127, 127, 127, 0.3);
-    border-radius: 12px;*/
-    padding: 10px;
+    padding: 0 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 15px;
-    margin: 8px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(127, 127, 127, 0.15);
   }
   infobox {
-    background-color: rgba(127, 127, 127, 0.05);
-    padding: 10px;
-    border: 2px solid rgba(127, 127, 127, 0.3);
-    border-radius: 12px;
-    margin: 8px;
+    background-color: rgba(146, 105, 254, 0.08);
+    padding: 10px max(24px, calc((100% - 960px) / 2 + 24px));
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 14px;
+    font-size: 13px;
   }
   infobox.danger {
-    background-color: rgba(244, 63, 94, .16) !important;
+    background-color: rgba(244, 63, 94, 0.08) !important;
+    border-top-color: rgba(244, 63, 94, 0.2) !important;
   }
   infobox.warning {
-    background-color: rgba(234, 179, 8, .16) !important;
+    background-color: rgba(234, 179, 8, 0.08) !important;
+    border-top-color: rgba(234, 179, 8, 0.2) !important;
+  }
+
+  .infobox-dismiss {
+    margin-left: auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    margin-right: 0;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    color: currentColor;
+    opacity: 0.4;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  .infobox-dismiss:hover {
+    opacity: 0.75;
+    background: rgba(127, 127, 127, 0.12);
   }
 
   infobox iconify-icon {
     color: #9269fe;
+    flex-shrink: 0;
   }
   infobox.danger iconify-icon {
     color: #f14158 !important;
@@ -91,17 +122,33 @@ export default css`
     color: #9269fe;
   }
   header iconify-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: rgba(127, 127, 127, 0.5);
+    transition: color 0.2s;
   }
   header #logo {
-    color: rgba(127, 127, 127, 0.5);
+    color: rgba(127, 127, 127, 0.6);
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+  header #logo:hover {
+    color: #9269fe;
   }
   header .title {
     flex-grow: 1;
   }
+  header .title div {
+    font-size: 11px;
+    opacity: 0.45;
+    margin-top: 3px;
+  }
   header .status {
     display: flex;
+    align-items: center;
+  }
+  header .status iconify-icon {
+    font-size: 1.4rem;
   }
   .connected {
     color: #9269fe;
@@ -131,7 +178,7 @@ export default css`
     box-shadow: 0px 2px 3px -2px #000000ab;
   }
   .description-row > :nth-child(1) {
-    flex: 0 0 40px;
+    flex: 0 0 48px;
     color: #9269fe;
     line-height: 40px;
     text-align: center;

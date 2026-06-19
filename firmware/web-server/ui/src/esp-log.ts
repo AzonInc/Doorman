@@ -1,5 +1,5 @@
-import { html, css, LitElement } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { html, css, LitElement, nothing } from "lit";
+import { customElement, property, state, query } from "lit/decorators.js";
 import cssTab from "./css/tab";
 
 interface recordConfig {
@@ -15,6 +15,11 @@ export class DebugLog extends LitElement {
   @property({ type: Number }) rows = 10;
   @property({ type: String }) scheme = "";
   @state() logs: recordConfig[] = [];
+  @state() expanded: boolean = false;
+  @state() private filterText: string = "";
+  @state() private filterLevels: Set<string> = new Set();
+  @query(".logs") private logsEl?: HTMLDivElement;
+  private shouldAutoScroll = true;
 
   constructor() {
     super();
@@ -23,32 +28,35 @@ export class DebugLog extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     window.source?.addEventListener("log", (e: Event) => {
+      const container = this.logsEl;
+      if (container) {
+        const distanceFromBottom =
+          container.scrollHeight - container.scrollTop - container.clientHeight;
+        this.shouldAutoScroll = distanceFromBottom < 8;
+      } else {
+        this.shouldAutoScroll = true;
+      }
+
       const messageEvent = e as MessageEvent;
       const d: String = messageEvent.data;
 
       const types: Record<string, string> = {
-        "[1;31m": "e",
-        "[0;33m": "w",
-        "[0;32m": "i",
-        "[0;35m": "c",
-        "[0;36m": "d",
-        "[0;37m": "v",
+        "\x1b[1;31m": "e",
+        "\x1b[0;33m": "w",
+        "\x1b[0;32m": "i",
+        "\x1b[0;35m": "c",
+        "\x1b[0;36m": "d",
+        "\x1b[0;37m": "v",
       };
 
-      // Extract the type from the color code
-      const type = types[d.slice(0, 7)];
+      const prefix = d.slice(0, 7);
+      const type = types[prefix];
       if (!type) {
-        // No color code, skip
         return;
       }
 
-      // Extract content without color codes and ANSI termination
-      const content = d.slice(7, d.length - 4);
-
-      // Split by newlines to handle multi-line messages
+      const content = (d as string).replace(/\x1b\[[\d;]*m/g, "");
       const lines = content.split('\n');
-
-      // Process the first line to extract metadata
       const firstLine = lines[0];
       const parts = firstLine.slice(3).split(":");
       const tag = parts.slice(0, 2).join(":");
@@ -56,7 +64,6 @@ export class DebugLog extends LitElement {
       const level = firstLine.slice(0, 3);
       const when = new Date().toTimeString().split(" ")[0];
 
-      // Create a log record for each line
       lines.forEach((line, index) => {
         const record = {
           type: type,
@@ -72,144 +79,510 @@ export class DebugLog extends LitElement {
     });
   }
 
-  render() {
-    return html`
-      <div 
-        class="tab-header"
-        @dblclick="${this._handleTabHeaderDblClick}"
-      >
-        Debug Log
-      </div>
-      <div class="tab-container">
-        <div class="logs" color-scheme="${this.scheme}">
-          <div class="thead trow">
-            <div>Time</div>
-            <div>Level</div>
-            <div>Tag</div>
-            <div>Message</div>
-          </div>
-          <div class="tbody">
-            ${this.logs.map(
-              (log: recordConfig) =>
-                html`
-              <div class="trow ${log.type}">
-                <div>${log.when}</div>
-                <div>${log.level}</div>
-                <div>${log.tag}</div>
-                <div>${log.detail}</div>
-              </td>
-            `
-            )}
-          </div>
-        </div>
-      </div>
-    `;
+  protected updated() {
+    if (this.shouldAutoScroll && this.logsEl) {
+      this.logsEl.scrollTop = this.logsEl.scrollHeight;
+    }
   }
 
-  _handleTabHeaderDblClick(e: Event) {
-    const doubleClickEvent = new CustomEvent('log-tab-header-double-clicked', {
-      bubbles: true,
-      composed: true,
+  private get filteredLogs(): recordConfig[] {
+    return this.logs.filter((log) => {
+      if (this.filterLevels.size && !this.filterLevels.has(log.type)) return false;
+      if (this.filterText) {
+        const q = this.filterText.toLowerCase();
+        return (
+          log.tag.toLowerCase().includes(q) ||
+          log.detail.toLowerCase().includes(q)
+        );
+      }
+      return true;
     });
-    e.target?.dispatchEvent(doubleClickEvent);
+  }
+
+  private toggleLevel(lvl: string) {
+    const s = new Set(this.filterLevels);
+    s.has(lvl) ? s.delete(lvl) : s.add(lvl);
+    this.filterLevels = s;
+  }
+
+  private clearFilters() {
+    this.filterText = "";
+    this.filterLevels = new Set();
+  }
+
+  private get hasFilter(): boolean {
+    return !!this.filterText || this.filterLevels.size > 0;
+  }
+
+  private get levelCounts(): Record<string, number> {
+    return this.logs.reduce((acc, log) => {
+      acc[log.type] = (acc[log.type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+  }
+
+  render() {
+    const filtered = this.filteredLogs;
+    const counts = this.levelCounts;
+    const levelDefs: { key: string; label: string }[] = [
+      { key: "e", label: "E" },
+      { key: "w", label: "W" },
+      { key: "i", label: "I" },
+      { key: "d", label: "D" },
+      { key: "c", label: "C" },
+      { key: "v", label: "V" },
+    ];
+
+    return html`
+      <div
+        class="log-header"
+        @click="${() => {
+          this.expanded = !this.expanded;
+          if (this.expanded) {
+            this.shouldAutoScroll = true;
+          }
+        }}"
+      >
+        <iconify-icon icon="mdi:console" height="16px"></iconify-icon>
+        <span>Debug Log</span>
+        <span class="log-count">${this.logs.length}</span>
+        ${(counts["e"] ?? 0) > 0 ? html`<span class="log-badge log-badge--e">${counts["e"]}</span>` : nothing}
+        ${(counts["w"] ?? 0) > 0 ? html`<span class="log-badge log-badge--w">${counts["w"]}</span>` : nothing}
+        <iconify-icon
+          icon="${this.expanded ? "mdi:chevron-down" : "mdi:chevron-up"}"
+          height="16px"
+          class="chevron"
+        ></iconify-icon>
+      </div>
+
+      ${this.expanded ? html`
+        <div class="tab-container">
+
+          <div class="toolbar" @click="${(e: Event) => e.stopPropagation()}">
+            <div class="search-wrap">
+              <iconify-icon icon="mdi:magnify" height="14px" class="search-icon"></iconify-icon>
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search…"
+                .value="${this.filterText}"
+                @input="${(e: Event) => {
+                  this.filterText = (e.target as HTMLInputElement).value;
+                }}"
+              />
+            </div>
+
+            <div class="pill-section">
+              <div class="sep"></div>
+              <div class="pill-group">
+                ${levelDefs.map(({ key, label }) => html`
+                  <button
+                    class="pill ${this.filterLevels.has(key) ? "pill--" + key : ""}"
+                    @click="${() => this.toggleLevel(key)}"
+                    title="${key}"
+                  >
+                    ${label}
+                  </button>
+                `)}
+              </div>
+              <div class="sep"></div>
+              <button
+                class="clear-btn"
+                ?disabled="${!this.hasFilter}"
+                @click="${() => this.clearFilters()}"
+                title="Clear filters"
+              >
+                <iconify-icon icon="mdi:close" height="12px"></iconify-icon>
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <div class="logs" color-scheme="${this.scheme}">
+            <div class="thead">
+              <div class="trow">
+                <div class="col-time">Time</div>
+                <div class="col-level">Lvl</div>
+                <div class="col-tag">Tag</div>
+                <div class="col-msg">Message</div>
+              </div>
+            </div>
+            <div class="tbody">
+              ${filtered.map((log: recordConfig) => {
+                const tagChips: Array<[string, boolean]> = [];
+                for (const [gi, m] of [...log.tag.matchAll(/\[([^\]]*)\]/g)].entries()) {
+                  const inner = m[1];
+                  const ci = inner.lastIndexOf(":");
+                  if (gi === 0 && ci > 0 && /^\d+$/.test(inner.slice(ci + 1))) {
+                    tagChips.push([inner.slice(0, ci), false]);
+                    tagChips.push([inner.slice(ci + 1), true]);
+                  } else {
+                    tagChips.push([inner, gi > 0]);
+                  }
+                }
+                return html`
+                  <div class="trow trow--${log.type}">
+                    <div class="col-time">${log.when}</div>
+                    <div class="col-level">
+                      <span class="level-badge level-badge--${log.type}">${log.type.toUpperCase()}</span>
+                    </div>
+                    <div class="col-tag">
+                      ${tagChips.map(([text, sub]) => html`<span class="tag-chip${sub ? " tag-chip--sub" : ""}">${text}</span>`)}
+                    </div>
+                    <div class="col-msg">${log.detail}</div>
+                  </div>
+                `;
+              })}
+            </div>
+          </div>
+
+          ${this.hasFilter ? html`
+            <div class="filter-status">
+              ${filtered.length} of ${this.logs.length} entries
+            </div>
+          ` : nothing}
+
+        </div>
+      ` : nothing}
+    `;
   }
 
   static get styles() {
     return [
       cssTab,
       css`
-        .thead,
-        .tbody .trow:nth-child(2n) {
-          background-color: rgba(127, 127, 127, 0.05);
+        :host {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 100;
+          background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-top: 1px solid rgba(127, 127, 127, 0.15);
+          display: block;
+          isolation: isolate;
         }
-        .trow div {
-          font-family: monospace;
+
+        /* ── Header ── */
+        .log-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 15px 16px;
+          cursor: pointer;
+          user-select: none;
+          font-weight: 600;
+          font-size: 14px;
+          letter-spacing: 0.01em;
+          position: relative;
+          z-index: 2;
+          background-color: transparent;
+          border-bottom: 1px solid rgba(127, 127, 127, 0.12);
+        }
+        .log-header:hover {
+          background-color: rgba(127, 127, 127, 0.08);
+        }
+        .log-count,
+        .log-badge {
+          display: inline-flex;
+          align-items: center;
+          font-size: 11px;
+          font-weight: 700;
+          line-height: 1;
+          padding: 3px 7px;
+          border-radius: 999px;
+        }
+        .log-count {
+          background-color: rgba(127, 127, 127, 0.18);
+          color: inherit;
+          opacity: 0.85;
+        }
+        .log-badge--e {
+          background: rgba(255, 60, 60, 0.15);
+          color: #ff6b6b;
+        }
+        .log-badge--w {
+          background: rgba(255, 210, 0, 0.12);
+          color: #ffd000;
+        }
+        .chevron {
+          margin-left: auto;
+          transition: transform 0.15s ease;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 16px;
+          border-bottom: 1px solid rgba(127, 127, 127, 0.12);
+          background-color: transparent;
+          position: relative;
+          z-index: 2;
+        }
+        .sep {
+          width: 1px;
+          height: 16px;
+          background-color: rgba(127, 127, 127, 0.15);
+          flex-shrink: 0;
+        }
+
+        /* Search */
+        .search-wrap {
+          position: relative;
+          display: flex;
+          align-items: center;
+          min-width: 0;
+        }
+        .search-icon {
+          position: absolute;
+          left: 7px;
+          color: rgba(127, 127, 127, 0.4);
+          pointer-events: none;
+        }
+        .search-input {
           width: 100%;
-          line-height: 1.2rem;
+          padding: 5px 6px 5px 24px;
+          background: rgba(127, 127, 127, 0.08);
+          border: 1px solid rgba(127, 127, 127, 0.15);
+          border-radius: 6px;
+          color: inherit;
+          font-family: monospace;
+          font-size: 11px;
+          outline: none;
+          box-sizing: border-box;
+          transition: border-color 0.15s ease, background 0.15s ease;
         }
-        .trow {
+        .search-input:focus {
+          border-color: rgba(146, 105, 254, 0.5);
+          background: rgba(146, 105, 254, 0.06);
+        }
+        .search-input::placeholder {
+          color: rgba(127, 127, 127, 0.3);
+        }
+
+        /* Level pills */
+        .pill-section {
           display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
         }
-        .thead {
-          line-height: 1rem;
-        }
-        .thead .trow {
-          text-align: left;
-          padding: 0.25rem 0.5rem;
-        }
-        .trow {
+        .pill-group {
           display: flex;
+          gap: 3px;
         }
-        .trow > div {
-          align-self: flex-start;
-          padding-right: 0.25em;
-          flex: 2 0;
-          min-width: 70px;
+        .pill {
+          font-size: 11px;
+          font-family: monospace;
+          font-weight: 600;
+          padding: 5px 7px;
+          border-radius: 6px;
+          border: 1px solid transparent;
+          background: rgba(127, 127, 127, 0.1);
+          color: rgba(200, 200, 200, 0.4);
+          cursor: pointer;
+          transition: background 0.12s ease, color 0.12s ease;
         }
-        .trow > div:nth-child(2) {
-          flex: 1 0;          
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 40px;
-          text-align: center;
+        .pill:hover {
+          background: rgba(127, 127, 127, 0.2);
+          color: rgba(200, 200, 200, 0.8);
         }
-        .trow > div:nth-child(3) {
-          flex: 3 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        .pill--e { background: rgba(255, 60, 60, 0.15); color: #ff6b6b; }
+        .pill--w { background: rgba(255, 210, 0, 0.12); color: #ffd000; }
+        .pill--i { background: rgba(50, 205, 50, 0.12); color: limegreen; }
+        .pill--d { background: rgba(146, 105, 254, 0.15); color: #9269fe; }
+        .pill--c { background: rgba(255, 0, 255, 0.1); color: magenta; }
+        .pill--v { background: rgba(136, 136, 136, 0.15); color: #aaa; }
+        .level-badge {
+          display: inline-block;
+          font-size: 10px;
+          font-weight: 700;
+          font-family: monospace;
+          padding: 1px 5px;
+          border-radius: 4px;
+          line-height: 1.5;
         }
-        .trow > div:last-child {
-          flex: 15 0;
-          padding-right: 0em;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: pre-wrap;
+        .level-badge--e { background: rgba(255, 60, 60, 0.15); color: #ff6b6b; }
+        .level-badge--w { background: rgba(255, 210, 0, 0.12); color: #ffd000; }
+        .level-badge--i { background: rgba(50, 205, 50, 0.12); color: limegreen; }
+        .level-badge--d { background: rgba(146, 105, 254, 0.15); color: #9269fe; }
+        .level-badge--c { background: rgba(255, 0, 255, 0.1); color: magenta; }
+        .level-badge--v { background: rgba(136, 136, 136, 0.15); color: #aaa; }
+
+        /* Clear button */
+        .clear-btn {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          background: none;
+          border: none;
+          border-radius: 6px;
+          color: rgba(200, 200, 200, 0.35);
+          font-size: 11px;
+          font-family: monospace;
+          padding: 5px 6px;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: color 0.15s ease, background 0.15s ease;
+          white-space: nowrap;
         }
-        pre {
-          margin: 0;
+        .clear-btn:not([disabled]):hover {
+          color: rgba(200, 200, 200, 0.8);
+          background: rgba(127, 127, 127, 0.1);
         }
-        .v {
-          color: #888888;
+        .clear-btn[disabled] {
+          opacity: 0.25;
+          cursor: default;
         }
-        .d {
-          color: #9269fe;
-        }
-        .c {
-          color: magenta;
-        }
-        .i {
-          color: limegreen;
-        }
-        .w {
-          color: yellow;
-        }
-        .e {
-          color: red;
-          font-weight: bold;
-        }
-        .logs[color-scheme="light"] {
-          font-weight: bold;
-        }
-        .logs[color-scheme="light"] .w {
-          color: #cccc00;
-        }
-        .logs[color-scheme="dark"] .d {
-          color: #9269fe;
+
+        /* ── Table container ── */
+        .tab-container {
+          border: none;
+          border-radius: 0;
+          margin-bottom: 0;
+          position: relative;
+          z-index: 1;
         }
         .logs {
           overflow-x: auto;
-          border-radius: 0px 12px 12px;
-          border-width: 1px;
-          border-style: solid;
-          border-color: rgba(127, 127, 127, 0.12);
-          transition: all 0.3s ease-out 0s;
-          font-size: 14px;
-          padding: 16px;
+          overflow-y: auto;
+          max-height: 40vh;
+          padding: 0 16px;
         }
-        @media (max-width: 1024px) {
-          .trow > div:nth-child(2) {
-            display: none !important;
-          }
+
+        /* ── Table structure ── */
+        .trow {
+          display: flex;
+          align-items: baseline;
+          gap: 0;
+        }
+        .thead {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+          min-width: 100%;
+          background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 92%, transparent);
+          border-bottom: 1px solid rgba(127, 127, 127, 0.12);
+        }
+        .thead .trow {
+          padding: 7px 0 6px;
+          min-width: 100%;
+        }
+        .thead .col-time,
+        .thead .col-level,
+        .thead .col-tag,
+        .thead .col-msg {
+          font-family: inherit;
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.07em;
+          text-transform: uppercase;
+          color: rgba(127, 127, 127, 0.4);
+        }
+        .tbody {
+          padding-bottom: 16px;
+        }
+        .tbody .trow {
+          padding: 5px 0;
+          border-bottom: 1px solid rgba(127, 127, 127, 0.06);
+          align-items: center;
+          transition: background 0.1s ease;
+        }
+        .tbody .trow:last-child {
+          border-bottom: none;
+        }
+        .tbody .trow:hover {
+          background: rgba(127, 127, 127, 0.06);
+        }
+
+        /* ── Column definitions ── */
+        .col-time {
+          flex: 0 0 64px;
+          font-family: monospace;
+          font-size: 10px;
+          color: rgba(127, 127, 127, 0.38);
+          font-variant-numeric: tabular-nums;
+          white-space: nowrap;
+          padding-right: 10px;
+        }
+        .col-level {
+          flex: 0 0 38px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-right: 10px;
+        }
+        .col-tag {
+          flex: 0 0 150px;
+          width: 150px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3px;
+          align-items: center;
+          padding-right: 12px;
+        }
+        .col-msg {
+          flex: 1;
+          min-width: 0;
+          font-family: monospace;
+          font-size: 12px;
+          line-height: 1.55;
+          word-break: break-word;
+          white-space: pre-wrap;
+          color: rgba(200, 200, 200, 0.55);
+        }
+
+        /* ── Message color by level ── */
+        .trow--e .col-msg { color: rgba(255, 107, 107, 0.9); }
+        .trow--w .col-msg { color: rgba(255, 208, 0, 0.85); }
+        .trow--i .col-msg { color: rgba(50, 205, 50, 0.8); }
+        .trow--d .col-msg { color: rgba(146, 105, 254, 0.78); }
+        .trow--c .col-msg { color: rgba(255, 0, 255, 0.75); }
+        .trow--v .col-msg { color: rgba(136, 136, 136, 0.55); }
+
+        /* ── Tag chips ── */
+        .tag-chip {
+          display: inline-block;
+          font-family: monospace;
+          font-size: 10px;
+          font-weight: 500;
+          padding: 1px 5px;
+          border-radius: 4px;
+          background: rgba(127, 127, 127, 0.12);
+          border: 1px solid rgba(127, 127, 127, 0.1);
+          color: rgba(200, 200, 200, 0.65);
+          white-space: nowrap;
+          line-height: 1.5;
+        }
+        .tag-chip--sub {
+          font-size: 9px;
+          opacity: 0.6;
+          background: rgba(127, 127, 127, 0.07);
+        }
+
+        /* ── Status bar ── */
+        .filter-status {
+          font-family: monospace;
+          font-size: 11px;
+          color: rgba(127, 127, 127, 0.45);
+          padding: 4px 16px 6px;
+          border-top: 1px solid rgba(127, 127, 127, 0.08);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+          .col-time { display: none; }
+          .col-tag { max-width: 100px; min-width: 40px; }
+        }
+        @media (max-width: 415px) {
+          .pill-section { display: none; }
+          .toolbar { grid-template-columns: 1fr; }
+          .col-tag { display: none; }
         }
       `,
     ];

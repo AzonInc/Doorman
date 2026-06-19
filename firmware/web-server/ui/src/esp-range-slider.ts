@@ -124,8 +124,11 @@ export class EspRangeSlider extends LitElement {
   }
 
   updateCurrentValueOverlay(): void {
-    const newValueAsPercent = Number( (this.inputRange.value - this.inputRange.min) * 100 / (this.inputRange.max - this.inputRange.min) ),
-    newPosition = 10 - (newValueAsPercent * 0.2);
+    const min = parseFloat(this.inputRange.min);
+    const max = parseFloat(this.inputRange.max);
+    const val = parseFloat(this.inputRange.value);
+    const newValueAsPercent = ((val - min) / (max - min)) * 100;
+    const newPosition = 10 - (newValueAsPercent * 0.2);
     this.currentValue.innerHTML = `<span>${this.inputRange?.value}</span>`;
     this.currentValue.style.left = `calc(${newValueAsPercent}% + (${newPosition}px))`;
 
@@ -161,22 +164,24 @@ export class EspRangeSlider extends LitElement {
   render() {
     return html`
       <div class="range-wrap">
-        <label>${this.min || 0}</label>
         <div class="slider-wrap">
           <div class="range-value" id="rangeValue"></div>
-            <input
-              id="${inputRangeID}"
-              type="range"
-              name="${this.name}"
-              step="${this.step}"
-              min="${this.min || Math.min(0, this.value)}"
-              max="${this.max || Math.max(10, this.value)}"
-              .value="${this.value}"
-              @input="${this.onInputEvent}"
-              @change="${this.onInputChangeEvent}"
-            />
+          <input
+            id="${inputRangeID}"
+            type="range"
+            name="${this.name}"
+            step="${this.step}"
+            min="${this.min || Math.min(0, this.value)}"
+            max="${this.max || Math.max(10, this.value)}"
+            .value="${this.value}"
+            @input="${this.onInputEvent}"
+            @change="${this.onInputChangeEvent}"
+          />
+          <div class="range-bounds">
+            <span>${this.min || 0}</span>
+            <span>${this.max || 100}</span>
+          </div>
         </div>
-        <label>${this.max || 100}</label>
       </div>
     `;
   }
@@ -188,156 +193,103 @@ export class EspRangeSlider extends LitElement {
         :host {
           min-width: 100px;
           flex: 1;
+          display: block;
         }
-        input[type=range] {
-          background: transparent;
-          -webkit-appearance: none;
-          appearance: none;
-          margin: 20px 0;
-          width: 100%;
-          touch-action: none;
-        }
-        input[type=range]:focus {
-          outline: none;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-          width: 100%;
-          height: 4px;
-          cursor: pointer;
-          animate: 0.2s;
-          background: #9269fe;
-          border-radius: 25px;
-        }
-        input[type=range]::-moz-range-track {
-          width: 100%;
-          height: 4px;
-          cursor: pointer;
-          animate: 0.2s;
-          background: #9269fe;
-          border-radius: 25px;
-        }
-        input[type=range]::-ms-track {
-          background: transparent;
-          width: 100%;
-          height: 4px;
-          cursor: pointer;
-          animate: 0.2s;
-          background: transparent;
-          border-color: transparent;
-          color: transparent;
-        }
-        input[type=range]::-ms-fill-lower {
-          background: #9269fe;
-          border-radius: 25px;
-        }
-        input[type=range]::-ms-fill-upper {
-          background: #9269fe;
-          border-radius: 25px;
-        }
-        input[type=range]::-webkit-slider-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #fff;
-          box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
-          cursor: pointer;
-          -webkit-appearance: none;
-          margin-top: -8px;
-        }
-        input[type=range]::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #fff;
-          box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
-          cursor: pointer;
-          border: none;
-        }
-        input[type=range]::-ms-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #fff;
-          box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
-          cursor: pointer;
-          border: none;
-        }
-        input[type=range]:focus::-webkit-slider-runnable-track {
-          background: #9269fe;
-        }
-        input[type=range]:focus::-moz-range-track {
-          background: #9269fe;
-        }
-        input[type=range]:focus::-ms-fill-lower {
-          background: #9269fe;
-        }
-        input[type=range]:focus::-ms-fill-upper {
-          background: #9269fe;
-        }
+
         .range-wrap {
-          display: flex;
-          align-items: center;
-        }
-
-        @media (max-width: 500px) {
-          .range-wrap {
-            flex-direction: column;
-            align-items: stretch;
-            padding: 5px;
-            gap: 5px;
-          }
-
-          .range-wrap label {
-            text-align: center;
-            width: 100%;
-          }
-
-          .range-wrap .slider-wrap {
-            margin: 0px;
-          }
+          width: 100%;
         }
 
         .slider-wrap {
-          flex-grow: 1;
-          margin: 0px 15px;
           position: relative;
+          padding-top: 20px;
         }
+
+        /* ── Track ── */
+        input[type=range] {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 100%;
+          height: 4px;
+          border-radius: 999px;
+          background: rgba(146, 105, 254, 0.35);
+          cursor: pointer;
+          outline: none;
+          touch-action: none;
+          margin: 0;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+          height: 4px;
+          border-radius: 999px;
+          background: rgba(146, 105, 254, 0.35);
+        }
+        input[type=range]::-moz-range-track {
+          height: 4px;
+          border-radius: 999px;
+          background: rgba(146, 105, 254, 0.35);
+        }
+
+        /* ── Thumb ── */
+        input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: #9269fe;
+          border: 2px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 0 0 3px rgba(146, 105, 254, 0.2);
+          cursor: pointer;
+          transition: box-shadow 0.15s ease;
+          margin-top: -6px;
+        }
+        input[type=range]:hover::-webkit-slider-thumb {
+          box-shadow: 0 0 0 6px rgba(146, 105, 254, 0.22);
+        }
+        input[type=range]::-moz-range-thumb {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: #9269fe;
+          border: 2px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 0 0 3px rgba(146, 105, 254, 0.2);
+          cursor: pointer;
+        }
+
+        /* ── Tooltip ── */
         .range-value {
           position: absolute;
-          top: -50%;
+          top: 0;
+          left: 0;
         }
         .range-value span {
-          padding: 0 3px 0 3px;
-          height: 19px;
-          line-height: 18px;
-          text-align: center;
-          background: #9269fe;
-          color: #fff;
-          font-size: 11px;
-          display: block;
           position: absolute;
-          left: 50%;
-          transform: translate(-50%, +80%);
-          border-radius: 6px;
+          transform: translateX(-50%);
+          display: inline-block;
+          font-family: monospace;
+          font-size: 10px;
+          font-weight: 600;
+          padding: 2px 6px;
+          border-radius: 4px;
+          background: rgba(146, 105, 254, 0.15);
+          border: 1px solid rgba(146, 105, 254, 0.3);
+          color: #9269fe;
+          white-space: nowrap;
+          cursor: pointer;
+          user-select: none;
         }
-        @-moz-document url-prefix() {
-          .range-value span {
-            transform: translate(-50%, +150%);
-          }
+
+        /* ── Bounds ── */
+        .range-bounds {
+          display: flex;
+          justify-content: space-between;
+          padding: 0 2px;
+          margin-top: 4px;
         }
-        .range-value span:before {
-          content: "";
-          position: absolute;
-          width: 0;
-          height: 0;
-          border-top: 10px solid #9269fe;
-          border-left: 5px solid transparent;
-          border-right: 5px solid transparent;
-          top: 100%;
-          left: 50%;
-          margin-left: -5px;
-          margin-top: -1px;
-          pointer-events: none;
+        .range-bounds span {
+          font-family: monospace;
+          font-size: 10px;
+          color: rgba(127, 127, 127, 0.4);
+          user-select: none;
         }
       `,
     ];

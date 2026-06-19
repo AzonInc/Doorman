@@ -9,7 +9,7 @@ import { minifyHtml as ViteMinifyHtml } from "vite-plugin-html";
 import stripBanner from "rollup-plugin-strip-banner";
 import replace from "@rollup/plugin-replace";
 
-const proxy_target = "http://10.10.0.127";
+const proxy_target = "http://10.10.0.79";
 
 export default defineConfig({
   clearScreen: false,
