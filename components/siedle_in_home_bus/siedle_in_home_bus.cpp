@@ -57,10 +57,8 @@ void SiedleInHomeBusComponent::loop() {
 
     this->message_callback_.call(msg);
 
-    for (auto *listener : this->listeners_) {
-      if (listener->get_message_raw() == raw)
-        listener->on_message(msg);
-    }
+    for (auto *listener : this->listeners_)
+      listener->on_message(msg);
   }
 
   if (!this->send_queue_.empty() && this->store_.status == SiedleInHomeBusStore::IDLE) {

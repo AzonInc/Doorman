@@ -7,7 +7,11 @@ from .. import (
     siedle_in_home_bus_ns,
     CONF_SIEDLE_IN_HOME_BUS_ID,
     CONFIG_MESSAGE_SCHEMA,
-    compute_message_raw,
+    CONF_COMMAND,
+    CONF_DESTINATION,
+    CONF_DESTINATION_BUS,
+    CONF_SOURCE,
+    CONF_SOURCE_BUS,
 )
 
 DEPENDENCIES = ["siedle_in_home_bus"]
@@ -30,6 +34,11 @@ CONFIG_SCHEMA = binary_sensor.binary_sensor_schema(SiedleInHomeBusBinarySensor).
 async def to_code(config):
     parent = await cg.get_variable(config[CONF_SIEDLE_IN_HOME_BUS_ID])
     var = await binary_sensor.new_binary_sensor(config)
-    cg.add(var.set_message_raw(compute_message_raw(config[CONF_MESSAGE])))
+    msg = config[CONF_MESSAGE]
+    cg.add(var.set_command(msg[CONF_COMMAND]))
+    cg.add(var.set_destination(msg[CONF_DESTINATION]))
+    cg.add(var.set_destination_bus(msg[CONF_DESTINATION_BUS]))
+    cg.add(var.set_source(msg[CONF_SOURCE]))
+    cg.add(var.set_source_bus(msg[CONF_SOURCE_BUS]))
     cg.add(var.set_auto_reset_ms(config[CONF_AUTO_OFF]))
     cg.add(parent.register_listener(var))

@@ -7,7 +7,11 @@ from .. import (
     siedle_in_home_bus_ns,
     CONF_SIEDLE_IN_HOME_BUS_ID,
     CONFIG_MESSAGE_SCHEMA,
-    compute_message_raw,
+    CONF_COMMAND,
+    CONF_DESTINATION,
+    CONF_DESTINATION_BUS,
+    CONF_SOURCE,
+    CONF_SOURCE_BUS,
 )
 
 DEPENDENCIES = ["siedle_in_home_bus"]
@@ -25,7 +29,11 @@ CONFIG_SCHEMA = button.button_schema(SiedleInHomeBusButton).extend(
 
 
 async def to_code(config):
-    parent = await cg.get_variable(config[CONF_SIEDLE_IN_HOME_BUS_ID])
-    raw = compute_message_raw(config[CONF_MESSAGE])
-    var = cg.new_Pvariable(config[CONF_ID], parent, raw)
-    await button.register_button(var, config)
+    var = await button.new_button(config)
+    await cg.register_parented(var, config[CONF_SIEDLE_IN_HOME_BUS_ID])
+    msg = config[CONF_MESSAGE]
+    cg.add(var.set_command(msg[CONF_COMMAND]))
+    cg.add(var.set_destination(msg[CONF_DESTINATION]))
+    cg.add(var.set_destination_bus(msg[CONF_DESTINATION_BUS]))
+    cg.add(var.set_source(msg[CONF_SOURCE]))
+    cg.add(var.set_source_bus(msg[CONF_SOURCE_BUS]))

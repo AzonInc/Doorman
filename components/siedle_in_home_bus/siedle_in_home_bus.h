@@ -16,14 +16,11 @@ namespace esphome::siedle_in_home_bus {
 class SiedleInHomeBusListener {
  public:
   virtual ~SiedleInHomeBusListener() = default;
-  void set_message_raw(uint32_t raw) { this->message_raw_ = raw; }
-  uint32_t get_message_raw() const { return this->message_raw_; }
   void set_auto_reset_ms(uint32_t ms) { this->auto_reset_ms_ = ms; }
   virtual void on_message(const SiedleInHomeBusMessage &msg) = 0;
   virtual void on_loop() {}
 
  protected:
-  uint32_t message_raw_{0};
   uint32_t auto_reset_ms_{0};
   uint32_t auto_reset_timer_{0};
 };

@@ -37,22 +37,6 @@ CONFIG_MESSAGE_SCHEMA = cv.Schema(
 )
 
 
-def compute_message_raw(msg_config):
-    prolog = 0b010
-    middle = 0b010
-    epilog = 0b00
-    return (
-        (prolog                                       << 29) |
-        ((msg_config[CONF_COMMAND]         & 0x3F)    << 23) |
-        ((msg_config[CONF_DESTINATION]     & 0x1F)    << 18) |
-        ((msg_config[CONF_DESTINATION_BUS] & 0x0F)    << 14) |
-        (middle                                       << 11) |
-        ((msg_config[CONF_SOURCE]          & 0x1F)    <<  6) |
-        ((msg_config[CONF_SOURCE_BUS]      & 0x0F)    <<  2) |
-        epilog
-    )
-
-
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(): cv.declare_id(SiedleInHomeBusComponent),
