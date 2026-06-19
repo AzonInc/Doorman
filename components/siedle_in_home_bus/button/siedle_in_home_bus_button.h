@@ -1,28 +1,31 @@
 #pragma once
 
 #include "esphome/components/button/button.h"
+#include "esphome/core/automation.h"
 #include "../siedle_in_home_bus.h"
 
-namespace esphome::siedle_in_home_bus {
+namespace esphome::siedle_in_home_bus
+{
 
-class SiedleInHomeBusButton : public button::Button, public Parented<SiedleInHomeBusComponent> {
- public:
-  void set_command(uint8_t command) { this->command_ = command; }
-  void set_destination(uint8_t destination) { this->destination_ = destination; }
-  void set_destination_bus(uint8_t destination_bus) { this->destination_bus_ = destination_bus; }
-  void set_source(uint8_t source) { this->source_ = source; }
-  void set_source_bus(uint8_t source_bus) { this->source_bus_ = source_bus; }
+    class SiedleInHomeBusButton : public button::Button, public Parented<SiedleInHomeBusComponent>
+    {
+        public:
+            template<typename T> void set_command(T v) { this->command_ = v; }
+            template<typename T> void set_destination(T v) { this->destination_ = v; }
+            template<typename T> void set_destination_bus(T v) { this->destination_bus_ = v; }
+            template<typename T> void set_source(T v) { this->source_ = v; }
+            template<typename T> void set_source_bus(T v) { this->source_bus_ = v; }
 
-  void dump_config() override;
+            void dump_config() override;
 
- protected:
-  void press_action() override;
+        protected:
+            void press_action() override;
 
-  uint8_t command_{0};
-  uint8_t destination_{0};
-  uint8_t destination_bus_{0x08};
-  uint8_t source_{0};
-  uint8_t source_bus_{0x08};
-};
+            TemplatableValue<uint8_t> command_{};
+            TemplatableValue<uint8_t> destination_{};
+            TemplatableValue<uint8_t> destination_bus_{};
+            TemplatableValue<uint8_t> source_{};
+            TemplatableValue<uint8_t> source_bus_{};
+    };
 
 }  // namespace esphome::siedle_in_home_bus

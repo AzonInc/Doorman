@@ -1,35 +1,57 @@
 #include "siedle_in_home_bus_binary_sensor.h"
 #include "esphome/core/log.h"
 
-namespace esphome::siedle_in_home_bus {
+namespace esphome::siedle_in_home_bus
+{
 
-static const char *const TAG = "siedle_in_home_bus.binary_sensor";
+    static const char *const TAG = "siedle_in_home_bus.binary_sensor";
 
-void SiedleInHomeBusBinarySensor::on_message(const SiedleInHomeBusMessage &msg) {
-  if (msg.get_command()         != this->command_         ||
-      msg.get_destination()     != this->destination_     ||
-      msg.get_destination_bus() != this->destination_bus_ ||
-      msg.get_source()          != this->source_          ||
-      msg.get_source_bus()      != this->source_bus_)
-    return;
+    void SiedleInHomeBusBinarySensor::on_message(const SiedleInHomeBusMessage &msg)
+    {
+        if (this->command_.has_value()         && this->command_.value()         != msg.get_command())         { return; }
+        if (this->destination_.has_value()     && this->destination_.value()     != msg.get_destination())     { return; }
+        if (this->destination_bus_.has_value() && this->destination_bus_.value() != msg.get_destination_bus()) { return; }
+        if (this->source_.has_value()          && this->source_.value()          != msg.get_source())          { return; }
+        if (this->source_bus_.has_value()      && this->source_bus_.value()      != msg.get_source_bus())      { return; }
 
-  this->publish_state(true);
-  if (this->auto_reset_ms_ > 0)
-    this->auto_reset_timer_ = millis() + this->auto_reset_ms_;
-}
+        this->publish_state(true);
+        if (this->auto_off_ms_ > 0)
+        {
+            this->auto_off_timer_ = millis() + this->auto_off_ms_;
+        }
+    }
 
-void SiedleInHomeBusBinarySensor::on_loop() {
-  if (!this->has_state() || !this->state || this->auto_reset_ms_ == 0)
-    return;
-  if (millis() >= this->auto_reset_timer_)
-    this->publish_state(false);
-}
+    void SiedleInHomeBusBinarySensor::on_loop()
+    {
+        if (!this->has_state() || !this->state || this->auto_off_ms_ == 0)
+        {
+            return;
+        }
+        if (millis() >= this->auto_off_timer_)
+        {
+            this->publish_state(false);
+        }
+    }
 
-void SiedleInHomeBusBinarySensor::dump_config() {
-  LOG_BINARY_SENSOR("", "Siedle In-Home Bus Binary Sensor", this);
-  ESP_LOGCONFIG(TAG, "  Command:     0x%02X", this->command_);
-  ESP_LOGCONFIG(TAG, "  Destination: 0x%X:0x%02X", this->destination_bus_, this->destination_);
-  ESP_LOGCONFIG(TAG, "  Source:      0x%X:0x%02X", this->source_bus_, this->source_);
-}
+    void SiedleInHomeBusBinarySensor::dump_config()
+    {
+        LOG_BINARY_SENSOR("", "Siedle In-Home Bus Binary Sensor", this);
+        if (this->command_.has_value())
+        {
+            ESP_LOGCONFIG(TAG, "  Command:     0x%02X", this->command_.value());
+        }
+        if (this->destination_.has_value() || this->destination_bus_.has_value())
+        {
+            ESP_LOGCONFIG(TAG, "  Destination: %s:0x%02X",
+                this->destination_bus_.has_value() ? str_sprintf("0x%X", this->destination_bus_.value()).c_str() : "*",
+                this->destination_.has_value() ? this->destination_.value() : 0xFF);
+        }
+        if (this->source_.has_value() || this->source_bus_.has_value())
+        {
+            ESP_LOGCONFIG(TAG, "  Source:      %s:0x%02X",
+                this->source_bus_.has_value() ? str_sprintf("0x%X", this->source_bus_.value()).c_str() : "*",
+                this->source_.has_value() ? this->source_.value() : 0xFF);
+        }
+    }
 
 }  // namespace esphome::siedle_in_home_bus

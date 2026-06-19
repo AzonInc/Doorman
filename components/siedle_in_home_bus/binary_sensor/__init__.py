@@ -1,12 +1,11 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
-from esphome.const import CONF_ID, CONF_MESSAGE
+from esphome.const import CONF_ID
 from .. import (
     SiedleInHomeBusComponent,
     siedle_in_home_bus_ns,
     CONF_SIEDLE_IN_HOME_BUS_ID,
-    CONFIG_MESSAGE_SCHEMA,
     CONF_COMMAND,
     CONF_DESTINATION,
     CONF_DESTINATION_BUS,
@@ -25,7 +24,11 @@ CONF_AUTO_OFF = "auto_off"
 CONFIG_SCHEMA = binary_sensor.binary_sensor_schema(SiedleInHomeBusBinarySensor).extend(
     {
         cv.GenerateID(CONF_SIEDLE_IN_HOME_BUS_ID): cv.use_id(SiedleInHomeBusComponent),
-        cv.Required(CONF_MESSAGE): CONFIG_MESSAGE_SCHEMA,
+        cv.Optional(CONF_COMMAND): cv.templatable(cv.hex_uint8_t),
+        cv.Optional(CONF_DESTINATION): cv.templatable(cv.hex_uint8_t),
+        cv.Optional(CONF_DESTINATION_BUS): cv.templatable(cv.hex_uint8_t),
+        cv.Optional(CONF_SOURCE): cv.templatable(cv.hex_uint8_t),
+        cv.Optional(CONF_SOURCE_BUS): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_AUTO_OFF, default="3s"): cv.positive_time_period_milliseconds,
     }
 )
@@ -34,11 +37,15 @@ CONFIG_SCHEMA = binary_sensor.binary_sensor_schema(SiedleInHomeBusBinarySensor).
 async def to_code(config):
     parent = await cg.get_variable(config[CONF_SIEDLE_IN_HOME_BUS_ID])
     var = await binary_sensor.new_binary_sensor(config)
-    msg = config[CONF_MESSAGE]
-    cg.add(var.set_command(msg[CONF_COMMAND]))
-    cg.add(var.set_destination(msg[CONF_DESTINATION]))
-    cg.add(var.set_destination_bus(msg[CONF_DESTINATION_BUS]))
-    cg.add(var.set_source(msg[CONF_SOURCE]))
-    cg.add(var.set_source_bus(msg[CONF_SOURCE_BUS]))
-    cg.add(var.set_auto_reset_ms(config[CONF_AUTO_OFF]))
+    if (v := config.get(CONF_COMMAND)) is not None:
+        cg.add(var.set_command(await cg.templatable(v, [], cg.uint8)))
+    if (v := config.get(CONF_DESTINATION)) is not None:
+        cg.add(var.set_destination(await cg.templatable(v, [], cg.uint8)))
+    if (v := config.get(CONF_DESTINATION_BUS)) is not None:
+        cg.add(var.set_destination_bus(await cg.templatable(v, [], cg.uint8)))
+    if (v := config.get(CONF_SOURCE)) is not None:
+        cg.add(var.set_source(await cg.templatable(v, [], cg.uint8)))
+    if (v := config.get(CONF_SOURCE_BUS)) is not None:
+        cg.add(var.set_source_bus(await cg.templatable(v, [], cg.uint8)))
+    cg.add(var.set_auto_off_ms(config[CONF_AUTO_OFF]))
     cg.add(parent.register_listener(var))

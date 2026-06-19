@@ -39,9 +39,11 @@ siedle_in_home_bus:
   dump: true          # Log all received messages (default: true)
   on_message:
     - then:
-        - logger.log:
-            format: "Received raw: 0x%08X"
-            args: ["msg.get_raw()"]
+        - lambda: |-
+            ESP_LOGI("bus", "cmd=0x%02X dst=0x%X:0x%02X src=0x%X:0x%02X",
+              msg.get_command(),
+              msg.get_destination_bus(), msg.get_destination(),
+              msg.get_source_bus(), msg.get_source());
 ```
 
 ### Options
@@ -57,59 +59,93 @@ siedle_in_home_bus:
 
 ### `on_message` Trigger
 
-Fires for every received message. The variable `msg` of type `SiedleInHomeBusMessage` is available:
+Fires for every received message. The variable `msg` of type `SiedleInHomeBusMessage` is available with the following methods:
 
-```yaml
-on_message:
-  - then:
-      - lambda: |-
-          ESP_LOGI("bus", "cmd=0x%02X dst=0x%X:0x%02X src=0x%X:0x%02X",
-            msg.get_command(),
-            msg.get_destination_bus(), msg.get_destination(),
-            msg.get_source_bus(), msg.get_source());
-```
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `msg.get_raw()` | `uint32_t` | Complete 32-bit message value |
+| `msg.get_command()` | `uint8_t` | Command field (6 bits) |
+| `msg.get_destination()` | `uint8_t` | Destination address (5 bits) |
+| `msg.get_destination_bus()` | `uint8_t` | Destination bus (4 bits) |
+| `msg.get_source()` | `uint8_t` | Source address (5 bits) |
+| `msg.get_source_bus()` | `uint8_t` | Source bus (4 bits) |
 
 ## Binary Sensor
 
-Publishes `true` when a specific message is received, auto-resets after a configurable delay.
+Publishes `true` when a matching message is received, auto-resets after a configurable delay. All filter fields are optional — omitting a field matches any value (wildcard).
 
 ```yaml
 binary_sensor:
   - platform: siedle_in_home_bus
     name: "Doorbell"
-    message:
-      command: 0x12
-      destination: 0x05
-      source: 0x08
-      # destination_bus: 0x08  # optional, default 0x08
-      # source_bus: 0x08       # optional, default 0x08
-    auto_off: 3s              # optional, default 3s
+    command: 0x12
+    destination: 0x05
+    source: 0x08
+    # destination_bus: 0x08  # optional, omit to match any
+    # source_bus: 0x08       # optional, omit to match any
+    auto_off: 3s             # optional, default 3s
+```
+
+Matching any message with a specific command regardless of source or destination:
+
+```yaml
+binary_sensor:
+  - platform: siedle_in_home_bus
+    name: "Any Door Call"
+    command: 0x12
+    auto_off: 5s
 ```
 
 ### Binary Sensor Options
 
 | Option | Required | Default | Description |
 |--------|----------|---------|-------------|
-| `message` | yes | — | Message to match (see message fields below) |
+| `command` | no | — | Command to match (0x00–0x3F), omit for wildcard |
+| `destination` | no | — | Destination address to match (0x00–0x1F), omit for wildcard |
+| `destination_bus` | no | — | Destination bus to match (0x0–0xF), omit for wildcard |
+| `source` | no | — | Source address to match (0x00–0x1F), omit for wildcard |
+| `source_bus` | no | — | Source bus to match (0x0–0xF), omit for wildcard |
 | `auto_off` | no | `3s` | Time until sensor resets to `false` after triggering |
 
 ## Button
 
-Sends a message on the bus when pressed.
+Sends a message on the bus when pressed. All fields support `!lambda` for runtime values.
 
 ```yaml
 button:
   - platform: siedle_in_home_bus
     name: "Open Door"
-    message:
-      command: 0x20
-      destination: 0x01
-      source: 0x08
+    command: 0x20
+    destination: 0x01
+    source: 0x08
+    # destination_bus: 0x08  # optional, default 0x08
+    # source_bus: 0x08       # optional, default 0x08
 ```
+
+With a dynamic value:
+
+```yaml
+button:
+  - platform: siedle_in_home_bus
+    name: "Custom Command"
+    command: !lambda "return id(my_number).state;"
+    destination: 0x01
+    source: 0x08
+```
+
+### Button Options
+
+| Option | Required | Default | Description |
+|--------|----------|---------|-------------|
+| `command` | yes | — | Command field, 0x00–0x3F (templatable) |
+| `destination` | yes | — | Destination address, 0x00–0x1F (templatable) |
+| `destination_bus` | no | `0x08` | Destination bus, 0x0–0xF (templatable) |
+| `source` | yes | — | Source address, 0x00–0x1F (templatable) |
+| `source_bus` | no | `0x08` | Source bus, 0x0–0xF (templatable) |
 
 ## `siedle_in_home_bus.send` Action
 
-Sends a message on the bus from an automation. Supports both raw values and decoded fields.
+Sends a message on the bus from an automation. Supports both raw values and decoded fields. All decoded fields support `!lambda` for runtime values.
 
 **With raw value:**
 ```yaml
@@ -129,7 +165,7 @@ on_press:
       # source_bus: 0x08       # optional, default 0x08
 ```
 
-**With templates (runtime values):**
+**With templates:**
 ```yaml
 on_press:
   - siedle_in_home_bus.send:
@@ -150,15 +186,3 @@ Either `raw` or `command` + `destination` + `source` must be specified. `raw` an
 | `destination_bus` | no | `0x08` | Destination bus, 0x0–0xF (templatable) |
 | `source` | — | — | Source address, 0x00–0x1F (templatable) |
 | `source_bus` | no | `0x08` | Source bus, 0x0–0xF (templatable) |
-
-## Message Fields
-
-Used in `binary_sensor`, `button`, and the `siedle_in_home_bus.send` action:
-
-| Field | Range | Default | Description |
-|-------|-------|---------|-------------|
-| `command` | `0x00`–`0x3F` | — | 6-bit command identifier |
-| `destination` | `0x00`–`0x1F` | — | 5-bit destination address |
-| `destination_bus` | `0x0`–`0xF` | `0x08` | 4-bit destination bus segment |
-| `source` | `0x00`–`0x1F` | — | 5-bit source address |
-| `source_bus` | `0x0`–`0xF` | `0x08` | 4-bit source bus segment |
