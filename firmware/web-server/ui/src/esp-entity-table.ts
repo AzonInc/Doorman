@@ -134,6 +134,7 @@ export class EntityTable extends LitElement implements RestAction {
   private _userSelectedGroup: boolean = false;
   private _touchStartX = 0;
   private _touchStartY = 0;
+  private _swipeLocked: boolean | null = null;
   private _actionRenderer = new ActionRenderer();
   private _basePath = getBasePath();
   private groups: groupConfig[] = [] 
@@ -150,17 +151,20 @@ export class EntityTable extends LitElement implements RestAction {
   protected updated() {
     if (this._navScrollInitialized) return;
     const nav = this.shadowRoot?.querySelector('.nav-group') as HTMLElement | null;
-    if (!nav) return;
+    const sentinel = this.shadowRoot?.querySelector('.nav-sentinel') as HTMLElement | null;
+    const layout = this.shadowRoot?.querySelector('.layout') as HTMLElement | null;
+    if (!nav || !sentinel || !layout) return;
     this._navScrollInitialized = true;
-    requestAnimationFrame(() => {
-      const headerHeight = parseFloat(
-        document.documentElement.style.getPropertyValue('--header-height') || '64'
-      );
-      const threshold = Math.max(0, nav.getBoundingClientRect().top + window.scrollY - headerHeight);
-      const check = () => nav.classList.toggle('is-stuck', window.scrollY > threshold);
-      window.addEventListener('scroll', check, { passive: true });
-      check();
-    });
+    const headerHeight = parseFloat(
+      document.documentElement.style.getPropertyValue('--header-height') || '64'
+    );
+    new IntersectionObserver(([entry]) => {
+      nav.classList.toggle('is-stuck', !entry.isIntersecting);
+    }, {
+      rootMargin: `-${headerHeight}px 0px 0px 0px`,
+      threshold: 1.0,
+    }).observe(sentinel);
+    layout.addEventListener('touchmove', this._onTouchMove, { passive: false });
   }
 
   connectedCallback() {
@@ -407,30 +411,78 @@ export class EntityTable extends LitElement implements RestAction {
     return sortedGroupedMap;
   }
 
+  private _selectGroup(name: string, animDirection: -1 | 0 | 1 = 0) {
+    this.activeGroup = name;
+    this._userSelectedGroup = true;
+    this.searchQuery = '';
+    if (animDirection === 0) return;
+    requestAnimationFrame(() => {
+      const ca = this.shadowRoot?.querySelector('.content-area') as HTMLElement | null;
+      if (!ca) return;
+      const cls = animDirection > 0 ? 'swipe-in-right' : 'swipe-in-left';
+      ca.classList.remove('swipe-in-right', 'swipe-in-left');
+      void ca.offsetWidth;
+      ca.classList.add(cls);
+      ca.addEventListener('animationend', () => ca.classList.remove(cls), { once: true });
+    });
+  }
+
   private _swipeToGroup(direction: 1 | -1) {
     const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
     const idx = names.indexOf(this.activeGroup);
     const next = idx + direction;
     if (next < 0 || next >= names.length) return;
-    this.activeGroup = names[next];
-    this._userSelectedGroup = true;
-    this.searchQuery = '';
+    this._selectGroup(names[next], direction);
     requestAnimationFrame(() => {
       const navItems = this.shadowRoot?.querySelectorAll<HTMLElement>('.nav-item');
       navItems?.[next]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
   }
 
+  private _clickGroup(name: string) {
+    const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
+    const dir = Math.sign(names.indexOf(name) - names.indexOf(this.activeGroup)) as -1 | 0 | 1;
+    this._selectGroup(name, dir);
+  }
+
   private _onTouchStart = (e: TouchEvent) => {
     this._touchStartX = e.touches[0].clientX;
     this._touchStartY = e.touches[0].clientY;
+    this._swipeLocked = null;
+    const ca = this.shadowRoot?.querySelector('.content-area') as HTMLElement | null;
+    if (ca) ca.style.transition = 'none';
+  };
+
+  private _onTouchMove = (e: TouchEvent) => {
+    const dx = e.touches[0].clientX - this._touchStartX;
+    const dy = e.touches[0].clientY - this._touchStartY;
+    if (this._swipeLocked === null) {
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8)
+        this._swipeLocked = Math.abs(dx) > Math.abs(dy);
+      return;
+    }
+    if (!this._swipeLocked) return;
+    e.preventDefault();
+    const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
+    const idx = names.indexOf(this.activeGroup);
+    const atBoundary = (dx < 0 && idx >= names.length - 1) || (dx > 0 && idx <= 0);
+    const ca = this.shadowRoot?.querySelector('.content-area') as HTMLElement | null;
+    if (ca) {
+      ca.style.transition = 'none';
+      ca.style.transform = `translateX(${dx * (atBoundary ? 0.12 : 0.35)}px)`;
+    }
   };
 
   private _onTouchEnd = (e: TouchEvent) => {
     const dx = e.changedTouches[0].clientX - this._touchStartX;
     const dy = e.changedTouches[0].clientY - this._touchStartY;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+    const ca = this.shadowRoot?.querySelector('.content-area') as HTMLElement | null;
+    if (this._swipeLocked && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (ca) { ca.style.transition = 'none'; ca.style.transform = ''; }
       this._swipeToGroup(dx < 0 ? 1 : -1);
+    } else if (ca?.style.transform) {
+      ca.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      ca.style.transform = '';
     }
   };
 
@@ -462,7 +514,8 @@ export class EntityTable extends LitElement implements RestAction {
 
     return html`
       <div class="layout" @touchstart="${this._onTouchStart}" @touchend="${this._onTouchEnd}">
-        <nav class="nav-group" @touchstart="${(e: Event) => e.stopPropagation()}" @touchend="${(e: Event) => e.stopPropagation()}">
+        <div class="nav-sentinel" aria-hidden="true"></div>
+        <nav class="nav-group" @touchstart="${(e: Event) => e.stopPropagation()}" @touchmove="${(e: Event) => e.stopPropagation()}" @touchend="${(e: Event) => e.stopPropagation()}">
           <div class="nav-search-wrap">
             <iconify-icon icon="mdi:magnify" height="14px" class="nav-search-icon"></iconify-icon>
             <input
@@ -479,16 +532,18 @@ export class EntityTable extends LitElement implements RestAction {
             ` : nothing}
           </div>
           <div class="nav-search-divider"></div>
-          ${elems.map(
-            (group) => html`
-              <button
-                class="nav-item ${!isSearching && this.activeGroup === group.name ? "active" : ""}"
-                @click="${() => { this.activeGroup = group.name; this._userSelectedGroup = true; this.searchQuery = ''; }}"
-              >
-                ${group.name || EntityTable.ENTITY_UNDEFINED}
-              </button>
-            `
-          )}
+          <div class="nav-items-scroll">
+            ${elems.map(
+              (group) => html`
+                <button
+                  class="nav-item ${!isSearching && this.activeGroup === group.name ? "active" : ""}"
+                  @click="${() => this._clickGroup(group.name)}"
+                >
+                  ${group.name || EntityTable.ENTITY_UNDEFINED}
+                </button>
+              `
+            )}
+          </div>
         </nav>
         <div class="content-area">
           ${isSearching ? html`

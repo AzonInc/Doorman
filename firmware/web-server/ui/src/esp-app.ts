@@ -180,13 +180,18 @@ export default class EspApp extends LitElement {
     this.getHardwareVersion();
 
     const header = this.shadowRoot?.querySelector('header');
+    const updatePageOffset = () => {
+      const headerH = header?.offsetHeight ?? 64;
+      const infobox = this.shadowRoot?.querySelector('infobox') as HTMLElement | null;
+      const infoboxH = infobox?.offsetHeight ?? 0;
+      document.documentElement.style.setProperty('--header-height', `${headerH}px`);
+      document.documentElement.style.setProperty('--page-offset', `${headerH + infoboxH}px`);
+    };
     if (header) {
-      const updateHeaderHeight = () => {
-        document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
-      };
-      new ResizeObserver(updateHeaderHeight).observe(header);
-      updateHeaderHeight();
+      new ResizeObserver(updatePageOffset).observe(header);
     }
+    new ResizeObserver(updatePageOffset).observe(this);
+    updatePageOffset();
 
   }
 

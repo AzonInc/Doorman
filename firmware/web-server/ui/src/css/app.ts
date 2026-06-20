@@ -2,9 +2,18 @@ import { css } from "lit";
 
 export default css`
   :host {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
     margin: 0;
     padding: 0;
+  }
+  header {
+    flex-shrink: 0;
+  }
+  esp-entity-table {
+    flex: 1;
+    min-height: 0;
   }
 
   .bg-orbs {

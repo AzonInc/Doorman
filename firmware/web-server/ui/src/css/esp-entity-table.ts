@@ -2,8 +2,19 @@ import { css } from "lit";
 
 export default css`
   :host {
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: relative;
+  }
+
+  /* ── Nav sentinel (IntersectionObserver target, first child of row-flex .layout) ── */
+  .nav-sentinel {
+    width: 0;
+    height: 1px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   /* ── Two-column layout ── */
@@ -12,8 +23,10 @@ export default css`
     flex-direction: row;
     box-sizing: border-box;
     max-width: 960px;
+    width: 100%;
     margin: 0 auto;
-    min-height: calc(100vh - var(--header-height, 64px));
+    flex: 1;
+    min-height: calc(100dvh - var(--page-offset, var(--header-height, 64px)));
   }
 
   /* ── Sidebar (desktop) ── */
@@ -23,16 +36,22 @@ export default css`
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 12px 12px 72px;
+    padding: 12px 12px 0;
     position: sticky;
     top: var(--header-height, 64px);
     align-self: flex-start;
-    max-height: calc(100vh - var(--header-height, 64px));
-    overflow-y: auto;
-    scrollbar-width: none;
+    max-height: calc(100dvh - var(--header-height, 64px));
+    overflow: hidden;
     border-right: 1px solid rgba(127, 127, 127, 0.1);
   }
-  .nav-group::-webkit-scrollbar { display: none; }
+  .nav-items-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 72px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(127, 127, 127, 0.2) transparent;
+  }
 
   /* ── Sidebar search ── */
   .nav-search-wrap {
@@ -187,11 +206,25 @@ export default css`
     flex: 1;
     min-width: 0;
     padding: 12px 24px 72px;
+    transform-origin: center top;
+    touch-action: pan-y;
   }
+
+  @keyframes swipe-in-right {
+    from { opacity: 0.3; transform: translateX(32px); }
+    to   { opacity: 1;   transform: translateX(0); }
+  }
+  @keyframes swipe-in-left {
+    from { opacity: 0.3; transform: translateX(-32px); }
+    to   { opacity: 1;   transform: translateX(0); }
+  }
+  .content-area.swipe-in-right { animation: swipe-in-right 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
+  .content-area.swipe-in-left  { animation: swipe-in-left  0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
 
   /* ── Mobile: horizontal tab bar ── */
   @media (max-width: 640px) {
     .nav-search-wrap { display: none; }
+    .nav-items-scroll { display: contents; }
     .layout {
       flex-direction: column;
       max-width: none;
@@ -205,6 +238,7 @@ export default css`
       flex-wrap: nowrap;
       overflow-x: auto;
       overflow-y: hidden;
+      scrollbar-width: none;
       padding: 8px 8px 8px 0;
       gap: 4px;
       border-right: none;
@@ -443,7 +477,7 @@ export default css`
   .description-row > :nth-child(1) {
     flex-shrink: 0;
     color: rgba(146, 105, 254, 0.7);
-    margin-top: 1px;
+    line-height: 0;
   }
   .description-row > :nth-child(2) {
     flex: 1;

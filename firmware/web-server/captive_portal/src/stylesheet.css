@@ -285,7 +285,7 @@ svg { fill: #9269fe; color: #9269fe; }
 .description-row > :nth-child(1) {
   flex-shrink: 0;
   color: rgba(146, 105, 254, 0.7);
-  margin-top: 1px;
+  line-height: 0;
 }
 .description-row > :nth-child(2) { flex: 1; min-width: 0; }
 .description-row a { color: #9269fe; }
