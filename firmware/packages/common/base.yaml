@@ -47,11 +47,11 @@ web_server:
 
     - id: sorting_group_indoor_station_settings
       name: "TC:BUS Indoor Station"
-      sorting_weight: -70
+      sorting_weight: -89
 
     - id: sorting_group_settings_advanced
       name: "Advanced"
-      sorting_weight: -69
+      sorting_weight: -55
 
     - id: sorting_group_status_led
       name: "Status LED"

@@ -25,7 +25,7 @@ Um diese anzuzeigen, klicke in der Doorman-Weboberfläche auf `SHOW ALL` oder ak
 Wenn diese Option aktiviert ist, klingelt deine Innenstation jedes Mal, wenn die Ring-to-Open-Automation manuell über eine physische Taste ausgelöst wird – je nachdem, welche Taste du dafür eingerichtet hast.
 :::
 
-::: info Display Status
+::: info RGB Status LED: Show Ring To Open Status
 Du kannst festlegen, ob die Status-LED blinkt, während Ring to Open für eine der Türen aktiv ist.
 :::
 

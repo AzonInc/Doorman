@@ -16,32 +16,32 @@ external_components:
 
 web_server:
   sorting_groups:
-    - id: sorting_group_nuki_settings_button_led
-      name: "Nuki Button & LED"
-      sorting_weight: -66
-
-    - id: sorting_group_nuki_settings_auto_lock
-      name: "Nuki Auto Lock"
-      sorting_weight: -65
-
-    - id: sorting_group_nuki_settings_fob
-      name: "Nuki Fob"
-      sorting_weight: -64
-
-    - id: sorting_group_nuki_settings_night_mode
-      name: "Nuki Night Mode"
-      sorting_weight: -63
-
-    - id: sorting_group_nuki_settings_calibration
-      name: "Nuki Calibration"
-      sorting_weight: -62
+    - id: sorting_group_nuki
+      name: "Nuki Lock"
+      sorting_weight: -73
 
     - id: sorting_group_nuki_bridge_settings
       name: "Nuki Bridge"
-      sorting_weight: -60
+      sorting_weight: -72
 
-    - id: sorting_group_nuki
-      name: "Nuki Lock"
+    - id: sorting_group_nuki_settings_button_led
+      name: "Nuki Lock - Button & LED"
+      sorting_weight: -71
+
+    - id: sorting_group_nuki_settings_auto_lock
+      name: "Nuki Lock - Auto Lock"
+      sorting_weight: -70
+
+    - id: sorting_group_nuki_settings_fob
+      name: "Nuki Lock - Fob"
+      sorting_weight: -69
+
+    - id: sorting_group_nuki_settings_night_mode
+      name: "Nuki Lock - Night Mode"
+      sorting_weight: -68
+
+    - id: sorting_group_nuki_settings_calibration
+      name: "Nuki Lock - Calibration"
       sorting_weight: -67
 
 # Pairing Mode

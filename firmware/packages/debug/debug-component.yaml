@@ -16,7 +16,7 @@ text_sensor:
       name: "Reset Reason"
       entity_category: DIAGNOSTIC
       web_server:
-        sorting_group_id: sorting_group_debug_tools
+        sorting_group_id: sorting_group_information
 
 sensor:
   - platform: template
@@ -26,7 +26,7 @@ sensor:
     lambda: 'return esp_get_free_heap_size() / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
+      sorting_group_id: sorting_group_information
 
   - platform: template
     name: "Free PSRAM"
@@ -35,7 +35,7 @@ sensor:
     lambda: 'return heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
+      sorting_group_id: sorting_group_information
 
   - platform: template
     name: "Free Internal"
@@ -44,7 +44,7 @@ sensor:
     lambda: 'return heap_caps_get_free_size(MALLOC_CAP_INTERNAL) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
+      sorting_group_id: sorting_group_information
 
   - platform: template
     name: "Internal Heap Minimum"
@@ -53,7 +53,7 @@ sensor:
     lambda: 'return heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
+      sorting_group_id: sorting_group_information
 
   - platform: template
     name: "PSRAM Heap Minimum"
@@ -62,7 +62,7 @@ sensor:
     lambda: 'return heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
+      sorting_group_id: sorting_group_information
 
   - platform: template
     name: "Internal Largest Block"
@@ -71,8 +71,8 @@ sensor:
     lambda: 'return heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
-      
+      sorting_group_id: sorting_group_information
+
   - platform: template
     name: "PSRAM Largest Block"
     update_interval: 10s
@@ -80,4 +80,4 @@ sensor:
     lambda: 'return heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_debug_tools
+      sorting_group_id: sorting_group_information

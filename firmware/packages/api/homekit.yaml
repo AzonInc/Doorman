@@ -46,7 +46,7 @@ web_server:
   sorting_groups:
     - id: sorting_group_homekit
       name: "HomeKit"
-      sorting_weight: -2
+      sorting_weight: -45
 
 # Maybe this is the reason for some issues with ESPHome > 2025.5.0
 # https://github.com/esphome/esphome/pull/8946

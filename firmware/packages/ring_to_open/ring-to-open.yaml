@@ -71,7 +71,7 @@ web_server:
   sorting_groups:
     - id: sorting_group_rto_settings
       name: "Ring To Open"
-      sorting_weight: -80
+      sorting_weight: -75
 
 binary_sensor:
   - id: !extend entrance_doorbell
@@ -445,7 +445,7 @@ switch:
   - platform: template
     id: rto_led_status
     device_id: tc_bus_is
-    name: "RTO: Display Status"
+    name: "RGB Status LED: Show Ring To Open Status"
     icon: "mdi:led-on"
     restore_mode: RESTORE_DEFAULT_ON
     optimistic: true
@@ -456,8 +456,8 @@ switch:
     on_turn_off:
       - script.execute: update_rto_status
     web_server:
-      sorting_group_id: sorting_group_rto_settings
-      sorting_weight: -99
+      sorting_group_id: sorting_group_status_led
+      sorting_weight: 4
 
 select:
   - platform: template

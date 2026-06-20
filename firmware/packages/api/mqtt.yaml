@@ -10,7 +10,7 @@ web_server:
   sorting_groups:
     - id: sorting_group_mqtt
       name: "MQTT"
-      sorting_weight: -2
+      sorting_weight: -44
 
 text:
   - platform: template

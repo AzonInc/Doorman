@@ -30,7 +30,7 @@ To view them, click `SHOW ALL` in the Doorman web interface or enable the corres
 If this option is enabled, your indoor station will ring each time the Ring-to-Open automation is triggered by a physical button — depending on which physical button you've configured as the trigger.
 :::
 
-::: info Display Status
+::: info RGB Status LED: Show Ring To Open Status
 You can choose whether the status LED should blink while Ring to Open is active for any door.
 :::
 

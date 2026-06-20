@@ -9,7 +9,7 @@ web_server:
   sorting_groups:
     - id: sorting_group_outdoor_station_settings
       name: "TC:BUS Outdoor Station"
-      sorting_weight: -69
+      sorting_weight: -88
 
 tc_bus_device:
   - id: tc_bus_outdoor_station

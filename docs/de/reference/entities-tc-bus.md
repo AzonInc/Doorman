@@ -64,7 +64,7 @@ Controls the [Ring To Open](../guide/features/ring-to-open) automation of the ap
 ### RTO: Confirmation <Badge type="tip" text="rto_confirmation" /> <Badge type="info" text="Disabled by default" />
 Controls the turn-on doorbell-confirmation for the [Ring To Open](../guide/features/ring-to-open) automation.
 
-### RTO: Display Status <Badge type="tip" text="rto_led_status" /> <Badge type="info" text="Disabled by default" />
+### RGB Status LED: Show Ring To Open Status <Badge type="tip" text="rto_led_status" /> <Badge type="info" text="Disabled by default" />
 Controls the Status LED for the [Ring To Open](../guide/features/ring-to-open) automation.
 
 ### Ringtone: Mute <Badge type="tip" text="indoor_station_ringtone_mute" />
