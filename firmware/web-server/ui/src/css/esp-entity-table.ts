@@ -13,6 +13,7 @@ export default css`
     box-sizing: border-box;
     max-width: 960px;
     margin: 0 auto;
+    min-height: calc(100vh - var(--header-height, 64px));
   }
 
   /* ── Sidebar (desktop) ── */

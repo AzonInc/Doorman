@@ -132,6 +132,8 @@ export class EntityTable extends LitElement implements RestAction {
   @property({ type: Boolean }) ota: boolean = false;
 
   private _userSelectedGroup: boolean = false;
+  private _touchStartX = 0;
+  private _touchStartY = 0;
   private _actionRenderer = new ActionRenderer();
   private _basePath = getBasePath();
   private groups: groupConfig[] = [] 
@@ -378,33 +380,60 @@ export class EntityTable extends LitElement implements RestAction {
     `;
   }
 
-  render() {
-    const groupBy = (xs: Array<any>, key: string): Map<string, Array<any>> => {
-      const groupedMap = xs.reduce(function (rv, x) {
-        (
-          rv.get(x[key]) ||
-          (() => {
-            let tmp: Array<any> = [];
-            rv.set(x[key], tmp);
-            return tmp;
-          })()
-        ).push(x);
-        return rv;
-      }, new Map<string, Array<any>>());
+  private _groupBy(xs: Array<any>, key: string): Map<string, Array<any>> {
+    const groupedMap = xs.reduce(function (rv, x) {
+      (
+        rv.get(x[key]) ||
+        (() => {
+          let tmp: Array<any> = [];
+          rv.set(x[key], tmp);
+          return tmp;
+        })()
+      ).push(x);
+      return rv;
+    }, new Map<string, Array<any>>());
 
-      const sortedGroupedMap = new Map<string, Array<any>>();
-      for (const group of this.groups) {
-        const groupName = group.name;
-        if (groupedMap.has(groupName)) {
-          sortedGroupedMap.set(groupName, groupedMap.get(groupName) || []);
-        }
+    const sortedGroupedMap = new Map<string, Array<any>>();
+    for (const group of this.groups) {
+      const groupName = group.name;
+      if (groupedMap.has(groupName)) {
+        sortedGroupedMap.set(groupName, groupedMap.get(groupName) || []);
       }
-
-      return sortedGroupedMap;
     }
 
+    return sortedGroupedMap;
+  }
+
+  private _swipeToGroup(direction: 1 | -1) {
+    const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
+    const idx = names.indexOf(this.activeGroup);
+    const next = idx + direction;
+    if (next < 0 || next >= names.length) return;
+    this.activeGroup = names[next];
+    this._userSelectedGroup = true;
+    this.searchQuery = '';
+    requestAnimationFrame(() => {
+      const navItems = this.shadowRoot?.querySelectorAll<HTMLElement>('.nav-item');
+      navItems?.[next]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  }
+
+  private _onTouchStart = (e: TouchEvent) => {
+    this._touchStartX = e.touches[0].clientX;
+    this._touchStartY = e.touches[0].clientY;
+  };
+
+  private _onTouchEnd = (e: TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - this._touchStartX;
+    const dy = e.changedTouches[0].clientY - this._touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      this._swipeToGroup(dx < 0 ? 1 : -1);
+    }
+  };
+
+  render() {
     const entities = this.entities;
-    const grouped = groupBy(entities, "sorting_group");
+    const grouped = this._groupBy(entities, "sorting_group");
     const elems = Array.from(grouped, ([name, value]) => ({ name, value }));
 
     if (!this._userSelectedGroup && elems.length > 0) {
@@ -419,8 +448,8 @@ export class EntityTable extends LitElement implements RestAction {
       : [];
 
     return html`
-      <div class="layout">
-        <nav class="nav-group">
+      <div class="layout" @touchstart="${this._onTouchStart}" @touchend="${this._onTouchEnd}">
+        <nav class="nav-group" @touchstart="${(e: Event) => e.stopPropagation()}" @touchend="${(e: Event) => e.stopPropagation()}">
           <div class="nav-search-wrap">
             <iconify-icon icon="mdi:magnify" height="14px" class="nav-search-icon"></iconify-icon>
             <input
