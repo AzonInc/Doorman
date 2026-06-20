@@ -49,8 +49,7 @@ export default css`
     overflow-y: auto;
     overflow-x: hidden;
     padding-bottom: 72px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(127, 127, 127, 0.2) transparent;
+    scrollbar-width: none;
   }
 
   /* ── Sidebar search ── */
@@ -189,7 +188,7 @@ export default css`
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
     text-overflow: ellipsis;
-    transition: none;
+    transition: background 0.15s, opacity 0.15s, color 0.15s, box-shadow 0.15s;
   }
   .nav-item.active {
     opacity: 1;
@@ -200,6 +199,23 @@ export default css`
   .nav-item:hover:not(.active) {
     opacity: 0.75;
     background: rgba(127, 127, 127, 0.08);
+  }
+  .nav-item--quick {
+    opacity: 0.65;
+  }
+  .nav-item-icon {
+    display: none;
+  }
+  .nav-item-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nav-item-divider {
+    height: 1px;
+    background: rgba(127, 127, 127, 0.1);
+    margin: 10px 4px;
+    flex-shrink: 0;
   }
 
   /* ── Content area ── */
@@ -264,6 +280,24 @@ export default css`
     .nav-item.active {
       color: #9269fe;
       background: rgba(146, 105, 254, 0.12);
+      box-shadow: none;
+    }
+    .nav-item--quick {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0.65;
+    }
+    .nav-item-icon {
+      display: block;
+      flex-shrink: 0;
+      color: #9269fe;
+    }
+    .nav-item-divider {
+      width: 1px;
+      height: 18px;
+      margin: 0 2px;
+      align-self: center;
     }
     .content-area {
       padding: 12px 8px 72px;
@@ -370,8 +404,121 @@ export default css`
   .entity-row > :nth-child(3) > :only-child {
     margin-left: auto;
   }
-  .binary_sensor_off {
-    color: rgba(127, 127, 127, 0.7);
+  .binary-sensor-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border: 1px solid transparent;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .binary-sensor-badge--on {
+    background: rgba(146, 105, 254, 0.12);
+    color: #9269fe;
+    border-color: rgba(146, 105, 254, 0.2);
+  }
+  .binary-sensor-badge--off {
+    background: rgba(127, 127, 127, 0.08);
+    color: rgba(200, 200, 200, 0.4);
+    border-color: rgba(127, 127, 127, 0.12);
+  }
+  .binary-sensor-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .binary-sensor-badge--on .binary-sensor-dot {
+    background: #9269fe;
+    box-shadow: 0 0 6px 1px rgba(146, 105, 254, 0.6);
+  }
+  .binary-sensor-badge--off .binary-sensor-dot {
+    background: rgba(127, 127, 127, 0.35);
+  }
+  .event-type-badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 500;
+    font-family: monospace;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: rgba(146, 105, 254, 0.1);
+    border: 1px solid rgba(146, 105, 254, 0.18);
+    color: #9269fe;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .state-empty {
+    color: rgba(127, 127, 127, 0.28);
+    font-size: 15px;
+    line-height: 1;
+  }
+  .entity-name {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .entity-when {
+    font-size: 10px;
+    color: rgba(127, 127, 127, 0.3);
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+    font-family: monospace;
+  }
+  .sensor-state {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    justify-content: flex-end;
+  }
+  .sensor-value {
+    font-family: monospace;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .sensor-uom {
+    font-size: 11px;
+    color: rgba(200, 200, 200, 0.4);
+  }
+  .cover-controls {
+    display: flex;
+    border-radius: 8px;
+    border: 1px solid rgba(127, 127, 127, 0.15);
+    background: rgba(127, 127, 127, 0.05);
+    overflow: hidden;
+  }
+  .cover-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    color: currentColor;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: background 0.15s, opacity 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cover-btn:not([disabled]):hover {
+    opacity: 0.8;
+    background: rgba(127, 127, 127, 0.1);
+  }
+  .cover-btn--active {
+    opacity: 1;
+    color: #9269fe;
+    background: rgba(146, 105, 254, 0.12);
+    cursor: default;
   }
   .singlebutton-row button {
     margin: auto;
@@ -517,19 +664,21 @@ export default css`
   .description-row {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
-    margin-bottom: 4px;
-    border-radius: 12px;
-    background: rgba(146, 105, 254, 0.05);
+    gap: 12px;
+    padding: 13px 14px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    background: rgba(146, 105, 254, 0.08);
+    border: 1px solid rgba(146, 105, 254, 0.18);
     font-size: 13px;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.65);
   }
   .description-row > :nth-child(1) {
     flex-shrink: 0;
-    color: rgba(146, 105, 254, 0.7);
+    color: #9269fe;
     line-height: 0;
+    margin-top: 2px;
   }
   .description-row > :nth-child(2) {
     flex: 1;
@@ -537,7 +686,6 @@ export default css`
   }
   .description-row a {
     color: #9269fe;
-    opacity: 0.9;
   }
   .description-row iconify-icon {
     vertical-align: middle;

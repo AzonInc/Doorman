@@ -3,6 +3,16 @@ import { css } from "lit";
 export default css`
   input[type="text"],
   input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input[type="color"],
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+  input[type="text"],
+  input[type="password"],
   input[type="number"] {
     width: 100%;
     height: auto;

@@ -363,7 +363,9 @@ export class EntityTable extends LitElement implements RestAction {
     const icon = component.icon
       || (component.domain === 'lock'
         ? (component.state === 'LOCKED' ? 'mdi:lock' : component.state === 'UNLOCKED' ? 'mdi:lock-open-variant' : EntityTable._DOMAIN_ICONS['lock'])
-        : EntityTable._DOMAIN_ICONS[component.domain])
+        : component.domain === 'binary_sensor'
+          ? (component.state === stateOn ? 'mdi:checkbox-marked-circle' : 'mdi:checkbox-blank-circle-outline')
+          : EntityTable._DOMAIN_ICONS[component.domain])
       || "mdi:help-circle-outline";
     return html`
       <div
@@ -374,13 +376,22 @@ export class EntityTable extends LitElement implements RestAction {
         <div>
           <iconify-icon icon="${icon}" height="24px"></iconify-icon>
         </div>
-        <div>${this.formatComponentName(component, groupName, idx)}</div>
+        <div>
+          <div class="entity-name">${this.formatComponentName(component, groupName, idx)}</div>
+          ${!component.has_action && component.when ? html`<div class="entity-when">${component.when}</div>` : nothing}
+        </div>
         <div>
           ${this.has_controls && component.has_action
             ? this.control(component)
             : component.domain === "event"
-            ? html`<div>${(component as any).event_type}</div>`
-            : html`<div>${component.state}</div>`}
+            ? (component as any).event_type
+              ? html`<div class="event-type-badge">${(component as any).event_type}</div>`
+              : html`<div class="state-empty">—</div>`
+            : component.domain === "sensor" && component.state
+            ? html`<div class="sensor-state"><span class="sensor-value">${component.value ?? component.state}</span>${component.uom ? html`<span class="sensor-uom">${component.uom}</span>` : nothing}</div>`
+            : component.state
+            ? html`<div>${component.state}</div>`
+            : html`<div class="state-empty">—</div>`}
         </div>
         ${component.domain === "sensor"
           ? html`<esp-entity-chart .chartdata="${component.value_numeric_history}"></esp-entity-chart>`
@@ -535,16 +546,27 @@ export class EntityTable extends LitElement implements RestAction {
           </div>
           <div class="nav-search-divider"></div>
           <div class="nav-items-scroll">
-            ${elems.map(
-              (group) => html`
+            ${elems.map((group, i) => {
+              const isActive = !isSearching && this.activeGroup === group.name;
+              if (i === 0) return html`
                 <button
-                  class="nav-item ${!isSearching && this.activeGroup === group.name ? "active" : ""}"
+                  class="nav-item nav-item--quick ${isActive ? "active" : ""}"
+                  @click="${() => this._clickGroup(group.name)}"
+                >
+                  <iconify-icon icon="mdi:flash" height="13px" class="nav-item-icon"></iconify-icon>
+                  <span class="nav-item-text">${group.name || EntityTable.ENTITY_UNDEFINED}</span>
+                </button>
+                <div class="nav-item-divider"></div>
+              `;
+              return html`
+                <button
+                  class="nav-item ${isActive ? "active" : ""}"
                   @click="${() => this._clickGroup(group.name)}"
                 >
                   ${group.name || EntityTable.ENTITY_UNDEFINED}
                 </button>
-              `
-            )}
+              `;
+            })}
           </div>
         </nav>
         <div class="content-area">
@@ -611,9 +633,8 @@ export class EntityTable extends LitElement implements RestAction {
       return html`<div class="description-row">
         <div><iconify-icon icon="mdi:clipboard-list" height="24px"></iconify-icon></div>
         <div>
-          The Setup Mode is currently active, please follow the steps below.<br>
-          <b>Note:</b> Reading the indoor station memory may take up to 30 seconds.<br><br>
-          You'll be able to setup the doorbells once the regular setup is complete.
+          The Setup Mode is currently active, please follow the steps below.<br><br>
+          <b>Note:</b> Some steps may take up to 30 seconds.
         </div>
       </div>`;
     }
@@ -886,13 +907,13 @@ class ActionRenderer {
 
   render_binary_sensor() {
     if (!this.entity) return;
-    const isOn = this.entity.state == stateOn;
-
-    return html`<iconify-icon
-      class="binary_sensor_${this.entity.state?.toLowerCase()}"
-      icon="mdi:checkbox-${isOn ? "marked-circle" : "blank-circle-outline"}"
-      height="24px"
-    ></iconify-icon>`;
+    const isOn = this.entity.state === stateOn;
+    return html`
+      <div class="binary-sensor-badge ${isOn ? "binary-sensor-badge--on" : "binary-sensor-badge--off"}">
+        <span class="binary-sensor-dot"></span>
+        <span>${this.entity.state ?? "—"}</span>
+      </div>
+    `;
   }
 
   render_date() {
@@ -937,8 +958,10 @@ class ActionRenderer {
   render_switch() {
     if (!this.entity) return;
     if (this.entity.assumed_state)
-      return html`${this._actionButton(this.entity, "❌", "turn_off")}
-      ${this._actionButton(this.entity, "✔️", "turn_on")}`;
+      return html`
+        ${this._actionButton(this.entity, "Off", "turn_off", this.entity.state === stateOff)}
+        ${this._actionButton(this.entity, "On", "turn_on", this.entity.state === stateOn)}
+      `;
     else return this._switch(this.entity);
   }
 
@@ -1029,9 +1052,31 @@ class ActionRenderer {
 
   render_cover() {
     if (!this.entity) return;
-    return html`${this._actionButton(this.entity, "↑", "open", this.entity.state === "OPEN")}
-    ${this._actionButton(this.entity, "☐", "stop")}
-    ${this._actionButton(this.entity, "↓", "close", this.entity.state === "CLOSED")}`;
+    const entity = this.entity;
+    const actioner = this.actioner;
+    const isOpen = entity.state === "OPEN";
+    const isClosed = entity.state === "CLOSED";
+    return html`
+      <div class="cover-controls">
+        <button
+          class="cover-btn ${isOpen ? "cover-btn--active" : ""}"
+          ?disabled="${isOpen}"
+          title="Open"
+          @click="${() => actioner?.restAction(entity, "open")}"
+        ><iconify-icon icon="mdi:chevron-up" height="18px"></iconify-icon></button>
+        <button
+          class="cover-btn"
+          title="Stop"
+          @click="${() => actioner?.restAction(entity, "stop")}"
+        ><iconify-icon icon="mdi:stop" height="15px"></iconify-icon></button>
+        <button
+          class="cover-btn ${isClosed ? "cover-btn--active" : ""}"
+          ?disabled="${isClosed}"
+          title="Close"
+          @click="${() => actioner?.restAction(entity, "close")}"
+        ><iconify-icon icon="mdi:chevron-down" height="18px"></iconify-icon></button>
+      </div>
+    `;
   }
 
   render_button() {
