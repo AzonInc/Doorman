@@ -29,5 +29,6 @@ export default defineConfig({
   },
   server: {
     open: "/", // auto open browser
+    host: true, // dev on local and network
   },
 });

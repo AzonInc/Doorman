@@ -116,6 +116,38 @@ export default css`
     opacity: 0.5;
   }
 
+  .loading-state {
+    position: fixed;
+    inset: var(--header-height, 64px) 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    text-align: center;
+    padding: 24px;
+  }
+  .loading-state iconify-icon {
+    color: rgba(146, 105, 254, 0.6);
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .loading-spinner {
+    display: block;
+    animation: spin 1s linear infinite;
+  }
+  .loading-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .loading-text {
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0;
+  }
+
   .nav-item {
     display: block;
     width: 100%;

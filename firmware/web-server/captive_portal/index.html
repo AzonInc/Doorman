@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="data:image" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <style>html,body{margin:0;padding:0}</style>
     <link rel="stylesheet" type="text/css" href="/src/stylesheet.css" />
   </head>
 
@@ -24,71 +25,89 @@
     </infobox>
 
     <div id="saveinfo" style="display: none;">
-      <infobox class="warning">
-        <div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"> <g> <!--?lit$956413748$--><path class="primary-path" d="M6,2H18V8H18V8L14,12L18,16V16H18V22H6V16H6V16L10,12L6,8V8H6V2M16,16.5L12,12.5L8,16.5V20H16V16.5M12,11.5L16,7.5V4H8V7.5L12,11.5M10,6H14V6.75L12,8.75L10,6.75V6Z"></path> <!--?lit$956413748$--> </g> </svg>
-        </div>
-        <span>Doorman is connecting to the network... Once connected, the Access Point will automatically turn off.</span>
-      </infobox>
+      <div class="connecting-card">
+        <svg class="connecting-spinner" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h12v6l-4 4 4 4v6H6v-6l4-4-4-4zm10 14.5-4-4-4 4V20h8zM12 11.5l4-4V4H8v3.5zM10 6h4v.75l-2 2-2-2z"/></svg>
+        <div class="connecting-title">Joining your network</div>
+        <p class="connecting-text">Doorman is connecting to your Wi-Fi.<br>The setup access point will close automatically once the connection is established.</p>
+      </div>
     </div>
 
+    <nav class="nav-group" id="nav">
+      <button class="nav-item active" data-tab="wifi">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m12 21 3.6-4.8c-1-.75-2.25-1.2-3.6-1.2s-2.6.45-3.6 1.2zm0-18C7.95 3 4.21 4.34 1.2 6.6L3 9c2.5-1.88 5.62-3 9-3s6.5 1.12 9 3l1.8-2.4C19.79 4.34 16.05 3 12 3m0 6c-2.7 0-5.19.89-7.2 2.4l1.8 2.4C8.1 12.67 9.97 12 12 12s3.9.67 5.4 1.8l1.8-2.4C17.19 9.89 14.7 9 12 9"/></svg>
+        Wi-Fi
+      </button>
+      <button class="nav-item" data-tab="ota">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1a6.887 6.887 0 0 0 0 9.8c2.73 2.7 7.15 2.7 9.88 0c1.36-1.35 2.04-2.92 2.04-4.9h2c0 1.98-.88 4.55-2.64 6.29c-3.51 3.48-9.21 3.48-12.72 0c-3.5-3.47-3.53-9.11-.02-12.58a8.987 8.987 0 0 1 12.65 0L21 3zM12.5 8v4.25l3.5 2.08l-.72 1.21L11 13V8z"/></svg>
+        OTA Update
+      </button>
+    </nav>
+
     <main id="main">
-      <div class="tab-header">Available Networks</div>
-      <div class="tab-container">
-        <div class="description-row">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="currentColor" d="M10 9a1 1 0 0 1 1-1a1 1 0 0 1 1 1v4.47l1.21.13l4.94 2.19c.53.24.85.77.85 1.35v4.36c-.03.82-.68 1.47-1.5 1.5H11c-.38 0-.74-.15-1-.43l-4.9-4.2l.74-.77c.19-.21.46-.32.74-.32h.22L10 19zm1-4a4 4 0 0 1 4 4c0 1.5-.8 2.77-2 3.46v-1.22c.61-.55 1-1.35 1-2.24a3 3 0 0 0-3-3a3 3 0 0 0-3 3c0 .89.39 1.69 1 2.24v1.22C7.8 11.77 7 10.5 7 9a4 4 0 0 1 4-4"></path></svg>
-          </div>
-          <div>Click an entry to choose a Wi-Fi network.</div>
-        </div>
-        <div id="net"></div>
-      </div>
 
-      <form method="GET" action="/wifisave">
-        <div class="tab-header">Wi-Fi Settings</div>
-        <div class="tab-container">
-          <div class="entity-row">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="currentColor" d="m12 21l3.6-4.8c-1-.75-2.25-1.2-3.6-1.2s-2.6.45-3.6 1.2zm0-18C7.95 3 4.21 4.34 1.2 6.6L3 9c2.5-1.88 5.62-3 9-3s6.5 1.12 9 3l1.8-2.4C19.79 4.34 16.05 3 12 3m0 6c-2.7 0-5.19.89-7.2 2.4l1.8 2.4C8.1 12.67 9.97 12 12 12s3.9.67 5.4 1.8l1.8-2.4C17.19 9.89 14.7 9 12 9"></path></svg>
+      <div id="tab-wifi">
+        <form method="GET" action="/wifisave">
+          <div class="tab-container">
+            <div class="entity-row">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24"><path fill="currentColor" d="m12 21 3.6-4.8c-1-.75-2.25-1.2-3.6-1.2s-2.6.45-3.6 1.2zm0-18C7.95 3 4.21 4.34 1.2 6.6L3 9c2.5-1.88 5.62-3 9-3s6.5 1.12 9 3l1.8-2.4C19.79 4.34 16.05 3 12 3m0 6c-2.7 0-5.19.89-7.2 2.4l1.8 2.4C8.1 12.67 9.97 12 12 12s3.9.67 5.4 1.8l1.8-2.4C17.19 9.89 14.7 9 12 9"></path></svg>
+              </div>
+              <div>SSID</div>
+              <div class="ssid-input-row">
+                <input id="ssid" name="ssid" type="text" length="32" placeholder="SSID" />
+                <button type="button" id="net-toggle" class="net-toggle-btn" title="Available networks" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+                </button>
+              </div>
             </div>
-            <div>SSID</div>
-            <div>
-              <input id="ssid" name="ssid" type="text" length="32" placeholder="SSID" />
+            <div id="net" style="display:none"></div>
+            <div class="entity-row">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8a1 1 0 0 1 1 1a1 1 0 0 1-1 1a1 1 0 0 1-1-1a1 1 0 0 1 1-1m9 3c0 5.55-3.84 10.74-9 12c-5.16-1.26-9-6.45-9-12V5l9-4l9 4zm-9-5a3 3 0 0 0-3 3c0 1.31.83 2.42 2 2.83V18h2v-2h2v-2h-2v-2.17c1.17-.41 2-1.52 2-2.83a3 3 0 0 0-3-3"></path></svg>
+              </div>
+              <div>Password</div>
+              <div>
+                <input id="psk" name="psk" length="64" type="password" placeholder="Password" />
+              </div>
+            </div>
+            <div class="entity-row">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" viewBox="0 0 24 24"><path fill="currentColor" d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"></path></svg>
+              </div>
+              <div>Save</div>
+              <div>
+                <button type="submit">Save</button>
+              </div>
             </div>
           </div>
-          <div class="entity-row">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 8a1 1 0 0 1 1 1a1 1 0 0 1-1 1a1 1 0 0 1-1-1a1 1 0 0 1 1-1m9 3c0 5.55-3.84 10.74-9 12c-5.16-1.26-9-6.45-9-12V5l9-4l9 4zm-9-5a3 3 0 0 0-3 3c0 1.31.83 2.42 2 2.83V18h2v-2h2v-2h-2v-2.17c1.17-.41 2-1.52 2-2.83a3 3 0 0 0-3-3"></path></svg>
-            </div>
-            <div>Password</div>
-            <div>
-              <input id="psk" name="psk" length="64" type="password" placeholder="Password" />
-            </div>
-          </div>
-          <div class="entity-row">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"> <g> <!--?lit$036771597$--><path class="primary-path" d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"></path> <!--?lit$036771597$--> </g> </svg>
-            </div>
-            <div>Save</div>
-            <div>
-              <button type="submit">Save</button>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div class="tab-header">OTA Update</div>
-      <div class="tab-container">
-        <div class="description-row">
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1a6.887 6.887 0 0 0 0 9.8c2.73 2.7 7.15 2.7 9.88 0c1.36-1.35 2.04-2.92 2.04-4.9h2c0 1.98-.88 4.55-2.64 6.29c-3.51 3.48-9.21 3.48-12.72 0c-3.5-3.47-3.53-9.11-.02-12.58a8.987 8.987 0 0 1 12.65 0L21 3zM12.5 8v4.25l3.5 2.08l-.72 1.21L11 13V8z"></path></svg>
-          </div>
-          <div>Learn more about Doorman firmware updates <a target="_blank" href="https://dev.doorman.azon.ai/guide/firmware/installation">in the guide</a>.</div>
-        </div>
-        <form class="ota" method="POST" enctype="multipart/form-data" action="/update">
-          <input class="btn" type="file" name="update" accept="application/octet-stream"> <input class="btn" type="submit" value="Update">
         </form>
+
       </div>
+
+      <div id="tab-ota" style="display:none">
+        <div class="tab-container">
+          <div class="description-row">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1a6.887 6.887 0 0 0 0 9.8c2.73 2.7 7.15 2.7 9.88 0c1.36-1.35 2.04-2.92 2.04-4.9h2c0 1.98-.88 4.55-2.64 6.29c-3.51 3.48-9.21 3.48-12.72 0c-3.5-3.47-3.53-9.11-.02-12.58a8.987 8.987 0 0 1 12.65 0L21 3zM12.5 8v4.25l3.5 2.08l-.72 1.21L11 13V8z"></path></svg>
+            </div>
+            <div>Learn more about Doorman firmware updates <a target="_blank" href="https://dev.doorman.azon.ai/guide/firmware/installation">in the guide</a>.</div>
+          </div>
+          <div class="ota-section">
+            <form class="ota-form" method="POST" enctype="multipart/form-data" action="/update">
+              <label class="ota-upload-label" for="ota-file">
+                <input class="ota-file-input" id="ota-file" type="file" name="update" accept="application/octet-stream">
+                <svg id="ota-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+                <span id="ota-filename">Choose firmware file (.bin)</span>
+              </label>
+              <button type="submit" class="ota-submit-btn" id="ota-submit" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
+                Install Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </main>
 
     <script type="module" src="/src/main.ts?module"></script>

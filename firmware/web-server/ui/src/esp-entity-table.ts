@@ -447,6 +447,16 @@ export class EntityTable extends LitElement implements RestAction {
       ? entities.filter((e) => e.name.toLowerCase().includes(searchQ))
       : [];
 
+    if (elems.length === 0 && !isSearching) {
+      return html`
+        <div class="loading-state">
+          <iconify-icon icon="mdi:loading" height="56px" class="loading-spinner"></iconify-icon>
+          <div class="loading-title">Loading</div>
+          <p class="loading-text">Fetching configuration and entities from your Doorman.<br>This usually takes just a moment.</p>
+        </div>
+      `;
+    }
+
     return html`
       <div class="layout" @touchstart="${this._onTouchStart}" @touchend="${this._onTouchEnd}">
         <nav class="nav-group" @touchstart="${(e: Event) => e.stopPropagation()}" @touchend="${(e: Event) => e.stopPropagation()}">
