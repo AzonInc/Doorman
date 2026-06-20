@@ -63,6 +63,7 @@ export default class EspApp extends LitElement {
   @state() connected: boolean = true;
   @state() lastUpdate: number = 0;
   @state() infoDismissed: boolean = false;
+  @state() showAll: boolean = localStorage.getItem('esp-show-all') === 'true';
   private _hasJsonUptime: boolean = false;
   @query("#beat")
   beat!: HTMLSpanElement;
@@ -284,7 +285,12 @@ export default class EspApp extends LitElement {
         </div>
       </header>
       ${this.renderNotSupportedHardware()}
-      <esp-entity-table .scheme="${this.scheme}" .ota="${this.config.ota}"></esp-entity-table>
+      <esp-entity-table
+        .scheme="${this.scheme}"
+        .ota="${this.config.ota}"
+        .showAll="${this.showAll}"
+        @toggle-show-all="${() => { this.showAll = !this.showAll; localStorage.setItem('esp-show-all', String(this.showAll)); }}"
+      ></esp-entity-table>
       ${this.renderLog()}
     `;
   }

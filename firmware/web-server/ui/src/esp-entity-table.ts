@@ -129,6 +129,7 @@ export class EntityTable extends LitElement implements RestAction {
   @state() activeGroup: string = "";
   @state() searchQuery: string = "";
   @state() otaFilename: string = "";
+  @property({ type: Boolean }) showAll: boolean = false;
   @property({ type: Boolean }) ota: boolean = false;
 
   private _userSelectedGroup: boolean = false;
@@ -374,10 +375,7 @@ export class EntityTable extends LitElement implements RestAction {
         @click="${this._handleEntityRowClick}"
       >
         <div>
-          <div class="entity-icon-wrap">
-            <iconify-icon icon="${icon}" height="24px"></iconify-icon>
-            ${component.is_disabled_by_default ? html`<span class="disabled-dot"></span>` : nothing}
-          </div>
+          <iconify-icon icon="${icon}" height="24px"></iconify-icon>
         </div>
         <div>
           <div class="entity-name">${this.formatComponentName(component, groupName, idx)}</div>
@@ -443,8 +441,13 @@ export class EntityTable extends LitElement implements RestAction {
     });
   }
 
+  private _visibleGroupNames(): string[] {
+    const filtered = this.showAll ? this.entities : this.entities.filter(e => !e.is_disabled_by_default);
+    return Array.from(this._groupBy(filtered, "sorting_group").keys());
+  }
+
   private _swipeToGroup(direction: 1 | -1) {
-    const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
+    const names = this._visibleGroupNames();
     const idx = names.indexOf(this.activeGroup);
     const next = idx + direction;
     if (next < 0 || next >= names.length) return;
@@ -456,7 +459,7 @@ export class EntityTable extends LitElement implements RestAction {
   }
 
   private _clickGroup(name: string) {
-    const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
+    const names = this._visibleGroupNames();
     const dir = Math.sign(names.indexOf(name) - names.indexOf(this.activeGroup)) as -1 | 0 | 1;
     this._selectGroup(name, dir);
   }
@@ -479,7 +482,7 @@ export class EntityTable extends LitElement implements RestAction {
     }
     if (!this._swipeLocked) return;
     e.preventDefault();
-    const names = Array.from(this._groupBy(this.entities, "sorting_group").keys());
+    const names = this._visibleGroupNames();
     const idx = names.indexOf(this.activeGroup);
     const atBoundary = (dx < 0 && idx >= names.length - 1) || (dx > 0 && idx <= 0);
     const ca = this.shadowRoot?.querySelector('.content-area') as HTMLElement | null;
@@ -503,7 +506,10 @@ export class EntityTable extends LitElement implements RestAction {
   };
 
   render() {
-    const entities = this.entities;
+    const hiddenCount = this.entities.filter(e => e.is_disabled_by_default).length;
+    const entities = this.showAll
+      ? this.entities
+      : this.entities.filter(e => !e.is_disabled_by_default);
     const grouped = this._groupBy(entities, "sorting_group");
     const elems = Array.from(grouped, ([name, value]) => ({ name, value }));
 
@@ -511,6 +517,9 @@ export class EntityTable extends LitElement implements RestAction {
       this.activeGroup = elems[0].name;
     }
     const activeGroup = elems.find((g) => g.name === this.activeGroup) ?? elems[0];
+    const hiddenCountInGroup = activeGroup
+      ? this.entities.filter(e => e.is_disabled_by_default && e.sorting_group === activeGroup.name).length
+      : 0;
 
     const searchQ = this.searchQuery.trim().toLowerCase();
     const isSearching = searchQ.length > 0;
@@ -570,6 +579,13 @@ export class EntityTable extends LitElement implements RestAction {
                 </button>
               `;
             })}
+            ${hiddenCount > 0 ? html`
+              <div class="nav-item-divider"></div>
+              <button class="nav-item nav-show-all" title="${this.showAll ? 'Show less' : 'Show all'}" @click="${() => this.dispatchEvent(new CustomEvent('toggle-show-all', { bubbles: true, composed: true }))}">
+                <iconify-icon icon="${this.showAll ? 'mdi:eye-off-outline' : 'mdi:eye-outline'}" height="13px" class="nav-item-icon"></iconify-icon>
+                <span class="nav-show-all-text">${this.showAll ? 'Show less' : 'Show all'}</span>
+              </button>
+            ` : nothing}
           </div>
         </nav>
         <div class="content-area">
@@ -598,6 +614,14 @@ export class EntityTable extends LitElement implements RestAction {
                 ? this._renderOta()
                 : nothing}
             </div>
+            ${hiddenCountInGroup > 0 ? html`
+              <div class="show-all-row">
+                <button class="show-all-row-btn" @click="${() => this.dispatchEvent(new CustomEvent('toggle-show-all', { bubbles: true, composed: true }))}">
+                  <iconify-icon icon="${this.showAll ? 'mdi:eye-off-outline' : 'mdi:eye-outline'}" height="14px"></iconify-icon>
+                  ${this.showAll ? 'Show less' : `Show ${hiddenCountInGroup} more`}
+                </button>
+              </div>
+            ` : nothing}
           ` : nothing}
         </div>
       </div>

@@ -5,6 +5,7 @@ export default css`
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow-x: clip;
   }
 
   /* ── Nav sentinel (IntersectionObserver target, first child of row-flex .layout) ── */
@@ -63,11 +64,14 @@ export default css`
   .nav-search-icon {
     position: absolute;
     left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
     color: rgba(127, 127, 127, 0.35);
     pointer-events: none;
   }
   .nav-search-input {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     padding: 6px 28px 6px 28px;
     background: rgba(127, 127, 127, 0.08);
     border: 1px solid rgba(127, 127, 127, 0.15);
@@ -203,6 +207,12 @@ export default css`
   .nav-item--quick {
     opacity: 0.65;
   }
+  .nav-show-all {
+    opacity: 0.5;
+  }
+  .nav-show-all:hover {
+    opacity: 0.8;
+  }
   .nav-item-icon {
     display: none;
   }
@@ -216,6 +226,37 @@ export default css`
     background: rgba(127, 127, 127, 0.1);
     margin: 10px 4px;
     flex-shrink: 0;
+  }
+
+  /* ── Show all row (mobile only) ── */
+  .show-all-row {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .show-all-row {
+      display: flex;
+      justify-content: center;
+      padding: 16px 0 8px;
+    }
+  }
+  .show-all-row-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(127, 127, 127, 0.2);
+    background: none;
+    color: rgba(200, 200, 200, 0.45);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .show-all-row-btn:hover {
+    color: rgba(200, 200, 200, 0.85);
+    border-color: rgba(127, 127, 127, 0.4);
+    background: rgba(127, 127, 127, 0.06);
   }
 
   /* ── Content area ── */
@@ -241,7 +282,17 @@ export default css`
   /* ── Mobile: horizontal tab bar ── */
   @media (max-width: 640px) {
     .nav-search-wrap { display: none; }
-    .nav-items-scroll { display: contents; }
+    .nav-search-divider { display: none; }
+    .nav-items-scroll {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 9px 8px;
+      gap: 4px;
+      scrollbar-width: none;
+    }
+    .nav-items-scroll::-webkit-scrollbar { display: none; }
     .layout {
       flex-direction: column;
       max-width: none;
@@ -251,13 +302,10 @@ export default css`
       width: 100%;
       min-width: 0;
       height: auto;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scrollbar-width: none;
-      padding: 8px 8px 8px 0;
-      gap: 4px;
+      flex-direction: column;
+      overflow: visible;
+      padding: 0;
+      gap: 0;
       border-right: none;
       border-bottom: 1px solid rgba(127, 127, 127, 0.1);
       position: sticky;
@@ -288,6 +336,8 @@ export default css`
       gap: 5px;
       opacity: 0.65;
     }
+    .nav-show-all { padding: 7px 10px; }
+    .nav-show-all-text { display: none; }
     .nav-item-icon {
       display: block;
       flex-shrink: 0;
@@ -377,21 +427,6 @@ export default css`
   }
   .entity-row iconify-icon {
     vertical-align: middle;
-  }
-  .entity-icon-wrap {
-    position: relative;
-    display: inline-flex;
-  }
-  .disabled-dot {
-    position: absolute;
-    top: -3px;
-    right: -3px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(127, 127, 127, 0.45);
-    border: 1.5px solid var(--bg, #0e0e1a);
-    pointer-events: none;
   }
   .entity-row > :nth-child(1) {
     flex: 0 0 48px;
