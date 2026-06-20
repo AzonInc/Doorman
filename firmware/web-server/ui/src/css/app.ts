@@ -146,11 +146,20 @@ export default css`
   }
   header .title {
     flex-grow: 1;
+    min-width: 0;
+  }
+  header .title h1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   header .title div {
     font-size: 11px;
     opacity: 0.45;
     margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   header .status {
     display: flex;

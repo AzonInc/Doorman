@@ -211,7 +211,15 @@ export default class EspApp extends LitElement {
   }
 
   uptime() {
-    return `${getRelativeTime(-this.ping || 0)}`;
+    return getRelativeTime(-this.ping || 0)
+      .replace(' years', 'y').replace(' year', 'y')
+      .replace(' months', 'mo').replace(' month', 'mo')
+      .replace(' weeks', 'w').replace(' week', 'w')
+      .replace(' days', 'd').replace(' day', 'd')
+      .replace(' hours', 'h').replace(' hour', 'h')
+      .replace(' minutes', 'min').replace(' minute', 'min')
+      .replace(' seconds', 's').replace(' second', 's')
+      .replace(' ago', '');
   }
 
 
@@ -248,7 +256,7 @@ export default class EspApp extends LitElement {
     return html`
       <h1>${this.config.title || html`Doorman`}</h1>
       <div>
-        ${[this.hardwareVersion, this.firmwareVersion, `started ${this.uptime()}`]
+        ${[this.hardwareVersion, this.firmwareVersion, `${this.uptime()} uptime`]
           .filter((n) => n)
           .map((e) => `${e}`)
           .join(" · ")}
