@@ -45,7 +45,7 @@ esp32:
 web_server:
   sorting_groups:
     - id: sorting_group_homekit
-      name: "HomeKit Configuration"
+      name: "HomeKit"
       sorting_weight: -2
 
 # Maybe this is the reason for some issues with ESPHome > 2025.5.0

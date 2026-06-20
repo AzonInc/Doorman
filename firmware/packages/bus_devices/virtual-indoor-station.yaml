@@ -1,7 +1,7 @@
 web_server:
   sorting_groups:
     - id: sorting_group_virtual_indoor_station
-      name: "Settings - TC:BUS V-Indoor Station"
+      name: "TC:BUS V-Indoor Station"
       sorting_weight: -79
 
 esphome:

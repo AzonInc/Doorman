@@ -70,7 +70,7 @@ interval:
 web_server:
   sorting_groups:
     - id: sorting_group_rto_settings
-      name: "Settings - Ring To Open"
+      name: "Ring To Open"
       sorting_weight: -80
 
 binary_sensor:

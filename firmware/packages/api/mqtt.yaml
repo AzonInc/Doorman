@@ -9,7 +9,7 @@ globals:
 web_server:
   sorting_groups:
     - id: sorting_group_mqtt
-      name: "MQTT Configuration"
+      name: "MQTT"
       sorting_weight: -2
 
 text:

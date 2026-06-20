@@ -8,7 +8,7 @@ esphome:
 web_server:
   sorting_groups:
     - id: sorting_group_outdoor_station_settings
-      name: "Settings - TC:BUS Outdoor Station"
+      name: "TC:BUS Outdoor Station"
       sorting_weight: -69
 
 tc_bus_device:

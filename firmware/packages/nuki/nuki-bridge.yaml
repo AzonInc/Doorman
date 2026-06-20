@@ -17,36 +17,32 @@ external_components:
 web_server:
   sorting_groups:
     - id: sorting_group_nuki_settings_button_led
-      name: "Settings - Nuki Lock - Button & LED"
+      name: "Nuki Button & LED"
       sorting_weight: -66
 
     - id: sorting_group_nuki_settings_auto_lock
-      name: "Settings - Nuki Lock - Auto Lock"
+      name: "Nuki Auto Lock"
       sorting_weight: -65
 
     - id: sorting_group_nuki_settings_fob
-      name: "Settings - Nuki Lock - Fob Actions"
+      name: "Nuki Fob"
       sorting_weight: -64
 
     - id: sorting_group_nuki_settings_night_mode
-      name: "Settings - Nuki Lock - Night Mode"
+      name: "Nuki Night Mode"
       sorting_weight: -63
 
     - id: sorting_group_nuki_settings_calibration
-      name: "Settings - Nuki Lock - Calibration"
+      name: "Nuki Calibration"
       sorting_weight: -62
 
-    - id: sorting_group_nuki_settings_general
-      name: "Settings - Nuki Lock - General"
-      sorting_weight: -61
-
     - id: sorting_group_nuki_bridge_settings
-      name: "Settings - Nuki Bridge"
+      name: "Nuki Bridge"
       sorting_weight: -60
 
     - id: sorting_group_nuki
-      name: "Information - Nuki Lock"
-      sorting_weight: -10
+      name: "Nuki Lock"
+      sorting_weight: -67
 
 # Pairing Mode
 event:
@@ -195,17 +191,17 @@ lock:
       name: "Advertising Mode"
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_nuki_settings_general
-        sorting_weight: 1
-    
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: 10
+
     auto_unlock_disabled:
       id: nuki_auto_unlock_disabled
       device_id: nuki_smart_lock
       name: "Auto Unlock: Disable"
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_nuki_settings_general
-        sorting_weight: 2
+        sorting_group_id: sorting_group_nuki
+        sorting_weight: 11
 
     # Button & LED
     pairing_enabled:
