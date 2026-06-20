@@ -434,8 +434,7 @@ export default css`
     gap: 10px;
     padding: 10px 12px;
     margin-bottom: 4px;
-    border-left: 2px solid rgba(146, 105, 254, 0.5);
-    border-radius: 0 6px 6px 0;
+    border-radius: 12px;
     background: rgba(146, 105, 254, 0.05);
     font-size: 13px;
     line-height: 1.6;

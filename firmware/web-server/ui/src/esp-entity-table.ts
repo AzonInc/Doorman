@@ -145,10 +145,13 @@ export class EntityTable extends LitElement implements RestAction {
   ];
 
   private _unknown_state_events: {[key: string]: number} = {};
+  private _navScrollInitialized = false;
 
-  protected firstUpdated() {
+  protected updated() {
+    if (this._navScrollInitialized) return;
     const nav = this.shadowRoot?.querySelector('.nav-group') as HTMLElement | null;
     if (!nav) return;
+    this._navScrollInitialized = true;
     requestAnimationFrame(() => {
       const headerHeight = parseFloat(
         document.documentElement.style.getPropertyValue('--header-height') || '64'

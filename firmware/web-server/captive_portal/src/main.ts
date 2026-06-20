@@ -5,6 +5,15 @@ if (document.location.search === "?save") {
   (document.getElementById("nav") as HTMLElement).style.display = "none";
 }
 
+// Nav is-stuck background
+const _nav = document.getElementById("nav");
+let _checkStuck: () => void = () => {};
+if (_nav) {
+  const _threshold = Math.max(0, _nav.getBoundingClientRect().top + window.scrollY - 64);
+  _checkStuck = () => _nav.classList.toggle("is-stuck", window.scrollY > _threshold);
+  window.addEventListener("scroll", _checkStuck, { passive: true });
+}
+
 // Tab switching
 document.querySelectorAll<HTMLElement>(".nav-item[data-tab]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -14,18 +23,10 @@ document.querySelectorAll<HTMLElement>(".nav-item[data-tab]").forEach(btn => {
     if (panel) panel.style.display = "";
     document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "instant" });
+    _checkStuck();
   });
 });
-
-// Nav is-stuck background
-const _nav = document.getElementById("nav");
-if (_nav) {
-  const _threshold = Math.max(0, _nav.getBoundingClientRect().top + window.scrollY - 64);
-  window.addEventListener("scroll", () => {
-    _nav.classList.toggle("is-stuck", window.scrollY > _threshold);
-  }, { passive: true });
-}
 
 function pickNetwork(el: HTMLElement) {
   const ssid = el.querySelector(".net-name")?.textContent?.trim() ?? "";

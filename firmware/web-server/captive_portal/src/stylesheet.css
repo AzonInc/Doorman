@@ -6,16 +6,23 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #1b1b1f;
+  background-color: Canvas;
   color: #e0e0e0;
   color-scheme: dark;
   min-height: 100%;
 }
 
 /* Background orbs */
-body::before {
-  content: '';
+.bg-orbs {
   position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-orbs::before {
+  content: '';
+  position: absolute;
   top: -130px;
   left: -90px;
   width: 520px;
@@ -23,12 +30,10 @@ body::before {
   border-radius: 50%;
   background: rgba(146, 105, 254, 0.14);
   filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
 }
-body::after {
+.bg-orbs::after {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 90px;
   left: 200px;
   width: 300px;
@@ -36,8 +41,6 @@ body::after {
   border-radius: 50%;
   background: rgba(80, 30, 200, 0.09);
   filter: blur(100px);
-  pointer-events: none;
-  z-index: 0;
 }
 
 h1 {
@@ -57,7 +60,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: color-mix(in srgb, #1b1b1f 88%, transparent);
+  background-color: rgba(10, 10, 14, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(127, 127, 127, 0.15);
@@ -89,7 +92,7 @@ a:visited { color: #9269fe; }
 /* ── Infobox ── */
 infobox {
   background-color: rgba(146, 105, 254, 0.08);
-  padding: 10px max(16px, calc((100% - 760px) / 2 + 16px));
+  padding: 10px max(8px, calc((100% - 760px) / 2 + 8px));
   display: flex;
   align-items: center;
   gap: 14px;
@@ -159,7 +162,7 @@ infobox > div { flex-shrink: 0; }
 main {
   max-width: 760px;
   margin: 0 auto;
-  padding: 8px 16px 64px;
+  padding: 16px 8px 64px;
   position: relative;
   z-index: 1;
 }
@@ -172,7 +175,7 @@ main {
   overflow-x: auto;
   overflow-y: hidden;
   gap: 4px;
-  padding: 8px max(16px, calc((100% - 760px) / 2 + 16px));
+  padding: 8px max(8px, calc((100% - 760px) / 2 + 8px));
   border-bottom: 1px solid rgba(127, 127, 127, 0.1);
   position: sticky;
   top: 64px;
@@ -183,7 +186,7 @@ main {
 }
 .nav-group::-webkit-scrollbar { display: none; }
 .nav-group.is-stuck {
-  background-color: color-mix(in srgb, #1b1b1f 88%, transparent);
+  background-color: rgba(10, 10, 14, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -273,8 +276,7 @@ svg { fill: #9269fe; color: #9269fe; }
   gap: 10px;
   padding: 10px 12px;
   margin-bottom: 4px;
-  border-left: 2px solid rgba(146, 105, 254, 0.5);
-  border-radius: 0 6px 6px 0;
+  border-radius: 12px;
   background: rgba(146, 105, 254, 0.05);
   font-size: 13px;
   line-height: 1.6;
