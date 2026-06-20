@@ -15,6 +15,7 @@ export default css`
     text-transform: uppercase;
     margin: 6px;
     margin-right: 0px;
+    -webkit-tap-highlight-color: transparent;
   }
 
   button:active,

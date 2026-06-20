@@ -361,7 +361,9 @@ export class EntityTable extends LitElement implements RestAction {
 
   private _renderEntityRow(component: entityConfig, groupName: string, idx: number) {
     const icon = component.icon
-      || EntityTable._DOMAIN_ICONS[component.domain]
+      || (component.domain === 'lock'
+        ? (component.state === 'LOCKED' ? 'mdi:lock' : component.state === 'UNLOCKED' ? 'mdi:lock-open-variant' : EntityTable._DOMAIN_ICONS['lock'])
+        : EntityTable._DOMAIN_ICONS[component.domain])
       || "mdi:help-circle-outline";
     return html`
       <div
@@ -1001,20 +1003,23 @@ class ActionRenderer {
     const isUnlocked = entity.state === "UNLOCKED";
     return html`
       <div class="lock-control">
+        <div class="lock-toggle" data-state="${isLocked ? "locked" : isUnlocked ? "unlocked" : ""}">
+          <div class="lock-thumb"></div>
+          <button
+            class="lock-toggle-btn ${isLocked ? "lock-toggle-btn--active" : ""}"
+            ?disabled="${isLocked}"
+            title="Lock"
+            @click="${() => actioner?.restAction(entity, "lock")}"
+          ><iconify-icon icon="${isLocked ? "mdi:lock" : "mdi:lock-outline"}" height="16px"></iconify-icon></button>
+          <button
+            class="lock-toggle-btn ${isUnlocked ? "lock-toggle-btn--active" : ""}"
+            ?disabled="${isUnlocked}"
+            title="Unlock"
+            @click="${() => actioner?.restAction(entity, "unlock")}"
+          ><iconify-icon icon="mdi:lock-open-variant" height="16px"></iconify-icon></button>
+        </div>
         <button
-          class="lock-btn ${isLocked ? "lock-btn--on" : ""}"
-          ?disabled="${isLocked}"
-          title="Lock"
-          @click="${() => actioner?.restAction(entity, "lock")}"
-        ><iconify-icon icon="mdi:lock" height="17px"></iconify-icon></button>
-        <button
-          class="lock-btn ${isUnlocked ? "lock-btn--on" : ""}"
-          ?disabled="${isUnlocked}"
-          title="Unlock"
-          @click="${() => actioner?.restAction(entity, "unlock")}"
-        ><iconify-icon icon="mdi:lock-open-variant" height="17px"></iconify-icon></button>
-        <button
-          class="lock-btn"
+          class="lock-open-btn"
           title="Open"
           @click="${() => actioner?.restAction(entity, "open")}"
         ><iconify-icon icon="mdi:door-open" height="17px"></iconify-icon></button>

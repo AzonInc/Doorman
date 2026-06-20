@@ -187,6 +187,7 @@ export default css`
     flex-shrink: 0;
     white-space: nowrap;
     overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
     text-overflow: ellipsis;
     transition: none;
   }
@@ -412,37 +413,88 @@ export default css`
   /* ── Lock control ── */
   .lock-control {
     display: flex;
-    gap: 4px;
-    align-items: center;
+    gap: 6px;
+    align-items: stretch;
   }
-  .lock-btn {
+  .lock-toggle {
+    position: relative;
+    display: flex;
+    border-radius: 8px;
+    border: 1px solid rgba(127, 127, 127, 0.15);
+    background: rgba(127, 127, 127, 0.05);
+    overflow: hidden;
+  }
+  .lock-thumb {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 36px;
+    background: rgba(146, 105, 254, 0.15);
+    border-radius: 6px;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s;
+  }
+  .lock-toggle[data-state="unlocked"] .lock-thumb {
+    transform: translateX(36px);
+  }
+  .lock-toggle[data-state=""] .lock-thumb {
+    opacity: 0;
+  }
+  .lock-toggle-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    color: currentColor;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: background 0.15s, opacity 0.15s, color 0.15s;
+  }
+  .lock-toggle-btn:not([disabled]):hover {
+    opacity: 0.75;
+    background: rgba(127, 127, 127, 0.1);
+  }
+  .lock-toggle-btn--active {
+    opacity: 1;
+    color: #9269fe;
+    cursor: default;
+  }
+  @keyframes lock-icon-pop {
+    0%   { transform: scale(0.6); opacity: 0.3; }
+    65%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .lock-toggle-btn--active iconify-icon {
+    animation: lock-icon-pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .lock-open-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 34px;
-    height: 34px;
     padding: 0;
     margin: 0;
     border-radius: 8px;
     border: 1px solid rgba(127, 127, 127, 0.15);
-    background: rgba(127, 127, 127, 0.08);
+    background: rgba(127, 127, 127, 0.05);
     color: currentColor;
-    opacity: 0.55;
     cursor: pointer;
+    opacity: 0.45;
     text-transform: none;
     letter-spacing: normal;
-    transition: background 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+    transition: background 0.15s, opacity 0.15s;
   }
-  .lock-btn:hover:not([disabled]) {
-    opacity: 0.85;
-    background: rgba(127, 127, 127, 0.14);
-  }
-  .lock-btn--on {
-    opacity: 1;
-    color: #9269fe;
-    background: rgba(146, 105, 254, 0.12);
-    border-color: rgba(146, 105, 254, 0.25);
-    cursor: default;
+  .lock-open-btn:hover {
+    opacity: 0.8;
+    background: rgba(127, 127, 127, 0.12);
   }
   .climate-wrap{
     width: 100%;

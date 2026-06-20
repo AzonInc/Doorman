@@ -144,106 +144,108 @@ export class DebugLog extends LitElement {
         }}"
       >
         <iconify-icon icon="mdi:console" height="16px"></iconify-icon>
-        <span>Debug Log</span>
+        <span>Log Console</span>
         <span class="log-count">${this.logs.length}</span>
         ${(counts["e"] ?? 0) > 0 ? html`<span class="log-badge log-badge--e">${counts["e"]}</span>` : nothing}
         ${(counts["w"] ?? 0) > 0 ? html`<span class="log-badge log-badge--w">${counts["w"]}</span>` : nothing}
         <iconify-icon
-          icon="${this.expanded ? "mdi:chevron-down" : "mdi:chevron-up"}"
+          icon="mdi:chevron-up"
           height="16px"
-          class="chevron"
+          class="chevron ${this.expanded ? "chevron--open" : ""}"
         ></iconify-icon>
       </div>
 
-      ${this.expanded ? html`
-        <div class="tab-container">
+      <div class="log-body ${this.expanded ? "log-body--open" : ""}">
+        <div class="log-body-inner">
+          <div class="tab-container">
 
-          <div class="toolbar" @click="${(e: Event) => e.stopPropagation()}">
-            <div class="search-wrap">
-              <iconify-icon icon="mdi:magnify" height="14px" class="search-icon"></iconify-icon>
-              <input
-                type="text"
-                class="search-input"
-                placeholder="Search…"
-                .value="${this.filterText}"
-                @input="${(e: Event) => {
-                  this.filterText = (e.target as HTMLInputElement).value;
-                }}"
-              />
-            </div>
-
-            <div class="pill-section">
-              <div class="sep"></div>
-              <div class="pill-group">
-                ${levelDefs.map(({ key, label }) => html`
-                  <button
-                    class="pill ${this.filterLevels.has(key) ? "pill--" + key : ""}"
-                    @click="${() => this.toggleLevel(key)}"
-                    title="${key}"
-                  >
-                    ${label}
-                  </button>
-                `)}
+            <div class="toolbar" @click="${(e: Event) => e.stopPropagation()}">
+              <div class="search-wrap">
+                <iconify-icon icon="mdi:magnify" height="14px" class="search-icon"></iconify-icon>
+                <input
+                  type="text"
+                  class="search-input"
+                  placeholder="Search…"
+                  .value="${this.filterText}"
+                  @input="${(e: Event) => {
+                    this.filterText = (e.target as HTMLInputElement).value;
+                  }}"
+                />
               </div>
-              <div class="sep"></div>
-              <button
-                class="clear-btn"
-                ?disabled="${!this.hasFilter}"
-                @click="${() => this.clearFilters()}"
-                title="Clear filters"
-              >
-                <iconify-icon icon="mdi:close" height="12px"></iconify-icon>
-                Clear
-              </button>
-            </div>
-          </div>
 
-          <div class="logs" color-scheme="${this.scheme}">
-            <div class="thead">
-              <div class="trow">
-                <div class="col-time">Time</div>
-                <div class="col-level">Lvl</div>
-                <div class="col-tag">Tag</div>
-                <div class="col-msg">Message</div>
+              <div class="pill-section">
+                <div class="sep"></div>
+                <div class="pill-group">
+                  ${levelDefs.map(({ key, label }) => html`
+                    <button
+                      class="pill ${this.filterLevels.has(key) ? "pill--" + key : ""}"
+                      @click="${() => this.toggleLevel(key)}"
+                      title="${key}"
+                    >
+                      ${label}
+                    </button>
+                  `)}
+                </div>
+                <div class="sep"></div>
+                <button
+                  class="clear-btn"
+                  ?disabled="${!this.hasFilter}"
+                  @click="${() => this.clearFilters()}"
+                  title="Clear filters"
+                >
+                  <iconify-icon icon="mdi:close" height="12px"></iconify-icon>
+                  Clear
+                </button>
               </div>
             </div>
-            <div class="tbody">
-              ${filtered.map((log: recordConfig) => {
-                const tagChips: Array<[string, boolean]> = [];
-                for (const [gi, m] of [...log.tag.matchAll(/\[([^\]]*)\]/g)].entries()) {
-                  const inner = m[1];
-                  const ci = inner.lastIndexOf(":");
-                  if (gi === 0 && ci > 0 && /^\d+$/.test(inner.slice(ci + 1))) {
-                    tagChips.push([inner.slice(0, ci), false]);
-                    tagChips.push([inner.slice(ci + 1), true]);
-                  } else {
-                    tagChips.push([inner, gi > 0]);
+
+            <div class="logs" color-scheme="${this.scheme}">
+              <div class="thead">
+                <div class="trow">
+                  <div class="col-time">Time</div>
+                  <div class="col-level">Lvl</div>
+                  <div class="col-tag">Tag</div>
+                  <div class="col-msg">Message</div>
+                </div>
+              </div>
+              <div class="tbody">
+                ${filtered.map((log: recordConfig) => {
+                  const tagChips: Array<[string, boolean]> = [];
+                  for (const [gi, m] of [...log.tag.matchAll(/\[([^\]]*)\]/g)].entries()) {
+                    const inner = m[1];
+                    const ci = inner.lastIndexOf(":");
+                    if (gi === 0 && ci > 0 && /^\d+$/.test(inner.slice(ci + 1))) {
+                      tagChips.push([inner.slice(0, ci), false]);
+                      tagChips.push([inner.slice(ci + 1), true]);
+                    } else {
+                      tagChips.push([inner, gi > 0]);
+                    }
                   }
-                }
-                return html`
-                  <div class="trow trow--${log.type}">
-                    <div class="col-time">${log.when}</div>
-                    <div class="col-level">
-                      <span class="level-badge level-badge--${log.type}">${log.type.toUpperCase()}</span>
+                  return html`
+                    <div class="trow trow--${log.type}">
+                      <div class="col-time">${log.when}</div>
+                      <div class="col-level">
+                        <span class="level-badge level-badge--${log.type}">${log.type.toUpperCase()}</span>
+                      </div>
+                      <div class="col-tag">
+                        ${tagChips.map(([text, sub]) => html`<span class="tag-chip${sub ? " tag-chip--sub" : ""}">${text}</span>`)}
+                      </div>
+                      <div class="col-msg">${log.detail}</div>
                     </div>
-                    <div class="col-tag">
-                      ${tagChips.map(([text, sub]) => html`<span class="tag-chip${sub ? " tag-chip--sub" : ""}">${text}</span>`)}
-                    </div>
-                    <div class="col-msg">${log.detail}</div>
-                  </div>
-                `;
-              })}
+                  `;
+                })}
+              </div>
             </div>
+
+            ${this.hasFilter ? html`
+              <div class="filter-status">
+                ${filtered.length} of ${this.logs.length} entries
+              </div>
+            ` : nothing}
+
           </div>
-
-          ${this.hasFilter ? html`
-            <div class="filter-status">
-              ${filtered.length} of ${this.logs.length} entries
-            </div>
-          ` : nothing}
-
         </div>
-      ` : nothing}
+      </div>
     `;
   }
 
@@ -273,6 +275,7 @@ export class DebugLog extends LitElement {
           padding: 15px 16px;
           cursor: pointer;
           user-select: none;
+          -webkit-tap-highlight-color: transparent;
           font-weight: 600;
           font-size: 14px;
           letter-spacing: 0.01em;
@@ -309,7 +312,22 @@ export class DebugLog extends LitElement {
         }
         .chevron {
           margin-left: auto;
-          transition: transform 0.15s ease;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .chevron--open {
+          transform: rotate(180deg);
+        }
+        .log-body {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .log-body--open {
+          grid-template-rows: 1fr;
+        }
+        .log-body-inner {
+          overflow: hidden;
+          min-height: 0;
         }
 
         /* ── Toolbar ── */
