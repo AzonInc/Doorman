@@ -374,7 +374,10 @@ export class EntityTable extends LitElement implements RestAction {
         @click="${this._handleEntityRowClick}"
       >
         <div>
-          <iconify-icon icon="${icon}" height="24px"></iconify-icon>
+          <div class="entity-icon-wrap">
+            <iconify-icon icon="${icon}" height="24px"></iconify-icon>
+            ${component.is_disabled_by_default ? html`<span class="disabled-dot"></span>` : nothing}
+          </div>
         </div>
         <div>
           <div class="entity-name">${this.formatComponentName(component, groupName, idx)}</div>

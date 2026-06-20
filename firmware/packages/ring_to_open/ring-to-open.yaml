@@ -456,7 +456,7 @@ switch:
     on_turn_off:
       - script.execute: update_rto_status
     web_server:
-      sorting_group_id: sorting_group_status_led
+      sorting_group_id: sorting_group_system
       sorting_weight: 4
 
 select:

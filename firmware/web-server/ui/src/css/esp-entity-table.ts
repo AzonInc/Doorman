@@ -41,7 +41,7 @@ export default css`
     top: var(--header-height, 64px);
     align-self: flex-start;
     max-height: calc(100dvh - var(--header-height, 64px));
-    overflow: hidden;
+    overflow: clip;
     border-right: 1px solid rgba(127, 127, 127, 0.1);
   }
   .nav-items-scroll {
@@ -377,6 +377,21 @@ export default css`
   }
   .entity-row iconify-icon {
     vertical-align: middle;
+  }
+  .entity-icon-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+  .disabled-dot {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(127, 127, 127, 0.45);
+    border: 1.5px solid var(--bg, #0e0e1a);
+    pointer-events: none;
   }
   .entity-row > :nth-child(1) {
     flex: 0 0 48px;
