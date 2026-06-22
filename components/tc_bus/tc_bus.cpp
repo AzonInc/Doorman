@@ -216,52 +216,40 @@ namespace esphome::tc_bus
         }
         #endif
 
-        /*uint8_t size = 0;
         {
-            InterruptLock lock;
-            size = this->store_.debug_buffer_index;
-            this->store_.debug_buffer_index = 0;
-        }
+            uint8_t tail = this->store_.debug_buf_tail;
+            const uint8_t head = this->store_.debug_buf_head; // snapshot; ISR only advances head
 
-        if(size > 0)
-        {
-            char buffer[256];
-            size_t pos = buf_append_printf(buffer, sizeof(buffer), 0, "Received Raw: ");
-
-            for (uint8_t i = 0; i < size; i++)
+            if (tail != head && (micros() - this->store_.last_bit_change) >= 8000)
             {
-                const int32_t value = this->store_.debug_buffer[i];
-                size_t prev_pos = pos;
+                char buffer[256];
+                size_t pos = buf_append_printf(buffer, sizeof(buffer), 0, "Timings: ");
 
-                if (i + 1 < size)
+                while (tail != head)
                 {
+                    const uint32_t value = this->store_.debug_buffer[tail];
+                    tail = (tail + 1) & (TCBusComponentStore::DEBUG_BUF_SIZE - 1);
+
+                    size_t prev_pos = pos;
                     pos = buf_append_printf(buffer, sizeof(buffer), pos, "%" PRId32 ", ", value);
-                }
-                else
-                {
-                    pos = buf_append_printf(buffer, sizeof(buffer), pos, "%" PRId32, value);
-                }
 
-                if (pos >= sizeof(buffer) - 1)
-                {
-                    // buffer full, flush and continue
-                    buffer[prev_pos] = '\0';
-                    ESP_LOGD(TAG, "%s", buffer);
-                    if (i + 1 < size)
+                    if (pos >= sizeof(buffer) - 1)
                     {
+                        buffer[prev_pos] = '\0';
+                        ESP_LOGD(TAG, "%s", buffer);
                         pos = buf_append_printf(buffer, sizeof(buffer), 0, "  %" PRId32 ", ", value);
                     }
-                    else
-                    {
-                        pos = buf_append_printf(buffer, sizeof(buffer), 0, "  %" PRId32, value);
-                    }
+                }
+
+                this->store_.debug_buf_tail = tail; // consume after all reads
+
+                if (pos >= 2)
+                {
+                    buffer[pos - 2] = '\0'; // trim trailing ", "
+                    ESP_LOGD(TAG, "%s", buffer);
                 }
             }
-            if (pos != 0)
-            {
-                ESP_LOGD(TAG, "%s", buffer);
-            }
-        }*/
+        }
     }
 
     void TCBusComponent::save_preferences()
@@ -757,10 +745,15 @@ namespace esphome::tc_bus
             return;
         }
 
-        /*if (arg->debug_buffer_index < 255)
         {
-            arg->debug_buffer[arg->debug_buffer_index++] = us;
-        }*/
+            uint8_t head = arg->debug_buf_head;
+            uint8_t next = (head + 1) & (DEBUG_BUF_SIZE - 1);
+            if (next != arg->debug_buf_tail) // drop silently only when truly full
+            {
+                arg->debug_buffer[head] = us;
+                arg->debug_buf_head = next; // publish after write
+            }
+        }
 
         // Save last bit timestamp
         last_us = now_us;
