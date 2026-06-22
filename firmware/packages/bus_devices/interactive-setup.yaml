@@ -1,5 +1,11 @@
 # Interactive Setup Addon
 
+web_server:
+  sorting_groups:
+    - id: sorting_group_setup_status_sensors
+      name: "Setup: Status"
+      sorting_weight: 1
+
 globals:
   - id: setup_mode_step
     type: int
@@ -81,7 +87,7 @@ text_sensor:
       return {"Not configured"};
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_setup_status
+      sorting_group_id: sorting_group_setup_status_sensors
       sorting_weight: 1
 
   - platform: template
@@ -108,7 +114,7 @@ text_sensor:
       return {"Not configured"};
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_setup_status
+      sorting_group_id: sorting_group_setup_status_sensors
       sorting_weight: 2
 
   - platform: template
@@ -135,7 +141,7 @@ text_sensor:
       return {"Not configured"};
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_setup_status
+      sorting_group_id: sorting_group_setup_status_sensors
       sorting_weight: 3
 
   - platform: template
@@ -163,7 +169,7 @@ text_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_setup_status
+      sorting_group_id: sorting_group_setup_status_sensors
       sorting_weight: 4
 
 # Update setup state on changes

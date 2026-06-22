@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 /* First, declare your dark mode colors */
 :root {
+  --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-mono: ui-monospace, 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
   --c-bg: #1b1b1f;
   --c-text: #000;
   --c-primary: #26a69a;
@@ -66,7 +70,7 @@ html[color-scheme="dark"] img {
 
 html {
     color-scheme: dark;
-    font-family: ui-monospace, system-ui, "Helvetica", "Arial Narrow", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+    font-family: var(--vp-font-family-base);
 }
 
 html, body {

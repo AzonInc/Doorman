@@ -45,6 +45,22 @@ export default css`
     background: rgba(80, 30, 200, 0.09);
     filter: blur(100px);
   }
+  @media (min-width: 641px) {
+    .bg-orbs::before {
+      top: -180px;
+      left: -120px;
+      width: 800px;
+      height: 800px;
+      filter: blur(120px);
+    }
+    .bg-orbs::after {
+      top: 120px;
+      left: 280px;
+      width: 500px;
+      height: 500px;
+      filter: blur(140px);
+    }
+  }
 
 
   * {
@@ -66,7 +82,7 @@ export default css`
     position: sticky;
     top: 0;
     z-index: 50;
-    background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+    background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 50%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(127, 127, 127, 0.15);

@@ -259,7 +259,7 @@ export class DebugLog extends LitElement {
           left: 0;
           right: 0;
           z-index: 100;
-          background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+          background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 50%, transparent);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-top: 1px solid rgba(127, 127, 127, 0.15);
@@ -369,7 +369,7 @@ export class DebugLog extends LitElement {
           border: 1px solid rgba(127, 127, 127, 0.15);
           border-radius: 6px;
           color: inherit;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 11px;
           outline: none;
           box-sizing: border-box;
@@ -396,7 +396,7 @@ export class DebugLog extends LitElement {
         }
         .pill {
           font-size: 11px;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-weight: 600;
           padding: 5px 7px;
           border-radius: 6px;
@@ -420,7 +420,7 @@ export class DebugLog extends LitElement {
           display: inline-block;
           font-size: 10px;
           font-weight: 700;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           padding: 1px 5px;
           border-radius: 4px;
           line-height: 1.5;
@@ -442,7 +442,7 @@ export class DebugLog extends LitElement {
           border-radius: 6px;
           color: rgba(200, 200, 200, 0.35);
           font-size: 11px;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           padding: 5px 6px;
           cursor: pointer;
           flex-shrink: 0;
@@ -521,7 +521,7 @@ export class DebugLog extends LitElement {
         /* ── Column definitions ── */
         .col-time {
           flex: 0 0 64px;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 10px;
           color: rgba(127, 127, 127, 0.38);
           font-variant-numeric: tabular-nums;
@@ -547,7 +547,7 @@ export class DebugLog extends LitElement {
         .col-msg {
           flex: 1;
           min-width: 0;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 12px;
           line-height: 1.55;
           word-break: break-word;
@@ -566,7 +566,7 @@ export class DebugLog extends LitElement {
         /* ── Tag chips ── */
         .tag-chip {
           display: inline-block;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 10px;
           font-weight: 500;
           padding: 1px 5px;
@@ -585,7 +585,7 @@ export class DebugLog extends LitElement {
 
         /* ── Status bar ── */
         .filter-status {
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 11px;
           color: rgba(127, 127, 127, 0.45);
           padding: 4px 16px 6px;

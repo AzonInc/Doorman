@@ -360,7 +360,22 @@ export class EntityTable extends LitElement implements RestAction {
     infrared:      "mdi:remote",
   };
 
-  private _renderEntityRow(component: entityConfig, groupName: string, idx: number) {
+  private _subGroupPrefix(entities: entityConfig[]): string {
+    if (entities.length <= 1) return '';
+    const names = entities.map(e => {
+      const c = e.name.indexOf(': ');
+      return c >= 0 ? e.name.slice(c + 2) : e.name;
+    });
+    let prefix = names[0];
+    for (const name of names.slice(1)) {
+      let i = 0;
+      while (i < prefix.length && i < name.length && prefix[i] === name[i]) i++;
+      prefix = prefix.slice(0, i);
+    }
+    return prefix.replace(/\s*-\s*$/, '').trimEnd();
+  }
+
+  private _renderEntityRow(component: entityConfig, groupName: string, idx: number, sgPrefix?: string) {
     const icon = component.icon
       || (component.domain === 'lock'
         ? (component.state === 'LOCKED' ? 'mdi:lock' : component.state === 'UNLOCKED' ? 'mdi:lock-open-variant' : EntityTable._DOMAIN_ICONS['lock'])
@@ -378,7 +393,7 @@ export class EntityTable extends LitElement implements RestAction {
           <iconify-icon icon="${icon}" height="24px"></iconify-icon>
         </div>
         <div>
-          <div class="entity-name">${this.formatComponentName(component, groupName, idx)}</div>
+          <div class="entity-name">${this.formatComponentName(component, groupName, idx, sgPrefix)}</div>
           ${!component.has_action && component.when ? html`<div class="entity-when">${component.when}</div>` : nothing}
         </div>
         <div>
@@ -443,7 +458,15 @@ export class EntityTable extends LitElement implements RestAction {
 
   private _visibleGroupNames(): string[] {
     const filtered = this.showAll ? this.entities : this.entities.filter(e => !e.is_disabled_by_default);
-    return Array.from(this._groupBy(filtered, "sorting_group").keys());
+    const allNames = Array.from(this._groupBy(filtered, "sorting_group").keys());
+    const subGroupParents = new Set<string>();
+    for (const name of allNames) {
+      if (name.includes(': ')) subGroupParents.add(name.slice(0, name.indexOf(': ')).trim());
+    }
+    const allNameSet = new Set(allNames);
+    return this.groups
+      .filter(g => !g.name.includes(': ') && (allNameSet.has(g.name) || subGroupParents.has(g.name)))
+      .map(g => g.name);
   }
 
   private _swipeToGroup(direction: 1 | -1) {
@@ -465,6 +488,14 @@ export class EntityTable extends LitElement implements RestAction {
   }
 
   private _onTouchStart = (e: TouchEvent) => {
+    const onSlider = e.composedPath().some(el =>
+      (el instanceof HTMLInputElement && el.type === 'range') ||
+      (el instanceof Element && el.tagName === 'ESP-RANGE-SLIDER')
+    );
+    if (onSlider) {
+      this._swipeLocked = false;
+      return;
+    }
     this._touchStartX = e.touches[0].clientX;
     this._touchStartY = e.touches[0].clientY;
     this._swipeLocked = null;
@@ -505,26 +536,124 @@ export class EntityTable extends LitElement implements RestAction {
     }
   };
 
+  /** Render entities for the active group followed by any sub-group sections. */
+  private _renderGroupEntities(
+    primaryEntities: entityConfig[],
+    subGroups: Array<{ label: string; entities: entityConfig[] }>,
+    groupName: string,
+    allEntities: entityConfig[],
+    hasExtraSection = false
+  ): TemplateResult[] {
+    const localIds = new Set<string>(
+      [...primaryEntities, ...subGroups.flatMap(sg => sg.entities)].map(e => e.id)
+    );
+    // Inject entities from other groups whose stripped display name matches this group's name.
+    const injected = allEntities.filter(e => {
+      if (localIds.has(e.id)) return false;
+      const c = e.name.indexOf(': ');
+      const dn = c >= 0 ? e.name.slice(c + 2) : e.name;
+      return dn === groupName;
+    });
+
+    const result: TemplateResult[] = [];
+    let globalIdx = 0;
+    const allPrimary = [...primaryEntities, ...injected];
+    const showGeneralHeader = allPrimary.length > 0 && (subGroups.length > 0 || hasExtraSection);
+
+    if (showGeneralHeader) {
+      result.push(html`<div class="sub-group-header"><span class="sub-group-header__label">General</span></div>`);
+    }
+    for (const entity of allPrimary) {
+      result.push(this._renderEntityRow(entity, groupName, globalIdx++));
+    }
+
+    for (const sg of subGroups) {
+      const sgPrefix = this._subGroupPrefix(sg.entities);
+      result.push(html`
+        <div class="sub-group-header">
+          <span class="sub-group-header__label">${sg.label}</span>
+        </div>
+      `);
+      for (const entity of sg.entities) {
+        result.push(this._renderEntityRow(entity, groupName, globalIdx++, sgPrefix));
+      }
+    }
+
+    return result;
+  }
+
   render() {
     const hiddenCount = this.entities.filter(e => e.is_disabled_by_default).length;
     const entities = this.showAll
       ? this.entities
       : this.entities.filter(e => !e.is_disabled_by_default);
     const grouped = this._groupBy(entities, "sorting_group");
-    const elems = Array.from(grouped, ([name, value]) => ({ name, value }));
+    const allElems = Array.from(grouped, ([name, value]) => ({ name, value }));
+    const allElemsMap = new Map(allElems.map(e => [e.name, e]));
+
+    // Primary groups have no ":" in their name. A group qualifies as primary even
+    // if it has no direct entities, as long as it is the parent of a sub-group.
+    const subGroupParents = new Set<string>();
+    for (const g of allElems) {
+      if (g.name.includes(': ')) subGroupParents.add(g.name.slice(0, g.name.indexOf(': ')).trim());
+    }
+    // Use this.groups (sorted by sorting_weight) to preserve declared order.
+    const elems = this.groups
+      .filter(g => !g.name.includes(': ') && (allElemsMap.has(g.name) || subGroupParents.has(g.name)))
+      .map(g => allElemsMap.get(g.name) ?? { name: g.name, value: [] as entityConfig[] });
 
     if (!this._userSelectedGroup && elems.length > 0) {
       this.activeGroup = elems[0].name;
     }
     const activeGroup = elems.find((g) => g.name === this.activeGroup) ?? elems[0];
+
+    // Sub-groups whose name starts with "ActiveGroup: ", sorted by their declared weight.
+    const activeSubGroups = activeGroup
+      ? allElems
+          .filter(g => g.name.startsWith(activeGroup.name + ': '))
+          .map(g => {
+            const groupConfig = this.groups.find(gr => gr.name === g.name);
+            return {
+              label: g.name.slice(activeGroup.name.length + 2),
+              entities: g.value,
+              sorting_weight: groupConfig?.sorting_weight ?? 0,
+            };
+          })
+          .sort((a, b) => a.sorting_weight - b.sorting_weight)
+      : [];
+
+    const activeGroupEntities: entityConfig[] = activeGroup ? activeGroup.value : [];
+
     const hiddenCountInGroup = activeGroup
-      ? this.entities.filter(e => e.is_disabled_by_default && e.sorting_group === activeGroup.name).length
+      ? this.entities.filter(e =>
+          e.is_disabled_by_default && (
+            e.sorting_group === activeGroup.name ||
+            e.sorting_group?.startsWith(activeGroup.name + ': ')
+          )
+        ).length
       : 0;
 
     const searchQ = this.searchQuery.trim().toLowerCase();
     const isSearching = searchQ.length > 0;
+    const stripSearchName = (name: string): string => {
+      const c = name.indexOf(': ');
+      return c >= 0 ? name.slice(c + 2) : name;
+    };
+    const rankResult = (e: entityConfig): number => {
+      const full = e.name.toLowerCase();
+      const stripped = stripSearchName(e.name).toLowerCase();
+      if (full === searchQ || stripped === searchQ) return 0;
+      if (full.startsWith(searchQ) || stripped.startsWith(searchQ)) return 1;
+      return 2;
+    };
     const searchResults = isSearching
-      ? entities.filter((e) => e.name.toLowerCase().includes(searchQ))
+      ? entities
+          .filter(e => {
+            const full = e.name.toLowerCase();
+            const stripped = stripSearchName(e.name).toLowerCase();
+            return full.includes(searchQ) || stripped.includes(searchQ);
+          })
+          .sort((a, b) => rankResult(a) - rankResult(b))
       : [];
 
     if (elems.length === 0 && !isSearching) {
@@ -592,9 +721,30 @@ export class EntityTable extends LitElement implements RestAction {
           ${isSearching ? html`
             <div class="tab-container">
               ${searchResults.length > 0
-                ? searchResults.map((component, idx) =>
-                    this._renderEntityRow(component, component.sorting_group ?? '', idx)
-                  )
+                ? (() => {
+                    const byGroup = new Map<string, entityConfig[]>();
+                    for (const e of searchResults) {
+                      const g = e.sorting_group ?? '';
+                      if (!byGroup.has(g)) byGroup.set(g, []);
+                      byGroup.get(g)!.push(e);
+                    }
+                    const sorted = Array.from(byGroup.entries()).sort(([a, aEntities], [b, bEntities]) => {
+                      const minRankA = Math.min(...aEntities.map(e => rankResult(e)));
+                      const minRankB = Math.min(...bEntities.map(e => rankResult(e)));
+                      if (minRankA !== minRankB) return minRankA - minRankB;
+                      const wa = this.groups.find(g => g.name === a)?.sorting_weight ?? 0;
+                      const wb = this.groups.find(g => g.name === b)?.sorting_weight ?? 0;
+                      return wa - wb;
+                    });
+                    return sorted.map(([groupName, groupEntities]) => html`
+                      <div class="sub-group-header">
+                        <span class="sub-group-header__label">${groupName || EntityTable.ENTITY_UNDEFINED}</span>
+                      </div>
+                      ${groupEntities.map((component, idx) =>
+                        this._renderEntityRow(component, groupName, idx)
+                      )}
+                    `);
+                  })()
                 : html`<div class="search-empty">
                     <iconify-icon icon="mdi:magnify-close"></iconify-icon>
                     <span>No results for "${this.searchQuery}"</span>
@@ -602,23 +752,24 @@ export class EntityTable extends LitElement implements RestAction {
             </div>
           ` : activeGroup ? html`
             <div class="tab-container">
-              ${this._renderGroupDescription(activeGroup.name, activeGroup.value)}
-              ${activeGroup.value.map((component: entityConfig, idx: number) =>
-                this._renderEntityRow(component, activeGroup.name, idx)
-              )}
-              ${this.ota && (
-                  activeGroup.value.some((c: entityConfig) => c.domain === 'update') ||
-                  activeGroup.name.toLowerCase().includes('firmware') ||
-                  activeGroup.name.toLowerCase().includes('update')
-                )
-                ? this._renderOta()
-                : nothing}
+              ${this._renderGroupDescription(activeGroup.name, activeGroupEntities)}
+              ${(() => {
+                  const showOta = !!(this.ota && (
+                    activeGroupEntities.some((c: entityConfig) => c.domain === 'update') ||
+                    activeGroup.name.toLowerCase().includes('firmware') ||
+                    activeGroup.name.toLowerCase().includes('update')
+                  ));
+                  return html`
+                    ${this._renderGroupEntities(activeGroupEntities, activeSubGroups, activeGroup.name, entities, showOta)}
+                    ${showOta ? this._renderOta() : nothing}
+                  `;
+                })()}
             </div>
             ${hiddenCountInGroup > 0 ? html`
-              <div class="show-all-row">
+              <div class="show-all-row ${this.showAll ? 'show-all-row--expanded' : ''}">
                 <button class="show-all-row-btn" @click="${() => this.dispatchEvent(new CustomEvent('toggle-show-all', { bubbles: true, composed: true }))}">
-                  <iconify-icon icon="${this.showAll ? 'mdi:eye-off-outline' : 'mdi:eye-outline'}" height="14px"></iconify-icon>
                   ${this.showAll ? 'Show less' : `Show ${hiddenCountInGroup} more`}
+                  <iconify-icon icon="${this.showAll ? 'mdi:chevron-up' : 'mdi:chevron-down'}" height="14px"></iconify-icon>
                 </button>
               </div>
             ` : nothing}
@@ -630,6 +781,9 @@ export class EntityTable extends LitElement implements RestAction {
 
   private _renderOta() {
     return html`
+      <div class="sub-group-header">
+        <span class="sub-group-header__label">Manual Update</span>
+      </div>
       <div class="ota-section">
         <form class="ota-form" method="POST" action="${this._basePath}/update" enctype="multipart/form-data">
           <label class="ota-upload-label">
@@ -704,24 +858,13 @@ export class EntityTable extends LitElement implements RestAction {
     return nothing;
   }
 
-  formatComponentName(component: entityConfig, groupName: string, index: number): string {
-    // Original shows device name as well
-    // ${component.device ? `[${component.device}] ` : ''}${component.name}
-
-    // Define prefixes to remove
-    const prefixesToRemove = ['RTO: ', 'Setup: ', 'MQTT: ', 'Fob: '];
-    
-    // Clean the component name by removing all known prefixes
-    let cleanName = component.name;
-    for (const prefix of prefixesToRemove) {
-      cleanName = cleanName.replace(prefix, '');
+  formatComponentName(component: entityConfig, _groupName: string, _index: number, sgPrefix?: string): string {
+    const colonIdx = component.name.indexOf(': ');
+    let displayName = colonIdx >= 0 ? component.name.slice(colonIdx + 2) : component.name;
+    if (sgPrefix && displayName.startsWith(sgPrefix + ' - ')) {
+      displayName = displayName.slice(sgPrefix.length + 3);
     }
-    
-    // Add index prefix for setup groups (skip first item which is index 0)
-    const isSetupGroup = groupName.toLowerCase().includes('setup');
-    const shouldShowIndex = isSetupGroup && index !== 0;
-    
-    return shouldShowIndex ? `${index}. ${cleanName}` : cleanName;
+    return displayName;
   }
 
   static get styles() {
@@ -1237,14 +1380,12 @@ class ActionRenderer {
   render_water_heater() {
     if (!this.entity) return;
 
-    // Current temperature display (if available)
     let current_temp = this.entity.current_temperature !== undefined
       ? html`<div class="climate-row" style="padding-bottom: 10px">
                <label>Current:&nbsp;${this.entity.current_temperature} °C</label>
              </div>`
       : nothing;
 
-    // Target temperature control(s)
     let target_temp;
     if (
       this.entity.target_temperature_low !== undefined &&
@@ -1293,7 +1434,6 @@ class ActionRenderer {
       target_temp = nothing;
     }
 
-    // Mode selector (if modes available)
     let modes = (this.entity.modes?.length ?? 0) > 0
       ? html`
           <div class="climate-row">
@@ -1308,7 +1448,6 @@ class ActionRenderer {
           </div>`
       : nothing;
 
-    // Away mode toggle (if supported)
     let away = this.entity.away !== undefined
       ? html`
           <div class="climate-row">
@@ -1322,7 +1461,6 @@ class ActionRenderer {
           </div>`
       : nothing;
 
-    // On/Off toggle (if supported)
     let on_off = this.entity.is_on !== undefined
       ? html`
           <div class="climate-row">
@@ -1345,29 +1483,26 @@ class ActionRenderer {
   render_infrared() {
     if (!this.entity) return;
 
-    // Only show transmit UI if entity supports transmitter
     if (this.entity.supports_transmitter !== true) {
       return nothing;
     }
 
     const entity = this.entity;
 
-    // Helper to encode timings array to base64url
     const encodeTimings = (timingsStr: string): string => {
       const timings = timingsStr.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
       const buffer = new ArrayBuffer(timings.length * 4);
       const view = new DataView(buffer);
-      timings.forEach((val, i) => view.setInt32(i * 4, val, true)); // little-endian
+      timings.forEach((val, i) => view.setInt32(i * 4, val, true));
       const bytes = new Uint8Array(buffer);
       let binary = '';
       bytes.forEach(b => binary += String.fromCharCode(b));
-      // Convert to base64url: replace + with -, / with _, remove padding =
       return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     };
 
     const handleTransmit = (e: Event) => {
       const button = e.currentTarget as HTMLElement;
-      const container = button.parentElement?.parentElement; // button -> .infrared-row -> .infrared-wrap
+      const container = button.parentElement?.parentElement;
       if (!container) {
         console.error('Infrared: Could not find container');
         return;
@@ -1392,13 +1527,9 @@ class ActionRenderer {
       }
 
       const timingsEncoded = encodeTimings(timingsRaw);
-      console.log('Infrared: Transmitting', { carrier, repeat, timingsRaw, timingsEncoded });
-
-      // Build URL for transmit action (without query params - data goes in body)
       const basePath = getBasePath();
       const url = buildEntityActionUrl(basePath, entity, 'transmit');
 
-      // Send data in POST body to avoid URI Too Long error
       const body = new URLSearchParams();
       body.append('carrier_frequency', carrier);
       body.append('repeat_count', repeat);

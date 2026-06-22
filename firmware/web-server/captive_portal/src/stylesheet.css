@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 :root {
+  --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --vp-font-family-mono: ui-monospace, 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
   --c-bg: #1b1b1f;
   --c-text: #000;
 }
@@ -32,7 +36,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: ui-monospace, system-ui, "Helvetica", "Arial Narrow", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-family: var(--vp-font-family-base);
 }
 
 html {
@@ -76,6 +80,23 @@ html, body {
   filter: blur(100px);
 }
 
+@media (min-width: 641px) {
+  .bg-orbs::before {
+    top: -180px;
+    left: -120px;
+    width: 800px;
+    height: 800px;
+    filter: blur(120px);
+  }
+  .bg-orbs::after {
+    top: 120px;
+    left: 280px;
+    width: 500px;
+    height: 500px;
+    filter: blur(140px);
+  }
+}
+
 h1 {
   font-size: 16px;
   font-weight: 600;
@@ -93,7 +114,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+  background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 50%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(127, 127, 127, 0.15);
@@ -217,7 +238,7 @@ main {
 }
 .nav-group::-webkit-scrollbar { display: none; }
 .nav-group.is-stuck {
-  background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+  background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 50%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -298,6 +319,7 @@ svg { fill: #9269fe; color: #9269fe; }
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
+  font-size: 14px;
 }
 
 /* ── Description row ── */

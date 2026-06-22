@@ -1,8 +1,12 @@
 web_server:
   sorting_groups:
     - id: sorting_group_virtual_indoor_station
-      name: "TC:BUS V-Indoor Station"
+      name: "V-Indoor Station"
       sorting_weight: -87
+
+    - id: sorting_group_setup_virtual_indoor_station
+      name: "Setup: V-Indoor Station"
+      sorting_weight: 5
 
 esphome:
   devices:
@@ -29,14 +33,14 @@ number:
       device_id: tc_bus_vis
       name: "Serial Number"
       web_server:
-        sorting_group_id: sorting_group_virtual_indoor_station
+        sorting_group_id: sorting_group_setup_virtual_indoor_station
         sorting_weight: -100
 
     parallel_serial_number:
       device_id: tc_bus_vis
       name: "Parallel Serial Number"
       web_server:
-        sorting_group_id: sorting_group_virtual_indoor_station
+        sorting_group_id: sorting_group_setup_virtual_indoor_station
         sorting_weight: -99
 
 select:
@@ -46,7 +50,7 @@ select:
       device_id: tc_bus_vis
       name: "Model"
       web_server:
-        sorting_group_id: sorting_group_virtual_indoor_station
+        sorting_group_id: sorting_group_setup_virtual_indoor_station
         sorting_weight: -98
 
 button:

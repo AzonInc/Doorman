@@ -28,6 +28,17 @@ export default css`
     margin: 0 auto;
     flex: 1;
     min-height: calc(100dvh - var(--page-offset, var(--header-height, 64px)));
+    position: relative;
+  }
+  .layout::after {
+    content: '';
+    position: absolute;
+    left: 224px; /* nav content (200px) + left padding (12px) + right padding (12px) */
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(127, 127, 127, 0.1);
+    pointer-events: none;
   }
 
   /* ── Sidebar (desktop) ── */
@@ -43,7 +54,6 @@ export default css`
     align-self: flex-start;
     max-height: calc(100dvh - var(--header-height, 64px));
     overflow: clip;
-    border-right: 1px solid rgba(127, 127, 127, 0.1);
   }
   .nav-items-scroll {
     flex: 1;
@@ -78,7 +88,7 @@ export default css`
     border-radius: 8px;
     color: inherit;
     font-family: inherit;
-    font-size: 12px;
+    font-size: 14px;
     outline: none;
     box-sizing: border-box;
     appearance: none;
@@ -179,7 +189,7 @@ export default css`
     border-radius: 8px;
     border: none;
     background: none;
-    font-size: 13px;
+    font-size: 14px;
     font-family: inherit;
     font-weight: 400;
     color: currentColor;
@@ -228,35 +238,34 @@ export default css`
     flex-shrink: 0;
   }
 
-  /* ── Show all row (mobile only) ── */
+  /* ── Show all row ── */
   .show-all-row {
-    display: none;
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 8px;
   }
-  @media (max-width: 640px) {
-    .show-all-row {
-      display: flex;
-      justify-content: center;
-      padding: 16px 0 8px;
+  @media (min-width: 641px) {
+    .show-all-row--expanded {
+      display: none;
     }
   }
   .show-all-row-btn {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(127, 127, 127, 0.2);
+    gap: 0;
+    padding: 0;
+    border: none;
     background: none;
-    color: rgba(200, 200, 200, 0.45);
+    color: rgba(200, 200, 200, 0.35);
     font-family: inherit;
-    font-size: 12px;
+    font-size: 11px;
+    letter-spacing: 0.03em;
     cursor: pointer;
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    transition: color 0.15s;
   }
   .show-all-row-btn:hover {
-    color: rgba(200, 200, 200, 0.85);
-    border-color: rgba(127, 127, 127, 0.4);
-    background: rgba(127, 127, 127, 0.06);
+    color: rgba(200, 200, 200, 0.75);
   }
 
   /* ── Content area ── */
@@ -297,6 +306,7 @@ export default css`
       flex-direction: column;
       max-width: none;
     }
+    .layout::after { display: none; }
     .nav-group {
       box-sizing: border-box;
       width: 100%;
@@ -314,7 +324,7 @@ export default css`
       transition: background-color 0.2s ease;
     }
     .nav-group.is-stuck {
-      background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 88%, transparent);
+      background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 50%, transparent);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
@@ -404,7 +414,7 @@ export default css`
     padding: 0 2px;
   }
   .range-bounds span {
-    font-family: monospace;
+    font-family: var(--vp-font-family-mono);
     font-size: 10px;
     color: rgba(127, 127, 127, 0.4);
     user-select: none;
@@ -418,7 +428,8 @@ export default css`
     border-bottom: 1px solid rgba(127, 127, 127, 0.1);
   }
   .entity-row:last-child,
-  .entity-row:not(:has(~ .entity-row)) {
+  .entity-row:not(:has(~ .entity-row)),
+  .entity-row:has(+ .sub-group-header) {
     border-bottom: none;
   }
   .entity-row.expanded {
@@ -450,6 +461,7 @@ export default css`
     align-items: center;
     justify-content: flex-end;
     gap: 4px;
+    font-size: 14px;
   }
   .entity-row > :nth-child(3) > :only-child {
     margin-left: auto;
@@ -494,7 +506,7 @@ export default css`
     display: inline-block;
     font-size: 11.5px;
     font-weight: 500;
-    font-family: monospace;
+    font-family: var(--vp-font-family-mono);
     padding: 3px 9px;
     border-radius: 6px;
     background: rgba(146, 105, 254, 0.1);
@@ -519,7 +531,7 @@ export default css`
     color: rgba(127, 127, 127, 0.3);
     margin-top: 2px;
     font-variant-numeric: tabular-nums;
-    font-family: monospace;
+    font-family: var(--vp-font-family-mono);
   }
   .sensor-state {
     display: flex;
@@ -528,7 +540,7 @@ export default css`
     justify-content: flex-end;
   }
   .sensor-value {
-    font-family: monospace;
+    font-family: var(--vp-font-family-mono);
     font-size: 14px;
     font-variant-numeric: tabular-nums;
   }
@@ -751,10 +763,47 @@ export default css`
     margin-bottom: 1.5em;
   }
 
+  /* ── Sub-group headers (prefix grouping within a category) ── */
+  .sub-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* generous top margin so groups read as clearly separated blocks */
+    margin-top: 20px;
+    margin-bottom: 8px;
+    padding: 0 0 0 2px;
+  }
+  /* First header in the list needs less breathing room */
+  .tab-container > .sub-group-header:first-child,
+  .tab-container > *:first-child .sub-group-header {
+    margin-top: 0px;
+  }
+  .sub-group-header__label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: currentColor;
+    opacity: 0.3;
+    white-space: nowrap;
+  }
+  /* Hairline that extends to the right of the label */
+  .sub-group-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.07;
+  }
+
+  /* ── Spacer before un-prefixed entities that follow a sub-group block ── */
+  .sub-group-spacer {
+    margin-top: 20px;
+    border-top: 1px solid rgba(127, 127, 127, 0.08);
+  }
+
   .ota-section {
-    margin-top: 1.5em;
-    padding-top: 1em;
-    border-top: 1px solid rgba(127, 127, 127, 0.1);
+    margin-bottom: 0.5em;
   }
 
   .ota-form {

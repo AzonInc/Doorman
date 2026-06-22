@@ -11,7 +11,7 @@ switch:
       icon: "mdi:mute"
       entity_category: CONFIG
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_ringtone
         sorting_weight: -81
 
 select:
@@ -28,7 +28,7 @@ select:
       on_value:
         - script.execute: set_unused_entities_internal
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_setup_indoor_station
         sorting_weight: -97
 
     ringtone_entrance_door_call:
@@ -38,7 +38,7 @@ select:
       icon: "mdi:music"
       entity_category: CONFIG
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_ringtone
         sorting_weight: -80
 
     ringtone_second_entrance_door_call:
@@ -49,7 +49,7 @@ select:
       entity_category: CONFIG
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_ringtone
         sorting_weight: -79
 
     ringtone_floor_call:
@@ -60,7 +60,7 @@ select:
       entity_category: CONFIG
       #disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_ringtone
         sorting_weight: -78
 
     ringtone_internal_call:
@@ -71,7 +71,7 @@ select:
       entity_category: CONFIG
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_ringtone
         sorting_weight: -77
 
 number:
@@ -85,7 +85,7 @@ number:
       icon: "mdi:barcode-scan"
       #disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_setup_indoor_station
         sorting_weight: -99
 
     volume_ringtone:
@@ -96,7 +96,7 @@ number:
       entity_category: CONFIG
       #disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_volume
         sorting_weight: -70
 
     volume_handset_door_call:
@@ -107,7 +107,7 @@ number:
       entity_category: CONFIG
       #disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_volume
         sorting_weight: -69
 
     volume_handset_internal_call:
@@ -118,7 +118,7 @@ number:
       entity_category: CONFIG
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_indoor_station_volume
         sorting_weight: -68
       
 # Read Memory before reading and writing
@@ -133,7 +133,7 @@ button:
       entity_category: CONFIG
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_setup_indoor_station
         sorting_weight: -96
 
     read_memory:
@@ -144,7 +144,7 @@ button:
       entity_category: CONFIG
       disabled_by_default: true
       web_server:
-        sorting_group_id: sorting_group_indoor_station_settings
+        sorting_group_id: sorting_group_setup_indoor_station
         sorting_weight: -95
 
 script:

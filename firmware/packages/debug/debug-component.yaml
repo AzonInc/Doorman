@@ -20,64 +20,64 @@ text_sensor:
 
 sensor:
   - platform: template
-    name: "Free Heap"
+    name: "Memory: Free Heap"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return esp_get_free_heap_size() / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory
 
   - platform: template
-    name: "Free PSRAM"
+    name: "Memory: Free PSRAM"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return heap_caps_get_free_size(MALLOC_CAP_SPIRAM) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory
 
   - platform: template
-    name: "Free Internal"
+    name: "Memory: Free Internal"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return heap_caps_get_free_size(MALLOC_CAP_INTERNAL) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory
 
   - platform: template
-    name: "Internal Heap Minimum"
+    name: "Memory: Internal Heap Minimum"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory
 
   - platform: template
-    name: "PSRAM Heap Minimum"
+    name: "Memory: PSRAM Heap Minimum"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory
 
   - platform: template
-    name: "Internal Largest Block"
+    name: "Memory: Internal Largest Block"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory
 
   - platform: template
-    name: "PSRAM Largest Block"
+    name: "Memory: PSRAM Largest Block"
     update_interval: 10s
     unit_of_measurement: KB
     lambda: 'return heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM) / 1024.0f;'
     entity_category: DIAGNOSTIC
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_memory

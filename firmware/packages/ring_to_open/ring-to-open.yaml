@@ -72,6 +72,18 @@ web_server:
     - id: sorting_group_rto_settings
       name: "Ring To Open"
       sorting_weight: -75
+    - id: sorting_group_rto_entrance
+      name: "Ring To Open: Entrance Door"
+      sorting_weight: 1
+    - id: sorting_group_rto_central_toggle
+      name: "Ring To Open: Central Toggle"
+      sorting_weight: 2
+    - id: sorting_group_rto_second_entrance
+      name: "Ring To Open: Second Entrance Door"
+      sorting_weight: 3
+    - id: sorting_group_rto_apartment
+      name: "Ring To Open: Apartment Door"
+      sorting_weight: 4
 
 binary_sensor:
   - id: !extend entrance_doorbell
@@ -367,7 +379,7 @@ switch:
     on_turn_off:
       - script.execute: update_rto_status
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_entrance
       sorting_weight: -80
 
   # Setting for each Door - Second Entrance Door
@@ -395,7 +407,7 @@ switch:
     on_turn_off:
       - script.execute: update_rto_status
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_second_entrance
       sorting_weight: -70
 
   # Setting for each Door - Apartment Door
@@ -424,7 +436,7 @@ switch:
     on_turn_off:
       - script.execute: update_rto_status
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_apartment
       sorting_weight: -50
 
   # Global Setting for all Doors
@@ -456,8 +468,8 @@ switch:
     on_turn_off:
       - script.execute: update_rto_status
     web_server:
-      sorting_group_id: sorting_group_system
-      sorting_weight: 4
+      sorting_group_id: sorting_group_rgb_status_led
+      sorting_weight: 2
 
 select:
   - platform: template
@@ -477,7 +489,7 @@ select:
     entity_category: CONFIG
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_central_toggle
       sorting_weight: -89
 
   - platform: template
@@ -502,7 +514,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_entrance
       sorting_weight: -78
 
   - platform: template
@@ -528,7 +540,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_second_entrance
       sorting_weight: -68
 
   - platform: template
@@ -555,7 +567,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_apartment
       sorting_weight: -48
 
   # Setting for each Door - Entrance Door
@@ -584,7 +596,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_entrance
       sorting_weight: -77
 
   # Setting for each Door - Second Entrance Door
@@ -614,7 +626,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_second_entrance
       sorting_weight: -67
 
   # Setting for each Door - Apartment Door
@@ -645,7 +657,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_apartment
       sorting_weight: -47
 
   # Setting for each Door - Entrance Door
@@ -664,7 +676,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_entrance
       sorting_weight: -79
 
   # Setting for each Door - Second Entrance Door
@@ -684,7 +696,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_second_entrance
       sorting_weight: -69
 
   # Setting for each Door - Apartment Door
@@ -705,7 +717,7 @@ select:
     restore_value: true
     entity_category: CONFIG
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_apartment
       sorting_weight: -49
 
   # Global Setting
@@ -724,7 +736,7 @@ select:
     entity_category: CONFIG
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_rto_settings
+      sorting_group_id: sorting_group_rto_central_toggle
       sorting_weight: -90
 
 script:

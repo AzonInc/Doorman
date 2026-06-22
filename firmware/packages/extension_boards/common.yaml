@@ -15,7 +15,7 @@ text_sensor:
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
-      sorting_group_id: sorting_group_information
+      sorting_group_id: sorting_group_diagnostics_device_info
       sorting_weight: -18
 
 script:

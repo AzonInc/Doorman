@@ -39,8 +39,8 @@ select:
           id(esphome_logger).set_log_level("tc_bus", i);
           id(esphome_logger).set_log_level("tc_bus_device", i);
     web_server:
-      sorting_group_id: sorting_group_debug_tools
-      sorting_weight: -5
+      sorting_group_id: sorting_group_debug_log_level
+      sorting_weight: 9
 
 text:
   - platform: template
@@ -63,30 +63,21 @@ text:
             id(tc_bus_id)->send_telegram(number);
     web_server:
       sorting_group_id: sorting_group_debug_tools
+      sorting_weight: 10
 
 button:
   - platform: tc_bus
     system_discovery:
       id: debug_system_discovery
       device_id: tc_bus_debug
-      name: "System Discovery"
+      name: "Bus Device Discovery"
       icon: "mdi:home-search"
       entity_category: CONFIG
       on_press: 
         - status.push: system_discovery_active
       web_server:
-        sorting_group_id: sorting_group_debug_tools
-
-  - platform: template
-    id: debug_restart_control_unit
-    device_id: tc_bus_debug
-    name: "System Restart"
-    icon: mdi:restart
-    on_press:
-      - tc_bus.send:
-          type: reset
-    web_server:
-      sorting_group_id: sorting_group_debug_tools
+        sorting_group_id: sorting_group_debug_discovery
+        sorting_weight: 11
 
   - platform: template
     id: debug_address_discovery
@@ -97,12 +88,25 @@ button:
       - status.push: address_discovery_active
       - tc_bus.discover_outdoor_station_addresses:
     web_server:
+      sorting_group_id: sorting_group_debug_discovery
+      sorting_weight: 12
+
+  - platform: template
+    id: debug_restart_control_unit
+    device_id: tc_bus_debug
+    name: "Restart Outdoor Stations"
+    icon: mdi:restart
+    on_press:
+      - tc_bus.send:
+          type: reset
+    web_server:
       sorting_group_id: sorting_group_debug_tools
+      sorting_weight: 13
 
   - platform: template
     id: debug_floor_call
     device_id: tc_bus_debug
-    name: "Test Floor Call"
+    name: "Floor Call Test"
     icon: mdi:restart
     on_press:
       - tc_bus_device.send:
@@ -110,6 +114,7 @@ button:
           type: floor_call
     web_server:
       sorting_group_id: sorting_group_debug_tools
+      sorting_weight: 14
 
 # Extend TC:BUS Component
 tc_bus:
@@ -120,6 +125,13 @@ tc_bus:
     - delay: 3s
     - status.pop:
         group: system_discovery
+  on_address_discovery_complete:
+    - status.push: address_discovery_finished
+    - lambda: |-
+        ESP_LOGD("TAG", "Address discovery complete. Address count: %d", x);
+    - delay: 3s
+    - status.pop:
+        group: address_discovery
 
 status_indicator:
   on_custom_status:

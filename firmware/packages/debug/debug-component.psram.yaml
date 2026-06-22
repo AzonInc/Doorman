@@ -8,4 +8,4 @@ sensor:
       name: "Free PSRAM"
       entity_category: DIAGNOSTIC
       web_server:
-        sorting_group_id: sorting_group_information
+        sorting_group_id: sorting_group_diagnostics_memory

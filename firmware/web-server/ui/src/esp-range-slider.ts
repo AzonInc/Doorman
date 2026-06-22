@@ -265,7 +265,7 @@ export class EspRangeSlider extends LitElement {
           position: absolute;
           transform: translateX(-50%);
           display: inline-block;
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 10px;
           font-weight: 600;
           padding: 2px 6px;
@@ -286,7 +286,7 @@ export class EspRangeSlider extends LitElement {
           margin-top: 4px;
         }
         .range-bounds span {
-          font-family: monospace;
+          font-family: var(--vp-font-family-mono);
           font-size: 10px;
           color: rgba(127, 127, 127, 0.4);
           user-select: none;

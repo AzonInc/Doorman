@@ -1080,20 +1080,10 @@ namespace esphome::tc_bus
         ESP_LOGI(TAG, "System discovery complete. Found %i devices:", device_cnt);
 
         log_device_list("Classic Indoor Stations", system_discovery_is_classic_, system_discovery_is_classic_cnt_);
-        ESP_LOGI(TAG, "  ");
-
         log_device_list("Handsfree Indoor Stations", system_discovery_is_handsfree_, system_discovery_is_handsfree_cnt_);
-        ESP_LOGI(TAG, "  ");
-
         log_device_list("Outdoor Stations", system_discovery_as_, system_discovery_as_cnt_);
-        ESP_LOGI(TAG, "  ");
-
         log_device_list("Controllers (Power Supply)", system_discovery_ctr_, system_discovery_ctr_cnt_);
-        ESP_LOGI(TAG, "  ");
-        
         log_device_list("Functional Extensions", system_discovery_ext_, system_discovery_ext_cnt_);
-        ESP_LOGI(TAG, "  ");
-
         log_device_list("Access Control", system_discovery_acc_, system_discovery_acc_cnt_);
 
         #ifdef USE_SYSTEM_DISCOVERY_COMPLETE_CALLBACK
@@ -1114,7 +1104,7 @@ namespace esphome::tc_bus
         }
         else
         {
-            ESP_LOGI(TAG, "  No devices found");
+            ESP_LOGI(TAG, "    No devices found");
         }
     }
 }
