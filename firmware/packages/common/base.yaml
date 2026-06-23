@@ -31,6 +31,7 @@ logger:
 
 web_server:
   js_url: "${ 'https://doorman.azon.ai/firmware/esphome-webserver/www.js' if branch == 'master' else 'https://dev.doorman.azon.ai/firmware/esphome-webserver/www.js' if branch.startswith('dev') or branch == 'local' else 'https://experimental.doorman.azon.ai/firmware/esphome-webserver/www.js' }"
+  css_url: "${ 'https://doorman.azon.ai/firmware/esphome-webserver/www.css' if branch == 'master' else 'https://dev.doorman.azon.ai/firmware/esphome-webserver/www.css' if branch.startswith('dev') or branch == 'local' else 'https://experimental.doorman.azon.ai/firmware/esphome-webserver/www.css' }"
   version: 3
   sorting_groups:
     - id: sorting_group_controls
