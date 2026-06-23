@@ -278,7 +278,7 @@ export default css`
   .content-area {
     flex: 1;
     min-width: 0;
-    padding: 12px 24px 72px;
+    padding: 12px 12px 72px 24px;
     transform-origin: center top;
     touch-action: pan-y;
   }
