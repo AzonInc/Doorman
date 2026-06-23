@@ -8,7 +8,7 @@ import cssTab from "./css/tab";
 import "./esp-entity-chart";
 import "iconify-icon";
 
-interface entityConfig {
+export interface entityConfig {
   unique_id: string;
   sorting_weight: number;
   sorting_group?: string;
@@ -18,7 +18,7 @@ interface entityConfig {
   detail: string;
   value: string;
   name: string;
-  device?: string;  // Device name for hierarchical URLs (sub-devices only)
+  device?: string;
   entity_category?: number;
   when: string;
   icon?: string;
@@ -50,17 +50,15 @@ interface entityConfig {
   value_numeric_history: number[];
   uom?: string;
   is_disabled_by_default?: boolean;
-  // Water heater specific
   away?: boolean;
   is_on?: boolean;
-  // Infrared specific
   supports_transmitter?: boolean;
   supports_receiver?: boolean;
 }
 
 interface groupConfig {
   name: string;
-  sorting_weight: number;  
+  sorting_weight: number;
 }
 
 export const stateOn = "ON";
@@ -71,10 +69,6 @@ export function getBasePath() {
   return str.endsWith("/") ? str.slice(0, -1) : str;
 }
 
-// ID format detection and parsing helpers
-// New format: "domain/entity_name" or "domain/device_name/entity_name"
-// Old format: "domain-object_id" (deprecated)
-
 function isNewIdFormat(id: string): boolean {
   return id.includes('/');
 }
@@ -83,32 +77,26 @@ function parseDomainFromId(id: string): string {
   if (isNewIdFormat(id)) {
     return id.split('/')[0];
   }
-  // Old format: domain-object_id
   return id.split('-')[0];
 }
 
-function buildEntityActionUrl(basePath: string, entity: entityConfig, action: string): string {
+export function buildEntityActionUrl(basePath: string, entity: entityConfig, action: string): string {
   if (isNewIdFormat(entity.unique_id)) {
-    // New format: /{domain}/{device?}/{name}/{action}
     const entityName = encodeURIComponent(entity.name);
     const devicePart = entity.device
       ? `${encodeURIComponent(entity.device)}/`
       : '';
     return `${basePath}/${entity.domain}/${devicePart}${entityName}/${action}`;
   }
-  // Old format: /{domain}/{object_id}/{action}
   const objectId = entity.unique_id.split('-').slice(1).join('-');
   return `${basePath}/${entity.domain}/${objectId}/${action}`;
 }
 
 function buildIdFetchUrl(basePath: string, id: string): string {
-  // URL-encode each path segment for fetching detail_all
   let urlPath: string;
   if (isNewIdFormat(id)) {
-    // New format: domain/name or domain/device/name
     urlPath = id.split('/').map((s: string) => encodeURIComponent(s)).join('/');
   } else {
-    // Old format: domain-object_id -> domain/object_id
     const parts = id.split('-');
     const domain = parts[0];
     const objectId = parts.slice(1).join('-');
@@ -138,7 +126,7 @@ export class EntityTable extends LitElement implements RestAction {
   private _swipeLocked: boolean | null = null;
   private _actionRenderer = new ActionRenderer();
   private _basePath = getBasePath();
-  private groups: groupConfig[] = [] 
+  private groups: groupConfig[] = [];
   private static ENTITY_UNDEFINED = "States";
   private static ENTITY_CATEGORIES = [
     "Sensor and Control",
@@ -149,7 +137,23 @@ export class EntityTable extends LitElement implements RestAction {
   private _unknown_state_events: {[key: string]: number} = {};
   private _navScrollInitialized = false;
 
+  private _lastUpdateAvailableIds = '';
+
   protected updated() {
+    // Dispatch firmware-update event when update entity states change
+    const updateEntities = this.entities.filter(
+      e => e.domain === 'update' && e.state === 'UPDATE AVAILABLE'
+    );
+    const ids = updateEntities.map(e => e.unique_id + ':' + e.value).join(',');
+    if (ids !== this._lastUpdateAvailableIds) {
+      this._lastUpdateAvailableIds = ids;
+      this.dispatchEvent(new CustomEvent('firmware-update', {
+        detail: updateEntities,
+        bubbles: true,
+        composed: true,
+      }));
+    }
+
     if (this._navScrollInitialized) return;
     const nav = this.shadowRoot?.querySelector('.nav-group') as HTMLElement | null;
     const sentinel = this.shadowRoot?.querySelector('.nav-sentinel') as HTMLElement | null;
@@ -174,7 +178,6 @@ export class EntityTable extends LitElement implements RestAction {
     window.source?.addEventListener('state', (e: Event) => {
       const messageEvent = e as MessageEvent;
       const data = JSON.parse(messageEvent.data);
-      // Prefer name_id (new format) over id (legacy format) for entity identification
       const entityId = data.name_id || data.id;
       let idx = this.entities.findIndex((x) => x.unique_id === entityId);
       if (idx != -1 && entityId) {
@@ -184,8 +187,8 @@ export class EntityTable extends LitElement implements RestAction {
           this.entities[idx].value_numeric_history = history.splice(-50);
         }
 
-        if(data.id == 'switch-setup_mode') {
-          if(data.value) {
+        if (data.id == 'switch-setup_mode') {
+          if (data.value) {
             this.show_setup = true;
           } else {
             this.show_setup = false;
@@ -200,7 +203,6 @@ export class EntityTable extends LitElement implements RestAction {
         Object.assign(this.entities[idx], data);
         this.requestUpdate();
       } else {
-        // is it a `detail_all` event already? (has name and domain)
         if (data?.name && data?.domain) {
           this.addEntity(data);
         } else {
@@ -209,8 +211,6 @@ export class EntityTable extends LitElement implements RestAction {
           } else {
             this._unknown_state_events[entityId] = 1;
           }
-          // ignore the first few events, maybe the esp will send a detail_all
-          // event soon
           if (this._unknown_state_events[entityId] < 1) {
             return;
           }
@@ -218,20 +218,20 @@ export class EntityTable extends LitElement implements RestAction {
           fetch(buildIdFetchUrl(this._basePath, entityId), {
             method: 'GET',
           })
-              .then((r) => {
-                console.log(r);
-                if (!r.ok) {
-                  throw new Error(`HTTP error! Status: ${r.status}`);
-                }
-                return r.json();
-              })
-              .then((data) => {
-                console.log(data);
-                this.addEntity(data);
-              })
-              .catch((error) => {
-                console.error('Fetch error:', error);
-              });
+            .then((r) => {
+              console.log(r);
+              if (!r.ok) {
+                throw new Error(`HTTP error! Status: ${r.status}`);
+              }
+              return r.json();
+            })
+            .then((data) => {
+              console.log(data);
+              this.addEntity(data);
+            })
+            .catch((error) => {
+              console.error('Fetch error:', error);
+            });
         }
       }
     });
@@ -242,13 +242,13 @@ export class EntityTable extends LitElement implements RestAction {
       const groupIndex = this.groups.findIndex((x) => x.name === data.name);
       if (groupIndex === -1) {
         let group = {
-           ...data,
+          ...data,
         } as groupConfig;
         this.groups.push(group);
         this.groups.sort((a, b) => {
-          return a.sorting_weight < b.sorting_weight  
-            ? -1  
-            : 1  
+          return a.sorting_weight < b.sorting_weight
+            ? -1
+            : 1;
         });
       }
     });
@@ -260,17 +260,14 @@ export class EntityTable extends LitElement implements RestAction {
 
     this.groups.push({
       name: EntityTable.ENTITY_UNDEFINED,
-      sorting_weight: -1 
+      sorting_weight: -1
     });
   }
 
   addEntity(data: any) {
-    // Prefer name_id (new format) over id (legacy format) for entity identification
     const entityId = data.name_id || data.id;
     let idx = this.entities.findIndex((x) => x.unique_id === entityId);
     if (idx === -1 && entityId) {
-      // Dynamically add discovered entity
-      // domain comes from JSON (new format) or parsed from id (old format)
       const domain = data.domain || parseDomainFromId(entityId);
       let entity = {
         ...data,
@@ -298,11 +295,11 @@ export class EntityTable extends LitElement implements RestAction {
             : sortA < sortB
               ? -1
               : 1
-          : 1
+          : 1;
       });
 
-      if(data.id == 'switch-setup_mode') {
-        if(data.value) {
+      if (data.id == 'switch-setup_mode') {
+        if (data.value) {
           this.show_setup = true;
         } else {
           this.show_setup = false;
@@ -328,14 +325,13 @@ export class EntityTable extends LitElement implements RestAction {
   restAction(entity: entityConfig, action: string) {
     fetch(buildEntityActionUrl(this._basePath, entity, action), {
       method: "POST",
-      headers:{
+      headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
     }).then((r) => {
       console.log(r);
     });
   }
-
 
   private static _DOMAIN_ICONS: Record<string, string> = {
     binary_sensor: "mdi:checkbox-blank-circle-outline",
@@ -375,7 +371,52 @@ export class EntityTable extends LitElement implements RestAction {
     return prefix.replace(/\s*-\s*$/, '').trimEnd();
   }
 
-  private _renderEntityRow(component: entityConfig, groupName: string, idx: number, sgPrefix?: string) {
+  // ── Status badge renderer ──────────────────────────────────────────────────
+  private _renderStatusBadge(value: string): TemplateResult {
+    const v = (value ?? '').toLowerCase().trim();
+
+    let icon = 'mdi:clock-outline';
+    let cls  = 'status-badge--pending';
+
+    if (v === 'complete' || v === 'completed') {
+      icon = 'mdi:check-circle-outline';
+      cls  = 'status-badge--complete';
+    } else if (v === 'pending' || v === '' || v === 'not configured' || v === 'not read') {
+      icon = 'mdi:clock-outline';
+      cls  = 'status-badge--pending';
+    } else if (v === 'failed') {
+      icon = 'mdi:close';
+      cls  = 'status-badge--failed';
+    } else if (v.includes('discover') || v.includes('loading') || v.includes('reading memory') || v.includes('identifying')) {
+      icon = 'mdi:loading';
+      cls  = 'status-badge--discovering';
+    } else {
+      // Any other value = action required (e.g. "Press your Doorbell")
+      icon = 'mdi:gesture-tap';
+      cls  = 'status-badge--action';
+    }
+
+    const spinning = cls === 'status-badge--discovering';
+
+    return html`
+      <div class="status-badge ${cls}">
+        <iconify-icon
+          icon="${icon}"
+          height="14px"
+          class="${spinning ? 'loading-spinner' : ''}"
+        ></iconify-icon>
+        <span>${value || '—'}</span>
+      </div>
+    `;
+  }
+
+  private _renderEntityRow(
+    component: entityConfig,
+    groupName: string,
+    idx: number,
+    sgPrefix?: string,
+    isStatusGroup = false
+  ) {
     const icon = component.icon
       || (component.domain === 'lock'
         ? (component.state === 'LOCKED' ? 'mdi:lock' : component.state === 'UNLOCKED' ? 'mdi:lock-open-variant' : EntityTable._DOMAIN_ICONS['lock'])
@@ -383,6 +424,7 @@ export class EntityTable extends LitElement implements RestAction {
           ? (component.state === stateOn ? 'mdi:checkbox-marked-circle' : 'mdi:checkbox-blank-circle-outline')
           : EntityTable._DOMAIN_ICONS[component.domain])
       || "mdi:help-circle-outline";
+
     return html`
       <div
         class="entity-row"
@@ -397,11 +439,13 @@ export class EntityTable extends LitElement implements RestAction {
           ${!component.has_action && component.when ? html`<div class="entity-when">${component.when}</div>` : nothing}
         </div>
         <div>
-          ${this.has_controls && component.has_action
+          ${isStatusGroup && component.domain === 'text_sensor'
+            ? this._renderStatusBadge(component.value ?? component.state)
+            : this.has_controls && component.has_action
             ? this.control(component)
             : component.domain === "event"
             ? (component as any).event_type
-              ? html`<div class="event-type-badge">${(component as any).event_type}</div>`
+              ? html`<div>${(component as any).event_type}</div>`
               : html`<div class="state-empty">—</div>`
             : component.domain === "sensor" && component.state
             ? html`<div class="sensor-state"><span class="sensor-value">${component.value ?? component.state}</span>${component.uom ? html`<span class="sensor-uom">${component.uom}</span>` : nothing}</div>`
@@ -547,7 +591,6 @@ export class EntityTable extends LitElement implements RestAction {
     const localIds = new Set<string>(
       [...primaryEntities, ...subGroups.flatMap(sg => sg.entities)].map(e => e.id)
     );
-    // Inject entities from other groups whose stripped display name matches this group's name.
     const injected = allEntities.filter(e => {
       if (localIds.has(e.id)) return false;
       const c = e.name.indexOf(': ');
@@ -569,13 +612,30 @@ export class EntityTable extends LitElement implements RestAction {
 
     for (const sg of subGroups) {
       const sgPrefix = this._subGroupPrefix(sg.entities);
+      const isStatusGroup = sg.label.toLowerCase() === 'status';
+      const allCompleted = isStatusGroup
+        && sg.entities.length > 0
+        && sg.entities.every(e => (e.value ?? e.state)?.toString().toLowerCase() === 'complete'
+                                || (e.value ?? e.state)?.toString().toLowerCase() === 'completed');
+
       result.push(html`
         <div class="sub-group-header">
           <span class="sub-group-header__label">${sg.label}</span>
         </div>
       `);
-      for (const entity of sg.entities) {
-        result.push(this._renderEntityRow(entity, groupName, globalIdx++, sgPrefix));
+
+      if (allCompleted) {
+        result.push(html`
+          <div class="setup-completed-banner">
+            <iconify-icon icon="mdi:check-circle" height="40px"></iconify-icon>
+            <span class="setup-completed-title">Setup Complete</span>
+            <span class="setup-completed-sub">All steps completed successfully</span>
+          </div>
+        `);
+      } else {
+        for (const entity of sg.entities) {
+          result.push(this._renderEntityRow(entity, groupName, globalIdx++, sgPrefix, isStatusGroup));
+        }
       }
     }
 
@@ -591,13 +651,10 @@ export class EntityTable extends LitElement implements RestAction {
     const allElems = Array.from(grouped, ([name, value]) => ({ name, value }));
     const allElemsMap = new Map(allElems.map(e => [e.name, e]));
 
-    // Primary groups have no ":" in their name. A group qualifies as primary even
-    // if it has no direct entities, as long as it is the parent of a sub-group.
     const subGroupParents = new Set<string>();
     for (const g of allElems) {
       if (g.name.includes(': ')) subGroupParents.add(g.name.slice(0, g.name.indexOf(': ')).trim());
     }
-    // Use this.groups (sorted by sorting_weight) to preserve declared order.
     const elems = this.groups
       .filter(g => !g.name.includes(': ') && (allElemsMap.has(g.name) || subGroupParents.has(g.name)))
       .map(g => allElemsMap.get(g.name) ?? { name: g.name, value: [] as entityConfig[] });
@@ -607,7 +664,6 @@ export class EntityTable extends LitElement implements RestAction {
     }
     const activeGroup = elems.find((g) => g.name === this.activeGroup) ?? elems[0];
 
-    // Sub-groups whose name starts with "ActiveGroup: ", sorted by their declared weight.
     const activeSubGroups = activeGroup
       ? allElems
           .filter(g => g.name.startsWith(activeGroup.name + ': '))
@@ -666,6 +722,9 @@ export class EntityTable extends LitElement implements RestAction {
       `;
     }
 
+    const setupStatusEntities = this.entities.filter(e => e.sorting_group === 'Setup: Status');
+    const setupComplete = setupStatusEntities.length > 0 && setupStatusEntities.every(e => e.state === 'Complete');
+
     return html`
       <div class="layout" @touchstart="${this._onTouchStart}" @touchend="${this._onTouchEnd}">
         <div class="nav-sentinel" aria-hidden="true"></div>
@@ -699,12 +758,14 @@ export class EntityTable extends LitElement implements RestAction {
                 </button>
                 <div class="nav-item-divider"></div>
               `;
+              const showCheck = group.name === 'Setup' && setupComplete;
               return html`
                 <button
                   class="nav-item ${isActive ? "active" : ""}"
                   @click="${() => this._clickGroup(group.name)}"
                 >
-                  ${group.name || EntityTable.ENTITY_UNDEFINED}
+                  <span class="nav-item-text">${group.name || EntityTable.ENTITY_UNDEFINED}</span>
+                  ${showCheck ? html`<iconify-icon icon="mdi:check" height="13px" class="nav-item-check"></iconify-icon>` : nothing}
                 </button>
               `;
             })}
@@ -921,8 +982,8 @@ class ActionRenderer {
     value: string,
   ) {
     return html`
-      <input 
-        type="${type}" 
+      <input
+        type="${type}"
         name="${entity.unique_id}"
         id="${entity.unique_id}"
         .value="${value}"
@@ -984,7 +1045,7 @@ class ActionRenderer {
     max?: string | undefined,
     step = 1
   ) {
-    if(entity.mode == 1) {
+    if (entity.mode == 1) {
       return html`<div class="range">
         <input
           type="number"
@@ -1003,9 +1064,9 @@ class ActionRenderer {
           <span>${min ?? 0}</span>
           <span>${max ?? "–"}</span>
         </div>
-      </div>`;      
+      </div>`;
     } else {
-      return html`    
+      return html`
       <esp-range-slider
         name="${entity.unique_id}"
         step="${step}"
@@ -1018,7 +1079,6 @@ class ActionRenderer {
           }}"
       ></esp-range-slider>`;
     }
-
   }
 
   private _textinput(
@@ -1306,7 +1366,7 @@ class ActionRenderer {
     let current_temp = html`<div class="climate-row" style="padding-bottom: 10px";>
                               <label>Current:&nbsp;${this.entity.current_temperature} °C</label>
                             </div>`;
-    
+
     if (
       this.entity.target_temperature_low !== undefined &&
       this.entity.target_temperature_high !== undefined
@@ -1371,12 +1431,14 @@ class ActionRenderer {
       </div>
     `;
   }
+
   render_valve() {
     if (!this.entity) return;
     return html`${this._actionButton(this.entity, "OPEN", "open", this.entity.state === "OPEN")}
     ${this._actionButton(this.entity, "☐", "stop")}
     ${this._actionButton(this.entity, "CLOSE", "close", this.entity.state === "CLOSED")}`;
   }
+
   render_water_heater() {
     if (!this.entity) return;
 
@@ -1480,6 +1542,7 @@ class ActionRenderer {
       </div>
     `;
   }
+
   render_infrared() {
     if (!this.entity) return;
 
@@ -1587,9 +1650,10 @@ class ActionRenderer {
       </div>
     `;
   }
+
   render_update() {
     if (!this.entity) return;
-    if(this.entity.state == "UPDATE AVAILABLE") {
+    if (this.entity.state == "UPDATE AVAILABLE") {
       let version = this.entity.value;
       let type = "";
 

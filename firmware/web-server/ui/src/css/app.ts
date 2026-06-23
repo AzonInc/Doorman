@@ -21,7 +21,6 @@ export default css`
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    overflow: hidden;
   }
   .bg-orbs::before {
     content: '';
@@ -31,8 +30,8 @@ export default css`
     width: 520px;
     height: 520px;
     border-radius: 50%;
-    background: rgba(146, 105, 254, 0.14);
-    filter: blur(80px);
+    background: radial-gradient(circle, rgba(146, 105, 254, 0.3) 0%, transparent 70%);
+    filter: blur(40px);
   }
   .bg-orbs::after {
     content: '';
@@ -42,8 +41,8 @@ export default css`
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: rgba(80, 30, 200, 0.09);
-    filter: blur(100px);
+    background: radial-gradient(circle, rgba(80, 30, 200, 0.2) 0%, transparent 70%);
+    filter: blur(40px);
   }
   @media (min-width: 641px) {
     .bg-orbs::before {
@@ -51,14 +50,15 @@ export default css`
       left: -120px;
       width: 800px;
       height: 800px;
-      filter: blur(120px);
+      filter: blur(60px);
     }
     .bg-orbs::after {
-      top: 120px;
-      left: 280px;
-      width: 500px;
-      height: 500px;
-      filter: blur(140px);
+      top: 60px;
+      left: auto;
+      right: -120px;
+      width: 600px;
+      height: 600px;
+      filter: blur(60px);
     }
   }
 
@@ -89,7 +89,7 @@ export default css`
   }
   infobox {
     background-color: rgba(146, 105, 254, 0.08);
-    padding: 10px max(24px, calc((100% - 960px) / 2 + 24px));
+    padding: 10px max(12px, calc((100% - 960px) / 2 + 12px));
     display: flex;
     align-items: center;
     gap: 14px;
@@ -104,6 +104,29 @@ export default css`
     border-top-color: rgba(234, 179, 8, 0.2) !important;
   }
 
+  .infobox-install-btn {
+    margin-left: auto;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(146, 105, 254, 0.35);
+    background: rgba(146, 105, 254, 0.12);
+    color: #9269fe;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .infobox-install-btn:hover {
+    background: rgba(146, 105, 254, 0.22);
+    border-color: rgba(146, 105, 254, 0.55);
+  }
   .infobox-dismiss {
     margin-left: auto;
     flex-shrink: 0;

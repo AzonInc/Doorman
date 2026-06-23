@@ -1,6 +1,7 @@
 import { LitElement, html, css, PropertyValues, nothing } from "lit";
 import { customElement, state, query } from "lit/decorators.js";
-import { getBasePath } from "./esp-entity-table";
+import { getBasePath, buildEntityActionUrl } from "./esp-entity-table";
+import type { entityConfig } from "./esp-entity-table";
 
 import "./esp-entity-table";
 import "./esp-log";
@@ -64,9 +65,10 @@ export default class EspApp extends LitElement {
   @state() lastUpdate: number = 0;
   @state() infoDismissed: boolean = false;
   @state() showAll: boolean = localStorage.getItem('esp-show-all') === 'true';
+  @state() pendingUpdates: entityConfig[] = [];
   private _hasJsonUptime: boolean = false;
-  @query("#beat")
-  beat!: HTMLSpanElement;
+  @query("#beat") beat!: HTMLSpanElement;
+  @query("esp-log") logPanel!: any;
 
   version: String = import.meta.env.PACKAGE_VERSION;
   config: Config = { ota: false, log: true, title: "", comment: "" };
@@ -182,7 +184,7 @@ export default class EspApp extends LitElement {
 
     const header = this.shadowRoot?.querySelector('header');
     const updatePageOffset = () => {
-      const headerH = header?.offsetHeight ?? 64;
+      const headerH = header?.offsetHeight ?? 0;
       const infobox = this.shadowRoot?.querySelector('infobox') as HTMLElement | null;
       const infoboxH = infobox?.offsetHeight ?? 0;
       document.documentElement.style.setProperty('--header-height', `${headerH}px`);
@@ -230,6 +232,29 @@ export default class EspApp extends LitElement {
   }
 
   renderNotSupportedHardware() {
+    const debugUpdates: entityConfig[] = new URLSearchParams(location.search).has('debug_update')
+      ? [{ unique_id: 'update/Doorman Firmware', domain: 'update', name: 'Doorman Firmware', state: 'UPDATE AVAILABLE', value: '2026.6.0', id: '', detail: '', when: '', color: {}, value_numeric_history: [], sorting_weight: 0, speed: '' } as entityConfig]
+      : [];
+    const updates = debugUpdates.length > 0 ? debugUpdates : this.pendingUpdates;
+    if (updates.length > 0) {
+      return html`${updates.map(entity => {
+        let version = entity.value ?? '';
+        let label = version;
+        if (version.includes('-')) {
+          const [base, suffix] = version.split('-');
+          label = `${base} (Experimental · ${suffix.split('.')[1]})`;
+        }
+        const basePath = getBasePath();
+        return html`<infobox>
+          <iconify-icon icon="mdi:package-up" height="24px"></iconify-icon>
+          <span><b>Update available</b> — ${entity.name} ${label}</span>
+          <button class="infobox-install-btn" @click="${() => { fetch(buildEntityActionUrl(basePath, entity, 'install'), { method: 'POST' }); if (this.logPanel) this.logPanel.expanded = true; }}">
+            <iconify-icon icon="mdi:download" height="14px"></iconify-icon>
+            Install
+          </button>
+        </infobox>`;
+      })}`;
+    }
     if (this.infoDismissed) return nothing;
     const dismissBtn = html`<button class="infobox-dismiss" @click="${this._dismissInfo}" title="Dismiss"><iconify-icon icon="mdi:close" height="16px"></iconify-icon></button>`;
     if (this.hardwareVersion.toLowerCase().includes('unknown') || this.hardwareVersion.toLowerCase().includes('unsupported')) {
@@ -266,6 +291,11 @@ export default class EspApp extends LitElement {
   }
 
   render() {
+    if (new URLSearchParams(location.search).has('logs')) {
+      return html`
+        <esp-log rows="500" .scheme="${this.scheme}" .expanded="${true}" .standalone="${true}"></esp-log>
+      `;
+    }
     return html`
       <div class="bg-orbs" aria-hidden="true"></div>
       <header>
@@ -290,6 +320,7 @@ export default class EspApp extends LitElement {
         .ota="${this.config.ota}"
         .showAll="${this.showAll}"
         @toggle-show-all="${() => { this.showAll = !this.showAll; localStorage.setItem('esp-show-all', String(this.showAll)); }}"
+        @firmware-update="${(e: CustomEvent) => { this.pendingUpdates = e.detail; }}"
       ></esp-entity-table>
       ${this.renderLog()}
     `;

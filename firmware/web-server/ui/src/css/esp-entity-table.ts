@@ -181,7 +181,9 @@ export default css`
   }
 
   .nav-item {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     width: 100%;
     text-align: left;
     padding: 8px 12px;
@@ -201,8 +203,12 @@ export default css`
     white-space: nowrap;
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
-    text-overflow: ellipsis;
     transition: background 0.15s, opacity 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+  .nav-item-check {
+    flex-shrink: 0;
+    color: #9269fe;
+    opacity: 0.85;
   }
   .nav-item.active {
     opacity: 1;
@@ -501,21 +507,6 @@ export default css`
   }
   .binary-sensor-badge--off .binary-sensor-dot {
     background: rgba(127, 127, 127, 0.35);
-  }
-  .event-type-badge {
-    display: inline-block;
-    font-size: 11.5px;
-    font-weight: 500;
-    font-family: var(--vp-font-family-mono);
-    padding: 3px 9px;
-    border-radius: 6px;
-    background: rgba(146, 105, 254, 0.1);
-    border: 1px solid rgba(146, 105, 254, 0.18);
-    color: #9269fe;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
   .state-empty {
     color: rgba(127, 127, 127, 0.28);
@@ -872,5 +863,69 @@ export default css`
     display: flex;
     padding: 6px 16px 6px 0;
     justify-content: space-between;
+  }
+
+  .setup-completed-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 36px 16px;
+    border-radius: 12px;
+    background: rgba(146, 105, 254, 0.06);
+    border: 1px solid rgba(146, 105, 254, 0.14);
+    margin: 4px 0;
+    text-align: center;
+  }
+  .setup-completed-banner iconify-icon {
+    color: #9269fe;
+    filter: drop-shadow(0 0 14px rgba(146, 105, 254, 0.55));
+    margin-bottom: 4px;
+  }
+  .setup-completed-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(230, 230, 230, 0.9);
+  }
+  .setup-completed-sub {
+    font-size: 12px;
+    color: rgba(200, 200, 200, 0.4);
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .status-badge--complete {
+    background: rgba(146, 105, 254, 0.12);
+    color: #9269fe;
+    border-color: rgba(146, 105, 254, 0.2);
+  }
+  .status-badge--pending {
+    background: rgba(127, 127, 127, 0.08);
+    color: rgba(200, 200, 200, 0.45);
+    border-color: rgba(127, 127, 127, 0.12);
+  }
+  .status-badge--discovering {
+    background: rgba(234, 179, 8, 0.08);
+    color: rgba(234, 179, 8, 0.75);
+    border-color: rgba(234, 179, 8, 0.18);
+  }
+  .status-badge--action {
+    background: rgba(59, 130, 246, 0.08);
+    color: rgba(99, 179, 237, 0.9);
+    border-color: rgba(59, 130, 246, 0.18);
   }
 `;

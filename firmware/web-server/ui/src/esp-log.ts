@@ -14,8 +14,10 @@ interface recordConfig {
 export class DebugLog extends LitElement {
   @property({ type: Number }) rows = 10;
   @property({ type: String }) scheme = "";
+  @property({ type: Boolean }) standalone = false;
   @state() logs: recordConfig[] = [];
   @state() expanded: boolean = false;
+  @state() fullscreen: boolean = false;
   @state() private filterText: string = "";
   @state() private filterLevels: Set<string> = new Set();
   @query(".logs") private logsEl?: HTMLDivElement;
@@ -80,6 +82,8 @@ export class DebugLog extends LitElement {
   }
 
   protected updated() {
+    this.classList.toggle('fullscreen', this.fullscreen || this.standalone);
+    this.classList.toggle('standalone', this.standalone);
     if (this.shouldAutoScroll && this.logsEl) {
       this.logsEl.scrollTop = this.logsEl.scrollHeight;
     }
@@ -135,11 +139,14 @@ export class DebugLog extends LitElement {
 
     return html`
       <div
-        class="log-header"
+        class="log-header ${this.standalone ? 'log-header--standalone' : ''}"
         @click="${() => {
+          if (this.standalone) return;
           this.expanded = !this.expanded;
           if (this.expanded) {
             this.shouldAutoScroll = true;
+          } else {
+            this.fullscreen = false;
           }
         }}"
       >
@@ -148,11 +155,21 @@ export class DebugLog extends LitElement {
         <span class="log-count">${this.logs.length}</span>
         ${(counts["e"] ?? 0) > 0 ? html`<span class="log-badge log-badge--e">${counts["e"]}</span>` : nothing}
         ${(counts["w"] ?? 0) > 0 ? html`<span class="log-badge log-badge--w">${counts["w"]}</span>` : nothing}
-        <iconify-icon
-          icon="mdi:chevron-up"
-          height="16px"
-          class="chevron ${this.expanded ? "chevron--open" : ""}"
-        ></iconify-icon>
+        ${this.standalone ? nothing : html`
+          <div class="log-header-right">
+            ${this.expanded ? html`
+              <button class="fullscreen-btn" title="${this.fullscreen ? 'Exit fullscreen' : 'Fullscreen'}"
+                @click="${(e: Event) => { e.stopPropagation(); this.fullscreen = !this.fullscreen; }}">
+                <iconify-icon icon="${this.fullscreen ? 'mdi:fullscreen-exit' : 'mdi:fullscreen'}" height="16px"></iconify-icon>
+              </button>
+            ` : nothing}
+            <iconify-icon
+              icon="mdi:chevron-up"
+              height="16px"
+              class="chevron ${this.expanded ? "chevron--open" : ""}"
+            ></iconify-icon>
+          </div>
+        `}
       </div>
 
       <div class="log-body ${this.expanded ? "log-body--open" : ""}">
@@ -287,6 +304,41 @@ export class DebugLog extends LitElement {
         .log-header:hover {
           background-color: rgba(127, 127, 127, 0.08);
         }
+        .log-header--standalone {
+          cursor: default;
+        }
+        .log-header--standalone:hover {
+          background-color: transparent;
+        }
+        :host(.standalone) {
+          top: 0;
+          display: flex;
+          flex-direction: column;
+        }
+        :host(.standalone) .log-body {
+          flex: 1;
+          min-height: 0;
+          grid-template-rows: 1fr !important;
+        }
+        :host(.standalone) .log-body-inner {
+          height: 100%;
+          overflow: visible;
+          display: flex;
+          flex-direction: column;
+        }
+        :host(.standalone) .tab-container {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 0;
+        }
+        :host(.standalone) .toolbar { flex-shrink: 0; }
+        :host(.standalone) .logs {
+          flex: 1;
+          min-height: 0;
+          max-height: none;
+        }
         .log-count,
         .log-badge {
           display: inline-flex;
@@ -310,8 +362,13 @@ export class DebugLog extends LitElement {
           background: rgba(255, 210, 0, 0.12);
           color: #ffd000;
         }
-        .chevron {
+        .log-header-right {
           margin-left: auto;
+          display: flex;
+          align-items: center;
+          gap: 2px;
+        }
+        .chevron {
           transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .chevron--open {
@@ -486,6 +543,8 @@ export class DebugLog extends LitElement {
           min-width: 100%;
           background-color: color-mix(in srgb, var(--c-bg, #1b1b1f) 92%, transparent);
           border-bottom: 1px solid rgba(127, 127, 127, 0.12);
+          box-shadow: 16px 0 0 color-mix(in srgb, var(--c-bg, #1b1b1f) 92%, transparent),
+                      -16px 0 0 color-mix(in srgb, var(--c-bg, #1b1b1f) 92%, transparent);
         }
         .thead .trow {
           padding: 7px 0 6px;
@@ -536,8 +595,8 @@ export class DebugLog extends LitElement {
           padding-right: 10px;
         }
         .col-tag {
-          flex: 0 0 150px;
-          width: 150px;
+          flex: 0 0 220px;
+          width: 220px;
           display: flex;
           flex-wrap: wrap;
           gap: 3px;
@@ -590,6 +649,58 @@ export class DebugLog extends LitElement {
           color: rgba(127, 127, 127, 0.45);
           padding: 4px 16px 6px;
           border-top: 1px solid rgba(127, 127, 127, 0.08);
+        }
+
+        /* ── Fullscreen mode ── */
+        .fullscreen-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          padding: 0;
+          border: none;
+          border-radius: 6px;
+          background: none;
+          color: rgba(200, 200, 200, 0.4);
+          cursor: pointer;
+          transition: color 0.15s, background 0.15s;
+          flex-shrink: 0;
+        }
+        .fullscreen-btn:hover {
+          color: currentColor;
+          background: rgba(127, 127, 127, 0.12);
+        }
+        :host(.fullscreen) {
+          top: var(--header-height, 0px);
+          display: flex;
+          flex-direction: column;
+        }
+        :host(.fullscreen) .log-body {
+          flex: 1;
+          min-height: 0;
+          grid-template-rows: 1fr !important;
+        }
+        :host(.fullscreen) .log-body-inner {
+          height: 100%;
+          overflow: visible;
+          display: flex;
+          flex-direction: column;
+        }
+        :host(.fullscreen) .tab-container {
+          flex: 1;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 0;
+        }
+        :host(.fullscreen) .toolbar {
+          flex-shrink: 0;
+        }
+        :host(.fullscreen) .logs {
+          flex: 1;
+          min-height: 0;
+          max-height: none;
         }
 
         /* ── Responsive ── */

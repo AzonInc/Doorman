@@ -59,6 +59,7 @@ export default defineConfig({
     brotliSize: false,
     // cssCodeSplit: true,
     outDir: "dist",
+    assetsInlineLimit: 65536,
     polyfillModulePreload: false,
     rollupOptions: {
       output: {

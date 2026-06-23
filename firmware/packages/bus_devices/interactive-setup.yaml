@@ -165,7 +165,7 @@ text_sensor:
       {
         return {"Pending"};
       }
-      return {"Not configured"};
+      return {"Not read"};
     entity_category: DIAGNOSTIC
     disabled_by_default: true
     web_server:
