@@ -114,6 +114,23 @@ export class DebugLog extends LitElement {
     this.filterLevels = new Set();
   }
 
+  private downloadLogs() {
+    const levelLabel: Record<string, string> = { e: 'ERROR', w: 'WARN ', i: 'INFO ', d: 'DEBUG', c: 'CONF ', v: 'VERB ' };
+    const lines = this.logs.map((log) => {
+      const level = levelLabel[log.type] ?? log.type.toUpperCase();
+      const tagParts = [...log.tag.matchAll(/\[([^\]]*)\]/g)].map(m => m[1]);
+      const tag = tagParts.length ? tagParts.join(' ') : log.tag.trim();
+      return `${log.when}\t${level}\t${tag}\t${log.detail}`;
+    });
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `doorman-logs-${new Date().toISOString().replace(/[:.]/g, '-')}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   private get hasFilter(): boolean {
     return !!this.filterText || this.filterLevels.size > 0;
   }
@@ -212,6 +229,15 @@ export class DebugLog extends LitElement {
                 >
                   <iconify-icon icon="mdi:close" height="12px"></iconify-icon>
                   Clear
+                </button>
+                <div class="sep"></div>
+                <button
+                  class="download-btn"
+                  ?disabled="${this.logs.length === 0}"
+                  @click="${() => this.downloadLogs()}"
+                  title="Download logs as TXT"
+                >
+                  <iconify-icon icon="mdi:download" height="12px"></iconify-icon>
                 </button>
               </div>
             </div>
@@ -511,6 +537,31 @@ export class DebugLog extends LitElement {
           background: rgba(127, 127, 127, 0.1);
         }
         .clear-btn[disabled] {
+          opacity: 0.25;
+          cursor: default;
+        }
+
+        /* Download button */
+        .download-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          padding: 0;
+          border: none;
+          border-radius: 6px;
+          background: none;
+          color: rgba(200, 200, 200, 0.35);
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: color 0.15s ease, background 0.15s ease;
+        }
+        .download-btn:not([disabled]):hover {
+          color: rgba(200, 200, 200, 0.8);
+          background: rgba(127, 127, 127, 0.1);
+        }
+        .download-btn[disabled] {
           opacity: 0.25;
           cursor: default;
         }
