@@ -434,6 +434,8 @@ svg { fill: #9269fe; color: #9269fe; }
 input[type="text"],
 input[type="password"],
 input[type="number"] {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: auto;
   padding: 7px 10px;
