@@ -3,8 +3,3 @@
 external_components:
   - source: github://azoninc/doorman@${branch}
     refresh: 60s
-
-  # Temporary fix for ESPHome 2026.4.x
-  - source: github://pr#15967
-    components: [web_server_idf]
-    refresh: 5min
