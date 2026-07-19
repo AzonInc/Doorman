@@ -27,7 +27,10 @@ light:
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
 
-            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0;
+            // ESPHome >= 2025.x forces brightness back to 1.0 on turn-on if it
+            // would otherwise be exactly 0 (see esphome/esphome#17103), so use a
+            // near-zero value instead to keep the "off" phase actually dark.
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0.001f;
             call.set_brightness_if_supported(out);
 
             call.set_transition_length_if_supported(250);
@@ -49,7 +52,7 @@ light:
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
 
-            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0;
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0.001f;
             call.set_brightness_if_supported(out);
 
             call.set_transition_length_if_supported(2500);
@@ -71,7 +74,7 @@ light:
             call.set_state(true);
             call.set_color_mode_if_supported(light::ColorMode::RGB);
             
-            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0;
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0.001f;
             call.set_brightness_if_supported(out);
 
             call.set_transition_length_if_supported(4000);
