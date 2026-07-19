@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [
     viteSingleFile(),
     { ...minifyHTML(), enforce: "pre", apply: "build" },
-    ViteMinifyHtml(),
+    ViteMinifyHtml({ removeRedundantAttributes: false }),
     {
       ...gzipPlugin({
         filter: /\.(html)$/,
