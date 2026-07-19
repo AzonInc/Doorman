@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build && npm run deploy",
     "serve": "vite preview",
-    "deploy": "bash -c './make_header.sh ./dist captive_index.h captive_portal \"\" ../../../components/captive_portal'"
+    "deploy": "bash -c './make_header.sh dist captive_index.h captive_portal && cp dist/captive_index.h ../../../components/captive_portal/captive_index.h'"
   },
   "dependencies": {
     "rollup-plugin-generate-html-template": "^1.7.0",
