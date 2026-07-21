@@ -37,4 +37,4 @@ packages:
   ring_to_open_homekit: !include ../packages/ring_to_open/ring-to-open.homekit.yaml
   indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
   interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml
-  virtual_outdoor_station: !include ../packages/bus_devices/virtual-outdoor-station.yaml
+  outdoor_station: !include ../packages/bus_devices/outdoor-station.yaml
