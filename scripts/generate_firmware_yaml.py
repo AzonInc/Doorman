@@ -102,12 +102,12 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ('interactive_setup', 'bus_devices/interactive-setup.yaml', True),
         
         ## Add outdoor station for local tests
-        #('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'local'),
+        ('outdoor_station', 'bus_devices/outdoor-station.yaml', branch == 'dev'),
         
         ## Experimental Features
         ### Virtual devices
-        ('virtual_indoor_station', 'bus_devices/virtual-indoor-station.yaml', branch == 'local'),
-        #('virtual_outdoor_station', 'bus_devices/virtual-outdoor-station.yaml', branch == 'local'),
+        #('virtual_indoor_station', 'bus_devices/virtual-indoor-station.yaml', branch == 'local'),
+        ('virtual_outdoor_station', 'bus_devices/virtual-outdoor-station.yaml', branch == 'local'),
         ### Configo component for serial interface
         # ('configo', 'serial_interface/configo.yaml', branch == 'local'),
     ]

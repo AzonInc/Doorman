@@ -40,3 +40,4 @@ packages:
   indoor_station_settings: github://azoninc/doorman/firmware/packages/bus_devices/indoor-station-settings.yaml@${branch}
   addon_nuki_bridge: github://azoninc/doorman/firmware/packages/nuki/nuki-bridge.yaml@${branch}
   interactive_setup: github://azoninc/doorman/firmware/packages/bus_devices/interactive-setup.yaml@${branch}
+  virtual_outdoor_station: github://azoninc/doorman/firmware/packages/bus_devices/virtual-outdoor-station.yaml@${branch}

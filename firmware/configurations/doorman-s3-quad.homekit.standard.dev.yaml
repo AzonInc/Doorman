@@ -41,3 +41,4 @@ packages:
   ring_to_open_homekit: github://azoninc/doorman/firmware/packages/ring_to_open/ring-to-open.homekit.yaml@${branch}
   indoor_station_settings: github://azoninc/doorman/firmware/packages/bus_devices/indoor-station-settings.yaml@${branch}
   interactive_setup: github://azoninc/doorman/firmware/packages/bus_devices/interactive-setup.yaml@${branch}
+  virtual_outdoor_station: github://azoninc/doorman/firmware/packages/bus_devices/virtual-outdoor-station.yaml@${branch}

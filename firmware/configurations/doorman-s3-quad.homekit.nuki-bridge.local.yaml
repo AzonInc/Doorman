@@ -43,4 +43,4 @@ packages:
   indoor_station_settings: !include ../packages/bus_devices/indoor-station-settings.yaml
   addon_nuki_bridge: !include ../packages/nuki/nuki-bridge.yaml
   interactive_setup: !include ../packages/bus_devices/interactive-setup.yaml
-  virtual_indoor_station: !include ../packages/bus_devices/virtual-indoor-station.yaml
+  virtual_outdoor_station: !include ../packages/bus_devices/virtual-outdoor-station.yaml
