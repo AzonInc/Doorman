@@ -97,6 +97,7 @@ namespace esphome::tc_bus
         MODEL_AS_TCU4_EX6,
         MODEL_AS_TKM_AS,
         MODEL_AS_TKM_ASV,
+        MODEL_AS_AMI1010X,
 
         MODEL_CTRL_BVS20,
         MODEL_CTRL_BVS30,

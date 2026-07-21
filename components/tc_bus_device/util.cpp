@@ -327,6 +327,10 @@ namespace esphome::tc_bus
         { MODEL_AS_TCU4_EX6,       0xC26,    0, UINT16_MAX, 2 },
         { MODEL_AS_TKM_AS,         0x480,    0, UINT16_MAX, 2 },
         { MODEL_AS_TKM_ASV,        0x4C0,    0, UINT16_MAX, 2 },
+        { MODEL_AS_AMI1010X,       0x101,    0, UINT16_MAX, 2 },
+        { MODEL_AS_AMI1010X,       0x102,    0, UINT16_MAX, 2 },
+        { MODEL_AS_AMI1010X,       0x103,    0, UINT16_MAX, 2 },
+        { MODEL_AS_AMI1010X,       0x104,    0, UINT16_MAX, 2 },
 
         // Group 4
         { MODEL_CTRL_BVS30,        0x008, 0, UINT16_MAX, 4 },
@@ -450,6 +454,7 @@ namespace esphome::tc_bus
         {MODEL_AS_TCU4_EX6, "TCS TCU4 + TCKE3 (6)"},
         {MODEL_AS_TKM_AS, "Jung TKM AS"},
         {MODEL_AS_TKM_ASV, "Jung TKM ASV"},
+        {MODEL_AS_AMI1010X, "AMI1010X"},
         {MODEL_CTRL_BVS20, "TCS BVS20"},
         {MODEL_CTRL_BVS30, "TCS BVS30"},
         {MODEL_CTRL_NBV3210, "TCS NBV3210"},
@@ -1177,9 +1182,24 @@ namespace esphome::tc_bus
                 modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
                 modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
-                
+
                 modelData.capabilities |= CAP_SETTING_BUTTON_ROWS;
                 modelData.capabilities |= CAP_UPDATE_DOORBELL_BUTTON;
+                break;
+
+            case MODEL_AS_AMI1010X:
+                modelData.device_group = 2;
+                modelData.memory_size = 128;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_DURATION;
+                modelData.capabilities |= CAP_SETTING_DOOR_READINESS_DURATION;
+                modelData.capabilities |= CAP_SETTING_CALL_TIME_DURATION;
+
+                modelData.capabilities |= CAP_SETTING_ADDRESS;
+                modelData.capabilities |= CAP_SETTING_ADDRESS_LOCK;
+
+                modelData.capabilities |= CAP_SETTING_CALLING_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_DOOR_READINESS;
+                modelData.capabilities |= CAP_SETTING_DOOR_OPENER_REQUIRES_ACTIVE_CALL;
                 break;
 
             case MODEL_AS_PUK:

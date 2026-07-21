@@ -216,7 +216,7 @@ namespace esphome::tc_bus
         }
         #endif
 
-        {
+        /*{
             uint8_t tail = this->store_.debug_buf_tail;
             const uint8_t head = this->store_.debug_buf_head; // snapshot; ISR only advances head
 
@@ -249,7 +249,7 @@ namespace esphome::tc_bus
                     ESP_LOGD(TAG, "%s", buffer);
                 }
             }
-        }
+        }*/
     }
 
     void TCBusComponent::save_preferences()
@@ -745,7 +745,7 @@ namespace esphome::tc_bus
             return;
         }
 
-        {
+        /*{
             uint8_t head = arg->debug_buf_head;
             uint8_t next = (head + 1) & (DEBUG_BUF_SIZE - 1);
             if (next != arg->debug_buf_tail) // drop silently only when truly full
@@ -753,7 +753,7 @@ namespace esphome::tc_bus
                 arg->debug_buffer[head] = us;
                 arg->debug_buf_head = next; // publish after write
             }
-        }
+        }*/
 
         // Save last bit timestamp
         last_us = now_us;

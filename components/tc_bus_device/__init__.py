@@ -255,7 +255,8 @@ CONF_MODEL_AS = [
     "TCS TCU4 + TCKE3 (5)",
     "TCS TCU4 + TCKE3 (6)",
     "Jung TKM AS",
-    "Jung TKM ASV"
+    "Jung TKM ASV",
+    "AMI1010X",
 ]
 
 CONF_MODEL_CTRL = [

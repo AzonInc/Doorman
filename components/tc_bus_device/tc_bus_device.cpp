@@ -558,7 +558,7 @@ namespace esphome::tc_bus
                 const uint32_t payload = ((uint32_t)0x1 << 28) | ((uint32_t)identifier << 16) | (0xD << 12) | 0x29C;
                 send_telegram(TELEGRAM_TYPE_ACK_DATA, 0, payload);
             }
-            else if (telegram_data.type == TELEGRAM_TYPE_SELECT_MEMORY_PAGE && telegram_data.serial_number == this->serial_number_)
+            else if (telegram_data.type == TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE && telegram_data.serial_number == this->serial_number_)
             {
                 send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
 
@@ -566,6 +566,12 @@ namespace esphome::tc_bus
 
                 this->memory_mode_ = true;
                 ESP_LOGD(TAG, "MEMORY MODE ON");
+            }
+            else if (telegram_data.type == TELEGRAM_TYPE_SELECT_MEMORY_PAGE && this->memory_mode_)
+            {
+                send_telegram(TELEGRAM_TYPE_ACK_STATUS, 0, 1);
+
+                this->reading_memory_current_page_ = telegram_data.address;
             }
             else if (telegram_data.type == TELEGRAM_TYPE_READ_MEMORY_BLOCK && this->memory_mode_)
             {
@@ -2375,7 +2381,7 @@ namespace esphome::tc_bus
     {
         ESP_LOGD(TAG, "Read memory of page %i", reading_memory_current_page_);
 
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, reading_memory_current_page_);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE, reading_memory_current_page_);
 
         reading_memory_try_ = 0;
         reading_memory_count_ = 0;
@@ -2427,7 +2433,7 @@ namespace esphome::tc_bus
                         device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
         send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
-        send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, 0);
+        send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE, 0);
 
         reading_memory_try_ = 0;
         reading_memory_count_ = (index / 4);
@@ -2742,7 +2748,7 @@ namespace esphome::tc_bus
             send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
             // Select memory page %i of serial number %i
-            send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, side);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE, side);
 
             // Transfer new button assignments (2 bytes per transmission)
             uint16_t value1 = (memory_buffer_[absolute_index] << 8) | memory_buffer_[absolute_index + 1];
@@ -3171,7 +3177,7 @@ namespace esphome::tc_bus
             send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, this->model_data_.device_group);
 
             // Select memory page %i of serial number %i
-            send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, cellData.page);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE, cellData.page);
 
             size_t page_offset = get_page_offset(cellData.page);
 
@@ -3266,7 +3272,7 @@ namespace esphome::tc_bus
             const size_t safe_page_size = page_size & ~1;
 
             // maybe add some delay after telegram
-            send_telegram(TELEGRAM_TYPE_SELECT_MEMORY_PAGE, current_page);
+            send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE, current_page);
 
             // Transmit Memory
             for (size_t address = 0; address < safe_page_size; address += 2)

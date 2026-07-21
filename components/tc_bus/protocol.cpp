@@ -323,7 +323,7 @@ namespace esphome::tc_bus
                 data.raw |= payload & 0xFFFF; // ABCD payload
                 break;
 
-            case TELEGRAM_TYPE_SELECT_MEMORY_PAGE:
+            case TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE:
                 data.serial_number = serial_number;
                 data.address = address;
 
@@ -331,6 +331,15 @@ namespace esphome::tc_bus
                 data.raw |= (1 << 24); // 1
                 data.raw |= (address & 0xF) << 20; // page
                 data.raw |= serial_number & 0xFFFFF;
+                break;
+
+            case TELEGRAM_TYPE_SELECT_MEMORY_PAGE:
+                data.address = address;
+                data.is_long = false;
+
+                data.raw |= (8 << 12); // 8
+                data.raw |= (1 << 8);  // 1
+                data.raw |= (address & 0xFF); // 00 page
                 break;
 
             default:
@@ -466,7 +475,7 @@ namespace esphome::tc_bus
                         {
                             case 1:
                             case 9:
-                                data.type = TELEGRAM_TYPE_SELECT_MEMORY_PAGE;
+                                data.type = TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE;
                                 data.address = (raw >> 20) & 0xF;
                                 data.serial_number = raw & 0xFFFFF;
                                 break;
@@ -634,8 +643,9 @@ namespace esphome::tc_bus
         TE("PROGRAMMING_MODE"),           // 27
         TE("READ_MEMORY_BLOCK"),          // 28
         TE("SELECT_MEMORY_PAGE"),         // 29
-        TE("WRITE_MEMORY"),               // 30
-        TE("REQUEST_VERSION"),            // 31
+        TE("SELECT_DEVICE_MEMORY_PAGE"),  // 30
+        TE("WRITE_MEMORY"),               // 31
+        TE("REQUEST_VERSION"),            // 32
     };
     #undef TE
 

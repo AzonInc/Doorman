@@ -277,5 +277,6 @@ You can use telegram types in binary sensors and also when [sending telegrams](#
 - programming_mode <Badge type="tip" text="TELEGRAM_TYPE_PROGRAMMING_MODE" />
 - read_memory_block <Badge type="tip" text="TELEGRAM_TYPE_READ_MEMORY_BLOCK" />
 - select_memory_page <Badge type="tip" text="TELEGRAM_TYPE_SELECT_MEMORY_PAGE" />
+- select_device_memory_page <Badge type="tip" text="TELEGRAM_TYPE_SELECT_DEVICE_MEMORY_PAGE" />
 - write_memory <Badge type="tip" text="TELEGRAM_TYPE_WRITE_MEMORY" />
 - request_version <Badge type="tip" text="TELEGRAM_TYPE_REQUEST_VERSION" />
