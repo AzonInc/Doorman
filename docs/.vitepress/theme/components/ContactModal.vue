@@ -1,14 +1,28 @@
 <script setup lang="ts">
 import { VPButton } from 'vitepress/theme'
+import { onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   show: Boolean
 }>()
+
+const emit = defineEmits<{
+  close: []
+}>()
+
+function onKeydown(e: KeyboardEvent) {
+  if (props.show && e.key === 'Escape') {
+    emit('close')
+  }
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="modal-mask">
+    <div v-if="show" class="modal-mask" @click.self="$emit('close')">
       <div class="modal-container">
         <div class="modal-content">
           <div class="modal-header">
@@ -45,8 +59,6 @@ const props = defineProps<{
 .modal-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin: 0; /* remove auto margin for centering via flex */
   border-radius: 12px;
   border: 1px solid var(--vp-button-brand-active-bg);
@@ -56,12 +68,14 @@ const props = defineProps<{
   max-width: 90vw;
   max-height: 90vh;
   min-width: 400px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .modal-content {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-height: 0;
 }
 
 .modal-header {
@@ -70,6 +84,7 @@ const props = defineProps<{
   align-items: center;
   border-bottom: 1px solid var(--vp-c-divider);
   padding: 20px;
+  flex-shrink: 0;
 }
 
 .modal-header .close {
@@ -85,6 +100,9 @@ const props = defineProps<{
 
 .modal-body {
   padding: 20px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .modal-footer {
@@ -92,6 +110,7 @@ const props = defineProps<{
   display: flex;
   justify-content: center;
   gap: 15px;
+  flex-shrink: 0;
 }
 
 .modal-enter-from {

@@ -51,9 +51,9 @@ export default {
             password: '',
 
             processing: false,
-            
-            stock_add_amount: 0,
-            availability_date: dayjs().format('YYYY-MM-DD'),
+
+            stock_inputs: {},
+            announcement_input: null,
 
             product_data: null,
 
@@ -157,6 +157,20 @@ export default {
                 const price = productPrice + shippingPrice;
 
                 return price;
+            }
+        },
+        orderComponentLines() {
+            return (order) => {
+                const components = order.product_details?.components;
+
+                if (!components) {
+                    return [{ key: order.product, name: order.product_details?.name || order.product, amount: order.amount }];
+                }
+
+                return Object.entries(components).map(([key, qty]) => {
+                    const meta = this.product_data?.components?.find(c => c.key === key);
+                    return { key, name: meta ? meta.name : key, amount: qty * order.amount };
+                });
             }
         },
         statusPriority(){
@@ -276,6 +290,21 @@ export default {
             })
             .then(response => {
                 this.product_data = response.data;
+
+                for (const component of response.data.components || []) {
+                    if (!this.stock_inputs[component.key]) {
+                        this.stock_inputs[component.key] = {
+                            amount: 0,
+                            date: component.available_timestamp
+                                ? dayjs.unix(component.available_timestamp).format('YYYY-MM-DD')
+                                : dayjs().format('YYYY-MM-DD')
+                        };
+                    }
+                }
+
+                if (this.announcement_input === null) {
+                    this.announcement_input = response.data.availability_extra_text || '';
+                }
             });
         },
         async loadOrders() {
@@ -329,27 +358,32 @@ export default {
             })
             .catch(error => {
                 this.showModal("Oops!", this.getErrorMessage(error, 'Failed to send notification!'));
+                this.processing = false;
             });
         },
-        async addStock() {
+        async addStock(componentKey) {
             this.processing = true;
-            api.post('/product/doorman/increase', { amount: this.stock_add_amount }, { 
+            const amount = this.stock_inputs[componentKey].amount;
+
+            api.post(`/product/${componentKey}/increase`, { amount }, { 
                 withCredentials: true 
             })
             .then(response => {
+                this.stock_inputs[componentKey].amount = 0;
                 this.updateAvailability();
                 this.showModal("Updated!", "Stock updated successfully!");
                 this.processing = false;
             })
             .catch(error => {
                 this.showModal("Oops!", this.getErrorMessage(error, 'Failed to update stock!'));
+                this.processing = false;
             });
         },
-        async updateAvailabilityDate() {
+        async updateComponentAvailabilityDate(componentKey) {
             this.processing = true;
-            const ts = dayjs(this.availability_date).unix();
+            const ts = dayjs(this.stock_inputs[componentKey].date).unix();
 
-            api.post('/product/doorman/availability', { timestamp: ts }, { 
+            api.post(`/product/${componentKey}/availability`, { timestamp: ts }, { 
                 withCredentials: true 
             })
             .then(response => {
@@ -358,6 +392,37 @@ export default {
             })
             .catch(error => {
                 this.showModal("Oops!", this.getErrorMessage(error, 'Failed to update availability date!'));
+                this.processing = false;
+            });
+        },
+        async toggleProductAvailable(product) {
+            this.processing = true;
+
+            api.post(`/product/${product.key}/toggle-available`, { available: !product.manual_available }, { 
+                withCredentials: true 
+            })
+            .then(response => {
+                this.updateAvailability();
+                this.processing = false;
+            })
+            .catch(error => {
+                this.showModal("Oops!", this.getErrorMessage(error, 'Failed to update product!'));
+                this.processing = false;
+            });
+        },
+        async updateAnnouncement() {
+            this.processing = true;
+
+            api.post('/settings/announcement', { value: this.announcement_input }, { 
+                withCredentials: true 
+            })
+            .then(response => {
+                this.showModal("Updated!", "Announcement updated successfully!");
+                this.processing = false;
+            })
+            .catch(error => {
+                this.showModal("Oops!", this.getErrorMessage(error, 'Failed to update announcement!'));
+                this.processing = false;
             });
         },
         async updateOrderStatus(order) {
@@ -417,6 +482,7 @@ export default {
             })
             .catch(error => {
                 this.showModal("Oops!", this.getErrorMessage(error, 'Failed to update order status!'));
+                this.processing = false;
             });
         },
         async cancelOrder(id) {
@@ -435,6 +501,7 @@ export default {
             })
             .catch(error => {
                 this.showModal("Oops!", this.getErrorMessage(error, 'Failed to cancel order!'));
+                this.processing = false;
             });
         },
         async deleteOrder(id) {
@@ -453,6 +520,7 @@ export default {
             })
             .catch(error => {
                 this.showModal("Oops!", this.getErrorMessage(error, 'Failed to delete order!'));
+                this.processing = false;
             });
         },
         getErrorMessage(error, defaultMessage = "Something went wrong.") {
@@ -771,6 +839,26 @@ textarea {
     height: 100px
 }
 
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-section-header h5 {
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.settings-section-description {
+    color: var(--vp-c-text-2);
+    font-size: 14px;
+}
+
+.settings-divider {
+    margin: 25px 0;
+}
+
 .order_list {
     display: flex;
     flex-direction: column;
@@ -906,6 +994,11 @@ textarea {
     color: var(--vp-c-text-1);
 }
 
+.order_summary .price.dimmed {
+    font-weight: 400;
+    color: var(--vp-c-text-3);
+}
+
 .order_summary .total {
     margin-top: 6px;
     padding-top: 6px;
@@ -915,6 +1008,54 @@ textarea {
 canvas {
     border: 1px solid gray;
     border-radius: 8px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch .slider {
+    position: absolute;
+    inset: 0;
+    background-color: var(--vp-c-gray-3);
+    transition: .2s;
+    border-radius: 24px;
+    cursor: pointer;
+}
+
+.switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+    background-color: var(--vp-button-brand-bg);
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+.switch input:disabled + .slider {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 </style>
 
@@ -926,113 +1067,99 @@ canvas {
         <VPButton theme="alt" type="button" @click="settingsOpen = false" text="Close Settings" />
     </template>
     <template #body>
-        <div style="
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px 0;
-        ">
-            <div style="flex: 1 0 60%; min-width: 250px;">
-                <h5 class="firmware_title_row" style="margin-bottom: 5px;margin-top: 0;" @click="printerDebug = !printerDebug">Printer</h5>
-                <div>Manage the Label Printer connection.</div>
+      <div>
+        <div class="settings-section">
+            <div class="settings-section-header">
+                <h5 class="firmware_title_row" @click="printerDebug = !printerDebug">
+                    Printer
+                    <Badge v-if="printerClientIsConnected" type="tip" text="Connected" />
+                    <Badge v-if="printerClientIsConnecting" type="warning" text="Connecting…" />
+                </h5>
+                <div class="settings-section-description">Manage the Label Printer connection.</div>
             </div>
-            <div style="
-                flex: 0 0 40%;
-                min-width: 250px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 15px;
-                flex-grow: 1;
-            ">
-                <VPButton style="width: 100%" type="button" @click="connectBLE" v-if="!printerClientIsConnected && !printerClientIsConnecting" text="BLE" />
-                <VPButton style="width: 100%" type="button" @click="connectSerial" v-if="!printerClientIsConnected && !printerClientIsConnecting" text="Serial" />
-                <VPButton style="width: 100%" type="button" @click="disconnect" v-if="printerClientIsConnected" text="Disconnect" />
-                <div v-if="printerClientIsConnecting" class="tip custom-block" style="width: 100%;">
-                    <p class="custom-block-title">CONNECTING</p>
-                    <p>Waiting for printer connection...</p>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <VPButton type="button" @click="connectBLE" v-if="!printerClientIsConnected && !printerClientIsConnecting" text="Connect via BLE" />
+                <VPButton type="button" @click="connectSerial" v-if="!printerClientIsConnected && !printerClientIsConnecting" text="Connect via Serial" />
+                <VPButton theme="alt" type="button" @click="disconnect" v-if="printerClientIsConnected" text="Disconnect" />
+            </div>
+        </div>
+        <hr class="settings-divider" />
+        <div class="settings-section">
+            <div class="settings-section-header">
+                <h5 class="firmware_title_row">Components Stock</h5>
+                <div class="settings-section-description">Add stock and set availability dates per component.</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div v-for="component in product_data?.components || []" :key="component.key">
+                    <div v-if="stock_inputs[component.key]" style="display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: 12px; background-color: var(--vp-c-bg-soft);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                            <div>
+                                <b>{{ component.name }}</b>
+                                <span style="font-size: 12px; color: var(--vp-c-text-3); margin-left: 6px;">{{ component.stock }} in stock<template v-if="component.reserved > 0">, {{ component.reserved }} reserved</template></span>
+                            </div>
+                            <Badge :type="component.available_units > 0 ? 'tip' : 'danger'" :text="component.available_units + ' available'" />
+                        </div>
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                            <div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 4px;">
+                                <label style="font-size: 12px; color: var(--vp-c-text-3);">Add stock</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="number" v-model.number="stock_inputs[component.key].amount" min="1" style="width: 100%;">
+                                    <VPButton type="button" text="Add" :disabled="!stock_inputs[component.key].amount || processing" @click="addStock(component.key)" />
+                                </div>
+                            </div>
+                            <div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 4px;">
+                                <label style="font-size: 12px; color: var(--vp-c-text-3);">Restock date</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="date" v-model="stock_inputs[component.key].date" style="width: 100%;">
+                                    <VPButton type="button" text="Update" :disabled="processing" @click="updateComponentAvailabilityDate(component.key)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <hr />
-        <div style="
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px 0;
-        ">
-            <div style="flex: 1 0 60%; min-width: 250px;">
-                <h5 class="firmware_title_row" style="margin-bottom: 5px;margin-top: 0;">Update Stock</h5>
-                <div>Add more items and notify customers.</div>
+        <hr class="settings-divider" />
+        <div class="settings-section">
+            <div class="settings-section-header">
+                <h5 class="firmware_title_row">Products</h5>
+                <div class="settings-section-description">Enable or disable products for ordering. A product also becomes unavailable if a component it requires is disabled.</div>
             </div>
-            <div style="
-                flex: 0 0 40%;
-                min-width: 250px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 15px;
-                flex-grow: 1;
-            ">
-                <input type="number" id="stock_add_amount" v-model="stock_add_amount" min="1">
-                <VPButton type="button" text="Add" :disabled="stock_add_amount == 0 || processing" @click="addStock" />
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div v-for="product in product_data?.products || []" :key="product.key" style="display: flex; justify-content: space-between; align-items: center; gap: 15px; padding: 15px; border-radius: 12px; background-color: var(--vp-c-bg-soft);">
+                    <div>
+                        <span>{{ product.name }}</span>
+                        <div v-if="product.manual_available && !product.available" style="font-size: 12px; color: var(--vp-c-text-3); margin-top: 2px;">
+                            Blocked — a required component is disabled
+                        </div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" :checked="product.manual_available" :disabled="processing" @change="toggleProductAvailable(product)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
-        <hr />
-        <div style="
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px 0;
-        ">
-            <div style="flex: 1 0 60%; min-width: 250px;">
-                <h5 class="firmware_title_row" style="margin-bottom: 5px;margin-top: 0;">Availability</h5>
-                <div>Set availability date.</div>
+        <hr class="settings-divider" />
+        <div class="settings-section">
+            <div class="settings-section-header">
+                <h5 class="firmware_title_row">Announcement</h5>
+                <div class="settings-section-description">Shown to customers when nothing is currently available to order.</div>
             </div>
-            <div style="
-                flex: 0 0 40%;
-                min-width: 250px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 15px;
-                flex-grow: 1;
-            ">
-                <input type="date" id="availability_date" v-model="availability_date">
-                <VPButton type="button" text="Update" :disabled="processing" @click="updateAvailabilityDate" />
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <textarea v-model="announcement_input" rows="3" placeholder="e.g. The first batch of revision 2.x.x is currently in production."></textarea>
+                <VPButton type="button" text="Save Announcement" :disabled="processing" @click="updateAnnouncement" style="align-self: flex-start;" />
             </div>
         </div>
-        <hr />
-        <div style="
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px 0;
-        ">
-            <div style="flex: 1 0 60%; min-width: 250px;">
-                <h5 class="firmware_title_row" style="margin-bottom: 5px;margin-top: 0;">Notifications</h5>
-                <div>Send notifications to customers.</div>
+        <hr class="settings-divider" />
+        <div class="settings-section">
+            <div class="settings-section-header">
+                <h5 class="firmware_title_row">Notifications</h5>
+                <div class="settings-section-description">Send notifications to customers.</div>
             </div>
-            <div style="
-                flex: 0 0 40%;
-                min-width: 250px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 15px;
-                flex-grow: 1;
-            ">
-                <VPButton style="width: 100%;" type="button" @click="notifyOpen = true" text="Send Notification" />
-            </div>
+            <VPButton type="button" @click="notifyOpen = true" text="Send Notification" style="align-self: flex-start;" />
         </div>
+      </div>
     </template>
 </ContactModal>
 
@@ -1041,6 +1168,7 @@ canvas {
         <h3>Customer Notification</h3>
     </template>
     <template #body>
+      <div>
         <div style="
             margin-bottom: 15px;
             display: flex;
@@ -1078,6 +1206,7 @@ canvas {
             <label for="notifyMessageEN">English Message</label>
             <textarea id="notifyMessageEN" name="notifyMessageEN" v-model="notifyMessageEN" placeholder="Message"></textarea>
         </div>
+      </div>
     </template>
 </ContactModal>
 
@@ -1098,7 +1227,12 @@ canvas {
     </div>
 </div>
 <div style="margin-bottom: 25px;">
-    <span v-if="user">There are currently <b>{{ openOrderCount }}</b> open {{ openOrderCount == 1 ? 'order' : 'orders' }} containing <b>{{ openOrderItemCount }}</b> {{ openOrderItemCount == 1 ? 'item' : 'items' }}. <b>{{ reservedOrderItemCount }}</b> {{ reservedOrderItemCount == 1 ? 'item' : 'items' }} are reserved, <b>{{ product_data?.available_units }}</b> {{ product_data?.available_units == 1 ? 'item' : 'items' }} are available.</span>
+    <div v-if="user">
+        <span>There are currently <b>{{ openOrderCount }}</b> open {{ openOrderCount == 1 ? 'order' : 'orders' }} containing <b>{{ openOrderItemCount }}</b> {{ openOrderItemCount == 1 ? 'item' : 'items' }}. <b>{{ reservedOrderItemCount }}</b> {{ reservedOrderItemCount == 1 ? 'item' : 'items' }} are reserved.</span>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+            <Badge v-for="component in product_data?.components || []" :key="component.key" :type="component.available_units > 0 ? 'tip' : 'danger'" :text="component.name + ': ' + component.available_units + ' available'" />
+        </div>
+    </div>
     <span v-else>Welcome to the Order Management Service! Please login to manage the orders.</span>
 </div>
 <hr>
@@ -1175,22 +1309,22 @@ canvas {
                 <div class="section">
                     <b>Summary</b>
                     <div class="order_summary">
-                        <div class="item_row">
-                            <span>{{ order.amount }} × {{ order.product_details.name }}</span>
-                            <span class="price">{{ (order.product_details.price * order.amount).toFixed(2) }} €</span>
+                        <div v-for="(line, idx) in orderComponentLines(order)" :key="line.key" class="item_row">
+                            <span>{{ line.amount }} × {{ line.name }}</span>
+                            <span class="price" :class="{ dimmed: idx !== 0 }">{{ (idx === 0 ? (order.product_details?.price || 0) * order.amount : 0).toFixed(2) }} €</span>
                         </div>
                         <div class="item_row">
-                            <span>1 × {{ order.shipping_details.name }} ({{ order.shipping_region }})</span>
-                            <span class="price">{{ order.shipping_details.price.toFixed(2) }} €</span>
+                            <span>1 × {{ order.shipping_details?.name || order.shipping_method }} ({{ order.shipping_region }})</span>
+                            <span class="price">{{ (order.shipping_details?.price || 0).toFixed(2) }} €</span>
                         </div>
                         <div class="item_row total">
-                            <span><b>Total via {{ order.payment_details.name }}</b></span>
+                            <span><b>Total via {{ order.payment_details?.name || order.payment_option }}</b></span>
                             <span class="price"><b>{{ orderTotal(order).toFixed(2) }} €</b></span>
                         </div>
                     </div>
                 </div>
                 <div class="section">
-                    <b>Address in {{ order.country_details.name }}</b>
+                    <b>Address in {{ order.country_details?.name || order.country }}</b>
                     <div class="address">
                         <span>{{ order.name }}</span>
                         <span v-if="order.address_extra">{{ order.address_extra }}</span>

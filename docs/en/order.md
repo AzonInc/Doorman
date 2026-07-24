@@ -98,7 +98,7 @@ export default {
                 city: '',
                 country: 'DE',
                 address_extra: '',
-                product: 'pcb',
+                product: 'core_board',
                 amount: 1,
                 shipping_region: 'DE',
                 shipping_method: 'envelope',
@@ -128,7 +128,9 @@ export default {
                     image: '/base-board.png',
                     details: 'Core Board only. For mounting inside a wall box or indoor station enclosure.',
                     price: 0,
-                    available: false
+                    available: false,
+                    available_units: 0,
+                    available_timestamp: 0
                 },
                 {
                     key: 'audio_extension',
@@ -136,7 +138,9 @@ export default {
                     image: '/audio-extension.png',
                     details: 'Audio Extension only - upgrade your Doorman.<br><i>*Requires Core Board revision 2.0.0 or newer.</i>',
                     price: 0,
-                    available: false
+                    available: false,
+                    available_units: 0,
+                    available_timestamp: 0
                 },
                 {
                     key: 'enclosure',
@@ -144,7 +148,9 @@ export default {
                     image: '/enclosure-only.png',
                     details: 'The Enclosure for everything - perfect for visible installations. Replacement or spare.',
                     price: 0,
-                    available: false
+                    available: false,
+                    available_units: 0,
+                    available_timestamp: 0
                 },
                 {
                     key: 'core_board_enclosure',
@@ -152,7 +158,9 @@ export default {
                     image: '/enclosure-base-board.png',
                     details: 'Core Board and Enclosure. Ideal for visible and surface-mounted installations in your home.',
                     price: 0,
-                    available: false
+                    available: false,
+                    available_units: 0,
+                    available_timestamp: 0
                 },
                 {
                     key: 'core_board_audio_extension',
@@ -160,7 +168,9 @@ export default {
                     image: '/base-board-audio-extension.png',
                     details: 'Core Board and Audio Extension. For mounting inside a wall box or indoor station enclosure.',
                     price: 0,
-                    available: false
+                    available: false,
+                    available_units: 0,
+                    available_timestamp: 0
                 },
                 {
                     key: 'core_board_audio_extension_enclosure',
@@ -168,7 +178,9 @@ export default {
                     image: '/enclosure-audio-extension.png',
                     details: 'Core Board, Audio Extension, and Enclosure. This is everything you will ever need.',
                     price: 0,
-                    available: false
+                    available: false,
+                    available_units: 0,
+                    available_timestamp: 0
                 }
             ],
             shipping_regions: [
@@ -297,8 +309,6 @@ export default {
             modalOpen: false,
             result_title: '',
             result_text: '',
-            available_units: -1,
-            available_timestamp: 0,
             availability_extra_text: ''
         }
     },
@@ -371,30 +381,20 @@ export default {
         },
     },
     computed: {
-        availability_class() {
-            if(this.available_units > 5) {
-                return 'tip';
-            } else if(this.available_units > 0) {
-                return 'warning';
+        reservedComponentsText() {
+            const product = this.products.find(p => p.key === this.status.product);
+            const amount = this.status.amount || 1;
+
+            if (!product || !product.components) {
+                return amount + ' × ' + (product ? product.name : this.status.product);
             }
-            return 'danger';
-        },
-        availability_text() {
-            if(this.available_units > 0) {
-                return this.available_units + ' available';
-            }
-            return 'Currently unavailable';
-        },
-        availability_time_text() {
-            const now = dayjs().unix();
-            if(this.available_timestamp > now) {
-                return 'Don\'t worry - new Doormans are on their way and are expected to be available <b>' + dayjs.unix(this.available_timestamp).fromNow() + '</b>.';
-            } else if(this.available_timestamp < now) {
-                if(this.available_units == 0) {
-                    return 'Looks like there is a delay - the new Doormans were expected <b>' + dayjs.unix(this.available_timestamp).fromNow() + '</b>.';
-                }
-            }
-            return '';
+
+            return Object.entries(product.components)
+                .map(([key, qty]) => {
+                    const meta = this.products.find(p => p.key === key);
+                    return (qty * amount) + ' × ' + (meta ? meta.name : key);
+                })
+                .join(', ');
         },
         available_shipping_options() {
             return this.shipping_regions.find(dest => dest.key === this.form.shipping_region)?.options || [];
@@ -420,8 +420,20 @@ export default {
         }
     },
     methods: {
-        openManagement() {
-            window.location = '/order-management';
+        productAvailabilityText(product) {
+            if (product.available_units > 0) return '';
+
+            const now = dayjs().unix();
+            if (product.available_timestamp > now) {
+                return 'Expected to be available ' + dayjs.unix(product.available_timestamp).fromNow() + '.';
+            } else if (product.available_timestamp < now && product.available_timestamp > 0) {
+                return 'Looks like there is a delay - was expected ' + dayjs.unix(product.available_timestamp).fromNow() + '.';
+            }
+
+            if (product.available) {
+                return 'Currently out of stock - your order will be reserved until it\'s back.';
+            }
+            return 'Currently out of stock.';
         },
         showModal(title, text) {
             this.modalOpen = true;
@@ -465,15 +477,13 @@ export default {
             try {
                 const res = await api.get('/products', { withCredentials: true });
 
-                this.available_units = res.data.available_units;
-                this.available_timestamp = res.data.available_timestamp;
                 this.availability_extra_text = res.data.availability_extra_text;
 
                 // merge into products
                 if (res.data.products) {
                     this.products = this.products.map(p => {
                         const override = res.data.products.find(x => x.key === p.key);
-                        return override ? { ...p, price: override.price, available: override.available } : p;
+                        return override ? { ...p, price: override.price, available: override.available, components: override.components, available_units: override.available_units, available_timestamp: override.available_timestamp } : p;
                     });
                 }
 
@@ -697,6 +707,12 @@ textarea {
   border: 1px solid var(--vp-c-red-2) !important;
 }
 
+.stock-hint {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+  padding-top: 6px;
+}
+
 .amount-control {
   display: flex;
   align-items: center;
@@ -720,7 +736,7 @@ textarea {
 }
 </style>
 
-# Get your own Doorman <Badge v-if="status.status !== 'error' && available_units >= 0" :type="availability_class" :text="availability_text" @click="openManagement" />
+# Get your own Doorman
 
 As part of this open-source, community-driven project, I occasionally make fully assembled Doorman S3 hardware available with the [Doorman Firmware](guide/firmware/installation) pre-installed — ready for seamless integration with Home Assistant.
 
@@ -738,10 +754,8 @@ If you submit an inquiry, I may contact you if clarification is needed. Otherwis
 
 Availability is limited and occurs **without a fixed schedule**. Any notifications are automated, so **please check your spam folder** if you don't hear back within a month.
 
-<div v-if="status.status == 'none' && available_units === 0" class="danger custom-block">
-    <p class="custom-block-title">CURRENTLY UNAVAILABLE</p>
-    <p v-html="availability_time_text"></p>
-    <p>You can send your inquiry anyway, and I'll make sure to reserve one for you as soon as they arrive.</p>
+<div v-if="availability_extra_text" class="info custom-block">
+    <p class="custom-block-title">ANNOUNCEMENT</p>
     <p v-html="availability_extra_text"></p>
 </div>
 
@@ -769,7 +783,7 @@ Availability is limited and occurs **without a fixed schedule**. Any notificatio
 </div>
 <div v-else-if="status.status == 'reserved'" class="warning custom-block">
     <p class="custom-block-title">RESERVED</p>
-    <p>Your Doorman(s) are reserved! You'll receive payment instructions as soon as everything is prepared.</p>
+    <p>I've reserved <b>{{ reservedComponentsText }}</b> for you! You'll receive payment instructions as soon as everything is prepared.</p>
     <p>
         <VPButton text="Cancel Order" @click="cancelOrder" />
     </p>
@@ -846,8 +860,9 @@ Availability is limited and occurs **without a fixed schedule**. Any notificatio
                     <div class="image" v-if="product.image">
                         <img :src="product.image" />
                     </div>
-                    <div class="title">{{ product.name }} <Badge type="tip">{{ product.available ? (product.price.toFixed(2) + "€") : "Unavailable" }}</Badge></div>
+                    <div class="title">{{ product.name }} <Badge type="tip">{{ product.price.toFixed(2) }}€</Badge></div>
                     <div class="details" v-html="product.details"></div>
+                    <div class="stock-hint" v-if="productAvailabilityText(product)">{{ productAvailabilityText(product) }}</div>
                     <div class="amount-control" v-if="form.product == product.key">
                         <VPButton theme="alt" type="button" text="-" @click="form.amount = Math.max(1, form.amount - 1)" />
                         <span class="font-semibold w-8 text-center">{{ form.amount }} {{ form.amount === 1 ? 'Unit' : 'Units' }}</span>
@@ -993,3 +1008,10 @@ Availability is limited and occurs **without a fixed schedule**. Any notificatio
         </div>
     </div>
 </form>
+<div v-else class="warning custom-block">
+    <p class="custom-block-title">UNKNOWN STATUS</p>
+    <p>Something looks off with this order — its status isn't recognized. Please try resetting, or get in touch if this keeps happening.</p>
+    <p>
+        <VPButton text="Reset" @click="resetOrder" />
+    </p>
+</div>
