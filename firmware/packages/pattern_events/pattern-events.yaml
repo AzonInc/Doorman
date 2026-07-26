@@ -1,6 +1,7 @@
 # Pattern Events Addon
 
 packages:
+  # Entrance Doorbell
   entrance_doorbell_pattern: !include
     file: doorbell-pattern.yaml
     vars:
@@ -9,6 +10,15 @@ packages:
       trigger_prefix: edb
       event_prefix: ""
 
+  entrance_doorbell_parallel_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: entrance_doorbell_parallel
+      event_id: entrance_doorbell_pattern
+      trigger_prefix: edbp
+      event_prefix: "parallel_"
+
+  # Second Entrance Doorbell
   second_entrance_doorbell_pattern: !include
     file: doorbell-pattern.yaml
     vars:
@@ -17,6 +27,15 @@ packages:
       trigger_prefix: sedb
       event_prefix: ""
 
+  second_entrance_doorbell_parallel_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: second_entrance_doorbell_parallel
+      event_id: second_entrance_doorbell_pattern
+      trigger_prefix: sedbp
+      event_prefix: "parallel_"
+
+  # Apartment Doorbell
   apartment_doorbell_pattern: !include
     file: doorbell-pattern.yaml
     vars:
@@ -25,6 +44,15 @@ packages:
       trigger_prefix: adb
       event_prefix: ""
 
+  apartment_doorbell_parallel_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: apartment_doorbell_parallel
+      event_id: apartment_doorbell_pattern
+      trigger_prefix: adbp
+      event_prefix: "parallel_"
+
+  # Phone pick up
   phone_pick_up_pattern: !include
     file: doorbell-pattern.yaml
     vars:
@@ -40,6 +68,10 @@ event:
       - "double"
       - "triple"
       - "quadruple"
+      - "parallel_single"
+      - "parallel_double"
+      - "parallel_triple"
+      - "parallel_quadruple"
 
   - id: !extend second_entrance_doorbell_pattern
     event_types:
@@ -47,6 +79,10 @@ event:
       - "double"
       - "triple"
       - "quadruple"
+      - "parallel_single"
+      - "parallel_double"
+      - "parallel_triple"
+      - "parallel_quadruple"
 
   - id: !extend apartment_doorbell_pattern
     event_types:
@@ -54,6 +90,10 @@ event:
       - "double"
       - "triple"
       - "quadruple"
+      - "parallel_single"
+      - "parallel_double"
+      - "parallel_triple"
+      - "parallel_quadruple"
 
   - id: !extend phone_pick_up_pattern
     event_types:
