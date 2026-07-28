@@ -8,8 +8,8 @@ MULTI_CONF = True
 CONF_SIEDLE_IN_HOME_BUS_ID = "siedle_in_home_bus_id"
 
 # Required for ESP_TIMER_ISR dispatch mode
-cg.add_define("CONFIG_ESP_TIMER_IN_IRAM")
-cg.add_define("CONFIG_ESP_TIMER_SUPPORTS_ISR_DISPATCH_METHOD")
+cg.add_define("CONFIG_ESP_TIMER_IN_IRAM", 1)
+cg.add_define("CONFIG_ESP_TIMER_SUPPORTS_ISR_DISPATCH_METHOD", 1)
 
 siedle_in_home_bus_ns = cg.esphome_ns.namespace("siedle_in_home_bus")
 SiedleInHomeBusComponent = siedle_in_home_bus_ns.class_("SiedleInHomeBusComponent", cg.Component)

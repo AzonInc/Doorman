@@ -171,7 +171,8 @@ namespace esphome::siedle_in_home_bus
                 else
                 {
                     BaseType_t higher_prio_woken = pdFALSE;
-                    xQueueSendFromISR(arg->receive_queue, &arg->transferred_msg, &higher_prio_woken);
+                    uint32_t msg = arg->transferred_msg;
+                    xQueueSendFromISR(arg->receive_queue, &msg, &higher_prio_woken);
                     arg->status = TERMINATING;
                     arg->bit_ticks_left = 2 * TICKS_PER_BIT;
                     if (higher_prio_woken)

@@ -1,0 +1,631 @@
+substitutions:
+  name: "doorman-s3"
+  friendly_name: "Doorman S3"
+  ap_password: "Op3n-Sesame!"
+  rx_pin: "GPIO11"
+  tx_pin: "GPIO6"
+  load_pin: "GPIO5"
+  carrier_pin: "GPIO9"
+  led_pin: "GPIO1"
+  rgb_led_pin: "GPIO2"
+  rgb_led_type: "sk6812"
+  relay_pin: "GPIO42"
+  external_button_pin: "GPIO41"
+  adc_input_pin: "GPIO10"
+  ert_detect_pin: "GPIO4"
+
+# Board Setup
+esp32:
+  variant: esp32s3
+  flash_size: 4MB
+  cpu_frequency: 240MHz
+  toolchain: platformio
+  framework:
+    type: esp-idf
+    version: recommended
+    sdkconfig_options:
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_ESP32S3_INSTRUCTION_CACHE_32KB: "y"
+
+      CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY: "y"
+      CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP: "y"
+
+      CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
+    advanced:
+      execute_from_psram: true
+
+psram:
+  mode: quad
+  speed: 80MHz
+
+# Setup I²C
+i2c:
+  id: i2c_bus
+  sda: GPIO14
+  scl: GPIO13
+  scan: true
+
+# ESPHome Setup
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  platformio_options:
+    board_build.flash_mode: dio
+  min_version: "2026.7.0"
+  project:
+    name: AzonInc.Doorman Standard
+    version: 2026.7.0
+  name_add_mac_suffix: false
+
+# OTA ESPHome
+ota:
+  - platform: esphome
+    id: ota_esphome
+
+  - platform: web_server
+    id: ota_webserver
+
+external_components:
+  - source: github://azoninc/doorman@dev
+    refresh: 60s
+
+logger:
+  id: esphome_logger
+  level: DEBUG
+  initial_level: INFO
+  runtime_tag_levels: true
+
+web_server:
+  js_url: "https://dev.doorman.azon.ai/firmware/esphome-webserver/www.js"
+  css_url: "https://dev.doorman.azon.ai/firmware/esphome-webserver/www.css"
+  version: 3
+  sorting_groups:
+    - id: sorting_group_controls
+      name: "Quick Actions"
+      sorting_weight: -100
+
+    - id: sorting_group_system
+      name: "System"
+      sorting_weight: -51
+
+    - id: sorting_group_rgb_status_led
+      name: "System: RGB Status LED"
+      sorting_weight: 1
+
+    - id: sorting_group_red_status_led
+      name: "System: Red Status LED"
+      sorting_weight: 2
+
+    - id: sorting_group_debug_log_level
+      name: "Debug: Log Level"
+      sorting_weight: 1
+
+    - id: sorting_group_updates
+      name: "Updates"
+      sorting_weight: 0
+
+    - id: sorting_group_information
+      name: "Diagnostics"
+      sorting_weight: -5
+
+    - id: sorting_group_diagnostics_device_info
+      name: "Diagnostics: Device Info"
+      sorting_weight: 1
+
+    - id: sorting_group_diagnostics_bus_status
+      name: "Diagnostics: Bus Status"
+      sorting_weight: 2
+
+
+
+# Setup Improv Serial
+improv_serial:
+
+esp32_ble:
+  name: ${name}
+  max_connections: 1
+
+esp32_improv:
+  authorizer: none
+
+
+
+
+# API: Home Assistant
+api:
+  batch_delay: 0ms
+  custom_services: true
+  homeassistant_services: true
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+
+
+wifi:
+  id: wifi_id
+  output_power: 8.5
+  enable_btm: true
+  enable_rrm: true
+  power_save_mode: none
+  reboot_timeout: 5min
+  ap:
+    ssid: "${friendly_name} Setup"
+    password: "${ap_password}"
+  use_psram: true
+  on_disconnect:
+    - ble.enable:
+  on_connect:
+    - status.push: api_connecting
+    - if:
+        condition:
+          api.connected:
+            state_subscription_only: true
+        then:
+          - logger.log: "LED: Home Assistant API already connected"
+        else:
+          - logger.log: "LED: Waiting for Home Assistant API connection"
+          - wait_until:
+              condition:
+                api.connected:
+                  state_subscription_only: true
+
+    - status.push: api_connected
+    - delay: 3s
+    - status.pop:
+        group: api
+    - ble.disable:
+
+
+
+captive_portal:
+
+
+
+
+text_sensor:
+  - platform: hardware
+    model:
+      id: doorman_model
+      name: "Model"
+      icon: "mdi:package-variant"
+      disabled_by_default: true
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostics_device_info
+        sorting_weight: -20
+    revision:
+      id: doorman_revision
+      name: "Revision"
+      icon: "mdi:chip"
+      disabled_by_default: true
+      entity_category: DIAGNOSTIC
+      web_server:
+        sorting_group_id: sorting_group_diagnostics_device_info
+        sorting_weight: -19
+
+  - platform: version
+    id: esphome_version
+    name: "ESPHome Version"
+    icon: mdi:information-box
+    hide_timestamp: true
+    hide_hash: true
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_updates
+      sorting_weight: 0
+
+  - platform: template
+    id: doorman_firmware_version
+    name: "Doorman Version"
+    icon: mdi:information-box
+    lambda: |-
+      return { ESPHOME_PROJECT_VERSION };
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_updates
+      sorting_weight: 1
+
+
+
+button:
+  # System Actions
+  - platform: restart
+    id: doorman_restart
+    name: Restart
+    icon: mdi:restart
+    entity_category: CONFIG
+    #disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: 10
+
+  - platform: factory_reset
+    id: doorman_factory_reset
+    name: Restore Factory Settings
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_system
+      sorting_weight: 12
+
+  - platform: safe_mode
+    id: doorman_safe_mode
+    name: Safe mode
+    entity_category: CONFIG
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_updates
+      sorting_weight: 11
+
+
+sensor:
+  - platform: uptime
+    id: doorman_uptime
+    name: Uptime
+    type: timestamp
+    disabled_by_default: true
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_information
+      sorting_weight: -7
+
+  - platform: wifi_signal
+    id: doorman_wifi_signal_db
+    update_interval: 60s
+    internal: true
+
+  - platform: copy
+    id: doorman_wifi_signal
+    name: "WiFi Signal"
+    icon: "mdi:wifi"
+    source_id: doorman_wifi_signal_db
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: DIAGNOSTIC
+    disabled_by_default: true
+    device_class: ""
+    web_server:
+      sorting_group_id: sorting_group_information
+      sorting_weight: -5
+
+  - platform: adc
+    id: doorman_bus_voltage
+    name: "Bus Voltage"
+    icon: "mdi:current-dc"
+    pin: ${adc_input_pin}
+    update_interval: 5s
+    attenuation: 12dB
+    entity_category: DIAGNOSTIC
+    web_server:
+      sorting_group_id: sorting_group_diagnostics_bus_status
+      sorting_weight: 99
+    filters:
+      - multiply: 11.0
+      - offset: 2.63
+
+
+
+select:
+  - platform: template
+    id: esphome_logger_level
+    name: "ESPHome Log Level"
+    icon: "mdi:math-log"
+    optimistic: true
+    options:
+      - "Disabled"
+      - "Error"
+      - "Warning"
+      - "Info"
+      - "Configuration"
+      - "Debug"
+    initial_option: "Info"
+    restore_value: true
+    entity_category: CONFIG
+    on_value:
+      - lambda: |-
+          id(esphome_logger).set_log_level(i);
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_debug_log_level
+      sorting_weight: 5
+
+
+number:
+  - platform: template
+    id: doorman_rgb_status_led_brightness
+    name: "RGB Status LED: Brightness"
+    icon: "mdi:brightness-7"
+    mode: slider
+    restore_value: true
+    initial_value: '100'
+    max_value: 100
+    min_value: 10
+    step: 1
+    optimistic: true
+    disabled_by_default: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_rgb_status_led
+      sorting_weight: 1
+
+  - platform: template
+    id: doorman_red_status_led_brightness
+    name: "RED Status LED: Brightness"
+    icon: "mdi:brightness-7"
+    mode: slider
+    restore_value: true
+    initial_value: '100'
+    max_value: 100
+    min_value: 10
+    step: 1
+    optimistic: true
+    disabled_by_default: true
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_red_status_led
+      sorting_weight: 1
+
+
+# Onboard Status LEDs
+output:
+  - platform: ledc
+    pin: ${led_pin}
+    id: doorman_red_status_led_output
+
+light:
+  - platform: monochromatic
+    output: doorman_red_status_led_output
+    id: doorman_red_status_led
+    name: "RED Status LED"
+    internal: true
+    icon: "mdi:led-on"
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: CONFIG
+    web_server:
+      sorting_group_id: sorting_group_red_status_led
+      sorting_weight: 3
+
+  - platform: esp32_rmt_led_strip
+    id: doorman_rgb_status_led
+    name: RGB Status LED
+    icon: "mdi:led-on"
+    internal: true
+    restore_mode: ALWAYS_OFF
+    rgb_order: GRB
+    pin: ${rgb_led_pin}
+    num_leds: 1
+    chipset: ${rgb_led_type}
+    use_psram: true
+    rmt_symbols: 144
+    gamma_correct: 1
+    default_transition_length: 1s
+    effects:
+      - lambda:
+          name: pulse
+          update_interval: 250ms
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+            
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+
+            // ESPHome >= 2025.x forces brightness back to 1.0 on turn-on if it
+            // would otherwise be exactly 0 (see esphome/esphome#17103), so use a
+            // near-zero value instead to keep the "off" phase actually dark.
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0.001f;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(250);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: slow_pulse
+          update_interval: 2s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+            
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0.001f;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(2500);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: ring_to_open
+          update_interval: 2s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+            
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+            
+            float out = on_ ? (id(doorman_rgb_status_led_brightness).state / 100) : 0.001f;
+            call.set_brightness_if_supported(out);
+
+            call.set_transition_length_if_supported(4000);
+            on_ = !on_;
+            
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: error_api
+          update_interval: 1s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state / 100);
+
+            call.set_transition_length(1000);
+
+            on_ = !on_;
+
+            if (on_) {
+              call.set_rgb(1.0, 0, 0);
+            } else {
+              call.set_rgb(0, 0.22, 1.0);
+            }
+
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+      - lambda:
+          name: error_wifi
+          update_interval: 1s
+          lambda: |-
+            static bool on_ = false;
+
+            auto call = id(doorman_rgb_status_led).make_call();
+
+            call.set_state(true);
+            call.set_color_mode_if_supported(light::ColorMode::RGB);
+            call.set_brightness_if_supported(id(doorman_rgb_status_led_brightness).state / 100);
+
+            call.set_transition_length(1000);
+
+            on_ = !on_;
+
+            if (on_) {
+              call.set_rgb(1.0, 0, 0);
+            } else {
+              call.set_rgb(1, 0.65, 0);
+            }
+
+            // don't tell HA every change
+            call.set_publish(false);
+            call.set_save(false);
+            call.perform();
+
+status_indicator:
+  on_turn_off:
+    then:
+      #- logger.log: "SI: LED OFF"
+      - light.turn_off:
+          id: doorman_rgb_status_led
+          transition_length: 1s
+  on_wifi_ap_enabled:
+    then:
+      #- logger.log: "SI: WiFi AP Enabled"
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+  on_wifi_ap_disabled:
+    then:
+      #- logger.log: "SI: WiFi AP Disabled"
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: slow_pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+  on_network_disconnected:
+    then:
+      #- logger.log: "SI: Network Disconnected"
+      - light.turn_on:
+          id: doorman_rgb_status_led
+          effect: slow_pulse
+          red: 100%
+          green: 65%
+          blue: 0%
+  on_custom_status:
+    - trigger_id: api_connecting
+      priority: 550
+      group: api
+      then:
+        #- logger.log: "SI: API connecting"
+        # Regular blue pulse while connecting
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            effect: slow_pulse
+            red: 0%
+            green: 22%
+            blue: 100%
+
+    - trigger_id: api_wait_for_configuration
+      priority: 551
+      group: api
+      then:
+        #- logger.log: "SI: API wait for configuration"
+        # Red/Blue pulse because broker data is not set
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            effect: error_api
+
+    - trigger_id: api_configured
+      priority: 552
+      group: api
+      then:
+        #- logger.log: "SI: API configured"
+
+    - trigger_id: api_connected
+      priority: 553
+      group: api
+      then:
+        #- logger.log: "SI: API connected"
+        - light.turn_on:
+            id: doorman_rgb_status_led
+            effect: none
+            red: 0%
+            green: 22%
+            blue: 100%
+            #transition_length: 1s
+            brightness: !lambda return id(doorman_rgb_status_led_brightness).state / 100;
+
+
+
+
+
+# SIEDLE In-Home-Bus
+siedle_in_home_bus:
+  carrier_pin: ${carrier_pin}
+  load_pin: ${load_pin}
+  rx_pin: 
+    number: ${rx_pin}
+    inverted: true
+  tx_pin: 
+    number: ${tx_pin}
+    inverted: true
+  dump: true
+  on_message:
+    - then:
+        - lambda: |-
+            ESP_LOGI("bus", "cmd=0x%02X dst=0x%X:0x%02X src=0x%X:0x%02X",
+              msg.get_command(),
+              msg.get_destination_bus(), msg.get_destination(),
+              msg.get_source_bus(), msg.get_source());
