@@ -1,4 +1,5 @@
 from esphome import automation, pins
+from esphome.components.esp32 import add_idf_sdkconfig_option
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.const import CONF_ID, CONF_RX_PIN, CONF_TX_PIN, CONF_DUMP, CONF_COMMAND, CONF_SOURCE
@@ -6,10 +7,6 @@ from esphome.const import CONF_ID, CONF_RX_PIN, CONF_TX_PIN, CONF_DUMP, CONF_COM
 CODEOWNERS = []
 MULTI_CONF = True
 CONF_SIEDLE_IN_HOME_BUS_ID = "siedle_in_home_bus_id"
-
-# Required for ESP_TIMER_ISR dispatch mode
-cg.add_define("CONFIG_ESP_TIMER_IN_IRAM", 1)
-cg.add_define("CONFIG_ESP_TIMER_SUPPORTS_ISR_DISPATCH_METHOD", 1)
 
 siedle_in_home_bus_ns = cg.esphome_ns.namespace("siedle_in_home_bus")
 SiedleInHomeBusComponent = siedle_in_home_bus_ns.class_("SiedleInHomeBusComponent", cg.Component)
@@ -51,6 +48,11 @@ CONFIG_SCHEMA = cv.Schema(
 
 
 async def to_code(config):
+    # Required for ESP_TIMER_ISR dispatch mode: must be set in the IDF sdkconfig
+    # (a cg.add_define() only injects a C #define and does not enable the Kconfig option)
+    add_idf_sdkconfig_option("CONFIG_ESP_TIMER_SUPPORTS_ISR_DISPATCH_METHOD", True)
+    add_idf_sdkconfig_option("CONFIG_ESP_TIMER_IN_IRAM", True)
+
     cg.add_global(siedle_in_home_bus_ns.using)
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
