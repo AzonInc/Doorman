@@ -10,6 +10,7 @@ DoorOpenerBinarySensor = tc_bus_ns.class_("DoorOpenerBinarySensor", binary_senso
 
 CONF_ADDRESS = "address"
 CONF_PAYLOAD = "payload"
+CONF_SERIAL_NUMBER = "serial_number"
 CONF_NAME = "name"
 CONF_AUTO_OFF = "auto_off"
 CONF_SENSOR_TYPE = "sensor_type"
@@ -23,6 +24,7 @@ TELEGRAM_SCHEMA = binary_sensor.binary_sensor_schema(DeviceTelegramListenerBinar
         cv.Required(CONF_TYPE): cv.enum(TELEGRAM_TYPES, upper=False),
         cv.Optional(CONF_ADDRESS): cv.templatable(cv.hex_uint8_t),
         cv.Optional(CONF_PAYLOAD): cv.templatable(cv.hex_uint32_t),
+        cv.Optional(CONF_SERIAL_NUMBER): cv.templatable(cv.uint32_t),
         cv.Optional(CONF_ICON, default="mdi:doorbell"): cv.icon,
         cv.Optional(CONF_NAME, default="Doorbell"): cv.string,
         cv.Optional(CONF_AUTO_OFF, default="3s"): cv.positive_time_period_milliseconds
@@ -64,7 +66,11 @@ async def to_code(config):
         if CONF_PAYLOAD in config:
             telegram_payload = await cg.templatable(config[CONF_PAYLOAD], [], cg.uint32)
             cg.add(var.set_payload(telegram_payload))
-        
+
+        if CONF_SERIAL_NUMBER in config:
+            telegram_serial_number = await cg.templatable(config[CONF_SERIAL_NUMBER], [], cg.uint32)
+            cg.add(var.set_serial_number(telegram_serial_number))
+
         cg.add(var.set_auto_reset(config[CONF_AUTO_OFF]))
         cg.add(tc_bus_device.register_listener(var))
 

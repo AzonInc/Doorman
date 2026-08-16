@@ -1,5 +1,66 @@
 # Pattern Events Addon
 
+packages:
+  # Entrance Doorbell
+  entrance_doorbell_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: entrance_doorbell
+      event_id: entrance_doorbell_pattern
+      trigger_prefix: edb
+      event_prefix: ""
+
+  entrance_doorbell_parallel_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: entrance_doorbell_parallel
+      event_id: entrance_doorbell_pattern
+      trigger_prefix: edbp
+      event_prefix: "parallel_"
+
+  # Second Entrance Doorbell
+  second_entrance_doorbell_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: second_entrance_doorbell
+      event_id: second_entrance_doorbell_pattern
+      trigger_prefix: sedb
+      event_prefix: ""
+
+  second_entrance_doorbell_parallel_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: second_entrance_doorbell_parallel
+      event_id: second_entrance_doorbell_pattern
+      trigger_prefix: sedbp
+      event_prefix: "parallel_"
+
+  # Apartment Doorbell
+  apartment_doorbell_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: apartment_doorbell
+      event_id: apartment_doorbell_pattern
+      trigger_prefix: adb
+      event_prefix: ""
+
+  apartment_doorbell_parallel_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: apartment_doorbell_parallel
+      event_id: apartment_doorbell_pattern
+      trigger_prefix: adbp
+      event_prefix: "parallel_"
+
+  # Phone pick up
+  phone_pick_up_pattern: !include
+    file: doorbell-pattern.yaml
+    vars:
+      sensor_id: pick_up_phone
+      event_id: phone_pick_up_pattern
+      trigger_prefix: ppu
+      event_prefix: ""
+
 event:
   - id: !extend entrance_doorbell_pattern
     event_types:
@@ -7,6 +68,10 @@ event:
       - "double"
       - "triple"
       - "quadruple"
+      - "parallel_single"
+      - "parallel_double"
+      - "parallel_triple"
+      - "parallel_quadruple"
 
   - id: !extend second_entrance_doorbell_pattern
     event_types:
@@ -14,6 +79,10 @@ event:
       - "double"
       - "triple"
       - "quadruple"
+      - "parallel_single"
+      - "parallel_double"
+      - "parallel_triple"
+      - "parallel_quadruple"
 
   - id: !extend apartment_doorbell_pattern
     event_types:
@@ -21,6 +90,10 @@ event:
       - "double"
       - "triple"
       - "quadruple"
+      - "parallel_single"
+      - "parallel_double"
+      - "parallel_triple"
+      - "parallel_quadruple"
 
   - id: !extend phone_pick_up_pattern
     event_types:
@@ -28,256 +101,3 @@ event:
       - "double"
       - "triple"
       - "quadruple"
-
-binary_sensor:
-  - id: !extend entrance_doorbell
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 1.8s
-        trigger_id: edb_pattern_single
-        then:
-          - event.trigger:
-              id: entrance_doorbell_pattern
-              event_type: single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.7s
-        trigger_id: edb_pattern_double
-        then:
-          - lambda: !lambda "id(edb_pattern_single).cancel();"
-          - event.trigger:
-              id: entrance_doorbell_pattern
-              event_type: double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.6s
-        trigger_id: edb_pattern_triple
-        then:
-          - lambda: !lambda "id(edb_pattern_single).cancel();"
-          - event.trigger:
-              id: entrance_doorbell_pattern
-              event_type: triple
-
-      # Quadruple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.5s
-        trigger_id: edb_pattern_quadruple
-        then:
-          - lambda: !lambda "id(edb_pattern_single).cancel();"
-          - event.trigger:
-              id: entrance_doorbell_pattern
-              event_type: quadruple
-
-  - id: !extend second_entrance_doorbell
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 1.8s
-        trigger_id: sedb_pattern_single
-        then:
-          - event.trigger:
-              id: second_entrance_doorbell_pattern
-              event_type: single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.7s
-        trigger_id: sedb_pattern_double
-        then:
-          - lambda: !lambda "id(sedb_pattern_single).cancel();"
-          - event.trigger:
-              id: second_entrance_doorbell_pattern
-              event_type: double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.6s
-        trigger_id: sedb_pattern_triple
-        then:
-          - lambda: !lambda "id(sedb_pattern_single).cancel();"
-          - event.trigger:
-              id: second_entrance_doorbell_pattern
-              event_type: triple
-
-      # Quadruple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.5s
-        trigger_id: sedb_pattern_quadruple
-        then:
-          - lambda: !lambda "id(sedb_pattern_single).cancel();"
-          - event.trigger:
-              id: second_entrance_doorbell_pattern
-              event_type: quadruple
-
-  - id: !extend apartment_doorbell
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 1.8s
-        trigger_id: adb_pattern_single
-        then:
-          - event.trigger:
-              id: apartment_doorbell_pattern
-              event_type: single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.7s
-        trigger_id: adb_pattern_double
-        then:
-          - lambda: !lambda "id(adb_pattern_single).cancel();"
-          - event.trigger:
-              id: apartment_doorbell_pattern
-              event_type: double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.6s
-        trigger_id: adb_pattern_triple
-        then:
-          - lambda: !lambda "id(adb_pattern_single).cancel();"
-          - event.trigger:
-              id: apartment_doorbell_pattern
-              event_type: triple
-
-      # Quadruple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.5s
-        trigger_id: adb_pattern_quadruple
-        then:
-          - lambda: !lambda "id(adb_pattern_single).cancel();"
-          - event.trigger:
-              id: apartment_doorbell_pattern
-              event_type: quadruple
-
-  - id: !extend pick_up_phone
-    on_multi_click:
-      # Single press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at least 1.8s
-        trigger_id: ppu_pattern_single
-        then:
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: single
-
-      # Double press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.7s
-        trigger_id: ppu_pattern_double
-        then:
-          - lambda: !lambda "id(ppu_pattern_single).cancel();"
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: double
-              
-      # Triple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.6s
-        trigger_id: ppu_pattern_triple
-        then:
-          - lambda: !lambda "id(ppu_pattern_single).cancel();"
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: triple
-
-      # Quadruple press
-      - timing:
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at most 1s
-
-          - ON for at most 0.5s
-          - OFF for at least 1.5s
-        trigger_id: ppu_pattern_quadruple
-        then:
-          - lambda: !lambda "id(ppu_pattern_single).cancel();"
-          - event.trigger:
-              id: phone_pick_up_pattern
-              event_type: quadruple

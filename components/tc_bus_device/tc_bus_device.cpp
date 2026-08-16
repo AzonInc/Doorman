@@ -1386,7 +1386,7 @@ namespace esphome::tc_bus
             bool allow_publish = (telegram_data.type == (listener->type_.value_or(TELEGRAM_TYPE_UNKNOWN))) &&
                 (telegram_data.address == listener->address_.value_or(0) || listener->address_.value_or(0) == 255) &&
                 (telegram_data.payload == listener->payload_.value_or(0) || listener->payload_.value_or(0) == 255) &&
-                (telegram_data.serial_number == this->serial_number_);
+                (telegram_data.serial_number == listener->serial_number_.value_or(this->serial_number_));
 
             // Trigger listener binary sensor if match found
             if (allow_publish)

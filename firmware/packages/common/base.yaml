@@ -537,6 +537,20 @@ binary_sensor:
 
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
+    id: entrance_doorbell_parallel
+    device_id: tc_bus_is
+    name: "Entrance Doorbell (Parallel)"
+    type: door_call
+    address: !lambda "return id(entrance_door_station_address).state;"
+    serial_number: !lambda "return id(indoor_station_parallel_sn).state;"
+    auto_off: 0.2s
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_diagnostics_listeners
+      sorting_weight: 212
+
+  - platform: tc_bus_device
+    tc_bus_device_id: tc_bus_indoor_station
     id: second_entrance_doorbell
     device_id: tc_bus_is
     name: "Second Entrance Doorbell"
@@ -550,6 +564,20 @@ binary_sensor:
 
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
+    id: second_entrance_doorbell_parallel
+    device_id: tc_bus_is
+    name: "Second Entrance Doorbell (Parallel)"
+    type: door_call
+    address: !lambda "return id(second_entrance_door_station_address).state;"
+    serial_number: !lambda "return id(indoor_station_parallel_sn).state;"
+    auto_off: 0.2s
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_diagnostics_listeners
+      sorting_weight: 222
+
+  - platform: tc_bus_device
+    tc_bus_device_id: tc_bus_indoor_station
     id: apartment_doorbell
     device_id: tc_bus_is
     name: "Apartment Doorbell"
@@ -559,6 +587,19 @@ binary_sensor:
     web_server:
       sorting_group_id: sorting_group_diagnostics_listeners
       sorting_weight: 230
+
+  - platform: tc_bus_device
+    tc_bus_device_id: tc_bus_indoor_station
+    id: apartment_doorbell_parallel
+    device_id: tc_bus_is
+    name: "Apartment Doorbell (Parallel)"
+    type: floor_call
+    serial_number: !lambda "return id(indoor_station_parallel_sn).state;"
+    auto_off: 0.2s
+    disabled_by_default: true
+    web_server:
+      sorting_group_id: sorting_group_diagnostics_listeners
+      sorting_weight: 232
 
   - platform: tc_bus_device
     tc_bus_device_id: tc_bus_indoor_station
@@ -797,6 +838,15 @@ script:
           id(second_entrance_door_before_open_cmds)->set_internal(internal);
           id(second_entrance_doorbell)->set_internal(internal);
           id(second_entrance_doorbell_pattern)->set_internal(internal);
+
+      # Set parallel serial number listeners internal if no parallel serial number is set
+      - lambda: |-
+          float parallel_sn = id(indoor_station_parallel_sn).state;
+          bool no_parallel_sn = parallel_sn <= 0 || parallel_sn >= 1000000;
+          bool no_second_entrance = id(second_entrance_door_station_address).state == 63 || id(second_entrance_door_station_address).state == id(entrance_door_station_address).state;
+          id(entrance_doorbell_parallel)->set_internal(no_parallel_sn);
+          id(second_entrance_doorbell_parallel)->set_internal(no_parallel_sn || no_second_entrance);
+          id(apartment_doorbell_parallel)->set_internal(no_parallel_sn);
 
   - id: blink_red_status_led
     mode: restart
