@@ -188,7 +188,7 @@ Möchtest du die Firmware anpassen und nur die Funktionen nutzen, die du wirklic
 
 Die Doorman-Firmware ist modular aufgebaut und in Pakete unterteilt, die du ganz einfach kombinieren kannst.
 
-Brauchen du eine Funktion, zum Beispiel die Einstellungen der Innenstation, nicht? Dann kommentiere sie einfach in deiner Konfiguration aus. Die Reihenfolge der Pakete ist wichtig, da manche aufeinander aufbauen.
+Brauchst du eine Funktion, zum Beispiel die Einstellungen der Innenstation, nicht? Dann kommentiere sie einfach in deiner Konfiguration aus. Die Reihenfolge der Pakete ist wichtig, da manche aufeinander aufbauen.
 
 Sieh dir das folgende YAML-Beispiel zur Orientierung an:
 
