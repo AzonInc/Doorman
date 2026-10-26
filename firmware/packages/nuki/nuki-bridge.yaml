@@ -11,8 +11,15 @@ esphome:
       
 # Add External Components
 external_components:
-  - source: github://uriyacovy/ESPHome_nuki_lock@nuki-task
+  - source: github://uriyacovy/ESPHome_nuki_lock@monorepo-test
+    components: [ nuki_lock ]
     refresh: 60s
+
+# BLE Stack
+esp32_ble:
+  max_connections: 1
+
+esp32_ble_tracker:
 
 web_server:
   sorting_groups:
@@ -50,7 +57,7 @@ event:
     on_event:
       - if:
           condition:
-            - lambda: !lambda 'return event_type.c_str() == "long_press";'
+            - lambda: !lambda 'return event_type == "long_press";'
           then:
             - if:
                 condition: nuki_lock.paired
@@ -113,7 +120,7 @@ lock:
     query_interval_config: 3600s
     query_interval_auth_data: 7200s
     ble_general_timeout: 3s
-    ble_command_timeout: 3s
+    ble_command_timeout: 10s
 
     # Nuki Status Sensors
     battery_level:
@@ -204,7 +211,7 @@ lock:
         sorting_weight: 11
 
     # Button & LED
-    pairing_enabled:
+    bluetooth_pairing_enabled:
       id: nuki_button_pairing_enabled
       device_id: nuki_smart_lock
       name: "Button: Bluetooth Pairing"

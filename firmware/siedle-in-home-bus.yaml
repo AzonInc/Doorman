@@ -618,9 +618,7 @@ siedle_in_home_bus:
   rx_pin: 
     number: ${rx_pin}
     inverted: true
-  tx_pin: 
-    number: ${tx_pin}
-    inverted: true
+  tx_pin: ${tx_pin}
   dump: true
   on_message:
     - then:
