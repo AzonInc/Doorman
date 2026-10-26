@@ -1,7 +1,7 @@
 # Board Setup
 esp32:
   variant: esp32
-  toolchain: platformio
+  toolchain: esp-idf
   framework:
     type: esp-idf
     version: recommended

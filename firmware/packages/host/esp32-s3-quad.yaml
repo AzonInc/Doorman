@@ -3,7 +3,8 @@ esp32:
   variant: esp32s3
   flash_size: 8MB
   cpu_frequency: 240MHz
-  toolchain: platformio
+  toolchain: esp-idf
+  flash_mode: dio
   framework:
     type: esp-idf
     version: recommended
@@ -18,10 +19,6 @@ esp32:
       CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: "y"
     advanced:
       execute_from_psram: true
-
-esphome:
-  platformio_options:
-    board_build.flash_mode: dio
 
 psram:
   mode: quad

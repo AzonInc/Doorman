@@ -19,7 +19,8 @@ esp32:
   variant: esp32s3
   flash_size: 4MB
   cpu_frequency: 240MHz
-  toolchain: platformio
+  toolchain: esp-idf
+  flash_mode: dio
   framework:
     type: esp-idf
     version: recommended
@@ -50,8 +51,6 @@ i2c:
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
-  platformio_options:
-    board_build.flash_mode: dio
   min_version: "2026.7.0"
   project:
     name: AzonInc.Doorman Standard
