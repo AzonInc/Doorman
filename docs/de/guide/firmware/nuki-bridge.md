@@ -1,6 +1,6 @@
 # Nuki Bridge Erweiterung
 
-Diese Erweiterung integriert die [Nuki Bridge](https://github.com/uriyacovy/ESPHome_nuki_lock) über Bluetooth Low Energy (BLE). **Die gleichzeitige Nutzung von Improv über BLE wird nicht unterstützt**, da der Bluetooth-Stack bereits von der Nuki-Bridge-Komponente verwendet wird. Außerdem ist die Erweiterung nicht mit den MQTT- oder HomeKit-Integrationen kompatibel.
+Diese Erweiterung integriert die [Nuki Bridge](https://github.com/uriyacovy/ESPHome_nuki_lock) über Bluetooth Low Energy (BLE). Da sie den Bluetooth-Stack von ESPHome nutzt, lässt sie sich mit **Improv über BLE** kombinieren. Die Erweiterung ist nicht mit den MQTT- oder HomeKit-Integrationen und auch nicht mit dem Audio Extension Board kompatibel, da der Flash-Speicher für beides nicht ausreicht.
 
 ::: tip HINWEIS
 Mit der offiziellen Nuki-App kannst du dein Smart Lock zwar steuern, jedoch nicht über die emulierte Nuki Bridge dieses Add-ons. Um dein Schloss aus der Ferne über diese Bridge zu steuern, musst du stattdessen die Home Assistant App verwenden.

@@ -141,6 +141,11 @@ export default {
                 this.extension = 'none';
             }
         },
+        extension(newExtension, oldExtension) {
+            if (!this.is_variant_allowed(this.variant)) {
+                this.variant = 'standard';
+            }
+        },
         integration(newIntegration, oldIntegration) {
             localStorage.setItem("fw_integration", newIntegration);
             if (!this.is_variant_allowed(this.variant)) {
@@ -194,18 +199,30 @@ export default {
             return '';
         },
         is_variant_allowed() {
-            const incompat = {
+            return (variant) => {
+                return !this.incompatible_option_name(variant);
+            };
+        },
+        incompatible_option_name() {
+            const incompat_integration = {
                 mqtt: ['nuki-bridge'],
                 homekit: ['nuki-bridge'],
             };
+            const incompat_extension = {
+                audio: ['nuki-bridge'],
+            };
             return (variant) => {
-                if (!this.integration) return true;
-                return !(incompat[this.integration] && incompat[this.integration].includes(variant));
+                if (this.extension && incompat_extension[this.extension]?.includes(variant)) {
+                    return this.platform_extensions?.find(opt => opt.key === this.extension)?.name || this.extension;
+                }
+                if (this.integration && incompat_integration[this.integration]?.includes(variant)) {
+                    return this.integration_options.find(opt => opt.key === this.integration)?.name || this.integration;
+                }
+                return null;
             };
         },
         variant_incompatibility_message() {
-            const integrationName = this.integration_options.find(opt => opt.key === this.integration)?.name || this.integration;
-            return `Unfortunately this option can't be used together with <b>${integrationName}</b> because of technical limitations.`;
+            return (variant) => `Unfortunately this option can't be used together with <b>${this.incompatible_option_name(variant)}</b> because of technical limitations.`;
         },
         web_serial_available() {
             if(inBrowser) {
@@ -303,7 +320,7 @@ This guided process ensures seamless integration with the Home Assistant API and
                 <span class="checkmark">
                     <div class="icon" v-if="fw_variant.icon" v-html="fw_variant.icon"></div>
                     <div class="title" v-html="fw_variant.name"></div>
-                    <div class="details" v-html="is_variant_allowed(fw_variant.key) ? fw_variant.details : variant_incompatibility_message"></div>
+                    <div class="details" v-html="is_variant_allowed(fw_variant.key) ? fw_variant.details : variant_incompatibility_message(fw_variant.key)"></div>
                 </span>
             </label>
         </div>
@@ -512,16 +529,6 @@ esphome run <yamlfile.yaml>
 ```
 ```yaml [Custom]
 <!--@include: ../../../../firmware/configurations/doorman-s3-rev2.custom.nuki-bridge.master.yaml-->
-```
-:::
-
-::: details Doorman S3 (2.0+) + Audio Extension Board
-::: code-group
-```yaml [Home Assistant]
-<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.ha.nuki-bridge.master.yaml-->
-```
-```yaml [Custom]
-<!--@include: ../../../../firmware/configurations/doorman-s3-rev2-audio.custom.nuki-bridge.master.yaml-->
 ```
 :::
 

@@ -18,8 +18,9 @@ external_components:
     refresh: 60s
 
 # BLE Stack
+# One connection for the Nuki Lock, one spare for BLE servers like Improv
 esp32_ble:
-  max_connections: 1
+  max_connections: 2
 
 esp32_ble_tracker:
 

@@ -98,6 +98,9 @@ jobs:
             integration: mqtt
           - variant: nuki-bridge
             integration: homekit
+          # Not enough flash for the Audio Extension Board together with Nuki Bridge
+          - chip: doorman-s3-rev2-audio
+            variant: nuki-bridge
     with:
       files: firmware/configurations/${{ matrix.chip }}.${{ matrix.integration }}.${{ matrix.variant }}.${{ github.ref_name == 'master' && 'master' || 'dev' }}.factory.yaml
       name: Doorman ${{ matrix.variant == 'nuki-bridge' && 'Nuki-Bridge' || 'Standard' }} for ${{ matrix.integration == 'ha' && 'Home Assistant' || matrix.integration == 'mqtt' && 'MQTT' || matrix.integration == 'homekit' && 'HomeKit' || matrix.integration == 'custom' && 'Standalone Integration' || matrix.integration }}

@@ -1,0 +1,10 @@
+# BLE Addon - Disable BLE while connected to Wi-Fi
+# Not compatible with the Nuki Bridge, which needs BLE all the time
+
+wifi:
+  on_connect:
+    - delay: 5s  # Gives time for improv results to be transmitted
+    - ble.disable:
+
+  on_disconnect:
+    - ble.enable:

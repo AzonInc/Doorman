@@ -23,6 +23,9 @@ jobs:
             integration: mqtt
           - variant: nuki-bridge
             integration: homekit
+          # Not enough flash for the Audio Extension Board together with Nuki Bridge
+          - chip: doorman-s3-rev2-audio
+            variant: nuki-bridge
     steps:
       - name: Checkout
         uses: actions/checkout@v7

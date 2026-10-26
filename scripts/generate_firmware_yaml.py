@@ -80,12 +80,14 @@ def get_packages(host, api_variant, firmware, branch, factory=False):
         ('api', 'api/homekit.yaml', api_variant == 'homekit'),
         ('api', 'api/custom.yaml', api_variant == 'custom'),
 
-        ## Improv BLE (not compatible with Nuki Bridge firmware)
+        ## Improv BLE
         ## Removed due to memory contraints in combination with audio
+        #('bluedroid_ble', 'common/bluedroid-ble.yaml', True),
+        #('bluedroid_ble_psram', 'common/bluedroid-ble.psram.yaml', has_psram),
+        ## Disable BLE while connected to Wi-Fi (Nuki Bridge needs BLE all the time)
         ## Needs to be here in order to not block on_connect due to the 5s delay
         ## DO NOT MOVE
-        #('bluedroid_ble', 'common/bluedroid-ble.yaml', firmware != 'nuki-bridge'),
-        #('bluedroid_ble_psram', 'common/bluedroid-ble.psram.yaml', firmware != 'nuki-bridge' and has_psram),
+        #('bluedroid_ble_disable', 'common/bluedroid-ble.disable.yaml', firmware != 'nuki-bridge'),
 
         ## Debug utilities
         ('debug_utilities', 'debug/debug-utilities.yaml', branch == 'dev' or branch == 'local'),
@@ -214,6 +216,7 @@ def main():
         (host, api_variant, firmware, branch, factory)
         for host, api_variant, firmware, branch, factory in product(HOST_ARCHITECTURES, API_VARIANTS, FIRMWARES, BRANCHES, FACTORY_BUILDS)
         if not (firmware == 'nuki-bridge' and 'mqtt' in api_variant)
+        and not (firmware == 'nuki-bridge' and host == 'doorman-s3-rev2-audio')  # Not enough flash for audio + Nuki
         and not (factory and branch == 'local')  # CI builds make no sense for local
     ]
 
