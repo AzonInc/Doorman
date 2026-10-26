@@ -6,11 +6,20 @@ On this page, you can view all the entities related to TC:BUS.
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `door_call` telegram type with the entrance door station `address` is received.
 
+### Entrance Doorbell (Parallel) <Badge type="tip" text="entrance_doorbell_parallel" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `door_call` telegram type with the entrance door station `address` is received, addressed to the `parallel_serial_number` instead of the serial number of the indoor station. Hidden while no parallel serial number is set.
+
 ### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `door_call` telegram type with the second entrance door station `address` is received.
 
+### Second Entrance Doorbell (Parallel) <Badge type="tip" text="second_entrance_doorbell_parallel" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `door_call` telegram type with the second entrance door station `address` is received, addressed to the `parallel_serial_number` instead of the serial number of the indoor station. Hidden while no parallel serial number is set.
+
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `floor_call` telegram type is received.
+
+### Apartment Doorbell (Parallel) <Badge type="tip" text="apartment_doorbell_parallel" /> <Badge type="info" text="Disabled by default" />
+Activates whenever the `floor_call` telegram type is received, addressed to the `parallel_serial_number` instead of the serial number of the indoor station. Hidden while no parallel serial number is set.
 
 ### Pick up phone <Badge type="tip" text="pick_up_phone" /> <Badge type="info" text="Disabled by default" />
 Activates whenever the `start_talking` telegram type is received.
@@ -258,29 +267,47 @@ Represents the second entrance door of the building. Only the `Open` and `Unlock
 ### Entrance Doorbell <Badge type="tip" text="entrance_doorbell_pattern" />
 Triggers each time a doorbell pattern is detected at the entrance. Learn more about pattern events [here](../guide/features/pattern-events).
 
+The `parallel_` event types are triggered when the call was addressed to the parallel serial number instead of the serial number of the indoor station.
+
 ##### Event Types
 - **single**
 - **double**
 - **triple**
 - **quadruple**
+- **parallel_single**
+- **parallel_double**
+- **parallel_triple**
+- **parallel_quadruple**
 
 ### Second Entrance Doorbell <Badge type="tip" text="second_entrance_doorbell_pattern" /> <Badge type="info" text="Disabled by default" />
 Triggers each time a doorbell pattern is detected at the second entrance. Learn more about pattern events [here](../guide/features/pattern-events).
 
+The `parallel_` event types are triggered when the call was addressed to the parallel serial number instead of the serial number of the indoor station.
+
 ##### Event Types
 - **single**
 - **double**
 - **triple**
 - **quadruple**
+- **parallel_single**
+- **parallel_double**
+- **parallel_triple**
+- **parallel_quadruple**
 
 ### Apartment Doorbell <Badge type="tip" text="apartment_doorbell_pattern" />
 Triggers each time a doorbell pattern is detected at the apartment. Learn more about pattern events [here](../guide/features/pattern-events).
 
+The `parallel_` event types are triggered when the call was addressed to the parallel serial number instead of the serial number of the indoor station.
+
 ##### Event Types
 - **single**
 - **double**
 - **triple**
 - **quadruple**
+- **parallel_single**
+- **parallel_double**
+- **parallel_triple**
+- **parallel_quadruple**
 
 ### Phone pick up <Badge type="tip" text="phone_pick_up_pattern" /> <Badge type="info" text="Disabled by default" />
 Triggers each time a phone pick up pattern is detected. Learn more about pattern events [here](../guide/features/pattern-events).

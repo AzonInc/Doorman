@@ -67,6 +67,7 @@ namespace esphome::tc_bus
         template<typename T> void set_type(T type) { this->type_ = type; }
         template<typename T> void set_address(T address) { this->address_ = address; }
         template<typename T> void set_payload(T payload) { this->payload_ = payload; }
+        template<typename T> void set_serial_number(T serial_number) { this->serial_number_ = serial_number; }
 
         void set_auto_reset(uint16_t auto_reset) { this->auto_reset_ = auto_reset; }
 
@@ -79,6 +80,9 @@ namespace esphome::tc_bus
         TemplatableValue<TelegramType> type_{};
         TemplatableValue<uint8_t> address_{};
         TemplatableValue<uint32_t> payload_{};
+
+        // Unset means the device's own serial number
+        TemplatableValue<uint32_t> serial_number_{};
     };
 #endif
 
