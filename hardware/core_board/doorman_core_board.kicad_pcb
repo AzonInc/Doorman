@@ -10,7 +10,7 @@
 	(title_block
 		(title "Doorman S3")
 		(date "2026-05-20")
-		(rev "2.2.0")
+		(rev "2.2.1")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
 		(comment 4 "Intercom Gateway")
@@ -26105,7 +26105,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "0"
 			(at 0 -1.17 90)
 			(layer "B.Fab")
 			(uuid "4f9208cc-a434-4430-9f18-fb721ea87e51")
@@ -26130,7 +26130,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 0Ω 50V 62.5mW Thick Film Resistor ±1% ±800ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
 			(at 0 0 90)
 			(layer "B.Fab")
 			(hide yes)
@@ -26143,7 +26143,7 @@
 				(justify mirror)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" "C17168"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -26157,7 +26157,7 @@
 				(justify mirror)
 			)
 		)
-		(property "MPN" "0402WGF1001TCE"
+		(property "MPN" "0402WGF0000TCE"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -29696,7 +29696,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "IRLML0030"
+		(property "Value" "IRLML0040"
 			(at 0 -2.4 90)
 			(layer "B.Fab")
 			(uuid "0ef52e4f-9c0c-4abb-bf9a-a40ee909d2a8")
@@ -29721,7 +29721,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Description" "-55℃~+150℃ 1 N-channel 1.4W 28mΩ@10V 30V 5.8A 700mV 78pF 825pF SOT-23 MOSFETs ROHS"
+		(property "Description" "-55℃~+150℃ 1 N-channel 1.3W 2.5V 266pF 29pF 3.6A 3.9nC 40V 56mΩ@10V SOT-23 MOSFETs ROHS"
 			(at 0 0 90)
 			(layer "B.Fab")
 			(hide yes)
@@ -29734,7 +29734,7 @@
 				(justify mirror)
 			)
 		)
-		(property "MPN" "IRLML0030TRPBF-HXY"
+		(property "MPN" "IRLML0040"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -29762,7 +29762,7 @@
 				(justify mirror)
 			)
 		)
-		(property "LCSC" "C6285737"
+		(property "LCSC" "C5364305"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -33566,7 +33566,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "0"
 			(at 0 -1.17 90)
 			(layer "B.Fab")
 			(uuid "82c4c41d-3cb8-4c89-919e-ca53ceef8781")
@@ -33591,7 +33591,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 0Ω 50V 62.5mW Thick Film Resistor ±1% ±800ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
 			(at 0 0 90)
 			(layer "B.Fab")
 			(hide yes)
@@ -33604,7 +33604,7 @@
 				(justify mirror)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" "C17168"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -33618,7 +33618,7 @@
 				(justify mirror)
 			)
 		)
-		(property "MPN" "0402WGF1001TCE"
+		(property "MPN" "0402WGF0000TCE"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -35116,7 +35116,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "IRLML0030"
+		(property "Value" "IRLML0040"
 			(at 0 -2.4 0)
 			(layer "B.Fab")
 			(uuid "57ad8c53-8c11-4bd9-af96-b5dc21da5b92")
@@ -35141,7 +35141,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Description" "-55℃~+150℃ 1 N-channel 1.4W 28mΩ@10V 30V 5.8A 700mV 78pF 825pF SOT-23 MOSFETs ROHS"
+		(property "Description" "-55℃~+150℃ 1 N-channel 1.3W 2.5V 266pF 29pF 3.6A 3.9nC 40V 56mΩ@10V SOT-23 MOSFETs ROHS"
 			(at 0 0 0)
 			(layer "B.Fab")
 			(hide yes)
@@ -35154,7 +35154,7 @@
 				(justify mirror)
 			)
 		)
-		(property "LCSC" "C6285737"
+		(property "LCSC" "C5364305"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -35168,7 +35168,7 @@
 				(justify mirror)
 			)
 		)
-		(property "MPN" "IRLML0030TRPBF-HXY"
+		(property "MPN" "IRLML0040"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "B.Fab")

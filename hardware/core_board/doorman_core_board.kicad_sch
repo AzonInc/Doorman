@@ -7,7 +7,7 @@
 	(title_block
 		(title "Doorman S3")
 		(date "2026-05-20")
-		(rev "2.2.0")
+		(rev "2.2.1")
 		(comment 1 "Compatible with TCS (DE), Koch (CH), Scantron (DK), Niko, JUNG (DE) and SIEDLE (DE)")
 		(comment 3 "For TC:BUS and IN-HOME-BUS based intercom systems")
 		(comment 4 "Intercom Gateway")
@@ -7919,9 +7919,9 @@
 		)
 		(uuid "15f5ecc2-aef8-470d-842e-60abce96026c")
 	)
-	(text "TC:BUS Data(Idle ~22-24V)\nLow 8V, High 24V\n\nIn-Home-Bus Carrier (Idle ~27-30V)\nLow 3V, High 30V(max)\n\n1+n (Idle ~15V)\nLow ~15V, High ~24V"
+	(text "TC:BUS Data(Idle ~22-24V)\nLow 8V, High 24V\n\nIn-Home-Bus Carrier (Idle ~27-30V)\nLow 3V, High 30V(max)\n\n1+n (Idle ~15V)\nLow ~15V, High ~24V\n\nTriggers at ~15.5V"
 		(exclude_from_sim no)
-		(at 115.062 231.648 0)
+		(at 115.062 233.68 0)
 		(effects
 			(font
 				(size 1.15 1.15)
@@ -12006,7 +12006,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "IRLML0030"
+		(property "Value" "IRLML0040"
 			(at 203.454 99.568 0)
 			(effects
 				(font
@@ -12036,7 +12036,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+150℃ 1 N-channel 1.4W 28mΩ@10V 30V 5.8A 700mV 78pF 825pF SOT-23 MOSFETs ROHS"
+		(property "Description" "-55℃~+150℃ 1 N-channel 1.3W 2.5V 266pF 29pF 3.6A 3.9nC 40V 56mΩ@10V SOT-23 MOSFETs ROHS"
 			(at 198.12 99.06 0)
 			(effects
 				(font
@@ -12045,7 +12045,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IRLML0030TRPBF-HXY"
+		(property "MPN" "IRLML0040"
 			(at 198.12 99.06 0)
 			(effects
 				(font
@@ -12063,7 +12063,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C6285737"
+		(property "LCSC" "C5364305"
 			(at 198.12 99.06 0)
 			(effects
 				(font
@@ -13782,7 +13782,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "0"
 			(at 186.69 139.7 90)
 			(effects
 				(font
@@ -13808,7 +13808,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 0Ω 50V 62.5mW Thick Film Resistor ±1% ±800ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
 			(at 186.69 139.7 0)
 			(effects
 				(font
@@ -13817,7 +13817,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" "C17168"
 			(at 186.69 139.7 0)
 			(effects
 				(font
@@ -13826,7 +13826,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402WGF1001TCE"
+		(property "MPN" "0402WGF0000TCE"
 			(at 186.69 139.7 0)
 			(effects
 				(font
@@ -20594,7 +20594,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "IRLML0030"
+		(property "Value" "IRLML0040"
 			(at 203.454 140.2081 0)
 			(effects
 				(font
@@ -20624,7 +20624,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+150℃ 1 N-channel 1.4W 28mΩ@10V 30V 5.8A 700mV 78pF 825pF SOT-23 MOSFETs ROHS"
+		(property "Description" "-55℃~+150℃ 1 N-channel 1.3W 2.5V 266pF 29pF 3.6A 3.9nC 40V 56mΩ@10V SOT-23 MOSFETs ROHS"
 			(at 198.12 139.7 0)
 			(effects
 				(font
@@ -20633,7 +20633,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C6285737"
+		(property "LCSC" "C5364305"
 			(at 198.12 139.7 0)
 			(effects
 				(font
@@ -20642,7 +20642,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "IRLML0030TRPBF-HXY"
+		(property "MPN" "IRLML0040"
 			(at 198.12 139.7 0)
 			(effects
 				(font
@@ -28091,7 +28091,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1K"
+		(property "Value" "0"
 			(at 186.69 99.06 90)
 			(effects
 				(font
@@ -28117,7 +28117,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "-55℃~+155℃ 1kΩ 50V 62.5mW Thick Film Resistor ±1% ±100ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
+		(property "Description" "-55℃~+155℃ 0Ω 50V 62.5mW Thick Film Resistor ±1% ±800ppm/℃ 0402 Chip Resistor - Surface Mount ROHS"
 			(at 186.69 99.06 0)
 			(effects
 				(font
@@ -28126,7 +28126,7 @@
 				(hide yes)
 			)
 		)
-		(property "LCSC" "C11702"
+		(property "LCSC" "C17168"
 			(at 186.69 99.06 0)
 			(effects
 				(font
@@ -28135,7 +28135,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "0402WGF1001TCE"
+		(property "MPN" "0402WGF0000TCE"
 			(at 186.69 99.06 0)
 			(effects
 				(font
