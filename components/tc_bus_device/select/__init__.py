@@ -83,7 +83,7 @@ async def to_code(config):
     if ringtone_entrance_door_call := config.get(CONF_RINGTONE_ENTRANCE_DOOR_CALL):
         sel = await select.new_select(
             ringtone_entrance_door_call,
-            options=[CONF_RINGTONES],
+            options=CONF_RINGTONES,
         )
         await cg.register_parented(sel, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_ringtone_entrance_door_call_select(sel))
@@ -91,7 +91,7 @@ async def to_code(config):
     if ringtone_second_entrance_door_call := config.get(CONF_RINGTONE_SECOND_ENTRANCE_DOOR_CALL):
         sel = await select.new_select(
             ringtone_second_entrance_door_call,
-            options=[CONF_RINGTONES],
+            options=CONF_RINGTONES,
         )
         await cg.register_parented(sel, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_ringtone_second_entrance_door_call_select(sel))
@@ -99,7 +99,7 @@ async def to_code(config):
     if ringtone_floor_call := config.get(CONF_RINGTONE_FLOOR_CALL):
         sel = await select.new_select(
             ringtone_floor_call,
-            options=[CONF_RINGTONES],
+            options=CONF_RINGTONES,
         )
         await cg.register_parented(sel, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_ringtone_floor_call_select(sel))
@@ -107,7 +107,7 @@ async def to_code(config):
     if ringtone_internal_call := config.get(CONF_RINGTONE_INTERNAL_CALL):
         sel = await select.new_select(
             ringtone_internal_call,
-            options=[CONF_RINGTONES],
+            options=CONF_RINGTONES,
         )
         await cg.register_parented(sel, config[CONF_TC_BUS_DEVICE_ID])
         cg.add(tc_bus_device_component.set_ringtone_internal_call_select(sel))

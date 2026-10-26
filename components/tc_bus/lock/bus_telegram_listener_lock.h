@@ -9,7 +9,11 @@ namespace esphome::tc_bus
     {
         public:
             void setup() override;
-            
+
+            // Keep lock::Lock's lock() / unlock() visible next to the listener overloads
+            using esphome::lock::Lock::lock;
+            using esphome::lock::Lock::unlock;
+
             void unlock(uint32_t *timer, uint16_t auto_reset) override;
             void lock(uint32_t *timer) override;
             void open() override;
