@@ -6,8 +6,10 @@ esphome:
   devices:
     - id: nuki_smart_lock
       name: "Nuki Lock"
+      relation: via
     - id: nuki_bridge
       name: "Nuki Bridge"
+      relation: child
       
 # Add External Components
 external_components:

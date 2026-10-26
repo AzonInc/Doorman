@@ -2,10 +2,10 @@
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
-  min_version: "2026.10.0"
+  min_version: "2026.11.0"
   project:
     name: AzonInc.Doorman Standard
-    version: 2026.10.0
+    version: 2026.11.0
   name_add_mac_suffix: false
   on_boot:
     - priority: 500.0
@@ -18,9 +18,11 @@ esphome:
   devices:
     - id: tc_bus_general
       name: "TC:BUS"
+      relation: child
       
     - id: tc_bus_is
       name: "TC:BUS Indoor Station"
+      relation: via
 
 # Enable logging
 logger:

@@ -4,6 +4,7 @@ esphome:
   devices:
     - id: tc_bus_debug
       name: "TC:BUS Debug Tools"
+      relation: child
 
 logger:
   #level: VERBOSE

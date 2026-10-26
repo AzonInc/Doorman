@@ -5,7 +5,7 @@ description: Stay up to date with Doorman's latest features, improvements, and i
 # Release Notes & Changelog
 Welcome to the latest updates! Here's a breakdown of all the **new features**, **improvements**, and important **changes** you need to know. Be sure to check out the **Breaking Changes** section for any actions needed to keep everything running smoothly.
 
-## 2026.10.0 <Badge type="warning" text="Next" />
+## 2026.11.0 <Badge type="warning" text="Next" />
 ### 🚨 IMPORTANT
 Please carefully review the breaking changes listed below before updating!  
 This release **will impact your current setup** and **requires** you to go through the **setup process again**.
@@ -53,8 +53,8 @@ This release **will impact your current setup** and **requires** you to go throu
 - **Renamed telegram types**  
    The `ack` telegram type has been renamed to `ack_status` and the `data` telegram type has been renamed to `ack_data`.
 
-- **ESPHome 2026.10.0 required**  
-   The minimum required ESPHome version has been updated to **2026.10.0**.
+- **ESPHome 2026.11.0 required**  
+   The minimum required ESPHome version has been updated to **2026.11.0**. Sub-devices now define a `relation` (`via` or `child`), which ESPHome uses to describe how they relate to Doorman.
 
 - **Nuki Bridge: ESPHome BLE stack**  
    The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now uses ESPHome's own BLE stack (`esp32_ble_tracker`) instead of NimBLE. Existing pairings are migrated automatically. The `pairing_enabled` switch has been renamed to `bluetooth_pairing_enabled` and the default `ble_command_timeout` is now `10s`.

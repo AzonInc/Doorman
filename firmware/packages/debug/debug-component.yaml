@@ -7,6 +7,7 @@ esphome:
   devices:
     - id: doorman_debug
       name: "Doorman Debug Tools"
+      relation: child
 
 text_sensor:
   - platform: debug

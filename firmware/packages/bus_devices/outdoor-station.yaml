@@ -4,6 +4,7 @@ esphome:
   devices:
     - id: tc_bus_os
       name: "TC:BUS Outdoor Station"
+      relation: via
 
 web_server:
   sorting_groups:

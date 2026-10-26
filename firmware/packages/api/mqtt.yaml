@@ -125,10 +125,12 @@ mqtt:
   on_json_message:
     - topic: ${name}/reconfigure_wifi
       then:
-        - wifi.configure:
-            ssid: !lambda 'return x["ssid"];'
-            password: !lambda 'return x["password"];'
-            save: true
+        # The JSON document is only valid during this automation,
+        # so hand copies to a script since wifi.configure defers
+        - script.execute:
+            id: mqtt_reconfigure_wifi
+            ssid: !lambda 'return x["ssid"].as<std::string>();'
+            password: !lambda 'return x["password"].as<std::string>();'
 
     - topic: ${name}/send_tc_telegram
       then:
@@ -203,6 +205,17 @@ wifi:
           - script.execute: mqtt_connect
 
 script:
+  - id: mqtt_reconfigure_wifi
+    mode: restart
+    parameters:
+      ssid: string
+      password: string
+    then:
+      - wifi.configure:
+          ssid: !lambda 'return ssid;'
+          password: !lambda 'return password;'
+          save: true
+
   - id: mqtt_connect
     mode: restart
     then:

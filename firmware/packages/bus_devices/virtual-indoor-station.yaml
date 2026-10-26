@@ -12,6 +12,7 @@ esphome:
   devices:
     - id: tc_bus_vis
       name: "TC:BUS V-Indoor Station"
+      relation: child
 
 tc_bus_device:
   - id: virtual_indoor_station
