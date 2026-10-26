@@ -97,7 +97,8 @@ namespace esphome
 
         hap_serv_t* service = nullptr;
 
-        const char* device_class = entityPtr->get_device_class_ref().c_str();
+        char device_class_buf[MAX_DEVICE_CLASS_LENGTH];
+        const char* device_class = entityPtr->get_device_class_to(device_class_buf);
         if (device_class == nullptr) {
             service = hap_serv_contact_sensor_create(entityPtr->state);
         }
