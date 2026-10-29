@@ -5,7 +5,11 @@ description: Explore the complete history of PCB revisions, including new featur
 # Core Board Changelog
 This page highlights the new features, improvements, and changes made in each revision.
 
-## 2.2.0 <Badge type="warning" text="Next" />
+## 2.2.1 <Badge type="warning" text="Next" />
+- Changed Q3 and Q5 to IRLML0040
+- Changed R4 and R14 to 0 ohm bridge
+
+## 2.2.0
 - Changed R10 to 500mW rated resistor
 - Redesigned the `SIEDLE:IN-HOME-BUS` RX and TX circuits
 - Merged voltage detection circuit with `SIEDLE:IN-HOME-BUS` RX circuit to save components
