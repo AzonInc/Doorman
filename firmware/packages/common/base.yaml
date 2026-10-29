@@ -709,7 +709,7 @@ event:
     icon: "mdi:doorbell"
     device_class: DOORBELL
     event_types:
-      - "default"
+      - "ring"
     web_server:
       sorting_group_id: sorting_group_diagnostics_listeners
       sorting_weight: 211
@@ -721,7 +721,7 @@ event:
     icon: "mdi:doorbell"
     device_class: DOORBELL
     event_types:
-      - "default"
+      - "ring"
     disabled_by_default: true
     web_server:
       sorting_group_id: sorting_group_diagnostics_listeners
@@ -734,7 +734,7 @@ event:
     icon: "mdi:doorbell"
     device_class: DOORBELL
     event_types:
-      - "default"
+      - "ring"
     web_server:
       sorting_group_id: sorting_group_diagnostics_listeners
       sorting_weight: 231
