@@ -84,6 +84,8 @@ number:
       entity_category: CONFIG
       icon: "mdi:barcode-scan"
       #disabled_by_default: true
+      on_value:
+        - script.execute: set_unused_entities_internal
       web_server:
         sorting_group_id: sorting_group_setup_indoor_station
         sorting_weight: -99

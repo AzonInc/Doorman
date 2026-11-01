@@ -1,0 +1,75 @@
+# Doorbell Pattern Template
+#
+# Detects single/double/triple/quadruple ring patterns on one doorbell listener
+# and forwards them to an event entity. Instantiated once per listener from
+# pattern-events.yaml.
+#
+# Parameters:
+#   sensor_id      - binary sensor to attach the pattern detection to
+#   event_id       - event entity the detected pattern is fired on
+#   trigger_prefix - unique prefix for the generated multi click trigger ids
+#   event_prefix   - prepended to the event type, e.g. "parallel_"
+
+binary_sensor:
+  - id: !extend ${sensor_id}
+    on_multi_click:
+      # Single press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at least 1.8s
+        trigger_id: ${trigger_prefix}_pattern_single
+        then:
+          - event.trigger:
+              id: ${event_id}
+              event_type: ${event_prefix}single
+
+      # Double press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at most 1s
+
+          - ON for at most 0.5s
+          - OFF for at least 1.7s
+        trigger_id: ${trigger_prefix}_pattern_double
+        then:
+          - lambda: !lambda "id(${trigger_prefix}_pattern_single).cancel();"
+          - event.trigger:
+              id: ${event_id}
+              event_type: ${event_prefix}double
+
+      # Triple press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at most 1s
+
+          - ON for at most 0.5s
+          - OFF for at most 1s
+
+          - ON for at most 0.5s
+          - OFF for at least 1.6s
+        trigger_id: ${trigger_prefix}_pattern_triple
+        then:
+          - lambda: !lambda "id(${trigger_prefix}_pattern_single).cancel();"
+          - event.trigger:
+              id: ${event_id}
+              event_type: ${event_prefix}triple
+
+      # Quadruple press
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at most 1s
+
+          - ON for at most 0.5s
+          - OFF for at most 1s
+
+          - ON for at most 0.5s
+          - OFF for at most 1s
+
+          - ON for at most 0.5s
+          - OFF for at least 1.5s
+        trigger_id: ${trigger_prefix}_pattern_quadruple
+        then:
+          - lambda: !lambda "id(${trigger_prefix}_pattern_single).cancel();"
+          - event.trigger:
+              id: ${event_id}
+              event_type: ${event_prefix}quadruple

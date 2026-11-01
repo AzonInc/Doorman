@@ -120,6 +120,7 @@ This sensor type supports advanced triggering options, enabling it to respond to
 | `type`           | Telegram type that will trigger the binary sensor, used alongside `address` and `payload`.               | ✅ |      |
 | `address`        | 8-bit address that serves as a condition to trigger the binary sensor. If you set it to `255`, it will catch all addresses. | | `0`           |
 | `payload`        | 32-bit payload that serves as a condition to trigger the binary sensor.                                  | | `0`           |
+| `serial_number`  | 20-bit serial number that serves as a condition to trigger the binary sensor. Defaults to the serial number of the device itself, so the sensor only reacts to telegrams addressed to it. Set it to the `parallel_serial_number` to react to calls addressed to the parallel serial number instead. | | Device serial number |
 
 ### Sensor Type: `virtual_door_opener`
 This sensor type replaces the physical door opener when using a virtual outdoor station.
