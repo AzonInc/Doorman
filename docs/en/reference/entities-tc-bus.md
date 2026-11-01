@@ -263,7 +263,7 @@ Represents the second entrance door of the building. Only the `Open` and `Unlock
 Triggers each time a doorbell pattern is detected at the entrance. Learn more about pattern events [here](../guide/features/pattern-events).
 
 ##### Event Types
-- **single**
+- **ring**
 - **double**
 - **triple**
 - **quadruple**
@@ -272,7 +272,7 @@ Triggers each time a doorbell pattern is detected at the entrance. Learn more ab
 Triggers each time a doorbell pattern is detected at the second entrance. Learn more about pattern events [here](../guide/features/pattern-events).
 
 ##### Event Types
-- **single**
+- **ring**
 - **double**
 - **triple**
 - **quadruple**
@@ -281,7 +281,7 @@ Triggers each time a doorbell pattern is detected at the second entrance. Learn 
 Triggers each time a doorbell pattern is detected at the apartment. Learn more about pattern events [here](../guide/features/pattern-events).
 
 ##### Event Types
-- **single**
+- **ring**
 - **double**
 - **triple**
 - **quadruple**

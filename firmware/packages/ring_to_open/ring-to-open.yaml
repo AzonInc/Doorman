@@ -218,7 +218,7 @@ event:
       - if:
           condition:
             - switch.is_on: rto_entrance_door
-            - lambda: !lambda 'return event_type.c_str() != "single";'
+            - lambda: !lambda 'return event_type != "ring";'
             - lambda: !lambda 'return event_type.c_str() == id(rto_entrance_door_pattern_condition)->current_option();'
           then:
             # Deactivate Ring To Open when Ring once is selected
@@ -247,7 +247,7 @@ event:
       - if:
           condition:
             - switch.is_on: rto_second_entrance_door
-            - lambda: !lambda 'return event_type.c_str() != "single";'
+            - lambda: !lambda 'return event_type != "ring";'
             - lambda: !lambda 'return event_type.c_str() == id(rto_second_entrance_door_pattern_condition)->current_option();'
           then:
             # Deactivate Ring To Open when Ring once is selected
@@ -275,7 +275,7 @@ event:
       - if:
           condition:
             - switch.is_on: rto_apartment_door
-            - lambda: !lambda 'return event_type.c_str() != "single";'
+            - lambda: !lambda 'return event_type != "ring";'
             - lambda: !lambda 'return event_type.c_str() == id(rto_apartment_door_pattern_condition)->current_option();'
           then:
             # Deactivate Ring To Open when Ring once is selected

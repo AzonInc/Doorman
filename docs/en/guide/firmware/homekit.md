@@ -21,8 +21,8 @@ The HomeKit integration currently supports only the most essential and basic fun
 ### Event Mapping
 HomeKit supports only three event types, so we are limited to the following mappings:
 
-- **single** → `SINGLE_PRESS`
-- **double** → `SINGLE_PRESS`
+- **ring** → `SINGLE_PRESS`
+- **double** → `DOUBLE_PRESS`
 - **long** → `LONG_PRESS`
 
 All other events will default to `LONG_PRESS` due to limitations:

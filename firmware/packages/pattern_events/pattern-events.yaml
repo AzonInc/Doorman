@@ -3,21 +3,18 @@
 event:
   - id: !extend entrance_doorbell_pattern
     event_types:
-      - "single"
       - "double"
       - "triple"
       - "quadruple"
 
   - id: !extend second_entrance_doorbell_pattern
     event_types:
-      - "single"
       - "double"
       - "triple"
       - "quadruple"
 
   - id: !extend apartment_doorbell_pattern
     event_types:
-      - "single"
       - "double"
       - "triple"
       - "quadruple"
@@ -40,7 +37,7 @@ binary_sensor:
         then:
           - event.trigger:
               id: entrance_doorbell_pattern
-              event_type: single
+              event_type: ring
 
       # Double press
       - timing:
@@ -103,7 +100,7 @@ binary_sensor:
         then:
           - event.trigger:
               id: second_entrance_doorbell_pattern
-              event_type: single
+              event_type: ring
 
       # Double press
       - timing:
@@ -166,7 +163,7 @@ binary_sensor:
         then:
           - event.trigger:
               id: apartment_doorbell_pattern
-              event_type: single
+              event_type: ring
 
       # Double press
       - timing:

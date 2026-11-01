@@ -17,8 +17,8 @@ Die HomeKit-Integration unterstützt derzeit nur die wichtigsten und grundlegend
 ### Ereignis-Zuordnung
 HomeKit unterstützt nur drei Ereignistypen, daher sind wir auf folgende Zuordnungen beschränkt:
 
-- **single** → `SINGLE_PRESS`
-- **double** → `SINGLE_PRESS`
+- **ring** → `SINGLE_PRESS`
+- **double** → `DOUBLE_PRESS`
 - **long** → `LONG_PRESS`
 
 Alle weiteren Ereignisse werden aufgrund dieser Einschränkung ebenfalls auf `LONG_PRESS` abgebildet:

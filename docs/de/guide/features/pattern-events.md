@@ -17,7 +17,7 @@ Sieh dir das [Beispiel](../firmware/customization#erstelle-dein-eigenes-klingelm
 - Apartment Doorbell <Badge type="tip" text="apartment_doorbell_pattern" />
 
 ### Ereignistypen
-- **single**
+- **ring**
 - **double**
 - **triple**
 - **quadruple**

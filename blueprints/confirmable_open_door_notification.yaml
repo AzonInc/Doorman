@@ -22,13 +22,13 @@ blueprint:
         event_type:
           name: "Doorbell Pattern"
           description: "The Doorbell Pattern that triggers the action"
-          default: "single"
+          default: "ring"
           selector:
             select:
               custom_value: true
               options:
                 - label: Single Press
-                  value: single
+                  value: ring
                 - label: Double Press
                   value: double
                 - label: Triple Press

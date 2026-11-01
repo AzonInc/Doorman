@@ -39,7 +39,7 @@ namespace esphome
         hap_val_t val = {.u = 0};
 
         // Map internal event_type to HomeKit event
-        if (event_type == "single") {
+        if (event_type == "ring") {
           val.u = 0; // SINGLE_PRESS
         } else if (event_type == "double") {
           val.u = 1; // DOUBLE_PRESS

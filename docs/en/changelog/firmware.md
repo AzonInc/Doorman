@@ -59,6 +59,9 @@ This release **will impact your current setup** and **requires** you to go throu
 - **Nuki Bridge: ESPHome BLE stack**  
    The [ESPHome_nuki_lock](https://github.com/uriyacovy/ESPHome_nuki_lock) component now uses ESPHome's own BLE stack (`esp32_ble_tracker`) instead of NimBLE. Existing pairings are migrated automatically. The `pairing_enabled` switch has been renamed to `bluetooth_pairing_enabled` and the default `ble_command_timeout` is now `10s`.
 
+- **Doorbell event type `single` renamed to `ring`**  
+   Home Assistant expects doorbell event entities to fire a `ring` event. The single press event type of the Entrance, Second Entrance and Apartment Doorbell [pattern events](https://doorman.azon.ai/guide/features/pattern-events) has therefore been renamed from `single` to `ring`. Please update your automations that trigger on `single` and re-import the [blueprints](https://doorman.azon.ai/guide/firmware/home-assistant#blueprint-collection). The Phone pick up pattern still uses `single`.
+
 
 ## 2026.1.1 <Badge type="tip" text="Stable" />
 

@@ -21,7 +21,7 @@ Check out the [example](../firmware/customization#create-your-own-doorbell-patte
 - Apartment Doorbell <Badge type="tip" text="apartment_doorbell_pattern" />
 
 ### Event Types
-- **single**
+- **ring**
 - **double**
 - **triple**
 - **quadruple**
