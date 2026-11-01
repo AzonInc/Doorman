@@ -53,7 +53,8 @@ namespace esphome
     public:
       const char* TAG = "homekit";
 
-      float get_setup_priority() const override { return setup_priority::AFTER_CONNECTION; }
+      // Must run after the bridge (setup_priority::LATE)
+      float get_setup_priority() const override { return setup_priority::LATE - 1.0f; }
       void setup() override;
       void dump_config() override;
 

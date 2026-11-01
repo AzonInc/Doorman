@@ -61,11 +61,13 @@ namespace esphome
         }
 
         bool HomeKitBridgeComponent::is_paired() {
+            // Conditions can be evaluated (e.g. wifi on_connect) before setup() ran
+            if(!this->is_ready_) return false;
             return hap_get_paired_controller_count() > 0;
         }
 
         bool HomeKitBridgeComponent::is_connected() {
-            return global_homekit_bridge->connection_count_ > 0;
+            return this->connection_count_ > 0;
         }
 
         void HomeKitBridgeComponent::setup() {

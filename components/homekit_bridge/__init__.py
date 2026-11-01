@@ -149,6 +149,8 @@ async def to_code(config):
 
     if CONF_PORT in config:
         add_idf_sdkconfig_option("CONFIG_HAP_HTTP_SERVER_PORT", config[CONF_PORT])
+    add_idf_sdkconfig_option("CONFIG_MBEDTLS_HKDF_C", True)
+    add_idf_sdkconfig_option("CONFIG_LWIP_MAX_SOCKETS", 16)
 
     var = cg.new_Pvariable(config[CONF_ID])
 

@@ -36,12 +36,6 @@ wifi:
         group: api
     - script.execute: boot_after_api
 
-esp32:
-  framework:
-    sdkconfig_options:
-      CONFIG_MBEDTLS_HKDF_C: "y"
-      CONFIG_LWIP_MAX_SOCKETS: "16"
-
 web_server:
   sorting_groups:
     - id: sorting_group_homekit

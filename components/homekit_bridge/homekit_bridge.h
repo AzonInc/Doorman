@@ -32,7 +32,8 @@ namespace homekit {
     static constexpr const char* TAG = "homekit_bridge";
 
   public:
-    float get_setup_priority() const override { return setup_priority::AFTER_WIFI; }
+    // LATE: mDNS has to be initialized before hap_start()
+    float get_setup_priority() const override { return setup_priority::LATE; }
     void setup() override;
     void loop() override;
     void dump_config() override;
