@@ -149,11 +149,11 @@ namespace esphome::tc_bus_serial
     {
       if(telegram_data.is_long)
       {
-        ESP_LOGD(TAG, "TC:BUS telegram received: %08X", telegram_data.raw);
+        ESP_LOGD(TAG, "TC:BUS telegram received: %08" PRIX32, telegram_data.raw);
       }
       else
       {
-        ESP_LOGD(TAG, "TC:BUS telegram received: %04X", telegram_data.raw);
+        ESP_LOGD(TAG, "TC:BUS telegram received: %04" PRIX32, telegram_data.raw);
       }
 
       char hex_buf[9];

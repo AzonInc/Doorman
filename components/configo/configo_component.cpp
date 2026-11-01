@@ -44,7 +44,7 @@ namespace esphome::configo
     void ConfigoComponent::dump_config()
     {
       ESP_LOGCONFIG(TAG, "Configo Interface:");
-      ESP_LOGCONFIG(TAG, "  Serial Number: %i (0x%05X)", DEVICE_SERIAL, DEVICE_SERIAL);
+      ESP_LOGCONFIG(TAG, "  Serial Number: %" PRIu32 " (0x%05" PRIX32 ")", DEVICE_SERIAL, DEVICE_SERIAL);
       ESP_LOGCONFIG(TAG, "  Key: ehruggrrrg");
     }
 
@@ -193,7 +193,7 @@ namespace esphome::configo
           std::vector<uint8_t> data = {'.'};
 
           char serial_hex[6];
-          snprintf(serial_hex, sizeof(serial_hex), "%05X", DEVICE_SERIAL);
+          snprintf(serial_hex, sizeof(serial_hex), "%05" PRIX32, DEVICE_SERIAL);
           data.insert(data.end(), serial_hex, serial_hex + strlen(serial_hex));
 
           data.insert(data.end(), DEVICE_SW_VER, DEVICE_SW_VER + sizeof(DEVICE_SW_VER) - 1);

@@ -237,7 +237,7 @@ namespace esphome
           hap_acc_t* accessory = hap_acc_create(&acc_cfg);
           acc_instance_map[accessory] = this;
 
-          ESP_LOGI(TAG, "ID HASH: %lu", entityPtr->get_object_id_hash());
+          ESP_LOGI(TAG, "ID HASH: %" PRIu32, entityPtr->get_object_id_hash());
           hap_serv_set_priv(service, strdup_psram(std::to_string(entityPtr->get_object_id_hash()).c_str()));
 
           /* Set the write callback for the service */

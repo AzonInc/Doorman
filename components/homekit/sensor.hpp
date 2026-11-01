@@ -34,7 +34,7 @@ namespace esphome
         hap_char_t* on_char = hap_serv_get_first_char(hs);
         if (!on_char) return;
 
-        ESP_LOGD(TAG, "HAP CURRENT VALUE - f:%.2f u:%lu", hap_char_get_val(on_char)->f, hap_char_get_val(on_char)->u);
+        ESP_LOGD(TAG, "HAP CURRENT VALUE - f:%.2f u:%" PRIu32, hap_char_get_val(on_char)->f, hap_char_get_val(on_char)->u);
 
         hap_val_t state;
 
@@ -147,7 +147,7 @@ namespace esphome
           hap_acc_t* accessory = hap_acc_create(&acc_cfg);
           acc_instance_map[accessory] = this;
 
-          ESP_LOGD(TAG, "ID HASH: %lu", entityPtr->get_object_id_hash());
+          ESP_LOGD(TAG, "ID HASH: %" PRIu32, entityPtr->get_object_id_hash());
 
           hap_serv_set_priv(service, entityPtr);
 

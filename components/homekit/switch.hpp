@@ -111,7 +111,7 @@ namespace esphome
         /* Create the switch Service. */
         hap_serv_t* service = hap_serv_switch_create(entityPtr->state);
 
-        ESP_LOGD(TAG, "ID HASH: %lu", entityPtr->get_object_id_hash());
+        ESP_LOGD(TAG, "ID HASH: %" PRIu32, entityPtr->get_object_id_hash());
         hap_serv_set_priv(service, entityPtr);
 
         /* Set the write callback for the service */

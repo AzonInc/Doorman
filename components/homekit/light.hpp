@@ -83,7 +83,7 @@ namespace esphome
           if (!strcmp(hap_char_get_type_uuid(write->hc), HAP_CHAR_UUID_COLOR_TEMPERATURE)) {
             ESP_LOGD(TAG, "Received Write for Light '%s' Level: %d", entityPtr->get_name().c_str(), write->val.i);
             ESP_LOGD(TAG, "[LEVEL] CURRENT COLOR TEMPERATURE(mired): %.2f", entityPtr->current_values.get_color_temperature());
-            ESP_LOGD(TAG, "TARGET COLOR TEMPERATURE(mired): %lu", write->val.u);
+            ESP_LOGD(TAG, "TARGET COLOR TEMPERATURE(mired): %" PRIu32, write->val.u);
             entityPtr->make_call().set_color_temperature(write->val.u).set_save(true).perform();
             hap_char_update_val(write->hc, &(write->val));
             *(write->status) = HAP_STATUS_SUCCESS;
@@ -213,7 +213,7 @@ namespace esphome
           hap_serv_add_char(service, hap_char_color_temperature_create(entityPtr->current_values.get_color_temperature()));
         }
 
-        ESP_LOGD(TAG, "ID HASH: %lu", entityPtr->get_object_id_hash());
+        ESP_LOGD(TAG, "ID HASH: %" PRIu32, entityPtr->get_object_id_hash());
         hap_serv_set_priv(service, entityPtr);
 
         /* Set the write callback for the service */

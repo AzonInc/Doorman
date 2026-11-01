@@ -129,7 +129,7 @@ namespace esphome::tc_bus
             }
             else
             {
-                ESP_LOGV(TAG, "Received telegram 0x%08X, ignoring as echo.", telegram.raw);
+                ESP_LOGV(TAG, "Received telegram 0x%08" PRIX32 ", ignoring as echo.", telegram.raw);
             }
         }
 
@@ -343,8 +343,8 @@ namespace esphome::tc_bus
             if(telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
             {
                 ESP_LOGD(TAG,   "  Address: %i\n"
-                                "  Payload: 0x%X\n"
-                                "  Serial-Number: %i",
+                                "  Payload: 0x%" PRIX32 "\n"
+                                "  Serial-Number: %" PRIu32,
                                 telegram_data.address, 
                                 telegram_data.payload, 
                                 telegram_data.serial_number);
@@ -494,8 +494,8 @@ namespace esphome::tc_bus
             if(telegram_data.type != TELEGRAM_TYPE_ACK_STATUS && telegram_data.type != TELEGRAM_TYPE_ACK_DATA)
             {
                 ESP_LOGD(TAG,   "  Address: %i\n"
-                                "  Payload: 0x%X\n"
-                                "  Serial-Number: %i",
+                                "  Payload: 0x%" PRIX32 "\n"
+                                "  Serial-Number: %" PRIu32,
                                 telegram_data.address, 
                                 telegram_data.payload, 
                                 telegram_data.serial_number);
@@ -532,7 +532,7 @@ namespace esphome::tc_bus
                     ESP_LOGD(TAG, "  Description: Switch on video screen");
                     break;
                 default:
-                    ESP_LOGD(TAG, "  Description: Control function %d", telegram_data.payload);
+                    ESP_LOGD(TAG, "  Description: Control function %" PRIu32, telegram_data.payload);
                     break;
             }
         }
@@ -623,7 +623,7 @@ namespace esphome::tc_bus
         }
         else if (telegram_data.type == TELEGRAM_TYPE_SELECT_DEVICE_GROUP || telegram_data.type == TELEGRAM_TYPE_SELECT_DEVICE_GROUP_RESET)
         {
-            ESP_LOGV(TAG, "Save device group: %d", telegram_data.payload);
+            ESP_LOGV(TAG, "Save device group: %" PRIu32, telegram_data.payload);
             this->selected_device_group_ = (uint8_t)telegram_data.payload;
         }
         else if(telegram_data.type == TELEGRAM_TYPE_FOUND_DEVICE && this->system_discovery_active_)
@@ -892,7 +892,7 @@ namespace esphome::tc_bus
 
         if (!this->telegram_transmit_queue.push({telegram_data, sender_listener_id}))
         {
-            ESP_LOGW(TAG, "Telegram queue full, dropping telegram 0x%08X", telegram_data.raw);
+            ESP_LOGW(TAG, "Telegram queue full, dropping telegram 0x%08" PRIX32, telegram_data.raw);
         }
         
         // Process Telegram queue
@@ -913,7 +913,7 @@ namespace esphome::tc_bus
         {
             uint32_t start_us = micros();
             uint32_t time_between = start_us - this->store_.last_bit_change;
-            ESP_LOGV(TAG, "Last bit %i us ago", time_between);
+            ESP_LOGV(TAG, "Last bit %" PRIu32 " us ago", time_between);
 
             this->store_.sending = true;
             this->store_.last_telegram_raw = telegram_data.raw;
@@ -1099,7 +1099,7 @@ namespace esphome::tc_bus
         {
             for (uint8_t i = 0; i < count; i++)
             {
-                ESP_LOGI(TAG, "    %i", list[i]);
+                ESP_LOGI(TAG, "    %" PRIu32, list[i]);
             }
         }
         else

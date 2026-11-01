@@ -50,7 +50,7 @@ namespace esphome
 
         void HomeKitBridgeComponent::report_heap() {
             ESP_LOGD(TAG, "Internal heap: %u", heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
-            ESP_LOGD(TAG, "Total free heap: %u", esp_get_free_heap_size());
+            ESP_LOGD(TAG, "Total free heap: %" PRIu32, esp_get_free_heap_size());
         }
 
         void HomeKitBridgeComponent::factory_reset() {
@@ -168,7 +168,7 @@ namespace esphome
 
         void HomeKitBridgeComponent::dump_config() {
             ESP_LOGCONFIG(TAG, "homekit_bridge:");
-            ESP_LOGCONFIG(TAG, "  Task Stack Size: %i", this->task_stack_size_);
+            ESP_LOGCONFIG(TAG, "  Task Stack Size: %" PRIu32, this->task_stack_size_);
             ESP_LOGCONFIG(TAG, "  Setup Code: %s", this->setup_code_);
             ESP_LOGCONFIG(TAG, "  Setup ID: %s", this->setup_id_);
             ESP_LOGCONFIG(TAG, "  Name: %s", this->name_);

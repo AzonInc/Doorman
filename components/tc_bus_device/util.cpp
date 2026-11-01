@@ -1697,12 +1697,12 @@ namespace esphome::tc_bus
                 if(model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
                 {
                     // 0 -> 2, 1 -> 4, 2 -> 6, 3 -> 8, >3 -> 2
-                    value = (value >= 0 && value <= 3) ? value * 2 + 2 : 2;
+                    value = (value <= 3) ? value * 2 + 2 : 2;
                 }
                 else if(model == MODEL_IS_ISW42X0)
                 {
                     // 0 -> 0, 1 -> 1, 2 -> 2, 3 -> 3, >3 -> 0
-                    value = (value >= 0 && value <= 3) ? value : 0;
+                    value = (value <= 3) ? value : 0;
                 }
                 break;
 
@@ -1710,7 +1710,7 @@ namespace esphome::tc_bus
                 if(model == MODEL_IS_TC40 || model == MODEL_IS_VTC40 || model == MODEL_IS_TC40V2 || model == MODEL_IS_VTC42V2)
                 {
                     // 0  -> 32, 1  -> 33, 2  -> 34, 3  -> 35, >3 -> 32
-                    value = (value >= 0 && value <= 3) ? value + 32 : 32;
+                    value = (value <= 3) ? value + 32 : 32;
                 }
                 break;
 
@@ -1753,7 +1753,7 @@ namespace esphome::tc_bus
                 else if(model == MODEL_IS_ISW42X0)
                 {
                     // 0 -> 0, 1 -> 1, 2 -> 2, 3 -> 3, >3 -> 0
-                    value = (value >= 0 && value <= 3) ? value : 0;
+                    value = (value <= 3) ? value : 0;
                 }
                 break;
 

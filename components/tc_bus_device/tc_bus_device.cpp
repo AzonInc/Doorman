@@ -413,7 +413,7 @@ namespace esphome::tc_bus
         ESP_LOGCONFIG(TAG, this->virtual_ ? "Virtual TC:BUS Device:" : "TC:BUS Device:");
         ESP_LOGCONFIG(TAG, "  Group: %s", device_group_to_string(this->model_data_.device_group));
         ESP_LOGCONFIG(TAG, "  Model: %s", model_to_string(this->model_));
-        ESP_LOGCONFIG(TAG, "  Serial Number: %i", this->serial_number_);
+        ESP_LOGCONFIG(TAG, "  Serial Number: %" PRIu32, this->serial_number_);
 
         if (this->virtual_ && this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
         {
@@ -434,7 +434,7 @@ namespace esphome::tc_bus
 
         if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
-            ESP_LOGCONFIG(TAG, "  Parallel Serial Number: %i", this->parallel_serial_number_);
+            ESP_LOGCONFIG(TAG, "  Parallel Serial Number: %" PRIu32, this->parallel_serial_number_);
             ESP_LOGCONFIG(TAG, "  Always use long door opener protocol: %s", YESNO(this->use_long_door_opener_protocol_));
         }
 
@@ -1557,7 +1557,7 @@ namespace esphome::tc_bus
         {
             if (internal)
             {
-                ESP_LOGI(TAG, "Virtual device: Calling indoor station %d", destination);
+                ESP_LOGI(TAG, "Virtual device: Calling indoor station %" PRIu32, destination);
 
                 // Call indoor station serial number from address 63 (static)
                 this->call_internal_ = true;
@@ -1576,7 +1576,7 @@ namespace esphome::tc_bus
             }
             else
             {
-                ESP_LOGI(TAG, "Virtual device: Talk to outdoor station %d", destination);
+                ESP_LOGI(TAG, "Virtual device: Talk to outdoor station %" PRIu32, destination);
 
                 // Talk directly to outdoor station address (destination) from this serial number
                 this->call_internal_ = false;
@@ -1596,7 +1596,7 @@ namespace esphome::tc_bus
         }
         else if (this->device_group_ == DEVICE_GROUP_OUTDOOR_STATION)
         {
-            ESP_LOGI(TAG, "Virtual device: Calling indoor station %d", destination);
+            ESP_LOGI(TAG, "Virtual device: Calling indoor station %" PRIu32, destination);
             
             this->cancel_timeout("door_readiness_timeout");
 
@@ -1723,22 +1723,22 @@ namespace esphome::tc_bus
             return;
         }
 
-        ESP_LOGI(TAG,   this->virtual_ ? "Virtual %s Settings:\n" : "%s Settings:\n"
+        ESP_LOGI(TAG,   "%s%s Settings:\n"
                         "  Model: %s\n"
-                        "  Serial Number: %i",
-                       device_group_to_string(this->model_data_.device_group),  model_to_string(this->model_), this->serial_number_);
+                        "  Serial Number: %" PRIu32,
+                        this->virtual_ ? "Virtual " : "", device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_);
 
         if (this->device_group_ == DEVICE_GROUP_INDOOR_STATION_CLASSIC || this->device_group_ == DEVICE_GROUP_INDOOR_STATION_HANDSFREE)
         {
             if (supports_setting(SETTING_PARALLEL_SERIAL_NUMBER))
             {
-                ESP_LOGI(TAG, "  Parallel Serial Number: %i", get_setting(SETTING_PARALLEL_SERIAL_NUMBER));
+                ESP_LOGI(TAG, "  Parallel Serial Number: %" PRIu32, get_setting(SETTING_PARALLEL_SERIAL_NUMBER));
             }
 
             ESP_LOGI(TAG, "  Ringtone Settings:");
             if (supports_setting(SETTING_VOLUME_RINGTONE))
             {
-                ESP_LOGI(TAG, "    Volume: %i", get_setting(SETTING_VOLUME_RINGTONE));
+                ESP_LOGI(TAG, "    Volume: %" PRIu32, get_setting(SETTING_VOLUME_RINGTONE));
             }
             if (supports_setting(SETTING_RINGTONE_MUTE))
             {
@@ -1765,20 +1765,20 @@ namespace esphome::tc_bus
 
             if (supports_setting(SETTING_VOLUME_HANDSET_DOOR_CALL))
             {
-                ESP_LOGI(TAG, "  Handset volume (Door Call): %i", get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
+                ESP_LOGI(TAG, "  Handset volume (Door Call): %" PRIu32, get_setting(SETTING_VOLUME_HANDSET_DOOR_CALL));
             }
             if (supports_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL))
             {
-                ESP_LOGI(TAG, "  Handset volume (Internal Call): %i", get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
+                ESP_LOGI(TAG, "  Handset volume (Internal Call): %" PRIu32, get_setting(SETTING_VOLUME_HANDSET_INTERNAL_CALL));
             }
 
             if (supports_setting(SETTING_AS_ADDRESS_DIVIDER))
             {
-                ESP_LOGI(TAG, "  Address Divider (AS): %i", get_setting(SETTING_AS_ADDRESS_DIVIDER));
+                ESP_LOGI(TAG, "  Address Divider (AS): %" PRIu32, get_setting(SETTING_AS_ADDRESS_DIVIDER));
             }
             if (supports_setting(SETTING_VAS_ADDRESS_DIVIDER))
             {
-                ESP_LOGI(TAG, "  Address Divider (VAS): %i", get_setting(SETTING_VAS_ADDRESS_DIVIDER));
+                ESP_LOGI(TAG, "  Address Divider (VAS): %" PRIu32, get_setting(SETTING_VAS_ADDRESS_DIVIDER));
             }
 
             if (supports_setting(SETTING_AUTO_ANSWER_CALL))
@@ -1865,7 +1865,7 @@ namespace esphome::tc_bus
         {
             if (supports_setting(SETTING_ADDRESS))
             {
-                ESP_LOGI(TAG, "  Address: %i", get_setting(SETTING_ADDRESS));
+                ESP_LOGI(TAG, "  Address: %" PRIu32, get_setting(SETTING_ADDRESS));
             }
             if (supports_setting(SETTING_ADDRESS_LOCK))
             {
@@ -2100,14 +2100,14 @@ namespace esphome::tc_bus
         ESP_LOGI(TAG, "      Primary Action: %s", doorbell_button_action_to_string(btn.primary_action));
         if (btn.primary_action != DOORBELL_BUTTON_ACTION_NONE && btn.primary_action != DOORBELL_BUTTON_ACTION_LIGHT)
         {
-            ESP_LOGI(TAG, "        Payload: %i", btn.primary_payload);
+            ESP_LOGI(TAG, "        Payload: %" PRIu32, btn.primary_payload);
         }
         if (btn.primary_action == DOORBELL_BUTTON_ACTION_DOOR_CALL)
         {
             ESP_LOGI(TAG, "      Secondary Action: %s", doorbell_button_action_to_string(btn.secondary_action));
             if (btn.secondary_action != DOORBELL_BUTTON_ACTION_NONE && btn.secondary_action != DOORBELL_BUTTON_ACTION_LIGHT)
             {
-                ESP_LOGI(TAG, "        Payload: %i", btn.secondary_payload);
+                ESP_LOGI(TAG, "        Payload: %" PRIu32, btn.secondary_payload);
             }
         }
     }
@@ -2187,7 +2187,7 @@ namespace esphome::tc_bus
 
             // First try with group 0
             ESP_LOGI(TAG,   "Identify %s:\n"
-                            "  Serial Number: %i",
+                            "  Serial Number: %" PRIu32,
                             device_group_to_string(DEVICE_GROUP_INDOOR_STATION_CLASSIC), this->serial_number_);
 
             send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 0); // group 0
@@ -2198,7 +2198,7 @@ namespace esphome::tc_bus
                 // Didn't receive identify result of group 0
                 // Second try with group 1
                 ESP_LOGI(TAG,   "Identify %s:\n"
-                                "  Serial Number: %i",
+                                "  Serial Number: %" PRIu32,
                                 device_group_to_string(DEVICE_GROUP_INDOOR_STATION_HANDSFREE), this->serial_number_);
 
                 send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, 1); // group 1
@@ -2225,7 +2225,7 @@ namespace esphome::tc_bus
             // Other Devices
 
             ESP_LOGI(TAG,   "Identify %s:\n"
-                            "  Serial Number: %i",
+                            "  Serial Number: %" PRIu32,
                             device_group_to_string(this->device_group_), this->serial_number_);
 
             send_telegram(TELEGRAM_TYPE_SELECT_DEVICE_GROUP, 0, (uint8_t)this->device_group_);
@@ -2277,7 +2277,7 @@ namespace esphome::tc_bus
         uint32_t now = millis();
         if (s_last_flow_completion_time > 0 && (now - s_last_flow_completion_time) < 1000)
         {
-            ESP_LOGV(FLOW_QUEUE_TAG, "Waiting for cooldown period (%u ms remaining)...", 1000 - (now - s_last_flow_completion_time));
+            ESP_LOGV(FLOW_QUEUE_TAG, "Waiting for cooldown period (%" PRIu32 " ms remaining)...", 1000 - (now - s_last_flow_completion_time));
             return;
         }
 
@@ -2345,7 +2345,7 @@ namespace esphome::tc_bus
 
         if (this->model_data_.memory_size == 0)
         {
-            ESP_LOGE(TAG, "The model %s (Serial: %i) does not support reading memory!", model_to_string(this->model_), this->serial_number_);
+            ESP_LOGE(TAG, "The model %s (Serial: %" PRIu32 ") does not support reading memory!", model_to_string(this->model_), this->serial_number_);
             // Call timeout callback for unsupported models
             #ifdef USE_READ_MEMORY_FAILED_CALLBACK
             this->read_memory_failed_callback_.call();
@@ -2361,7 +2361,7 @@ namespace esphome::tc_bus
     {
         ESP_LOGI(TAG,   "Read memory of %s:\n"
                         "  Model: %s\n"
-                        "  Serial Number: %i\n"
+                        "  Serial Number: %" PRIu32 "\n"
                         "  Sides: %i",
                         device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
@@ -2413,7 +2413,7 @@ namespace esphome::tc_bus
 
         if (this->model_data_.memory_size == 0)
         {
-            ESP_LOGE(TAG, "The model %s (Serial: %i) does not support reading memory!", model_to_string(this->model_), this->serial_number_);
+            ESP_LOGE(TAG, "The model %s (Serial: %" PRIu32 ") does not support reading memory!", model_to_string(this->model_), this->serial_number_);
             // Call failed callback for unsupported models
             #ifdef USE_READ_MEMORY_FAILED_CALLBACK
             this->read_memory_failed_callback_.call();
@@ -2428,7 +2428,7 @@ namespace esphome::tc_bus
     {
         ESP_LOGI(TAG,   "Read memory of %s after update:\n"
                         "  Model: %s\n"
-                        "  Serial Number: %i\n"
+                        "  Serial Number: %" PRIu32 "\n"
                         "  Sides: %i",
                         device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, this->model_data_.sides);
 
@@ -3167,9 +3167,9 @@ namespace esphome::tc_bus
         {
             ESP_LOGI(TAG,   "Write setting to %s:\n"
                             "  Model: %s\n"
-                            "  Serial Number: %i\n"
+                            "  Serial Number: %" PRIu32 "\n"
                             "  Setting: %s\n"
-                            "  Value: %X",
+                            "  Value: %" PRIX32,
                             device_group_to_string(this->model_data_.device_group), model_to_string(this->model_), this->serial_number_, setting_type_to_string(type), new_value);
 
             // Prepare Transmission
@@ -3253,7 +3253,7 @@ namespace esphome::tc_bus
 
         ESP_LOGI(TAG,   "Write complete memory to %s:\n"
                         "  Model: %s\n"
-                        "  Serial Number: %i\n"
+                        "  Serial Number: %" PRIu32 "\n"
                         "  Size: %i Bytes",
                         device_group_to_string(this->model_data_.device_group),
                         model_to_string(this->model_),

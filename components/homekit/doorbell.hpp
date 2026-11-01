@@ -51,7 +51,7 @@ namespace esphome
         }
         
         int ret = hap_char_update_val(event_char, &val);
-        ESP_LOGI(TAG, "HomeKit Stateless Switch Event sent: %d, result: %d", val.u, ret);
+        ESP_LOGI(TAG, "HomeKit Stateless Switch Event sent: %" PRIu32 ", result: %d", val.u, ret);
       }
 
       void on_lock_update(lock::Lock* lock_entity) {
@@ -179,7 +179,7 @@ namespace esphome
           hap_serv_mark_primary(doorbellService); // primary service
           hap_acc_add_serv(accessory, doorbellService);
 
-          ESP_LOGD(TAG, "ID HASH: %lu", eventPtr->get_object_id_hash());
+          ESP_LOGD(TAG, "ID HASH: %" PRIu32, eventPtr->get_object_id_hash());
 
           // Lock Service
           if (lockPtr != nullptr) {

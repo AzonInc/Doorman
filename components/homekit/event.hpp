@@ -49,7 +49,7 @@ namespace esphome
         }
         
         int ret = hap_char_update_val(event_char, &val);
-        ESP_LOGI(TAG, "HomeKit Stateless Switch Event sent: %d, result: %d", val.u, ret);
+        ESP_LOGI(TAG, "HomeKit Stateless Switch Event sent: %" PRIu32 ", result: %d", val.u, ret);
       }
 
       static int acc_identify(hap_acc_t* ha) {
@@ -113,7 +113,7 @@ namespace esphome
           hap_acc_t* accessory = hap_acc_create(&acc_cfg);
           acc_instance_map[accessory] = this;
 
-          ESP_LOGD(TAG, "ID HASH: %lu", entityPtr->get_object_id_hash());
+          ESP_LOGD(TAG, "ID HASH: %" PRIu32, entityPtr->get_object_id_hash());
           hap_serv_set_priv(service, entityPtr);
           hap_acc_add_serv(accessory, service);
           
