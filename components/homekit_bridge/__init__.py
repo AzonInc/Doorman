@@ -2,6 +2,7 @@ import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome import automation
 from esphome.const import CONF_PORT, PLATFORM_ESP32, CONF_ID, CONF_TRIGGER_ID
+from esphome.components import socket
 from esphome.components.esp32 import add_idf_component, add_idf_sdkconfig_option
 import re
 
@@ -106,7 +107,11 @@ CONFIG_SCHEMA = cv.All(
             }
         ),
     }).extend(cv.COMPONENT_SCHEMA),
-    cv.only_on_esp32
+    cv.only_on_esp32,
+    # HAP HTTP server: CONFIG_HAP_HTTP_MAX_OPEN_SOCKETS clients, listener and UDP control socket
+    socket.consume_sockets(8, "homekit_bridge"),
+    socket.consume_sockets(1, "homekit_bridge", socket.SocketType.TCP_LISTEN),
+    socket.consume_sockets(1, "homekit_bridge", socket.SocketType.UDP),
 )
 
 async def to_code(config):
@@ -150,7 +155,6 @@ async def to_code(config):
     if CONF_PORT in config:
         add_idf_sdkconfig_option("CONFIG_HAP_HTTP_SERVER_PORT", config[CONF_PORT])
     add_idf_sdkconfig_option("CONFIG_MBEDTLS_HKDF_C", True)
-    add_idf_sdkconfig_option("CONFIG_LWIP_MAX_SOCKETS", 16)
 
     var = cg.new_Pvariable(config[CONF_ID])
 
