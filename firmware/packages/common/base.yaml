@@ -439,7 +439,6 @@ sensor:
       sorting_group_id: sorting_group_diagnostics_bus_status
       sorting_weight: 99
 
-
 binary_sensor:
   - platform: gpio
     id: doorman_boot_button
